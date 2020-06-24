@@ -1,13 +1,34 @@
-.main-banner {
+.top-banner {
   background-image: image-url("yoga.jpg");
   background-size: cover;
   height: 100vh;
-  color: #eee;
   text-align: center;
   padding-top: 20vh;
 }
 
-.main-banner h1 {
+.top-banner h1 {
   font-size: 4rem;
-  text-shadow: 4px 4px 2px rgba(150, 150, 150, 1);
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+.middle-banner {
+  background-image: image-url("virtual3.jpg");
+  background-size: cover;
+  height: calc(100vh - 4.5rem);
+  padding-top: 10vh;
+}
+
+.middle-banner h1 {
+  font-size: 4rem;
+  width: 80%;
+  margin: 1.5rem auto 15vh;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+.middle-banner p {
+  font-size: 2rem;
+  color: white;
+  width: 80%;
+  margin: 1.5rem auto;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }

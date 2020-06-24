@@ -1,9 +1,60 @@
-<%= render 'main_banner' %>
-<div class="container">
+<%= render 'top_banner' %>
+<div class="text-center">
   <div class="row justify-content-center my-4">
-    <div class="col-10 col-md-8">
-      <h2>Featured Practitioners</h2>
-      <%= "Lorem ipsum dolor sit amet, consectetur adipisicing elit " * 100 %>
+    <div class="col-10">
+      <div>
+        <h2>Featured Practitioners</h2>
+        <div class="cards-featured">
+          <div class="card-practitioner">
+            <img src="https://kitt.lewagon.com/placeholder/users/anya91m" />
+            <div class="card-practitioner-infos">
+              <h2>Diana Choi</h2>
+              <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
+            </div>
+          </div>
+          <div class="card-practitioner">
+            <img src="https://kitt.lewagon.com/placeholder/users/MohamedDiarra" />
+              <div class="card-practitioner-infos">
+              <h2>Janet Lam</h2>
+              <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
+            </div>
+          </div>
+          <div class="card-practitioner">
+            <img src="https://kitt.lewagon.com/placeholder/users/shuomazurkas" />
+              <div class="card-practitioner-infos">
+              <h2>Sangsoo Ra</h2>
+              <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
+            </div>
+          </div>
+        </div>
+        <div class="cards-review">
+          <div class="card-review" style="background-image: url(https://kitt.lewagon.com/placeholder/users/fanny-rojon)">
+            <div class="name">
+              <h3>Diana</h3>
+            </div>
+            <div class="review">
+              <p>Awesome!</p>
+            </div>
+          </div>
+          <div class="card-review" style="background-image: url(https://kitt.lewagon.com/placeholder/users/rosemaryakl)">
+            <div class="name">
+              <h3>Janet</h3>
+            </div>
+            <div class="review">
+              <p>Superb!</p>
+            </div>
+          </div>
+          <div class="card-review" style="background-image: url(https://kitt.lewagon.com/placeholder/users/primaulia)">
+            <div class="name">
+              <h3>Sangsoo</h3>
+            </div>
+            <div class="review">
+              <p>It rocks!</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+<%= render 'middle_banner' %>
