@@ -8,13 +8,14 @@
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%#= stylesheet_pack_tag 'application', media: 'all' %> <!-- Uncomment if you import CSS in app/javascript/packs/application.js -->
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload', defer: true  %> <!-- from app/assets/javascripts/application.js -->
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
   </head>
   <body>
     <%= render 'shared/navbar' %>
     <%= render 'shared/flashes' %>
     <%= yield %>
     <%= render 'shared/footer' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %> <!-- from app/assets/javascripts/application.js -->
-    <%= javascript_pack_tag "application" %>    <!-- from app/javascript/packs/application.js -->
+
   </body>
 </html>
