@@ -1,0 +1,37 @@
+.footer {
+  background: white;
+  padding: 0px 3rem;
+  color: rgba(0,0,0,0.3);
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-around;
+  padding: 2rem 0;
+}
+
+.footer-top h3 {
+  padding-bottom: 1rem;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+}
+
+.footer-links a {
+  color: black;
+  opacity: 0.4;
+  text-decoration: none;
+  font-size: 2rem;
+  padding: 0 0.75rem;
+}
+
+.footer-links a:hover {
+  opacity: 1;
+}
+
+.footer-newsletter, .footer-copyright {
+  text-align: center;
+  padding-bottom: 2rem;
+}

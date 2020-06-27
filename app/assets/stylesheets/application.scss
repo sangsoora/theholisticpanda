@@ -11,3 +11,28 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: $pastel-green;
+  margin: 1.5rem 0;
+}
+
+h2 {
+  font-size: 2rem;
+  color: $pastel-green;
+  font-weight: bold;
+}
+
+h5 {
+  color: $pastel-green;
+}
+
+a {
+  color: $pastel-green;
+  &:hover {
+    text-decoration: none;
+    color: $lime;
+  }
+}

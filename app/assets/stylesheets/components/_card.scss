@@ -1,0 +1,103 @@
+.cards-featured {
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 0;
+}
+
+.card-featured {
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  width: 25vw;
+  border-radius: 10px;
+}
+
+.card-featured > img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.card-featured h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.card-featured p {
+  font-size: 1.2rem;
+  opacity: .7;
+  margin: 0;
+}
+
+.card-featured .card-featured-infos {
+  padding: 1rem;
+  text-align: center;
+}
+
+.cards-review {
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 0;
+}
+
+.card-review {
+  background-size: cover;
+  background-position: center;
+  height: 25vw;
+  width: 25vw;
+  color: $pastel-green;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.card-review .name {
+  margin-top: 70%;
+}
+
+.cards-practitioner {
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 0;
+  margin-top: -30vh;
+}
+
+.card-practitioner {
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  width: 20vw;
+  border-radius: 10px;
+}
+
+.card-practitioner > img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.card-practitioner h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.card-practitioner p {
+  font-size: 1.2rem;
+  opacity: .7;
+  margin: 3rem 0;
+}
+
+.card-practitioner .card-practitioner-infos {
+  padding: 1rem;
+  text-align: center;
+  position: relative;
+}
+.view-btn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
