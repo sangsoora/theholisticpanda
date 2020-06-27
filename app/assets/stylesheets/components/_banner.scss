@@ -12,7 +12,7 @@
 }
 
 .middle-banner {
-  background-image: image-url("virtual3.jpg");
+  background-image: image-url("virtual.jpg");
   background-size: cover;
   height: calc(100vh - 4.5rem);
   padding-top: 10vh;
@@ -25,10 +25,36 @@
   text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
 
-.middle-banner p {
+.middle-banner-body {
+  margin: 1.5rem auto;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.middle-banner-body p {
   font-size: 2rem;
   color: white;
-  width: 80%;
-  margin: 1.5rem auto;
   text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+.bottom-banner {
+  background-image: image-url("workout.jpg");
+  background-size: cover;
+  height: calc(100vh - 4.5rem);
+  padding: 10vh 0;
+}
+
+.bottom-banner-body {
+  margin: 1.5rem auto;
+  width: 80%;
+  text-align: center;
+}
+
+.bottom-banner-body h2 {
+  font-size: 3rem;
+  color: white;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+  margin-bottom: 3rem;
 }

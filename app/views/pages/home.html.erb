@@ -1,60 +1,112 @@
-<%= render 'top_banner' %>
-<div class="text-center">
-  <div class="row justify-content-center my-4">
-    <div class="col-10">
-      <div>
-        <h2>Featured Practitioners</h2>
-        <div class="cards-featured">
-          <div class="card-practitioner">
-            <img src="https://kitt.lewagon.com/placeholder/users/anya91m" />
-            <div class="card-practitioner-infos">
-              <h2>Diana Choi</h2>
-              <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
-            </div>
-          </div>
-          <div class="card-practitioner">
-            <img src="https://kitt.lewagon.com/placeholder/users/MohamedDiarra" />
-              <div class="card-practitioner-infos">
-              <h2>Janet Lam</h2>
-              <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
-            </div>
-          </div>
-          <div class="card-practitioner">
-            <img src="https://kitt.lewagon.com/placeholder/users/shuomazurkas" />
-              <div class="card-practitioner-infos">
-              <h2>Sangsoo Ra</h2>
-              <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
-            </div>
+<section id='top-banner'>
+  <%= render 'top_banner' %>
+</section>
+<section id='featured-practitioners'>
+  <div class='d-flex justify-content-center my-4 text-center'>
+    <div class='col-10'>
+      <h2>Featured Practitioners</h2>
+      <div class='cards-featured'>
+        <div class='card-featured'>
+          <img src='https://kitt.lewagon.com/placeholder/users/anya91m' />
+          <div class='card-featured-infos'>
+            <h2>Diana Choi</h2>
+            <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
           </div>
         </div>
-        <div class="cards-review">
-          <div class="card-review" style="background-image: url(https://kitt.lewagon.com/placeholder/users/fanny-rojon)">
-            <div class="name">
-              <h3>Diana</h3>
-            </div>
-            <div class="review">
-              <p>Awesome!</p>
-            </div>
+        <div class='card-featured'>
+          <img src='https://kitt.lewagon.com/placeholder/users/MohamedDiarra' />
+            <div class='card-featured-infos'>
+            <h2>Janet Lam</h2>
+            <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
           </div>
-          <div class="card-review" style="background-image: url(https://kitt.lewagon.com/placeholder/users/rosemaryakl)">
-            <div class="name">
-              <h3>Janet</h3>
-            </div>
-            <div class="review">
-              <p>Superb!</p>
-            </div>
+        </div>
+        <div class='card-featured'>
+          <img src='https://kitt.lewagon.com/placeholder/users/shuomazurkas' />
+            <div class='card-featured-infos'>
+            <h2>Sangsoo Ra</h2>
+            <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
           </div>
-          <div class="card-review" style="background-image: url(https://kitt.lewagon.com/placeholder/users/primaulia)">
-            <div class="name">
-              <h3>Sangsoo</h3>
-            </div>
-            <div class="review">
-              <p>It rocks!</p>
-            </div>
+        </div>
+      </div>
+      <div class='cards-review'>
+        <div class='card-review' style='background-image: url(https://kitt.lewagon.com/placeholder/users/fanny-rojon)'>
+          <div class='name'>
+            <h3>Diana</h3>
+          </div>
+          <div class='review'>
+            <p>Awesome!</p>
+          </div>
+        </div>
+        <div class='card-review' style='background-image: url(https://kitt.lewagon.com/placeholder/users/rosemaryakl)'>
+          <div class='name'>
+            <h3>Janet</h3>
+          </div>
+          <div class='review'>
+            <p>Superb!</p>
+          </div>
+        </div>
+        <div class='card-review' style='background-image: url(https://kitt.lewagon.com/placeholder/users/primaulia)'>
+          <div class='name'>
+            <h3>Sangsoo</h3>
+          </div>
+          <div class='review'>
+            <p>It rocks!</p>
+          </div>
+        </div>
+      </div>
+      <div class='text-center'>
+        <%= link_to 'Find a practitioners now', '', class: 'btn btn-flat' %>
+      </div>
+    </div>
+  </div>
+</section>
+<section id='middle-banner'>
+  <%= render 'middle_banner' %>
+  <div class='d-flex justify-content-center text-center'>
+    <div class='col-10'>
+      <div class='cards-practitioner'>
+        <div class='card-practitioner'>
+          <img src='https://kitt.lewagon.com/placeholder/users/anya91m' />
+          <div class='card-practitioner-infos'>
+            <h2>Diana Choi</h2>
+            <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
+            <%= link_to 'View profile', '', class: 'btn btn-ghost view-btn' %>
+          </div>
+        </div>
+        <div class='card-practitioner'>
+          <img src='https://kitt.lewagon.com/placeholder/users/MohamedDiarra' />
+            <div class='card-practitioner-infos'>
+            <h2>Janet Lam</h2>
+            <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
+            <%= link_to 'View profile', '', class: 'btn btn-ghost view-btn' %>
+          </div>
+        </div>
+        <div class='card-practitioner'>
+          <img src='https://kitt.lewagon.com/placeholder/users/shuomazurkas' />
+            <div class='card-practitioner-infos'>
+            <h2>Sangsoo Ra</h2>
+            <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
+            <%= link_to 'View profile', '', class: 'btn btn-ghost view-btn' %>
+          </div>
+        </div>
+        <div class='card-practitioner'>
+          <img src='https://kitt.lewagon.com/placeholder/users/mironfritz' />
+            <div class='card-practitioner-infos'>
+            <h2>Ankit Walani</h2>
+            <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
+            <%= link_to 'View profile', '', class: 'btn btn-ghost view-btn' %>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<%= render 'middle_banner' %>
+  <div class='d-flex justify-content-center text-center'>
+    <div class="col-10">
+      <h2>Signup to stay updated</h2>
+      <p>We respect your privacy.</p>
+    </div>
+  </div>
+</section>
+<section id='bottom-banner'>
+  <%= render 'bottom_banner' %>
+</section>
