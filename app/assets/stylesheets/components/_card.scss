@@ -1,6 +1,7 @@
 .cards-featured {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 2rem;
   margin: 2rem 0;
 }
 
@@ -8,8 +9,8 @@
   overflow: hidden;
   background: white;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
-  width: 25vw;
   border-radius: 10px;
+  width: 100%;
 }
 
 .card-featured > img {

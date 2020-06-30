@@ -6,27 +6,17 @@
     <div class='col-10'>
       <h2>Featured Practitioners</h2>
       <div class='cards-featured'>
-        <div class='card-featured'>
-          <img src='https://kitt.lewagon.com/placeholder/users/anya91m' />
-          <div class='card-featured-infos'>
-            <h2>Diana Choi</h2>
-            <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
-          </div>
-        </div>
-        <div class='card-featured'>
-          <img src='https://kitt.lewagon.com/placeholder/users/MohamedDiarra' />
-            <div class='card-featured-infos'>
-            <h2>Janet Lam</h2>
-            <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
-          </div>
-        </div>
-        <div class='card-featured'>
-          <img src='https://kitt.lewagon.com/placeholder/users/shuomazurkas' />
-            <div class='card-featured-infos'>
-            <h2>Sangsoo Ra</h2>
-            <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
-          </div>
-        </div>
+        <% @practitioners.each do |practitioner| %>
+          <a href="/practitioners/<%= practitioner.id %>">
+            <div class='card-featured'>
+                <%= image_tag("#{practitioner.user.email.split('@').first}") %>
+                <div class='card-featured-infos'>
+                  <h2><%= practitioner.user.full_name %></h2>
+                  <p><%= practitioner.bio.split('. ').first %>.</p>
+                </div>
+            </div>
+          </a>
+        <% end %>
       </div>
       <div class='cards-review'>
         <div class='card-review' style='background-image: url(https://kitt.lewagon.com/placeholder/users/fanny-rojon)'>
