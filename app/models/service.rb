@@ -1,3 +1,4 @@
 class Service < ApplicationRecord
-  belongs_to :practitioner
+  belongs_to :practitioner_specialty
+  has_many :sessions
 end

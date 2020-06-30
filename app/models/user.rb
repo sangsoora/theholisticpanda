@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
   has_one :practitioner, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  has_many :user_conditions
+  has_many :sessions
 
   validates :email, presence: true, format: { with: /.+@.+\..+/ }
   validates :first_name, presence: true, length: { minimum: 2, maximum: 20 }
