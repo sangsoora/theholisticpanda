@@ -1,6 +1,7 @@
 class CreatePractitioners < ActiveRecord::Migration[5.2]
   def change
     create_table :practitioners do |t|
+      t.string :location
       t.string :address
       t.text :bio
       t.string :video

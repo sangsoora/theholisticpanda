@@ -1,10 +1,11 @@
 class CreateSessions < ActiveRecord::Migration[5.2]
   def change
     create_table :sessions do |t|
+      t.string :session_type
       t.datetime :start_time
       t.datetime :end_time
       t.integer :total_price
-      t.integer :paid
+      t.boolean :paid
       t.string :status
       t.references :user, foreign_key: true
       t.references :service, foreign_key: true
