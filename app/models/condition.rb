@@ -1,4 +1,4 @@
 class Condition < ApplicationRecord
-  belongs_to :specialty
   has_many :user_conditions
+  has_many :specialty_conditions
 end

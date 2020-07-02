@@ -10,17 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_30_094857) do
+ActiveRecord::Schema.define(version: 2020_06_30_123105) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "conditions", force: :cascade do |t|
     t.string "name"
-    t.bigint "specialty_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["specialty_id"], name: "index_conditions_on_specialty_id"
   end
 
   create_table "favorites", force: :cascade do |t|
@@ -72,6 +70,7 @@ ActiveRecord::Schema.define(version: 2020_06_30_094857) do
   create_table "services", force: :cascade do |t|
     t.string "name"
     t.string "description"
+    t.string "service_type"
     t.integer "price"
     t.integer "duration"
     t.bigint "practitioner_specialty_id"
@@ -81,6 +80,7 @@ ActiveRecord::Schema.define(version: 2020_06_30_094857) do
   end
 
   create_table "sessions", force: :cascade do |t|
+    t.string "session_type"
     t.datetime "start_time"
     t.datetime "end_time"
     t.integer "total_price"
@@ -98,6 +98,15 @@ ActiveRecord::Schema.define(version: 2020_06_30_094857) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "specialty_conditions", force: :cascade do |t|
+    t.bigint "specialty_id"
+    t.bigint "condition_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["condition_id"], name: "index_specialty_conditions_on_condition_id"
+    t.index ["specialty_id"], name: "index_specialty_conditions_on_specialty_id"
   end
 
   create_table "user_conditions", force: :cascade do |t|
@@ -124,7 +133,6 @@ ActiveRecord::Schema.define(version: 2020_06_30_094857) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "conditions", "specialties"
   add_foreign_key "favorites", "practitioners"
   add_foreign_key "favorites", "users"
   add_foreign_key "practitioner_languages", "languages"
@@ -135,6 +143,8 @@ ActiveRecord::Schema.define(version: 2020_06_30_094857) do
   add_foreign_key "services", "practitioner_specialties"
   add_foreign_key "sessions", "services"
   add_foreign_key "sessions", "users"
+  add_foreign_key "specialty_conditions", "conditions"
+  add_foreign_key "specialty_conditions", "specialties"
   add_foreign_key "user_conditions", "conditions"
   add_foreign_key "user_conditions", "users"
 end
