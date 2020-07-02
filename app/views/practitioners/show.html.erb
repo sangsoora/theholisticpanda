@@ -10,6 +10,13 @@
       <% @practitioner.practitioner_languages.each do |l| %>
         <p><%= l.language.language %></p>
       <% end %>
+      <% @practitioner.practitioner_specialties.each do |s| %>
+        <p><%= s.specialty.name %></p>
+      <% end %>
+      <% @practitioner.services.each do |service| %>
+        <p><%= service.name %></p>
+        <p><%= service.description %></p>
+      <% end %>
       <p><%= @practitioner.user.email %></p>
       <p><%= @practitioner.user.phone_number %></p>
       <p><%= @practitioner.location %></p>
