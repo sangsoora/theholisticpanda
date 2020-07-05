@@ -11,21 +11,21 @@
       </div>
       <div class="practitioner-detail">
         <p>Specailty:
-          <% @practitioner.practitioner_specialties.each do |s| %>
-            <%= s.specialty.name %>
+          <% @practitioner.specialties.each do |s| %>
+            <%= s.name %>
           <% end %>
         </p>
         <p>Languages:
-          <% @practitioner.practitioner_languages.each do |l| %>
-            <%= l.language.language %>
+          <% @practitioner.languages.each do |l| %>
+            <%= l.language %>
           <% end %>
         </p>
         <p>Insurance Accepted: </p>
       </div>
     </div>
     <div class="practitioner-btn">
-      <%= link_to 'Book now', '', class: 'btn btn-flat w-100' %>
-      <%= link_to 'Send message', '', class: 'btn btn-ghost w-100' %>
+      <%= link_to 'Send message', '', class: 'btn btn-flat w-100' %>
+      <%= link_to 'Save as favorite', '', class: 'btn btn-ghost w-100' %>
     </div>
   </div>
   <div class="practitioner-description">

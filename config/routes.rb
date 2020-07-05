@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'sessions/show'
+  get 'sessions/new'
+  get 'sessions/create'
+  get 'sessions/edit'
+  get 'sessions/update'
+  get 'sessions/destroy'
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'pages#home'
@@ -13,5 +19,13 @@ Rails.application.routes.draw do
 
   resources :practitioner_languages, only: [:destroy]
 
-  resources :languages, only: [:create, :destroy]
+  resources :languages, only: [:destroy]
+
+  resources :practitioner_specialties, only: [:show, :destroy] do
+    resources :sessions, only: [:create]
+  end
+
+  resources :specialties, only: [:destroy]
+
+  resources :sessions, only: [:show, :edit, :update, :destroy]
 end
