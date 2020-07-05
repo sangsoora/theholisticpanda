@@ -1,27 +1,66 @@
-<div class="container" style="margin-top: 5rem;">
-  <div class="row">
-    <div class="col-8 offset-2 text-center">
-      <div class="d-flex justify-content-center">
-        <%= image_tag("#{@practitioner.user.email.split('@').first}", style: 'width:80%;') %>
+<div class="container practitioner-profile-page">
+  <div class="practitioner-summary">
+    <div class="practitioner-img">
+      <%= image_tag("#{@practitioner.user.email.split('@').first}", class: 'avatar-full') %>
+    </div>
+    <div class="practitioner-body">
+      <div class="practitioner-name">
+        <button class="verified">Verified</button>
+        <h3><%= @practitioner.user.full_name %></h3>
+        <p class="practitioner-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></p>
       </div>
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= @practitioner.video %>?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      <h1><%= @practitioner.user.full_name %></h1>
-      <%= link_to 'Book a session', '' %>
-      <% @practitioner.practitioner_languages.each do |l| %>
-        <p><%= l.language.language %></p>
-      <% end %>
-      <% @practitioner.practitioner_specialties.each do |s| %>
-        <p><%= s.specialty.name %></p>
-      <% end %>
-      <% @practitioner.services.each do |service| %>
-        <p><%= service.name %></p>
-        <p><%= service.description %></p>
-      <% end %>
-      <p><%= @practitioner.user.email %></p>
-      <p><%= @practitioner.user.phone_number %></p>
-      <p><%= @practitioner.location %></p>
-      <p><%= @practitioner.address %></p>
-      <p><%= @practitioner.bio %></p>
+      <div class="practitioner-detail">
+        <p>Specailty:
+          <% @practitioner.specialties.each do |s| %>
+            <%= s.name %>
+          <% end %>
+        </p>
+        <p>Languages:
+          <% @practitioner.languages.each do |l| %>
+            <%= l.language %>
+          <% end %>
+        </p>
+        <p>Insurance Accepted: </p>
+      </div>
+    </div>
+    <div class="practitioner-btn">
+      <%= link_to 'Send message', '', class: 'btn btn-flat w-100' %>
+      <%= link_to 'Save as favorite', '', class: 'btn btn-ghost w-100' %>
+    </div>
+  </div>
+  <div class="practitioner-description">
+    <div class="practitioner-description-left">
+      <div class="practitioner-bio">
+        <h3>Bio</h3>
+        <p><%= @practitioner.bio %></p>
+      </div>
+      <div class="practitioner-services">
+        <h3>Services/Treatments</h3>
+        <% @practitioner.services.each do |service| %>
+          <div class="practitioner-service">
+            <div class="practitioner-service-info">
+              <h4><%= service.name %></h4>
+              <p><%= service.service_type.capitalize %></p>
+              <p>Duration: <%= service.duration %>m</p>
+              <p><%= service.description %></p>
+            </div>
+            <div class="practitioner-service-btn">
+              <%= link_to 'Book now', service_path(service), class: 'btn btn-flat' %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="practitioner-review">
+        <h3>Reviews</h3>
+        <p>No review</p>
+      </div>
+    </div>
+    <div class="practitioner-description-right">
+      <div class="practitioner-video">
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<%= @practitioner.video %>?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
     </div>
   </div>
 </div>

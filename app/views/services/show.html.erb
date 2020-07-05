@@ -1,0 +1,23 @@
+<div class="container service-page">
+  <h2><%= @service.name %> with <%= @service.practitioner.user.first_name %></h2>
+  <div class="service-details">
+    <div class="service-booking-form">
+      <%= simple_form_for [@service, @session] do |f| %>
+        <%= f.input :start_time, as: :datetime %>
+        <%= f.submit "Send booking request", class: 'btn btn-flat'%>
+      <% end %>
+    </div>
+    <div class="service-booking-summary">
+      <div class="service-description">
+        <p><%= @service.description %></p>
+        <p>Session type: <%= @service.service_type.capitalize %></p>
+      </div>
+      <div class="service-total-price">
+        <p>Session: C$ <%= @service.price.to_f.round(2) %></p>
+        <p>Service fee: C$ <%=( @service.price * 0.03).round(2) %></p>
+        <p>Total price: C$ <%= (@service.price * 1.03).round(2) %></p>
+      </div>
+    </div>
+
+  </div>
+</div>

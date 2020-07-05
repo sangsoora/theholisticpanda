@@ -13,5 +13,17 @@ Rails.application.routes.draw do
 
   resources :practitioner_languages, only: [:destroy]
 
-  resources :languages, only: [:create, :destroy]
+  resources :languages, only: [:destroy]
+
+  resources :practitioner_specialties, only: [:destroy] do
+    resources :services, only: [:create]
+  end
+
+  resources :specialties, only: [:destroy]
+
+  resources :services, only: [:show, :update, :destroy] do
+    resources :sessions, only: [:create]
+  end
+
+  resources :sessions, only: [:show, :edit, :update, :destroy]
 end
