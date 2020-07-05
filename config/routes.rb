@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'pages#home'
 
+  devise_scope :user do
+    match '/sessions/user', to: 'devise/sessions#create', via: :post
+  end
+
   resources :users, only: [:show] do
     resources :practitioners, only: [:create]
   end
