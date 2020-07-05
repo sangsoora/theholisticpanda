@@ -80,7 +80,6 @@ ActiveRecord::Schema.define(version: 2020_06_30_123105) do
   end
 
   create_table "sessions", force: :cascade do |t|
-    t.string "session_type"
     t.datetime "start_time"
     t.datetime "end_time"
     t.integer "total_price"
