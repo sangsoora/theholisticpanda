@@ -43,7 +43,7 @@
               <p><%= service.description %></p>
             </div>
             <div class="practitioner-service-btn">
-              <%= link_to 'Book now', '', class: 'btn btn-flat' %>
+              <%= link_to 'Book now', service_path(service), class: 'btn btn-flat' %>
             </div>
           </div>
         <% end %>
