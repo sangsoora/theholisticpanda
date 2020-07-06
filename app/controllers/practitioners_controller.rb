@@ -7,6 +7,7 @@ class PractitionersController < ApplicationController
 
   def create
     @practitioner = Practitioner.new(practitioner_params)
+    authorize @practitioner
     @practitioner.user = current_user
     if @practitioner.save
       redirect_to root_path
@@ -32,6 +33,7 @@ class PractitionersController < ApplicationController
 
   def set_practitioner
     @practitioner = Practitioner.find(params[:id])
+    authorize @practitioner
   end
 
   def practitioner_params

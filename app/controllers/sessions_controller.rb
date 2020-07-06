@@ -6,6 +6,7 @@ class SessionsController < ApplicationController
 
   def create
     @session = Session.new(session_params)
+    authorize @session
     @session.status = 'pending'
     @session.paid = false;
     @session.service = Service.find(params[:service_id])
@@ -30,6 +31,7 @@ class SessionsController < ApplicationController
 
   def set_session
     @session = Session.find(params[:id])
+    authorize @session
   end
 
   def session_params

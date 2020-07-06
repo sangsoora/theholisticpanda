@@ -3,6 +3,7 @@ class LanguagesController < ApplicationController
 
   def create
     @language = Language.new(language_params)
+    authorize @language
     if @language.save
       redirect_to root_path
     else
@@ -19,6 +20,7 @@ class LanguagesController < ApplicationController
 
   def set_language
     @language = Language.find(params[:id])
+    authorize @language
   end
 
   def language_params

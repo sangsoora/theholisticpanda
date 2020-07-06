@@ -7,7 +7,15 @@ class ServicesController < ApplicationController
   end
 
   def create
-
+    @service = Service.new(service_params)
+    authorize @service
+    @practitioner_specialty = PractitionerSpecialty.find(params[:practitioner_specialty_id])
+    @service.practitioner_specialty = @practitioner_specialty
+    if @service.save!
+      redirect_to service_path(@service)
+    else
+      render :new
+    end
   end
 
   def update
@@ -22,6 +30,7 @@ class ServicesController < ApplicationController
 
   def set_service
     @service = Service.find(params[:id])
+    authorize @service
   end
 
   def service_params
