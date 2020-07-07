@@ -31,7 +31,7 @@
             <a class="nav-link" href="">Notification</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">My Sessions</a>
+            <%= link_to 'My bookings', user_bookings_path(current_user), class: 'nav-link' %>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black;">Welcome, <%= current_user.first_name %></a>

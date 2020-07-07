@@ -1,0 +1,20 @@
+<div class="container bookings">
+  <h1>Confirmed bookings</h1>
+  <% @confirmed_bookings.each do |booking| %>
+    <p><%= booking.service.name %></p>
+    <p><%= booking.start_time %></p>
+    <p><%= booking.end_time %></p>
+    <p><%= booking.total_price %></p>
+    <p><%= booking.service.practitioner.user.full_name %></p>
+    <p><%= booking.service.service_type %></p>
+  <% end %>
+  <h1>Pending bookings</h1>
+  <% @pending_bookings.each do |booking| %>
+    <p><%= booking.service.name %></p>
+    <p><%= booking.start_time %></p>
+    <p><%= booking.end_time %></p>
+    <p><%= booking.total_price %></p>
+    <p><%= booking.service.practitioner.user.full_name %></p>
+    <p><%= booking.service.service_type %></p>
+  <% end %>
+</div>
