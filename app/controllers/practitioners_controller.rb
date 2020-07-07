@@ -5,6 +5,10 @@ class PractitionersController < ApplicationController
   def show
   end
 
+  def new
+    @practitioner = Practitioner.new
+  end
+
   def create
     @practitioner = Practitioner.new(practitioner_params)
     authorize @practitioner

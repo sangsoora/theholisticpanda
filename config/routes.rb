@@ -8,8 +8,10 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:show] do
-    resources :practitioners, only: [:create]
+    resources :practitioners, only: [:new, :create]
   end
+
+  get 'users/:id/bookings', to: 'users#booking', as: :user_bookings
 
   resources :practitioners, only: [:index, :show, :edit, :update, :destroy] do
     resources :practitioner_languages, only: [:create]
