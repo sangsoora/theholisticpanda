@@ -621,7 +621,7 @@ puts '=' * 60
 puts '-' * 60
 puts 'Creating sessions'
 puts '-' * 60
-26
+
 Session.create!(start_time: DateTime.new(2020, 3, 4, 18, 00, 0), end_time: DateTime.new(2020, 3, 4, 19, 00, 0), total_price: 20, paid: true, status: 'confirmed', user_id: 2, service_id: 1)
 Session.create!(start_time: DateTime.new(2020, 8, 14, 8, 00, 0), end_time: DateTime.new(2020, 8, 14, 8, 45, 0), total_price: 30, paid: true, status: 'confirmed', user_id: 2, service_id: 7)
 Session.create!(start_time: DateTime.new(2020, 9, 7, 11, 00, 0), end_time: DateTime.new(2020, 9, 7, 13, 15, 0), total_price: 70, paid: true, status: 'pending', user_id: 2, service_id: 15)
@@ -637,7 +637,7 @@ Session.create!(start_time: DateTime.new(2020, 11, 4, 17, 00, 0), end_time: Date
 Session.create!(start_time: DateTime.new(2020, 5, 15, 12, 00, 0), end_time: DateTime.new(2020, 5, 15, 13, 45, 0), total_price: 60, paid: true, status: 'confirmed', user_id: 17, service_id: 37)
 Session.create!(start_time: DateTime.new(2020, 6, 4, 9, 30, 0), end_time: DateTime.new(2020, 6, 4, 10, 00, 0), total_price: 30, paid: true, status: 'confirmed', user_id: 18, service_id: 45)
 Session.create!(start_time: DateTime.new(2020, 7, 2, 18, 00, 0), end_time: DateTime.new(2020, 7, 2, 18, 45, 0), total_price: 65, paid: true, status: 'confirmed', user_id: 19, service_id: 49)
-Session.create!(start_time: DateTime.new(2020, 2, 14, 11, 00, 0), end_time: DateTime.new(2020, 2, 14, 12, 00, 0), total_price: 20, paid: true, status: 'confirmed', user_id: 20, service_id:1
+Session.create!(start_time: DateTime.new(2020, 2, 14, 11, 00, 0), end_time: DateTime.new(2020, 2, 14, 12, 00, 0), total_price: 20, paid: true, status: 'confirmed', user_id: 20, service_id: 1)
 Session.create!(start_time: DateTime.new(2020, 4, 19, 10, 30, 0), end_time: DateTime.new(2020, 4, 19, 13, 00, 0), total_price: 50, paid: true, status: 'confirmed', user_id: 21, service_id: 31)
 Session.create!(start_time: DateTime.new(2020, 3, 29, 15, 00, 0), end_time: DateTime.new(2020, 3, 29, 15, 45, 0), total_price: 30, paid: true, status: 'confirmed', user_id: 22, service_id: 7)
 Session.create!(start_time: DateTime.new(2020, 8, 30, 14, 00, 0), end_time: DateTime.new(2020, 8, 30, 16, 30, 0), total_price: 75, paid: true, status: 'confirmed', user_id: 23, service_id: 16)

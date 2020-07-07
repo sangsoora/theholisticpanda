@@ -58,6 +58,8 @@ ActiveRecord::Schema.define(version: 2020_07_06_082233) do
     t.string "location"
     t.string "address"
     t.text "bio"
+    t.integer "experience"
+    t.string "education"
     t.string "video"
     t.float "latitude"
     t.float "longitude"
