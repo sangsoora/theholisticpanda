@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resources :practitioners, only: [:create]
   end
 
-  resources :practitioners, only: [:show, :edit, :update, :destroy] do
+  resources :practitioners, only: [:index, :show, :edit, :update, :destroy] do
     resources :practitioner_languages, only: [:create]
   end
 
