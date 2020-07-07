@@ -622,6 +622,8 @@ puts '-' * 60
 puts 'Creating sessions'
 puts '-' * 60
 
+
+
 puts '-' * 60
 puts 'Sessions created'
 puts '-' * 60
