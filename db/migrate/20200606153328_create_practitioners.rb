@@ -4,6 +4,8 @@ class CreatePractitioners < ActiveRecord::Migration[5.2]
       t.string :location
       t.string :address
       t.text :bio
+      t.integer :experience
+      t.string :education
       t.string :video
       t.float :latitude
       t.float :longitude
