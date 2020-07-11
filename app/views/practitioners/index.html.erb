@@ -1,0 +1,15 @@
+<div class="container practitioners-page">
+  <%= simple_form_for :search, url: practitioners_path, method: "GET" do |f| %>
+    <div class="d-flex justify-content-between">
+      <%= f.input :education, label: "Education",  collection: $educations, as: :check_boxes %>
+      <%= f.input :specialty, label: "Specialty",  collection: $specialties, as: :check_boxes %>
+      <%= f.input :condition, label: "Condition",  collection: $conditions, as: :check_boxes %>
+      <%= f.input :language, label: "Language",  collection: $languages, as: :check_boxes %>
+    </div>
+    <%= f.submit "Search", class: "btn btn-primary" %>
+    <%= link_to "Reset", practitioners_path  %>
+  <% end %>
+
+  <div>
+  </div>
+</div>

@@ -7,4 +7,13 @@ class Practitioner < ApplicationRecord
   has_many :sessions, through: :services
   has_many :languages, through: :practitioner_languages
   has_many :specialties, through: :practitioner_specialties
+  scope :filter_by_education, ->(education) { where education: education }
+  scope :filter_by_specialty, ->(education) { where education: education }
+  scope :filter_by_condition, ->(education) { where education: education }
+  scope :filter_by_language, ->(education) { where education: education }
+
+  $educations = Practitioner.all.sort_by(&:education).map(&:education)
+  $specialties = Specialty.all.sort_by(&:name)
+  $conditions = Condition.all.sort_by(&:name)
+  $languages = Language.includes(:practitioner_languages).where.not(practitioner_languages: { id: nil }).sort_by(&:language).map(&:language)
 end

@@ -1,6 +1,41 @@
 class PractitionersController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:show]
+  skip_before_action :authenticate_user!, only: [:index, :show]
   before_action :set_practitioner, only: [:show, :update, :destroy]
+
+  def index
+    @practitioners = policy_scope(Practitioner)
+    if params[:search]
+      if params[:search][:education].count == 2
+        @practitioners_by_education = Practitioner.filter_by_education(params[:search][:education][1]) if params[:search][:education].present?
+      elsif params[:search][:education].count > 2
+        @practitioners_by_education = params[:search][:education].drop(1).map do |keyword|
+          Practitioner.filter_by_education(keyword)
+        end
+      end
+      if params[:search][:education].count == 2
+        @practitioners_by_education = Practitioner.filter_by_education(params[:search][:education][1]) if params[:search][:education].present?
+      elsif params[:search][:education].count > 2
+        @practitioners_by_education = params[:search][:education].drop(1).map do |keyword|
+          Practitioner.filter_by_education(keyword)
+        end
+      end
+      if params[:search][:education].count == 2
+        @practitioners_by_education = Practitioner.filter_by_education(params[:search][:education][1]) if params[:search][:education].present?
+      elsif params[:search][:education].count > 2
+        @practitioners_by_education = params[:search][:education].drop(1).map do |keyword|
+          Practitioner.filter_by_education(keyword)
+        end
+      end
+      if params[:search][:education].count == 2
+        @practitioners_by_education = Practitioner.filter_by_education(params[:search][:education][1]) if params[:search][:education].present?
+      elsif params[:search][:education].count > 2
+        @practitioners_by_education = params[:search][:education].drop(1).map do |keyword|
+          Practitioner.filter_by_education(keyword)
+        end
+      end
+    end
+    raise
+  end
 
   def show
   end
