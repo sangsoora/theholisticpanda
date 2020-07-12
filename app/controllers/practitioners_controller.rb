@@ -6,35 +6,41 @@ class PractitionersController < ApplicationController
     @practitioners = policy_scope(Practitioner)
     if params[:search]
       if params[:search][:education].count == 2
-        @practitioners_by_education = Practitioner.filter_by_education(params[:search][:education][1]) if params[:search][:education].present?
+        @practitioners_by_education = Practitioner.filter_by_education(params[:search][:education][1])
       elsif params[:search][:education].count > 2
         @practitioners_by_education = params[:search][:education].drop(1).map do |keyword|
           Practitioner.filter_by_education(keyword)
         end
+        @practitioners_by_education = @practitioners_by_education.map { |practitioners| practitioners.first }
+      elsif params[:search][:education].count == 1
+        @practitioners_by_education = []
       end
-      if params[:search][:education].count == 2
-        @practitioners_by_education = Practitioner.filter_by_education(params[:search][:education][1]) if params[:search][:education].present?
-      elsif params[:search][:education].count > 2
-        @practitioners_by_education = params[:search][:education].drop(1).map do |keyword|
-          Practitioner.filter_by_education(keyword)
+      if params[:search][:specialty].count == 2
+        @practitioners_by_specialty = Practitioner.filter_by_specialty(params[:search][:specialty][1])
+      elsif params[:search][:specialty].count > 2
+        @practitioners_by_specialty = params[:search][:specialty].drop(1).map do |keyword|
+          Practitioner.filter_by_specialty(keyword)
         end
+        @practitioners_by_specialty = @practitioners_by_specialty.map { |practitioners| practitioners.first }
+      elsif params[:search][:specialty].count == 1
+        @practitioners_by_specialty = []
       end
-      if params[:search][:education].count == 2
-        @practitioners_by_education = Practitioner.filter_by_education(params[:search][:education][1]) if params[:search][:education].present?
-      elsif params[:search][:education].count > 2
-        @practitioners_by_education = params[:search][:education].drop(1).map do |keyword|
-          Practitioner.filter_by_education(keyword)
-        end
-      end
-      if params[:search][:education].count == 2
-        @practitioners_by_education = Practitioner.filter_by_education(params[:search][:education][1]) if params[:search][:education].present?
-      elsif params[:search][:education].count > 2
-        @practitioners_by_education = params[:search][:education].drop(1).map do |keyword|
-          Practitioner.filter_by_education(keyword)
-        end
-      end
+      @filtered_practitioners = (@practitioners_by_education + @practitioners_by_specialty).uniq.compact
+      # if params[:search][:education].count == 2
+      #   @practitioners_by_education = Practitioner.filter_by_education(params[:search][:education][1]) if params[:search][:education].present?
+      # elsif params[:search][:education].count > 2
+      #   @practitioners_by_education = params[:search][:education].drop(1).map do |keyword|
+      #     Practitioner.filter_by_education(keyword)
+      #   end
+      # end
+      # if params[:search][:education].count == 2
+      #   @practitioners_by_education = Practitioner.filter_by_education(params[:search][:education][1]) if params[:search][:education].present?
+      # elsif params[:search][:education].count > 2
+      #   @practitioners_by_education = params[:search][:education].drop(1).map do |keyword|
+      #     Practitioner.filter_by_education(keyword)
+      #   end
+      # end
     end
-    raise
   end
 
   def show

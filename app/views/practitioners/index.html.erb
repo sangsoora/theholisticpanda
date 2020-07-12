@@ -11,5 +11,10 @@
   <% end %>
 
   <div>
+    <% if @filtered_practitioners %>
+     <% @filtered_practitioners.each do |p| %>
+      <p><%= p.user.full_name %></p>
+     <% end %>
+    <% end %>
   </div>
 </div>

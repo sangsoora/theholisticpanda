@@ -8,7 +8,7 @@ class Practitioner < ApplicationRecord
   has_many :languages, through: :practitioner_languages
   has_many :specialties, through: :practitioner_specialties
   scope :filter_by_education, ->(education) { where education: education }
-  scope :filter_by_specialty, ->(education) { where education: education }
+  scope :filter_by_specialty, ->(specialties) { joins(:specialties).where(specialties: { id: specialties }) }
   scope :filter_by_condition, ->(education) { where education: education }
   scope :filter_by_language, ->(education) { where education: education }
 
