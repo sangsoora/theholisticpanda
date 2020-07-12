@@ -45,7 +45,7 @@ class PractitionersController < ApplicationController
       elsif params[:search][:language].count == 1
         @practitioners_by_language = []
       end
-      if params[:search][:service_type]
+      if params[:search][:service_type].present?
         @practitioners_by_service_type = Practitioner.filter_by_service_type(params[:search][:service_type].split(' ')[0].downcase)
       else
         @practitioners_by_service_type = []
