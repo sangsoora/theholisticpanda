@@ -5,16 +5,39 @@
       <%= f.input :specialty, label: "Specialty",  collection: $specialties, as: :check_boxes %>
       <%= f.input :condition, label: "Condition",  collection: $conditions, as: :check_boxes %>
       <%= f.input :language, label: "Language",  collection: $languages, as: :check_boxes %>
+      <%= f.input :service_type, lable: "Service Types", collection: $service_types, as: :select %>
     </div>
     <%= f.submit "Search", class: "btn btn-primary" %>
     <%= link_to "Reset", practitioners_path  %>
   <% end %>
 
   <div>
-    <% if @filtered_practitioners %>
-     <% @filtered_practitioners.each do |p| %>
-      <p><%= p.user.full_name %></p>
-     <% end %>
-    <% end %>
+    <div class='cards-featured'>
+      <% if @filtered_practitioners %>
+        <% @filtered_practitioners.each do |practitioner| %>
+          <a href="/practitioners/<%= practitioner.id %>">
+            <div class='card-featured'>
+                <%= image_tag("#{practitioner.user.email.split('@').first}") %>
+                <div class='card-featured-infos'>
+                  <h2><%= practitioner.user.full_name %></h2>
+                  <p><%= practitioner.bio.split('. ').first %>.</p>
+                </div>
+            </div>
+          </a>
+        <% end %>
+      <% else %>
+        <% @practitioners.each do |practitioner| %>
+          <a href="/practitioners/<%= practitioner.id %>">
+            <div class='card-featured'>
+                <%= image_tag("#{practitioner.user.email.split('@').first}") %>
+                <div class='card-featured-infos'>
+                  <h2><%= practitioner.user.full_name %></h2>
+                  <p><%= practitioner.bio.split('. ').first %>.</p>
+                </div>
+            </div>
+          </a>
+        <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
