@@ -1,6 +1,58 @@
 class PractitionersController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:show]
+  skip_before_action :authenticate_user!, only: [:index, :show]
   before_action :set_practitioner, only: [:show, :update, :destroy]
+
+  def index
+    @practitioners = policy_scope(Practitioner)
+    if params[:search]
+      if params[:search][:education].count == 2
+        @practitioners_by_education = Practitioner.filter_by_education(params[:search][:education][1])
+      elsif params[:search][:education].count > 2
+        @practitioners_by_education = params[:search][:education].drop(1).map do |keyword|
+          Practitioner.filter_by_education(keyword)
+        end
+        @practitioners_by_education = @practitioners_by_education.map { |practitioners| practitioners.first }
+      elsif params[:search][:education].count == 1
+        @practitioners_by_education = []
+      end
+      if params[:search][:specialty].count == 2
+        @practitioners_by_specialty = Practitioner.filter_by_specialty(params[:search][:specialty][1])
+      elsif params[:search][:specialty].count > 2
+        @practitioners_by_specialty = params[:search][:specialty].drop(1).map do |keyword|
+          Practitioner.filter_by_specialty(keyword)
+        end
+        @practitioners_by_specialty = @practitioners_by_specialty.map { |practitioners| practitioners.first }
+      elsif params[:search][:specialty].count == 1
+        @practitioners_by_specialty = []
+      end
+      if params[:search][:condition].count == 2
+        @practitioners_by_condition = Practitioner.filter_by_condition(params[:search][:condition][1])
+      elsif params[:search][:condition].count > 2
+        @practitioners_by_condition = params[:search][:condition].drop(1).map do |keyword|
+          Practitioner.filter_by_condition(keyword)
+        end
+        @practitioners_by_condition = @practitioners_by_condition.map { |practitioners| practitioners.first }
+      elsif params[:search][:condition].count == 1
+        @practitioners_by_condition = []
+      end
+      if params[:search][:language].count == 2
+        @practitioners_by_language = Practitioner.filter_by_language(params[:search][:language][1])
+      elsif params[:search][:language].count > 2
+        @practitioners_by_language = params[:search][:language].drop(1).map do |keyword|
+          Practitioner.filter_by_language(keyword)
+        end
+        @practitioners_by_language = @practitioners_by_language.map { |practitioners| practitioners.first }
+      elsif params[:search][:language].count == 1
+        @practitioners_by_language = []
+      end
+      if params[:search][:service_type]
+        @practitioners_by_service_type = Practitioner.filter_by_service_type(params[:search][:service_type].split(' ')[0])
+      else
+        @practitioners_by_service_type = []
+      end
+      @filtered_practitioners = (@practitioners_by_education + @practitioners_by_specialty + @practitioners_by_condition + @practitioners_by_language + @practitioners_by_service_type).uniq.compact.sort_by(&:id)
+    end
+  end
 
   def show
   end

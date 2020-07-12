@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 2020_07_06_082233) do
     t.string "location"
     t.string "address"
     t.text "bio"
+    t.string "service_type"
     t.integer "experience"
     t.string "education"
     t.string "video"
