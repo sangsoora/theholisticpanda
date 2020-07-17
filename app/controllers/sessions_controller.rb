@@ -12,9 +12,23 @@ class SessionsController < ApplicationController
     @session.status = 'pending'
     @session.paid = false
     @session.service = service
+    @session.amount = service.price
     @session.user = current_user
     if @session.save
-      redirect_to session_path(@session)
+      payment_session = Stripe::Checkout::Session.create(
+        payment_method_types: ['card'],
+        line_items: [{
+          name: service.name,
+          amount: service.price_cents,
+          currency: 'cad',
+          quantity: 1
+        }],
+        success_url: session_url(@session),
+        cancel_url: session_url(@session)
+      )
+
+      @session.update(checkout_session_id: payment_session.id)
+      redirect_to new_session_payment_path(@session)
     else
       render :new
     end
@@ -37,6 +51,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:start_time, :end_time, :total_price, :paid, :status)
+    params.require(:session).permit(:start_time, :end_time, :amount, :paid, :status)
   end
 end

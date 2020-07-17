@@ -4,7 +4,6 @@ class CreateServices < ActiveRecord::Migration[5.2]
       t.string :name
       t.string :description
       t.string :service_type
-      t.integer :price
       t.integer :duration
       t.references :practitioner_specialty, foreign_key: true
 
