@@ -18,5 +18,5 @@ class Practitioner < ApplicationRecord
   $specialties = Specialty.all.sort_by(&:name)
   $conditions = Condition.all.sort_by(&:name)
   $languages = Language.includes(:practitioner_languages).where.not(practitioner_languages: { id: nil }).sort_by(&:language).map(&:language)
-  $service_types = ['virtual only', 'inperson only', 'both availble']
+  $service_types = ['Virtual only', 'In-person only', 'Both availble']
 end

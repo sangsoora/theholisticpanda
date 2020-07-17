@@ -9,7 +9,7 @@
   <p>Starting date and time: <%= @session.start_time %></p>
   <p>Duration: <%= @session.service.duration %>m</p>
   <p>Session type: <%= @session.service.service_type.capitalize %></p>
-  <% if @session.service.service_type == 'inperson' %>
+  <% if @session.service.service_type == 'in-person' %>
     <p>Session location: <%= @session.service.practitioner.location %></p>
     <p>Address: <%= @session.service.practitioner.address %></p>
   <% end %>
