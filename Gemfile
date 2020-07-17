@@ -38,6 +38,7 @@ gem 'pundit'
 gem 'dotenv-rails'
 gem 'money-rails'
 gem 'stripe'
+gem 'stripe_event'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
