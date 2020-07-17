@@ -3,7 +3,7 @@
 one:
   start_time: 2020-06-30 11:48:01
   end_time: 2020-06-30 11:48:01
-  total_price: 1
+  amount: 1
   paid: false
   status: MyString
   user: one
@@ -12,7 +12,7 @@ one:
 two:
   start_time: 2020-06-30 11:48:01
   end_time: 2020-06-30 11:48:01
-  total_price: 1
+  amount: 1
   paid: false
   status: MyString
   user: two

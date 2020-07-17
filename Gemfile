@@ -35,6 +35,10 @@ gem 'font-awesome-sass', '~> 5.12.0'
 gem 'faker'
 gem 'jquery-rails'
 gem 'pundit'
+gem 'dotenv-rails'
+gem 'money-rails'
+gem 'stripe'
+gem 'stripe_event'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

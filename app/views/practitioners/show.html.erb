@@ -42,6 +42,7 @@
               <h4><%= service.name %></h4>
               <p><%= service.service_type.capitalize %></p>
               <p>Duration: <%= service.duration %>m</p>
+              <p><%= humanized_money_with_symbol(service.price) %></p>
               <p><%= service.description %></p>
             </div>
             <div class="practitioner-service-btn">

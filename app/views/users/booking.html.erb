@@ -4,7 +4,7 @@
     <p><%= link_to booking.service.name, session_path(booking) %></p>
     <p><%= booking.start_time %></p>
     <p><%= booking.end_time %></p>
-    <p><%= booking.total_price %></p>
+    <p><%= humanized_money_with_symbol(booking.amount) %></p>
     <p><%= booking.service.practitioner.user.full_name %></p>
     <p><%= booking.service.service_type %></p>
   <% end %>
@@ -13,7 +13,7 @@
     <p><%= link_to booking.service.name, session_path(booking) %></p>
     <p><%= booking.start_time %></p>
     <p><%= booking.end_time %></p>
-    <p><%= booking.total_price %></p>
+    <p><%= humanized_money_with_symbol(booking.amount) %></p>
     <p><%= booking.service.practitioner.user.full_name %></p>
     <p><%= booking.service.service_type %></p>
   <% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_06_082233) do
+ActiveRecord::Schema.define(version: 2020_07_17_172359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,24 +74,25 @@ ActiveRecord::Schema.define(version: 2020_07_06_082233) do
     t.string "name"
     t.string "description"
     t.string "service_type"
-    t.integer "price"
     t.integer "duration"
     t.bigint "practitioner_specialty_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "price_cents", default: 0, null: false
     t.index ["practitioner_specialty_id"], name: "index_services_on_practitioner_specialty_id"
   end
 
   create_table "sessions", force: :cascade do |t|
     t.datetime "start_time"
     t.datetime "end_time"
-    t.integer "total_price"
+    t.integer "amount_cents", default: 0, null: false
     t.boolean "paid"
     t.string "status"
     t.bigint "user_id"
     t.bigint "service_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "checkout_session_id"
     t.index ["service_id"], name: "index_sessions_on_service_id"
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
