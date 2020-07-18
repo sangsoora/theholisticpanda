@@ -1,9 +1,21 @@
 <div class="container session-page">
+  <% if @session.practitioner.user == current_user %>
+    hola
+  <% end %>
   <h2>Thank you for booking a session with <%= @session.service.practitioner.user.full_name %> for <%= @session.service.name %></h2>
   <% if @session.status == 'pending' %>
     <p><%= @session.service.practitioner.user.first_name %> will confirm this booking shortly.</p>
   <% elsif @session.status == 'confirmed' %>
     <p><%= @session.service.practitioner.user.first_name %> has confirmed this booking!</p>
+  <% elsif @session.status == 'paid' %>
+    <p><%= @session.service.practitioner.user.first_name %> will confirm this booking shortly.</p>
+  <% elsif @session.status == 'cancelled' %>
+    <p>This booking has been cancelled.</p>
+  <% end %>
+  <% unless @session.status == 'cancelled' %>
+    <%= simple_form_for [@session] do |f| %>
+      <%= f.submit 'Cancel this session',  data: { confirm: "Are you sure?" }, class: 'btn btn-flat' %>
+    <% end %>
   <% end %>
   <h3>Your sesson summary</h3>
   <p>Starting date and time: <%= @session.start_time %></p>
@@ -14,8 +26,8 @@
     <p>Address: <%= @session.service.practitioner.address %></p>
   <% end %>
   <p>Total price: C$ <%= (@session.service.price * 1.03).round(2) %></p>
-
-  <p>Cancellation Policy: Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
-
-  <p>By booking, I agree to the Terms of Service and agree to pay the amount shown including the 3% service fee. Your card will be preauthorized for the amount, but will not be charged until your booking is confirmed. </p>
+  <% if @session.user == current_user %>
+    <p>Cancellation Policy: Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
+    <p>By booking, I agree to the Terms of Service and agree to pay the amount shown including the 3% service fee. Your card will be preauthorized for the amount, but will not be charged until your booking is confirmed. </p>
+  <% end %>
 </div>
