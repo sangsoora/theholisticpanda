@@ -38,6 +38,10 @@ class SessionsController < ApplicationController
   end
 
   def update
+    if params[:commit] == 'Cancel this session'
+      @session.update(status: 'cancelled')
+      redirect_to user_bookings(current_user), notice: 'Session cancelled'
+    end
   end
 
   def destroy

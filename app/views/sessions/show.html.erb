@@ -1,9 +1,37 @@
 <div class="container session-page">
-  <h2>Thank you for booking a session with <%= @session.service.practitioner.user.full_name %> for <%= @session.service.name %></h2>
-  <% if @session.status == 'pending' %>
-    <p><%= @session.service.practitioner.user.first_name %> will confirm this booking shortly.</p>
-  <% elsif @session.status == 'confirmed' %>
-    <p><%= @session.service.practitioner.user.first_name %> has confirmed this booking!</p>
+  <% if @session.practitioner.user == current_user %>
+    <% if @session.status == 'pending' %>
+      <h2><%= @session.user.full_name %> has requested a booking for <%= @session.service.name %></h2>
+      <%= simple_form_for [@session] do |f| %>
+        <%= f.submit 'Decline',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost' %>
+      <% end %>
+    <% elsif @session.status == 'confirmed' %>
+      <h2>Your booking with <%= @session.user.full_name %> for <%= @session.service.name %> has been confirmed.</h2>
+      <%= simple_form_for [@session] do |f| %>
+        <%= f.submit 'Cancel this booking',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost' %>
+      <% end %>
+    <% end %>
+  <% elsif @session.user == current_user %>
+    <h2>Thank you for booking a session with <%= @session.practitioner.user.full_name %> for <%= @session.service.name %></h2>
+    <% if @session.status == 'pending' && !@session.paid %>
+      <p>Please complete your checkout to proceed.</p>
+      <%= link_to 'Go to checkout', new_session_payment_path(@session), class: 'btn btn-flat' %>
+      <%= simple_form_for [@session] do |f| %>
+        <%= f.submit 'Cancel this request',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost' %>
+      <% end %>
+    <% elsif @session.status == 'pending' && @session.paid %>
+      <p><%= @session.service.practitioner.user.first_name %> will confirm this booking shortly.</p>
+      <%= simple_form_for [@session] do |f| %>
+        <%= f.submit 'Cancel this request',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost' %>
+      <% end %>
+    <% elsif @session.status == 'confirmed' %>
+      <p><%= @session.service.practitioner.user.first_name %> has confirmed this booking!</p>
+      <%= simple_form_for [@session] do |f| %>
+        <%= f.submit 'Cancel this session',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost' %>
+      <% end %>
+    <% elsif @session.status == 'cancelled' %>
+      <p>This booking has been cancelled.</p>
+    <% end %>
   <% end %>
   <h3>Your sesson summary</h3>
   <p>Starting date and time: <%= @session.start_time %></p>
@@ -13,9 +41,9 @@
     <p>Session location: <%= @session.service.practitioner.location %></p>
     <p>Address: <%= @session.service.practitioner.address %></p>
   <% end %>
-  <p>Total price: C$ <%= (@session.service.price * 1.03).round(2) %></p>
-
-  <p>Cancellation Policy: Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
-
-  <p>By booking, I agree to the Terms of Service and agree to pay the amount shown including the 3% service fee. Your card will be preauthorized for the amount, but will not be charged until your booking is confirmed. </p>
+  <p>Total price: CA$ <%= (@session.service.price * 1.03).round(2) %></p>
+  <% if @session.user == current_user %>
+    <p>Cancellation Policy: Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
+    <p>By booking, I agree to the Terms of Service and agree to pay the amount shown including the 3% service fee. Your card will be preauthorized for the amount, but will not be charged until your booking is confirmed. </p>
+  <% end %>
 </div>

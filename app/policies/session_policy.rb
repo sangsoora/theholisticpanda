@@ -24,7 +24,7 @@ class SessionPolicy < ApplicationPolicy
   private
 
   def user_is_practitioner?
-    record.service.practitioner_specialty.practitioner.user == user
+    record.practitioner.user == user
   end
 
   def user_is_customer?
