@@ -5,8 +5,12 @@
     <p><%= booking.start_time %></p>
     <p><%= booking.end_time %></p>
     <p><%= humanized_money_with_symbol(booking.amount) %></p>
-    <p><%= booking.service.practitioner.user.full_name %></p>
-    <p><%= booking.service.service_type %></p>
+    <% if booking.user == current_user %>
+      <p><%= booking.service.practitioner.user.full_name %></p>
+    <% else %>
+      <p><%= booking.user.full_name %></p>
+    <% end %>
+    <p><%= booking.service.service_type.capitalize %></p>
   <% end %>
   <h1>Pending bookings</h1>
   <% @pending_bookings.each do |booking| %>
@@ -14,7 +18,24 @@
     <p><%= booking.start_time %></p>
     <p><%= booking.end_time %></p>
     <p><%= humanized_money_with_symbol(booking.amount) %></p>
-    <p><%= booking.service.practitioner.user.full_name %></p>
-    <p><%= booking.service.service_type %></p>
+    <% if booking.user == current_user %>
+      <p><%= booking.service.practitioner.user.full_name %></p>
+    <% else %>
+      <p><%= booking.user.full_name %></p>
+    <% end %>
+    <p><%= booking.service.service_type.capitalize %></p>
+  <% end %>
+  <h1>Cancelled bookings</h1>
+  <% @cancelled_bookings.each do |booking| %>
+    <p><%= link_to booking.service.name, session_path(booking) %></p>
+    <p><%= booking.start_time %></p>
+    <p><%= booking.end_time %></p>
+    <p><%= humanized_money_with_symbol(booking.amount) %></p>
+    <% if booking.user == current_user %>
+      <p><%= booking.service.practitioner.user.full_name %></p>
+    <% else %>
+      <p><%= booking.user.full_name %></p>
+    <% end %>
+    <p><%= booking.service.service_type.capitalize %></p>
   <% end %>
 </div>
