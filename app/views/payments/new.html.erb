@@ -3,7 +3,7 @@
     <div class="col">
       <h1>Checkout summary</h1>
       <p>Purchase of <strong><%= @session.service.name %></strong> for <strong><%= humanized_money_with_symbol @session.amount %></strong></p>
-      <button id="pay" class="btn btn-primary">Pay</button>
+      <button id="pay" class="btn btn-flat">Pay</button>
       <script src="https://js.stripe.com/v3/"></script>
       <script>
         const paymentButton = document.getElementById('pay');
