@@ -13,7 +13,7 @@
         <p>Session type: <%= @service.service_type.capitalize %></p>
       </div>
       <div class="service-total-price">
-        <p>Session: C$ <%= @service.price.to_f.round(2) %></p>
+        <p>Session: CA$ <%= @service.price.to_f.round(2) %></p>
         <p>Service fee: C$ <%=( @service.price * 0.03).round(2) %></p>
         <p>Total price: C$ <%= (@service.price * 1.03).round(2) %></p>
       </div>
