@@ -114,6 +114,6 @@ class PractitionersController < ApplicationController
   end
 
   def practitioner_params
-    params.require(:practitioner).permit(:location, :address, :bio, :video, :latitude, :longitude, :education, :experience)
+    params.require(:practitioner).permit(:location, :address, :bio, :video, :latitude, :longitude, :education, :experience, :photo)
   end
 end
