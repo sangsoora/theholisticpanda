@@ -1,0 +1,7 @@
+<div class="container" style="margin-top: 10rem;">
+  <%= simple_form_for [@practitioner] do |f| %>
+    <%= f.input :photo, as: :file %>
+    <%= f.button :submit, 'Apply', class: 'btn-flat w-100' %>
+  <% end %>
+</div>
+

@@ -1,4 +1,4 @@
-.practitioner-profile-page, .practitioners-page, .become-practitioner {
+.practitioner-profile-page, .practitioners-page {
   margin-top: 5rem;
 }
 
@@ -81,13 +81,50 @@
 
 .practitioner-service-info {
   flex: 0 0 80%;
-}
-
-.practitioner-service-info p {
-  margin: 0;
-  padding: 0.5rem 0.5rem 0.5rem 0;
+  p {
+    margin: 0;
+    padding: 0.5rem 0.5rem 0.5rem 0;
+  }
 }
 
 .practitioner-service-btn {
   flex: 0 0 20%;
+}
+
+.practitioner-application {
+  margin: 5rem auto 2rem;
+  h1, p {
+    text-align: center;
+  }
+}
+
+.practitioner_education, .practitioner_experience {
+  flex: 0 1 45%;
+}
+
+.language-choices, .specialty-choices {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.language-choice, .specialty-choice {
+  color: $gold;
+  background: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 2rem;
+  border: 1px solid $gold;
+  text-align: center;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+  &.active {
+  background: $gold;
+  color: $emerald;
+  font-weight: 700;
+  opacity: 1;
+  }
 }

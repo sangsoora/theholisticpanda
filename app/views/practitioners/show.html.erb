@@ -1,7 +1,11 @@
 <div class="container practitioner-profile-page">
   <div class="practitioner-summary">
     <div class="practitioner-img">
-      <%= image_tag("#{@practitioner.user.email.split('@').first}", class: 'avatar-full') %>
+      <% if @practitioner.photo.attached? %>
+        <%= cl_image_tag @practitioner.photo.key, class: 'avatar-full' %>
+      <% else %>
+        <img src='https://kitt.lewagon.com/placeholder/users/random' class='avatar-full' />
+      <% end %>
     </div>
     <div class="practitioner-body">
       <div class="practitioner-name">
@@ -11,13 +15,13 @@
       </div>
       <div class="practitioner-detail">
         <p>Specailty:
-          <% @practitioner.specialties.each do |s| %>
-            <%= s.name %>
+          <% @practitioner.specialties.each do |specialty| %>
+            <%= specialty.name %>
           <% end %>
         </p>
         <p>Languages:
-          <% @practitioner.languages.each do |l| %>
-            <%= l.language %>
+          <% @practitioner.languages.each do |language| %>
+            <%= language.name %>
           <% end %>
         </p>
         <p>Insurance Accepted: </p>

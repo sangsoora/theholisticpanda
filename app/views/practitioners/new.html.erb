@@ -1,46 +1,39 @@
-<div class="container become-practitioner">
-  <h1>Become a practitioner</h1>
-  <%= link_to 'Apply', '', data: { toggle: "modal", target: "#practitionerModal" }, class: 'btn btn-flat' %>
-  <%= simple_form_for [current_user, @practitioner] do |f| %>
-
-  <% end %>
-</div>
-
-<div class="modal fade" id="practitionerModal" tabindex="-1" role="dialog" aria-labelledby="practitionerModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="practitionerModalLabel">Become a practitioner</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<div class="container practitioner-application">
+  <div class="col-8 offset-2">
+    <h1>Apply to be a practitioner</h1>
+    <p>Apply today to get connected with holistic service seekers worldwide</p>
+    <%= simple_form_for [current_user, @practitioner] do |f| %>
+      <%= f.input :address %>
+      <div class="d-flex justify-content-between">
+        <%= f.input :education %>
+        <%= f.input :experience, collection: ['Less than 1 year', '2-5 years', '5-10 years', 'More than 10 years'], as: :select, require: true %>
       </div>
-      <div class="modal-body text-left">
-        <%= simple_form_for [current_user, @practitioner] do |f| %>
-          <%= f.input :address %>
-          <%= f.input :education %>
-          <%= f.input :experience, collection: ['Less than 1 year', '2-5 years', '5-10 years', 'More than 10 years'], as: :select, require: true %>
-          <div class="form-group">
-            <label for="practitioner_language_1">Session languages</label>
-            <select class="form-control select required" name="practitioner[language]" id="practitioner_language_1">
-              <% Language.all.each do |l| %>
-                <option value="<%= l.language %>"><%= l.language %></option>
-              <% end %>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="practitioner_specialty_1">Session specialtiess</label>
-            <select class="form-control select required" name="practitioner[specialty]" id="practitioner_specialty_1">
-              <% Specialty.all.each do |specialty| %>
-                <option value="<%= specialty.name %>"><%= specialty.name %></option>
-              <% end %>
-            </select>
-          </div>
+      <div class="form-group">
+        <label class="control-label check_boxes required">Your languages</label>
+        <input type="hidden" name="practitioner[language_ids][]" value="">
+        <div class="language-choices">
+          <% Language.all.each do |language| %>
+            <input type="checkbox" class="hidden" value="<%= language.id %>" name="practitioner[language_ids][]" id="practitioner_language_ids_<%= language.id %>">
+            <label class="language-choice" for="practitioner_language_ids_<%= language.id %>">
+              <%= language.name %>
+            </label>
+          <% end %>
+         </div>
       </div>
-      <div class="modal-footer">
-          <%= f.button :submit, 'Confirm', class: 'btn-flat' %>
-        <% end %>
+      <div class="form-group">
+        <label class="control-label check_boxes required">Your specialties</label>
+        <input type="hidden" name="practitioner[specialty_ids][]" value="">
+        <div class="specialty-choices">
+          <% Specialty.all.each do |specialty| %>
+            <input type="checkbox" class="hidden" value="<%= specialty.id %>" name="practitioner[specialty_ids][]" id="practitioner_specialty_ids_<%= specialty.id %>">
+            <label class="specialty-choice" for="practitioner_specialty_ids_<%= specialty.id %>">
+              <%= specialty.name %>
+            </label>
+          <% end %>
+         </div>
       </div>
-    </div>
+      <%= f.input :photo, as: :file %>
+      <%= f.button :submit, 'Apply', class: 'btn-flat w-100' %>
+    <% end %>
   </div>
 </div>

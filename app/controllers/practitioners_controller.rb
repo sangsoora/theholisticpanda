@@ -1,6 +1,6 @@
 class PractitionersController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show]
-  before_action :set_practitioner, only: [:show, :update, :destroy]
+  before_action :set_practitioner, only: [:show, :edit, :update, :destroy]
 
   def index
     @practitioners = policy_scope(Practitioner)
@@ -79,18 +79,27 @@ class PractitionersController < ApplicationController
 
   def new
     @practitioner = Practitioner.new
+    @practitioner.user = User.find(params[:user_id])
     authorize @practitioner
   end
 
   def create
     @practitioner = Practitioner.new(practitioner_params)
+    @practitioner.user = User.find(params[:user_id])
     authorize @practitioner
-    @practitioner.user = current_user
+    languages = params[:practitioner][:language_ids].drop(1)
+    specialties = params[:practitioner][:specialty_ids].drop(1)
     if @practitioner.save
-      redirect_to root_path
+      languages.each { |language| PractitionerLanguage.create!(practitioner: @practitioner, language: Language.find(language)) }
+      specialties.each { |specialty| PractitionerSpecialty.create!(practitioner: @practitioner, specialty: Specialty.find(specialty)) }
+      redirect_to root_path, notice: 'Your application has been received'
     else
       render :new
     end
+  end
+
+  def edit
+
   end
 
   def update

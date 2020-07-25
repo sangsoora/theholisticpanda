@@ -46,6 +46,10 @@ a {
   }
 }
 
+label {
+  color: $gold;
+}
+
 .container {
   max-width: 1200px;
   width: 90%;
@@ -53,4 +57,8 @@ a {
 
 .login {
   margin-top: 5rem;
+}
+
+.hidden {
+  display: none;
 }
