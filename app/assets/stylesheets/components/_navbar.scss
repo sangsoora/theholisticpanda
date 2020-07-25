@@ -31,3 +31,18 @@
   height: 3.5rem;
   width: 3.5rem;
 }
+
+.navbar-light .navbar-nav .nav-link {
+  color: $gold;
+  font-weight: 600;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+  &:hover, :focus {
+    color: #EFBB62;
+    font-weight: 700;
+  }
+}
+
+.navbar-light .navbar-nav .show > .nav-link {
+  color: #EFBB62;
+  font-weight: 700;
+}

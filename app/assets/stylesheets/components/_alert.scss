@@ -2,10 +2,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: $yellow-green;
-  position: absolute;
-  top: 3.875rem;
-  width: 100%;
+  background: $pink;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  flex: 1 0 10%;
+  opacity: 0.8;
+  z-index: 1000000;
 }
 
 .alert-info {

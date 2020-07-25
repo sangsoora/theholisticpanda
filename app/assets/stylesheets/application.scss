@@ -24,26 +24,30 @@ body {
 h1 {
   font-size: 2.5rem;
   font-weight: 700;
-  color: $pastel-green;
+  color: black;
   margin: 1.5rem 0;
 }
 
 h2 {
   font-size: 2rem;
-  color: $pastel-green;
+  color: black;
   font-weight: bold;
 }
 
 h5 {
-  color: $pastel-green;
+  color: black;
 }
 
 a {
-  color: $pastel-green;
+  color: $gold;
   &:hover {
     text-decoration: none;
-    color: $lime;
+    color: $pink;
   }
+}
+
+label {
+  color: $gold;
 }
 
 .container {
@@ -53,4 +57,8 @@ a {
 
 .login {
   margin-top: 5rem;
+}
+
+.hidden {
+  display: none;
 }

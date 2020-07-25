@@ -7,8 +7,8 @@
       <%= f.input :language, label: "Language",  collection: $languages, as: :check_boxes %>
       <%= f.input :service_type, lable: "Service Types", collection: $service_types, as: :select %>
     </div>
-    <%= f.submit "Search", class: "btn btn-primary" %>
-    <%= link_to "Reset", practitioners_path  %>
+    <%= f.submit "Search", class: "btn btn-flat" %>
+    <%= link_to "Reset", practitioners_path, class: 'btn btn-ghost'  %>
   <% end %>
   <div>
     <div class='cards-featured'>
@@ -16,11 +16,15 @@
         <% @filtered_practitioners.each do |practitioner| %>
           <a href="/practitioners/<%= practitioner.id %>">
             <div class='card-featured'>
-                <%= image_tag("#{practitioner.user.email.split('@').first}") %>
-                <div class='card-featured-infos'>
-                  <h2><%= practitioner.user.full_name %></h2>
-                  <p><%= practitioner.bio.split('. ').first %>.</p>
-                </div>
+              <% if practitioner.photo.attached? %>
+                <%= cl_image_tag practitioner.photo.key %>
+              <% else %>
+                <img src='https://kitt.lewagon.com/placeholder/users/random' />
+              <% end %>
+              <div class='card-featured-infos'>
+                <h2><%= practitioner.user.full_name %></h2>
+                <p><%= practitioner.bio.split('. ').first %>.</p>
+              </div>
             </div>
           </a>
         <% end %>
@@ -28,11 +32,17 @@
         <% @practitioners.each do |practitioner| %>
           <a href="/practitioners/<%= practitioner.id %>">
             <div class='card-featured'>
-                <%= image_tag("#{practitioner.user.email.split('@').first}") %>
-                <div class='card-featured-infos'>
-                  <h2><%= practitioner.user.full_name %></h2>
+              <% if practitioner.photo.attached? %>
+                <%= cl_image_tag practitioner.photo.key %>
+              <% else %>
+                <img src='https://kitt.lewagon.com/placeholder/users/random' />
+              <% end %>
+              <div class='card-featured-infos'>
+                <h2><%= practitioner.user.full_name %></h2>
+                <% if practitioner.bio %>
                   <p><%= practitioner.bio.split('. ').first %>.</p>
-                </div>
+                <% end %>
+              </div>
             </div>
           </a>
         <% end %>

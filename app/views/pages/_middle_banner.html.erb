@@ -2,6 +2,11 @@
   <h1>Virtual Experiences</h1>
   <div class="middle-banner-body">
     <p>Get wellness without leaving your home.</p>
-    <%= link_to "Explore all virtual sessions", "", class: 'btn btn-ghost' %>
+    <%= simple_form_for :search, url: practitioners_path, method: "GET" do |f| %>
+      <div class="d-flex justify-content-between">
+        <%= f.input :service_type, as: :hidden, input_html: { value: 'Virtual only' } %>
+      </div>
+      <%= f.submit "Explore all virtual sessions", class: "btn btn-flat" %>
+    <% end %>
   </div>
 </div>

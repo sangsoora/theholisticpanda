@@ -39,6 +39,7 @@ gem 'dotenv-rails'
 gem 'money-rails'
 gem 'stripe'
 gem 'stripe_event'
+gem 'cloudinary', '~> 1.12.0'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

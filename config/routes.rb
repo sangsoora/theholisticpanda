@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'pages#home'
 
+  get '/become-a-practitioner', to: 'pages#become_a_practitioner', as: :become_a_practitioner
+
   devise_scope :user do
     match '/sessions/user', to: 'devise/sessions#create', via: :post
   end

@@ -1,5 +1,6 @@
 const initUpdateNavbarOnScroll = () => {
   const navbar = document.querySelector('.navbar-holistic');
+
   if (navbar) {
     window.addEventListener('scroll', () => {
       if (window.scrollY > 0) {

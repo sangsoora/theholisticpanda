@@ -9,11 +9,17 @@
         <% @practitioners.first(3).each do |practitioner| %>
           <a href="/practitioners/<%= practitioner.id %>">
             <div class='card-featured'>
-                <%= image_tag("#{practitioner.user.email.split('@').first}") %>
-                <div class='card-featured-infos'>
-                  <h2><%= practitioner.user.full_name %></h2>
+              <% if practitioner.photo.attached? %>
+                <%= cl_image_tag practitioner.photo.key %>
+              <% else %>
+                <img src='https://kitt.lewagon.com/placeholder/users/random' />
+              <% end %>
+              <div class='card-featured-infos'>
+                <h2><%= practitioner.user.full_name %></h2>
+                <% if practitioner.bio %>
                   <p><%= practitioner.bio.split('. ').first %>.</p>
-                </div>
+                <% end %>
+              </div>
             </div>
           </a>
         <% end %>
@@ -45,7 +51,7 @@
         </div>
       </div>
       <div class='text-center'>
-        <%= link_to 'Find a practitioners now', '', class: 'btn btn-flat' %>
+        <%= link_to 'Find a practitioners now', practitioners_path, class: 'btn btn-flat' %>
       </div>
     </div>
   </div>

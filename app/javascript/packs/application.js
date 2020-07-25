@@ -17,8 +17,13 @@
 import 'bootstrap';
 
 import { initUpdateNavbarOnScroll } from '../components/navbar';
+import { initUpdateApplicationForm } from '../components/form';
 
 document.addEventListener("scroll", () => {
   // Call your JS functions here
   initUpdateNavbarOnScroll();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  initUpdateApplicationForm();
 });
