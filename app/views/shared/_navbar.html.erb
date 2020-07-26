@@ -14,7 +14,7 @@
             <a class="nav-link" href="">My services</a>
           </li>
           <li class="nav-item">
-            <%= link_to 'My sessions', user_bookings_path(current_user), class: 'nav-link' %>
+            <%= link_to 'My sessions', user_sessions_path(current_user), class: 'nav-link' %>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome, <%= current_user.first_name %></a>
@@ -32,7 +32,7 @@
             <a class="nav-link" href="">Notification</a>
           </li>
           <li class="nav-item">
-            <%= link_to 'My bookings', user_bookings_path(current_user), class: 'nav-link' %>
+            <%= link_to 'My sessions', user_sessions_path(current_user), class: 'nav-link' %>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome, <%= current_user.first_name %></a>

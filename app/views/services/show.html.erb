@@ -1,13 +1,13 @@
 <div class="container service-page">
   <h2><%= @service.name %> with <%= @service.practitioner.user.first_name %></h2>
   <div class="service-details">
-    <div class="service-booking-form">
+    <div class="service-session-form">
       <%= simple_form_for [@service, @session] do |f| %>
         <%= f.input :start_time, as: :datetime %>
-        <%= f.submit "Send booking request", class: 'btn btn-flat'%>
+        <%= f.submit "Send session request", class: 'btn btn-flat'%>
       <% end %>
     </div>
-    <div class="service-booking-summary">
+    <div class="service-session-summary">
       <div class="service-description">
         <p><%= @service.description %></p>
         <p>Session type: <%= @service.service_type.capitalize %></p>

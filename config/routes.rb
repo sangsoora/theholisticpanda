@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     resources :practitioners, only: [:new, :create]
   end
 
-  get 'users/:id/bookings', to: 'users#booking', as: :user_bookings
+  get 'users/:id/sessions', to: 'users#booking', as: :user_sessions
 
   resources :practitioners, only: [:index, :show, :edit, :update, :destroy] do
     resources :practitioner_languages, only: [:create]

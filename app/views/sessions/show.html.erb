@@ -1,18 +1,18 @@
 <div class="container session-page">
   <% if @session.practitioner.user == current_user %>
     <% if @session.status == 'pending' %>
-      <h2><%= @session.user.full_name %> has requested a booking for <%= @session.service.name %></h2>
+      <h2><%= @session.user.full_name %> has requested a session for <%= @session.service.name %></h2>
       <%= simple_form_for [@session] do |f| %>
         <%= f.submit 'Decline',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost' %>
       <% end %>
     <% elsif @session.status == 'confirmed' %>
-      <h2>Your booking with <%= @session.user.full_name %> for <%= @session.service.name %> has been confirmed.</h2>
+      <h2>Your session with <%= @session.user.full_name %> for <%= @session.service.name %> has been confirmed.</h2>
       <%= simple_form_for [@session] do |f| %>
-        <%= f.submit 'Cancel this booking',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost' %>
+        <%= f.submit 'Cancel this session',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost' %>
       <% end %>
     <% end %>
   <% elsif @session.user == current_user %>
-    <h2>Thank you for booking a session with <%= @session.practitioner.user.full_name %> for <%= @session.service.name %></h2>
+    <h2>Thank you for session a session with <%= @session.practitioner.user.full_name %> for <%= @session.service.name %></h2>
     <% if @session.status == 'pending' && !@session.paid %>
       <p>Please complete your checkout to proceed.</p>
       <%= link_to 'Go to checkout', new_session_payment_path(@session), class: 'btn btn-flat' %>
@@ -20,17 +20,17 @@
         <%= f.submit 'Cancel this request',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost' %>
       <% end %>
     <% elsif @session.status == 'pending' && @session.paid %>
-      <p><%= @session.service.practitioner.user.first_name %> will confirm this booking shortly.</p>
+      <p><%= @session.service.practitioner.user.first_name %> will confirm this session shortly.</p>
       <%= simple_form_for [@session] do |f| %>
         <%= f.submit 'Cancel this request',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost' %>
       <% end %>
     <% elsif @session.status == 'confirmed' %>
-      <p><%= @session.service.practitioner.user.first_name %> has confirmed this booking!</p>
+      <p><%= @session.service.practitioner.user.first_name %> has confirmed this session!</p>
       <%= simple_form_for [@session] do |f| %>
         <%= f.submit 'Cancel this session',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost' %>
       <% end %>
     <% elsif @session.status == 'cancelled' %>
-      <p>This booking has been cancelled.</p>
+      <p>This session has been cancelled.</p>
     <% end %>
   <% end %>
   <h3>Your sesson summary</h3>
