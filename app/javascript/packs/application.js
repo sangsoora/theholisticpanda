@@ -15,6 +15,7 @@
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 import 'bootstrap';
+import '../plugins/flatpickr';
 
 import { initUpdateNavbarOnScroll } from '../components/navbar';
 import { initUpdateApplicationForm } from '../components/form';
