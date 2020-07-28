@@ -1,0 +1,44 @@
+.tabs-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tabs {
+  flex: 0 0 70%;
+}
+
+.tabs-underlined {
+  display: flex;
+  align-items: center;
+}
+
+.tabs-underlined .tab-underlined {
+  color: $emerald;
+  font-size: 20px;
+  padding: 8px;
+  margin: 8px 16px;
+  opacity: .4;
+  cursor: pointer;
+  text-decoration: none;
+  border-bottom: 4px solid transparent;
+  display: inline-block;
+}
+
+.tabs-underlined .tab-underlined.active-tab {
+  opacity: 1;
+  border-bottom: 3px solid $emerald;
+  font-weight: 700;
+}
+
+.tabs-btn {
+  flex: 0 0 30%;
+}
+
+@media screen and (max-width: 767.98px) {
+  .tabs {
+    flex: 0 0 100%;
+  }
+  .tabs-btn {
+    display: none;
+  }
+}
