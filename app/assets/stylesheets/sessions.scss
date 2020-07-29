@@ -6,3 +6,31 @@
   display: flex;
   margin: 1rem 0;
 }
+
+.time-choices {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.time-choice {
+  color: $emerald;
+  background: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 2rem;
+  border: 1px solid $emerald;
+  flex: 0 0 30%;
+  text-align: center;
+  margin-bottom: 1rem;
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+  &.active {
+  background: $emerald;
+  color: $gold;
+  font-weight: 700;
+  opacity: 1;
+  }
+}

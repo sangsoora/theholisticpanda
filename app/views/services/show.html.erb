@@ -4,9 +4,9 @@
     <div class="service-session-form">
       <p>Please select 3 time slots you prefer and the practitioner will confirm it.</p>
       <%= simple_form_for [@service, @session] do |f| %>
-        <%= f.input :start_time, as: :string, label: 'Primary', input_html: {class: "datepicker"} %>
-        <%= f.input :start_time, as: :string, label: 'Secondary', input_html: {class: "datepicker"} %>
-        <%= f.input :start_time, as: :string, label: 'Tertiary', input_html: {class: "datepicker"} %>
+        <%= f.input :primary_time, as: :string, label: 'Primary', input_html: {class: "datepicker"} %>
+        <%= f.input :secondary_time, as: :string, label: 'Secondary', input_html: {class: "datepicker"} %>
+        <%= f.input :tertiary_time, as: :string, label: 'Tertiary', input_html: {class: "datepicker"} %>
         <%= f.submit "Send session request", class: 'btn btn-flat'%>
       <% end %>
     </div>

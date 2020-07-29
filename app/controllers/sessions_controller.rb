@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
     authorize @session
 
     service = Service.find(params[:service_id])
-    @session.end_time = @session.start_time + service.duration.to_i.minute
+    @session.duration = service.duration
     @session.status = 'pending'
     @session.paid = false
     @session.service = service
@@ -56,6 +56,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:start_time, :end_time, :amount, :paid, :status)
+    params.require(:session).permit(:start_time, :duration, :primary_time, :secondary_time, :tertiary_time, :amount, :paid, :status)
   end
 end

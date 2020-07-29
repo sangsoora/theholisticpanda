@@ -1,13 +1,13 @@
 <div class="container sessions">
   <ul class="list-inline tabs-underlined">
     <li>
-      <p class="tab-underlined active-tab">Confirmed <% if @confirmed_sessions.count > 1 %> (<%= @confirmed_sessions.count %>) <% end %></p>
+      <p class="tab-underlined active-tab">Confirmed <% if @confirmed_sessions.count > 0 %> (<%= @confirmed_sessions.count %>) <% end %></p>
     </li>
     <li>
-      <p class="tab-underlined">Pending <% if @pending_sessions.count > 1 %> (<%= @pending_sessions.count%>) <% end %> </p>
+      <p class="tab-underlined">Pending <% if @pending_sessions.count > 0 %> (<%= @pending_sessions.count%>) <% end %> </p>
     </li>
     <li>
-      <p class="tab-underlined">Cancelled <% if @cancelled_sessions.count > 1 %> (<%= @cancelled_sessions.count %>) <% end %></p>
+      <p class="tab-underlined">Cancelled <% if @cancelled_sessions.count > 0 %> (<%= @cancelled_sessions.count %>) <% end %></p>
     </li>
   </ul>
   <div class="lists">
@@ -32,7 +32,7 @@
               </div>
             </div>
             <div class="session-actions">
-              <% if session.start_time < Time.now %>
+              <% if session.start_time < Time.now && current_user == session.user %>
                 <%= link_to 'Rate', '', class: 'btn btn-flat' %>
               <% end %>
             </div>
@@ -58,7 +58,7 @@
               <div class="session-content">
                 <button class="<%= session.status %>"><%= session.status %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
-                <p><small>When: <%= session.start_time.strftime('%b %d, %Y %I:%M %p') %></small></p>
+                <p><small>When: TBD</small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small><%= humanized_money_with_symbol(session.amount) %></small></p>
                 <p><small>Session type: <%= session.service.service_type.capitalize %></small></p>
