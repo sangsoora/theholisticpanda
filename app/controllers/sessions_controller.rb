@@ -7,6 +7,7 @@ class SessionsController < ApplicationController
   def create
     @session = Session.new(session_params)
     authorize @session
+
     service = Service.find(params[:service_id])
     @session.end_time = @session.start_time + service.duration.to_i.minute
     @session.status = 'pending'
