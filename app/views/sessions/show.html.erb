@@ -5,10 +5,10 @@
       <p><%= @session.user.first_name %> has chose 3 time slots for the requested session. Please choose one to confirm the session.</p>
       <%= simple_form_for @session do |f| %>
         <div class="form-group">
-          <input type="hidden" name="session[time]" value="">
+          <input type="hidden" name="session[time]" value="primary">
           <div class="time-choices">
             <input type="radio" class="hidden" value="primary" name="session[time]" id="session_time_primary">
-            <label class="time-choice" for="session_time_primary">
+            <label class="time-choice active" for="session_time_primary">
               <%= @session.primary_time.strftime('%b %d, %Y %I:%M %p') %>
             </label>
             <input type="radio" class="hidden" value="secondary" name="session[time]" id="session_time_secondary">
@@ -21,10 +21,10 @@
             </label>
           </div>
         </div>
-        <p>Or choose another time for the session.</p>
-        <%= f.input :start_time, as: :string, input_html: {class: "datepicker"} %>
+        <!-- <p>Or choose another time for the session.</p> -->
+        <%#= f.input :start_time, as: :string, input_html: {class: "datepicker"} %>
         <div class="session-btns">
-          <%= f.submit 'Accept', class: 'btn btn-flat' %>
+          <%= f.submit 'Confirm', class: 'btn btn-flat' %>
           <%= f.submit 'Decline',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost ml-5' %>
         </div>
       <% end %>
