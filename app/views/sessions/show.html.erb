@@ -2,9 +2,8 @@
   <% if @session.practitioner.user == current_user %>
     <h2><%= @session.service.name %> with <%= @session.user.full_name %></h2>
     <% if @session.status == 'pending' && @session.paid %>
-      <p><%= @session.user.full_name %> has requested a session.</p>
+      <p><%= @session.user.first_name %> has chose 3 time slots for the requested session. Please choose one to confirm the session.</p>
       <%= simple_form_for @session do |f| %>
-        <p><%= @session.user.first_name %> has chose 3 time slots. Please choose one to confirm the session.</p>
         <div class="form-group">
           <input type="hidden" name="session[time]" value="">
           <div class="time-choices">
@@ -41,7 +40,7 @@
   <% elsif @session.user == current_user %>
     <h2> <%= @session.service.name %> with <%= @session.practitioner.user.full_name %></h2>
     <% if @session.status == 'pending' && !@session.paid %>
-      <p>Thank you for requesting a session with <%= @session.practitioner.user.full_name %> for <%= @session.service.name %></p>
+      <p>Thank you for requesting a session with <%= @session.practitioner.user.first_name %> for <%= @session.service.name %></p>
       <p><strong>Please complete your checkout to proceed.</strong></p>
       <div class="session-btns">
         <%= link_to 'Go to checkout', new_session_payment_path(@session), class: 'btn btn-flat' %>
@@ -50,7 +49,7 @@
         <% end %>
       </div>
     <% elsif @session.status == 'pending' && @session.paid %>
-      <p>Thank you for requesting a session with <%= @session.practitioner.user.full_name %> for <%= @session.service.name %></p>
+      <p>Thank you for requesting a session with <%= @session.practitioner.user.first_name %> for <%= @session.service.name %></p>
       <p><strong><%= @session.service.practitioner.user.first_name %> will confirm this session shortly.</strong></p>
       <div class="session-btns">
         <%= simple_form_for [@session] do |f| %>
@@ -58,7 +57,7 @@
         <% end %>
       </div>
     <% elsif @session.status == 'confirmed' %>
-      <p>Thank you for booking a session with <%= @session.practitioner.user.full_name %> for <%= @session.service.name %></p>
+      <p>Thank you for booking a session with <%= @session.practitioner.user.first_name %> for <%= @session.service.name %></p>
       <div class="session-btns">
         <%= link_to 'Send message', '', class: 'btn btn-flat' %>
         <%= simple_form_for [@session] do |f| %>

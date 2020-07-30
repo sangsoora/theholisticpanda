@@ -1,7 +1,8 @@
 .top-banner {
   background-image: image-url("yoga1.jpg");
   background-size: cover;
-  height: 100vh;
+  height: calc(100vh - 4.25rem);
+  margin-top: 4.25rem;
   text-align: center;
   padding-top: 20vh;
 }
@@ -15,7 +16,7 @@
 .middle-banner {
   background-image: image-url("virtual.jpg");
   background-size: cover;
-  height: calc(100vh - 4.5rem);
+  height: calc(100vh - 4.25rem);
   padding-top: 10vh;
 }
 
@@ -44,7 +45,7 @@
 .bottom-banner {
   background-image: image-url("workout.jpg");
   background-size: cover;
-  height: calc(100vh - 4.5rem);
+  height: calc(100vh - 4.25rem);
   padding: 10vh 0;
 }
 
@@ -65,8 +66,8 @@
   background-image: image-url("instructor.jpg");
   background-size: cover;
   background-position: bottom;
-  height: calc(100vh - 3.875rem);
-  margin-top: 3.875rem;
+  height: calc(100vh - 4.25rem);
+  margin-top: 4.25rem;
   text-align: center;
   padding-top: 20vh;
 }

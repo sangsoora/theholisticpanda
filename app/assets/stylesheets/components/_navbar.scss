@@ -1,9 +1,9 @@
 .navbar-holistic {
-  padding: 0.5rem 2rem;
+  padding: 0 2rem;
   justify-content: space-between;
-  background-color: transparent;
+  background-color: white;
   transition: 0.5s background-color ease;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
 }
 
 .navbar-brand {
@@ -11,16 +11,12 @@
   font-weight: bold;
 }
 
-.navbar-holistic-white {
-  background-color: white;
-}
-
 .navbar-holistic .navbar-collapse {
   flex-grow: 0;
 }
 
 .navbar-holistic .navbar-brand img {
-  width: 40px;
+  width: 10rem;
 }
 
 .nav-item {
