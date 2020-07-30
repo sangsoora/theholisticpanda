@@ -7,7 +7,6 @@ class SessionsController < ApplicationController
   def create
     @session = Session.new(session_params)
     authorize @session
-
     service = Service.find(params[:service_id])
     @session.duration = service.duration
     @session.status = 'pending'
@@ -47,9 +46,9 @@ class SessionsController < ApplicationController
       elsif params[:session][:time] == 'tertiary'
         @session.update!(start_time: @session.tertiary_time, status: 'confirmed')
       end
-      raise
       redirect_to user_sessions_path(current_user), notice: 'Session request accepted'
     elsif params[:commit] == 'Decline'
+      @session.update!(status: 'declined')
       redirect_to user_sessions_path(current_user), notice: 'Session request declined'
     elsif params[:commit] == 'Cancel this session'
       @session.update(status: 'cancelled')

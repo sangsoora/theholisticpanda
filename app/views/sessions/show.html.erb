@@ -69,7 +69,11 @@
     <% end %>
   <% end %>
   <h3>Your session summary</h3>
-  <p>Starting date and time: <%= @session.start_time %></p>
+  <% if @session.start_time %>
+    <p>Session time: <%= @session.start_time.strftime('%b %d, %Y %I:%M %p') %></p>
+  <% else %>
+    <p>Session time: TBD</p>
+  <% end %>
   <p>Duration: <%= @session.service.duration %>m</p>
   <p>Session type: <%= @session.service.service_type.capitalize %></p>
   <% if @session.service.service_type == 'in-person' %>

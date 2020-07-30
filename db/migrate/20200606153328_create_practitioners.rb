@@ -5,11 +5,18 @@ class CreatePractitioners < ActiveRecord::Migration[5.2]
       t.string :address
       t.text :bio
       t.string :service_type
-      t.integer :experience
+      t.string :working_days
+      t.string :starting_hour
+      t.string :ending_hour
+      t.string :country_code
+      t.string :experience
       t.string :education
       t.string :video
       t.float :latitude
       t.float :longitude
+      t.string :background_check_status
+      t.boolean :background_check_consent
+      t.string :background_check_id
       t.references :user, foreign_key: true
 
       t.timestamps
