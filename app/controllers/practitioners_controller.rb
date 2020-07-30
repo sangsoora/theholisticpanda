@@ -92,7 +92,11 @@ class PractitionersController < ApplicationController
     if @practitioner.save
       languages.each { |language| PractitionerLanguage.create!(practitioner: @practitioner, language: Language.find(language)) }
       specialties.each { |specialty| PractitionerSpecialty.create!(practitioner: @practitioner, specialty: Specialty.find(specialty)) }
-      redirect_to root_path, notice: 'Your application has been received'
+      respond_to do |format|
+        format.html { redirect_to root_path }
+        format.js
+      end
+      # redirect_to root_path, notice: 'Your application has been received'
     else
       render :new
     end
@@ -103,11 +107,15 @@ class PractitionersController < ApplicationController
   end
 
   def update
-    if @practitioner.update(practitioner_params)
-      redirect_to practitioner_path(@practitioner)
-    else
-      render :edit
+    if params[:commit] == 'Proceed to background check'
+      @practitioner.update(background_check_status: 'pending', background_check_consent: true)
+      redirect_to root_path, notice: 'Thank you for your application'
     end
+    # if @practitioner.update(practitioner_params)
+    #   redirect_to practitioner_path(@practitioner)
+    # else
+    #   render :edit
+    # end
   end
 
   def destroy
@@ -123,6 +131,6 @@ class PractitionersController < ApplicationController
   end
 
   def practitioner_params
-    params.require(:practitioner).permit(:location, :address, :bio, :video, :latitude, :longitude, :education, :experience, :photo)
+    params.require(:practitioner).permit(:location, :address, :bio, :video, :latitude, :longitude, :education, :experience, :working_days, :starting_hour, :ending_hour, :country_code, :background_check_status, :background_check_consent, :background_check_id, :photo)
   end
 end

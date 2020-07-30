@@ -1,41 +1,135 @@
 <div class="container sessions">
-  <h1>Confirmed sessions</h1>
-  <% @confirmed_sessions.each do |session| %>
-    <p><%= link_to session.service.name, session_path(session) %></p>
-    <p><%= session.start_time %></p>
-    <p><%= session.end_time %></p>
-    <p><%= humanized_money_with_symbol(session.amount) %></p>
-    <% if session.user == current_user %>
-      <p><%= session.service.practitioner.user.full_name %></p>
+  <ul class="list-inline tabs-underlined">
+    <li>
+      <p class="tab-underlined active-tab">Confirmed <% if @confirmed_sessions.count > 0 %> (<%= @confirmed_sessions.count %>) <% end %></p>
+    </li>
+    <li>
+      <p class="tab-underlined">Pending <% if @pending_sessions.count > 0 %> (<%= @pending_sessions.count%>) <% end %> </p>
+    </li>
+    <li>
+      <p class="tab-underlined">Cancelled <% if @cancelled_sessions.count > 0 %> (<%= @cancelled_sessions.count %>) <% end %></p>
+    </li>
+  </ul>
+  <div class="lists">
+    <h1>Confirmed sessions</h1>
+    <% if @confirmed_sessions.count > 0 %>
+      <div class="session-container">
+        <% @confirmed_sessions.each do |session| %>
+          <div class="session">
+            <div class="session-head">
+              <% if session.practitioner.photo.attached? %>
+                <%= cl_image_tag session.practitioner.photo.key, class: "avatar" %>
+              <% else %>
+                <img class='avatar' src='https://kitt.lewagon.com/placeholder/users/random' />
+              <% end %>
+              <div class="session-content">
+                <button class="<%= session.status %>"><%= session.status %></button>
+                <p><%= link_to session.service.name, session_path(session) %></p>
+                <p><small>When: <%= session.start_time.strftime('%b %d, %Y %I:%M %p') %></small></p>
+                <p><small>Duration: <%= session.service.duration %>m</small></p>
+                <p><small><%= humanized_money_with_symbol(session.amount) %></small></p>
+                <p><small>Session type: <%= session.service.service_type.capitalize %></small></p>
+              </div>
+            </div>
+            <div class="session-actions">
+              <% if session.start_time < Time.now && current_user == session.user %>
+                <%= link_to 'Rate', '', class: 'btn btn-flat' %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
     <% else %>
-      <p><%= session.user.full_name %></p>
+      <p>No confirmed session.</p>
     <% end %>
-    <p><%= session.service.service_type.capitalize %></p>
-  <% end %>
-  <h1>Pending sessions</h1>
-  <% @pending_sessions.each do |session| %>
-    <p><%= link_to session.service.name, session_path(session) %></p>
-    <p><%= session.start_time %></p>
-    <p><%= session.end_time %></p>
-    <p><%= humanized_money_with_symbol(session.amount) %></p>
-    <% if session.user == current_user %>
-      <p><%= session.service.practitioner.user.full_name %></p>
+  </div>
+  <div class="lists">
+    <h1>Pending sessions</h1>
+    <% if @pending_sessions.count > 0 %>
+      <div class="session-container">
+        <% @pending_sessions.each do |session| %>
+          <div class="session">
+            <div class="session-head">
+              <% if session.practitioner.photo.attached? %>
+                <%= cl_image_tag session.practitioner.photo.key, class: "avatar" %>
+              <% else %>
+                <img class='avatar' src='https://kitt.lewagon.com/placeholder/users/random' />
+              <% end %>
+              <div class="session-content">
+                <button class="<%= session.status %>"><%= session.status %></button>
+                <p><%= link_to session.service.name, session_path(session) %></p>
+                <p><small>When: TBD</small></p>
+                <p><small>Duration: <%= session.service.duration %>m</small></p>
+                <p><small><%= humanized_money_with_symbol(session.amount) %></small></p>
+                <p><small>Session type: <%= session.service.service_type.capitalize %></small></p>
+              </div>
+            </div>
+            <div class="session-actions">
+            </div>
+          </div>
+        <% end %>
+      </div>
     <% else %>
-      <p><%= session.user.full_name %></p>
+      <p>No pending session.</p>
     <% end %>
-    <p><%= session.service.service_type.capitalize %></p>
-  <% end %>
-  <h1>Cancelled sessions</h1>
-  <% @cancelled_sessions.each do |session| %>
-    <p><%= link_to session.service.name, session_path(session) %></p>
-    <p><%= session.start_time %></p>
-    <p><%= session.end_time %></p>
-    <p><%= humanized_money_with_symbol(session.amount) %></p>
-    <% if session.user == current_user %>
-      <p><%= session.service.practitioner.user.full_name %></p>
+  </div>
+  <div class="lists">
+    <h1>Cancelled sessions</h1>
+    <% if @cancelled_sessions.count > 0 %>
+      <div class="session-container">
+        <% @cancelled_sessions.each do |session| %>
+          <div class="session">
+            <div class="session-head">
+              <% if session.practitioner.photo.attached? %>
+                <%= cl_image_tag session.practitioner.photo.key, class: "avatar" %>
+              <% else %>
+                <img class='avatar' src='https://kitt.lewagon.com/placeholder/users/random' />
+              <% end %>
+              <div class="session-content">
+                <button class="<%= session.status %>"><%= session.status %></button>
+                <p><%= link_to session.service.name, session_path(session) %></p>
+                <p><small>When: <%= session.start_time.strftime('%b %d, %Y %I:%M %p') %></small></p>
+                <p><small>Duration: <%= session.service.duration %>m</small></p>
+                <p><small><%= humanized_money_with_symbol(session.amount) %></small></p>
+                <p><small>Session type: <%= session.service.service_type.capitalize %></small></p>
+              </div>
+            </div>
+            <div class="session-actions">
+            </div>
+          </div>
+        <% end %>
+      </div>
     <% else %>
-      <p><%= session.user.full_name %></p>
+      <p>No cancelled session.</p>
     <% end %>
-    <p><%= session.service.service_type.capitalize %></p>
-  <% end %>
+  </div>
 </div>
+<script>
+  const tabs = document.querySelectorAll('.tab-underlined')
+  const lists = document.querySelectorAll('.lists')
+  const entries = function*(iterable) {
+    let i = 0;
+    for (item of iterable) {
+      yield [i++, item]
+    }
+  }
+  const showBlock = index => {
+    for (const [blockIndex, block] of entries(lists)) {
+      block.style.display = blockIndex === index ? 'block' : 'none'
+    }
+  }
+  showBlock(0)
+  for (const [tabIndex, tab] of entries(tabs)) {
+    tab.addEventListener('click', e => {
+      e.preventDefault()
+      showBlock(tabIndex)
+      const activeTab = document.querySelector('.active-tab');
+      event.currentTarget.classList.toggle('active-tab');
+      if (activeTab !== null) {
+        activeTab.classList.remove('active-tab');
+      }
+    })
+  }
+</script>
+
+

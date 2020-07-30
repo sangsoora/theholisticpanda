@@ -40,6 +40,7 @@ gem 'money-rails'
 gem 'stripe'
 gem 'stripe_event'
 gem 'cloudinary', '~> 1.12.0'
+gem 'country_select', '~> 4.0'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

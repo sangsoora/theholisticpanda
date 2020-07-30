@@ -1,5 +1,5 @@
 <div class="navbar navbar-expand-sm navbar-light navbar-holistic fixed-top">
-  <a class="navbar-brand" href="/">HolisticPanda</a>
+  <a class="navbar-brand" href="/"><%= image_tag('logo', alt: 'The Holistic Panda') %></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -8,7 +8,7 @@
       <% if user_signed_in? %>
         <% if current_user.practitioner %>
           <li class="nav-item">
-            <a class="nav-link" href="">Notification</a>
+            <a class="nav-link" href=""><i class="far fa-bell"></i></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="">My services</a>
@@ -29,7 +29,7 @@
             <%= link_to "Become a practitioner", become_a_practitioner_path, class: "nav-link" %>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">Notification</a>
+            <a class="nav-link" href=""><i class="far fa-bell"></i></a>
           </li>
           <li class="nav-item">
             <%= link_to 'My sessions', user_sessions_path(current_user), class: 'nav-link' %>

@@ -23,15 +23,13 @@ class UsersController < ApplicationController
 
   def booking
     if current_user.practitioner
-      @sessions = current_user.practitioner.sessions.where(["status= ?", "confirmed"])
       @confirmed_sessions = current_user.practitioner.sessions.where(["status= ?", "confirmed"])
       @pending_sessions = current_user.practitioner.sessions.where(["paid = ? AND status= ?", true, "pending"])
       @cancelled_sessions = current_user.practitioner.sessions.where(["status= ?", "cancelled"])
     else
-      @sessions = Session.where(["user_id = ? AND status= ?", @user.id, "confirmed"])
-      @confirmed_sessions = Session.where(["user_id = ? AND status= ?", @user.id, "confirmed"])
-      @pending_sessions = Session.where(["user_id = ? AND status= ?", @user.id, "pending"])
-      @cancelled_sessions = Session.where(["status= ?", "cancelled"])
+      @confirmed_sessions = current_user.sessions.where(["status= ?", "confirmed"])
+      @pending_sessions = current_user.sessions.where(["status= ?", "pending"])
+      @cancelled_sessions = current_user.sessions.where(["status= ?", "cancelled"])
     end
   end
 

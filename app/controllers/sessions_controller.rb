@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
     @session = Session.new(session_params)
     authorize @session
     service = Service.find(params[:service_id])
-    @session.end_time = @session.start_time + service.duration.to_i.minute
+    @session.duration = service.duration
     @session.status = 'pending'
     @session.paid = false
     @session.service = service
@@ -38,9 +38,21 @@ class SessionsController < ApplicationController
   end
 
   def update
-    if params[:commit] == 'Cancel this session'
+    if params[:commit] == 'Confirm'
+      if params[:session][:time] == 'primary'
+        @session.update!(start_time: @session.primary_time, status: 'confirmed')
+      elsif params[:session][:time] == 'secondary'
+        @session.update!(start_time: @session.secondary_time, status: 'confirmed')
+      elsif params[:session][:time] == 'tertiary'
+        @session.update!(start_time: @session.tertiary_time, status: 'confirmed')
+      end
+      redirect_to user_sessions_path(current_user), notice: 'Session request accepted'
+    elsif params[:commit] == 'Decline'
+      @session.update!(status: 'declined')
+      redirect_to user_sessions_path(current_user), notice: 'Session request declined'
+    elsif params[:commit] == 'Cancel this session'
       @session.update(status: 'cancelled')
-      redirect_to user_sessions(current_user), notice: 'Session cancelled'
+      redirect_to user_sessions_path(current_user), notice: 'Session cancelled'
     end
   end
 
@@ -55,6 +67,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:start_time, :end_time, :amount, :paid, :status)
+    params.require(:session).permit(:start_time, :duration, :primary_time, :secondary_time, :tertiary_time, :amount, :paid, :status)
   end
 end

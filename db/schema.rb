@@ -80,11 +80,18 @@ ActiveRecord::Schema.define(version: 2020_07_24_154828) do
     t.string "address"
     t.text "bio"
     t.string "service_type"
-    t.integer "experience"
+    t.string "working_days"
+    t.string "starting_hour"
+    t.string "ending_hour"
+    t.string "country_code"
+    t.string "experience"
     t.string "education"
     t.string "video"
     t.float "latitude"
     t.float "longitude"
+    t.string "background_check_status"
+    t.boolean "background_check_consent"
+    t.string "background_check_id"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -105,7 +112,10 @@ ActiveRecord::Schema.define(version: 2020_07_24_154828) do
 
   create_table "sessions", force: :cascade do |t|
     t.datetime "start_time"
-    t.datetime "end_time"
+    t.integer "duration"
+    t.datetime "primary_time"
+    t.datetime "secondary_time"
+    t.datetime "tertiary_time"
     t.integer "amount_cents", default: 0, null: false
     t.boolean "paid"
     t.string "status"

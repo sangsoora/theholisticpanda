@@ -1,13 +1,15 @@
 .btn-ghost {
-  color: $pink;
-  border: 1px solid $pink;
+  color: $emerald;
+  border: 1px solid $emerald;
   padding: 8px 24px;
   border-radius: 4px;
   font-weight: 400;
   transition: opacity 0.3s ease;
+  opacity: 0.7;
 }
 
 .btn-ghost:hover {
+  color: $emerald;
   opacity: 1;
 }
 

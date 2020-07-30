@@ -2,8 +2,12 @@
   <div class="col-8 offset-2">
     <h1>Apply to be a practitioner</h1>
     <p>Apply today to get connected with holistic service seekers worldwide</p>
-    <%= simple_form_for [current_user, @practitioner] do |f| %>
-      <%= f.input :address %>
+    <%= simple_form_for([current_user, @practitioner], remote: true) do |f| %>
+      <div class="form-group select required practitioner_country_code">
+        <label class="select required" for="practitioner_country_code">Country of residence</label>
+        <%= f.country_select :country_code, { hint: "Please provide the right infomation for background check", priority_countries: ["CA", "US"] }, { class: 'form-control select optional' } %>
+        <small class="form-text text-muted">Please provide the right infomation for background check</small>
+      </div>
       <div class="d-flex justify-content-between">
         <%= f.input :education %>
         <%= f.input :experience, collection: ['Less than 1 year', '2-5 years', '5-10 years', 'More than 10 years'], as: :select, require: true %>
@@ -32,8 +36,10 @@
           <% end %>
          </div>
       </div>
-      <%= f.input :photo, as: :file %>
       <%= f.button :submit, 'Apply', class: 'btn-flat w-100' %>
     <% end %>
   </div>
+</div>
+<div id="background-check">
+  <a data-toggle="modal" data-target="#backgroundCheckModal" id='open-btn'>
 </div>
