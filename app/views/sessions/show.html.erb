@@ -1,3 +1,11 @@
+<% provide :head_tags do %>
+  <meta name='turbolinks-visit-control' content='reload'>
+  <script>
+    document.addEventListener("DOMContentLoaded", function(){
+      initMap(<%=@session.practitioner.latitude%>, <%=@session.practitioner.longitude%>)
+    });
+  </script>
+<% end %>
 <div class="container session-page">
   <% if @session.practitioner.user == current_user %>
     <h2><%= @session.service.name %> with <%= @session.user.full_name %></h2>
@@ -68,22 +76,54 @@
       <h2>This session has been cancelled.</h2>
     <% end %>
   <% end %>
-  <h3>Your session summary</h3>
-  <% if @session.start_time %>
-    <p>Session time: <%= @session.start_time.strftime('%b %d, %Y %I:%M %p') %></p>
+  <% if @session.user == current_user && @session.service.service_type == 'in-person' %>
+    <div class="session-detail">
+      <div class="session-summary">
+        <h3>Session summary</h3>
+      <% if @session.start_time %>
+        <p>Session time: <%= @session.start_time.strftime('%b %d, %Y %I:%M %p') %></p>
+      <% else %>
+        <p>Session time: TBD</p>
+      <% end %>
+      <p>Duration: <%= @session.service.duration %>m</p>
+      <p>Session type: <%= @session.service.service_type.capitalize %></p>
+      <% if @session.service.service_type == 'in-person' %>
+        <p>Session location: <%= @session.service.practitioner.location %></p>
+        <p>Address: <%= @session.service.practitioner.address %></p>
+      <% end %>
+      <p>Total price: CA$ <%= (@session.service.price * 1.03).round(2) %></p>
+      <% if @session.user == current_user %>
+        <p>Cancellation Policy: Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
+      <% end %>
+      </div>
+      <div class="session-location">
+        <div id="map"></div>
+      </div>
+    </div>
   <% else %>
-    <p>Session time: TBD</p>
-  <% end %>
-  <p>Duration: <%= @session.service.duration %>m</p>
-  <p>Session type: <%= @session.service.service_type.capitalize %></p>
-  <% if @session.service.service_type == 'in-person' %>
-    <p>Session location: <%= @session.service.practitioner.location %></p>
-    <p>Address: <%= @session.service.practitioner.address %></p>
-  <% end %>
-  <p>Total price: CA$ <%= (@session.service.price * 1.03).round(2) %></p>
-  <% if @session.user == current_user %>
-    <p>Cancellation Policy: Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
-    <p>By booking, I agree to the Terms of Service and agree to pay the amount shown including the 3% service fee. Your card will be preauthorized for the amount, but will not be charged until your booking is confirmed. </p>
+    <div class="session-detail">
+      <div class="session-summary">
+        <h3>Your session summary</h3>
+        <% if @session.start_time %>
+          <p>Session time: <%= @session.start_time.strftime('%b %d, %Y %I:%M %p') %></p>
+        <% else %>
+          <p>Session time: TBD</p>
+        <% end %>
+        <p>Duration: <%= @session.service.duration %>m</p>
+        <p>Session type: <%= @session.service.service_type.capitalize %></p>
+        <% if @session.service.service_type == 'in-person' %>
+          <p>Session location: <%= @session.service.practitioner.location %></p>
+          <p>Address: <%= @session.service.practitioner.address %></p>
+        <% end %>
+        <p>Total price: CA$ <%= (@session.service.price * 1.03).round(2) %></p>
+        <% if @session.user == current_user %>
+          <p>Cancellation Policy: Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
+        <% end %>
+      </div>
+      <div class="session-location">
+        <p>zoom link</p>
+      </div>
+    </div>
   <% end %>
 </div>
 <script>
@@ -98,3 +138,4 @@
     })
   );
 </script>
+

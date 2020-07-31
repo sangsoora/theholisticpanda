@@ -67,6 +67,21 @@
   padding-right: 2rem;
 }
 
+// .practitioner-bio, .practitioner-service-description {
+//   p {
+//     overflow: hidden;
+//     display: -webkit-box;
+//     -webkit-line-clamp: 3;
+//     -webkit-box-orient: vertical;
+//   }
+//   button {
+//     border: none;
+//     background: transparent;
+//     color: $emerald;
+//     opacity: 0.7;
+//   }
+// }
+
 .practitioner-description-right {
   flex: 0 0 40%;
 }
@@ -83,7 +98,7 @@
   flex: 0 0 80%;
   p {
     margin: 0;
-    padding: 0.5rem 0.5rem 0.5rem 0;
+    padding: 1rem 0.5rem 0 0;
   }
 }
 

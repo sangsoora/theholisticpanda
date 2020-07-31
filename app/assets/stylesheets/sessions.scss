@@ -34,3 +34,26 @@
   opacity: 1;
   }
 }
+
+.session-detail {
+  display: flex;
+  background: white;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.session-summary {
+  width: 40%;
+  padding: 2rem;
+}
+
+.session-location {
+  width: 60%;
+}
+
+#map {
+  height: 100%;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
