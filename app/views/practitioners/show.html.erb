@@ -47,7 +47,10 @@
               <p><%= service.service_type.capitalize %></p>
               <p>Duration: <%= service.duration %>m</p>
               <p><%= humanized_money_with_symbol(service.price) %></p>
-              <p><%= service.description %></p>
+              <div class="practitioner-service-description">
+                <p><%= service.description %></p>
+                <!-- <button>+ show more</button> -->
+              </div>
             </div>
             <div class="practitioner-service-btn">
               <%= link_to 'Book now', service_path(service), class: 'btn btn-flat' %>

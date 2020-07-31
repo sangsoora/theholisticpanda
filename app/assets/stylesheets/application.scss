@@ -51,6 +51,10 @@ label {
   color: $gold;
 }
 
+button:focus {
+  outline: none;
+}
+
 .container {
   max-width: 1200px;
   width: 90%;
