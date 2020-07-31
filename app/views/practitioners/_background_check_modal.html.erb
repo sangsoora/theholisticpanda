@@ -1,29 +1,23 @@
 <div class="modal fade" id="backgroundCheckModal" tabindex="-1" role="dialog" aria-labelledby="backgroundCheckModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="backgroundCheckModalLabel">Background Check</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body text-left">
+      <div class="modal-body text-center">
         <h3>Thank you for applying as a practitioner!</h3>
         <% if practitioner.country_code == 'CA' %>
-          <p>For security of our customers, we are running the background check for all the practitioners on TheHolisticPanda.<br>If you agree to proceed, we will share your first name, last name, email address and country of residence with ModoHR, our background check partner.<br>You will receive an email from ModoHR shortly after and once your background check is done (up to 4 to 6 hours), we will start the onboarding process for TheHolisticPanda.</p>
+          <p>For security of our customers, we are running the background check for all the practitioners on TheHolisticPanda.</p><p>If you agree to proceed, we will share your first name, last name, email address and country of residence with ModoHR, our background check partner.</p><p>You will receive an email from ModoHR shortly after and once your background check is done (up to 4 to 6 hours), we will start the onboarding process for TheHolisticPanda.</p>
+          <%= simple_form_for [practitioner] do |f| %>
+            <fieldset class="form-group check_boxes required practitioner_background_check_consent">
+              <legend class="col-form-label pt-0">Background check consent <abbr title="required">*</abbr></legend>
+              <input type="hidden" name="practitioner[background_check_consent][]" value="">
+              <div class="form-check">
+                <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="practitioner[background_check_consent][]" id="practitioner_background_check_consent_true">
+                <label class="form-check-label collection_check_boxes" for="practitioner_background_check_consent_true">I agree</label>
+              </div>
+            </fieldset>
+            <%= f.submit 'Proceed to background check', class: 'btn btn-flat', id: 'consent-btn', disabled: true %>
+          <% end %>
         <% else %>
-          <p>We are sorry to inform you that background check for your country of residence is not available yet.<br>For security of our customers, we are running the background check for all the practitioners on TheHolisticPanda.<br>We will inform you as soon as possible when our background check is ready to welcome you onboard.</p>
-        <% end %>
-        <%= simple_form_for [practitioner] do |f| %>
-          <fieldset class="form-group check_boxes required practitioner_background_check_consent">
-            <legend class="col-form-label pt-0">Background check consent <abbr title="required">*</abbr></legend>
-            <input type="hidden" name="practitioner[background_check_consent][]" value="">
-            <div class="form-check">
-              <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="practitioner[background_check_consent][]" id="practitioner_background_check_consent_true">
-              <label class="form-check-label collection_check_boxes" for="practitioner_background_check_consent_true">I agree</label>
-            </div>
-          </fieldset>
-          <%= f.submit 'Proceed to background check', class: 'btn btn-flat' %>
+          <p>We are sorry to inform you that background check for your country of residence is not available yet.</p><p>For security of our customers, we are running the background check for all the practitioners on TheHolisticPanda.</p><p>We will inform you as soon as possible when our background check is ready to welcome you onboard.</p>
         <% end %>
       </div>
       <div class="modal-footer">
@@ -32,3 +26,13 @@
     </div>
   </div>
 </div>
+<script>
+  const checkbox = document.getElementById('practitioner_background_check_consent_true');
+  checkbox.addEventListener( 'change', function() {
+    if(checkbox.checked === true) {
+      document.getElementById("consent-btn").disabled = false;
+    } else {
+      document.getElementById("consent-btn").disabled = true;
+    }
+  });
+</script>
