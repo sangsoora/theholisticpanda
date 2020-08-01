@@ -28,11 +28,13 @@
 </div>
 <script>
   const checkbox = document.getElementById('practitioner_background_check_consent_true');
-  checkbox.addEventListener( 'change', function() {
-    if(checkbox.checked === true) {
-      document.getElementById("consent-btn").disabled = false;
-    } else {
-      document.getElementById("consent-btn").disabled = true;
-    }
-  });
+  if (checkbox) {
+    checkbox.addEventListener( 'change', function() {
+      if(checkbox.checked === true) {
+        document.getElementById("consent-btn").disabled = false;
+      } else {
+        document.getElementById("consent-btn").disabled = true;
+      }
+    });
+  }
 </script>
