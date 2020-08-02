@@ -10,7 +10,7 @@ class CreatePractitioners < ActiveRecord::Migration[5.2]
       t.string :ending_hour
       t.string :country_code
       t.string :experience
-      t.string :education
+      t.string :certification
       t.string :video
       t.float :latitude
       t.float :longitude

@@ -2,6 +2,10 @@ class ServicesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:show]
   before_action :set_service, only: [:show, :update, :destroy]
 
+  def index
+    @service = policy_scope(Service)
+  end
+
   def show
     @session = Session.new
   end

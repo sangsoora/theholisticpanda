@@ -18,7 +18,7 @@ import 'bootstrap';
 import '../plugins/flatpickr';
 
 // import { initUpdateNavbarOnScroll } from '../components/navbar';
-import { initUpdateApplicationForm } from '../components/form';
+import { initUpdateForm } from '../components/form';
 
 // document.addEventListener("scroll", () => {
 //   // Call your JS functions here
@@ -26,5 +26,5 @@ import { initUpdateApplicationForm } from '../components/form';
 // });
 
 document.addEventListener("DOMContentLoaded", () => {
-  initUpdateApplicationForm();
+  initUpdateForm();
 });

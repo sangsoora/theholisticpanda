@@ -14,3 +14,24 @@
 .service-session-summary {
   flex: 0 0 40%;
 }
+
+.specialty-select-box, .condition-select-box, .language-select-box {
+  display: none;
+  position: absolute;
+  top: 2.75rem;
+  left: 0;
+  background: white;
+  width: 40vw;
+  padding: 1rem;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  z-index: 100000;
+  &.opened {
+    display: block;
+  }
+}
+
+.language-select-box {
+  left: -50%
+}
+
