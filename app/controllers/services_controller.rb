@@ -81,7 +81,6 @@ class ServicesController < ApplicationController
       end
       @grouped_services = @filtered_services.group_by { |service| service.practitioner }
     end
-
   end
 
   def show
