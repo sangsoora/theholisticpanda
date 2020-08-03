@@ -76,20 +76,20 @@
         </div>
       </fieldset>
       <div class="form-group select required search_service_type"><label class="btn btn-ghost" style="cursor: default;" for="search_service_type">Service type</label><select class="form-control select required" name="search[service_type]" id="search_service_type">
-        <option value=""></option>
-        <option value="Virtual">Virtual</option>
-        <option value="In-person">In-person</option></select>
+        <option value="">Indifferent</option>
+        <option value="Virtual" <%= 'selected' if params[:search] && params[:search][:service_type] == "Virtual" %>>Virtual</option>
+        <option value="In-person" <%= 'selected' if params[:search] && params[:search][:service_type] == "In-person" %>>In-person</option></select>
       </div>
     </div>
     <%= f.submit "Search", class: "btn btn-flat" %>
-    <%= link_to "Reset", services_path, class: 'btn btn-ghost'  %>
+    <%= link_to "Reset", services_path, class: 'btn btn-ghost ml-5'  %>
   <% end %>
   <div>
     <% if @grouped_services %>
       <% if @grouped_services != {} %>
-        <% @grouped_services.each do |k, v| %>
-          <p><%= k.user.full_name %></p>
-          <% v.each do |service| %>
+        <% @grouped_services.each do |practitioner, services| %>
+          <p><%= practitioner.user.full_name %></p>
+          <% services.each do |service| %>
             <p><%= service.name %></p>
             <p><%= service.specialty.name %></p>
             <% service.conditions.each do |condition| %>
