@@ -29,7 +29,7 @@ Rails.application.routes.draw do
 
   resources :specialties, only: [:destroy]
 
-  resources :services, only: [:show, :update, :destroy] do
+  resources :services, only: [:index, :show, :update, :destroy] do
     resources :sessions, only: [:create]
   end
 

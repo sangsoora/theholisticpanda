@@ -1,4 +1,4 @@
-.service-page {
+.services-page, .service-page {
   padding: 6rem 0 2rem;
 }
 
@@ -13,4 +13,38 @@
 
 .service-session-summary {
   flex: 0 0 40%;
+}
+
+#filter-form {
+  margin: 2rem 0;
+}
+
+.specialty-select-box, .condition-select-box, .language-select-box {
+  display: none;
+  position: absolute;
+  top: 2.75rem;
+  left: 0;
+  background: white;
+  width: 40vw;
+  padding: 1rem;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  z-index: 100000;
+  &.opened {
+    display: block;
+  }
+}
+
+.language-select-box {
+  left: -50%
+}
+
+#selected-specialties, #selected-conditions, #selected-languages {
+  p {
+    background-color: $gold;
+    color: $emerald;
+    text-align: center;
+    padding: 0.25rem 1rem;
+    border-radius: 10px;
+  }
 }

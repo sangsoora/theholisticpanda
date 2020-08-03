@@ -7,7 +7,7 @@
           <p>For security of our customers, we are running the background check for all the practitioners on TheHolisticPanda.</p><p>If you agree to proceed, we will share your first name, last name, email address and country of residence with ModoHR, our background check partner.</p><p>You will receive an email from ModoHR shortly after and once your background check is done (up to 4 to 6 hours), we will start the onboarding process for TheHolisticPanda.</p>
           <%= simple_form_for [practitioner] do |f| %>
             <fieldset class="form-group check_boxes required practitioner_background_check_consent">
-              <legend class="col-form-label pt-0">Background check consent <abbr title="required">*</abbr></legend>
+              <legend class="col-form-label pt-0">Background check consent</legend>
               <input type="hidden" name="practitioner[background_check_consent][]" value="">
               <div class="form-check">
                 <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="practitioner[background_check_consent][]" id="practitioner_background_check_consent_true">
