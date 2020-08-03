@@ -1,0 +1,151 @@
+<div class="container services-page">
+  <%= simple_form_for :search, url: services_path, method: "GET", html: { id: 'filter-form' } do |f| %>
+    <div class="d-flex justify-content-between">
+      <fieldset class="form-group check_boxes required search_specialty <%= "hidden" if params[:search] && params[:search][:condition] != [""] %>" id="specialty-selector" style="position: relative; width: 30%;">
+        <legend class="btn btn-ghost" id="specialty-pop">Specialty</legend>
+        <div class="specialty-select-box" id="specialty-select-box">
+          <div class="specialty-choices">
+            <% Specialty.all.sort_by(&:name).each do |specialty| %>
+              <% if params[:search] && params[:search][:specialty] %>
+                <% if params[:search][:specialty].include?((specialty.id).to_s) %>
+                  <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= specialty.id %>" name="search[specialty][]" id="search_specialty_<%= specialty.id %>" checked><label class="form-check-label collection_check_boxes specialty-choice active" for="search_specialty_<%= specialty.id %>"><%= specialty.name %></label>
+                <% else %>
+                  <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= specialty.id %>" name="search[specialty][]" id="search_specialty_<%= specialty.id %>"><label class="form-check-label collection_check_boxes specialty-choice" for="search_specialty_<%= specialty.id %>"><%= specialty.name %></label>
+                <% end %>
+              <% else %>
+                <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= specialty.id %>" name="search[specialty][]" id="search_specialty_<%= specialty.id %>"><label class="form-check-label collection_check_boxes specialty-choice" for="search_specialty_<%= specialty.id %>"><%= specialty.name %></label>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+        <input type="hidden" name="search[specialty][]" value="">
+        <div id="selected-specialties">
+          <% if params[:search] && params[:search][:specialty] && params[:search][:specialty] != [""] %>
+            <% params[:search][:specialty].reject(&:blank?).each do |search_id| %>
+              <p id="specialty-<%= search_id %>"><%= Specialty.find(search_id).name %></p>
+            <% end %>
+          <% end %>
+        </div>
+      </fieldset>
+      <fieldset class="form-group check_boxes required search_condition <%= "hidden" if params[:search] && params[:search][:specialty] != [""] %>" id="condition-selector" style="position: relative; width: 30%;">
+        <legend class="btn btn-ghost" id="condition-pop">Condition</legend>
+        <div class="condition-select-box" id="condition-select-box">
+          <div class="condition-choices">
+            <% Condition.all.sort_by(&:name).each do |condition| %>
+              <% if params[:search] && params[:search][:condition] %>
+                <% if params[:search][:condition].include?((condition.id).to_s) %>
+                  <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= condition.id %>" name="search[condition][]" id="search_condition_<%= condition.id %>" checked><label class="form-check-label collection_check_boxes condition-choice active" for="search_condition_<%= condition.id %>"><%= condition.name %></label>
+                <% else %>
+                  <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= condition.id %>" name="search[condition][]" id="search_condition_<%= condition.id %>"><label class="form-check-label collection_check_boxes condition-choice" for="search_condition_<%= condition.id %>"><%= condition.name %></label>
+                <% end %>
+              <% else %>
+                <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= condition.id %>" name="search[condition][]" id="search_condition_<%= condition.id %>"><label class="form-check-label collection_check_boxes condition-choice" for="search_condition_<%= condition.id %>"><%= condition.name %></label>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+        <input type="hidden" name="search[condition][]" value="">
+        <div id="selected-conditions">
+          <% if params[:search] && params[:search][:condition] && params[:search][:condition] != [""] %>
+            <% params[:search][:condition].reject(&:blank?).each do |search_id| %>
+              <p id="condition-<%= search_id %>"><%= Condition.find(search_id).name %></p>
+            <% end %>
+          <% end %>
+        </div>
+      </fieldset>
+      <fieldset class="form-group check_boxes required search_language" style="position: relative; width: 20%;">
+        <legend class="btn btn-ghost" id="language-pop">Language</legend>
+        <div class="language-select-box" id="language-select-box">
+          <div class="language-choices">
+            <% Language.includes(:practitioner_languages).where.not(practitioner_languages: { id: nil }).sort_by(&:name).each do |language| %>
+              <% if params[:search] && params[:search][:language] && params[:search][:language].include?((language.id).to_s) %>
+                <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= language.id %>" name="search[language][]" id="search_language_<%= language.id %>" checked><label class="form-check-label collection_check_boxes language-choice active" for="search_language_<%= language.id %>"><%= language.name %></label>
+              <% else %>
+                <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= language.id %>" name="search[language][]" id="search_language_<%= language.id %>"><label class="form-check-label collection_check_boxes language-choice" for="search_language_<%= language.id %>"><%= language.name %></label>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+        <input type="hidden" name="search[language][]" value="">
+        <div id="selected-languages">
+          <% if params[:search] && params[:search][:language] && params[:search][:language] != [""] %>
+            <% params[:search][:language].reject(&:blank?).each do |search_id| %>
+              <p id="language-<%= search_id %>"><%= Language.find(search_id).name %></p>
+            <% end %>
+          <% end %>
+        </div>
+      </fieldset>
+      <div class="form-group select required search_service_type"><label class="btn btn-ghost" style="cursor: default;" for="search_service_type">Service type</label><select class="form-control select required" name="search[service_type]" id="search_service_type">
+        <option value=""></option>
+        <option value="Virtual">Virtual</option>
+        <option value="In-person">In-person</option></select>
+      </div>
+    </div>
+    <%= f.submit "Search", class: "btn btn-flat" %>
+    <%= link_to "Reset", services_path, class: 'btn btn-ghost'  %>
+  <% end %>
+  <div>
+    <% if @grouped_services %>
+      <% if @grouped_services != {} %>
+        <% @grouped_services.each do |k, v| %>
+          <p><%= k.user.full_name %></p>
+          <% v.each do |service| %>
+            <p><%= service.name %></p>
+            <p><%= service.specialty.name %></p>
+            <% service.conditions.each do |condition| %>
+              <p><%= condition.name %></p>
+            <% end %>
+            <% service.languages.each do |language| %>
+              <p><%= language.name %></p>
+            <% end %>
+            <p><%= service.service_type.capitalize %></p>
+          <% end %>
+        <% end %>
+      <% else %>
+        <p>Please try differnent filters for search!</p>
+      <% end %>
+    <% else %>
+      <% @services.each do |service| %>
+        <p><%= service.name %></p>
+        <p><%= service.specialty.name %></p>
+        <% service.conditions.each do |condition| %>
+          <p><%= condition.name %></p>
+        <% end %>
+        <% service.languages.each do |language| %>
+          <p><%= language.name %></p>
+        <% end %>
+        <p><%= service.service_type.capitalize %></p>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+</div>
+<script>
+  const specialtySelectBoxBtn = document.getElementById('specialty-pop');
+  specialtySelectBoxBtn.addEventListener('click', () => {
+    specialtySelectBoxBtn.classList.toggle('btn-opened');
+    conditionSelectBoxBtn.classList.remove('btn-opened');
+    languageSelectBoxBtn.classList.remove('btn-opened');
+    document.getElementById('specialty-select-box').classList.toggle('opened');
+    document.getElementById('condition-select-box').classList.remove('opened');
+    document.getElementById('language-select-box').classList.remove('opened');
+  });
+  const conditionSelectBoxBtn = document.getElementById('condition-pop');
+  conditionSelectBoxBtn.addEventListener('click', () => {
+    conditionSelectBoxBtn.classList.toggle('btn-opened');
+    specialtySelectBoxBtn.classList.remove('btn-opened');
+    languageSelectBoxBtn.classList.remove('btn-opened');
+    document.getElementById('condition-select-box').classList.toggle('opened');
+    document.getElementById('specialty-select-box').classList.remove('opened');
+    document.getElementById('language-select-box').classList.remove('opened');
+  });
+  const languageSelectBoxBtn = document.getElementById('language-pop');
+  languageSelectBoxBtn.addEventListener('click', () => {
+    languageSelectBoxBtn.classList.toggle('btn-opened');
+    specialtySelectBoxBtn.classList.remove('btn-opened');
+    conditionSelectBoxBtn.classList.remove('btn-opened');
+    document.getElementById('language-select-box').classList.toggle('opened');
+    document.getElementById('specialty-select-box').classList.remove('opened');
+    document.getElementById('condition-select-box').classList.remove('opened');
+  });
+</script>

@@ -45,20 +45,24 @@
   <div>
     <div class='cards-featured'>
       <% if @filtered_practitioners %>
-        <% @filtered_practitioners.each do |practitioner| %>
-          <a href="/practitioners/<%= practitioner.id %>">
-            <div class='card-featured'>
-              <% if practitioner.photo.attached? %>
-                <%= cl_image_tag practitioner.photo.key %>
-              <% else %>
-                <img src='https://kitt.lewagon.com/placeholder/users/random' />
-              <% end %>
-              <div class='card-featured-infos'>
-                <h2><%= practitioner.user.full_name %></h2>
-                <p><%= practitioner.bio.split('. ').first %>.</p>
+        <% if @filtered_practitioners != [] %>
+          <% @filtered_practitioners.each do |practitioner| %>
+            <a href="/practitioners/<%= practitioner.id %>">
+              <div class='card-featured'>
+                <% if practitioner.photo.attached? %>
+                  <%= cl_image_tag practitioner.photo.key %>
+                <% else %>
+                  <img src='https://kitt.lewagon.com/placeholder/users/random' />
+                <% end %>
+                <div class='card-featured-infos'>
+                  <h2><%= practitioner.user.full_name %></h2>
+                  <p><%= practitioner.bio.split('. ').first %>.</p>
+                </div>
               </div>
-            </div>
-          </a>
+            </a>
+          <% end %>
+        <% else %>
+          <p>Please try differnent filters for search!</p>
         <% end %>
       <% else %>
         <% @practitioners.each do |practitioner| %>

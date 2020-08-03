@@ -29,7 +29,9 @@ const initUpdateForm = () => {
       } else {
         $(this).addClass("active");
         $( "#selected-specialties" ).append( "<p id='specialty-" + $(this)[0].previousElementSibling.value + "'>" + $(this)[0].innerText + "</p>" );
-        $("#condition-selector").addClass('hidden');
+        if (!$("#condition-selector").hasClass('hidden')) {
+          $("#condition-selector").addClass('hidden');
+        }
       }
     });
     $(".condition-choice").click(function(){
@@ -42,7 +44,9 @@ const initUpdateForm = () => {
       } else {
         $(this).addClass("active");
         $( "#selected-conditions" ).append( "<p id='condition-" + $(this)[0].previousElementSibling.value + "'>" + $(this)[0].innerText + "</p>" );
-        $("#specialty-selector").addClass('hidden');
+        if (!$("#specialty-selector").hasClass('hidden')) {
+          $("#specialty-selector").addClass('hidden');
+        }
       }
     });
   }
