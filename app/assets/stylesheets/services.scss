@@ -19,7 +19,7 @@
   margin: 2rem 0;
 }
 
-.specialty-select-box, .condition-select-box, .language-select-box {
+.specialty-select-box, .health-goal-select-box, .language-select-box {
   display: none;
   position: absolute;
   top: 2.75rem;
@@ -39,12 +39,85 @@
   left: -50%
 }
 
-#selected-specialties, #selected-conditions, #selected-languages {
+#selected-specialties, #selected-health-goals, #selected-languages {
   p {
     background-color: $gold;
     color: $emerald;
     text-align: center;
     padding: 0.25rem 1rem;
     border-radius: 10px;
+  }
+}
+
+.specialty-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 1rem;
+  text-align: center;
+}
+
+.specialty-list {
+  margin: 1rem auto;
+}
+
+.service-lists {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 2rem;
+  margin: 2rem auto;
+}
+
+// .service-list-item {
+//   background-color: $pink;
+//   color: $emerald;
+//   padding: 1rem;
+// }
+
+.service-list-item {
+  overflow: hidden;
+  background: $pink;
+  box-shadow: 0 0 0.5rem rgba(0,0,0,0.2);
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.service-list-item-title {
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  h3 {
+    width: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+  }
+}
+
+.service-list-item .service-list-item-infos {
+  display: flex;
+  justify-content: space-between;
+}
+
+.service-list-item-infos .service-list-item-user {
+  width: 2rem;
+}
+
+.service-list-item-practitioner {
+  width: 20%;
+  text-align: center;
+  p {
+    font-size: 0.75rem;
+  }
+}
+
+.service-list-item-details {
+  width: 75%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  p {
+    width: 30%;
+    font-size: 0.8rem;
   }
 }

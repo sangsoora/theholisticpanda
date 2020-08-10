@@ -117,13 +117,13 @@
   flex: 0 1 45%;
 }
 
-.language-choices, .specialty-choices, .condition-choices {
+.language-choices, .specialty-choices, .health-goal-choices {
   display: flex;
   flex-wrap: wrap;
   margin: 1rem 0;
 }
 
-.language-choice, .specialty-choice, .condition-choice {
+.language-choice, .specialty-choice, .health-goal-choice {
   color: $gold;
   background: white;
   padding: 0.25rem 0.5rem;

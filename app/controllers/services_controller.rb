@@ -1,9 +1,9 @@
 class ServicesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show]
   before_action :set_service, only: [:show, :update, :destroy]
-
   def index
-    @services = policy_scope(Service)
+    @services = policy_scope(Service).group_by { |service| service.specialty }
+    @services = @services.sort_by {|k, v| k[:name] }.to_h
     if params[:search]
       if params[:search][:specialty]
         if params[:search][:specialty].count == 2
@@ -19,19 +19,19 @@ class ServicesController < ApplicationController
       else
         @services_by_specialty = []
       end
-      if params[:search][:condition]
-        if params[:search][:condition].count == 2
-          @services_by_condition = Service.filter_by_condition(params[:search][:condition][0])
-        elsif params[:search][:condition].count > 2
-          @services_by_condition = params[:search][:condition].reject(&:blank?).map do |keyword|
-            Service.filter_by_condition(keyword)
+      if params[:search][:health_goal]
+        if params[:search][:health_goal].count == 2
+          @services_by_health_goal = Service.filter_by_health_goal(params[:search][:health_goal][0])
+        elsif params[:search][:health_goal].count > 2
+          @services_by_health_goal = params[:search][:health_goal].reject(&:blank?).map do |keyword|
+            Service.filter_by_health_goal(keyword)
           end
-          @services_by_condition.flatten!
-        elsif params[:search][:condition].count == 1
-          @services_by_condition = []
+          @services_by_health_goal.flatten!
+        elsif params[:search][:health_goal].count == 1
+          @services_by_health_goal = []
         end
       else
-        @services_by_condition = []
+        @services_by_health_goal = []
       end
       if params[:search][:language]
         if params[:search][:language].count == 2
@@ -56,27 +56,27 @@ class ServicesController < ApplicationController
       else
         @services_by_service_type = []
       end
-      if @services_by_specialty == [] && @services_by_condition == [] && @services_by_language == []
+      if @services_by_specialty == [] && @services_by_health_goal == [] && @services_by_language == []
         @filtered_services = @services_by_service_type.uniq.compact.sort_by(&:id)
-      elsif @services_by_specialty == [] && @services_by_condition == [] && @services_by_service_type == []
+      elsif @services_by_specialty == [] && @services_by_health_goal == [] && @services_by_service_type == []
         @filtered_services = @services_by_language.uniq.compact.sort_by(&:id)
       elsif @services_by_specialty == [] && @services_by_language == [] && @services_by_service_type == []
-        @filtered_services = @services_by_condition.uniq.compact.sort_by(&:id)
-      elsif @services_by_condition == [] && @services_by_language == [] && @services_by_service_type == []
+        @filtered_services = @services_by_health_goal.uniq.compact.sort_by(&:id)
+      elsif @services_by_health_goal == [] && @services_by_language == [] && @services_by_service_type == []
         @filtered_services = @services_by_specialty.uniq.compact.sort_by(&:id)
       elsif @services_by_specialty == [] && @services_by_service_type == []
-        @filtered_services = (@services_by_condition & @services_by_language).uniq.compact.sort_by(&:id)
-      elsif @services_by_condition == [] && @services_by_service_type == []
+        @filtered_services = (@services_by_health_goal & @services_by_language).uniq.compact.sort_by(&:id)
+      elsif @services_by_health_goal == [] && @services_by_service_type == []
         @filtered_services = (@services_by_specialty & @services_by_language).uniq.compact.sort_by(&:id)
       elsif @services_by_specialty == [] && @services_by_language == []
-        @filtered_services = (@services_by_condition & @services_by_service_type).uniq.compact.sort_by(&:id)
-      elsif @services_by_condition == [] && @services_by_language == []
+        @filtered_services = (@services_by_health_goal & @services_by_service_type).uniq.compact.sort_by(&:id)
+      elsif @services_by_health_goal == [] && @services_by_language == []
         @filtered_services = (@services_by_specialty & @services_by_service_type).uniq.compact.sort_by(&:id)
-      elsif @services_by_specialty == [] && @services_by_condition == []
+      elsif @services_by_specialty == [] && @services_by_health_goal == []
         @filtered_services = (@services_by_language & @services_by_service_type).uniq.compact.sort_by(&:id)
       elsif @services_by_specialty == []
-        @filtered_services = (@services_by_condition & @services_by_language & @services_by_service_type).uniq.compact.sort_by(&:id)
-      elsif @services_by_condition == []
+        @filtered_services = (@services_by_health_goal & @services_by_language & @services_by_service_type).uniq.compact.sort_by(&:id)
+      elsif @services_by_health_goal == []
         @filtered_services = (@services_by_specialty & @services_by_language & @services_by_service_type).uniq.compact.sort_by(&:id)
       end
       @grouped_services = @filtered_services.group_by { |service| service.practitioner }
