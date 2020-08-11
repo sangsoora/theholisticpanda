@@ -1,0 +1,35 @@
+<div class="container practitioner-profile">
+  <h1>Welcome, <%= @practitioner.user.first_name %></h1>
+  <div class="practitioner-profile-table">
+    <div class="practitioner-img">
+      <% if @practitioner.photo.attached? %>
+        <%= cl_image_tag @practitioner.photo.key, class: 'avatar-full' %>
+      <% else %>
+        <img src='https://kitt.lewagon.com/placeholder/users/random' class='avatar-full' />
+      <% end %>
+      <%= link_to 'Add new photo', '', class: 'btn btn-flat w-100' %>
+    </div>
+    <div class="practitioner-body">
+      <p>Location: <%= @practitioner.location %></p>
+      <p>Address: <%= @practitioner.address %></p>
+      <p>Working days: <%= @practitioner.working_days %></p>
+      <p>Working hours: <% if @practitioner.starting_hour && @practitioner.ending_hour %> <%= @practitioner.starting_hour %> ~ <%= @practitioner.ending_hour %> <% end %></p>
+      <p>Experience: <%= @practitioner.experience %></p>
+      <p>Certification: <%= @practitioner.certification %></p>
+      <p>Video link: <%= @practitioner.video %></p>
+      <p>Bio: <%= @practitioner.bio %></p>
+      <p>Specailty:
+          <% @practitioner.specialties.reverse.drop(1).reverse.each do |specialty| %>
+            <%= specialty.name %>,
+          <% end %>
+          <%= @practitioner.specialties.last.name %>
+        </p>
+        <p>Languages:
+          <% @practitioner.languages.each do |language| %>
+            <%= language.name %>
+          <% end %>
+        </p>
+    </div>
+  </div>
+  <%= link_to 'Go to my page', practitioner_path(@practitioner), class: 'btn btn-flat'  %>
+</div>

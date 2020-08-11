@@ -15,9 +15,11 @@ Rails.application.routes.draw do
 
   get 'users/:id/sessions', to: 'users#booking', as: :user_sessions
 
-  resources :practitioners, only: [:index, :show, :edit, :update, :destroy] do
+  resources :practitioners, only: [:index, :show, :update, :destroy] do
     resources :practitioner_languages, only: [:create]
   end
+
+  get 'practitioners/:id/profile', to: 'practitioners#profile', as: :practitioner_profile
 
   resources :practitioner_languages, only: [:destroy]
 
