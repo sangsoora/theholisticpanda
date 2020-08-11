@@ -79,6 +79,7 @@ class ServicesController < ApplicationController
       elsif @services_by_health_goal == []
         @filtered_services = (@services_by_specialty & @services_by_language & @services_by_service_type).uniq.compact.sort_by(&:id)
       end
+      @filtered_services = @filtered_services.sort_by(&:price)
       @grouped_services = @filtered_services.group_by { |service| service.practitioner }
     end
   end

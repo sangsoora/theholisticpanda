@@ -45,13 +45,7 @@
           </div>
         </div>
         <input type="hidden" name="search[health_goal][]" value="">
-        <div id="selected-health-goals">
-          <%# if params[:search] && params[:search][:health_goal] && params[:search][:health_goal] != [""] %>
-            <%# params[:search][:health_goal].reject(&:blank?).each do |search_id| %>
-              <!-- <p id="health_goal-<%#= search_id %>"><%#= HealthGoal.find(search_id).name %></p> -->
-            <%# end %>
-          <%# end %>
-        </div>
+        <div id="selected-health-goals"></div>
       </fieldset>
       <fieldset class="form-group check_boxes required search_language" style="position: relative; width: 20%;">
         <legend class="btn btn-ghost" id="language-pop">Language <% if params[:search] && params[:search][:language] %>(<%= params[:search][:language].reject(&:blank?).count %>)<% end %></legend>
@@ -67,13 +61,7 @@
           </div>
         </div>
         <input type="hidden" name="search[language][]" value="">
-        <div id="selected-languages">
-          <%# if params[:search] && params[:search][:language] && params[:search][:language] != [""] %>
-            <%# params[:search][:language].reject(&:blank?).each do |search_id| %>
-              <!-- <p id="language-<%#= search_id %>"><%#= Language.find(search_id).name %></p> -->
-            <%# end %>
-          <%# end %>
-        </div>
+        <div id="selected-languages"></div>
       </fieldset>
       <div class="form-group select required search_service_type"><label class="btn btn-ghost" style="cursor: default;" for="search_service_type">Service type</label><select class="form-control select required" name="search[service_type]" id="search_service_type">
         <option value="">Both</option>
@@ -85,22 +73,44 @@
     <%= link_to "Reset", services_path, class: 'btn btn-ghost ml-5'  %>
   <% end %>
   <div>
-    <% if @grouped_services %>
-      <% if @grouped_services != {} %>
-        <% @grouped_services.each do |practitioner, services| %>
-          <p><%= practitioner.user.full_name %></p>
-          <% services.each do |service| %>
-            <p><%= service.name %></p>
-            <p><%= service.specialty.name %></p>
-            <% service.health_goals.each do |goal| %>
-              <p><%= goal.name %></p>
-            <% end %>
-            <% service.languages.each do |language| %>
-              <p><%= language.name %></p>
-            <% end %>
-            <p><%= service.service_type.capitalize %></p>
+    <% if @filtered_services %>
+      <% if @filtered_services != [] %>
+        <div class="sort-btns">
+          <div class="btn btn-ghost pink w-100 active-sort" id="sortPrice">Lower Price</div>
+          <div class="btn btn-ghost pink w-100" id="sortDuration">Shorter Duration</div>
+        </div>
+        <div class="service-lists">
+          <% @filtered_services.each do |service| %>
+            <div class="service-list-item" data-price="<%= service.price.to_i %>" data-duration="<%= service.duration %>">
+              <div class="service-list-item-title">
+                <h3><%= link_to service.name, service_path(service) %></h3>
+              </div>
+              <div class="service-list-item-infos">
+                <div class="service-list-item-practitioner">
+                  <a href="/practitioners/<%= service.practitioner.id %>">
+                    <% if service.practitioner.photo.attached? %>
+                      <%= cl_image_tag practitioner.photo.key, class: 'service-list-item-user avatar-bordered' %>
+                    <% else %>
+                      <img src='https://kitt.lewagon.com/placeholder/users/random' class="service-list-item-user avatar-bordered"/>
+                    <% end %>
+                    <p><%= service.practitioner.user.full_name %></p>
+                  </a>
+                </div>
+                <div class="service-list-item-details">
+                  <p><%= service.service_type.capitalize %></p>
+                  <p><%= service.duration %>m</p>
+                  <p>CA$ <%= service.price.to_f.round(2) %></p>
+                  <% service.languages.each do |language| %>
+                    <p><%= language.name %></p>
+                  <% end %>
+                </div>
+              </div>
+              <div class="d-flex justify-content-center">
+                <a class="btn btn-flat" href="/services/<%= service.id %>">Book now</a>
+              </div>
+            </div>
           <% end %>
-        <% end %>
+        </div>
       <% else %>
         <p>Please try differnent filters for search!</p>
       <% end %>
@@ -134,12 +144,12 @@
                   </a>
                 </div>
                 <div class="service-list-item-details">
-                  <% service.languages.each do |language| %>
-                    <p><%= language.name %></p>
-                  <% end %>
                   <p><%= service.service_type.capitalize %></p>
                   <p><%= service.duration %>m</p>
                   <p>CA$ <%= service.price.to_f.round(2) %></p>
+                  <% service.languages.each do |language| %>
+                    <p><%= language.name %></p>
+                  <% end %>
                 </div>
               </div>
               <div class="d-flex justify-content-center">
@@ -206,4 +216,26 @@
       }
     })
   }
+  const priceBtn = document.getElementById('sortPrice');
+  const durationBtn = document.getElementById('sortDuration');
+  priceBtn.addEventListener('click', (event) =>{
+    const active = document.querySelector('.active-sort');
+    active.classList.remove('active-sort');
+    event.currentTarget.classList.add('active-sort');
+    var $wrapper = $('.service-lists');
+    $wrapper.find('.service-list-item').sort(function(a, b) {
+        return +a.dataset.price - +b.dataset.price;
+    })
+    .appendTo($wrapper);
+  })
+  durationBtn.addEventListener('click', (event) =>{
+    const active = document.querySelector('.active-sort');
+    active.classList.remove('active-sort');
+    event.currentTarget.classList.add('active-sort');
+    var $wrapper = $('.service-lists');
+    $wrapper.find('.service-list-item').sort(function(a, b) {
+        return +a.dataset.duration - +b.dataset.duration;
+    })
+    .appendTo($wrapper);
+  })
 </script>
