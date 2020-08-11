@@ -121,8 +121,8 @@
   showBlock(0)
   for (const [tabIndex, tab] of entries(tabs)) {
     tab.addEventListener('click', e => {
-      e.preventDefault()
-      showBlock(tabIndex)
+      e.preventDefault();
+      showBlock(tabIndex);
       const activeTab = document.querySelector('.active-tab');
       event.currentTarget.classList.toggle('active-tab');
       if (activeTab !== null) {

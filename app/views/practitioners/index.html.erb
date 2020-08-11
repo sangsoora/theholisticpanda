@@ -2,7 +2,7 @@
   <%= simple_form_for :search, url: practitioners_path, method: "GET", html: { id: 'filter-form' } do |f| %>
     <div class="d-flex justify-content-between">
       <fieldset class="form-group check_boxes required search_specialty" id="specialty-selector" style="position: relative; width: 30%;">
-        <legend class="btn btn-ghost" id="specialty-pop">Specialty</legend>
+        <legend class="btn btn-ghost" id="specialty-pop">Specialties</legend>
         <div class="specialty-select-box" id="specialty-select-box">
           <div class="specialty-choices">
             <% Specialty.all.sort_by(&:name).each do |specialty|  %>
@@ -13,17 +13,17 @@
         <input type="hidden" name="search[specialty][]" value="">
         <div id="selected-specialties"></div>
       </fieldset>
-      <fieldset class="form-group check_boxes required search_condition" id="condition-selector" style="position: relative; width: 30%;">
-        <legend class="btn btn-ghost" id="condition-pop">Condition</legend>
-        <div class="condition-select-box" id="condition-select-box">
-          <div class="condition-choices">
-            <% Condition.all.sort_by(&:name).each do |condition| %>
-              <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= condition.id %>" name="search[condition][]" id="search_condition_<%= condition.id %>"><label class="form-check-label collection_check_boxes condition-choice" for="search_condition_<%= condition.id %>"><%= condition.name %></label>
+      <fieldset class="form-group check_boxes required search_health_goal" id="health-goal-selector" style="position: relative; width: 30%;">
+        <legend class="btn btn-ghost" id="health-goal-pop">Health Goals</legend>
+        <div class="health-goal-select-box" id="health-goal-select-box">
+          <div class="health-goal-choices">
+            <% HealthGoal.all.sort_by(&:name).each do |goal| %>
+              <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]" id="search_health_goal_<%= goal.id %>"><label class="form-check-label collection_check_boxes health-goal-choice" for="search_health_goal_<%= goal.id %>"><%= goal.name %></label>
             <% end %>
           </div>
         </div>
-        <input type="hidden" name="search[condition][]" value="">
-        <div id="selected-conditions"></div>
+        <input type="hidden" name="search[health_goal][]" value="">
+        <div id="selected-health-goals"></div>
       </fieldset>
       <fieldset class="form-group check_boxes required search_language" style="position: relative; width: 20%;">
         <legend class="btn btn-ghost" id="language-pop">Language</legend>
@@ -91,18 +91,18 @@
   const specialtySelectBoxBtn = document.getElementById('specialty-pop');
   specialtySelectBoxBtn.addEventListener('click', () => {
     specialtySelectBoxBtn.classList.toggle('btn-opened');
-    conditionSelectBoxBtn.classList.remove('btn-opened');
+    healthGoalSelectBoxBtn.classList.remove('btn-opened');
     languageSelectBoxBtn.classList.remove('btn-opened');
     document.getElementById('specialty-select-box').classList.toggle('opened');
-    document.getElementById('condition-select-box').classList.remove('opened');
+    document.getElementById('health-goal-select-box').classList.remove('opened');
     document.getElementById('language-select-box').classList.remove('opened');
   });
-  const conditionSelectBoxBtn = document.getElementById('condition-pop');
-  conditionSelectBoxBtn.addEventListener('click', () => {
-    conditionSelectBoxBtn.classList.toggle('btn-opened');
+  const healthGoalSelectBoxBtn = document.getElementById('health-goal-pop');
+  healthGoalSelectBoxBtn.addEventListener('click', () => {
+    healthGoalSelectBoxBtn.classList.toggle('btn-opened');
     specialtySelectBoxBtn.classList.remove('btn-opened');
     languageSelectBoxBtn.classList.remove('btn-opened');
-    document.getElementById('condition-select-box').classList.toggle('opened');
+    document.getElementById('health-goal-select-box').classList.toggle('opened');
     document.getElementById('specialty-select-box').classList.remove('opened');
     document.getElementById('language-select-box').classList.remove('opened');
   });
@@ -110,9 +110,9 @@
   languageSelectBoxBtn.addEventListener('click', () => {
     languageSelectBoxBtn.classList.toggle('btn-opened');
     specialtySelectBoxBtn.classList.remove('btn-opened');
-    conditionSelectBoxBtn.classList.remove('btn-opened');
+    healthGoalSelectBoxBtn.classList.remove('btn-opened');
     document.getElementById('language-select-box').classList.toggle('opened');
     document.getElementById('specialty-select-box').classList.remove('opened');
-    document.getElementById('condition-select-box').classList.remove('opened');
+    document.getElementById('health-goal-select-box').classList.remove('opened');
   });
 </script>

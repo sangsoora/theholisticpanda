@@ -1,8 +1,8 @@
 <div class="container services-page">
   <%= simple_form_for :search, url: services_path, method: "GET", html: { id: 'filter-form' } do |f| %>
     <div class="d-flex justify-content-between">
-      <fieldset class="form-group check_boxes required search_specialty <%= "hidden" if params[:search] && params[:search][:condition] != [""] %>" id="specialty-selector" style="position: relative; width: 30%;">
-        <legend class="btn btn-ghost" id="specialty-pop">Specialty</legend>
+      <fieldset class="form-group check_boxes required search_specialty <%= "hidden" if params[:search] && params[:search][:health_goal] != [""] %>" id="specialty-selector" style="position: relative; width: 30%;">
+        <legend class="btn btn-ghost" id="specialty-pop">Specialties <% if params[:search] && params[:search][:specialty] %>(<%= params[:search][:specialty].reject(&:blank?).count %>)<% end %></legend>
         <div class="specialty-select-box" id="specialty-select-box">
           <div class="specialty-choices">
             <% Specialty.all.sort_by(&:name).each do |specialty| %>
@@ -20,41 +20,35 @@
         </div>
         <input type="hidden" name="search[specialty][]" value="">
         <div id="selected-specialties">
-          <% if params[:search] && params[:search][:specialty] && params[:search][:specialty] != [""] %>
-            <% params[:search][:specialty].reject(&:blank?).each do |search_id| %>
-              <p id="specialty-<%= search_id %>"><%= Specialty.find(search_id).name %></p>
-            <% end %>
-          <% end %>
+          <%# if params[:search] && params[:search][:specialty] && params[:search][:specialty] != [""] %>
+            <%# params[:search][:specialty].reject(&:blank?).each do |search_id| %>
+              <!-- <p id="specialty-<%#= search_id %>"><%#= Specialty.find(search_id).name %></p> -->
+            <%# end %>
+          <%# end %>
         </div>
       </fieldset>
-      <fieldset class="form-group check_boxes required search_condition <%= "hidden" if params[:search] && params[:search][:specialty] != [""] %>" id="condition-selector" style="position: relative; width: 30%;">
-        <legend class="btn btn-ghost" id="condition-pop">Condition</legend>
-        <div class="condition-select-box" id="condition-select-box">
-          <div class="condition-choices">
-            <% Condition.all.sort_by(&:name).each do |condition| %>
-              <% if params[:search] && params[:search][:condition] %>
-                <% if params[:search][:condition].include?((condition.id).to_s) %>
-                  <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= condition.id %>" name="search[condition][]" id="search_condition_<%= condition.id %>" checked><label class="form-check-label collection_check_boxes condition-choice active" for="search_condition_<%= condition.id %>"><%= condition.name %></label>
+      <fieldset class="form-group check_boxes required search_health_goal <%= "hidden" if params[:search] && params[:search][:specialty] != [""] %>" id="health-goal-selector" style="position: relative; width: 30%;">
+        <legend class="btn btn-ghost" id="health-goal-pop">Health Goals <% if params[:search] && params[:search][:health_goal] %>(<%= params[:search][:health_goal].reject(&:blank?).count %>)<% end %></legend>
+        <div class="health-goal-select-box" id="health-goal-select-box">
+          <div class="health-goal-choices">
+            <% HealthGoal.all.sort_by(&:name).each do |goal| %>
+              <% if params[:search] && params[:search][:health_goal] %>
+                <% if params[:search][:health_goal].include?((goal.id).to_s) %>
+                  <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]" id="search_health_goal_<%= goal.id %>" checked><label class="form-check-label collection_check_boxes health-goal-choice active" for="search_health_goal_<%= goal.id %>"><%= goal.name %></label>
                 <% else %>
-                  <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= condition.id %>" name="search[condition][]" id="search_condition_<%= condition.id %>"><label class="form-check-label collection_check_boxes condition-choice" for="search_condition_<%= condition.id %>"><%= condition.name %></label>
+                  <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]" id="search_health_goal_<%= goal.id %>"><label class="form-check-label collection_check_boxes health-goal-choice" for="search_health_goal_<%= goal.id %>"><%= goal.name %></label>
                 <% end %>
               <% else %>
-                <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= condition.id %>" name="search[condition][]" id="search_condition_<%= condition.id %>"><label class="form-check-label collection_check_boxes condition-choice" for="search_condition_<%= condition.id %>"><%= condition.name %></label>
+                <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]" id="search_health_goal_<%= goal.id %>"><label class="form-check-label collection_check_boxes health-goal-choice" for="search_health_goal_<%= goal.id %>"><%= goal.name %></label>
               <% end %>
             <% end %>
           </div>
         </div>
-        <input type="hidden" name="search[condition][]" value="">
-        <div id="selected-conditions">
-          <% if params[:search] && params[:search][:condition] && params[:search][:condition] != [""] %>
-            <% params[:search][:condition].reject(&:blank?).each do |search_id| %>
-              <p id="condition-<%= search_id %>"><%= Condition.find(search_id).name %></p>
-            <% end %>
-          <% end %>
-        </div>
+        <input type="hidden" name="search[health_goal][]" value="">
+        <div id="selected-health-goals"></div>
       </fieldset>
       <fieldset class="form-group check_boxes required search_language" style="position: relative; width: 20%;">
-        <legend class="btn btn-ghost" id="language-pop">Language</legend>
+        <legend class="btn btn-ghost" id="language-pop">Language <% if params[:search] && params[:search][:language] %>(<%= params[:search][:language].reject(&:blank?).count %>)<% end %></legend>
         <div class="language-select-box" id="language-select-box">
           <div class="language-choices">
             <% Language.includes(:practitioner_languages).where.not(practitioner_languages: { id: nil }).sort_by(&:name).each do |language| %>
@@ -67,16 +61,10 @@
           </div>
         </div>
         <input type="hidden" name="search[language][]" value="">
-        <div id="selected-languages">
-          <% if params[:search] && params[:search][:language] && params[:search][:language] != [""] %>
-            <% params[:search][:language].reject(&:blank?).each do |search_id| %>
-              <p id="language-<%= search_id %>"><%= Language.find(search_id).name %></p>
-            <% end %>
-          <% end %>
-        </div>
+        <div id="selected-languages"></div>
       </fieldset>
       <div class="form-group select required search_service_type"><label class="btn btn-ghost" style="cursor: default;" for="search_service_type">Service type</label><select class="form-control select required" name="search[service_type]" id="search_service_type">
-        <option value="">Indifferent</option>
+        <option value="">Both</option>
         <option value="Virtual" <%= 'selected' if params[:search] && params[:search][:service_type] == "Virtual" %>>Virtual</option>
         <option value="In-person" <%= 'selected' if params[:search] && params[:search][:service_type] == "In-person" %>>In-person</option></select>
       </div>
@@ -85,36 +73,91 @@
     <%= link_to "Reset", services_path, class: 'btn btn-ghost ml-5'  %>
   <% end %>
   <div>
-    <% if @grouped_services %>
-      <% if @grouped_services != {} %>
-        <% @grouped_services.each do |practitioner, services| %>
-          <p><%= practitioner.user.full_name %></p>
-          <% services.each do |service| %>
-            <p><%= service.name %></p>
-            <p><%= service.specialty.name %></p>
-            <% service.conditions.each do |condition| %>
-              <p><%= condition.name %></p>
-            <% end %>
-            <% service.languages.each do |language| %>
-              <p><%= language.name %></p>
-            <% end %>
-            <p><%= service.service_type.capitalize %></p>
+    <% if @filtered_services %>
+      <% if @filtered_services != [] %>
+        <div class="sort-btns">
+          <div class="btn btn-ghost pink w-100 active-sort" id="sortPrice">Lower Price</div>
+          <div class="btn btn-ghost pink w-100" id="sortDuration">Shorter Duration</div>
+        </div>
+        <div class="service-lists">
+          <% @filtered_services.each do |service| %>
+            <div class="service-list-item" data-price="<%= service.price.to_i %>" data-duration="<%= service.duration %>">
+              <div class="service-list-item-title">
+                <h3><%= link_to service.name, service_path(service) %></h3>
+              </div>
+              <div class="service-list-item-infos">
+                <div class="service-list-item-practitioner">
+                  <a href="/practitioners/<%= service.practitioner.id %>">
+                    <% if service.practitioner.photo.attached? %>
+                      <%= cl_image_tag practitioner.photo.key, class: 'service-list-item-user avatar-bordered' %>
+                    <% else %>
+                      <img src='https://kitt.lewagon.com/placeholder/users/random' class="service-list-item-user avatar-bordered"/>
+                    <% end %>
+                    <p><%= service.practitioner.user.full_name %></p>
+                  </a>
+                </div>
+                <div class="service-list-item-details">
+                  <p><%= service.service_type.capitalize %></p>
+                  <p><%= service.duration %>m</p>
+                  <p>CA$ <%= service.price.to_f.round(2) %></p>
+                  <% service.languages.each do |language| %>
+                    <p><%= language.name %></p>
+                  <% end %>
+                </div>
+              </div>
+              <div class="d-flex justify-content-center">
+                <a class="btn btn-flat" href="/services/<%= service.id %>">Book now</a>
+              </div>
+            </div>
           <% end %>
-        <% end %>
+        </div>
       <% else %>
         <p>Please try differnent filters for search!</p>
       <% end %>
     <% else %>
-      <% @services.each do |service| %>
-        <p><%= service.name %></p>
-        <p><%= service.specialty.name %></p>
-        <% service.conditions.each do |condition| %>
-          <p><%= condition.name %></p>
+      <div class="specialty-list">
+        <div class="specialty-items btn btn-ghost pink active-specialty w-100"><%= Specialty.all.sort_by(&:name).first.name %></div>
+        <% Specialty.all.sort_by(&:name).drop(1).each do |specialty| %>
+          <div class="specialty-items btn btn-ghost pink w-100"><%= specialty.name %></div>
         <% end %>
-        <% service.languages.each do |language| %>
-          <p><%= language.name %></p>
+      </div>
+      <% @services.each do |specialty, services| %>
+        <% if specialty == Specialty.all.sort_by(&:name).first %>
+          <div class="service-lists">
+        <% else %>
+          <div class="service-lists" style="display: none;">
         <% end %>
-        <p><%= service.service_type.capitalize %></p>
+          <% services.each do |service| %>
+            <div class="service-list-item">
+              <div class="service-list-item-title">
+                <h3><%= link_to service.name, service_path(service) %></h3>
+              </div>
+              <div class="service-list-item-infos">
+                <div class="service-list-item-practitioner">
+                  <a href="/practitioners/<%= service.practitioner.id %>">
+                    <% if service.practitioner.photo.attached? %>
+                      <%= cl_image_tag practitioner.photo.key, class: 'service-list-item-user avatar-bordered' %>
+                    <% else %>
+                      <img src='https://kitt.lewagon.com/placeholder/users/random' class="service-list-item-user avatar-bordered"/>
+                    <% end %>
+                    <p><%= service.practitioner.user.full_name %></p>
+                  </a>
+                </div>
+                <div class="service-list-item-details">
+                  <p><%= service.service_type.capitalize %></p>
+                  <p><%= service.duration %>m</p>
+                  <p>CA$ <%= service.price.to_f.round(2) %></p>
+                  <% service.languages.each do |language| %>
+                    <p><%= language.name %></p>
+                  <% end %>
+                </div>
+              </div>
+              <div class="d-flex justify-content-center">
+                <a class="btn btn-flat" href="/services/<%= service.id %>">Book now</a>
+              </div>
+            </div>
+          <% end %>
+        </div>
       <% end %>
     <% end %>
   </div>
@@ -124,18 +167,18 @@
   const specialtySelectBoxBtn = document.getElementById('specialty-pop');
   specialtySelectBoxBtn.addEventListener('click', () => {
     specialtySelectBoxBtn.classList.toggle('btn-opened');
-    conditionSelectBoxBtn.classList.remove('btn-opened');
+    healthGoalSelectBoxBtn.classList.remove('btn-opened');
     languageSelectBoxBtn.classList.remove('btn-opened');
     document.getElementById('specialty-select-box').classList.toggle('opened');
-    document.getElementById('condition-select-box').classList.remove('opened');
+    document.getElementById('health-goal-select-box').classList.remove('opened');
     document.getElementById('language-select-box').classList.remove('opened');
   });
-  const conditionSelectBoxBtn = document.getElementById('condition-pop');
-  conditionSelectBoxBtn.addEventListener('click', () => {
-    conditionSelectBoxBtn.classList.toggle('btn-opened');
+  const healthGoalSelectBoxBtn = document.getElementById('health-goal-pop');
+  healthGoalSelectBoxBtn.addEventListener('click', () => {
+    healthGoalSelectBoxBtn.classList.toggle('btn-opened');
     specialtySelectBoxBtn.classList.remove('btn-opened');
     languageSelectBoxBtn.classList.remove('btn-opened');
-    document.getElementById('condition-select-box').classList.toggle('opened');
+    document.getElementById('health-goal-select-box').classList.toggle('opened');
     document.getElementById('specialty-select-box').classList.remove('opened');
     document.getElementById('language-select-box').classList.remove('opened');
   });
@@ -143,9 +186,56 @@
   languageSelectBoxBtn.addEventListener('click', () => {
     languageSelectBoxBtn.classList.toggle('btn-opened');
     specialtySelectBoxBtn.classList.remove('btn-opened');
-    conditionSelectBoxBtn.classList.remove('btn-opened');
+    healthGoalSelectBoxBtn.classList.remove('btn-opened');
     document.getElementById('language-select-box').classList.toggle('opened');
     document.getElementById('specialty-select-box').classList.remove('opened');
-    document.getElementById('condition-select-box').classList.remove('opened');
+    document.getElementById('health-goal-select-box').classList.remove('opened');
   });
+  const tabs = document.querySelectorAll('.specialty-items')
+  const lists = document.querySelectorAll('.service-lists')
+  const entries = function*(iterable) {
+    let i = 0;
+    for (item of iterable) {
+      yield [i++, item]
+    }
+  }
+  const showBlock = index => {
+    for (const [blockIndex, block] of entries(lists)) {
+      block.style.display = blockIndex === index ? 'grid' : 'none'
+    }
+  }
+  showBlock(0)
+  for (const [tabIndex, tab] of entries(tabs)) {
+    tab.addEventListener('click', e => {
+      e.preventDefault();
+      showBlock(tabIndex);
+      const activeTab = document.querySelector('.active-specialty');
+      event.currentTarget.classList.toggle('active-specialty');
+      if (activeTab !== null) {
+        activeTab.classList.remove('active-specialty');
+      }
+    })
+  }
+  const priceBtn = document.getElementById('sortPrice');
+  const durationBtn = document.getElementById('sortDuration');
+  priceBtn.addEventListener('click', (event) =>{
+    const active = document.querySelector('.active-sort');
+    active.classList.remove('active-sort');
+    event.currentTarget.classList.add('active-sort');
+    var $wrapper = $('.service-lists');
+    $wrapper.find('.service-list-item').sort(function(a, b) {
+        return +a.dataset.price - +b.dataset.price;
+    })
+    .appendTo($wrapper);
+  })
+  durationBtn.addEventListener('click', (event) =>{
+    const active = document.querySelector('.active-sort');
+    active.classList.remove('active-sort');
+    event.currentTarget.classList.add('active-sort');
+    var $wrapper = $('.service-lists');
+    $wrapper.find('.service-list-item').sort(function(a, b) {
+        return +a.dataset.duration - +b.dataset.duration;
+    })
+    .appendTo($wrapper);
+  })
 </script>

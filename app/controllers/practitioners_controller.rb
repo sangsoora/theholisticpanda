@@ -33,19 +33,19 @@ class PractitionersController < ApplicationController
       else
         @practitioners_by_specialty = []
       end
-      if params[:search][:condition]
-        if params[:search][:condition].count == 2
-          @practitioners_by_condition = Practitioner.filter_by_condition(params[:search][:condition][0])
-        elsif params[:search][:condition].count > 2
-          @practitioners_by_condition = params[:search][:condition].tap(&:pop).map do |keyword|
-            Practitioner.filter_by_condition(keyword)
+      if params[:search][:health_goal]
+        if params[:search][:health_goal].count == 2
+          @practitioners_by_health_goal = Practitioner.filter_by_health_goal(params[:search][:health_goal][0])
+        elsif params[:search][:health_goal].count > 2
+          @practitioners_by_health_goal = params[:search][:health_goal].tap(&:pop).map do |keyword|
+            Practitioner.filter_by_health_goal(keyword)
           end
-          @practitioners_by_condition.flatten!
-        elsif params[:search][:condition].count == 1
-          @practitioners_by_condition = []
+          @practitioners_by_health_goal.flatten!
+        elsif params[:search][:health_goal].count == 1
+          @practitioners_by_health_goal = []
         end
       else
-        @practitioners_by_condition = []
+        @practitioners_by_health_goal = []
       end
       if params[:search][:language]
         if params[:search][:language].count == 2
@@ -70,27 +70,27 @@ class PractitionersController < ApplicationController
       else
         @practitioners_by_service_type = []
       end
-      if @practitioners_by_specialty == [] && @practitioners_by_condition == [] && @practitioners_by_language == []
+      if @practitioners_by_specialty == [] && @practitioners_by_health_goal == [] && @practitioners_by_language == []
         @filtered_practitioners = @practitioners_by_service_type.uniq.compact.sort_by(&:id)
-      elsif @practitioners_by_specialty == [] && @practitioners_by_condition == [] && @practitioners_by_service_type == []
+      elsif @practitioners_by_specialty == [] && @practitioners_by_health_goal == [] && @practitioners_by_service_type == []
         @filtered_practitioners = @practitioners_by_language.uniq.compact.sort_by(&:id)
       elsif @practitioners_by_specialty == [] && @practitioners_by_language == [] && @practitioners_by_service_type == []
-        @filtered_practitioners = @practitioners_by_condition.uniq.compact.sort_by(&:id)
-      elsif @practitioners_by_condition == [] && @practitioners_by_language == [] && @practitioners_by_service_type == []
+        @filtered_practitioners = @practitioners_by_health_goal.uniq.compact.sort_by(&:id)
+      elsif @practitioners_by_health_goal == [] && @practitioners_by_language == [] && @practitioners_by_service_type == []
         @filtered_practitioners = @practitioners_by_specialty.uniq.compact.sort_by(&:id)
       elsif @practitioners_by_specialty == [] && @practitioners_by_service_type == []
-        @filtered_practitioners = (@practitioners_by_condition & @practitioners_by_language).uniq.compact.sort_by(&:id)
-      elsif @practitioners_by_condition == [] && @practitioners_by_service_type == []
+        @filtered_practitioners = (@practitioners_by_health_goal & @practitioners_by_language).uniq.compact.sort_by(&:id)
+      elsif @practitioners_by_health_goal == [] && @practitioners_by_service_type == []
         @filtered_practitioners = (@practitioners_by_specialty & @practitioners_by_language).uniq.compact.sort_by(&:id)
       elsif @practitioners_by_specialty == [] && @practitioners_by_language == []
-        @filtered_practitioners = (@practitioners_by_condition & @practitioners_by_service_type).uniq.compact.sort_by(&:id)
-      elsif @practitioners_by_condition == [] && @practitioners_by_language == []
+        @filtered_practitioners = (@practitioners_by_health_goal & @practitioners_by_service_type).uniq.compact.sort_by(&:id)
+      elsif @practitioners_by_health_goal == [] && @practitioners_by_language == []
         @filtered_practitioners = (@practitioners_by_specialty & @practitioners_by_service_type).uniq.compact.sort_by(&:id)
-      elsif @practitioners_by_specialty == [] && @practitioners_by_condition == []
+      elsif @practitioners_by_specialty == [] && @practitioners_by_health_goal == []
         @filtered_practitioners = (@practitioners_by_language & @practitioners_by_service_type).uniq.compact.sort_by(&:id)
       elsif @practitioners_by_specialty == []
-        @filtered_practitioners = (@practitioners_by_condition & @practitioners_by_language & @practitioners_by_service_type).uniq.compact.sort_by(&:id)
-      elsif @practitioners_by_condition == []
+        @filtered_practitioners = (@practitioners_by_health_goal & @practitioners_by_language & @practitioners_by_service_type).uniq.compact.sort_by(&:id)
+      elsif @practitioners_by_health_goal == []
         @filtered_practitioners = (@practitioners_by_specialty & @practitioners_by_language & @practitioners_by_service_type).uniq.compact.sort_by(&:id)
       end
     end

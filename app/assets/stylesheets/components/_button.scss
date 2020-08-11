@@ -14,7 +14,27 @@
       color: white;
     }
   }
+  &.pink {
+    color: $pink;
+    border: 1px solid $pink;
+    opacity: 1;
+    font-size: 0.75rem;
+    &:hover {
+      font-weight: 600;
+      color: $pink;
+    }
+  }
 }
+
+.active-sort, .active-specialty {
+  background-color: $pink;
+  color: white !important;
+  &:hover {
+      font-weight: 600;
+      color: white !important;
+    }
+}
+
 
 .btn-ghost:hover {
   color: $emerald;

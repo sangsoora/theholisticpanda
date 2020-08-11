@@ -24,26 +24,26 @@ const initUpdateForm = () => {
         $(this).removeClass("active");
         $('#specialty-' + $(this)[0].previousElementSibling.value).remove();
         if ( $('#selected-specialties').children().length === 0 ) {
-          $("#condition-selector").removeClass('hidden');
+          $("#health-goal-selector").removeClass('hidden');
         }
       } else {
         $(this).addClass("active");
         $( "#selected-specialties" ).append( "<p id='specialty-" + $(this)[0].previousElementSibling.value + "'>" + $(this)[0].innerText + "</p>" );
-        if (!$("#condition-selector").hasClass('hidden')) {
-          $("#condition-selector").addClass('hidden');
+        if (!$("#health-goal-selector").hasClass('hidden')) {
+          $("#health-goal-selector").addClass('hidden');
         }
       }
     });
-    $(".condition-choice").click(function(){
+    $(".health-goal-choice").click(function(){
       if ($(this).hasClass("active")) {
         $(this).removeClass("active");
-        $('#condition-' + $(this)[0].previousElementSibling.value).remove();
-        if ( $('#selected-conditions').children().length === 0 ) {
+        $('#health-goal-' + $(this)[0].previousElementSibling.value).remove();
+        if ( $('#selected-health-goals').children().length === 0 ) {
           $("#specialty-selector").removeClass('hidden');
         }
       } else {
         $(this).addClass("active");
-        $( "#selected-conditions" ).append( "<p id='condition-" + $(this)[0].previousElementSibling.value + "'>" + $(this)[0].innerText + "</p>" );
+        $( "#selected-health-goals" ).append( "<p id='health-goal-" + $(this)[0].previousElementSibling.value + "'>" + $(this)[0].innerText + "</p>" );
         if (!$("#specialty-selector").hasClass('hidden')) {
           $("#specialty-selector").addClass('hidden');
         }
