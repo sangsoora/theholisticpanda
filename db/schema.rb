@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_24_154828) do
+ActiveRecord::Schema.define(version: 2020_08_14_180643) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,15 @@ ActiveRecord::Schema.define(version: 2020_07_24_154828) do
     t.index ["practitioner_id"], name: "index_practitioner_languages_on_practitioner_id"
   end
 
+  create_table "practitioner_social_links", force: :cascade do |t|
+    t.string "link"
+    t.string "media_type"
+    t.bigint "practitioner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["practitioner_id"], name: "index_practitioner_social_links_on_practitioner_id"
+  end
+
   create_table "practitioner_specialties", force: :cascade do |t|
     t.bigint "practitioner_id"
     t.bigint "specialty_id"
@@ -87,6 +96,7 @@ ActiveRecord::Schema.define(version: 2020_07_24_154828) do
     t.string "experience"
     t.string "certification"
     t.string "video"
+    t.string "website"
     t.float "latitude"
     t.float "longitude"
     t.string "background_check_status"
@@ -118,6 +128,7 @@ ActiveRecord::Schema.define(version: 2020_07_24_154828) do
     t.datetime "tertiary_time"
     t.integer "amount_cents", default: 0, null: false
     t.boolean "paid"
+    t.string "link"
     t.string "status"
     t.bigint "user_id"
     t.bigint "service_id"
@@ -173,6 +184,7 @@ ActiveRecord::Schema.define(version: 2020_07_24_154828) do
   add_foreign_key "favorites", "users"
   add_foreign_key "practitioner_languages", "languages"
   add_foreign_key "practitioner_languages", "practitioners"
+  add_foreign_key "practitioner_social_links", "practitioners"
   add_foreign_key "practitioner_specialties", "practitioners"
   add_foreign_key "practitioner_specialties", "specialties"
   add_foreign_key "practitioners", "users"

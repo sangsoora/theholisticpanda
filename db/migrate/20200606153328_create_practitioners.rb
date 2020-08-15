@@ -12,6 +12,7 @@ class CreatePractitioners < ActiveRecord::Migration[5.2]
       t.string :experience
       t.string :certification
       t.string :video
+      t.string :website
       t.float :latitude
       t.float :longitude
       t.string :background_check_status

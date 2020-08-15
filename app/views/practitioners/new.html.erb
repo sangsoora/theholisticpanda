@@ -5,11 +5,11 @@
     <%= simple_form_for([current_user, @practitioner], remote: true) do |f| %>
       <div class="form-group select required practitioner_country_code">
         <label class="select required" for="practitioner_country_code">Country of residence</label>
-        <%= f.country_select :country_code, { hint: "Please provide the right infomation for background check", priority_countries: ["CA", "US"] }, { class: 'form-control select optional' } %>
+        <%= f.country_select :country_code, { priority_countries: ["CA", "US"] }, { class: 'form-control select optional' } %>
         <small class="form-text text-muted">Please provide the right infomation for background check</small>
       </div>
       <div class="d-flex justify-content-between">
-        <%= f.input :education %>
+        <%= f.input :certification %>
         <%= f.input :experience, collection: ['Less than 1 year', '2-5 years', '5-10 years', 'More than 10 years'], as: :select, require: true %>
       </div>
       <div class="form-group">

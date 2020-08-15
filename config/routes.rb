@@ -11,25 +11,36 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show] do
     resources :practitioners, only: [:new, :create]
+    resources :favorites, only: [:create]
   end
+
+  resources :favorites, only: [:destroy]
 
   get 'users/:id/sessions', to: 'users#booking', as: :user_sessions
 
   resources :practitioners, only: [:index, :show, :update, :destroy] do
+    resources :practitioner_specialties, only: [:create]
     resources :practitioner_languages, only: [:create]
+    resources :practitioner_social_links, only: [:create]
   end
 
   get 'practitioners/:id/profile', to: 'practitioners#profile', as: :practitioner_profile
-
-  resources :practitioner_languages, only: [:destroy]
-
-  resources :languages, only: [:destroy]
 
   resources :practitioner_specialties, only: [:destroy] do
     resources :services, only: [:create]
   end
 
-  resources :specialties, only: [:destroy]
+  resources :practitioner_languages, only: [:destroy]
+
+  resources :practitioner_social_links, only: [:destroy]
+
+  resources :languages, only: [:create, :destroy]
+
+  resources :specialties, only: [:create, :destroy] do
+    resources :specialty_health_goals, only: [:create]
+  end
+
+  resources :health_goals, only: [:create, :destroy]
 
   resources :services, only: [:index, :show, :update, :destroy] do
     resources :sessions, only: [:create]

@@ -1,0 +1,2 @@
+class PractitionerSocialLinksController < ApplicationController
+end

@@ -125,13 +125,20 @@ class PractitionersController < ApplicationController
   end
 
   def profile
-
+    @columns = ['country', 'experience', 'certification', 'bio', 'workinghours', 'video', 'website', 'address']
   end
 
   def update
     if params[:commit] == 'Proceed to background check'
       @practitioner.update(background_check_status: 'pending', background_check_consent: true)
       redirect_to root_path, notice: 'Thank you for your application'
+    else
+      if @practitioner.update(practitioner_params)
+        respond_to do |format|
+          format.html { render practitioner_profile_path(@practitioner) }
+          format.js
+        end
+      end
     end
     # if @practitioner.update(practitioner_params)
     #   redirect_to practitioner_path(@practitioner)
@@ -153,6 +160,6 @@ class PractitionersController < ApplicationController
   end
 
   def practitioner_params
-    params.require(:practitioner).permit(:location, :address, :bio, :video, :latitude, :longitude, :education, :experience, :working_days, :starting_hour, :ending_hour, :country_code, :background_check_status, :background_check_consent, :background_check_id, :photo)
+    params.require(:practitioner).permit(:location, :address, :bio, :video, :website, :latitude, :longitude, :certification, :experience, :working_days, :starting_hour, :ending_hour, :country_code, :background_check_status, :background_check_consent, :background_check_id, :photo)
   end
 end
