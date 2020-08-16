@@ -1,4 +1,4 @@
-class PractitionerLanguagePolicy < ApplicationPolicy
+class PractitionerSocialLinkPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.all

@@ -8,6 +8,32 @@ const initUpdateForm = () => {
       $(this).toggleClass("active");
     });
   }
+  const specialtiesForm = document.getElementById('specialties_form');
+  if (specialtiesForm) {
+    $('.specialty-choice').on("click", function (e){
+      const active = document.querySelector('.active');
+      e.currentTarget.classList.toggle('active');
+      if (active !== null) {
+        active.classList.remove('active');
+      }
+    });
+  }
+  const languagesForm = document.getElementById('languages_form');
+  if (languagesForm) {
+    $('.language-choice').on("click", function (e){
+      const active = document.querySelector('.active');
+      e.currentTarget.classList.toggle('active');
+      if (active !== null) {
+        active.classList.remove('active');
+      }
+    });
+  }
+  const workingdaysForm = document.getElementById('workingdays_form');
+  if (workingdaysForm) {
+    $(".workingday-choice").click(function(){
+      $(this).toggleClass("active");
+    });
+  }
   const filterForm = document.getElementById('filter-form');
   if (filterForm) {
     $(".language-choice").click(function(){

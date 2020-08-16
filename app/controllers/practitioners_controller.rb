@@ -9,7 +9,7 @@ class PractitionersController < ApplicationController
       #   if params[:search][:education].count == 2
       #     @practitioners_by_education = Practitioner.filter_by_education(params[:search][:education][1])
       #   elsif params[:search][:education].count > 2
-      #     @practitioners_by_education = params[:search][:education].drop(1).map do |keyword|
+      #     @practitioners_by_education = params[:search][:education].reject(&:blank?).map do |keyword|
       #       Practitioner.filter_by_education(keyword)
       #     end
       #     @practitioners_by_education = @practitioners_by_education.map { |practitioners| practitioners.first }
@@ -109,8 +109,8 @@ class PractitionersController < ApplicationController
     @practitioner = Practitioner.new(practitioner_params)
     @practitioner.user = User.find(params[:user_id])
     authorize @practitioner
-    languages = params[:practitioner][:language_ids].drop(1)
-    specialties = params[:practitioner][:specialty_ids].drop(1)
+    languages = params[:practitioner][:language_ids].reject(&:blank?)
+    specialties = params[:practitioner][:specialty_ids].reject(&:blank?)
     if @practitioner.save
       languages.each { |language| PractitionerLanguage.create!(practitioner: @practitioner, language: Language.find(language)) }
       specialties.each { |specialty| PractitionerSpecialty.create!(practitioner: @practitioner, specialty: Specialty.find(specialty)) }
@@ -125,7 +125,13 @@ class PractitionersController < ApplicationController
   end
 
   def profile
-    @columns = ['country', 'experience', 'certification', 'bio', 'workinghours', 'video', 'website', 'address']
+    @columns = ['specialties', 'languages', 'country', 'experience', 'certification', 'bio', 'workingdays', 'workinghours', 'video', 'website', 'address']
+    @workingdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    @specialties = Specialty.all.sort_by(&:name)
+    @languages = Language.all.sort_by(&:name)
+    @practitioner_specialty = PractitionerSpecialty.new
+    @practitioner_language = PractitionerLanguage.new
+    @practitioner_social_link = PractitionerSocialLink.new
   end
 
   def update
@@ -134,8 +140,12 @@ class PractitionersController < ApplicationController
       redirect_to root_path, notice: 'Thank you for your application'
     else
       if @practitioner.update(practitioner_params)
+        if params[:practitioner][:workingday_ids]
+          @workingdays = params[:practitioner][:workingday_ids].reject(&:blank?).join(', ')
+          @practitioner.update(working_days: @workingdays)
+        end
         respond_to do |format|
-          format.html { render practitioner_profile_path(@practitioner) }
+          format.html { redirect_to practitioner_profile_path(@practitioner) }
           format.js
         end
       end

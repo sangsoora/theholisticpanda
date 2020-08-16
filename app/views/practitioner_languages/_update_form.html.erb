@@ -1,0 +1,15 @@
+<div class="form-group">
+  <input type="hidden" name="practitioner[language_id][]" value="">
+  <div class="language-choices" style="margin: 0">
+    <% languages.each do |language| %>
+      <% if practitioner.languages.exclude?(language) %>
+        <input type="radio" class="hidden" value="<%= language.id %>" name="practitioner[language_id]" id="practitioner_language_id_<%= language.id %>">
+        <label class="language-choice" for="practitioner_language_id_<%= language.id %>">
+          <%= language.name %>
+        </label>
+      <% end %>
+    <% end %>
+   </div>
+</div>
+<button type="submit"><i class='fas fa-check'></i></button>
+<button id='languages-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>

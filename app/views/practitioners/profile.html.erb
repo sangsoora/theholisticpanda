@@ -15,20 +15,23 @@
       <% else %>
         <img src='https://kitt.lewagon.com/placeholder/users/random' class='avatar-full' />
       <% end %>
-      <%= link_to 'Add new photo', '', class: 'btn btn-ghost w-100' %>
+      <%= link_to '📷', '', data: { toggle: "modal", target: "#profilePictureModal" }, class: 'btn btn-ghost mt-4 w-100' %>
     </div>
     <div class="practitioner-profile-infos">
       <div class="practitioner-profile-info">
         <div class="practitioner-profile-info-title">
-          <p>Specailty</p>
+          <p>Specailties</p>
         </div>
         <div class="practitioner-profile-info-body">
-          <% @practitioner.specialties.reverse.drop(1).reverse.each do |specialty| %>
-            <%= specialty.name %>,
+          <div id="practitioner-specialties">
+            <%= render "practitioner_specialties/practitioner_specialties_list", practitioner: @practitioner %>
+            <% if @practitioner.specialties.count < Specialty.count %>
+              <button id='specialties-edit'><p><%= link_to '', '', class: 'fas fa-plus' %></p></button>
+            <% end %>
+          </div>
+          <%= simple_form_for([@practitioner, @practitioner_specialty], html: { id: :specialties_form, style: 'display: none;' }) do |f| %>
+            <%= render "practitioner_specialties/update_form", practitioner: @practitioner, specialties: @specialties %>
           <% end %>
-          <%= @practitioner.specialties.last.name %>
-        </div>
-        <div class="practitioner-profile-info-btn">
         </div>
       </div>
       <div class="practitioner-profile-info">
@@ -36,12 +39,15 @@
           <p>Languages</p>
         </div>
         <div class="practitioner-profile-info-body">
-          <% @practitioner.languages.reverse.drop(1).reverse.each do |language| %>
-            <%= language.name %>,
+          <div id="practitioner-languages">
+            <%= render "practitioner_languages/practitioner_languages_list", practitioner: @practitioner %>
+            <% if @practitioner.languages.count < Language.count %>
+              <button id='languages-edit'><p><%= link_to '', '', class: 'fas fa-plus' %></p></button>
+            <% end %>
+          </div>
+          <%= simple_form_for([@practitioner, @practitioner_language], html: { id: :languages_form, style: 'display: none;' }) do |f| %>
+            <%= render "practitioner_languages/update_form", practitioner: @practitioner, languages: @languages %>
           <% end %>
-          <%= @practitioner.languages.last.name %>
-        </div>
-        <div class="practitioner-profile-info-btn">
         </div>
       </div>
       <div class="practitioner-profile-info">
@@ -113,10 +119,32 @@
           <p>Working days</p>
         </div>
         <div class="practitioner-profile-info-body">
-          <p><%= @practitioner.working_days %></p>
-        </div>
-        <div class="practitioner-profile-info-btn">
-          <%= link_to '', '', class: 'fas fa-pen' %>
+          <div id="practitioner-workingdays">
+            <p id="workingdays"><%= @practitioner.working_days %></p>
+            <button id='workingdays-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+          </div>
+          <%= simple_form_for([@practitioner], remote: true, html: { id: :workingdays_form, style: 'display: none;' }) do |f| %>
+            <div class="form-group">
+              <input type="hidden" name="practitioner[workingday_ids][]" value="">
+              <div class="workingdays-choices">
+                <% @workingdays.each do |workingday| %>
+                  <% if @practitioner.working_days.split(', ').include?(workingday) %>
+                    <input type="checkbox" class="hidden" value="<%= workingday %>" name="practitioner[workingday_ids][]" id="practitioner_workingday_ids_<%= workingday %>" checked>
+                    <label class="workingday-choice active" for="practitioner_workingday_ids_<%= workingday %>">
+                      <%= workingday %>
+                    </label>
+                  <% else %>
+                    <input type="checkbox" class="hidden" value="<%= workingday %>" name="practitioner[workingday_ids][]" id="practitioner_workingday_ids_<%= workingday %>">
+                    <label class="workingday-choice" for="practitioner_workingday_ids_<%= workingday %>">
+                      <%= workingday %>
+                    </label>
+                  <% end %>
+                <% end %>
+               </div>
+            </div>
+            <button type="submit"><i class='fas fa-check'></i></button>
+            <button id='workingdays-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+          <% end %>
         </div>
       </div>
       <div class="practitioner-profile-info">
@@ -125,13 +153,13 @@
         </div>
         <div class="practitioner-profile-info-body">
           <div id="practitioner-workinghours">
-            <p id="workinghours"><%= @practitioner.starting_hour %> ~ <%= @practitioner.ending_hour %></p>
+            <p id="workinghours"><% if @practitioner.starting_hour %><%= @practitioner.starting_hour.strftime('%H:%M') %> ~ <%= @practitioner.ending_hour.strftime('%H:%M') %><% end %></p>
             <button id='workinghours-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
           </div>
           <%= simple_form_for([@practitioner], remote: true, html: { id: :workinghours_form, style: 'display: none; align-items: center;' }) do |f| %>
-            <%= f.input :starting_hour, require: true, label: false %>
-            ~
-            <%= f.input :ending_hour, require: true, label: false %>
+            <%= f.input :starting_hour, require: true, label: false, as: :time, minute_step: 30, default: Time.parse('00:00') %>
+            &nbsp;&nbsp;~&nbsp;&nbsp;
+            <%= f.input :ending_hour, require: true, label: false, as: :time, minute_step: 30, default: Time.parse('00:00') %>
             <button type="submit"><i class='fas fa-check'></i></button>
             <button id='workinghours-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
           <% end %>
@@ -187,22 +215,52 @@
           <% end %>
         </div>
       </div>
-      <div class="practitioner-profile-info">
+      <!-- <div class="practitioner-profile-info">
         <div class="practitioner-profile-info-title">
           <p>Social media links</p>
         </div>
         <div class="practitioner-profile-info-body">
           <div id="practitioner-social">
-            <button id='social-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+            <button id='social-edit'><p><%#= link_to '', '', class: 'fas fa-pen' %></p></button>
           </div>
-          <%= simple_form_for([@practitioner], remote: true, html: { id: :address_form, style: 'display: none; align-items: center;' }) do |f| %>
-
-          <% end %>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
   <%= link_to 'Go to my page', practitioner_path(@practitioner), class: 'btn btn-flat'  %>
+</div>
+<div class="modal fade" id="profilePictureModal" tabindex="-1" role="dialog" aria-labelledby="profilePictureModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-photo" role="document">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <h5 class="modal-title" id="profilePictureModalLabel">Crop profile photo</h5>
+        <button data-dismiss="modal" aria-label="Close" style="display: none;" id="close-modal">
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <%= simple_form_for([@practitioner]) do |f| %>
+          <div class="row">
+            <div class="col-10 offset-1 p-0">
+              <%= f.input :photo, as: :file, input_html: { class: 'd-none', id: 'photo-input' }, label_html: { class: 'upload-photo'}, label: '📷 Upload a profile photo' %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5 offset-1 p-0">
+              <canvas id="canvas" style="width: 100%; height: 55vh;"></canvas>
+            </div>
+            <div class="col-4 offset-1 p-0">
+              <div id="photo-preview"></div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-around mt-4">
+            <%= link_to 'Reset', '', class: 'btn btn-ghost', id: 'btnReset'  %>
+            <%= link_to 'Crop', '', class: 'btn btn-ghost', id: 'btnCrop' %>
+            <%= f.button :submit, "Upload", class: 'btn-flat', id: 'btnUpload', disabled: true %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
   <% @columns.each do |column| %>

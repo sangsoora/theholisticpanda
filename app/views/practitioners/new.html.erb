@@ -13,18 +13,6 @@
         <%= f.input :experience, collection: ['Less than 1 year', '2-5 years', '5-10 years', 'More than 10 years'], as: :select, require: true %>
       </div>
       <div class="form-group">
-        <label class="control-label check_boxes required">Your languages</label>
-        <input type="hidden" name="practitioner[language_ids][]" value="">
-        <div class="language-choices">
-          <% Language.all.each do |language| %>
-            <input type="checkbox" class="hidden" value="<%= language.id %>" name="practitioner[language_ids][]" id="practitioner_language_ids_<%= language.id %>">
-            <label class="language-choice" for="practitioner_language_ids_<%= language.id %>">
-              <%= language.name %>
-            </label>
-          <% end %>
-         </div>
-      </div>
-      <div class="form-group">
         <label class="control-label check_boxes required">Your specialties</label>
         <input type="hidden" name="practitioner[specialty_ids][]" value="">
         <div class="specialty-choices">
@@ -32,6 +20,18 @@
             <input type="checkbox" class="hidden" value="<%= specialty.id %>" name="practitioner[specialty_ids][]" id="practitioner_specialty_ids_<%= specialty.id %>">
             <label class="specialty-choice" for="practitioner_specialty_ids_<%= specialty.id %>">
               <%= specialty.name %>
+            </label>
+          <% end %>
+         </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label check_boxes required">Your languages</label>
+        <input type="hidden" name="practitioner[language_ids][]" value="">
+        <div class="language-choices">
+          <% Language.all.each do |language| %>
+            <input type="checkbox" class="hidden" value="<%= language.id %>" name="practitioner[language_ids][]" id="practitioner_language_ids_<%= language.id %>">
+            <label class="language-choice" for="practitioner_language_ids_<%= language.id %>">
+              <%= language.name %>
             </label>
           <% end %>
          </div>

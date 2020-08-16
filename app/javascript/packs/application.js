@@ -16,9 +16,11 @@
 // const imagePath = (name) => images(name, true)
 import 'bootstrap';
 import '../plugins/flatpickr';
+import "cropperjs/dist/cropper.css";
 
 // import { initUpdateNavbarOnScroll } from '../components/navbar';
 import { initUpdateForm } from '../components/form';
+import { previewImageOnFileSelect } from '../components/image_cropper';
 
 // document.addEventListener("scroll", () => {
 //   // Call your JS functions here
@@ -28,3 +30,5 @@ import { initUpdateForm } from '../components/form';
 document.addEventListener("DOMContentLoaded", () => {
   initUpdateForm();
 });
+
+previewImageOnFileSelect();

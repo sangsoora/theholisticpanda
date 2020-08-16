@@ -7,13 +7,23 @@ document.getElementById('experience').innerHTML = '<%= @practitioner.experience 
 certification.style.display = 'flex';
 certificationForm.style.display = 'none';
 document.getElementById('certification').innerHTML = '<%= @practitioner.certification %>'
+bio.style.display = 'flex';
+bioForm.style.display = 'none';
+document.getElementById('bio').innerHTML = '<%= @practitioner.bio %>'
 video.style.display = 'flex';
 videoForm.style.display = 'none';
-document.getElementById('video').innerHTML = '<%= @practitioner.video %>'
+document.getElementById('video').innerHTML = '<a href="<%= @practitioner.video %>" target="_blank"><%= @practitioner.video %></a>'
 website.style.display = 'flex';
 websiteForm.style.display = 'none';
-document.getElementById('website').innerHTML = '<%= @practitioner.website %>'
+document.getElementById('website').innerHTML = '<a href="<%= @practitioner.website %>" target="_blank"><%= @practitioner.website %></a>'
 address.style.display = 'flex';
 addressForm.style.display = 'none';
 document.getElementById('address').innerHTML = '<%= @practitioner.address %>'
+workingdays.style.display = 'flex';
+workingdaysForm.style.display = 'none';
+document.getElementById('workingdays').innerHTML = '<%= @practitioner.working_days %>'
+workinghours.style.display = 'flex';
+workinghoursForm.style.display = 'none';
+document.getElementById('workinghours').innerHTML = '<%= @practitioner.starting_hour.strftime("%H:%M") %> ~ <%= @practitioner.ending_hour.strftime("%H:%M") %>'
+
 
