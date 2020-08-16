@@ -1,0 +1,15 @@
+<div class="form-group">
+  <input type="hidden" name="practitioner[specialty_id][]" value="">
+  <div class="specialty-choices" style="margin: 0">
+    <% specialties.each do |specialty| %>
+      <% if practitioner.specialties.exclude?(specialty) %>
+        <input type="radio" class="hidden" value="<%= specialty.id %>" name="practitioner[specialty_id]" id="practitioner_specialty_id_<%= specialty.id %>">
+        <label class="specialty-choice" for="practitioner_specialty_id_<%= specialty.id %>">
+          <%= specialty.name %>
+        </label>
+      <% end %>
+    <% end %>
+   </div>
+</div>
+<button type="submit"><i class='fas fa-check'></i></button>
+<button id='specialties-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>

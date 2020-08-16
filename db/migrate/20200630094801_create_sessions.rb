@@ -8,6 +8,7 @@ class CreateSessions < ActiveRecord::Migration[5.2]
       t.datetime :tertiary_time
       t.monetize :amount, currency: { present: false }
       t.boolean :paid
+      t.string :link
       t.string :status
       t.references :user, foreign_key: true
       t.references :service, foreign_key: true

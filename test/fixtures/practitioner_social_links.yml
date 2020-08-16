@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  link: MyString
+  media_type: MyString
+  practitioner: one
+
+two:
+  link: MyString
+  media_type: MyString
+  practitioner: two

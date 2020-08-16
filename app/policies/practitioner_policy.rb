@@ -21,6 +21,10 @@ class PractitionerPolicy < ApplicationPolicy
     user_is_practitioner?
   end
 
+  def profile?
+    user_is_practitioner?
+  end
+
   private
 
   def user_is_practitioner?

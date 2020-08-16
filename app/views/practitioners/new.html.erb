@@ -5,24 +5,12 @@
     <%= simple_form_for([current_user, @practitioner], remote: true) do |f| %>
       <div class="form-group select required practitioner_country_code">
         <label class="select required" for="practitioner_country_code">Country of residence</label>
-        <%= f.country_select :country_code, { hint: "Please provide the right infomation for background check", priority_countries: ["CA", "US"] }, { class: 'form-control select optional' } %>
+        <%= f.country_select :country_code, { priority_countries: ["CA", "US"] }, { class: 'form-control select optional' } %>
         <small class="form-text text-muted">Please provide the right infomation for background check</small>
       </div>
       <div class="d-flex justify-content-between">
-        <%= f.input :education %>
+        <%= f.input :certification %>
         <%= f.input :experience, collection: ['Less than 1 year', '2-5 years', '5-10 years', 'More than 10 years'], as: :select, require: true %>
-      </div>
-      <div class="form-group">
-        <label class="control-label check_boxes required">Your languages</label>
-        <input type="hidden" name="practitioner[language_ids][]" value="">
-        <div class="language-choices">
-          <% Language.all.each do |language| %>
-            <input type="checkbox" class="hidden" value="<%= language.id %>" name="practitioner[language_ids][]" id="practitioner_language_ids_<%= language.id %>">
-            <label class="language-choice" for="practitioner_language_ids_<%= language.id %>">
-              <%= language.name %>
-            </label>
-          <% end %>
-         </div>
       </div>
       <div class="form-group">
         <label class="control-label check_boxes required">Your specialties</label>
@@ -32,6 +20,18 @@
             <input type="checkbox" class="hidden" value="<%= specialty.id %>" name="practitioner[specialty_ids][]" id="practitioner_specialty_ids_<%= specialty.id %>">
             <label class="specialty-choice" for="practitioner_specialty_ids_<%= specialty.id %>">
               <%= specialty.name %>
+            </label>
+          <% end %>
+         </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label check_boxes required">Your languages</label>
+        <input type="hidden" name="practitioner[language_ids][]" value="">
+        <div class="language-choices">
+          <% Language.all.each do |language| %>
+            <input type="checkbox" class="hidden" value="<%= language.id %>" name="practitioner[language_ids][]" id="practitioner_language_ids_<%= language.id %>">
+            <label class="language-choice" for="practitioner_language_ids_<%= language.id %>">
+              <%= language.name %>
             </label>
           <% end %>
          </div>

@@ -9,6 +9,7 @@ class Practitioner < ApplicationRecord
   has_many :languages, through: :practitioner_languages
   has_many :specialties, through: :practitioner_specialties
   has_many :health_goals, through: :specialties
+  has_many :practitioner_social_links, dependent: :destroy
   validates_uniqueness_of :user
   scope :filter_by_specialty, ->(specialties) { joins(:specialties).where(specialties: { id: specialties }) }
   scope :filter_by_health_goal, ->(health_goals) { joins(:health_goals).where(health_goals: { id: health_goals }) }
@@ -19,4 +20,9 @@ class Practitioner < ApplicationRecord
   $health_goals = HealthGoal.all.sort_by(&:name)
   $languages = Language.includes(:practitioner_languages).where.not(practitioner_languages: { id: nil }).sort_by(&:name)
   $service_types = ['Virtual only', 'In-person only', 'Both availble']
+
+  def country_name
+    country = ISO3166::Country[country_code]
+    country.translations[I18n.locale.to_s] || country.name
+  end
 end

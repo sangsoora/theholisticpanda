@@ -1,0 +1,8 @@
+<% practitioner.specialties.sort_by(&:name).each do |specialty| %>
+  <div class="practitioner-specialty" data-specialty-id="<%= specialty.id %>">
+    <p><%= specialty.name %></p>
+    <% if PractitionerSpecialty.find_by(practitioner: practitioner, specialty: specialty).services == [] %>
+      <%= link_to '', practitioner_specialty_path(PractitionerSpecialty.find_by(practitioner: current_user.practitioner, specialty: specialty)), method: :delete, data: { confirm: "Are you sure to remove this specialty?"}, class: 'fas fa-times ml-3' %>
+    <% end %>
+  </div>
+<% end %>

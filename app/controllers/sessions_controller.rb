@@ -67,6 +67,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:start_time, :duration, :primary_time, :secondary_time, :tertiary_time, :amount, :paid, :status)
+    params.require(:session).permit(:start_time, :duration, :primary_time, :secondary_time, :tertiary_time, :amount, :paid, :link, :status)
   end
 end

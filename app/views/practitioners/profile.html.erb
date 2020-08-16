@@ -1,0 +1,303 @@
+<% provide :head_tags do %>
+  <meta name='turbolinks-visit-control' content='reload'>
+  <script>
+    document.addEventListener("DOMContentLoaded", function(){
+      initAutocomplete()
+    });
+  </script>
+<% end %>
+<div class="container practitioner-profile">
+  <h1>Welcome, <%= @practitioner.user.first_name %></h1>
+  <div class="practitioner-profile-table">
+    <div class="practitioner-profile-img">
+      <% if @practitioner.photo.attached? %>
+        <%= cl_image_tag @practitioner.photo.key, class: 'avatar-full' %>
+      <% else %>
+        <img src='https://kitt.lewagon.com/placeholder/users/random' class='avatar-full' />
+      <% end %>
+      <%= link_to '📷', '', data: { toggle: "modal", target: "#profilePictureModal" }, class: 'btn btn-ghost mt-4 w-100' %>
+    </div>
+    <div class="practitioner-profile-infos">
+      <div class="practitioner-profile-info">
+        <div class="practitioner-profile-info-title">
+          <p>Specailties</p>
+        </div>
+        <div class="practitioner-profile-info-body">
+          <div id="practitioner-specialties">
+            <%= render "practitioner_specialties/practitioner_specialties_list", practitioner: @practitioner %>
+            <% if @practitioner.specialties.count < Specialty.count %>
+              <button id='specialties-edit'><p><%= link_to '', '', class: 'fas fa-plus' %></p></button>
+            <% end %>
+          </div>
+          <%= simple_form_for([@practitioner, @practitioner_specialty], html: { id: :specialties_form, style: 'display: none;' }) do |f| %>
+            <%= render "practitioner_specialties/update_form", practitioner: @practitioner, specialties: @specialties %>
+          <% end %>
+        </div>
+      </div>
+      <div class="practitioner-profile-info">
+        <div class="practitioner-profile-info-title">
+          <p>Languages</p>
+        </div>
+        <div class="practitioner-profile-info-body">
+          <div id="practitioner-languages">
+            <%= render "practitioner_languages/practitioner_languages_list", practitioner: @practitioner %>
+            <% if @practitioner.languages.count < Language.count %>
+              <button id='languages-edit'><p><%= link_to '', '', class: 'fas fa-plus' %></p></button>
+            <% end %>
+          </div>
+          <%= simple_form_for([@practitioner, @practitioner_language], html: { id: :languages_form, style: 'display: none;' }) do |f| %>
+            <%= render "practitioner_languages/update_form", practitioner: @practitioner, languages: @languages %>
+          <% end %>
+        </div>
+      </div>
+      <div class="practitioner-profile-info">
+        <div class="practitioner-profile-info-title">
+          <p>Country of residence</p>
+        </div>
+        <div class="practitioner-profile-info-body">
+          <div id="practitioner-country">
+            <p id="country"><%= @practitioner.country_name %></p>
+            <button id='country-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+          </div>
+          <%= simple_form_for([@practitioner], remote: true, html: { id: :country_form, style: 'display: none; align-items: center;' }) do |f| %>
+            <%= f.country_select :country_code, { priority_countries: ["CA", "US"] }, { class: 'form-control select required w-50  is-valid' } %>
+            <button type="submit"><i class='fas fa-check'></i></button>
+            <button id='country-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+          <% end %>
+        </div>
+      </div>
+      <div class="practitioner-profile-info">
+        <div class="practitioner-profile-info-title">
+          <p>Experience</p>
+        </div>
+        <div class="practitioner-profile-info-body">
+          <div id="practitioner-experience">
+            <p id="experience"><%= @practitioner.experience %></p>
+            <button id='experience-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+          </div>
+          <%= simple_form_for([@practitioner], remote: true, html: { id: :experience_form, style: 'display: none; align-items: center;' }) do |f| %>
+            <%= f.input :experience, collection: ['Less than 1 year', '2-5 years', '5-10 years', 'More than 10 years'], as: :select, require: true, label: false %>
+            <button type="submit"><i class='fas fa-check'></i></button>
+            <button id='experience-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+          <% end %>
+        </div>
+      </div>
+      <div class="practitioner-profile-info">
+        <div class="practitioner-profile-info-title">
+          <p>Certification</p>
+        </div>
+        <div class="practitioner-profile-info-body">
+          <div id="practitioner-certification">
+            <p id="certification"><%= @practitioner.certification %></p>
+            <button id='certification-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+          </div>
+          <%= simple_form_for([@practitioner], remote: true, html: { id: :certification_form, style: 'display: none; align-items: center;' }) do |f| %>
+            <%= f.input :certification, require: true, label: false %>
+            <button type="submit"><i class='fas fa-check'></i></button>
+            <button id='certification-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+          <% end %>
+        </div>
+      </div>
+      <div class="practitioner-profile-info">
+        <div class="practitioner-profile-info-title">
+          <p>Bio</p>
+        </div>
+        <div class="practitioner-profile-info-body">
+          <div id="practitioner-bio">
+            <p id="bio"><%= @practitioner.bio %></p>
+            <button id='bio-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+          </div>
+          <%= simple_form_for([@practitioner], remote: true, html: { id: :bio_form, style: 'display: none; align-items: center;' }) do |f| %>
+            <%= f.input :bio, require: true, label: false, :input_html => { cols: 60, rows: 10 } %>
+            <button type="submit"><i class='fas fa-check'></i></button>
+            <button id='bio-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+          <% end %>
+        </div>
+      </div>
+      <div class="practitioner-profile-info">
+        <div class="practitioner-profile-info-title">
+          <p>Working days</p>
+        </div>
+        <div class="practitioner-profile-info-body">
+          <div id="practitioner-workingdays">
+            <p id="workingdays"><%= @practitioner.working_days %></p>
+            <button id='workingdays-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+          </div>
+          <%= simple_form_for([@practitioner], remote: true, html: { id: :workingdays_form, style: 'display: none;' }) do |f| %>
+            <div class="form-group">
+              <input type="hidden" name="practitioner[workingday_ids][]" value="">
+              <div class="workingdays-choices">
+                <% @workingdays.each do |workingday| %>
+                  <% if @practitioner.working_days.split(', ').include?(workingday) %>
+                    <input type="checkbox" class="hidden" value="<%= workingday %>" name="practitioner[workingday_ids][]" id="practitioner_workingday_ids_<%= workingday %>" checked>
+                    <label class="workingday-choice active" for="practitioner_workingday_ids_<%= workingday %>">
+                      <%= workingday %>
+                    </label>
+                  <% else %>
+                    <input type="checkbox" class="hidden" value="<%= workingday %>" name="practitioner[workingday_ids][]" id="practitioner_workingday_ids_<%= workingday %>">
+                    <label class="workingday-choice" for="practitioner_workingday_ids_<%= workingday %>">
+                      <%= workingday %>
+                    </label>
+                  <% end %>
+                <% end %>
+               </div>
+            </div>
+            <button type="submit"><i class='fas fa-check'></i></button>
+            <button id='workingdays-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+          <% end %>
+        </div>
+      </div>
+      <div class="practitioner-profile-info">
+        <div class="practitioner-profile-info-title">
+          <p>Working hours</p>
+        </div>
+        <div class="practitioner-profile-info-body">
+          <div id="practitioner-workinghours">
+            <p id="workinghours"><% if @practitioner.starting_hour %><%= @practitioner.starting_hour.strftime('%H:%M') %> ~ <%= @practitioner.ending_hour.strftime('%H:%M') %><% end %></p>
+            <button id='workinghours-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+          </div>
+          <%= simple_form_for([@practitioner], remote: true, html: { id: :workinghours_form, style: 'display: none; align-items: center;' }) do |f| %>
+            <%= f.input :starting_hour, require: true, label: false, as: :time, minute_step: 30, default: Time.parse('00:00') %>
+            &nbsp;&nbsp;~&nbsp;&nbsp;
+            <%= f.input :ending_hour, require: true, label: false, as: :time, minute_step: 30, default: Time.parse('00:00') %>
+            <button type="submit"><i class='fas fa-check'></i></button>
+            <button id='workinghours-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+          <% end %>
+        </div>
+      </div>
+      <div class="practitioner-profile-info">
+        <div class="practitioner-profile-info-title">
+          <p>Video link</p>
+        </div>
+        <div class="practitioner-profile-info-body">
+          <div id="practitioner-video">
+            <p id="video"><a href="<%= @practitioner.video %>" target="_blank"><%= @practitioner.video %></a></p>
+            <button id='video-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+          </div>
+          <%= simple_form_for([@practitioner], remote: true, html: { id: :video_form, style: 'display: none; align-items: center;' }) do |f| %>
+            <%= f.input :video, require: true, label: false %>
+            <button type="submit"><i class='fas fa-check'></i></button>
+            <button id='video-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+          <% end %>
+        </div>
+      </div>
+      <div class="practitioner-profile-info">
+        <div class="practitioner-profile-info-title">
+          <p>Website link</p>
+        </div>
+        <div class="practitioner-profile-info-body">
+          <div id="practitioner-website">
+            <p id="website"><a href="<%= @practitioner.website %>" target="_blank"><%= @practitioner.website %></a></p>
+            <button id='website-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+          </div>
+          <%= simple_form_for([@practitioner], remote: true, html: { id: :website_form, style: 'display: none; align-items: center;' }) do |f| %>
+            <%= f.input :website, require: true, label: false %>
+            <button type="submit"><i class='fas fa-check'></i></button>
+            <button id='website-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+          <% end %>
+        </div>
+      </div>
+      <div class="practitioner-profile-info">
+        <div class="practitioner-profile-info-title">
+          <p>Address</p>
+        </div>
+        <div class="practitioner-profile-info-body">
+          <div id="practitioner-address">
+            <p id="address"><%= @practitioner.address %></p>
+            <button id='address-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+          </div>
+          <%= simple_form_for([@practitioner], remote: true, html: { id: :address_form, style: 'display: none; align-items: center;' }) do |f| %>
+            <%= f.input :address, require: true, label: false %>
+            <%= f.input :latitude, as: :hidden %>
+            <%= f.input :longitude, as: :hidden %>
+            <button type="submit"><i class='fas fa-check'></i></button>
+            <button id='address-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+          <% end %>
+        </div>
+      </div>
+      <!-- <div class="practitioner-profile-info">
+        <div class="practitioner-profile-info-title">
+          <p>Social media links</p>
+        </div>
+        <div class="practitioner-profile-info-body">
+          <div id="practitioner-social">
+            <button id='social-edit'><p><%#= link_to '', '', class: 'fas fa-pen' %></p></button>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <%= link_to 'Go to my page', practitioner_path(@practitioner), class: 'btn btn-flat'  %>
+</div>
+<div class="modal fade" id="profilePictureModal" tabindex="-1" role="dialog" aria-labelledby="profilePictureModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-photo" role="document">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <h5 class="modal-title" id="profilePictureModalLabel">Crop profile photo</h5>
+        <button data-dismiss="modal" aria-label="Close" style="display: none;" id="close-modal">
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <%= simple_form_for([@practitioner]) do |f| %>
+          <div class="row">
+            <div class="col-10 offset-1 p-0">
+              <%= f.input :photo, as: :file, input_html: { class: 'd-none', id: 'photo-input' }, label_html: { class: 'upload-photo'}, label: '📷 Upload a profile photo' %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-5 offset-1 p-0">
+              <canvas id="canvas" style="width: 100%; height: 55vh;"></canvas>
+            </div>
+            <div class="col-4 offset-1 p-0">
+              <div id="photo-preview"></div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-around mt-4">
+            <%= link_to 'Reset', '', class: 'btn btn-ghost', id: 'btnReset'  %>
+            <%= link_to 'Crop', '', class: 'btn btn-ghost', id: 'btnCrop' %>
+            <%= f.button :submit, "Upload", class: 'btn-flat', id: 'btnUpload', disabled: true %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  <% @columns.each do |column| %>
+    const <%= column %> = document.getElementById('practitioner-<%= column %>');
+    const <%= column %>Form = document.getElementById('<%= column %>_form');
+    const <%= column %>Edit = document.getElementById('<%= column %>-edit');
+    const <%= column %>Cancel = document.getElementById('<%= column %>-cancel');
+    <%= column %>Edit.addEventListener('click', (e) => {
+      e.preventDefault();
+      <%= column %>.style.display = 'none';
+      <%= column %>Form.style.display = 'flex';
+    })
+    <%= column %>Cancel.addEventListener('click', (e) => {
+      e.preventDefault();
+      <%= column %>.style.display = 'flex';
+      <%= column %>Form.style.display = 'none';
+    })
+  <% end %>
+  function initAutocomplete() {
+    var input = document.getElementById('practitioner_address');
+    var options = {
+      types:  ['address'],
+      componentRestrictions: { country: '<%= @practitioner.country_code %>' }
+    };
+    var autocomplete = new google.maps.places.Autocomplete(input, options);
+    autocomplete.setFields(['geometry', 'name']);
+    function fillInForm() {
+      var place = autocomplete.getPlace();
+      if (!place.geometry) {
+        // User entered the name of a Place that was not suggested and
+        // pressed the Enter key, or the Place Details request failed.
+        window.alert("No details available for input: '" + place.name + "'");
+        return;
+      }
+      document.getElementById('practitioner_latitude').value = place.geometry.location.lat()
+      document.getElementById('practitioner_longitude').value = place.geometry.location.lng()
+    }
+    autocomplete.addListener('place_changed', fillInForm);
+  }
+</script>

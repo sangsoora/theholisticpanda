@@ -4,21 +4,24 @@ class PractitionerLanguagesController < ApplicationController
   def create
     @practitioner_language = PractitionerLanguage.new
     authorize @practitioner_language
-    @practitioner_language.practitioner = Practitioner.find(params[:practitioner_id])
-    @practitioner_language.language = Practitioner.find(params[:language_id])
-    @practitioner_language.practitioner.save!
-    redirect_to root_path
+    @practitioner = Practitioner.find(params[:practitioner_id])
+    @languages = Language.all.sort_by(&:name)
+    @practitioner_language.practitioner = @practitioner
+    @practitioner_language.language = Language.find(params[:practitioner][:language_id])
+    @practitioner_language.save!
+    redirect_to practitioner_profile_path(Practitioner.find(params[:practitioner_id]))
   end
 
   def destroy
     @practitioner_language.destroy
-    redirect_to root_path
+    @language = @practitioner_language.language
+    redirect_to practitioner_profile_path(@practitioner_language.practitioner)
   end
 
   private
 
   def set_practitioner_language
-    @language = Language.find(params[:id])
+    @practitioner_language = PractitionerLanguage.find(params[:id])
     authorize @practitioner_language
   end
 end

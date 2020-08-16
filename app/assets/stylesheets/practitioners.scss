@@ -1,8 +1,8 @@
-.practitioner-profile-page, .practitioners-page {
+.practitioner-page, .practitioners-page, .practitioner-profile {
   padding: 6rem 0 2rem;
 }
 
-.practitioner-summary, .practitioner-name, .practitioner-description, .practitioner-service {
+.practitioner-summary, .practitioner-name, .practitioner-description, .practitioner-service, .practitioner-profile-table, .practitioner-profile-info, .practitioner-profile-info-body, #practitioner-specialties, #practitioner-languages, #practitioner-country, #practitioner-experience, #practitioner-certification, #practitioner-bio, #practitioner-workingdays, #practitioner-workinghours, #practitioner-video, #practitioner-website, #practitioner-address {
   display: flex;
 }
 
@@ -14,7 +14,7 @@
   margin: 0.5rem 0;
 }
 
-.practitioner-img {
+.practitioner-img, .practitioner-profile-img {
   flex: 0 0 20%;
   padding: 0.5rem;
 }
@@ -113,7 +113,7 @@
   }
 }
 
-.practitioner_education, .practitioner_experience {
+.practitioner-application .practitioner_education, .practitioner-application .practitioner_experience {
   flex: 0 1 45%;
 }
 
@@ -123,7 +123,7 @@
   margin: 1rem 0;
 }
 
-.language-choice, .specialty-choice, .health-goal-choice {
+.language-choice, .specialty-choice, .health-goal-choice, .workingday-choice {
   color: $gold;
   background: white;
   padding: 0.25rem 0.5rem;
@@ -142,4 +142,68 @@
   font-weight: 700;
   opacity: 1;
   }
+}
+
+.workingday-choice {
+  width: 4rem;
+}
+
+.practitioner-profile-table {
+  p, .form-group {
+    margin-bottom: 0;
+  }
+}
+
+.practitioner-profile-infos {
+  flex: 0 0 80%;
+  padding: 0.5rem 1rem;
+}
+
+.practitioner-profile-info {
+  margin-bottom: 2rem;
+}
+
+.practitioner-profile-info-title, .practitioner-profile-info-btn {
+  flex: 0 0 20%;
+}
+
+.practitioner-profile-info-body {
+  flex: 0 0 80%;
+  align-items: center;
+  button {
+    margin-left: 1.5rem;
+    background: transparent;
+    border: none;
+    color: $emerald;
+    opacity: .7;
+    display: flex;
+    &:hover {
+      color: $emerald;
+      opacity: 1;
+    }
+  }
+}
+
+#video_form, #website_form, #address_form {
+  width: 100%;
+  .form-group {
+    width: 100%;
+  }
+}
+
+#practitioner-specialties, #practitioner-languages {
+  flex-wrap: wrap;
+}
+
+.practitioner-specialty, .practitioner-language {
+  background: $gold;
+  color: $emerald;
+  padding: 0.25rem 1rem;
+  border-radius: 2rem;
+  border: 1px solid #E4BD78;
+  text-align: center;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
 }
