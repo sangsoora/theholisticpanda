@@ -128,11 +128,18 @@
               <input type="hidden" name="practitioner[workingday_ids][]" value="">
               <div class="workingdays-choices">
                 <% @workingdays.each do |workingday| %>
-                  <% if @practitioner.working_days.split(', ').include?(workingday) %>
-                    <input type="checkbox" class="hidden" value="<%= workingday %>" name="practitioner[workingday_ids][]" id="practitioner_workingday_ids_<%= workingday %>" checked>
-                    <label class="workingday-choice active" for="practitioner_workingday_ids_<%= workingday %>">
-                      <%= workingday %>
-                    </label>
+                  <% if @practitioner.working_days %>
+                    <% if @practitioner.working_days.split(', ').include?(workingday) %>
+                      <input type="checkbox" class="hidden" value="<%= workingday %>" name="practitioner[workingday_ids][]" id="practitioner_workingday_ids_<%= workingday %>" checked>
+                      <label class="workingday-choice active" for="practitioner_workingday_ids_<%= workingday %>">
+                        <%= workingday %>
+                      </label>
+                    <% else %>
+                      <input type="checkbox" class="hidden" value="<%= workingday %>" name="practitioner[workingday_ids][]" id="practitioner_workingday_ids_<%= workingday %>">
+                      <label class="workingday-choice" for="practitioner_workingday_ids_<%= workingday %>">
+                        <%= workingday %>
+                      </label>
+                    <% end %>
                   <% else %>
                     <input type="checkbox" class="hidden" value="<%= workingday %>" name="practitioner[workingday_ids][]" id="practitioner_workingday_ids_<%= workingday %>">
                     <label class="workingday-choice" for="practitioner_workingday_ids_<%= workingday %>">

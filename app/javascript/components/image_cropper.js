@@ -63,7 +63,8 @@ const displayPreview = (input) => {
           if (child) {
             preview.removeChild(child);
           }
-          input.files = '';
+          input.files.value = "";
+          document.getElementById("btnUpload").disabled = true;
         });
       };
       img.src = event.currentTarget.result;
@@ -78,6 +79,16 @@ const previewImageOnFileSelect = () => {
     // add a listener to know when a new picture is uploaded
     input.addEventListener('change', () => {
       // we call the displayPreview function (which retrieves the image url and displays it)
+      if (document.getElementById('canvas').classList.contains("cropper-hidden")) {
+        document.getElementById('canvas').src= "";
+        document.getElementById('canvas').cropper.destroy();
+        const child = preview.lastElementChild;
+        if (child) {
+          preview.removeChild(child);
+        }
+        input.files.value = "";
+        document.getElementById("btnUpload").disabled = true;
+      }
       displayPreview(input);
     })
   }

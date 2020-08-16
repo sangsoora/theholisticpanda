@@ -24,6 +24,6 @@ workingdaysForm.style.display = 'none';
 document.getElementById('workingdays').innerHTML = '<%= @practitioner.working_days %>'
 workinghours.style.display = 'flex';
 workinghoursForm.style.display = 'none';
-document.getElementById('workinghours').innerHTML = '<%= @practitioner.starting_hour.strftime("%H:%M") %> ~ <%= @practitioner.ending_hour.strftime("%H:%M") %>'
+document.getElementById('workinghours').innerHTML = '<% if @practitioner.starting_hour %><%= @practitioner.starting_hour.strftime("%H:%M") %> ~ <%= @practitioner.ending_hour.strftime("%H:%M") %><% end %>'
 
 

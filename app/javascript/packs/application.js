@@ -29,6 +29,6 @@ import { previewImageOnFileSelect } from '../components/image_cropper';
 
 document.addEventListener("DOMContentLoaded", () => {
   initUpdateForm();
+  previewImageOnFileSelect();
 });
 
-previewImageOnFileSelect();
