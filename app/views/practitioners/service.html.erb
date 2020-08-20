@@ -23,9 +23,9 @@
               <label class="select require" for="service_service_type">Service type</label>
               <select class="form-control is-valid select require" name="service[service_type]" id="service_service_type">
                 <option value=""></option>
-                <option value="Virtual" <%= 'selected' if service.service_type == "virtual" %>>Virtual</option>
+                <option value="Virtual" <%= 'selected' if service.service_type == "Virtual" %>>Virtual</option>
                 <% if service.practitioner.address %>
-                  <option value="In-person" <%= 'selected' if service.service_type == "in-person" %>>In-person</option>
+                  <option value="In-person" <%= 'selected' if service.service_type == "In-person" %>>In-person</option>
                 <% end %>
               </select>
             </div>
