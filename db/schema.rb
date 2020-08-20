@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(version: 2020_08_14_180643) do
 
   create_table "services", force: :cascade do |t|
     t.string "name"
-    t.string "description"
+    t.text "description"
     t.string "service_type"
     t.integer "duration"
     t.bigint "practitioner_specialty_id"

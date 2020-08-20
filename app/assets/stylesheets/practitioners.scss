@@ -1,4 +1,4 @@
-.practitioner-page, .practitioners-page, .practitioner-profile {
+.practitioner-page, .practitioners-page, .practitioner-profile, .practitioner-my-services {
   padding: 6rem 0 2rem;
 }
 
@@ -95,16 +95,16 @@
 }
 
 .practitioner-service-info {
-  flex: 0 0 80%;
+  h4 {
+    margin: 0;
+    flex: 0 0 75%;
+  }
   p {
     margin: 0;
     padding: 1rem 0.5rem 0 0;
   }
 }
 
-.practitioner-service-btn {
-  flex: 0 0 20%;
-}
 
 .practitioner-application {
   margin: 5rem auto 2rem;
@@ -212,3 +212,11 @@
   width: 100% !important;
 }
 
+.my-services {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  .practitioner-service {
+    width: 48%;
+  }
+}

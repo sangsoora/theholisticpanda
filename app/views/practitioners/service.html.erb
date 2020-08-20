@@ -1,0 +1,52 @@
+<div class="container practitioner-my-services">
+  <%= link_to 'Add new service', '', class: 'btn btn-flat' %>
+  <div class="my-services">
+    <% @practitioner.services.each do |service| %>
+      <div class="practitioner-service">
+        <div class="practitioner-service-info" id="service-<%= service.id %>">
+          <div class="d-flex justify-content-between align-items-center">
+            <h4><%= service.name %></h4>
+            <a class="btn btn-flat" href="" id="service-btn-<%= service.id %>">Edit</a>
+          </div>
+          <p>Service Type: <%= service.service_type.capitalize %></p>
+          <p>Duration: <%= service.duration %>m</p>
+          <p>Service Price: CA<%= humanized_money_with_symbol(service.price) %></p>
+          <div class="practitioner-service-description">
+            <p><%= service.description %></p>
+            <!-- <button>+ show more</button> -->
+          </div>
+        </div>
+        <%= simple_form_for([service], html: { class: 'w-100', style: 'display: none;' }) do |f| %>
+          <%= f.input :name %>
+          <div class="d-flex justify-content-between">
+            <div class="form-group select require service_service_type form-group-valid">
+              <label class="select require" for="service_service_type">Service type</label>
+              <select class="form-control is-valid select require" name="service[service_type]" id="service_service_type">
+                <option value=""></option>
+                <option value="Virtual" <%= 'selected' if service.service_type == "virtual" %>>Virtual</option>
+                <% if service.practitioner.address %>
+                  <option value="In-person" <%= 'selected' if service.service_type == "in-person" %>>In-person</option>
+                <% end %>
+              </select>
+            </div>
+            <%= f.input :duration %>
+            <%= f.input :price %>
+
+          </div>
+          <%= f.input :description, :input_html => { rows: 5 } %>
+          <%= f.submit :Save, class: 'btn btn-flat' %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+<script>
+  <% @practitioner.services.each do |service| %>
+    const serviceBtn<%= service.id %> = document.getElementById('service-btn-<%= service.id %>');
+    serviceBtn<%= service.id %>.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('service-<%= service.id %>').style.display = 'none';
+      document.getElementById('edit_service_<%= service.id %>').style.display = 'block';
+    })
+  <% end %>
+</script>

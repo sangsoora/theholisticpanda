@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   end
 
   get 'practitioners/:id/profile', to: 'practitioners#profile', as: :practitioner_profile
+  get 'practitioners/:id/services', to: 'practitioners#service', as: :practitioner_services
 
   resources :practitioner_specialties, only: [:destroy] do
     resources :services, only: [:create]

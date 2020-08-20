@@ -94,13 +94,20 @@ class ServicesController < ApplicationController
     @practitioner_specialty = PractitionerSpecialty.find(params[:practitioner_specialty_id])
     @service.practitioner_specialty = @practitioner_specialty
     if @service.save!
-      redirect_to service_path(@service)
+      redirect_to practitioner_service_path(current_user.practitioner)
     else
       render :new
     end
   end
 
   def update
+    if @service.update(service_params)
+      respond_to do |format|
+        format.html { redirect_to practitioner_service_path(current_user.practitioner) }
+        format.js
+      end
+    else
+    end
   end
 
   def destroy
