@@ -1,5 +1,10 @@
 <div class="container service-page">
   <h2><%= @service.name %> with <%= @service.practitioner.user.first_name %></h2>
+  <% if @service.reviews.count > 0 %>
+    <p><i class="fas fa-star mr-2" style="color: red;"></i><%= @service.rating_avg %> (<%= @service.reviews.count %>)</p>
+  <% else %>
+    <p>No reviews!</p>
+  <% end %>
   <div class="service-details">
     <div class="service-session-form">
       <p>Please select 3 time slots you prefer and the practitioner will confirm it.</p>

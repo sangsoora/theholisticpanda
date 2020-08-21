@@ -25,11 +25,13 @@
 }
 
 .practitioner-rating {
-  color: red;
   margin-left: 1rem;
   display: flex;
   align-items: center;
   margin-bottom: 0 !important;
+  i {
+    color: red;
+  }
 }
 
 

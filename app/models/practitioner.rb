@@ -6,6 +6,7 @@ class Practitioner < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :services, through: :practitioner_specialties, dependent: :destroy
   has_many :sessions, through: :services
+  has_many :reviews, through: :sessions
   has_many :languages, through: :practitioner_languages
   has_many :specialties, through: :practitioner_specialties
   has_many :health_goals, through: :specialties
@@ -24,5 +25,9 @@ class Practitioner < ApplicationRecord
   def country_name
     country = ISO3166::Country[country_code]
     country.translations[I18n.locale.to_s] || country.name
+  end
+
+  def rating_avg
+    (self.reviews.sum(:rating).to_f / self.reviews.size).round(2)
   end
 end

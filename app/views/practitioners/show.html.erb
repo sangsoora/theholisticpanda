@@ -11,7 +11,13 @@
       <div class="practitioner-name">
         <button class="verified">Verified</button>
         <h3><%= @practitioner.user.full_name %></h3>
-        <p class="practitioner-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></p>
+        <p class="practitioner-rating">
+          <% if @practitioner.reviews.count > 0 %>
+            <i class="fas fa-star mr-2" style="color: red;"></i><%= @practitioner.rating_avg %> (<%= @practitioner.reviews.count %>)
+          <% else %>
+            No reviews!
+          <% end %>
+        </p>
       </div>
       <div class="practitioner-detail">
         <p>Specailty:
@@ -46,6 +52,11 @@
                 <h4><%= service.name %></h4>
                 <%= link_to 'Book now', service_path(service), class: 'btn btn-flat' %>
               </div>
+              <% if service.reviews.count > 0 %>
+                <p><i class="fas fa-star mr-2" style="color: red;"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+              <% else %>
+                <p>No reviews!</p>
+              <% end %>
               <p>Service Type: <%= service.service_type.capitalize %></p>
               <p>Duration: <%= service.duration %>m</p>
               <p>Service Price: CA<%= humanized_money_with_symbol(service.price) %></p>
@@ -56,10 +67,6 @@
             </div>
           </div>
         <% end %>
-      </div>
-      <div class="practitioner-review">
-        <h3>Reviews</h3>
-        <p>No review</p>
       </div>
     </div>
     <div class="practitioner-description-right">
