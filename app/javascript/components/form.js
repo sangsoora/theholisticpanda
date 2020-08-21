@@ -39,22 +39,26 @@ const initUpdateForm = () => {
     $(".language-choice").click(function(){
       if ($(this).hasClass("active")) {
         $(this).removeClass("active");
-        $('#language-' + $(this)[0].previousElementSibling.value).remove();
+        languageSelectBoxBtn.innerText = 'Languages (' + $('.language-choice.active').length + ')'
+        if ( $('.language-choice.active').length === 0 ) {
+          languageSelectBoxBtn.innerText = 'Languages'
+        }
       } else {
         $(this).addClass("active");
-        $( "#selected-languages" ).append( "<p id='language-" + $(this)[0].previousElementSibling.value + "'>" + $(this)[0].innerText + "</p>" );
+        languageSelectBoxBtn.innerText = 'Languages (' + $('.language-choice.active').length + ')'
       }
     });
     $(".specialty-choice").click(function(){
       if ($(this).hasClass("active")) {
         $(this).removeClass("active");
-        $('#specialty-' + $(this)[0].previousElementSibling.value).remove();
-        if ( $('#selected-specialties').children().length === 0 ) {
+        specialtySelectBoxBtn.innerText = 'Specialties (' + $('.specialty-choice.active').length + ')'
+        if ( $('.specialty-choice.active').length === 0 ) {
           $("#health-goal-selector").removeClass('hidden');
+          specialtySelectBoxBtn.innerText = 'Specialties'
         }
       } else {
         $(this).addClass("active");
-        $( "#selected-specialties" ).append( "<p id='specialty-" + $(this)[0].previousElementSibling.value + "'>" + $(this)[0].innerText + "</p>" );
+        specialtySelectBoxBtn.innerText = 'Specialties (' + $('.specialty-choice.active').length + ')'
         if (!$("#health-goal-selector").hasClass('hidden')) {
           $("#health-goal-selector").addClass('hidden');
         }
@@ -63,13 +67,14 @@ const initUpdateForm = () => {
     $(".health-goal-choice").click(function(){
       if ($(this).hasClass("active")) {
         $(this).removeClass("active");
-        $('#health-goal-' + $(this)[0].previousElementSibling.value).remove();
-        if ( $('#selected-health-goals').children().length === 0 ) {
+        healthGoalSelectBoxBtn.innerText = 'Health Goals (' + $('.health-goal-choice.active').length + ')'
+        if ( $('.health-goal-choice.active').length === 0 ) {
           $("#specialty-selector").removeClass('hidden');
+          healthGoalSelectBoxBtn.innerText = 'Health Goals'
         }
       } else {
         $(this).addClass("active");
-        $( "#selected-health-goals" ).append( "<p id='health-goal-" + $(this)[0].previousElementSibling.value + "'>" + $(this)[0].innerText + "</p>" );
+        healthGoalSelectBoxBtn.innerText = 'Health Goals (' + $('.health-goal-choice.active').length + ')'
         if (!$("#specialty-selector").hasClass('hidden')) {
           $("#specialty-selector").addClass('hidden');
         }

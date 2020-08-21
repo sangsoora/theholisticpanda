@@ -29,6 +29,9 @@
             </label>
           </div>
         </div>
+        <% if @session.service.service_type == 'Virtual' %>
+          <%= f.input :link, input_html: { class: 'w-50' }, label: 'Please add a link for the virtual session' %>
+        <% end %>
         <!-- <p>Or choose another time for the session.</p> -->
         <%#= f.input :start_time, as: :string, input_html: {class: "datepicker"} %>
         <div class="session-btns">
@@ -76,7 +79,7 @@
       <h2>This session has been cancelled.</h2>
     <% end %>
   <% end %>
-  <% if @session.user == current_user && @session.service.service_type == 'in-person' %>
+  <% if @session.user == current_user && @session.service.service_type == 'In-person' %>
     <div class="session-detail">
       <div class="session-summary">
         <h3>Session summary</h3>
@@ -87,7 +90,7 @@
       <% end %>
       <p>Duration: <%= @session.service.duration %>m</p>
       <p>Session type: <%= @session.service.service_type.capitalize %></p>
-      <% if @session.service.service_type == 'in-person' %>
+      <% if @session.service.service_type == 'In-person' %>
         <p>Session location: <%= @session.service.practitioner.location %></p>
         <p>Address: <%= @session.service.practitioner.address %></p>
       <% end %>
@@ -111,7 +114,7 @@
         <% end %>
         <p>Duration: <%= @session.service.duration %>m</p>
         <p>Session type: <%= @session.service.service_type.capitalize %></p>
-        <% if @session.service.service_type == 'in-person' %>
+        <% if @session.service.service_type == 'In-person' %>
           <p>Session location: <%= @session.service.practitioner.location %></p>
           <p>Address: <%= @session.service.practitioner.address %></p>
         <% end %>

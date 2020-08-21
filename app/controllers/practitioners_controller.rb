@@ -1,6 +1,6 @@
 class PractitionersController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show]
-  before_action :set_practitioner, only: [:show, :profile, :update, :destroy]
+  before_action :set_practitioner, only: [:show, :profile, :service, :update, :destroy]
 
   def index
     @practitioners = policy_scope(Practitioner)
@@ -132,6 +132,11 @@ class PractitionersController < ApplicationController
     @practitioner_specialty = PractitionerSpecialty.new
     @practitioner_language = PractitionerLanguage.new
     @practitioner_social_link = PractitionerSocialLink.new
+  end
+
+  def service
+    @services = @practitioner.services
+    @service = Service.new
   end
 
   def update

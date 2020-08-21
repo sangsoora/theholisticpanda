@@ -19,7 +19,7 @@
   margin: 2rem 0;
 }
 
-.specialty-select-box, .health-goal-select-box, .language-select-box {
+.specialty-select-box, .health-goal-select-box, .language-select-box, .service-type-select-box {
   display: none;
   position: absolute;
   top: 2.75rem;
@@ -36,17 +36,11 @@
 }
 
 .language-select-box {
-  left: -50%
+  left: -50%;
 }
 
-#selected-specialties, #selected-health-goals, #selected-languages {
-  p {
-    background-color: $gold;
-    color: $emerald;
-    text-align: center;
-    padding: 0.25rem 1rem;
-    border-radius: 10px;
-  }
+.service-type-select-box {
+  width: 12vw;
 }
 
 .sort-btns, .specialty-list {
@@ -75,7 +69,7 @@
 
 .service-list-item {
   overflow: hidden;
-  background: $pink;
+  background: white;
   box-shadow: 0 0 0.5rem rgba(0,0,0,0.2);
   padding: 1rem;
   border-radius: 4px;

@@ -24,7 +24,6 @@
             <%= language.name %>
           <% end %>
         </p>
-        <p>Insurance Accepted: </p>
       </div>
     </div>
     <div class="practitioner-btn">
@@ -39,21 +38,21 @@
         <p><%= @practitioner.bio %></p>
       </div>
       <div class="practitioner-services">
-        <h3>Services/Treatments</h3>
+        <h3>Services</h3>
         <% @practitioner.services.each do |service| %>
           <div class="practitioner-service">
             <div class="practitioner-service-info">
-              <h4><%= service.name %></h4>
-              <p><%= service.service_type.capitalize %></p>
+              <div class="d-flex justify-content-between align-items-center">
+                <h4><%= service.name %></h4>
+                <%= link_to 'Book now', service_path(service), class: 'btn btn-flat' %>
+              </div>
+              <p>Service Type: <%= service.service_type.capitalize %></p>
               <p>Duration: <%= service.duration %>m</p>
-              <p><%= humanized_money_with_symbol(service.price) %></p>
+              <p>Service Price: CA<%= humanized_money_with_symbol(service.price) %></p>
               <div class="practitioner-service-description">
                 <p><%= service.description %></p>
                 <!-- <button>+ show more</button> -->
               </div>
-            </div>
-            <div class="practitioner-service-btn">
-              <%= link_to 'Book now', service_path(service), class: 'btn btn-flat' %>
             </div>
           </div>
         <% end %>

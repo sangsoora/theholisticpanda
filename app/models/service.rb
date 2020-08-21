@@ -7,6 +7,11 @@ class Service < ApplicationRecord
   has_many :health_goals, through: :specialty_health_goals
   has_many :practitioner_languages, through: :practitioner
   has_many :languages, through: :practitioner_languages
+  validates :name, presence: true
+  validates :duration, presence: true
+  validates :price, presence: true
+  validates :description, presence: true
+  validates :service_type, presence: true
   monetize :price_cents
   scope :filter_by_specialty, ->(specialty) { joins(:specialty).where(specialties: { id: specialty }) }
   scope :filter_by_health_goal, ->(health_goals) { joins(:health_goals).where(health_goals: { id: health_goals }) }
