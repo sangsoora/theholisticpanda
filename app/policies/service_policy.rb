@@ -10,7 +10,7 @@ class ServicePolicy < ApplicationPolicy
   end
 
   def create?
-    user.practitioner?
+    user.practitioner
   end
 
   def update?
@@ -24,6 +24,6 @@ class ServicePolicy < ApplicationPolicy
   private
 
   def user_is_owner?
-    record.practitioner_specialty.practitioner.user == user
+    record.practitioner.user == user
   end
 end

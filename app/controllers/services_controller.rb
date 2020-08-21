@@ -1,6 +1,7 @@
 class ServicesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show]
   before_action :set_service, only: [:show, :update, :destroy]
+
   def index
     @services = policy_scope(Service).group_by { |service| service.specialty }
     @services = @services.sort_by {|k, v| k[:name] }.to_h
@@ -91,10 +92,11 @@ class ServicesController < ApplicationController
   def create
     @service = Service.new(service_params)
     authorize @service
-    @practitioner_specialty = PractitionerSpecialty.find(params[:practitioner_specialty_id])
+    @practitioner_specialty = PractitionerSpecialty.find_by(practitioner: current_user.practitioner, specialty: Specialty.find(params[:service][:specialty]))
+    @service.practitioner = current_user.practitioner
     @service.practitioner_specialty = @practitioner_specialty
     if @service.save!
-      redirect_to practitioner_service_path(current_user.practitioner)
+      redirect_to practitioner_services_path(current_user.practitioner)
     else
       render :new
     end
@@ -102,15 +104,13 @@ class ServicesController < ApplicationController
 
   def update
     if @service.update(service_params)
-      respond_to do |format|
-        format.html { redirect_to practitioner_service_path(current_user.practitioner) }
-        format.js
-      end
-    else
+      redirect_to practitioner_services_path(current_user.practitioner)
     end
   end
 
   def destroy
+    @service.destroy
+    redirect_to practitioner_services_path(current_user.practitioner)
   end
 
   private

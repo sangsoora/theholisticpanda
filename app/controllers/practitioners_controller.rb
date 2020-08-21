@@ -136,6 +136,7 @@ class PractitionersController < ApplicationController
 
   def service
     @services = @practitioner.services
+    @service = Service.new
   end
 
   def update

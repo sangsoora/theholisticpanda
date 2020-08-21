@@ -40,13 +40,17 @@ class SessionsController < ApplicationController
   def update
     if params[:commit] == 'Confirm'
       if params[:session][:time] == 'primary'
-        @session.update!(start_time: @session.primary_time, status: 'confirmed')
+        @start_time = @session.primary_time
       elsif params[:session][:time] == 'secondary'
-        @session.update!(start_time: @session.secondary_time, status: 'confirmed')
+        @start_time = @session.secondary_time
       elsif params[:session][:time] == 'tertiary'
-        @session.update!(start_time: @session.tertiary_time, status: 'confirmed')
+        @start_time = @session.tertiary_time
       end
-      redirect_to user_sessions_path(current_user), notice: 'Session request accepted'
+      if @session.update(start_time: @start_time, status: 'confirmed')
+        redirect_to user_sessions_path(current_user), notice: 'Session request accepted'
+      else
+
+      end
     elsif params[:commit] == 'Decline'
       @session.update!(status: 'declined')
       redirect_to user_sessions_path(current_user), notice: 'Session request declined'

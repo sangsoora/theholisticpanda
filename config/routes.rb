@@ -27,9 +27,7 @@ Rails.application.routes.draw do
   get 'practitioners/:id/profile', to: 'practitioners#profile', as: :practitioner_profile
   get 'practitioners/:id/services', to: 'practitioners#service', as: :practitioner_services
 
-  resources :practitioner_specialties, only: [:destroy] do
-    resources :services, only: [:create]
-  end
+  resources :practitioner_specialties, only: [:destroy]
 
   resources :practitioner_languages, only: [:destroy]
 
@@ -43,7 +41,7 @@ Rails.application.routes.draw do
 
   resources :health_goals, only: [:create, :destroy]
 
-  resources :services, only: [:index, :show, :update, :destroy] do
+  resources :services, only: [:create, :index, :show, :update, :destroy] do
     resources :sessions, only: [:create]
   end
 

@@ -1,0 +1,8 @@
+<% @practitioner.services.each do |service| %>
+  const serviceBtn<%= service.id %> = document.getElementById('service-btn-<%= service.id %>');
+  serviceBtn<%= service.id %>.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('service-<%= service.id %>').style.display = 'none';
+    document.getElementById('edit_service_<%= service.id %>').style.display = 'block';
+  })
+<% end %>
