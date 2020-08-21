@@ -14,6 +14,11 @@
             </div>
           </div>
           <p>Booked <%= service.sessions.where(status: "confirmed").count %> times</p>
+          <% if service.reviews.count > 0 %>
+            <p><i class="fas fa-star mr-2" style="color: red;"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+          <% else %>
+            <p>No reviews!</p>
+          <% end %>
           <p>Specialty: <%= service.specialty.name %></p>
           <p>Service Type: <%= service.service_type.capitalize %></p>
           <p>Duration: <%= service.duration %>m</p>

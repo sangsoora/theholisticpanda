@@ -33,8 +33,16 @@
       </div>
     </div>
     <div class="practitioner-btn">
-      <%= link_to 'Send message', '', class: 'btn btn-flat w-100' %>
-      <%= link_to 'Save as favorite', '', class: 'btn btn-ghost w-100' %>
+      <% if current_user == @practitioner.user %>
+        <%= link_to 'Edit', practitioner_profile_path(@practitioner), class: 'btn btn-flat w-100' %>
+      <% else %>
+        <%= link_to 'Send message', '', class: 'btn btn-flat w-100' %>
+        <% if FavoritePractitioner.find_by(user: current_user, practitioner: @practitioner) %>
+          <%= link_to 'Remove from favorite', favorite_practitioner_path(FavoritePractitioner.find_by(user: current_user, practitioner: @practitioner)), method: :delete, data: { confirm: "Are you sure?" }, class: 'btn btn-ghost w-100' %>
+        <% else %>
+          <%= link_to 'Save as favorite', practitioner_favorite_practitioners_path(@practitioner), method: :post, class: 'btn btn-ghost w-100' %>
+        <% end %>
+      <% end %>
     </div>
   </div>
   <div class="practitioner-description">

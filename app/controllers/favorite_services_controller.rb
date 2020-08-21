@@ -1,0 +1,2 @@
+class FavoriteServicesController < ApplicationController
+end

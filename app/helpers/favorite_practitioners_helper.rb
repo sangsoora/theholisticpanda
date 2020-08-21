@@ -1,0 +1,2 @@
+module FavoritePractitionersHelper
+end
