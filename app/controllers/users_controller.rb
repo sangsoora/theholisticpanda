@@ -31,6 +31,7 @@ class UsersController < ApplicationController
       @pending_sessions = current_user.sessions.where(["status= ?", "pending"])
       @cancelled_sessions = current_user.sessions.where(["status= ?", "cancelled"])
     end
+    @review = Review.new
   end
 
   def favorite

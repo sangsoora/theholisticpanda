@@ -15,7 +15,7 @@
           </div>
           <p>Booked <%= service.sessions.where(status: "confirmed").count %> times</p>
           <% if service.reviews.count > 0 %>
-            <p><i class="fas fa-star mr-2" style="color: red;"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+            <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
           <% else %>
             <p>No reviews!</p>
           <% end %>
@@ -51,14 +51,15 @@
   </div>
 </div>
 <div class="modal fade" id="newServiceModal" tabindex="-1" role="dialog" aria-labelledby="newServiceModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-photo" role="document">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header justify-content-center">
-        <h5 class="modal-title" id="newServiceModalLabel">Crop profile photo</h5>
-        <button data-dismiss="modal" aria-label="Close" >
+      <div class="modal-header">
+       <h5 class="modal-title" id="newServiceModalLabel">New service</h5>
+       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body text-center">
+      <div class="modal-body">
         <%= simple_form_for([@service]) do |f| %>
           <%= f.input :name %>
           <div class="form-group select require service_service_type">

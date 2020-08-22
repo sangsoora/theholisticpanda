@@ -4,4 +4,12 @@ class ReviewPolicy < ApplicationPolicy
       scope.all
     end
   end
+
+  def create?
+    true
+  end
+
+  def destroy?
+    record.session.user == user
+  end
 end

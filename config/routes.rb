@@ -52,7 +52,10 @@ Rails.application.routes.draw do
 
   resources :sessions, only: [:show, :edit, :update, :destroy] do
     resources :payments, only: [:new]
+    resources :reviews, only: [:create]
   end
+
+  resources :reviews, only: [:destroy]
 
   mount StripeEvent::Engine, at: '/stripe-webhooks'
 end

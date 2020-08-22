@@ -50,7 +50,7 @@ class ServicesController < ApplicationController
       end
       if params[:search][:service_type]
         if params[:search][:service_type].present?
-          @services_by_service_type = Service.filter_by_service_type(params[:search][:service_type].split(' ')[0].downcase)
+          @services_by_service_type = Service.filter_by_service_type(params[:search][:service_type].split(' ')[0])
         else
           @services_by_service_type = []
         end

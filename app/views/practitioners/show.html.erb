@@ -13,7 +13,7 @@
         <h3><%= @practitioner.user.full_name %></h3>
         <p class="practitioner-rating">
           <% if @practitioner.reviews.count > 0 %>
-            <i class="fas fa-star mr-2"></i><%= @practitioner.rating_avg %> (<%= @practitioner.reviews.count %>)
+            <i class="fas fa-star mr-2 pink-icon"></i><%= @practitioner.rating_avg %> (<%= @practitioner.reviews.count %>)
           <% else %>
             No reviews!
           <% end %>
@@ -52,7 +52,7 @@
                 <%= link_to 'Book now', service_path(service), class: 'btn btn-flat' %>
               </div>
               <% if service.reviews.count > 0 %>
-                <p><i class="fas fa-star mr-2" style="color: red;"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+                <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
               <% else %>
                 <p>No reviews!</p>
               <% end %>
@@ -73,6 +73,11 @@
         <div class="embed-responsive embed-responsive-16by9">
           <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<%= @practitioner.video %>?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
+      </div>
+      <div class="practitioner-review mt-5">
+        <% @practitioner.reviews.each do |review| %>
+          <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %> - <%= review.comment %> <small><i>by <%= review.session.user.full_name %></i></small></p>
+        <% end %>
       </div>
     </div>
   </div>

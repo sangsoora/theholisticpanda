@@ -82,7 +82,7 @@
                 <h3><%= link_to service.name, service_path(service) %></h3>
               </div>
               <% if service.reviews.count > 0 %>
-                <p><i class="fas fa-star mr-2" style="color: red;"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+                <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
               <% else %>
                 <p>No reviews!</p>
               <% end %>
@@ -134,7 +134,7 @@
                 <h3><%= link_to service.name, service_path(service) %></h3>
               </div>
               <% if service.reviews.count > 0 %>
-                <p><i class="fas fa-star mr-2" style="color: red;"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+                <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
               <% else %>
                 <p>No reviews!</p>
               <% end %>
