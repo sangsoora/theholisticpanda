@@ -1,6 +1,6 @@
-class CreateFavorites < ActiveRecord::Migration[5.2]
+class CreateFavoritePractitioners < ActiveRecord::Migration[5.2]
   def change
-    create_table :favorites do |t|
+    create_table :favorite_practitioners do |t|
       t.references :user, foreign_key: true
       t.references :practitioner, foreign_key: true
 

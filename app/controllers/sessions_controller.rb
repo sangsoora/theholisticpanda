@@ -2,6 +2,7 @@ class SessionsController < ApplicationController
   before_action :set_session, only: [:show, :update, :destroy]
 
   def show
+    @review = Review.new
   end
 
   def create

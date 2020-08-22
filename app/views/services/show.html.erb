@@ -1,5 +1,15 @@
 <div class="container service-page">
-  <h2><%= @service.name %> with <%= @service.practitioner.user.first_name %></h2>
+  <div class="d-flex">
+    <h2><%= @service.name %> with <%= @service.practitioner.user.first_name %></h2>
+    <div id="service-btn">
+      <%= render 'favorite_services/service_btn', service: @service %>
+    </div>
+  </div>
+  <% if @service.reviews.count > 0 %>
+    <p><i class="fas fa-star mr-2 pink-icon"></i><%= @service.rating_avg %> (<%= @service.reviews.count %>)</p>
+  <% else %>
+    <p>No reviews!</p>
+  <% end %>
   <div class="service-details">
     <div class="service-session-form">
       <p>Please select 3 time slots you prefer and the practitioner will confirm it.</p>
@@ -27,6 +37,11 @@
         <p>Session: CA$ <%= @service.price.to_f.round(2) %></p>
         <p>Service fee: C$ <%=( @service.price * 0.03).round(2) %></p>
         <p>Total price: C$ <%= (@service.price * 1.03).round(2) %></p>
+      </div>
+      <div class="service-review">
+        <% @service.reviews.each do |review| %>
+          <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %> - <%= review.comment %> <small><i>by <%= review.session.user.full_name %></i></small></p>
+        <% end %>
       </div>
     </div>
   </div>

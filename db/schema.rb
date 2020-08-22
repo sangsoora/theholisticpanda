@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_14_180643) do
+ActiveRecord::Schema.define(version: 2020_08_21_183139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,13 +36,22 @@ ActiveRecord::Schema.define(version: 2020_08_14_180643) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "favorites", force: :cascade do |t|
+  create_table "favorite_practitioners", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "practitioner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["practitioner_id"], name: "index_favorites_on_practitioner_id"
-    t.index ["user_id"], name: "index_favorites_on_user_id"
+    t.index ["practitioner_id"], name: "index_favorite_practitioners_on_practitioner_id"
+    t.index ["user_id"], name: "index_favorite_practitioners_on_user_id"
+  end
+
+  create_table "favorite_services", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "service_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["service_id"], name: "index_favorite_services_on_service_id"
+    t.index ["user_id"], name: "index_favorite_services_on_user_id"
   end
 
   create_table "health_goals", force: :cascade do |t|
@@ -106,6 +115,15 @@ ActiveRecord::Schema.define(version: 2020_08_14_180643) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_practitioners_on_user_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.integer "rating"
+    t.text "comment"
+    t.bigint "session_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["session_id"], name: "index_reviews_on_session_id"
   end
 
   create_table "services", force: :cascade do |t|
@@ -180,14 +198,17 @@ ActiveRecord::Schema.define(version: 2020_08_14_180643) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "favorites", "practitioners"
-  add_foreign_key "favorites", "users"
+  add_foreign_key "favorite_practitioners", "practitioners"
+  add_foreign_key "favorite_practitioners", "users"
+  add_foreign_key "favorite_services", "services"
+  add_foreign_key "favorite_services", "users"
   add_foreign_key "practitioner_languages", "languages"
   add_foreign_key "practitioner_languages", "practitioners"
   add_foreign_key "practitioner_social_links", "practitioners"
   add_foreign_key "practitioner_specialties", "practitioners"
   add_foreign_key "practitioner_specialties", "specialties"
   add_foreign_key "practitioners", "users"
+  add_foreign_key "reviews", "sessions"
   add_foreign_key "services", "practitioner_specialties"
   add_foreign_key "sessions", "services"
   add_foreign_key "sessions", "users"

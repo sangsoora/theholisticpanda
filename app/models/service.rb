@@ -7,6 +7,7 @@ class Service < ApplicationRecord
   has_many :health_goals, through: :specialty_health_goals
   has_many :practitioner_languages, through: :practitioner
   has_many :languages, through: :practitioner_languages
+  has_many :reviews, through: :sessions
   validates :name, presence: true
   validates :duration, presence: true
   validates :price, presence: true
@@ -22,4 +23,8 @@ class Service < ApplicationRecord
   $health_goals = HealthGoal.all.sort_by(&:name)
   $languages = Language.includes(:practitioner_languages).where.not(practitioner_languages: { id: nil }).sort_by(&:name)
   $types = ['Virtual', 'In-person']
+
+  def rating_avg
+    (self.reviews.sum(:rating).to_f / self.reviews.size).round(2)
+  end
 end

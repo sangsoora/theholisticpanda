@@ -5,9 +5,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_one :practitioner, dependent: :destroy
-  has_many :favorites, dependent: :destroy
   has_many :user_health_goals
   has_many :sessions
+  has_many :favorite_practitioners
+  has_many :favorite_services
 
   validates :email, presence: true, format: { with: /.+@.+\..+/ }
   validates :first_name, presence: true, length: { minimum: 2, maximum: 20 }

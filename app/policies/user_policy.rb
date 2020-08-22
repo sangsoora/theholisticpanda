@@ -13,6 +13,10 @@ class UserPolicy < ApplicationPolicy
     user_is_page_owner?
   end
 
+  def favorite?
+    user_is_page_owner?
+  end
+
   private
 
   def user_is_page_owner?

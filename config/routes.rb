@@ -11,17 +11,17 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show] do
     resources :practitioners, only: [:new, :create]
-    resources :favorites, only: [:create]
   end
 
-  resources :favorites, only: [:destroy]
-
   get 'users/:id/sessions', to: 'users#booking', as: :user_sessions
+  get 'users/:id/favorites', to: 'users#favorite', as: :user_favorites
+
 
   resources :practitioners, only: [:index, :show, :update, :destroy] do
     resources :practitioner_specialties, only: [:create]
     resources :practitioner_languages, only: [:create]
     resources :practitioner_social_links, only: [:create]
+    resources :favorite_practitioners, only: [:create]
   end
 
   get 'practitioners/:id/profile', to: 'practitioners#profile', as: :practitioner_profile
@@ -33,6 +33,8 @@ Rails.application.routes.draw do
 
   resources :practitioner_social_links, only: [:destroy]
 
+  resources :favorite_practitioners, only: [:destroy]
+
   resources :languages, only: [:create, :destroy]
 
   resources :specialties, only: [:create, :destroy] do
@@ -43,11 +45,17 @@ Rails.application.routes.draw do
 
   resources :services, only: [:create, :index, :show, :update, :destroy] do
     resources :sessions, only: [:create]
+    resources :favorite_services, only: [:create]
   end
+
+  resources :favorite_services, only: [:destroy]
 
   resources :sessions, only: [:show, :edit, :update, :destroy] do
     resources :payments, only: [:new]
+    resources :reviews, only: [:create]
   end
+
+  resources :reviews, only: [:destroy]
 
   mount StripeEvent::Engine, at: '/stripe-webhooks'
 end

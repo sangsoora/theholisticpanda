@@ -11,7 +11,13 @@
       <div class="practitioner-name">
         <button class="verified">Verified</button>
         <h3><%= @practitioner.user.full_name %></h3>
-        <p class="practitioner-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></p>
+        <p class="practitioner-rating">
+          <% if @practitioner.reviews.count > 0 %>
+            <i class="fas fa-star mr-2 pink-icon"></i><%= @practitioner.rating_avg %> (<%= @practitioner.reviews.count %>)
+          <% else %>
+            No reviews!
+          <% end %>
+        </p>
       </div>
       <div class="practitioner-detail">
         <p>Specailty:
@@ -26,9 +32,8 @@
         </p>
       </div>
     </div>
-    <div class="practitioner-btn">
-      <%= link_to 'Send message', '', class: 'btn btn-flat w-100' %>
-      <%= link_to 'Save as favorite', '', class: 'btn btn-ghost w-100' %>
+    <div class="practitioner-btn" id="practitioner-btn">
+      <%= render 'favorite_practitioners/practitioner_btn', practitioner: @practitioner %>
     </div>
   </div>
   <div class="practitioner-description">
@@ -46,6 +51,11 @@
                 <h4><%= service.name %></h4>
                 <%= link_to 'Book now', service_path(service), class: 'btn btn-flat' %>
               </div>
+              <% if service.reviews.count > 0 %>
+                <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+              <% else %>
+                <p>No reviews!</p>
+              <% end %>
               <p>Service Type: <%= service.service_type.capitalize %></p>
               <p>Duration: <%= service.duration %>m</p>
               <p>Service Price: CA<%= humanized_money_with_symbol(service.price) %></p>
@@ -57,16 +67,17 @@
           </div>
         <% end %>
       </div>
-      <div class="practitioner-review">
-        <h3>Reviews</h3>
-        <p>No review</p>
-      </div>
     </div>
     <div class="practitioner-description-right">
       <div class="practitioner-video">
         <div class="embed-responsive embed-responsive-16by9">
           <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<%= @practitioner.video %>?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
+      </div>
+      <div class="practitioner-review mt-5">
+        <% @practitioner.reviews.each do |review| %>
+          <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %> - <%= review.comment %> <small><i>by <%= review.session.user.full_name %></i></small></p>
+        <% end %>
       </div>
     </div>
   </div>

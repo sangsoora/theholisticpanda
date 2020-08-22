@@ -1,0 +1,10 @@
+<div class="container favorites">
+  <h2>Favorite Practitioners</h2>
+  <% @favorite_practitioners.each do |p|  %>
+    <p><%= link_to p.practitioner.user.full_name, practitioner_path(p.practitioner) %></p>
+  <% end %>
+  <h2>Favorite Services</h2>
+  <% @favorite_services.each do |s|  %>
+    <p><%= link_to s.service.name, service_path(s.service) %></p>
+  <% end %>
+</div>

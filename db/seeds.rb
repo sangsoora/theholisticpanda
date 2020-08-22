@@ -631,11 +631,59 @@ Session.create!(start_time: DateTime.new(2020, 9, 9, 15, 00, 0), duration: 75, a
 Session.create!(duration: 30, primary_time: DateTime.new(2020, 10, 13, 20, 00, 0), secondary_time: DateTime.new(2020, 10, 13, 20, 30, 0), tertiary_time: DateTime.new(2020, 10, 14, 10, 30, 0), amount: 100, paid: true, status: 'pending', user_id: 4, service_id: 5)
 Session.create!(duration: 30, primary_time: DateTime.new(2020, 11, 4, 17, 00, 0), secondary_time: DateTime.new(2020, 11, 4, 17, 30, 0), tertiary_time: DateTime.new(2020, 11, 7, 17, 00, 0), amount: 45, paid: false, status: 'pending', user_id: 4, service_id: 22)
 Session.create!(start_time: DateTime.new(2020, 5, 15, 12, 00, 0), duration: 105, amount: 60, paid: true, status: 'confirmed', user_id: 17, service_id: 37)
-Session.create!(start_time: DateTime.new(2020, 6, 4, 9, 30, 0), duration: 30, amount: 30, paid: true, status: 'confirmed', user_id: 18, service_id: 45)
-Session.create!(start_time: DateTime.new(2020, 7, 2, 18, 00, 0), duration: 45, amount: 65, paid: true, status: 'confirmed', user_id: 19, service_id: 49)
-Session.create!(start_time: DateTime.new(2020, 2, 14, 11, 00, 0), duration: 60, amount: 20, paid: true, status: 'confirmed', user_id: 20, service_id: 1)
-Session.create!(start_time: DateTime.new(2020, 4, 19, 10, 30, 0), duration: 150, amount: 50, paid: true, status: 'confirmed', user_id: 21, service_id: 31)
-Session.create!(start_time: DateTime.new(2020, 3, 29, 15, 00, 0), duration: 45, amount: 30, paid: true, status: 'confirmed', user_id: 22, service_id: 7)
+Session.create!(start_time: DateTime.new(2020, 5, 18, 12, 00, 0), duration: 105, amount: 60, paid: true, status: 'confirmed', user_id: 18, service_id: 37)
+Session.create!(start_time: DateTime.new(2020, 5, 29, 12, 00, 0), duration: 105, amount: 60, paid: true, status: 'confirmed', user_id: 19, service_id: 37)
+Session.create!(start_time: DateTime.new(2020, 6, 2, 1, 00, 0), duration: 105, amount: 60, paid: true, status: 'confirmed', user_id: 20, service_id: 37)
+Session.create!(start_time: DateTime.new(2020, 6, 5, 1, 00, 0), duration: 105, amount: 60, paid: true, status: 'confirmed', user_id: 21, service_id: 37)
+Session.create!(start_time: DateTime.new(2020, 6, 9, 1, 00, 0), duration: 105, amount: 60, paid: true, status: 'confirmed', user_id: 22, service_id: 37)
+Session.create!(start_time: DateTime.new(2020, 6, 10, 1, 00, 0), duration: 105, amount: 60, paid: true, status: 'confirmed', user_id: 23, service_id: 37)
+Session.create!(start_time: DateTime.new(2020, 6, 29, 1, 00, 0), duration: 105, amount: 60, paid: true, status: 'confirmed', user_id: 24, service_id: 37)
+Session.create!(start_time: DateTime.new(2020, 7, 29, 1, 00, 0), duration: 105, amount: 60, paid: true, status: 'confirmed', user_id: 25, service_id: 37)
+Session.create!(start_time: DateTime.new(2020, 5, 4, 9, 30, 0), duration: 30, amount: 30, paid: true, status: 'confirmed', user_id: 17, service_id: 45)
+Session.create!(start_time: DateTime.new(2020, 5, 15, 9, 30, 0), duration: 30, amount: 30, paid: true, status: 'confirmed', user_id: 18, service_id: 45)
+Session.create!(start_time: DateTime.new(2020, 5, 24, 9, 30, 0), duration: 30, amount: 30, paid: true, status: 'confirmed', user_id: 19, service_id: 45)
+Session.create!(start_time: DateTime.new(2020, 6, 4, 9, 30, 0), duration: 30, amount: 30, paid: true, status: 'confirmed', user_id: 20, service_id: 45)
+Session.create!(start_time: DateTime.new(2020, 6, 14, 9, 30, 0), duration: 30, amount: 30, paid: true, status: 'confirmed', user_id: 21, service_id: 45)
+Session.create!(start_time: DateTime.new(2020, 6, 17, 9, 30, 0), duration: 30, amount: 30, paid: true, status: 'confirmed', user_id: 22, service_id: 45)
+Session.create!(start_time: DateTime.new(2020, 6, 18, 9, 30, 0), duration: 30, amount: 30, paid: true, status: 'confirmed', user_id: 23, service_id: 45)
+Session.create!(start_time: DateTime.new(2020, 7, 4, 9, 30, 0), duration: 30, amount: 30, paid: true, status: 'confirmed', user_id: 24, service_id: 45)
+Session.create!(start_time: DateTime.new(2020, 7, 14, 9, 30, 0), duration: 30, amount: 30, paid: true, status: 'confirmed', user_id: 25, service_id: 45)
+Session.create!(start_time: DateTime.new(2020, 7, 2, 18, 00, 0), duration: 45, amount: 65, paid: true, status: 'confirmed', user_id: 17, service_id: 49)
+Session.create!(start_time: DateTime.new(2020, 7, 4, 18, 00, 0), duration: 45, amount: 65, paid: true, status: 'confirmed', user_id: 18, service_id: 49)
+Session.create!(start_time: DateTime.new(2020, 7, 6, 18, 00, 0), duration: 45, amount: 65, paid: true, status: 'confirmed', user_id: 19, service_id: 49)
+Session.create!(start_time: DateTime.new(2020, 7, 8, 18, 00, 0), duration: 45, amount: 65, paid: true, status: 'confirmed', user_id: 20, service_id: 49)
+Session.create!(start_time: DateTime.new(2020, 7, 9, 18, 00, 0), duration: 45, amount: 65, paid: true, status: 'confirmed', user_id: 21, service_id: 49)
+Session.create!(start_time: DateTime.new(2020, 7, 11, 18, 00, 0), duration: 45, amount: 65, paid: true, status: 'confirmed', user_id: 22, service_id: 49)
+Session.create!(start_time: DateTime.new(2020, 7, 12, 18, 00, 0), duration: 45, amount: 65, paid: true, status: 'confirmed', user_id: 23, service_id: 49)
+Session.create!(start_time: DateTime.new(2020, 7, 18, 18, 00, 0), duration: 45, amount: 65, paid: true, status: 'confirmed', user_id: 24, service_id: 49)
+Session.create!(start_time: DateTime.new(2020, 7, 22, 18, 00, 0), duration: 45, amount: 65, paid: true, status: 'confirmed', user_id: 25, service_id: 49)
+Session.create!(start_time: DateTime.new(2020, 2, 14, 11, 00, 0), duration: 60, amount: 20, paid: true, status: 'confirmed', user_id: 17, service_id: 1)
+Session.create!(start_time: DateTime.new(2020, 3, 14, 11, 00, 0), duration: 60, amount: 20, paid: true, status: 'confirmed', user_id: 18, service_id: 1)
+Session.create!(start_time: DateTime.new(2020, 4, 12, 11, 00, 0), duration: 60, amount: 20, paid: true, status: 'confirmed', user_id: 19, service_id: 1)
+Session.create!(start_time: DateTime.new(2020, 5, 1, 11, 00, 0), duration: 60, amount: 20, paid: true, status: 'confirmed', user_id: 20, service_id: 1)
+Session.create!(start_time: DateTime.new(2020, 5, 12, 11, 00, 0), duration: 60, amount: 20, paid: true, status: 'confirmed', user_id: 21, service_id: 1)
+Session.create!(start_time: DateTime.new(2020, 6, 12, 11, 00, 0), duration: 60, amount: 20, paid: true, status: 'confirmed', user_id: 22, service_id: 1)
+Session.create!(start_time: DateTime.new(2020, 6, 24, 11, 00, 0), duration: 60, amount: 20, paid: true, status: 'confirmed', user_id: 23, service_id: 1)
+Session.create!(start_time: DateTime.new(2020, 7, 14, 11, 00, 0), duration: 60, amount: 20, paid: true, status: 'confirmed', user_id: 24, service_id: 1)
+Session.create!(start_time: DateTime.new(2020, 8, 14, 11, 00, 0), duration: 60, amount: 20, paid: true, status: 'confirmed', user_id: 25, service_id: 1)
+Session.create!(start_time: DateTime.new(2020, 3, 19, 10, 30, 0), duration: 150, amount: 50, paid: true, status: 'confirmed', user_id: 17, service_id: 2)
+Session.create!(start_time: DateTime.new(2020, 4, 18, 10, 30, 0), duration: 150, amount: 50, paid: true, status: 'confirmed', user_id: 18, service_id: 2)
+Session.create!(start_time: DateTime.new(2020, 4, 19, 10, 30, 0), duration: 150, amount: 50, paid: true, status: 'confirmed', user_id: 19, service_id: 2)
+Session.create!(start_time: DateTime.new(2020, 4, 29, 10, 30, 0), duration: 150, amount: 50, paid: true, status: 'confirmed', user_id: 20, service_id: 2)
+Session.create!(start_time: DateTime.new(2020, 5, 9, 10, 30, 0), duration: 150, amount: 50, paid: true, status: 'confirmed', user_id: 21, service_id: 2)
+Session.create!(start_time: DateTime.new(2020, 5, 17, 10, 30, 0), duration: 150, amount: 50, paid: true, status: 'confirmed', user_id: 22, service_id: 2)
+Session.create!(start_time: DateTime.new(2020, 6, 19, 10, 30, 0), duration: 150, amount: 50, paid: true, status: 'confirmed', user_id: 23, service_id: 2)
+Session.create!(start_time: DateTime.new(2020, 7, 9, 10, 30, 0), duration: 150, amount: 50, paid: true, status: 'confirmed', user_id: 24, service_id: 2)
+Session.create!(start_time: DateTime.new(2020, 8, 1, 10, 30, 0), duration: 150, amount: 50, paid: true, status: 'confirmed', user_id: 25, service_id: 2)
+Session.create!(start_time: DateTime.new(2020, 3, 29, 15, 00, 0), duration: 45, amount: 30, paid: true, status: 'confirmed', user_id: 17, service_id: 7)
+Session.create!(start_time: DateTime.new(2020, 4, 9, 15, 00, 0), duration: 45, amount: 30, paid: true, status: 'confirmed', user_id: 18, service_id: 7)
+Session.create!(start_time: DateTime.new(2020, 4, 19, 15, 00, 0), duration: 45, amount: 30, paid: true, status: 'confirmed', user_id: 19, service_id: 7)
+Session.create!(start_time: DateTime.new(2020, 4, 23, 15, 00, 0), duration: 45, amount: 30, paid: true, status: 'confirmed', user_id: 20, service_id: 7)
+Session.create!(start_time: DateTime.new(2020, 5, 9, 15, 00, 0), duration: 45, amount: 30, paid: true, status: 'confirmed', user_id: 21, service_id: 7)
+Session.create!(start_time: DateTime.new(2020, 5, 23, 15, 00, 0), duration: 45, amount: 30, paid: true, status: 'confirmed', user_id: 22, service_id: 7)
+Session.create!(start_time: DateTime.new(2020, 5, 28, 15, 00, 0), duration: 45, amount: 30, paid: true, status: 'confirmed', user_id: 23, service_id: 7)
+Session.create!(start_time: DateTime.new(2020, 6, 29, 15, 00, 0), duration: 45, amount: 30, paid: true, status: 'confirmed', user_id: 24, service_id: 7)
+Session.create!(start_time: DateTime.new(2020, 7, 29, 15, 00, 0), duration: 45, amount: 30, paid: true, status: 'confirmed', user_id: 25, service_id: 7)
 Session.create!(start_time: DateTime.new(2020, 8, 30, 14, 00, 0), duration: 150, amount: 75, paid: true, status: 'confirmed', user_id: 23, service_id: 16)
 Session.create!(start_time: DateTime.new(2020, 9, 13, 17, 00, 0), duration: 60, amount: 40, paid: true, status: 'confirmed', user_id: 24, service_id: 21)
 Session.create!(start_time: DateTime.new(2020, 9, 19, 9, 30, 0), duration: 30, amount: 50, paid: true, status: 'confirmed', user_id: 25, service_id: 25)
@@ -645,6 +693,99 @@ Session.create!(duration: 90, primary_time: DateTime.new(2020, 12, 3, 11, 00, 0)
 
 puts '-' * 60
 puts 'Sessions created'
+puts '-' * 60
+puts '=' * 60
+puts '-' * 60
+puts 'Creating reviews'
+puts '-' * 60
+
+Review.create!(rating: 3, comment: 'Hmmm', session_id: 13)
+Review.create!(rating: 4, comment: 'Good', session_id: 14)
+Review.create!(rating: 2, comment: 'No', session_id: 15)
+Review.create!(rating: 5, comment: 'Fuck yeah', session_id: 16)
+Review.create!(rating: 3, comment: 'So So', session_id: 17)
+Review.create!(rating: 2, comment: 'Well....', session_id: 18)
+Review.create!(rating: 1, comment: 'Nah', session_id: 19)
+Review.create!(rating: 5, comment: 'Damn good', session_id: 20)
+Review.create!(rating: 3, comment: 'Hmmm', session_id: 21)
+Review.create!(rating: 2, comment: 'Noooo', session_id: 22)
+Review.create!(rating: 4, comment: 'Yesssss', session_id: 23)
+Review.create!(rating: 5, comment: 'OMG', session_id: 24)
+Review.create!(rating: 2, comment: 'Shit', session_id: 25)
+Review.create!(rating: 3, comment: '...', session_id: 26)
+Review.create!(rating: 1, comment: 'Boo', session_id: 27)
+Review.create!(rating: 4, comment: 'Good', session_id: 28)
+Review.create!(rating: 5, comment: 'So good', session_id: 29)
+Review.create!(rating: 3, comment: 'Kinda...', session_id: 30)
+Review.create!(rating: 4, comment: 'Lol', session_id: 31)
+Review.create!(rating: 1, comment: 'Go to hell', session_id: 32)
+Review.create!(rating: 2, comment: 'Fuck no', session_id: 33)
+Review.create!(rating: 5, comment: 'Fucking good', session_id: 34)
+Review.create!(rating: 4, comment: 'In heaven', session_id: 35)
+Review.create!(rating: 5, comment: 'Sooooo good', session_id: 36)
+Review.create!(rating: 4, comment: 'Was good', session_id: 37)
+Review.create!(rating: 5, comment: 'Damn good', session_id: 38)
+Review.create!(rating: 4, comment: 'Was okish', session_id: 39)
+Review.create!(rating: 2, comment: 'No way', session_id: 40)
+Review.create!(rating: 5, comment: '!!!', session_id: 41)
+Review.create!(rating: 4, comment: 'Well done', session_id: 42)
+Review.create!(rating: 5, comment: 'Love this', session_id: 43)
+Review.create!(rating: 3, comment: 'Jaja', session_id: 44)
+Review.create!(rating: 4, comment: 'Love this', session_id: 45)
+Review.create!(rating: 5, comment: 'So good', session_id: 46)
+Review.create!(rating: 4, comment: 'Good', session_id: 47)
+Review.create!(rating: 3, comment: 'Average', session_id: 48)
+Review.create!(rating: 3, comment: 'Ok', session_id: 49)
+Review.create!(rating: 5, comment: 'So good', session_id: 50)
+Review.create!(rating: 3, comment: 'Ok', session_id: 51)
+Review.create!(rating: 4, comment: 'Good', session_id: 52)
+Review.create!(rating: 2, comment: 'Bad', session_id: 53)
+Review.create!(rating: 2, comment: 'Worst', session_id: 54)
+Review.create!(rating: 1, comment: 'Waste of money', session_id: 55)
+Review.create!(rating: 5, comment: 'So damn good', session_id: 56)
+Review.create!(rating: 4, comment: 'Ok', session_id: 57)
+Review.create!(rating: 3, comment: 'Okish', session_id: 58)
+Review.create!(rating: 2, comment: 'Hell no', session_id: 59)
+Review.create!(rating: 5, comment: 'Muy bien', session_id: 60)
+Review.create!(rating: 3, comment: 'So so', session_id: 61)
+Review.create!(rating: 5, comment: 'So damn good', session_id: 62)
+Review.create!(rating: 3, comment: 'Ok', session_id: 63)
+Review.create!(rating: 1, comment: 'Worst', session_id: 64)
+Review.create!(rating: 5, comment: 'Best', session_id: 65)
+Review.create!(rating: 3, comment: 'Okish', session_id: 66)
+
+puts '-' * 60
+puts 'Reviews created'
+puts '-' * 60
+puts '=' * 60
+puts '-' * 60
+puts 'Creating favorite practitioners'
+puts '-' * 60
+
+FavoritePractitioner.create!(user_id: 2, practitioner_id: 1)
+FavoritePractitioner.create!(user_id: 2, practitioner_id: 5)
+FavoritePractitioner.create!(user_id: 3, practitioner_id: 1)
+FavoritePractitioner.create!(user_id: 3, practitioner_id: 3)
+FavoritePractitioner.create!(user_id: 4, practitioner_id: 1)
+FavoritePractitioner.create!(user_id: 4, practitioner_id: 2)
+
+puts '-' * 60
+puts 'Favorite practitioners created'
+puts '-' * 60
+puts '=' * 60
+puts '-' * 60
+puts 'Creating favorite services'
+puts '-' * 60
+
+FavoriteService.create!(user_id: 2, service_id: 2)
+FavoriteService.create!(user_id: 2, service_id: 10)
+FavoriteService.create!(user_id: 3, service_id: 3)
+FavoriteService.create!(user_id: 3, service_id: 11)
+FavoriteService.create!(user_id: 4, service_id: 1)
+FavoriteService.create!(user_id: 4, service_id: 2)
+
+puts '-' * 60
+puts 'Favorite services created'
 puts '-' * 60
 
 puts '=' * 60
