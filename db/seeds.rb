@@ -757,6 +757,36 @@ Review.create!(rating: 3, comment: 'Okish', session_id: 66)
 puts '-' * 60
 puts 'Reviews created'
 puts '-' * 60
+puts '=' * 60
+puts '-' * 60
+puts 'Creating favorite practitioners'
+puts '-' * 60
+
+FavoritePractitioner.create!(user_id: 2, practitioner_id: 1)
+FavoritePractitioner.create!(user_id: 2, practitioner_id: 5)
+FavoritePractitioner.create!(user_id: 3, practitioner_id: 1)
+FavoritePractitioner.create!(user_id: 3, practitioner_id: 3)
+FavoritePractitioner.create!(user_id: 4, practitioner_id: 1)
+FavoritePractitioner.create!(user_id: 4, practitioner_id: 2)
+
+puts '-' * 60
+puts 'Favorite practitioners created'
+puts '-' * 60
+puts '=' * 60
+puts '-' * 60
+puts 'Creating favorite services'
+puts '-' * 60
+
+FavoriteService.create!(user_id: 2, service_id: 2)
+FavoriteService.create!(user_id: 2, service_id: 10)
+FavoriteService.create!(user_id: 3, service_id: 3)
+FavoriteService.create!(user_id: 3, service_id: 11)
+FavoriteService.create!(user_id: 4, service_id: 1)
+FavoriteService.create!(user_id: 4, service_id: 2)
+
+puts '-' * 60
+puts 'Favorite services created'
+puts '-' * 60
 
 puts '=' * 60
 puts 'Seeding ended'

@@ -1,0 +1,10 @@
+<% if current_user == @practitioner.user %>
+  <%= link_to 'Edit', practitioner_profile_path(@practitioner), class: 'btn btn-flat w-100' %>
+<% else %>
+  <%= link_to 'Send message', '', class: 'btn btn-flat w-100' %>
+  <% if FavoritePractitioner.find_by(user: current_user, practitioner: practitioner) %>
+    <a data-confirm="Are you sure?" class="btn btn-ghost w-100" rel="nofollow" data-method="delete" data-remote="true" href="/favorite_practitioners/<%= FavoritePractitioner.find_by(user: current_user, practitioner: practitioner).id %>"><i class="fas fa-heart-broken pink-icon"></i> Remove favorite</a>
+  <% else %>
+    <a class="btn btn-ghost w-100" rel="nofollow" data-method="post" data-remote="true" href="/practitioners/<%= practitioner.id %>/favorite_practitioners"><i class="fas fa-heart pink-icon"></i> Save as favorite</a>
+  <% end %>
+<% end %>

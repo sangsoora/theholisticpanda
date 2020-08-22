@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :booking]
+  before_action :set_user, only: [:show, :booking, :favorite]
   helper_method :resource_name, :resource, :devise_mapping, :resource_class
 
   def resource_name
@@ -31,6 +31,11 @@ class UsersController < ApplicationController
       @pending_sessions = current_user.sessions.where(["status= ?", "pending"])
       @cancelled_sessions = current_user.sessions.where(["status= ?", "cancelled"])
     end
+  end
+
+  def favorite
+    @favorite_practitioners = current_user.favorite_practitioners
+    @favorite_services = current_user.favorite_services
   end
 
   private

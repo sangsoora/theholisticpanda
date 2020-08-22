@@ -4,4 +4,12 @@ class FavoriteServicePolicy < ApplicationPolicy
       scope.all
     end
   end
+
+  def create?
+    true
+  end
+
+  def destroy?
+    record.user == user
+  end
 end

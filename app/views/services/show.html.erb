@@ -1,5 +1,10 @@
 <div class="container service-page">
-  <h2><%= @service.name %> with <%= @service.practitioner.user.first_name %></h2>
+  <div class="d-flex">
+    <h2><%= @service.name %> with <%= @service.practitioner.user.first_name %></h2>
+    <div id="service-btn">
+      <%= render 'favorite_services/service_btn', service: @service %>
+    </div>
+  </div>
   <% if @service.reviews.count > 0 %>
     <p><i class="fas fa-star mr-2" style="color: red;"></i><%= @service.rating_avg %> (<%= @service.reviews.count %>)</p>
   <% else %>

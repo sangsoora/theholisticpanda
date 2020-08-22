@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   end
 
   get 'users/:id/sessions', to: 'users#booking', as: :user_sessions
+  get 'users/:id/favorites', to: 'users#favorite', as: :user_favorites
+
 
   resources :practitioners, only: [:index, :show, :update, :destroy] do
     resources :practitioner_specialties, only: [:create]

@@ -8,12 +8,19 @@ class FavoritePractitionersController < ApplicationController
     @favorite_practitioner.practitioner = @practitioner
     @favorite_practitioner.user = current_user
     @favorite_practitioner.save!
-    redirect_to practitioner_path(@practitioner)
+    respond_to do |format|
+      format.html { redirect_to practitioner_path(@practitioner) }
+      format.js
+    end
   end
 
   def destroy
     @favorite_practitioner.destroy
-    redirect_to practitioner_path(@favorite_practitioner.practitioner)
+    @practitioner = @favorite_practitioner.practitioner
+    respond_to do |format|
+      format.html { redirect_to practitioner_path(@practitioner) }
+      format.js
+    end
   end
 
   private
