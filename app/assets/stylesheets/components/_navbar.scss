@@ -3,7 +3,7 @@
   justify-content: space-between;
   background-color: white;
   transition: 0.5s background-color ease;
-  font-size: 1.375rem;
+  font-size: 1.25rem;
   z-index: 1000;
 }
 
@@ -36,5 +36,24 @@
   &:hover, :focus {
     color: black;
     opacity: 1;
+  }
+}
+
+.dropdown-menu {
+  padding: 0;
+}
+
+.notification-drop a {
+  color: $emerald;
+  opacity: 0.7;
+  padding: 0.5rem 1.5rem;
+  background: $gold;
+  &:hover {
+    color: $emerald;
+    opacity: 1;
+    background: $gold;
+  }
+  &.all {
+    background: white;
   }
 }

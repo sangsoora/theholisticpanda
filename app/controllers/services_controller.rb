@@ -1,5 +1,6 @@
 class ServicesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show]
+  before_action :set_notifications, only: [:index, :show]
   before_action :set_service, only: [:show, :update, :destroy]
 
   def index
@@ -118,6 +119,10 @@ class ServicesController < ApplicationController
   def set_service
     @service = Service.find(params[:id])
     authorize @service
+  end
+
+  def set_notifications
+    @notifications = Notification.where(recipient: current_user).order("created_at DESC").unread
   end
 
   def service_params

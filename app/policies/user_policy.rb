@@ -17,6 +17,10 @@ class UserPolicy < ApplicationPolicy
     user_is_page_owner?
   end
 
+  def notification?
+    user_is_page_owner?
+  end
+
   private
 
   def user_is_page_owner?

@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   get 'users/:id/sessions', to: 'users#booking', as: :user_sessions
   get 'users/:id/favorites', to: 'users#favorite', as: :user_favorites
-
+  get 'users/:id/notifications', to: 'users#notification', as: :user_notifications
 
   resources :practitioners, only: [:index, :show, :update, :destroy] do
     resources :practitioner_specialties, only: [:create]
@@ -56,6 +56,8 @@ Rails.application.routes.draw do
   end
 
   resources :reviews, only: [:destroy]
+
+  resources :notifications, only: [:update, :destroy]
 
   mount StripeEvent::Engine, at: '/stripe-webhooks'
 end

@@ -1,8 +1,8 @@
 <div class="container services-page">
   <%= simple_form_for :search, url: services_path, method: "GET", html: { id: 'filter-form' } do |f| %>
     <div class="d-flex justify-content-between">
-      <fieldset class="form-group check_boxes required search_specialty <%= "hidden" if params[:search] && params[:search][:health_goal] != [""] %>" id="specialty-selector" style="position: relative; width: 30%;">
-        <legend class="btn btn-ghost" id="specialty-pop">Specialties <% if params[:search] && params[:search][:specialty].length > 1 %>(<%= params[:search][:specialty].reject(&:blank?).count %>)<% end %></legend>
+      <fieldset class="form-group check_boxes required search_specialty <%= "hidden" if params[:search] && params[:search][:health_goal] && params[:search][:health_goal] != [""] %>" id="specialty-selector" style="position: relative; width: 30%;">
+        <legend class="btn btn-ghost" id="specialty-pop">Specialties <% if params[:search] && params[:search][:specialty] && params[:search][:specialty].length > 1 %>(<%= params[:search][:specialty].reject(&:blank?).count %>)<% end %></legend>
         <div class="specialty-select-box" id="specialty-select-box">
           <div class="specialty-choices">
             <% Specialty.all.sort_by(&:name).each do |specialty| %>
@@ -20,8 +20,8 @@
         </div>
         <input type="hidden" name="search[specialty][]" value="">
       </fieldset>
-      <fieldset class="form-group check_boxes required search_health_goal <%= "hidden" if params[:search] && params[:search][:specialty] != [""] %>" id="health-goal-selector" style="position: relative; width: 30%;">
-        <legend class="btn btn-ghost" id="health-goal-pop">Health Goals <% if params[:search] && params[:search][:health_goal].length > 1 %>(<%= params[:search][:health_goal].reject(&:blank?).count %>)<% end %></legend>
+      <fieldset class="form-group check_boxes required search_health_goal <%= "hidden" if params[:search] && params[:search][:specialty] && params[:search][:specialty] != [""] %>" id="health-goal-selector" style="position: relative; width: 30%;">
+        <legend class="btn btn-ghost" id="health-goal-pop">Health Goals <% if params[:search] && params[:search][:health_goal] && params[:search][:health_goal].length > 1 %>(<%= params[:search][:health_goal].reject(&:blank?).count %>)<% end %></legend>
         <div class="health-goal-select-box" id="health-goal-select-box">
           <div class="health-goal-choices">
             <% HealthGoal.all.sort_by(&:name).each do |goal| %>
@@ -40,7 +40,7 @@
         <input type="hidden" name="search[health_goal][]" value="">
       </fieldset>
       <fieldset class="form-group check_boxes required search_language" style="position: relative; width: 20%;">
-        <legend class="btn btn-ghost" id="language-pop">Language <% if params[:search] && params[:search][:language].length > 1 %>(<%= params[:search][:language].reject(&:blank?).count %>)<% end %></legend>
+        <legend class="btn btn-ghost" id="language-pop">Language <% if params[:search] && params[:search][:language] && params[:search][:language].length > 1 %>(<%= params[:search][:language].reject(&:blank?).count %>)<% end %></legend>
         <div class="language-select-box" id="language-select-box">
           <div class="language-choices">
             <% Language.includes(:practitioner_languages).where.not(practitioner_languages: { id: nil }).sort_by(&:name).each do |language| %>
@@ -248,7 +248,7 @@
       event.currentTarget.classList.add('active-sort');
       var $wrapper = $('.service-lists');
       $wrapper.find('.service-list-item').sort(function(a, b) {
-          return +a.dataset.price - +b.dataset.price;
+        return +a.dataset.price - +b.dataset.price;
       })
       .appendTo($wrapper);
     })
@@ -260,7 +260,7 @@
       event.currentTarget.classList.add('active-sort');
       var $wrapper = $('.service-lists');
       $wrapper.find('.service-list-item').sort(function(a, b) {
-          return +a.dataset.duration - +b.dataset.duration;
+        return +a.dataset.duration - +b.dataset.duration;
       })
       .appendTo($wrapper);
     })
