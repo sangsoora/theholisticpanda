@@ -97,6 +97,10 @@ class ServicesController < ApplicationController
     @service.practitioner = current_user.practitioner
     @service.practitioner_specialty = @practitioner_specialty
     if @service.save!
+      favorite_users = @service.practitioner.favorite_users
+      favorite_users.each do |user|
+        Notification.create(recipient: user, actor: current_user, action: "created new service " + @service.name, notifiable: @service)
+      end
       redirect_to practitioner_services_path(current_user.practitioner)
     else
       render :new

@@ -33,17 +33,15 @@ class UsersController < ApplicationController
       @cancelled_sessions = current_user.sessions.where(["status= ?", "cancelled"])
     end
     @review = Review.new
-    @notifications = Notification.where(recipient: current_user).order("created_at DESC").unread
   end
 
   def favorite
     @favorite_practitioners = current_user.favorite_practitioners
     @favorite_services = current_user.favorite_services
-    @notifications = Notification.where(recipient: current_user).order("created_at DESC").unread
   end
 
   def notification
-    @notifications = Notification.where(recipient: current_user).order("created_at DESC").unread
+    @my_notifications = Notification.where(recipient: current_user).order("created_at DESC")
   end
 
   private

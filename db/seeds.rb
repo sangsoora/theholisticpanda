@@ -787,6 +787,33 @@ FavoriteService.create!(user_id: 4, service_id: 2)
 puts '-' * 60
 puts 'Favorite services created'
 puts '-' * 60
+puts '=' * 60
+puts '-' * 60
+puts 'Creating notifications'
+puts '-' * 60
+
+Notification.create(recipient_id: Session.find(1).practitioner.user.id, actor_id: Session.find(1).user.id, action: "sent you a session request for " + Session.find(1).service.name, notifiable_type: 'Session', notifiable_id: Session.find(1).id, read_at: Time.now)
+Notification.create(recipient_id: Session.find(1).user.id, actor_id: Session.find(1).practitioner.user.id, action: "has confirmed " + Session.find(1).service.name + " session", notifiable_type: 'Session', notifiable_id: Session.find(1).id)
+Notification.create(recipient_id: Session.find(2).practitioner.user.id, actor_id: Session.find(2).user.id, action: "sent you a session request for " + Session.find(2).service.name, notifiable_type: 'Session', notifiable_id: Session.find(2).id, read_at: Time.now)
+Notification.create(recipient_id: Session.find(2).user.id, actor_id: Session.find(2).practitioner.user.id, action: "has confirmed " + Session.find(2).service.name + " session", notifiable_type: 'Session', notifiable_id: Session.find(2).id)
+Notification.create(recipient_id: Session.find(3).practitioner.user.id, actor_id: Session.find(3).user.id, action: "sent you a session request for " + Session.find(3).service.name, notifiable_type: 'Session', notifiable_id: Session.find(3).id)
+Notification.create(recipient_id: Session.find(4).practitioner.user.id, actor_id: Session.find(4).user.id, action: "sent you a session request for " + Session.find(4).service.name, notifiable_type: 'Session', notifiable_id: Session.find(4).id)
+Notification.create(recipient_id: Session.find(5).practitioner.user.id, actor_id: Session.find(5).user.id, action: "sent you a session request for " + Session.find(5).service.name, notifiable_type: 'Session', notifiable_id: Session.find(5).id, read_at: Time.now)
+Notification.create(recipient_id: Session.find(5).user.id, actor_id: Session.find(5).practitioner.user.id, action: "has confirmed " + Session.find(5).service.name + " session", notifiable_type: 'Session', notifiable_id: Session.find(5).id)
+Notification.create(recipient_id: Session.find(6).practitioner.user.id, actor_id: Session.find(6).user.id, action: "sent you a session request for " + Session.find(6).service.name, notifiable_type: 'Session', notifiable_id: Session.find(6).id, read_at: Time.now)
+Notification.create(recipient_id: Session.find(6).user.id, actor_id: Session.find(6).practitioner.user.id, action: "has confirmed " + Session.find(6).service.name + " session", notifiable_type: 'Session', notifiable_id: Session.find(6).id)
+Notification.create(recipient_id: Session.find(7).practitioner.user.id, actor_id: Session.find(7).user.id, action: "sent you a session request for " + Session.find(7).service.name, notifiable_type: 'Session', notifiable_id: Session.find(7).id)
+Notification.create(recipient_id: Session.find(8).practitioner.user.id, actor_id: Session.find(8).user.id, action: "sent you a session request for " + Session.find(8).service.name, notifiable_type: 'Session', notifiable_id: Session.find(8).id)
+Notification.create(recipient_id: Session.find(9).practitioner.user.id, actor_id: Session.find(9).user.id, action: "sent you a session request for " + Session.find(9).service.name, notifiable_type: 'Session', notifiable_id: Session.find(9).id, read_at: Time.now)
+Notification.create(recipient_id: Session.find(9).user.id, actor_id: Session.find(9).practitioner.user.id, action: "has confirmed " + Session.find(9).service.name + " session", notifiable_type: 'Session', notifiable_id: Session.find(9).id)
+Notification.create(recipient_id: Session.find(10).practitioner.user.id, actor_id: Session.find(10).user.id, action: "sent you a session request for " + Session.find(10).service.name, notifiable_type: 'Session', notifiable_id: Session.find(10).id, read_at: Time.now)
+Notification.create(recipient_id: Session.find(10).user.id, actor_id: Session.find(10).practitioner.user.id, action: "has confirmed " + Session.find(10).service.name + " session", notifiable_type: 'Session', notifiable_id: Session.find(10).id)
+Notification.create(recipient_id: Session.find(11).practitioner.user.id, actor_id: Session.find(11).user.id, action: "sent you a session request for " + Session.find(11).service.name, notifiable_type: 'Session', notifiable_id: Session.find(11).id)
+Notification.create(recipient_id: Session.find(12).practitioner.user.id, actor_id: Session.find(12).user.id, action: "sent you a session request for " + Session.find(12).service.name, notifiable_type: 'Session', notifiable_id: Session.find(12).id)
+
+puts '-' * 60
+puts 'Notifications created'
+puts '-' * 60
 
 puts '=' * 60
 puts 'Seeding ended'

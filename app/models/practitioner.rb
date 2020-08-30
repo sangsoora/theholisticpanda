@@ -10,6 +10,8 @@ class Practitioner < ApplicationRecord
   has_many :specialties, through: :practitioner_specialties
   has_many :health_goals, through: :specialties
   has_many :practitioner_social_links, dependent: :destroy
+  has_many :favorite_practitioners, dependent: :destroy
+  has_many :favorite_users, through: :favorite_practitioners, source: :user
   validates_uniqueness_of :user
   scope :filter_by_specialty, ->(specialties) { joins(:specialties).where(specialties: { id: specialties }) }
   scope :filter_by_health_goal, ->(health_goals) { joins(:health_goals).where(health_goals: { id: health_goals }) }

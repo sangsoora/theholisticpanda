@@ -1,0 +1,30 @@
+<div class="container notifications">
+  <div class="notifications-container">
+    <% if @my_notifications.any? %>
+      <% @my_notifications.each do |notification| %>
+        <% if notification.read_at.nil? %>
+          <div class="notification" data-notification-id='<%= notification.id %>'>
+        <% else %>
+          <div class="notification" data-notification-id='<%= notification.id %>' style="background: white;">
+        <% end %>
+          <div class="notification-head">
+            <% if notification.actor.is_practitioner? && notification.actor.practitioner.photo.attached? %>
+              <%= cl_image_tag notification.actor.photo.key, class: "avatar" %>
+            <% elsif notification.actor.is_practitioner? && !notification.actor.practitioner.photo.attached? %>
+              <%= image_tag 'profile.png', class: "avatar" %>
+            <% elsif !notification.actor.is_practitioner? %>
+            <% end %>
+            <div class="notification-content">
+              <p><small><%= notification.month %> <%= notification.day %>, <%= notification.year %></small></p>
+              <p>
+                <%= notification.actor.full_name %> <%= notification.action %>
+              </p>
+            </div>
+          </div>
+          <div class="notification-actions">
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
