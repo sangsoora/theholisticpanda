@@ -6,7 +6,7 @@ flatpickr(".datepicker", {
   dateFormat: "d-m-Y H:i",
   minuteIncrement: 15,
   minDate: "today",
-  defaultDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 0,0,0,0)
+  defaultDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1, 0,0,0,0)
 });
 flatpickr(".timepicker", {
   enableTime: true,

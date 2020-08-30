@@ -1,5 +1,6 @@
 class ServicesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show]
+  before_action :set_notifications, only: [:index, :show]
   before_action :set_service, only: [:show, :update, :destroy]
 
   def index
@@ -96,6 +97,10 @@ class ServicesController < ApplicationController
     @service.practitioner = current_user.practitioner
     @service.practitioner_specialty = @practitioner_specialty
     if @service.save!
+      favorite_users = @service.practitioner.favorite_users
+      favorite_users.each do |user|
+        Notification.create(recipient: user, actor: current_user, action: "created new service " + @service.name, notifiable: @service)
+      end
       redirect_to practitioner_services_path(current_user.practitioner)
     else
       render :new
@@ -118,6 +123,10 @@ class ServicesController < ApplicationController
   def set_service
     @service = Service.find(params[:id])
     authorize @service
+  end
+
+  def set_notifications
+    @notifications = Notification.where(recipient: current_user).order("created_at DESC").unread
   end
 
   def service_params

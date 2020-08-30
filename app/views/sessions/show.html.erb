@@ -43,15 +43,17 @@
       <p>Your session has been confirmed.</p>
       <div class="session-btns">
         <%= link_to 'Send message', '', class: 'btn btn-flat' %>
-        <%= simple_form_for [@session] do |f| %>
-          <%= f.submit 'Cancel this session',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost ml-5' %>
+        <% if @session.start_time >= Time.now %>
+          <%= simple_form_for [@session] do |f| %>
+            <%= f.submit 'Cancel this session',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost ml-5' %>
+          <% end %>
         <% end %>
       </div>
     <% end %>
   <% elsif @session.user == current_user %>
     <div class="d-flex">
       <h2> <%= @session.service.name %> with <%= @session.practitioner.user.full_name %></h2>
-      <% if @session.start_time < Time.now && @session.status == 'confirmed' && @session.review == nil %>
+      <% if @session.status == 'confirmed' && @session.start_time < Time.now && @session.review == nil %>
         <%= link_to 'Rate', '', data: { toggle: "modal", target: "#newReviewModal" }, class: 'btn btn-flat ml-4' %>
       <% end %>
     </div>
@@ -76,8 +78,10 @@
       <p>Thank you for booking a session with <%= @session.practitioner.user.first_name %> for <%= @session.service.name %></p>
       <div class="session-btns">
         <%= link_to 'Send message', '', class: 'btn btn-flat' %>
-        <%= simple_form_for [@session] do |f| %>
-          <%= f.submit 'Cancel this session',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost ml-5' %>
+        <% if @session.start_time >= Time.now %>
+          <%= simple_form_for [@session] do |f| %>
+            <%= f.submit 'Cancel this session',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost ml-5' %>
+          <% end %>
         <% end %>
       </div>
     <% elsif @session.status == 'cancelled' %>
@@ -134,7 +138,7 @@
     </div>
   <% end %>
 </div>
-<% if @session.start_time < Time.now && @session.status == 'confirmed' && @session.review == nil %>
+<% if @session.status == 'confirmed' && @session.start_time < Time.now && @session.review == nil %>
   <div class="modal fade" id="newReviewModal" tabindex="-1" role="dialog" aria-labelledby="newReviewModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">

@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :booking, :favorite]
+  before_action :set_user, only: [:show, :booking, :favorite, :notification]
+  before_action :set_notifications, only: [:show, :booking, :favorite, :notification]
   helper_method :resource_name, :resource, :devise_mapping, :resource_class
 
   def resource_name
@@ -39,10 +40,18 @@ class UsersController < ApplicationController
     @favorite_services = current_user.favorite_services
   end
 
+  def notification
+    @my_notifications = Notification.where(recipient: current_user).order("created_at DESC")
+  end
+
   private
 
   def set_user
     @user = User.find(params[:id])
     authorize @user
+  end
+
+  def set_notifications
+    @notifications = Notification.where(recipient: current_user).order("created_at DESC").unread
   end
 end

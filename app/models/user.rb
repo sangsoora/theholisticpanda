@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :sessions
   has_many :favorite_practitioners
   has_many :favorite_services
+  has_many :notifications, foreign_key: :recipient_id, dependent: :destroy
 
   validates :email, presence: true, format: { with: /.+@.+\..+/ }
   validates :first_name, presence: true, length: { minimum: 2, maximum: 20 }
@@ -17,5 +18,9 @@ class User < ApplicationRecord
 
   def full_name
     return "#{first_name} #{last_name}"
+  end
+
+  def is_practitioner?
+    self.practitioner
   end
 end

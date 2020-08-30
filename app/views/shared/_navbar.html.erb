@@ -7,8 +7,21 @@
     <ul class="navbar-nav mr-auto">
       <% if user_signed_in? %>
         <% if current_user.practitioner %>
-          <li class="nav-item">
-            <a class="nav-link" href=""><i class="far fa-bell"></i></a>
+          <li class="nav-item btn-group">
+            <a class="dropdown-toggle nav-link" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-bell"></i>
+                <span class="unread-count" id="unread-count">
+                  <%= @notifications.length if @notifications.present? %>
+                </span>
+            </a>
+            <div class="dropdown-menu notification-drop" aria-labelledby="dropdownMenu1">
+              <% if @notifications.present? %>
+                <% @notifications.first(10).each do |notification| %>
+                  <%= link_to notification.actor.full_name + " " + notification.action, notification_path(notification), method: :patch || :put, class: 'dropdown-item' %>
+                <% end %>
+              <% end %>
+              <%= link_to "See All", user_notifications_path(current_user), class: 'dropdown-item text-center all' %>
+            </div>
           </li>
           <li class="nav-item">
             <%= link_to 'My sessions', user_sessions_path(current_user), class: 'nav-link' %>
@@ -30,8 +43,21 @@
           <li class="nav-item">
             <%= link_to "Become a practitioner", become_a_practitioner_path, class: "nav-link" %>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href=""><i class="far fa-bell"></i></a>
+          <li class="nav-item btn-group">
+            <a class="dropdown-toggle nav-link" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-bell"></i>
+                <span class="unread-count" id="unread-count">
+                  <%= @notifications.length if @notifications.present? %>
+                </span>
+            </a>
+            <div class="dropdown-menu notification-drop" aria-labelledby="dropdownMenu1">
+              <% if @notifications.present? %>
+                <% @notifications.first(10).each do |notification| %>
+                  <%= link_to notification.actor.full_name + " " + notification.action, notification_path(notification), method: :patch || :put, class: 'dropdown-item' %>
+                <% end %>
+              <% end %>
+              <%= link_to "See All", user_notifications_path(current_user), class: 'dropdown-item text-center all' %>
+            </div>
           </li>
           <li class="nav-item">
             <%= link_to 'My sessions', user_sessions_path(current_user), class: 'nav-link' %>
