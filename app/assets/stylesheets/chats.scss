@@ -1,0 +1,99 @@
+.chats {
+  padding: 6rem 0 2rem;
+}
+
+.chat-list {
+  flex: 0 0 30%;
+  margin-top: 1rem;
+}
+
+.current-chat {
+  flex: 0 0 65%;
+  margin-top: 1rem;
+}
+
+.current-chat .avatar {
+  height: 2.5rem;
+  width: 2.5rem;
+  margin-right: 1rem;
+}
+
+.messages {
+  padding: 16px;
+  height: 480px;
+  overflow-y: scroll;
+}
+
+.message-form-control {
+  position: relative;
+}
+
+.message-form-control .btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.message-form-control .form-control {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  border: 1px solid #E7E7E7;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.message-form-control .form-control:focus {
+  border: 1px solid $emerald;
+  outline: none !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.my-message-bubble {
+  border-radius: 10px;
+  margin-bottom: 16px;
+  background: $emerald;
+  color: $gold;
+  padding: 16px;
+  text-align: right;
+  position: relative;
+}
+
+.other-message-bubble {
+  border-radius: 10px;
+  margin-bottom: 16px;
+  background: $gold;
+  color: $emerald;
+  padding: 16px;
+  position: relative;
+}
+.my-message-bubble p, .other-message-bubble p {
+  margin-bottom: 0;
+}
+
+.my-msg:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 15px solid $emerald;
+  border-right: 15px solid transparent;
+  border-top: 15px solid $emerald;
+  border-bottom: 15px solid transparent;
+  right: -16px;
+  top: 0px;
+}
+
+.other-msg:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 15px solid transparent;
+  border-right: 15px solid $gold;
+  border-top: 15px solid $gold;
+  border-bottom: 15px solid transparent;
+  left: -16px;
+  top: 0px;
+}

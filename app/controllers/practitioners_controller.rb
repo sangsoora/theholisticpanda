@@ -98,18 +98,19 @@ class PractitionersController < ApplicationController
   end
 
   def show
+    @chat = Chat.new
   end
 
   def new
     @practitioner = Practitioner.new
-    @practitioner.user = User.find(params[:user_id])
     authorize @practitioner
+    @practitioner.user = User.find(params[:user_id])
   end
 
   def create
     @practitioner = Practitioner.new(practitioner_params)
-    @practitioner.user = User.find(params[:user_id])
     authorize @practitioner
+    @practitioner.user = User.find(params[:user_id])
     languages = params[:practitioner][:language_ids].reject(&:blank?)
     specialties = params[:practitioner][:specialty_ids].reject(&:blank?)
     if @practitioner.save

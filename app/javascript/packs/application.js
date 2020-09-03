@@ -21,14 +21,16 @@ import "cropperjs/dist/cropper.css";
 // import { initUpdateNavbarOnScroll } from '../components/navbar';
 import { initUpdateForm } from '../components/form';
 import { previewImageOnFileSelect } from '../components/image_cropper';
+import { initChatCable } from '../channels/chat_channel';
 
 // document.addEventListener("scroll", () => {
 //   // Call your JS functions here
 //   initUpdateNavbarOnScroll();
 // });
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('turbolinks:load', () => {
   initUpdateForm();
   previewImageOnFileSelect();
+  initChatCable();
 });
 

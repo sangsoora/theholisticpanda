@@ -1,0 +1,6 @@
+<%= form_with model: [@chat, @message] do |form| %>
+  <div class="message-form-control form-group">
+    <%= form.text_field :content, placeholder: "Say something...", required: true, autofocus: true, class: "form-control" %>
+    <%= form.submit "Send", class: 'btn btn-flat btn-chat' %>
+  </div>
+<% end %>
