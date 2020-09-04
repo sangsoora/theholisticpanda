@@ -248,9 +248,6 @@ puts '-' * 60
 puts 'Cleaning database'
 puts '-' * 60
 
-User.destroy_all
-puts 'Destroyed all users'
-
 puts '-' * 60
 puts 'Destroyed all data'
 puts '-' * 60
