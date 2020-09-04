@@ -1,0 +1,141 @@
+.conversations {
+  padding: 6rem 0 2rem;
+}
+
+.conversation-list {
+  flex: 0 0 30%;
+  margin-top: 1rem;
+}
+
+.current-conversation {
+  flex: 0 0 70%;
+  margin-top: 1rem;
+}
+
+.current-conversation .avatar {
+  height: 2.5rem;
+  width: 2.5rem;
+  margin-right: 1rem;
+}
+
+.messages {
+  padding: 1rem;
+  height: 24rem;
+  overflow-y: scroll;
+}
+
+.message-form-control {
+  position: relative;
+}
+
+.message-form-control .btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.message-form-control .form-control {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  border: 1px solid #E7E7E7;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.message-form-control .form-control:focus {
+  border: 1px solid $emerald;
+  outline: none !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.my-message-bubble {
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+  background: $emerald;
+  color: $gold;
+  padding: 0.5rem 1rem;
+  text-align: right;
+  position: relative;
+}
+
+.other-message-bubble {
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+  background: $gold;
+  color: $emerald;
+  padding: 0.5rem 1rem;
+  position: relative;
+}
+.my-message-bubble p, .other-message-bubble p {
+  margin-bottom: 0;
+}
+
+.my-msg:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 1rem solid $emerald;
+  border-right: 1rem solid transparent;
+  border-top: 1rem solid $emerald;
+  border-bottom: 1rem solid transparent;
+  right: -1rem;
+  top: 0px;
+}
+
+.other-msg:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 1rem solid transparent;
+  border-right: 1rem solid $gold;
+  border-top: 1rem solid $gold;
+  border-bottom: 1rem solid transparent;
+  left: -1rem;
+  top: 0px;
+}
+
+table {
+  width: 100%;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+}
+
+th {
+  background: $emerald;
+  color: $gold;
+  opacity: 0.7;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  text-align: center;
+  // border: 1px solid $ketchup;
+}
+th p {
+  margin: 8px;
+}
+td {
+  // border: 1px solid $ketchup;
+  padding: 0;
+}
+td p {
+  margin: 6px 12px;
+  color: $emerald;
+  font-weight: 700;
+}
+
+tr .active {
+  background: $gold;
+}
+
+.last-msg {
+  opacity: 0.7;
+  font-style: italic;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 30ch;
+}
