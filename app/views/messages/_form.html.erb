@@ -1,6 +1,6 @@
 <%= simple_form_for [@conversation, @message], remote: true  do |f| %>
   <div class="message-form-control form-group">
     <%= f.input :content, placeholder: "Say something...", required: true, autofocus: true, label: false, :input_html => {:rows => 1, class: 'form-control'} %>
-    <%= f.submit "Send", class: 'btn btn-flat' %>
+    <input type="submit" name="commit" value="Send" class="btn btn-flat" data-disable-with="Send" style="border-radius: 0;">
   </div>
 <% end %>
