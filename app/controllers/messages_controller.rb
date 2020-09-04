@@ -2,24 +2,30 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(message_params)
     authorize @message
-    @chat = Chat.find(params[:chat_id])
-    @message.chat = @chat
+    @conversation = Conversation.find(params[:conversation_id])
+    @message.conversation = @conversation
     @message.user = current_user
+    @messages = @conversation.messages
     @message.save!
 
-    ChatChannel.broadcast_to(
-      @chat,
-      render_to_string(partial: "message", locals: { message: @message })
+    ActionCable.server.broadcast "conversation", message: render_message
+
+    render :create, layout: false
+  end
+
+  def render_message
+    MessagesController.render(
+      partial: 'messages/message',
+      locals: {
+        message: @message,
+        current_user: current_user
+      }
     )
-
-    # ActionCable.server.broadcast "chat", message: render_message
-
-    # render :create, layout: false
   end
 
   private
 
   def message_params
-    params.require(:message).permit(:body)
+    params.require(:message).permit(:content)
   end
 end

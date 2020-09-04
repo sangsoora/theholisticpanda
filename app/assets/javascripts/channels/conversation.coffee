@@ -1,4 +1,4 @@
-App.chat = App.cable.subscriptions.create "ChatChannel",
+App.conversation = App.cable.subscriptions.create "ConversationChannel",
   connected: ->
     # Called when the subscription is ready for use on the server
 

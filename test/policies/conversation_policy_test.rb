@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ChatPolicyTest < ActiveSupport::TestCase
+class ConversationPolicyTest < ActiveSupport::TestCase
   def test_scope
   end
 

@@ -11,8 +11,8 @@ class User < ApplicationRecord
   has_many :favorite_services
   has_many :notifications, foreign_key: :recipient_id, dependent: :destroy
   has_many :messages, dependent: :destroy
-  has_many :chats_as_recipient, foreign_key: :recipient_id, class_name: :Chat, dependent: :destroy
-  has_many :chats_as_sender, foreign_key: :sender_id, class_name: :Chat, dependent: :destroy
+  has_many :conversations_as_recipient, foreign_key: :recipient_id, class_name: :Conversation, dependent: :destroy
+  has_many :conversations_as_sender, foreign_key: :sender_id, class_name: :Conversation, dependent: :destroy
 
   validates :email, presence: true, format: { with: /.+@.+\..+/ }
   validates :first_name, presence: true, length: { minimum: 2, maximum: 20 }
@@ -27,7 +27,7 @@ class User < ApplicationRecord
     self.practitioner
   end
 
-  def chats
-    self.chats_as_recipient + self.chats_as_sender
+  def conversations
+    self.conversations_as_recipient + self.conversations_as_sender
   end
 end

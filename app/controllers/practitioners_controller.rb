@@ -98,7 +98,7 @@ class PractitionersController < ApplicationController
   end
 
   def show
-    @chat = Chat.new
+    @conversation = Conversation.new
   end
 
   def new

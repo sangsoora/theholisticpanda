@@ -1,6 +1,6 @@
-<%= form_with model: [@chat, @message] do |form| %>
+<%= simple_form_for [@conversation, @message], remote: true  do |f| %>
   <div class="message-form-control form-group">
-    <%= form.text_field :content, placeholder: "Say something...", required: true, autofocus: true, class: "form-control" %>
-    <%= form.submit "Send", class: 'btn btn-flat btn-chat' %>
+    <%= f.input :content, placeholder: "Say something...", required: true, autofocus: true, label: false, :input_html => {:rows => 1, class: 'form-control'} %>
+    <%= f.submit "Send", class: 'btn btn-flat' %>
   </div>
 <% end %>

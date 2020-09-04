@@ -2,10 +2,10 @@
 
 one:
   content: MyText
-  chat: one
+  conversation: one
   user: one
 
 two:
   content: MyText
-  chat: two
+  conversation: two
   user: two

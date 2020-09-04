@@ -1,17 +1,17 @@
-<div class="container chats">
+<div class="container conversations">
   <div class="row justify-content-between">
-    <div class="chat-list">
+    <div class="conversation-list">
       <table>
         <tr>
-          <th><p>Your chat list</th>
+          <th><p>Your conversation list</th>
         </tr>
-        <% current_user.chats.each do |chat| %>
+        <% current_user.conversations.each do |conversation| %>
           <tr>
-            <td <% if @chat.id == chat.id %> class="active" <% end %>>
-              <a href="/chats/<%= chat.id %>"><p><%= chat.opposed_user(current_user).full_name %></p>
-                <% if @chat.id != chat.id %>
-                  <% if chat.messages.any? %>
-                    <p class="last-msg"><%= chat.messages.last.body %></p>
+            <td <% if @conversation.id == conversation.id %> class="active" <% end %>>
+              <a href="/conversations/<%= conversation.id %>"><p><%= conversation.opposed_user(current_user).full_name %></p>
+                <% if @conversation.id != conversation.id %>
+                  <% if conversation.messages.any? %>
+                    <p class="last-msg"><%= conversation.messages.last.content %></p>
                   <% end %>
                 <% end %>
               </a>
@@ -20,12 +20,12 @@
         <% end %>
       </table>
     </div>
-    <div class="current-chat">
+    <div class="current-conversation">
       <div class="d-flex pl-3">
         <%= image_tag 'profile.png', class: "avatar" %>
-        <h2><%= @chat.opposed_user(current_user).full_name %></h2>
+        <h2><%= @conversation.opposed_user(current_user).full_name %></h2>
       </div>
-      <div class="messages" id="chatbox" data-chat-id="<%= @chat.id %>" data-userId="<%= current_user.id %>">
+      <div class="messages" id="conversationbox" data-userId="<%= current_user.id %>">
         <% @messages.each do |message| %>
           <% if current_user == message.user %>
             <div class="col-8 offset-4 d-flex justify-content-end">
@@ -39,7 +39,7 @@
         <% end %>
       </div>
       <div class="message-form">
-        <%= render 'messages/form', chat: @chat, message: @message %>
+        <%= render 'messages/form', conversation: @conversation, message: @message %>
       </div>
     </div>
   </div>

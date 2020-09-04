@@ -1,7 +1,6 @@
-class ChatChannel < ApplicationCable::Channel
+class ConversationChannel < ApplicationCable::Channel
   def subscribed
-    chat = Chat.find(params[:id])
-    stream_for chat
+    stream_from "conversation"
   end
 
   def unsubscribed

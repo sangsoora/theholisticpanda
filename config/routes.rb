@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show] do
     resources :practitioners, only: [:new, :create]
-    resources :chats, only: [:create]
+    resources :conversations, only: [:create]
   end
 
   get 'users/:id/sessions', to: 'users#booking', as: :user_sessions
@@ -60,7 +60,7 @@ Rails.application.routes.draw do
 
   resources :notifications, only: [:update, :destroy]
 
-  resources :chats, only: [:show] do
+  resources :conversations, only: [:show] do
     resources :messages, only: [:create]
   end
 
