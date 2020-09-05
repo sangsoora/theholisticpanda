@@ -1,6 +1,15 @@
 <%= simple_form_for [@conversation, @message], remote: true  do |f| %>
   <div class="message-form-control form-group">
     <%= f.input :content, placeholder: "Say something...", required: true, autofocus: true, label: false, :input_html => {:rows => 1, class: 'form-control'} %>
-    <input type="submit" name="commit" value="Send" class="btn btn-flat" data-disable-with="Send" style="border-radius: 0;">
+    <input type="submit" id="sendBtn" name="commit" value="Send" class="btn btn-flat" data-disable-with="Send" style="border-radius: 0;">
   </div>
 <% end %>
+<script>
+  function submitOnEnter(event){
+    if (event.which === 13 && !event.shiftKey) {
+      event.preventDefault();
+      document.getElementById("sendBtn").click();
+    }
+  }
+  document.getElementById("message_content").addEventListener("keypress", submitOnEnter);
+</script>

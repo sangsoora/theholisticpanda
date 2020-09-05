@@ -22,7 +22,11 @@
     </div>
     <div class="current-conversation">
       <div class="d-flex pl-3">
-        <%= image_tag 'profile.png', class: "avatar" %>
+        <% if @conversation.opposed_user(current_user).is_practitioner? && @chat.opposed_user(current_user).practitioner.photo.attached? %>
+          <%= cl_image_tag @chat.opposed_user(current_user).practitioner.photo.key, class: "avatar" %>
+        <% else %>
+          <%= image_tag 'profile.png', class: "avatar" %>
+        <% end %>
         <h2><%= @conversation.opposed_user(current_user).full_name %></h2>
       </div>
       <div class="messages" id="conversationbox" data-conversationId="<%= @conversation.id %>" data-userId="<%= current_user.id %>">
