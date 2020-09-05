@@ -99,7 +99,7 @@ class ServicesController < ApplicationController
     if @service.save!
       favorite_users = @service.practitioner.favorite_users
       favorite_users.each do |user|
-        Notification.create(recipient: user, actor: current_user, action: "created new service " + @service.name, notifiable: @service)
+        Notification.create(recipient: user, actor: current_user, action: "created new service", notifiable: @service)
       end
       redirect_to practitioner_services_path(current_user.practitioner)
     else
@@ -108,8 +108,18 @@ class ServicesController < ApplicationController
   end
 
   def update
-    if @service.update(service_params)
-      redirect_to practitioner_services_path(current_user.practitioner)
+    if @service.price.to_f == service_params[:price].to_f
+      if @service.update(service_params)
+        redirect_to practitioner_services_path(current_user.practitioner)
+      end
+    else
+      if @service.update(service_params)
+        favorite_users = @service.favorite_users
+        favorite_users.each do |user|
+          Notification.create(recipient: user, actor: current_user, action: "updated the price of service", notifiable: @service)
+        end
+        redirect_to practitioner_services_path(current_user.practitioner)
+      end
     end
   end
 

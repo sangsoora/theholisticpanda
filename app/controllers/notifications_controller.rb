@@ -13,9 +13,8 @@ class NotificationsController < ApplicationController
       redirect_to session_path(@notification.notifiable_id)
     elsif @notification.notifiable_type == "Service"
       redirect_to service_path(@notification.notifiable_id)
-    #    # redirect_to user_ketchups_path(@notification.recipient)
-    #  elsif @notification.notifiable_type == "Trip"
-    #    redirect_to  user_path(@notification.actor)
+    elsif @notification.notifiable_type == "Conversation"
+      redirect_to conversation_path(@notification.notifiable_id)
     #    # redirect_to user_notifications_path(@notification.recipient)
     end
   end
