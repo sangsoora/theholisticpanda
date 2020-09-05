@@ -786,33 +786,6 @@ puts 'Favorite services created'
 puts '-' * 60
 puts '=' * 60
 puts '-' * 60
-puts 'Creating notifications'
-puts '-' * 60
-
-Notification.create(recipient_id: Session.find(1).practitioner.user.id, actor_id: Session.find(1).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(1).id, read_at: Time.now)
-Notification.create(recipient_id: Session.find(1).user.id, actor_id: Session.find(1).practitioner.user.id, action: "has confirmed your session", notifiable_type: 'Session', notifiable_id: Session.find(1).id)
-Notification.create(recipient_id: Session.find(2).practitioner.user.id, actor_id: Session.find(2).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(2).id, read_at: Time.now)
-Notification.create(recipient_id: Session.find(2).user.id, actor_id: Session.find(2).practitioner.user.id, action: "has confirmed your session", notifiable_type: 'Session', notifiable_id: Session.find(2).id)
-Notification.create(recipient_id: Session.find(3).practitioner.user.id, actor_id: Session.find(3).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(3).id)
-Notification.create(recipient_id: Session.find(4).practitioner.user.id, actor_id: Session.find(4).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(4).id)
-Notification.create(recipient_id: Session.find(5).practitioner.user.id, actor_id: Session.find(5).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(5).id, read_at: Time.now)
-Notification.create(recipient_id: Session.find(5).user.id, actor_id: Session.find(5).practitioner.user.id, action: "has confirmed your session", notifiable_type: 'Session', notifiable_id: Session.find(5).id)
-Notification.create(recipient_id: Session.find(6).practitioner.user.id, actor_id: Session.find(6).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(6).id, read_at: Time.now)
-Notification.create(recipient_id: Session.find(6).user.id, actor_id: Session.find(6).practitioner.user.id, action: "has confirmed your session", notifiable_type: 'Session', notifiable_id: Session.find(6).id)
-Notification.create(recipient_id: Session.find(7).practitioner.user.id, actor_id: Session.find(7).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(7).id)
-Notification.create(recipient_id: Session.find(8).practitioner.user.id, actor_id: Session.find(8).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(8).id)
-Notification.create(recipient_id: Session.find(9).practitioner.user.id, actor_id: Session.find(9).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(9).id, read_at: Time.now)
-Notification.create(recipient_id: Session.find(9).user.id, actor_id: Session.find(9).practitioner.user.id, action: "has confirmed your session", notifiable_type: 'Session', notifiable_id: Session.find(9).id)
-Notification.create(recipient_id: Session.find(10).practitioner.user.id, actor_id: Session.find(10).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(10).id, read_at: Time.now)
-Notification.create(recipient_id: Session.find(10).user.id, actor_id: Session.find(10).practitioner.user.id, action: "has confirmed your session", notifiable_type: 'Session', notifiable_id: Session.find(10).id)
-Notification.create(recipient_id: Session.find(11).practitioner.user.id, actor_id: Session.find(11).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(11).id)
-Notification.create(recipient_id: Session.find(12).practitioner.user.id, actor_id: Session.find(12).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(12).id)
-
-puts '-' * 60
-puts 'Notifications created'
-puts '-' * 60
-puts '=' * 60
-puts '-' * 60
 puts 'Creating conversations'
 puts '-' * 60
 
@@ -846,6 +819,46 @@ Message.create(content: 'Hi Sangsoo! Great to meet you too! What service are you
 
 puts '-' * 60
 puts 'Messages created'
+puts '-' * 60
+puts '=' * 60
+puts '-' * 60
+puts 'Creating notifications'
+puts '-' * 60
+
+Notification.create(recipient_id: Session.find(1).practitioner.user.id, actor_id: Session.find(1).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(1).id, read_at: Time.now)
+Notification.create(recipient_id: Session.find(1).user.id, actor_id: Session.find(1).practitioner.user.id, action: "has confirmed your session", notifiable_type: 'Session', notifiable_id: Session.find(1).id)
+Notification.create(recipient_id: Session.find(2).practitioner.user.id, actor_id: Session.find(2).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(2).id, read_at: Time.now)
+Notification.create(recipient_id: Session.find(2).user.id, actor_id: Session.find(2).practitioner.user.id, action: "has confirmed your session", notifiable_type: 'Session', notifiable_id: Session.find(2).id)
+Notification.create(recipient_id: Session.find(3).practitioner.user.id, actor_id: Session.find(3).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(3).id)
+Notification.create(recipient_id: Session.find(4).practitioner.user.id, actor_id: Session.find(4).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(4).id)
+Notification.create(recipient_id: Session.find(5).practitioner.user.id, actor_id: Session.find(5).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(5).id, read_at: Time.now)
+Notification.create(recipient_id: Session.find(5).user.id, actor_id: Session.find(5).practitioner.user.id, action: "has confirmed your session", notifiable_type: 'Session', notifiable_id: Session.find(5).id)
+Notification.create(recipient_id: Session.find(6).practitioner.user.id, actor_id: Session.find(6).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(6).id, read_at: Time.now)
+Notification.create(recipient_id: Session.find(6).user.id, actor_id: Session.find(6).practitioner.user.id, action: "has confirmed your session", notifiable_type: 'Session', notifiable_id: Session.find(6).id)
+Notification.create(recipient_id: Session.find(7).practitioner.user.id, actor_id: Session.find(7).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(7).id)
+Notification.create(recipient_id: Session.find(8).practitioner.user.id, actor_id: Session.find(8).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(8).id)
+Notification.create(recipient_id: Session.find(9).practitioner.user.id, actor_id: Session.find(9).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(9).id, read_at: Time.now)
+Notification.create(recipient_id: Session.find(9).user.id, actor_id: Session.find(9).practitioner.user.id, action: "has confirmed your session", notifiable_type: 'Session', notifiable_id: Session.find(9).id)
+Notification.create(recipient_id: Session.find(10).practitioner.user.id, actor_id: Session.find(10).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(10).id, read_at: Time.now)
+Notification.create(recipient_id: Session.find(10).user.id, actor_id: Session.find(10).practitioner.user.id, action: "has confirmed your session", notifiable_type: 'Session', notifiable_id: Session.find(10).id)
+Notification.create(recipient_id: Session.find(11).practitioner.user.id, actor_id: Session.find(11).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(11).id)
+Notification.create(recipient_id: Session.find(12).practitioner.user.id, actor_id: Session.find(12).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(12).id)
+
+Notification.create(recipient_id: 5, actor_id: 2, action: "sent you a new message", notifiable_type: 'Conversation', notifiable_id: 1, read_at: Time.now)
+Notification.create(recipient_id: 2, actor_id: 5, action: "sent you a new message", notifiable_type: 'Conversation', notifiable_id: 1)
+Notification.create(recipient_id: Practitioner.find(5).user.id, actor_id: 2, action: "sent you a new message", notifiable_type: 'Conversation', notifiable_id: 2, read_at: Time.now)
+Notification.create(recipient_id: 2, actor_id: Practitioner.find(5).user.id, action: "sent you a new message", notifiable_type: 'Conversation', notifiable_id: 2)
+Notification.create(recipient_id: 5, actor_id: 3, action: "sent you a new message", notifiable_type: 'Conversation', notifiable_id: 3, read_at: Time.now)
+Notification.create(recipient_id: 3, actor_id: 5, action: "sent you a new message", notifiable_type: 'Conversation', notifiable_id: 3)
+Notification.create(recipient_id: Practitioner.find(3).user.id, actor_id: 3, action: "sent you a new message", notifiable_type: 'Conversation', notifiable_id: 4, read_at: Time.now)
+Notification.create(recipient_id: 3, actor_id: Practitioner.find(3).user.id, action: "sent you a new message", notifiable_type: 'Conversation', notifiable_id: 4)
+Notification.create(recipient_id: 5, actor_id: 4, action: "sent you a new message", notifiable_type: 'Conversation', notifiable_id: 5, read_at: Time.now)
+Notification.create(recipient_id: 4, actor_id: 5, action: "sent you a new message", notifiable_type: 'Conversation', notifiable_id: 5)
+Notification.create(recipient_id: Practitioner.find(2).user.id, actor_id: 4, action: "sent you a new message", notifiable_type: 'Conversation', notifiable_id: 6, read_at: Time.now)
+Notification.create(recipient_id: 4, actor_id: Practitioner.find(2).user.id, action: "sent you a new message", notifiable_type: 'Conversation', notifiable_id: 6)
+
+puts '-' * 60
+puts 'Notifications created'
 puts '-' * 60
 
 puts '=' * 60
