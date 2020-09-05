@@ -1,4 +1,7 @@
-App.conversation = App.cable.subscriptions.create("ConversationChannel", {
+var id = document.getElementById('conversationbox').dataset.conversationid;
+
+App.conversation = App.cable.subscriptions.create({ channel: "ConversationChannel", id: id }, {
+
   connected: function() {},
 
   disconnected: function() {},

@@ -8,7 +8,7 @@ class MessagesController < ApplicationController
     @messages = @conversation.messages
     @message.save!
 
-    ActionCable.server.broadcast "conversation", message: render_message
+    ConversationChannel.broadcast_to(@conversation, message: render_message)
 
     render :create, layout: false
   end
