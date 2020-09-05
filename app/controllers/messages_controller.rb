@@ -7,6 +7,10 @@ class MessagesController < ApplicationController
     @message.user = current_user
     @messages = @conversation.messages
     @message.save!
+    if Notification.where(recipient: @conversation.opposed_user(current_user), actor: current_user, notifiable: @conversation).present? && Notification.where(recipient: @conversation.opposed_user(current_user), actor: current_user, notifiable: @conversation).last.read_at == nil
+    else
+      Notification.create(recipient: @conversation.opposed_user(current_user), actor: current_user, action: "sent you a new message", notifiable: @conversation)
+    end
 
     ConversationChannel.broadcast_to(@conversation, message: render_message)
 

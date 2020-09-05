@@ -1,7 +1,7 @@
 <p data-senderId="<%= current_user.id %>">
   <% if message.content.include?("\n") %>
     <% message.content.split("\n").reverse.drop(1).reverse.each do |line| %>
-      <%= line %> <br>
+      <%= line %><br>
     <% end %>
     <%= message.content.split("\n").last %>
   <% else %>

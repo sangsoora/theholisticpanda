@@ -15,7 +15,7 @@
             <% elsif !notification.actor.is_practitioner? %>
             <% end %>
             <div class="notification-content">
-              <p><small><%= notification.month %> <%= notification.day %>, <%= notification.year %></small></p>
+              <p><small><%= notification.created_at.strftime('%b %d, %Y') %></small></p>
               <p>
                 <%= notification.actor.full_name %> <%= notification.action %>
               </p>
