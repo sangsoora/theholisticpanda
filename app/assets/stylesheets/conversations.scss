@@ -70,6 +70,12 @@
 }
 .my-message-bubble p, .other-message-bubble p {
   margin-bottom: 0;
+  text-align: left;
+  i {
+    font-size: 0.75rem;
+    opacity: 0.5;
+    margin-left: 0.5rem;
+  }
 }
 
 .my-msg:before {
@@ -138,4 +144,8 @@ tr .active {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 30ch;
+}
+
+#message_content {
+  resize: none;
 }

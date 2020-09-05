@@ -6,5 +6,5 @@ test:
 
 production:
   adapter: redis
-  url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
+  url: redis://redistogo:0b0063d95a06d1a23a05c8502ec03d02@crestfish.redistogo.com:11548/
   channel_prefix: holistick_production

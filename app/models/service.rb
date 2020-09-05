@@ -8,6 +8,8 @@ class Service < ApplicationRecord
   has_many :practitioner_languages, through: :practitioner
   has_many :languages, through: :practitioner_languages
   has_many :reviews, through: :sessions
+  has_many :favorite_services, dependent: :destroy
+  has_many :favorite_users, through: :favorite_services, source: :user
   validates :name, presence: true
   validates :duration, presence: true
   validates :price, presence: true

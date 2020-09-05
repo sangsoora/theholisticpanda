@@ -10,18 +10,21 @@
           <div class="notification-head">
             <% if notification.actor.is_practitioner? && notification.actor.practitioner.photo.attached? %>
               <%= cl_image_tag notification.actor.photo.key, class: "avatar" %>
-            <% elsif notification.actor.is_practitioner? && !notification.actor.practitioner.photo.attached? %>
+            <% else %>
               <%= image_tag 'profile.png', class: "avatar" %>
-            <% elsif !notification.actor.is_practitioner? %>
+            <%# elsif notification.actor.is_practitioner? && !notification.actor.practitioner.photo.attached? %>
+              <%#= image_tag 'profile.png', class: "avatar" %>
+            <%# elsif !notification.actor.is_practitioner? %>
             <% end %>
             <div class="notification-content">
-              <p><small><%= notification.month %> <%= notification.day %>, <%= notification.year %></small></p>
+              <p><small><%= notification.created_at.strftime('%b %d, %Y') %></small></p>
               <p>
-                <%= notification.actor.full_name %> <%= notification.action %>
+                <%= link_to notification.actor.full_name + " " + notification.action, notification_path(notification), method: :patch || :put %>
               </p>
             </div>
           </div>
           <div class="notification-actions">
+            <%= link_to '', notification_path(notification), method: :delete, remote: true, data: { toggle: 'tooltip', placement: 'bottom' }, title: 'Dismiss', class: 'far fa-trash-alt' %>
           </div>
         </div>
       <% end %>

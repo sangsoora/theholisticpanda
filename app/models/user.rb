@@ -30,4 +30,23 @@ class User < ApplicationRecord
   def conversations
     self.conversations_as_recipient + self.conversations_as_sender
   end
+
+  def conversation_messages
+    messages = []
+    self.conversations_as_recipient.each do |c|
+      c.messages.each do |m|
+        messages << m
+      end
+    end
+    self.conversations_as_sender.each do |c|
+      c.messages.each do |m|
+        messages << m
+      end
+    end
+    messages
+  end
+
+  def last_conversation
+    self.conversation_messages.max_by { |message| message.created_at }.conversation
+  end
 end
