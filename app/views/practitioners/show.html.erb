@@ -49,7 +49,9 @@
             <div class="practitioner-service-info">
               <div class="d-flex justify-content-between align-items-center">
                 <h4><%= service.name %></h4>
-                <%= link_to 'Book now', service_path(service), class: 'btn btn-flat' %>
+                <% if current_user != @practitioner.user %>
+                  <%= link_to 'Book now', service_path(service), class: 'btn btn-flat' %>
+                <% end %>
               </div>
               <% if service.reviews.count > 0 %>
                 <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
