@@ -5,19 +5,7 @@
         <tr>
           <th><p>Your conversation list</th>
         </tr>
-        <% current_user.conversations.each do |conversation| %>
-          <tr>
-            <td <% if @conversation.id == conversation.id %> class="active" <% end %>>
-              <a href="/conversations/<%= conversation.id %>"><p><%= conversation.opposed_user(current_user).full_name %></p>
-                <% if @conversation.id != conversation.id %>
-                  <% if conversation.messages.any? %>
-                    <p class="last-msg"><%= conversation.messages.last.content %></p>
-                  <% end %>
-                <% end %>
-              </a>
-            </td>
-          </tr>
-        <% end %>
+        <%= render 'conversations/conversation_list', conversation: @conversation %>
       </table>
     </div>
     <div class="current-conversation">
@@ -42,7 +30,7 @@
           <% end %>
         <% end %>
       </div>
-      <div class="message-form">
+      <div class="message-form pl-3">
         <%= render 'messages/form', conversation: @conversation, message: @message %>
       </div>
     </div>

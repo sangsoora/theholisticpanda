@@ -1,6 +1,6 @@
 <div class="container service-page">
   <div class="d-flex">
-    <h2><%= @service.name %> with <%= @service.practitioner.user.first_name %></h2>
+    <h2><%= @service.name %> with <%= link_to @service.practitioner.user.first_name, practitioner_path(@service.practitioner) %></h2>
     <div id="service-btn">
       <%= render 'favorite_services/service_btn', service: @service %>
     </div>

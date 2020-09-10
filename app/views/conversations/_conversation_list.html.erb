@@ -1,0 +1,13 @@
+<% Conversation.where(sender_id: current_user.id).or(Conversation.where(recipient_id: current_user.id)).joins(:messages).order("messages.created_at DESC").uniq.each do |c| %>
+  <tr>
+    <td <% if conversation.id == c.id %> class="active" <% end %>>
+      <a href="/conversations/<%= c.id %>"><p><%= c.opposed_user(current_user).full_name %></p>
+        <% if conversation.id != c.id %>
+          <% if c.messages.any? %>
+            <p class="last-msg"><%= c.messages.last.content %></p>
+          <% end %>
+        <% end %>
+      </a>
+    </td>
+  </tr>
+<% end %>
