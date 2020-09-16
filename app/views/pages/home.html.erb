@@ -7,21 +7,22 @@
       <h2>Featured Practitioners</h2>
       <div class='cards-featured'>
         <% @practitioners.first(3).each do |practitioner| %>
-          <a href="/practitioners/<%= practitioner.id %>">
-            <div class='card-featured'>
+          <div class='card-featured'>
+            <a href="/practitioners/<%= practitioner.id %>">
               <% if practitioner.photo.attached? %>
                 <%= cl_image_tag practitioner.photo.key %>
               <% else %>
                 <img src='https://kitt.lewagon.com/placeholder/users/random' />
               <% end %>
-              <div class='card-featured-infos'>
+            </a>
+            <div class='card-featured-infos'>
+              <a href="/practitioners/<%= practitioner.id %>">
                 <h2><%= practitioner.user.full_name %></h2>
-                <% if practitioner.bio %>
-                  <p><%= practitioner.bio.split('. ').first %>.</p>
-                <% end %>
-              </div>
+              </a>
+              <p id="bio-<%= practitioner.id %>"><%= practitioner.bio %></p>
+              <button id="more-<%= practitioner.id %>">See more</button>
             </div>
-          </a>
+          </div>
         <% end %>
       </div>
       <div class='cards-review'>
@@ -106,3 +107,21 @@
 <section id='bottom-banner'>
   <%= render 'bottom_banner' %>
 </section>
+<script>
+  <% @practitioners.first(3).each do |practitioner| %>
+    const bio<%= practitioner.id %> = document.getElementById('bio-<%= practitioner.id %>');
+    const more<%= practitioner.id %> = document.getElementById('more-<%= practitioner.id %>');
+    more<%= practitioner.id %>.addEventListener('click', (e) => {
+      if (e.currentTarget.innerText === "See less") {
+        e.currentTarget.innerText = "See more"
+      } else {
+        e.currentTarget.innerText = "See less";
+      }
+      if (bio<%= practitioner.id %>.style.display === "block") {
+        bio<%= practitioner.id %>.style.display = "-webkit-box";
+      } else {
+        bio<%= practitioner.id %>.style.display = "block";
+      }
+    })
+  <% end %>
+</script>

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root to: 'pages#home'
 
   get '/become-a-practitioner', to: 'pages#become_a_practitioner', as: :become_a_practitioner
+  get '/dashboard', to: 'dashboards#dashboard', as: :dashboard
 
   devise_scope :user do
     match '/sessions/user', to: 'devise/sessions#create', via: :post
