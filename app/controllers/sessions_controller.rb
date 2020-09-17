@@ -52,6 +52,8 @@ class SessionsController < ApplicationController
       if @session.update(start_time: @start_time, status: 'confirmed')
         Notification.create(recipient: @session.user, actor: current_user, action: "has confirmed your session", notifiable: @session)
         redirect_to user_sessions_path(current_user), notice: 'Session request accepted'
+        SessionMailer.with(session: @session).confirm_practitioner.deliver_now
+        SessionMailer.with(session: @session).confirm_user.deliver_now
       else
 
       end

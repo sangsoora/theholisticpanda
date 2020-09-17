@@ -49,4 +49,10 @@ class User < ApplicationRecord
   def last_conversation
     self.conversation_messages.max_by { |message| message.created_at }.conversation
   end
+
+  private
+
+  def send_welcome_email
+    UserMailer.with(user: self).welcome.deliver_now
+  end
 end
