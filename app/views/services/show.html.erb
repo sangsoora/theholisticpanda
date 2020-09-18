@@ -39,7 +39,7 @@
         <p>Total price: C$ <%= (@service.price * 1.03).round(2) %></p>
       </div>
       <div class="service-review">
-        <% @service.reviews.each do |review| %>
+        <% @service.reviews.includes(session: :user).each do |review| %>
           <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %> - <%= review.comment %> <small><i>by <%= review.session.user.full_name %></i></small></p>
         <% end %>
       </div>

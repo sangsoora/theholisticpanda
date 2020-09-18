@@ -137,7 +137,7 @@ class PractitionersController < ApplicationController
   end
 
   def service
-    @services = @practitioner.services
+    @services = @practitioner.services.includes(:sessions, :specialty, :practitioner)
     @service = Service.new
   end
 
@@ -177,7 +177,7 @@ class PractitionersController < ApplicationController
   end
 
   def set_notifications
-    @notifications = Notification.where(recipient: current_user).order("created_at DESC").unread
+    @notifications = Notification.includes(:actor).where(recipient: current_user).order("created_at DESC").unread
   end
 
   def practitioner_params

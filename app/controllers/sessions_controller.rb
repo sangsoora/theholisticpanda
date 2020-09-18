@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
 
   def show
     @review = Review.new
-    @notifications = Notification.where(recipient: current_user).order("created_at DESC").unread
+    @notifications = Notification.includes(:actor).where(recipient: current_user).order("created_at DESC").unread
     @conversation = Conversation.new
   end
 

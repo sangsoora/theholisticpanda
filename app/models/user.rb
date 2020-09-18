@@ -28,7 +28,7 @@ class User < ApplicationRecord
   end
 
   def conversations
-    self.conversations_as_recipient + self.conversations_as_sender
+    self.conversations_as_recipient.includes(:messages) + self.conversations_as_sender.includes(:messages)
   end
 
   def conversation_messages
