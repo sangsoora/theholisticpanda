@@ -27,11 +27,36 @@
         <%= f.input :phone_number %>
       </div>
 
+      <div class="my-3">
+        <div class="form-check">
+          <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="user[terms_consent][]" id="user_terms_consent_true">
+          <label class="form-check-label collection_check_boxes" for="user_terms_consent_true">I have read and agree to the <a href=""> terms and condition</a>.</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input check_boxes" aria-required="false" type="checkbox" value="true" name="user[newsletter_consent][]" id="user_newsletter_consent_true">
+          <label class="form-check-label collection_check_boxes" for="user_newsletter_consent_true">I agree to receive marketing communications. (optional)</label>
+        </div>
+      </div>
+
       <div class="form-actions">
-        <%= f.button :submit, "Sign up", class: "btn-flat w-100" %>
+        <%= f.button :submit, "Sign up", class: "btn-flat w-100", id: 'submit-btn', disabled: true %>
       </div>
     <% end %>
 
     <%= render "devise/shared/links" %>
   </div>
 </div>
+
+<script>
+  const checkbox = document.getElementById('user_terms_consent_true');
+  if (checkbox) {
+    checkbox.addEventListener( 'change', function() {
+      if(checkbox.checked === true) {
+        document.getElementById("submit-btn").disabled = false;
+      } else {
+        document.getElementById("submit-btn").disabled = true;
+      }
+    });
+  }
+</script>
