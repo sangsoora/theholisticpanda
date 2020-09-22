@@ -31,7 +31,7 @@
   <% if !(user_signed_in? && current_user.newsletter) %>
     <div class="footer-newsletter">
       <h3>SIGNUP FOR NEWSLETTER</h3>
-      <%= simple_form_for([Newsletter.new]) do |f| %>
+      <%= simple_form_for([Newsletter.new], remote: true) do |f| %>
         <div class='d-flex justify-content-center text-center my-3'>
           <div class="form-group email required newsletter_email" style="width: 50%; margin-bottom: 0;">
             <input class="form-control string email required input-newsletter" placeholder="someone@example.com" type="email" name="newsletter[email]" id="newsletter_email">
