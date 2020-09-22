@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :booking, :favorite, :notification]
-  before_action :set_notifications, only: [:show, :booking, :favorite, :notification]
+  before_action :set_user, only: %i[show booking favorite notification]
+  before_action :set_notifications, only: %i[show booking favorite notification]
   helper_method :resource_name, :resource, :devise_mapping, :resource_class
 
   def resource_name
@@ -24,13 +24,13 @@ class UsersController < ApplicationController
 
   def booking
     if current_user.practitioner
-      @confirmed_sessions = current_user.practitioner.sessions.includes(:review, service: [practitioner: :photo_attachment]).where(["status= ?", "confirmed"])
-      @pending_sessions = current_user.practitioner.sessions.includes(:review, service: [practitioner: :photo_attachment]).where(["paid = ? AND status= ?", true, "pending"])
-      @cancelled_sessions = current_user.practitioner.sessions.includes(:review, service: [practitioner: :photo_attachment]).where(["status= ?", "cancelled"])
+      @confirmed_sessions = current_user.practitioner.sessions.includes(:review, service: [practitioner: :photo_attachment]).where(['status= ?', 'confirmed'])
+      @pending_sessions = current_user.practitioner.sessions.includes(:review, service: [practitioner: :photo_attachment]).where(['paid = ? AND status= ?', true, 'pending'])
+      @cancelled_sessions = current_user.practitioner.sessions.includes(:review, service: [practitioner: :photo_attachment]).where(['status= ?', 'cancelled'])
     else
-      @confirmed_sessions = current_user.sessions.includes(:review, service: [practitioner: :photo_attachment]).where(["status= ?", "confirmed"])
-      @pending_sessions = current_user.sessions.includes(:review, service: [practitioner: :photo_attachment]).where(["status= ?", "pending"])
-      @cancelled_sessions = current_user.sessions.includes(:review, service: [practitioner: :photo_attachment]).where(["status= ?", "cancelled"])
+      @confirmed_sessions = current_user.sessions.includes(:review, service: [practitioner: :photo_attachment]).where(['status= ?', 'confirmed'])
+      @pending_sessions = current_user.sessions.includes(:review, service: [practitioner: :photo_attachment]).where(['status= ?', 'pending'])
+      @cancelled_sessions = current_user.sessions.includes(:review, service: [practitioner: :photo_attachment]).where(['status= ?', 'cancelled'])
     end
     @review = Review.new
   end
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
   end
 
   def notification
-    @my_notifications = Notification.includes(actor: [practitioner: :photo_attachment]).where(recipient: current_user).order("created_at DESC")
+    @my_notifications = Notification.includes(actor: [practitioner: :photo_attachment]).where(recipient: current_user).order('created_at DESC')
   end
 
   private
@@ -52,6 +52,6 @@ class UsersController < ApplicationController
   end
 
   def set_notifications
-    @notifications = Notification.includes(:actor).where(recipient: current_user).order("created_at DESC").unread
+    @notifications = Notification.includes(:actor).where(recipient: current_user).order('created_at DESC').unread
   end
 end

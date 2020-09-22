@@ -5,7 +5,9 @@ users_data = [
     first_name: 'Holistic',
     last_name: 'Panda',
     phone_number: '000 000 001',
-    admin: true
+    admin: true,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'diana@theholisticpanda.com',
@@ -13,7 +15,9 @@ users_data = [
     first_name: 'Diana',
     last_name: 'Choi',
     phone_number: '000 000 002',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'janet@theholisticpanda.com',
@@ -21,7 +25,9 @@ users_data = [
     first_name: 'Janet',
     last_name: 'Lam',
     phone_number: '000 000 003',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'sangsoo@theholisticpanda.com',
@@ -29,7 +35,9 @@ users_data = [
     first_name: 'Sangsoo',
     last_name: 'Ra',
     phone_number: '000 000 004',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: true
   },
   {
     email: 'spiderman@theholisticpanda.com',
@@ -37,7 +45,9 @@ users_data = [
     first_name: 'Peter',
     last_name: 'Parker',
     phone_number: '000 000 005',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'blackwidow@theholisticpanda.com',
@@ -45,7 +55,9 @@ users_data = [
     first_name: 'Natasha',
     last_name: 'Romanoff',
     phone_number: '000 000 006',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: true
   },
   {
     email: 'captainamerica@theholisticpanda.com',
@@ -53,7 +65,9 @@ users_data = [
     first_name: 'Steve',
     last_name: 'Rogers',
     phone_number: '000 000 007',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'ironman@theholisticpanda.com',
@@ -61,7 +75,9 @@ users_data = [
     first_name: 'Tony',
     last_name: 'Stark',
     phone_number: '000 000 008',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'hulk@theholisticpanda.com',
@@ -69,7 +85,9 @@ users_data = [
     first_name: 'Bruce',
     last_name: 'Banner',
     phone_number: '000 000 009',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: true
   },
   {
     email: 'hawkeye@theholisticpanda.com',
@@ -77,7 +95,9 @@ users_data = [
     first_name: 'Clint',
     last_name: 'Barton',
     phone_number: '000 000 010',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'thor@theholisticpanda.com',
@@ -85,7 +105,9 @@ users_data = [
     first_name: 'Thor',
     last_name: 'Odinson',
     phone_number: '000 000 011',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'scarletwitch@theholisticpanda.com',
@@ -93,7 +115,9 @@ users_data = [
     first_name: 'Wanda',
     last_name: 'Maximoff',
     phone_number: '000 000 012',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'antman@theholisticpanda.com',
@@ -101,7 +125,9 @@ users_data = [
     first_name: 'Scott',
     last_name: 'Lang',
     phone_number: '000 000 013',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'quake@theholisticpanda.com',
@@ -109,7 +135,9 @@ users_data = [
     first_name: 'Daisy',
     last_name: 'Johnson',
     phone_number: '000 000 014',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'jessicajones@theholisticpanda.com',
@@ -117,7 +145,9 @@ users_data = [
     first_name: 'Jessica',
     last_name: 'Jones',
     phone_number: '000 000 015',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: true
   },
   {
     email: 'psylocke@theholisticpanda.com',
@@ -125,7 +155,9 @@ users_data = [
     first_name: 'Elizabeth',
     last_name: 'Braddock',
     phone_number: '000 000 016',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'nickfury@theholisticpanda.com',
@@ -133,7 +165,9 @@ users_data = [
     first_name: 'Nick',
     last_name: 'Fury',
     phone_number: '000 000 017',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'beast@theholisticpanda.com',
@@ -141,7 +175,9 @@ users_data = [
     first_name: 'Hank',
     last_name: 'McCoy',
     phone_number: '000 000 018',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'cyclops@theholisticpanda.com',
@@ -149,7 +185,9 @@ users_data = [
     first_name: 'Scott',
     last_name: 'Summers',
     phone_number: '000 000 019',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'daredevil@theholisticpanda.com',
@@ -157,7 +195,9 @@ users_data = [
     first_name: 'Matt',
     last_name: 'Murdock',
     phone_number: '000 000 020',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'deadpool@theholisticpanda.com',
@@ -165,7 +205,9 @@ users_data = [
     first_name: 'Wade',
     last_name: 'Wilson',
     phone_number: '000 000 021',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'doctorstrange@theholisticpanda.com',
@@ -173,7 +215,9 @@ users_data = [
     first_name: 'Stephen',
     last_name: 'Strange',
     phone_number: '000 000 022',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'falcon@theholisticpanda.com',
@@ -181,7 +225,9 @@ users_data = [
     first_name: 'Sam',
     last_name: 'Wilson',
     phone_number: '000 000 023',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'invisiblewoman@theholisticpanda.com',
@@ -189,7 +235,9 @@ users_data = [
     first_name: 'Susan',
     last_name: 'Storm',
     phone_number: '000 000 024',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'lukecage@theholisticpanda.com',
@@ -197,7 +245,9 @@ users_data = [
     first_name: 'Luke',
     last_name: 'Cage',
     phone_number: '000 000 025',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'magneto@theholisticpanda.com',
@@ -205,7 +255,9 @@ users_data = [
     first_name: 'Erik',
     last_name: 'Lensherr',
     phone_number: '000 000 026',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'punisher@theholisticpanda.com',
@@ -213,7 +265,9 @@ users_data = [
     first_name: 'Frank',
     last_name: 'Castle',
     phone_number: '000 000 027',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'starlord@theholisticpanda.com',
@@ -221,7 +275,9 @@ users_data = [
     first_name: 'Peter',
     last_name: 'Quill',
     phone_number: '000 000 028',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'storm@theholisticpanda.com',
@@ -229,7 +285,9 @@ users_data = [
     first_name: 'Ororo',
     last_name: 'Munroe',
     phone_number: '000 000 029',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   },
   {
     email: 'wolverine@theholisticpanda.com',
@@ -237,7 +295,9 @@ users_data = [
     first_name: 'James',
     last_name: 'Howlett',
     phone_number: '000 000 030',
-    admin: false
+    admin: false,
+    terms: true,
+    newsletter: false
   }
 ]
 

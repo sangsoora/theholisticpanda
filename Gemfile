@@ -43,6 +43,7 @@ gem 'cloudinary', '~> 1.12.0'
 gem 'country_select', '~> 4.0'
 gem 'google-api-client', '~> 0.34'
 gem 'letter_opener', group: :development
+gem 'rails_admin', '~> 2.0'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

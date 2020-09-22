@@ -77,3 +77,11 @@ button:focus {
 .modal-photo {
   max-width: 80%;
 }
+
+.input-newsletter {
+  border-radius: 0;
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}

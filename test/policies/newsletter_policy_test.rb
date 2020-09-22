@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class DashboardsPolicyTest < ActiveSupport::TestCase
+class NewsletterPolicyTest < ActiveSupport::TestCase
   def test_scope
   end
 

@@ -4,6 +4,7 @@ class PagesController < ApplicationController
 
   def home
     @practitioners = Practitioner.includes(:photo_attachment, :user)
+    @newsletter = Newsletter.new
   end
 
   def become_a_practitioner
