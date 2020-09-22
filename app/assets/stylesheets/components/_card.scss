@@ -21,7 +21,7 @@
 .card-featured h2 {
   font-size: 2rem;
   font-weight: bold;
-  margin: 0;
+  margin: 1rem 0;
 }
 
 .card-featured p {
@@ -33,6 +33,15 @@
 .card-featured .card-featured-infos {
   padding: 1rem;
   text-align: center;
+}
+
+.card-featured-infos {
+  p {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
 }
 
 .cards-review {

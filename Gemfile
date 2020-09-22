@@ -17,7 +17,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'webpacker'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
-
+gem 'bullet', group: 'development'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
@@ -42,6 +42,8 @@ gem 'stripe_event'
 gem 'cloudinary', '~> 1.12.0'
 gem 'country_select', '~> 4.0'
 gem 'google-api-client', '~> 0.34'
+gem 'letter_opener', group: :development
+gem 'rails_admin', '~> 2.0'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

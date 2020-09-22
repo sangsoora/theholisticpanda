@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  devise_for :users
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  devise_for :users, :controllers => { registrations: "registrations" }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'pages#home'
 
@@ -10,7 +11,7 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:show] do
-    resources :practitioners, only: [:new, :create]
+    resources :practitioners, only: %i[new create]
     resources :conversations, only: [:create]
   end
 
@@ -18,7 +19,7 @@ Rails.application.routes.draw do
   get 'users/:id/favorites', to: 'users#favorite', as: :user_favorites
   get 'users/:id/notifications', to: 'users#notification', as: :user_notifications
 
-  resources :practitioners, only: [:index, :show, :update, :destroy] do
+  resources :practitioners, only: %i[index show update destroy] do
     resources :practitioner_specialties, only: [:create]
     resources :practitioner_languages, only: [:create]
     resources :practitioner_social_links, only: [:create]
@@ -36,33 +37,35 @@ Rails.application.routes.draw do
 
   resources :favorite_practitioners, only: [:destroy]
 
-  resources :languages, only: [:create, :destroy]
+  resources :languages, only: %i[create destroy]
 
-  resources :specialties, only: [:create, :destroy] do
+  resources :specialties, only: %i[create destroy] do
     resources :specialty_health_goals, only: [:create]
   end
 
-  resources :health_goals, only: [:create, :destroy]
+  resources :health_goals, only: %i[create destroy]
 
-  resources :services, only: [:create, :index, :show, :update, :destroy] do
+  resources :services, only: %i[create index show update destroy] do
     resources :sessions, only: [:create]
     resources :favorite_services, only: [:create]
   end
 
   resources :favorite_services, only: [:destroy]
 
-  resources :sessions, only: [:show, :edit, :update, :destroy] do
+  resources :sessions, only: %i[show edit update destroy] do
     resources :payments, only: [:new]
     resources :reviews, only: [:create]
   end
 
   resources :reviews, only: [:destroy]
 
-  resources :notifications, only: [:update, :destroy]
+  resources :notifications, only: %i[update destroy]
 
   resources :conversations, only: [:show] do
     resources :messages, only: [:create]
   end
+
+  resources :newsletters, only: %i[create destroy]
 
   mount StripeEvent::Engine, at: '/stripe-webhooks'
 end

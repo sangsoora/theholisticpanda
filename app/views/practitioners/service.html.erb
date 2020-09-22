@@ -1,7 +1,7 @@
 <div class="container practitioner-my-services">
   <%= link_to 'Add new service', '', data: { toggle: "modal", target: "#newServiceModal" }, class: 'btn btn-flat' %>
   <div class="my-services">
-    <% @practitioner.services.sort.reverse.each do |service| %>
+    <% @services.sort.reverse.each do |service| %>
       <div class="practitioner-service">
         <div class="practitioner-service-info" id="service-<%= service.id %>">
           <div class="d-flex justify-content-between align-items-center">

@@ -27,11 +27,39 @@
         <%= f.input :phone_number %>
       </div>
 
+      <div class="my-3">
+
+        <div class="form-check">
+          <input name="user[terms]" type="hidden" value="false">
+          <input type="checkbox" value="true" name="user[terms]" id="user_terms">
+          <label class="form-check-label boolean optional" for="user_terms">I have read and agree to the <a href=""> terms and condition</a>.</label>
+        </div>
+
+        <div class="form-check">
+          <input name="user[newsletter]" type="hidden" value="false">
+          <input type="checkbox" value="true" name="user[newsletter]" id="user_newsletter">
+          <label class="form-check-label boolean optional" for="user_newsletter">I agree to receive marketing communications. (optional)</label>
+        </div>
+      </div>
+
       <div class="form-actions">
-        <%= f.button :submit, "Sign up", class: "btn-flat w-100" %>
+        <%= f.button :submit, "Sign up", class: "btn-flat w-100", id: 'submit-btn', disabled: true %>
       </div>
     <% end %>
 
     <%= render "devise/shared/links" %>
   </div>
 </div>
+
+<script>
+  const checkbox = document.getElementById('user_terms');
+  if (checkbox) {
+    checkbox.addEventListener( 'change', function() {
+      if(checkbox.checked === true) {
+        document.getElementById("submit-btn").disabled = false;
+      } else {
+        document.getElementById("submit-btn").disabled = true;
+      }
+    });
+  }
+</script>

@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
 
   def show
     @review = Review.new
-    @notifications = Notification.where(recipient: current_user).order("created_at DESC").unread
+    @notifications = Notification.includes(:actor).where(recipient: current_user).order("created_at DESC").unread
     @conversation = Conversation.new
   end
 
@@ -52,6 +52,8 @@ class SessionsController < ApplicationController
       if @session.update(start_time: @start_time, status: 'confirmed')
         Notification.create(recipient: @session.user, actor: current_user, action: "has confirmed your session", notifiable: @session)
         redirect_to user_sessions_path(current_user), notice: 'Session request accepted'
+        SessionMailer.with(session: @session).confirm_practitioner.deliver_now
+        SessionMailer.with(session: @session).confirm_user.deliver_now
       else
 
       end

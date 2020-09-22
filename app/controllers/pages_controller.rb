@@ -3,7 +3,8 @@ class PagesController < ApplicationController
   before_action :set_notifications, only: [:home, :become_a_practitioner]
 
   def home
-    @practitioners = Practitioner.all
+    @practitioners = Practitioner.includes(:photo_attachment, :user)
+    @newsletter = Newsletter.new
   end
 
   def become_a_practitioner
@@ -12,6 +13,6 @@ class PagesController < ApplicationController
   private
 
   def set_notifications
-    @notifications = Notification.where(recipient: current_user).order("created_at DESC").unread
+    @notifications = Notification.includes(:actor).where(recipient: current_user).order("created_at DESC").unread
   end
 end

@@ -10,7 +10,7 @@ class PractitionerPolicy < ApplicationPolicy
   end
 
   def create?
-    !user.practitioner && user_is_practitioner?
+    !user_is_practitioner?
   end
 
   def update?

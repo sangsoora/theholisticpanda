@@ -7,21 +7,22 @@
       <h2>Featured Practitioners</h2>
       <div class='cards-featured'>
         <% @practitioners.first(3).each do |practitioner| %>
-          <a href="/practitioners/<%= practitioner.id %>">
-            <div class='card-featured'>
+          <div class='card-featured'>
+            <a href="/practitioners/<%= practitioner.id %>">
               <% if practitioner.photo.attached? %>
                 <%= cl_image_tag practitioner.photo.key %>
               <% else %>
                 <img src='https://kitt.lewagon.com/placeholder/users/random' />
               <% end %>
-              <div class='card-featured-infos'>
+            </a>
+            <div class='card-featured-infos'>
+              <a href="/practitioners/<%= practitioner.id %>">
                 <h2><%= practitioner.user.full_name %></h2>
-                <% if practitioner.bio %>
-                  <p><%= practitioner.bio.split('. ').first %>.</p>
-                <% end %>
-              </div>
+              </a>
+              <p id="bio-<%= practitioner.id %>"><%= practitioner.bio %></p>
+              <button id="more-<%= practitioner.id %>">See more</button>
             </div>
-          </a>
+          </div>
         <% end %>
       </div>
       <div class='cards-review'>
@@ -98,11 +99,39 @@
   </div>
   <div class='d-flex justify-content-center text-center'>
     <div class="col-10">
-      <h2>Signup to stay updated</h2>
-      <p>We respect your privacy.</p>
+      <% if !(user_signed_in? && current_user.newsletter) %>
+        <h2>Sign up to our newsletter stay updated</h2>
+        <p>We respect your privacy.</p>
+        <%= simple_form_for([@newsletter], remote: true) do |f| %>
+          <div class='d-flex justify-content-center text-center my-5'>
+            <div class="form-group email required newsletter_email" style="width: 50%; margin-bottom: 0;">
+              <input class="form-control string email required input-newsletter" placeholder="someone@example.com" type="email" name="newsletter[email]" id="newsletter_email_1">
+            </div>
+            <%= f.button :submit, 'Submit', class: 'btn-flat btn-newsletter' %>
+          </div>
+        <% end %>
+      <% end %>
     </div>
   </div>
 </section>
 <section id='bottom-banner'>
   <%= render 'bottom_banner' %>
 </section>
+<script>
+  <% @practitioners.first(3).each do |practitioner| %>
+    const bio<%= practitioner.id %> = document.getElementById('bio-<%= practitioner.id %>');
+    const more<%= practitioner.id %> = document.getElementById('more-<%= practitioner.id %>');
+    more<%= practitioner.id %>.addEventListener('click', (e) => {
+      if (e.currentTarget.innerText === "See less") {
+        e.currentTarget.innerText = "See more"
+      } else {
+        e.currentTarget.innerText = "See less";
+      }
+      if (bio<%= practitioner.id %>.style.display === "block") {
+        bio<%= practitioner.id %>.style.display = "-webkit-box";
+      } else {
+        bio<%= practitioner.id %>.style.display = "block";
+      }
+    })
+  <% end %>
+</script>

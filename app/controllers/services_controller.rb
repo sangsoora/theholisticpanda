@@ -4,7 +4,7 @@ class ServicesController < ApplicationController
   before_action :set_service, only: [:show, :update, :destroy]
 
   def index
-    @services = policy_scope(Service).group_by { |service| service.specialty }
+    @services = policy_scope(Service).includes(:specialty, :practitioner_specialty, :languages, practitioner: [:user, :photo_attachment]).group_by { |service| service.specialty }
     @services = @services.sort_by {|k, v| k[:name] }.to_h
     if params[:search]
       if params[:search][:specialty]
@@ -136,7 +136,7 @@ class ServicesController < ApplicationController
   end
 
   def set_notifications
-    @notifications = Notification.where(recipient: current_user).order("created_at DESC").unread
+    @notifications = Notification.includes(:actor).where(recipient: current_user).order("created_at DESC").unread
   end
 
   def service_params

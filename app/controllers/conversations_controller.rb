@@ -3,10 +3,10 @@ class ConversationsController < ApplicationController
 
   def show
     @message = Message.new
-    @messages = @conversation.messages
+    @messages = @conversation.messages.includes(:user)
     @my_messages = @conversation.messages.where(["user_id = ?", current_user.id])
     @other_messages = @conversation.messages.where(["user_id = ?", @conversation.opposed_user(current_user).id])
-    @notifications = Notification.where(recipient: current_user).order("created_at DESC").unread
+    @notifications = Notification.includes(:actor).where(recipient: current_user).order("created_at DESC").unread
   end
 
   def create
@@ -36,7 +36,7 @@ class ConversationsController < ApplicationController
   private
 
   def set_conversation
-    @conversation = Conversation.find(params[:id])
+    @conversation = Conversation.includes(:recipient, :messages).find(params[:id])
     authorize @conversation
   end
 
