@@ -127,7 +127,7 @@ class PractitionersController < ApplicationController
   end
 
   def profile
-    @columns = ['specialties', 'languages', 'country', 'experience', 'certification', 'bio', 'workingdays', 'workinghours', 'video', 'website', 'address']
+    @columns = ['specialties', 'languages', 'country', 'experience', 'certification', 'bio', 'workingdays', 'workinghours', 'video', 'website', 'sociallinks', 'address']
     @workingdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     @specialties = Specialty.all.sort_by(&:name)
     @languages = Language.all.sort_by(&:name)

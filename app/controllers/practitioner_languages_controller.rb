@@ -8,14 +8,22 @@ class PractitionerLanguagesController < ApplicationController
     @languages = Language.all.sort_by(&:name)
     @practitioner_language.practitioner = @practitioner
     @practitioner_language.language = Language.find(params[:practitioner][:language_id])
-    @practitioner_language.save!
-    redirect_to practitioner_profile_path(Practitioner.find(params[:practitioner_id]))
+    if @practitioner_language.save!
+      respond_to do |format|
+        format.html { redirect_to practitioner_profile_path(@practitioner) }
+        format.js
+      end
+    end
   end
 
   def destroy
+    @practitioner = @practitioner_language.practitioner
     @practitioner_language.destroy
     @language = @practitioner_language.language
-    redirect_to practitioner_profile_path(@practitioner_language.practitioner)
+    respond_to do |format|
+      format.html { redirect_to practitioner_profile_path(@practitioner_language.practitioner) }
+      format.js
+    end
   end
 
   private

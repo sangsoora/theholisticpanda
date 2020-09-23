@@ -8,14 +8,22 @@ class PractitionerSpecialtiesController < ApplicationController
     @specialties = Specialty.all.sort_by(&:name)
     @practitioner_specialty.practitioner = @practitioner
     @practitioner_specialty.specialty = Specialty.find(params[:practitioner][:specialty_id])
-    @practitioner_specialty.save!
-    redirect_to practitioner_profile_path(Practitioner.find(params[:practitioner_id]))
+    if @practitioner_specialty.save!
+      respond_to do |format|
+        format.html { redirect_to practitioner_profile_path(@practitioner) }
+        format.js
+      end
+    end
   end
 
   def destroy
+    @practitioner = @practitioner_specialty.practitioner
     @practitioner_specialty.destroy
     @specialty = @practitioner_specialty.specialty
-    redirect_to practitioner_profile_path(@practitioner_specialty.practitioner)
+    respond_to do |format|
+      format.html { redirect_to practitioner_profile_path(@practitioner) }
+      format.js
+    end
   end
 
   private

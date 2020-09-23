@@ -112,7 +112,7 @@ ActiveRecord::Schema.define(version: 2020_09_22_120824) do
   end
 
   create_table "practitioner_social_links", force: :cascade do |t|
-    t.string "link"
+    t.string "url"
     t.string "media_type"
     t.bigint "practitioner_id"
     t.datetime "created_at", null: false

@@ -2,7 +2,10 @@
   <div class="practitioner-specialty" data-specialty-id="<%= specialty.id %>">
     <p><%= specialty.name %></p>
     <% if PractitionerSpecialty.find_by(practitioner: practitioner, specialty: specialty).services == [] %>
-      <%= link_to '', practitioner_specialty_path(PractitionerSpecialty.find_by(practitioner: current_user.practitioner, specialty: specialty)), method: :delete, data: { confirm: "Are you sure to remove this specialty?"}, class: 'fas fa-times ml-3' %>
+      <%= link_to '', practitioner_specialty_path(PractitionerSpecialty.find_by(practitioner: current_user.practitioner, specialty: specialty)), remote: true, method: :delete, data: { confirm: "Are you sure to remove this specialty?"}, class: 'fas fa-times ml-3' %>
     <% end %>
   </div>
+<% end %>
+<% if @practitioner.specialties.count < Specialty.count %>
+  <button id='specialties-edit'><p><%= link_to '', '', class: 'fas fa-plus' %></p></button>
 <% end %>
