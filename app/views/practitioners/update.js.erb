@@ -27,3 +27,4 @@ workinghoursForm.style.display = 'none';
 document.getElementById('workinghours').innerHTML = '<% if @practitioner.starting_hour %><%= @practitioner.starting_hour.strftime("%H:%M") %> ~ <%= @practitioner.ending_hour.strftime("%H:%M") %><% end %>'
 
 
+

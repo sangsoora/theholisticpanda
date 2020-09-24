@@ -24,12 +24,14 @@
         </div>
         <div class="practitioner-profile-info-body">
           <div id="practitioner-specialties">
-            <%= render "practitioner_specialties/practitioner_specialties_list", practitioner: @practitioner %>
+            <div id="specialties-list">
+              <%= render "practitioner_specialties/practitioner_specialties_list", practitioner: @practitioner %>
+            </div>
             <% if @practitioner.specialties.count < Specialty.count %>
-              <button id='specialties-edit'><p><%= link_to '', '', class: 'fas fa-plus' %></p></button>
+              <button id='specialties-edit' class='ml-0'><p><%= link_to '+ Add', '' %></p></button>
             <% end %>
           </div>
-          <%= simple_form_for([@practitioner, @practitioner_specialty], html: { id: :specialties_form, style: 'display: none;' }) do |f| %>
+          <%= simple_form_for([@practitioner, @practitioner_specialty], remote: true, html: { id: :specialties_form, style: 'display: none;' }) do |f| %>
             <%= render "practitioner_specialties/update_form", practitioner: @practitioner, specialties: @specialties %>
           <% end %>
         </div>
@@ -40,12 +42,14 @@
         </div>
         <div class="practitioner-profile-info-body">
           <div id="practitioner-languages">
-            <%= render "practitioner_languages/practitioner_languages_list", practitioner: @practitioner %>
+            <div id="languages-list">
+              <%= render "practitioner_languages/practitioner_languages_list", practitioner: @practitioner %>
+            </div>
             <% if @practitioner.languages.count < Language.count %>
-              <button id='languages-edit'><p><%= link_to '', '', class: 'fas fa-plus' %></p></button>
+              <button id='languages-edit' class='ml-0'><p><%= link_to '+ Add', '' %></p></button>
             <% end %>
           </div>
-          <%= simple_form_for([@practitioner, @practitioner_language], html: { id: :languages_form, style: 'display: none;' }) do |f| %>
+          <%= simple_form_for([@practitioner, @practitioner_language], remote: true, html: { id: :languages_form, style: 'display: none;' }) do |f| %>
             <%= render "practitioner_languages/update_form", practitioner: @practitioner, languages: @languages %>
           <% end %>
         </div>
@@ -206,6 +210,25 @@
       </div>
       <div class="practitioner-profile-info">
         <div class="practitioner-profile-info-title">
+          <p>Social media links</p>
+        </div>
+        <div class="practitioner-profile-info-body" style="flex-wrap: wrap;">
+          <div id="practitioner-sociallinks">
+            <div id="sociallinks-list" class="mb-2">
+              <%= render "practitioner_social_links/practitioner_social_links_list", practitioner: @practitioner %>
+            </div>
+            <button id='sociallinks-edit' class='ml-0'><p><%= link_to '+ Add', '' %></p></button>
+          </div>
+          <%= simple_form_for([@practitioner, @practitioner_social_link], remote: true, html: { id: :sociallinks_form, style: 'display: none; align-items: center;' }) do |f| %>
+            <%= f.input :media_type, label: false, collection: $media_types, as: :select %>
+            <%= f.input :url, label: false %>
+            <button type="submit"><i class='fas fa-check'></i></button>
+            <button id='sociallinks-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+          <% end %>
+        </div>
+      </div>
+      <div class="practitioner-profile-info">
+        <div class="practitioner-profile-info-title">
           <p>Address</p>
         </div>
         <div class="practitioner-profile-info-body">
@@ -222,16 +245,6 @@
           <% end %>
         </div>
       </div>
-      <!-- <div class="practitioner-profile-info">
-        <div class="practitioner-profile-info-title">
-          <p>Social media links</p>
-        </div>
-        <div class="practitioner-profile-info-body">
-          <div id="practitioner-social">
-            <button id='social-edit'><p><%#= link_to '', '', class: 'fas fa-pen' %></p></button>
-          </div>
-        </div>
-      </div> -->
     </div>
   </div>
   <%= link_to 'Go to my page', practitioner_path(@practitioner), class: 'btn btn-flat'  %>
@@ -277,13 +290,21 @@
     const <%= column %>Cancel = document.getElementById('<%= column %>-cancel');
     <%= column %>Edit.addEventListener('click', (e) => {
       e.preventDefault();
-      <%= column %>.style.display = 'none';
+      if (<%= column %> !== document.getElementById('practitioner-sociallinks')) {
+        <%= column %>.style.display = 'none';
+      }
       <%= column %>Form.style.display = 'flex';
+      <%= column %>Edit.style.display = 'none';
     })
     <%= column %>Cancel.addEventListener('click', (e) => {
       e.preventDefault();
-      <%= column %>.style.display = 'flex';
+      if (<%= column %> === document.getElementById('practitioner-sociallinks') || <%= column %> === document.getElementById('practitioner-languages') || <%= column %> === document.getElementById('practitioner-specialties')) {
+        <%= column %>.style.display = 'block';
+      } else {
+        <%= column %>.style.display = 'flex';
+      }
       <%= column %>Form.style.display = 'none';
+      <%= column %>Edit.style.display = 'block';
     })
   <% end %>
   function initAutocomplete() {

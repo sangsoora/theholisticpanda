@@ -1,6 +1,6 @@
 <% practitioner.languages.sort_by(&:name).each do |language| %>
   <div class="practitioner-language" data-language-id="<%= language.id %>">
     <p><%= language.name %></p>
-    <%= link_to '', practitioner_language_path(PractitionerLanguage.find_by(practitioner: current_user.practitioner, language: language)), method: :delete, data: { confirm: "Are you sure to remove this language?"}, class: 'fas fa-times ml-3' %>
+    <%= link_to '', practitioner_language_path(PractitionerLanguage.find_by(practitioner: current_user.practitioner, language: language)), remote: true, method: :delete, data: { confirm: "Are you sure to remove this language?"}, class: 'fas fa-times ml-3' %>
   </div>
 <% end %>

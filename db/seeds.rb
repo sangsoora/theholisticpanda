@@ -572,6 +572,77 @@ puts 'Specialty health goals created'
 puts '-' * 60
 puts '=' * 60
 puts '-' * 60
+puts 'Creating user health goals'
+puts '-' * 60
+
+UserHealthGoal.create!(user_id: 2, health_goal_id: 1)
+UserHealthGoal.create!(user_id: 2, health_goal_id: 7)
+UserHealthGoal.create!(user_id: 3, health_goal_id: 2)
+UserHealthGoal.create!(user_id: 3, health_goal_id: 11)
+UserHealthGoal.create!(user_id: 4, health_goal_id: 3)
+UserHealthGoal.create!(user_id: 4, health_goal_id: 8)
+UserHealthGoal.create!(user_id: 17, health_goal_id: 9)
+UserHealthGoal.create!(user_id: 17, health_goal_id: 5)
+UserHealthGoal.create!(user_id: 18, health_goal_id: 4)
+UserHealthGoal.create!(user_id: 18, health_goal_id: 10)
+UserHealthGoal.create!(user_id: 19, health_goal_id: 5)
+UserHealthGoal.create!(user_id: 19, health_goal_id: 7)
+UserHealthGoal.create!(user_id: 20, health_goal_id: 6)
+UserHealthGoal.create!(user_id: 20, health_goal_id: 10)
+UserHealthGoal.create!(user_id: 21, health_goal_id: 11)
+UserHealthGoal.create!(user_id: 21, health_goal_id: 1)
+UserHealthGoal.create!(user_id: 22, health_goal_id: 2)
+UserHealthGoal.create!(user_id: 22, health_goal_id: 8)
+UserHealthGoal.create!(user_id: 23, health_goal_id: 4)
+UserHealthGoal.create!(user_id: 23, health_goal_id: 5)
+UserHealthGoal.create!(user_id: 24, health_goal_id: 6)
+UserHealthGoal.create!(user_id: 24, health_goal_id: 7)
+UserHealthGoal.create!(user_id: 25, health_goal_id: 2)
+UserHealthGoal.create!(user_id: 25, health_goal_id: 1)
+UserHealthGoal.create!(user_id: 26, health_goal_id: 3)
+UserHealthGoal.create!(user_id: 26, health_goal_id: 4)
+UserHealthGoal.create!(user_id: 27, health_goal_id: 2)
+UserHealthGoal.create!(user_id: 28, health_goal_id: 10)
+UserHealthGoal.create!(user_id: 29, health_goal_id: 7)
+UserHealthGoal.create!(user_id: 30, health_goal_id: 9)
+
+puts '-' * 60
+puts 'User health goals created'
+puts '-' * 60
+puts '=' * 60
+puts '-' * 60
+puts 'Creating practitioner social links'
+puts '-' * 60
+
+PractitionerSocialLink.create!(practitioner_id: 1, media_type: 'Other', url: 'https://www.theholisticpanda.com')
+PractitionerSocialLink.create!(practitioner_id: 1, media_type: 'Facebook', url: 'https://www.facebook.com')
+PractitionerSocialLink.create!(practitioner_id: 1, media_type: 'Instagram', url: 'https://www.instagram.com')
+PractitionerSocialLink.create!(practitioner_id: 1, media_type: 'Twitter', url: 'https://www.twitter.com')
+PractitionerSocialLink.create!(practitioner_id: 1, media_type: 'Facebook', url: 'https://www.facebook.com')
+PractitionerSocialLink.create!(practitioner_id: 1, media_type: 'Twitter', url: 'https://www.twitter.com')
+PractitionerSocialLink.create!(practitioner_id: 1, media_type: 'LinkedIn', url: 'https://www.linkedin.com')
+PractitionerSocialLink.create!(practitioner_id: 1, media_type: 'Other', url: 'https://www.theholisticpanda.com')
+PractitionerSocialLink.create!(practitioner_id: 1, media_type: 'Twitter', url: 'https://www.twitter.com')
+PractitionerSocialLink.create!(practitioner_id: 1, media_type: 'YouTube', url: 'https://www.theholisticpanda.com')
+PractitionerSocialLink.create!(practitioner_id: 1, media_type: 'Other', url: 'https://www.theholisticpanda.com')
+PractitionerSocialLink.create!(practitioner_id: 2, media_type: 'Facebook', url: 'https://www.facebook.com')
+PractitionerSocialLink.create!(practitioner_id: 2, media_type: 'Instagram', url: 'https://www.instagram.com')
+PractitionerSocialLink.create!(practitioner_id: 2, media_type: 'LinkedIn', url: 'https://www.linkedin.com')
+PractitionerSocialLink.create!(practitioner_id: 2, media_type: 'Other', url: 'https://www.theholisticpanda.com')
+PractitionerSocialLink.create!(practitioner_id: 2, media_type: 'Other', url: 'https://www.theholisticpanda.com')
+PractitionerSocialLink.create!(practitioner_id: 3, media_type: 'Instagram', url: 'https://www.instagram.com')
+PractitionerSocialLink.create!(practitioner_id: 3, media_type: 'LinkedIn', url: 'https://www.linkedin.com')
+PractitionerSocialLink.create!(practitioner_id: 4, media_type: 'Twitter', url: 'https://www.twitter.com')
+PractitionerSocialLink.create!(practitioner_id: 4, media_type: 'Other', url: 'https://www.theholisticpanda.com')
+PractitionerSocialLink.create!(practitioner_id: 5, media_type: 'Facebook', url: 'https://www.facebook.com')
+PractitionerSocialLink.create!(practitioner_id: 6, media_type: 'Twitter', url: 'https://www.twitter.com')
+PractitionerSocialLink.create!(practitioner_id: 7, media_type: 'Other', url: 'https://www.theholisticpanda.com')
+
+puts '-' * 60
+puts 'Practitioner social links created'
+puts '-' * 60
+puts '=' * 60
+puts '-' * 60
 puts 'Creating services'
 puts '-' * 60
 
@@ -630,45 +701,6 @@ Service.create!(name: 'Virtual Express Coaching Session', description: 'Express 
 
 puts '-' * 60
 puts 'Services created'
-puts '-' * 60
-puts '=' * 60
-puts '-' * 60
-puts 'Creating user health goals'
-puts '-' * 60
-
-UserHealthGoal.create!(user_id: 2, health_goal_id: 1)
-UserHealthGoal.create!(user_id: 2, health_goal_id: 7)
-UserHealthGoal.create!(user_id: 3, health_goal_id: 2)
-UserHealthGoal.create!(user_id: 3, health_goal_id: 11)
-UserHealthGoal.create!(user_id: 4, health_goal_id: 3)
-UserHealthGoal.create!(user_id: 4, health_goal_id: 8)
-UserHealthGoal.create!(user_id: 17, health_goal_id: 9)
-UserHealthGoal.create!(user_id: 17, health_goal_id: 5)
-UserHealthGoal.create!(user_id: 18, health_goal_id: 4)
-UserHealthGoal.create!(user_id: 18, health_goal_id: 10)
-UserHealthGoal.create!(user_id: 19, health_goal_id: 5)
-UserHealthGoal.create!(user_id: 19, health_goal_id: 7)
-UserHealthGoal.create!(user_id: 20, health_goal_id: 6)
-UserHealthGoal.create!(user_id: 20, health_goal_id: 10)
-UserHealthGoal.create!(user_id: 21, health_goal_id: 11)
-UserHealthGoal.create!(user_id: 21, health_goal_id: 1)
-UserHealthGoal.create!(user_id: 22, health_goal_id: 2)
-UserHealthGoal.create!(user_id: 22, health_goal_id: 8)
-UserHealthGoal.create!(user_id: 23, health_goal_id: 4)
-UserHealthGoal.create!(user_id: 23, health_goal_id: 5)
-UserHealthGoal.create!(user_id: 24, health_goal_id: 6)
-UserHealthGoal.create!(user_id: 24, health_goal_id: 7)
-UserHealthGoal.create!(user_id: 25, health_goal_id: 2)
-UserHealthGoal.create!(user_id: 25, health_goal_id: 1)
-UserHealthGoal.create!(user_id: 26, health_goal_id: 3)
-UserHealthGoal.create!(user_id: 26, health_goal_id: 4)
-UserHealthGoal.create!(user_id: 27, health_goal_id: 2)
-UserHealthGoal.create!(user_id: 28, health_goal_id: 10)
-UserHealthGoal.create!(user_id: 29, health_goal_id: 7)
-UserHealthGoal.create!(user_id: 30, health_goal_id: 9)
-
-puts '-' * 60
-puts 'User health goals created'
 puts '-' * 60
 puts '=' * 60
 puts '-' * 60

@@ -1,0 +1,25 @@
+$("#languages-list").html('<%= j render "practitioner_languages_list", practitioner: @practitioner %>');
+$("#languages_form").html('<%= j render "update_form", practitioner: @practitioner, languages: @languages %>');
+languages.style.display = 'block';
+languagesForm.style.display = 'none';
+languagesEdit.style.display = 'block';
+languagesEdit.addEventListener('click', (e) => {
+  e.preventDefault();
+  languages.style.display = 'none';
+  languagesForm.style.display = 'flex';
+  languagesEdit.style.display = 'none';
+})
+languagesCancel.addEventListener('click', (e) => {
+  e.preventDefault();
+  languages.style.display = 'block';
+  languagesForm.style.display = 'none';
+  languagesEdit.style.display = 'block';
+})
+$('.language-choice').on("click", function (e){
+  const active = document.querySelector('.active');
+  e.currentTarget.classList.toggle('active');
+  if (active !== null) {
+    active.classList.remove('active');
+  }
+});
+
