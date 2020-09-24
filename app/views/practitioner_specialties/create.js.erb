@@ -1,3 +1,24 @@
-$("#practitioner-specialties").html('<%= j render "practitioner_specialties_list", practitioner: @practitioner %>');
-document.getElementById('practitioner-specialties').style.display = 'flex';
-document.getElementById('specialties_form').style.display = 'none';
+$("#specialties-list").html('<%= j render "practitioner_specialties_list", practitioner: @practitioner %>');
+$("#specialties_form").html('<%= j render "update_form", practitioner: @practitioner, specialties: @specialties %>');
+specialties.style.display = 'block';
+specialtiesForm.style.display = 'none';
+specialtiesEdit.style.display = 'block';
+specialtiesEdit.addEventListener('click', (e) => {
+  e.preventDefault();
+  specialties.style.display = 'none';
+  specialtiesForm.style.display = 'flex';
+  specialtiesEdit.style.display = 'none';
+})
+specialtiesCancel.addEventListener('click', (e) => {
+  e.preventDefault();
+  specialties.style.display = 'block';
+  specialtiesForm.style.display = 'none';
+  specialtiesEdit.style.display = 'block';
+})
+$('.specialty-choice').on("click", function (e){
+  const active = document.querySelector('.active');
+  e.currentTarget.classList.toggle('active');
+  if (active !== null) {
+    active.classList.remove('active');
+  }
+});

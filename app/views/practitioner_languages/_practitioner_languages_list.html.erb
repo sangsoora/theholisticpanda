@@ -4,6 +4,3 @@
     <%= link_to '', practitioner_language_path(PractitionerLanguage.find_by(practitioner: current_user.practitioner, language: language)), remote: true, method: :delete, data: { confirm: "Are you sure to remove this language?"}, class: 'fas fa-times ml-3' %>
   </div>
 <% end %>
-<% if @practitioner.languages.count < Language.count %>
-  <button id='languages-edit'><p><%= link_to '', '', class: 'fas fa-plus' %></p></button>
-<% end %>

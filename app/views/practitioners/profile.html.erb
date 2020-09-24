@@ -24,7 +24,12 @@
         </div>
         <div class="practitioner-profile-info-body">
           <div id="practitioner-specialties">
-            <%= render "practitioner_specialties/practitioner_specialties_list", practitioner: @practitioner %>
+            <div id="specialties-list">
+              <%= render "practitioner_specialties/practitioner_specialties_list", practitioner: @practitioner %>
+            </div>
+            <% if @practitioner.specialties.count < Specialty.count %>
+              <button id='specialties-edit' class='ml-0'><p><%= link_to '+ Add', '' %></p></button>
+            <% end %>
           </div>
           <%= simple_form_for([@practitioner, @practitioner_specialty], remote: true, html: { id: :specialties_form, style: 'display: none;' }) do |f| %>
             <%= render "practitioner_specialties/update_form", practitioner: @practitioner, specialties: @specialties %>
@@ -37,7 +42,12 @@
         </div>
         <div class="practitioner-profile-info-body">
           <div id="practitioner-languages">
-            <%= render "practitioner_languages/practitioner_languages_list", practitioner: @practitioner %>
+            <div id="languages-list">
+              <%= render "practitioner_languages/practitioner_languages_list", practitioner: @practitioner %>
+            </div>
+            <% if @practitioner.languages.count < Language.count %>
+              <button id='languages-edit' class='ml-0'><p><%= link_to '+ Add', '' %></p></button>
+            <% end %>
           </div>
           <%= simple_form_for([@practitioner, @practitioner_language], remote: true, html: { id: :languages_form, style: 'display: none;' }) do |f| %>
             <%= render "practitioner_languages/update_form", practitioner: @practitioner, languages: @languages %>
@@ -277,9 +287,7 @@
     const <%= column %>Cancel = document.getElementById('<%= column %>-cancel');
     <%= column %>Edit.addEventListener('click', (e) => {
       e.preventDefault();
-      if (<%= column %> === document.getElementById('practitioner-sociallinks')) {
-        <%= column %>.style.display = 'block';
-      } else {
+      if (<%= column %> !== document.getElementById('practitioner-sociallinks')) {
         <%= column %>.style.display = 'none';
       }
       if (<%= column %>Form === document.getElementById('sociallinks_form')) {
@@ -287,15 +295,17 @@
       } else {
         <%= column %>Form.style.display = 'flex';
       }
+      <%= column %>Edit.style.display = 'none';
     })
     <%= column %>Cancel.addEventListener('click', (e) => {
       e.preventDefault();
-      if (<%= column %> === document.getElementById('practitioner-sociallinks')) {
+      if (<%= column %> === document.getElementById('practitioner-sociallinks') || <%= column %> === document.getElementById('practitioner-languages') || <%= column %> === document.getElementById('practitioner-specialties')) {
         <%= column %>.style.display = 'block';
       } else {
         <%= column %>.style.display = 'flex';
       }
       <%= column %>Form.style.display = 'none';
+      <%= column %>Edit.style.display = 'block';
     })
   <% end %>
   function initAutocomplete() {

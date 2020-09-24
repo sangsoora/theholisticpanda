@@ -6,6 +6,3 @@
     <% end %>
   </div>
 <% end %>
-<% if @practitioner.specialties.count < Specialty.count %>
-  <button id='specialties-edit'><p><%= link_to '', '', class: 'fas fa-plus' %></p></button>
-<% end %>
