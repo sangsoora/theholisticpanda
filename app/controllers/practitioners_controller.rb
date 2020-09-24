@@ -147,11 +147,15 @@ class PractitionersController < ApplicationController
       redirect_to root_path, notice: 'Thank you for your application'
     else
       if @practitioner.update(practitioner_params)
-        if !@practitioner.video.include?('http://' || 'https://')
-          @practitioner.update(video: 'http://' + @practitioner.video)
+        if @practitioner.video
+          if !@practitioner.video.include?('http://' || 'https://')
+            @practitioner.update(video: 'http://' + @practitioner.video)
+          end
         end
-        if !@practitioner.website.include?('http://' || 'https://')
-          @practitioner.update(website: 'http://' + @practitioner.website)
+        if @practitioner.website
+          if !@practitioner.website.include?('http://' || 'https://')
+            @practitioner.update(website: 'http://' + @practitioner.website)
+          end
         end
         if params[:practitioner][:workingday_ids]
           @workingdays = params[:practitioner][:workingday_ids].reject(&:blank?).join(', ')
