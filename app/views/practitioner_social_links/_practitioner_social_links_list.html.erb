@@ -1,4 +1,4 @@
-<% practitioner.practitioner_social_links.sort_by(&:media_type).each do |link| %>
+<% practitioner.practitioner_social_links.where.not(media_type: 'Other').sort_by(&:media_type).each do |link| %>
   <div class="practitioner-sociallink" data-link-id="<%= link.id %>">
     <div class="d-flex align-items-center">
       <% if link.media_type == 'Facebook' %>
@@ -11,12 +11,18 @@
         <i class="fab fa-linkedin"></i>
       <% elsif link.media_type == 'YouTube' %>
         <i class="fab fa-youtube"></i>
-      <% else %>
-        <i class="fas fa-hashtag"></i>
       <% end %>
       <p class='ml-3'><a href="<%= link.url %>" target="_blank"><%= link.url %></a></p>
       <button><p><%= link_to '', practitioner_social_link_path(link), remote: true, method: :delete, data: { confirm: "Are you sure to remove this service?"}, class: 'fas fa-trash' %></p></button>
     </div>
   </div>
 <% end %>
-<button id='sociallinks-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+<% practitioner.practitioner_social_links.where(media_type: 'Other').each do |link| %>
+  <div class="practitioner-sociallink" data-link-id="<%= link.id %>">
+    <div class="d-flex align-items-center">
+      <i class="fas fa-hashtag"></i>
+      <p class='ml-3'><a href="<%= link.url %>" target="_blank"><%= link.url %></a></p>
+      <button><p><%= link_to '', practitioner_social_link_path(link), remote: true, method: :delete, data: { confirm: "Are you sure to remove this service?"}, class: 'fas fa-trash' %></p></button>
+    </div>
+  </div>
+<% end %>

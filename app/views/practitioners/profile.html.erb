@@ -214,11 +214,14 @@
         </div>
         <div class="practitioner-profile-info-body" style="flex-wrap: wrap;">
           <div id="practitioner-sociallinks">
-            <%= render "practitioner_social_links/practitioner_social_links_list", practitioner: @practitioner %>
+            <div id="sociallinks-list" class="mb-2">
+              <%= render "practitioner_social_links/practitioner_social_links_list", practitioner: @practitioner %>
+            </div>
+            <button id='sociallinks-edit' class='ml-0'><p><%= link_to '+ Add', '' %></p></button>
           </div>
           <%= simple_form_for([@practitioner, @practitioner_social_link], remote: true, html: { id: :sociallinks_form, style: 'display: none; align-items: center;' }) do |f| %>
-            <%= f.input :media_type, collection: $media_types, as: :select %>
-            <%= f.input :url %>
+            <%= f.input :media_type, label: false, collection: $media_types, as: :select %>
+            <%= f.input :url, label: false %>
             <button type="submit"><i class='fas fa-check'></i></button>
             <button id='sociallinks-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
           <% end %>
@@ -290,11 +293,7 @@
       if (<%= column %> !== document.getElementById('practitioner-sociallinks')) {
         <%= column %>.style.display = 'none';
       }
-      if (<%= column %>Form === document.getElementById('sociallinks_form')) {
-        <%= column %>Form.style.display = 'block';
-      } else {
-        <%= column %>Form.style.display = 'flex';
-      }
+      <%= column %>Form.style.display = 'flex';
       <%= column %>Edit.style.display = 'none';
     })
     <%= column %>Cancel.addEventListener('click', (e) => {
