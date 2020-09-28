@@ -26,9 +26,7 @@
         <p><%= @service.description %></p>
         <p>Specialty: <%= @service.specialty.name %></p>
         <p>Related health goals:
-          <% @service.specialty.health_goals.each do |goal| %>
-            <%= goal.name %>
-          <% end %>
+          <%= @service.specialty.health_goals.pluck(:name).join(', ') %>
         </p>
         <p>Session type: <%= @service.service_type %></p>
         <p>Duration: <%= @service.duration %>m</p>

@@ -1,9 +1,6 @@
 <p data-senderId="<%= current_user.id %>">
   <% if message.content.include?("\n") %>
-    <% message.content.split("\n").reverse.drop(1).reverse.each do |line| %>
-      <%= line %><br>
-    <% end %>
-    <%= message.content.split("\n").last %>
+    <%= safe_join(message.content.split("\n"), tag(:br)) %>
   <% else %>
     <%= message.content %>
   <% end %>

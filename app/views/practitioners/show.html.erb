@@ -21,14 +21,10 @@
       </div>
       <div class="practitioner-detail">
         <p>Specailty:
-          <% @practitioner.specialties.each do |specialty| %>
-            <%= specialty.name %>
-          <% end %>
+          <%= @practitioner.specialties.pluck(:name).join(', ') %>
         </p>
         <p>Languages:
-          <% @practitioner.languages.each do |language| %>
-            <%= language.name %>
-          <% end %>
+          <%= @practitioner.languages.pluck(:name).join(', ') %>
         </p>
       </div>
     </div>
