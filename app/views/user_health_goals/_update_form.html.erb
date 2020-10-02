@@ -1,0 +1,15 @@
+<div class="form-group">
+  <input type="hidden" name="user[health_goal_id][]" value="">
+  <div class="health-goal-choices" style="margin: 0">
+    <% health_goals.each do |goal| %>
+      <% if user.health_goals.exclude?(goal) %>
+        <input type="radio" class="hidden" value="<%= goal.id %>" name="user[health_goal_id]" id="user_health_goal_id_<%= goal.id %>">
+        <label class="health-goal-choice" for="user_health_goal_id_<%= goal.id %>">
+          <%= goal.name %>
+        </label>
+      <% end %>
+    <% end %>
+   </div>
+</div>
+<button type="submit"><i class='fas fa-check'></i></button>
+<button id='healthgoals-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>

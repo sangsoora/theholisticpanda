@@ -354,7 +354,7 @@ puts 'Creating languages'
 puts '-' * 60
 
 Language.create!(name: 'Arabic')
-Language.create!(name: 'Begali')
+Language.create!(name: 'Bengali')
 Language.create!(name: 'Chinese-Cantonese')
 Language.create!(name: 'Chinese-Madarin')
 Language.create!(name: 'Danish')

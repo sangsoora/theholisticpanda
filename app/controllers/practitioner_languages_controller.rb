@@ -20,6 +20,7 @@ class PractitionerLanguagesController < ApplicationController
     @practitioner = @practitioner_language.practitioner
     @practitioner_language.destroy
     @language = @practitioner_language.language
+    @languages = Language.all.sort_by(&:name)
     respond_to do |format|
       format.html { redirect_to practitioner_profile_path(@practitioner_language.practitioner) }
       format.js

@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :conversations_as_recipient, foreign_key: :recipient_id, class_name: :Conversation, dependent: :destroy
   has_many :conversations_as_sender, foreign_key: :sender_id, class_name: :Conversation, dependent: :destroy
+  has_many :health_goals, through: :user_health_goals
 
   validates :email, presence: true, format: { with: /.+@.+\..+/ }
   validates :first_name, presence: true, length: { minimum: 2, maximum: 20 }
@@ -54,6 +55,6 @@ class User < ApplicationRecord
   end
 
   def subscribe_newsletter
-    Newsletter.create(email: email, subscribed: true) if newsletter && !Newsletter.find_by(email: email)
+    Newsletter.create(email: email) if newsletter && !Newsletter.find_by(email: email)
   end
 end

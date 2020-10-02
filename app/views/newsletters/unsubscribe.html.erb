@@ -1,0 +1,4 @@
+<div class="container unsubscribe">
+  <h3>Sad to see you go!</h3>
+  <%= link_to 'Unsubscribe to our newsletter', newsletter_path(@newsletter), method: :delete, data: {confirm: 'Are you sure?'} %>
+</div>

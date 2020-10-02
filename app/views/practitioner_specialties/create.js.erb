@@ -1,19 +1,19 @@
 $("#specialties-list").html('<%= j render "practitioner_specialties_list", practitioner: @practitioner %>');
 $("#specialties_form").html('<%= j render "update_form", practitioner: @practitioner, specialties: @specialties %>');
-specialties.style.display = 'block';
-specialtiesForm.style.display = 'none';
-specialtiesEdit.style.display = 'block';
-specialtiesEdit.addEventListener('click', (e) => {
+document.getElementById('practitioner-specialties').style.display = 'block';
+document.getElementById('specialties_form').style.display = 'none';
+document.getElementById('specialties-edit').style.display = 'block';
+document.getElementById('specialties-edit').addEventListener('click', (e) => {
   e.preventDefault();
-  specialties.style.display = 'none';
-  specialtiesForm.style.display = 'flex';
-  specialtiesEdit.style.display = 'none';
+  document.getElementById('practitioner-specialties').style.display = 'none';
+  document.getElementById('specialties_form').style.display = 'flex';
+  document.getElementById('specialties-edit').style.display = 'none';
 })
-specialtiesCancel.addEventListener('click', (e) => {
+document.getElementById('specialties-cancel').addEventListener('click', (e) => {
   e.preventDefault();
-  specialties.style.display = 'block';
-  specialtiesForm.style.display = 'none';
-  specialtiesEdit.style.display = 'block';
+  document.getElementById('practitioner-specialties').style.display = 'block';
+  document.getElementById('specialties_form').style.display = 'none';
+  document.getElementById('specialties-edit').style.display = 'block';
 })
 $('.specialty-choice').on("click", function (e){
   const active = document.querySelector('.active');

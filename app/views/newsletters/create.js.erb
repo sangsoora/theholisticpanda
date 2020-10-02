@@ -1,5 +1,15 @@
-document.getElementById('open-newsletter-modal').click();
-document.getElementById('newsletter_email').value = '';
-if (document.getElementById('newsletter_email_1')) {
-  document.getElementById('newsletter_email_1').value = '';
+if (document.getElementById('open-newsletter-modal')) {
+  document.getElementById('open-newsletter-modal').click();
+  if (document.getElementById('newsletter_email_footer')) {
+    document.getElementById('newsletter_email_footer').value = '';
+  }
+  if (document.getElementById('newsletter_email')) {
+    document.getElementById('newsletter_email').value = '';
+  }
+}
+if (document.getElementById('practitioner-newsletter')) {
+  $("#practitioner-newsletter").html('<%= j render "newsletters/newsletter_form", user: @user, practitioner: @practitioner, newsletter: @newsletter %>');
+}
+if (document.getElementById('newsletter')) {
+  $("#newsletter").html('<%= j render "newsletters/newsletter_form", user: @user, practitioner: @practitioner, newsletter: @newsletter %>');
 }

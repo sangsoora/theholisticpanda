@@ -20,6 +20,7 @@ class PractitionerSpecialtiesController < ApplicationController
     @practitioner = @practitioner_specialty.practitioner
     @practitioner_specialty.destroy
     @specialty = @practitioner_specialty.specialty
+    @specialties = Specialty.all.sort_by(&:name)
     respond_to do |format|
       format.html { redirect_to practitioner_profile_path(@practitioner) }
       format.js

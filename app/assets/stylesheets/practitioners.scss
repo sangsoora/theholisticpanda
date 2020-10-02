@@ -164,13 +164,16 @@
 .practitioner-profile-infos {
   flex: 0 0 80%;
   padding: 0.5rem 1rem;
+  h3 {
+    margin-bottom: 1rem;
+  }
 }
 
 .practitioner-profile-info {
   margin-bottom: 2rem;
 }
 
-.practitioner-profile-info-title, .practitioner-profile-info-btn {
+.practitioner-profile-info-title {
   flex: 0 0 20%;
 }
 
@@ -198,7 +201,7 @@
   }
 }
 
-#specialties-list, #languages-list {
+#specialties-list, #languages-list, #health-goals-list {
   display: flex;
   flex-wrap: wrap;
 }

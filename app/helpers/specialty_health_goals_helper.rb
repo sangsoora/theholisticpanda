@@ -1,0 +1,2 @@
+module SpecialtyHealthGoalsHelper
+end

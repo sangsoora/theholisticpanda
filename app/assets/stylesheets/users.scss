@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.sessions, .favorites, .notifications {
+.sessions, .favorites, .notifications, .account {
   padding: 6rem 0 2rem;
 }
 
@@ -164,3 +164,53 @@
     opacity: 1;
   }
 }
+
+.profile-infos {
+  p, .form-group {
+    margin-bottom: 0;
+  }
+}
+
+.profile-info, .profile-info-body {
+  display: flex;
+}
+
+.profile-info-title {
+  flex: 0 0 20%;
+}
+
+.profile-info-body {
+  flex: 0 0 80%;
+  align-items: center;
+  button {
+    margin-left: 1.5rem;
+    background: transparent;
+    border: none;
+    color: $emerald;
+    opacity: .7;
+    display: flex;
+    &:hover {
+      color: $emerald;
+      opacity: 1;
+    }
+  }
+}
+
+#health-goals-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.health-goal {
+  background: $gold;
+  color: $emerald;
+  padding: 0.25rem 1rem;
+  border-radius: 2rem;
+  border: 1px solid #E4BD78;
+  text-align: center;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+

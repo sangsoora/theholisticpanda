@@ -34,6 +34,16 @@ const initUpdateForm = () => {
       $(this).toggleClass("active");
     });
   }
+  const healthgoalsForm = document.getElementById('healthgoals_form');
+  if (healthgoalsForm) {
+    $('.health-goal-choice').on("click", function (e){
+      const active = document.querySelector('.active');
+      e.currentTarget.classList.toggle('active');
+      if (active !== null) {
+        active.classList.remove('active');
+      }
+    });
+  }
   const filterForm = document.getElementById('filter-form');
   if (filterForm) {
     $(".language-choice").click(function(){

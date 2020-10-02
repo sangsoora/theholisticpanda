@@ -20,7 +20,7 @@
                   <%= link_to notification.actor.full_name + " " + notification.action, notification_path(notification), method: :patch || :put, class: 'dropdown-item' %>
                 <% end %>
               <% end %>
-              <%= link_to "See All", user_notifications_path(current_user), class: 'dropdown-item text-center all' %>
+              <%= link_to 'See All', user_notifications_path(current_user), class: 'dropdown-item text-center all' %>
             </div>
           </li>
           <li class="nav-item">
@@ -36,14 +36,14 @@
                 <%= link_to 'Messages', conversation_path(current_user.last_conversation), class: "dropdown-item" %>
               <% end %>
               <%= link_to 'View my page', practitioner_path(current_user.practitioner), class: "dropdown-item" %>
-              <%= link_to 'Edit my profile', practitioner_profile_path(current_user.practitioner), class: "dropdown-item" %>
+              <%= link_to 'My account', practitioner_profile_path(current_user.practitioner), class: "dropdown-item" %>
               <%= link_to 'My services', practitioner_services_path(current_user.practitioner), class: 'dropdown-item' %>
-              <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+              <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
             </div>
           </li>
         <% else %>
           <li class="nav-item">
-            <%= link_to "Become a practitioner", become_a_practitioner_path, class: "nav-link" %>
+            <%= link_to 'Become a practitioner', become_a_practitioner_path, class: "nav-link" %>
           </li>
           <li class="nav-item btn-group">
             <a class="dropdown-toggle nav-link" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -58,7 +58,7 @@
                   <%= link_to notification.actor.full_name + " " + notification.action, notification_path(notification), method: :patch || :put, class: 'dropdown-item' %>
                 <% end %>
               <% end %>
-              <%= link_to "See All", user_notifications_path(current_user), class: 'dropdown-item text-center all' %>
+              <%= link_to 'See All', user_notifications_path(current_user), class: 'dropdown-item text-center all' %>
             </div>
           </li>
           <li class="nav-item">
@@ -73,8 +73,8 @@
               <% if current_user.conversations.present? %>
                 <%= link_to 'Messages', conversation_path(current_user.last_conversation), class: "dropdown-item" %>
               <% end %>
-              <a class="dropdown-item" href="">Edit profile</a>
-              <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+              <%= link_to 'My account', user_path(current_user), class: "dropdown-item" %>
+              <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
             </div>
           </li>
         <% end %>

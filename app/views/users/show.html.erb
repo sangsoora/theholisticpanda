@@ -1,0 +1,61 @@
+<div class="container account">
+  <div class="d-flex align-items-center">
+    <h1>Welcome, <%= @user.first_name %></h1>
+    <%= link_to 'Edit', '', data: { toggle: "modal", target: "#profileEditModal" }, class: 'btn btn-ghost m-3' %>
+    <%= link_to 'Reset password', '', data: { toggle: "modal", target: "#passwordModal" }, class: 'btn btn-ghost ml-3' %>
+  </div>
+  <div class="profile-infos">
+    <div class="profile-info my-4">
+      <div class="profile-info-title">
+        <p>Health Goals</p>
+      </div>
+      <div class="profile-info-body">
+        <div id="health-goals">
+          <div id="health-goals-list">
+            <%= render "user_health_goals/user_health_goals_list", user: current_user %>
+          </div>
+          <% if @user.health_goals.count < UserHealthGoal.count %>
+            <button id='healthgoals-edit' class='ml-0'><p><%= link_to '+ Add', '' %></p></button>
+          <% end %>
+        </div>
+        <%= simple_form_for([@user, @user_health_goal], remote: true, html: { id: :healthgoals_form, style: 'display: none;' }) do |f| %>
+          <%= render "user_health_goals/update_form", user: current_user, health_goals: @health_goals %>
+        <% end %>
+      </div>
+    </div>
+    <div class="profile-info my-4">
+      <div class="profile-info-title">
+        <p>Newsletter</p>
+      </div>
+      <div class="profile-info-body">
+        <div id="newsletter">
+          <%= render "newsletters/newsletter_form", user: @user, newsletter: @newsletter %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="profileEditModal" tabindex="-1" role="dialog" aria-labelledby="profileEditModalLabel" aria-hidden="true">
+    <%= render 'devise/registrations/edit_form', resource: current_user %>
+  </div>
+  <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
+    <%= render 'devise/registrations/password_form', resource: current_user %>
+  </div>
+</div>
+<script>
+  const healthgoals = document.getElementById('health-goals');
+  const healthgoalsForm = document.getElementById('healthgoals_form');
+  const healthgoalsEdit = document.getElementById('healthgoals-edit');
+  const healthgoalsCancel = document.getElementById('healthgoals-cancel');
+  healthgoalsEdit.addEventListener('click', (e) => {
+    e.preventDefault();
+    healthgoals.style.display = 'none';
+    healthgoalsForm.style.display = 'flex';
+    healthgoalsEdit.style.display = 'none';
+  })
+  healthgoalsCancel.addEventListener('click', (e) => {
+    e.preventDefault();
+    healthgoals.style.display = 'block';
+    healthgoalsForm.style.display = 'none';
+    healthgoalsEdit.style.display = 'block';
+  })
+</script>

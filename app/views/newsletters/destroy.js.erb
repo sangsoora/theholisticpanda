@@ -1,0 +1,6 @@
+if (document.getElementById('practitioner-newsletter')) {
+  $("#practitioner-newsletter").html('<%= j render "newsletters/newsletter_form", user: @user, practitioner: @practitioner, newsletter: @newsletter %>');
+}
+if (document.getElementById('newsletter')) {
+  $("#newsletter").html('<%= j render "newsletters/newsletter_form", user: @user, practitioner: @practitioner, newsletter: @newsletter %>');
+}

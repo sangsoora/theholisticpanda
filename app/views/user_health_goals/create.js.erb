@@ -1,0 +1,36 @@
+$("#health-goals-list").html('<%= j render "user_health_goals_list", user: @user %>');
+$("#healthgoals_form").html('<%= j render "update_form", user: @user, health_goals: @health_goals %>');
+if (document.getElementById('health-goals')) {
+  document.getElementById('health-goals').style.display = 'block';
+} else {
+  document.getElementById('practitioner-healthgoals').style.display = 'block';
+}
+document.getElementById('healthgoals_form').style.display = 'none';
+document.getElementById('healthgoals-edit').style.display = 'block';
+document.getElementById('healthgoals-edit').addEventListener('click', (e) => {
+  e.preventDefault();
+  if (document.getElementById('health-goals')) {
+    document.getElementById('health-goals').style.display = 'none';
+  } else {
+    document.getElementById('practitioner-healthgoals').style.display = 'none';
+  }
+  document.getElementById('healthgoals_form').style.display = 'flex';
+  document.getElementById('healthgoals-edit').style.display = 'none';
+})
+document.getElementById('healthgoals-cancel').addEventListener('click', (e) => {
+  e.preventDefault();
+  if (document.getElementById('health-goals')) {
+    document.getElementById('health-goals').style.display = 'block';
+  } else {
+    document.getElementById('practitioner-healthgoals').style.display = 'block';
+  }
+  document.getElementById('healthgoals_form').style.display = 'none';
+  document.getElementById('healthgoals-edit').style.display = 'block';
+})
+$('.health-goal-choice').on("click", function (e){
+  const active = document.querySelector('.active');
+  e.currentTarget.classList.toggle('active');
+  if (active !== null) {
+    active.classList.remove('active');
+  }
+});
