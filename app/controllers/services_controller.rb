@@ -88,6 +88,25 @@ class ServicesController < ApplicationController
 
   def show
     @session = Session.new
+    @working_days_query = []
+    @service.practitioner.working_days.split(', ').each do |day|
+      if day == 'Mon'
+        @working_days_query << 'date.getDay() === 1'
+      elsif day == 'Tue'
+        @working_days_query << 'date.getDay() === 2'
+      elsif day == 'Wed'
+        @working_days_query << 'date.getDay() === 3'
+      elsif day == 'Thu'
+        @working_days_query << 'date.getDay() === 4'
+      elsif day == 'Fri'
+        @working_days_query << 'date.getDay() === 5'
+      elsif day == 'Sat'
+        @working_days_query << 'date.getDay() === 6'
+      elsif day == 'Sun'
+        @working_days_query << 'date.getDay() === 0'
+      end
+    end
+    @last_time = @service.practitioner.ending_hour - @service.duration.to_i.minute
   end
 
   def create

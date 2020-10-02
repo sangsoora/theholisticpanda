@@ -1,5 +1,6 @@
 <div class="container service-page">
   <div class="d-flex">
+    <p><%= @last_time.strftime('%H:%M') %></p>
     <h2><%= @service.name %> with <%= link_to @service.practitioner.user.first_name, practitioner_path(@service.practitioner) %></h2>
     <div id="service-btn">
       <%= render 'favorite_services/service_btn', service: @service %>
@@ -44,3 +45,25 @@
     </div>
   </div>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    flatpickr(".datepicker", {
+      "enable": [
+        function(date) {
+          return (<%= @working_days_query.join(' || ') %>);
+        }
+      ],
+      /*"locale": {
+        "firstDayOfWeek": 1
+      },*/
+      enableTime: true,
+      disableMobile: "true",
+      dateFormat: "d-m-Y H:i",
+      minuteIncrement: 15,
+      minDate: new Date().fp_incr(1),
+      defaultDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1, <%= @service.practitioner.starting_hour.strftime('%H') %>, <%= @service.practitioner.starting_hour.strftime('%M') %>,0,0),
+      minTime: "<%= @service.practitioner.starting_hour.strftime('%H:%M') %>",
+      maxTime: "<%= @last_time.strftime('%H:%M') %>"
+    });
+  });
+</script>

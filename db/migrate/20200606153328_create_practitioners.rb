@@ -4,7 +4,6 @@ class CreatePractitioners < ActiveRecord::Migration[5.2]
       t.string :location
       t.string :address
       t.text :bio
-      t.string :service_type
       t.string :working_days
       t.time :starting_hour
       t.time :ending_hour

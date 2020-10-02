@@ -132,7 +132,6 @@ ActiveRecord::Schema.define(version: 2020_09_22_120824) do
     t.string "location"
     t.string "address"
     t.text "bio"
-    t.string "service_type"
     t.string "working_days"
     t.time "starting_hour"
     t.time "ending_hour"
