@@ -1,29 +1,38 @@
 country.style.display = 'flex';
 countryForm.style.display = 'none';
+countryEdit.style.display = 'block';
 document.getElementById('country').innerHTML = '<%= @practitioner.country_name %>'
 experience.style.display = 'flex';
 experienceForm.style.display = 'none';
+experienceEdit.style.display = 'block';
 document.getElementById('experience').innerHTML = '<%= @practitioner.experience %>'
 certification.style.display = 'flex';
 certificationForm.style.display = 'none';
+certificationEdit.style.display = 'block';
 document.getElementById('certification').innerHTML = '<%= @practitioner.certification %>'
 bio.style.display = 'flex';
 bioForm.style.display = 'none';
+bioEdit.style.display = 'block';
 document.getElementById('bio').innerHTML = '<%= @practitioner.bio %>'
 video.style.display = 'flex';
 videoForm.style.display = 'none';
+videoEdit.style.display = 'block';
 document.getElementById('video').innerHTML = '<a href="<%= @practitioner.video %>" target="_blank"><%= @practitioner.video %></a>'
 website.style.display = 'flex';
 websiteForm.style.display = 'none';
+websiteEdit.style.display = 'block';
 document.getElementById('website').innerHTML = '<a href="<%= @practitioner.website %>" target="_blank"><%= @practitioner.website %></a>'
 address.style.display = 'flex';
 addressForm.style.display = 'none';
+addressEdit.style.display = 'block';
 document.getElementById('address').innerHTML = '<%= @practitioner.address %>'
 workingdays.style.display = 'flex';
 workingdaysForm.style.display = 'none';
+workingdaysEdit.style.display = 'block';
 document.getElementById('workingdays').innerHTML = '<%= @practitioner.working_days %>'
 workinghours.style.display = 'flex';
 workinghoursForm.style.display = 'none';
+workinghoursEdit.style.display = 'block';
 document.getElementById('workinghours').innerHTML = '<% if @practitioner.starting_hour %><%= @practitioner.starting_hour.strftime("%H:%M") %> ~ <%= @practitioner.ending_hour.strftime("%H:%M") %><% end %>'
 
 

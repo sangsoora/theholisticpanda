@@ -127,13 +127,17 @@ class PractitionersController < ApplicationController
   end
 
   def profile
-    @columns = ['specialties', 'languages', 'country', 'experience', 'certification', 'bio', 'workingdays', 'workinghours', 'video', 'website', 'sociallinks', 'address']
-    @workingdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    @columns = %w[specialties languages country experience certification bio workingdays workinghours video website sociallinks address healthgoals]
+    @workingdays = %w[Mon Tue Wed Thu Fri Sat Sun]
     @specialties = Specialty.all.sort_by(&:name)
     @languages = Language.all.sort_by(&:name)
+    @health_goals = HealthGoal.all.sort_by(&:name)
     @practitioner_specialty = PractitionerSpecialty.new
     @practitioner_language = PractitionerLanguage.new
     @practitioner_social_link = PractitionerSocialLink.new
+    @health_goal = UserHealthGoal.new
+    @newsletter = Newsletter.find_by(email: @practitioner.user.email) if @practitioner.user.newsletter
+    @user = @practitioner.user
   end
 
   def service
@@ -147,17 +151,11 @@ class PractitionersController < ApplicationController
       redirect_to root_path, notice: 'Thank you for your application'
     else
       if @practitioner.update(practitioner_params)
-        if @practitioner.video
-          if !@practitioner.video.include?('http://' || 'https://')
-            @practitioner.update(video: 'http://' + @practitioner.video)
-          end
-        end
-        if @practitioner.website
-          if !@practitioner.website.include?('http://' || 'https://')
-            @practitioner.update(website: 'http://' + @practitioner.website)
-          end
-        end
-        if params[:practitioner][:workingday_ids]
+        if @practitioner.video && !@practitioner.video.include?('http://' || 'https://')
+          @practitioner.update(video: 'http://' + @practitioner.video)
+        elsif @practitioner.website && !@practitioner.website.include?('http://' || 'https://')
+          @practitioner.update(website: 'http://' + @practitioner.website)
+        elsif params[:practitioner][:workingday_ids]
           @workingdays = params[:practitioner][:workingday_ids].reject(&:blank?).join(', ')
           @practitioner.update(working_days: @workingdays)
         end

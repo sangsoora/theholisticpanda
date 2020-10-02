@@ -2,8 +2,6 @@
 
 one:
   email: MyString
-  subscribed: false
 
 two:
   email: MyString
-  subscribed: false

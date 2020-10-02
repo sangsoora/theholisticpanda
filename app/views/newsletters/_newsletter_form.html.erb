@@ -1,0 +1,19 @@
+<% if user.practitioner %>
+  <% if practitioner.user.newsletter %>
+    <%= link_to 'Unsubscribe', newsletter_path(newsletter), remote: true, method: :delete, data: {confirm: 'Are you sure?'} %>
+  <% else %>
+    <%= simple_form_for([Newsletter.new], remote: true, html: { id: :newsletter_form }) do |f| %>
+      <%= f.input :email, require: true, label: false, as: :hidden, input_html: {value: practitioner.user.email} %>
+      <button type="submit" class="ml-0 pl-0">Subscribe to our newsletter</button>
+    <% end %>
+  <% end %>
+<% else %>
+  <% if user.newsletter %>
+    <%= link_to 'Unsubscribe', newsletter_path(newsletter), remote: true, method: :delete, data: {confirm: 'Are you sure?'} %>
+  <% else %>
+    <%= simple_form_for([Newsletter.new], remote: true, html: { id: :newsletter_form }) do |f| %>
+      <%= f.input :email, require: true, label: false, as: :hidden, input_html: {value: user.email} %>
+      <button type="submit" class="ml-0 pl-0">Subscribe to our newsletter</button>
+    <% end %>
+  <% end %>
+<% end %>

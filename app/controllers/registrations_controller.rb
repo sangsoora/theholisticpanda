@@ -4,7 +4,6 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def edit
-
   end
 
   protected
@@ -18,6 +17,10 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def after_update_path_for(resource)
-    user_path(resource)
+    if resource.practitioner
+      practitioner_profile_path(resource.practitioner)
+    else
+      user_path(resource)
+    end
   end
 end

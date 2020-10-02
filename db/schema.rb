@@ -86,7 +86,6 @@ ActiveRecord::Schema.define(version: 2020_09_22_120824) do
 
   create_table "newsletters", force: :cascade do |t|
     t.string "email"
-    t.boolean "subscribed"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

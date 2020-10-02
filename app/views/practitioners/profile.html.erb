@@ -7,7 +7,11 @@
   </script>
 <% end %>
 <div class="container practitioner-profile">
-  <h1>Welcome, <%= @practitioner.user.first_name %></h1>
+  <div class="d-flex align-items-center">
+    <h1>Welcome, <%= @practitioner.user.first_name %></h1>
+    <%= link_to 'Edit', '', data: { toggle: "modal", target: "#profileEditModal" }, class: 'btn btn-ghost m-3' %>
+    <%= link_to 'Reset password', '', data: { toggle: "modal", target: "#passwordModal" }, class: 'btn btn-ghost ml-3' %>
+  </div>
   <div class="practitioner-profile-table">
     <div class="practitioner-profile-img">
       <% if @practitioner.photo.attached? %>
@@ -18,6 +22,7 @@
       <%= link_to '📷', '', data: { toggle: "modal", target: "#profilePictureModal" }, class: 'btn btn-ghost mt-4 w-100' %>
     </div>
     <div class="practitioner-profile-infos">
+      <h3>Practitioner</h3>
       <div class="practitioner-profile-info">
         <div class="practitioner-profile-info-title">
           <p>Specailties</p>
@@ -245,6 +250,35 @@
           <% end %>
         </div>
       </div>
+      <h3>Personal</h3>
+      <div class="practitioner-profile-info">
+        <div class="practitioner-profile-info-title">
+          <p>Health goals</p>
+        </div>
+        <div class="practitioner-profile-info-body">
+          <div id="practitioner-healthgoals">
+            <div id="health-goals-list">
+              <%= render "user_health_goals/user_health_goals_list", user: @user %>
+            </div>
+            <% if @user.health_goals.count < HealthGoal.count %>
+              <button id='healthgoals-edit' class='ml-0'><p><%= link_to '+ Add', '' %></p></button>
+            <% end %>
+          </div>
+          <%= simple_form_for([@user, @health_goal], remote: true, html: { id: :healthgoals_form, style: 'display: none;' }) do |f| %>
+            <%= render "user_health_goals/update_form", user: @user, health_goals: @health_goals %>
+          <% end %>
+        </div>
+      </div>
+      <div class="practitioner-profile-info">
+        <div class="practitioner-profile-info-title">
+          <p>Newsletter</p>
+        </div>
+        <div class="practitioner-profile-info-body">
+          <div id="practitioner-newsletter">
+            <%= render "newsletters/newsletter_form", user: @user, practitioner: @practitioner, newsletter: @newsletter %>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <%= link_to 'Go to my page', practitioner_path(@practitioner), class: 'btn btn-flat'  %>
@@ -282,6 +316,12 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="profileEditModal" tabindex="-1" role="dialog" aria-labelledby="profileEditModalLabel" aria-hidden="true">
+  <%= render 'devise/registrations/edit_form', resource: current_user %>
+</div>
+<div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
+  <%= render 'devise/registrations/password_form', resource: current_user %>
+</div>
 <script>
   <% @columns.each do |column| %>
     const <%= column %> = document.getElementById('practitioner-<%= column %>');
@@ -298,7 +338,7 @@
     })
     <%= column %>Cancel.addEventListener('click', (e) => {
       e.preventDefault();
-      if (<%= column %> === document.getElementById('practitioner-sociallinks') || <%= column %> === document.getElementById('practitioner-languages') || <%= column %> === document.getElementById('practitioner-specialties')) {
+      if (<%= column %> === document.getElementById('practitioner-sociallinks') || <%= column %> === document.getElementById('practitioner-languages') || <%= column %> === document.getElementById('practitioner-specialties') || <%= column %> === document.getElementById('practitioner-healthgoals')) {
         <%= column %>.style.display = 'block';
       } else {
         <%= column %>.style.display = 'flex';

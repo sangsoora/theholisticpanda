@@ -9,6 +9,10 @@ class NewsletterPolicy < ApplicationPolicy
     true
   end
 
+  def unsubscribe?
+    true
+  end
+
   def destroy?
     true
   end

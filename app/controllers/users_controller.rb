@@ -20,6 +20,9 @@ class UsersController < ApplicationController
   end
 
   def show
+    @newsletter = Newsletter.find_by(email: @user.email) if @user.newsletter
+    @user_health_goal = UserHealthGoal.new
+    @health_goals = HealthGoal.all
   end
 
   def booking

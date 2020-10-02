@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :users, only: [:show] do
     resources :practitioners, only: %i[new create]
     resources :conversations, only: [:create]
+    resources :user_health_goals, only: [:create]
   end
 
   get 'users/:id/sessions', to: 'users#booking', as: :user_sessions
@@ -34,6 +35,8 @@ Rails.application.routes.draw do
   resources :practitioner_languages, only: [:destroy]
 
   resources :practitioner_social_links, only: [:destroy]
+
+  resources :user_health_goals, only: [:destroy]
 
   resources :favorite_practitioners, only: [:destroy]
 
@@ -66,6 +69,8 @@ Rails.application.routes.draw do
   end
 
   resources :newsletters, only: %i[create destroy]
+
+  get 'newsletters/:id/unsubscribe', to: 'newsletters#unsubscribe', as: :newsletter_unsubscribe
 
   mount StripeEvent::Engine, at: '/stripe-webhooks'
 end

@@ -1,1 +1,21 @@
 $("#languages-list").html('<%= j render "practitioner_languages_list", practitioner: @practitioner %>');
+$("#languages_form").html('<%= j render "update_form", practitioner: @practitioner, languages: @languages %>');
+document.getElementById('languages-edit').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('practitioner-languages').style.display = 'none';
+  document.getElementById('languages_form').style.display = 'flex';
+  document.getElementById('languages-edit').style.display = 'none';
+})
+document.getElementById('languages-cancel').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('practitioner-languages').style.display = 'block';
+  document.getElementById('languages_form').style.display = 'none';
+  document.getElementById('languages-edit').style.display = 'block';
+})
+$('.language-choice').on("click", function (e){
+  const active = document.querySelector('.active');
+  e.currentTarget.classList.toggle('active');
+  if (active !== null) {
+    active.classList.remove('active');
+  }
+});

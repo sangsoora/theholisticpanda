@@ -171,49 +171,76 @@
 </div>
 <script>
   const specialtySelectBoxBtn = document.getElementById('specialty-pop');
+  const healthGoalSelectBoxBtn = document.getElementById('health-goal-pop');
+  const languageSelectBoxBtn = document.getElementById('language-pop');
+  const serviceTypeSelectBoxBtn = document.getElementById('service-type-pop');
+  const specialtySelectBox = document.getElementById('specialty-select-box');
+  const healthGoalSelectBox = document.getElementById('health-goal-select-box');
+  const languageSelectBox = document.getElementById('language-select-box');
+  const serviceTypeSelectBox = document.getElementById('service-type-select-box');
   specialtySelectBoxBtn.addEventListener('click', () => {
     specialtySelectBoxBtn.classList.toggle('btn-opened');
     healthGoalSelectBoxBtn.classList.remove('btn-opened');
     languageSelectBoxBtn.classList.remove('btn-opened');
     serviceTypeSelectBoxBtn.classList.remove('btn-opened');
-    document.getElementById('specialty-select-box').classList.toggle('opened');
-    document.getElementById('health-goal-select-box').classList.remove('opened');
-    document.getElementById('language-select-box').classList.remove('opened');
-    document.getElementById('service-type-select-box').classList.remove('opened');
+    specialtySelectBox.classList.toggle('opened');
+    healthGoalSelectBox.classList.remove('opened');
+    languageSelectBox.classList.remove('opened');
+    serviceTypeSelectBox.classList.remove('opened');
   });
-  const healthGoalSelectBoxBtn = document.getElementById('health-goal-pop');
   healthGoalSelectBoxBtn.addEventListener('click', () => {
     healthGoalSelectBoxBtn.classList.toggle('btn-opened');
     specialtySelectBoxBtn.classList.remove('btn-opened');
     languageSelectBoxBtn.classList.remove('btn-opened');
     serviceTypeSelectBoxBtn.classList.remove('btn-opened');
-    document.getElementById('health-goal-select-box').classList.toggle('opened');
-    document.getElementById('specialty-select-box').classList.remove('opened');
-    document.getElementById('language-select-box').classList.remove('opened');
-    document.getElementById('service-type-select-box').classList.remove('opened');
+    healthGoalSelectBox.classList.toggle('opened');
+    specialtySelectBox.classList.remove('opened');
+    languageSelectBox.classList.remove('opened');
+    serviceTypeSelectBox.classList.remove('opened');
   });
-  const languageSelectBoxBtn = document.getElementById('language-pop');
   languageSelectBoxBtn.addEventListener('click', () => {
     languageSelectBoxBtn.classList.toggle('btn-opened');
     specialtySelectBoxBtn.classList.remove('btn-opened');
     healthGoalSelectBoxBtn.classList.remove('btn-opened');
     serviceTypeSelectBoxBtn.classList.remove('btn-opened');
-    document.getElementById('language-select-box').classList.toggle('opened');
-    document.getElementById('specialty-select-box').classList.remove('opened');
-    document.getElementById('health-goal-select-box').classList.remove('opened');
-    document.getElementById('service-type-select-box').classList.remove('opened');
+    languageSelectBox.classList.toggle('opened');
+    specialtySelectBox.classList.remove('opened');
+    healthGoalSelectBox.classList.remove('opened');
+    serviceTypeSelectBox.classList.remove('opened');
   });
-  const serviceTypeSelectBoxBtn = document.getElementById('service-type-pop');
   serviceTypeSelectBoxBtn.addEventListener('click', () => {
     serviceTypeSelectBoxBtn.classList.toggle('btn-opened');
     languageSelectBoxBtn.classList.remove('btn-opened');
     specialtySelectBoxBtn.classList.remove('btn-opened');
     healthGoalSelectBoxBtn.classList.remove('btn-opened');
-    document.getElementById('service-type-select-box').classList.toggle('opened');
-    document.getElementById('language-select-box').classList.remove('opened');
-    document.getElementById('specialty-select-box').classList.remove('opened');
-    document.getElementById('health-goal-select-box').classList.remove('opened');
+    serviceTypeSelectBox.classList.toggle('opened');
+    specialtySelectBox.classList.remove('opened');
+    healthGoalSelectBox.classList.remove('opened');
+    languageSelectBox.classList.remove('opened');
   });
+  document.addEventListener('click', function(event) {
+    const specialtyBoxClick = specialtySelectBox.contains(event.target);
+    const specialtyBtnClick = specialtySelectBoxBtn.contains(event.target);
+    const healthGoalBoxClick = healthGoalSelectBox.contains(event.target);
+    const healthGoalBtnClick = healthGoalSelectBoxBtn.contains(event.target);
+    const languageBoxClick = languageSelectBox.contains(event.target);
+    const languageBtnClick = languageSelectBoxBtn.contains(event.target);
+    const serviceTypeBoxClick = serviceTypeSelectBox.contains(event.target);
+    const serviceTypeBtnClick = serviceTypeSelectBoxBtn.contains(event.target);
+    if (specialtySelectBox.classList.contains('opened') && (!specialtyBoxClick) && (!specialtyBtnClick)) {
+      specialtySelectBoxBtn.classList.remove('btn-opened');
+      specialtySelectBox.classList.remove('opened');
+    } else if (healthGoalSelectBox.classList.contains('opened') && (!healthGoalBoxClick) && (!healthGoalBtnClick)) {
+      healthGoalSelectBoxBtn.classList.remove('btn-opened');
+      healthGoalSelectBox.classList.remove('opened');
+    } else if (languageSelectBox.classList.contains('opened') && (!languageBoxClick) && (!languageBtnClick)) {
+      languageSelectBoxBtn.classList.remove('btn-opened');
+      languageSelectBox.classList.remove('opened');
+    } else if (serviceTypeSelectBox.classList.contains('opened') && (!serviceTypeBoxClick) && (!serviceTypeBtnClick)) {
+      serviceTypeSelectBoxBtn.classList.remove('btn-opened');
+      serviceTypeSelectBox.classList.remove('opened');
+    }
+  })
   const tabs = document.querySelectorAll('.specialty-items')
   const lists = document.querySelectorAll('.service-lists')
   const entries = function*(iterable) {

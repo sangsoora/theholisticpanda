@@ -24,6 +24,6 @@ class LanguagesController < ApplicationController
   end
 
   def language_params
-    params.require(:language).permit(:language)
+    params.require(:language).permit(:name)
   end
 end
