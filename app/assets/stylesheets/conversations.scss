@@ -149,3 +149,11 @@ tr .active {
 #message_content {
   resize: none;
 }
+
+.conversation-date p {
+  opacity: .5;
+  font-style: italic;
+  font-weight: 400;
+  text-align: center;
+  font-size: 0.75rem;
+}

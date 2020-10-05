@@ -1,6 +1,5 @@
 <div class="container service-page">
   <div class="d-flex">
-    <p><%= @last_time.strftime('%H:%M') %></p>
     <h2><%= @service.name %> with <%= link_to @service.practitioner.user.first_name, practitioner_path(@service.practitioner) %></h2>
     <div id="service-btn">
       <%= render 'favorite_services/service_btn', service: @service %>
@@ -15,15 +14,16 @@
     <div class="service-session-form">
       <p>Please select 3 time slots you prefer and the practitioner will confirm it.</p>
       <%= simple_form_for [@service, @session] do |f| %>
-        <%= f.input :primary_time, as: :string, label: 'Primary', input_html: {class: "datepicker"} %>
-        <%= f.input :secondary_time, as: :string, label: 'Secondary', input_html: {class: "datepicker"} %>
-        <%= f.input :tertiary_time, as: :string, label: 'Tertiary', input_html: {class: "datepicker"} %>
+        <%= f.input :primary_time, as: :string, label: 'Primary', input_html: {class: 'datepicker'} %>
+        <%= f.input :secondary_time, as: :string, label: 'Secondary', input_html: {class: 'datepicker'} %>
+        <%= f.input :tertiary_time, as: :string, label: 'Tertiary', input_html: {class: 'datepicker'} %>
+        <input class='form-control hidden' type='text' name='timezone' id='timezone'>
         <p>By sending session request, I agree to the Terms of Service and agree to pay the amount shown including the 3% service fee. Your card will be preauthorized for the amount, but will not be charged until your booking is confirmed. </p>
-        <%= f.submit "Send session request", class: 'btn btn-flat'%>
+        <%= f.submit 'Send session request', class: 'btn btn-flat'%>
       <% end %>
     </div>
-    <div class="service-session-summary">
-      <div class="service-description">
+    <div class='service-session-summary'>
+      <div class='service-description'>
         <p><%= @service.description %></p>
         <p>Specialty: <%= @service.specialty.name %></p>
         <p>Related health goals:
@@ -65,5 +65,7 @@
       minTime: "<%= @service.practitioner.starting_hour.strftime('%H:%M') %>",
       maxTime: "<%= @last_time.strftime('%H:%M') %>"
     });
+    const tz = jstz.determine();
+    document.getElementById('timezone').value = tz.name();
   });
 </script>

@@ -153,12 +153,16 @@ class PractitionersController < ApplicationController
       if @practitioner.update(practitioner_params)
         if @practitioner.video && !@practitioner.video.include?('http://' || 'https://')
           @practitioner.update(video: 'http://' + @practitioner.video)
-        elsif @practitioner.website && !@practitioner.website.include?('http://' || 'https://')
+        end
+        if @practitioner.website && !@practitioner.website.include?('http://' || 'https://')
           @practitioner.update(website: 'http://' + @practitioner.website)
-        elsif params[:practitioner][:workingday_ids]
+        end
+        if params[:practitioner][:workingday_ids]
           @workingdays = params[:practitioner][:workingday_ids].reject(&:blank?).join(', ')
           @practitioner.update(working_days: @workingdays)
         end
+        @practitioner.starting_hour = @practitioner.starting_hour - @practitioner.starting_hour.in_time_zone(params[:timezone]).utc_offset
+        @practitioner.ending_hour = @practitioner.ending_hour - @practitioner.ending_hour.in_time_zone(params[:timezone]).utc_offset
         respond_to do |format|
           format.html { redirect_to practitioner_profile_path(@practitioner) }
           format.js

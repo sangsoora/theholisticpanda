@@ -17,15 +17,15 @@
           <div class="time-choices">
             <input type="radio" class="hidden" value="primary" name="session[time]" id="session_time_primary">
             <label class="time-choice active" for="session_time_primary">
-              <%= @session.primary_time.strftime('%b %d, %Y %I:%M %p') %>
+              <span id='primary_time'></span>
             </label>
             <input type="radio" class="hidden" value="secondary" name="session[time]" id="session_time_secondary">
             <label class="time-choice" for="session_time_secondary">
-              <%= @session.secondary_time.strftime('%b %d, %Y %I:%M %p') %>
+              <span id='secondary_time'></span>
             </label>
             <input type="radio" class="hidden" value="tertiary" name="session[time]" id="session_time_tertiary">
             <label class="time-choice" for="session_time_tertiary">
-              <%= @session.tertiary_time.strftime('%b %d, %Y %I:%M %p') %>
+              <span id='tertiary_time'></span>
             </label>
           </div>
         </div>
@@ -45,7 +45,7 @@
         <%= simple_form_for [@session.user, @conversation] do |f| %>
           <%= f.submit 'Send message', class: 'btn btn-flat' %>
         <% end %>
-        <% if @session.start_time >= Time.now %>
+        <% if @session.start_time >= Time.current %>
           <%= simple_form_for [@session] do |f| %>
             <%= f.submit 'Cancel this session',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost ml-5' %>
           <% end %>
@@ -55,7 +55,7 @@
   <% elsif @session.user == current_user %>
     <div class="d-flex">
       <h2><%= link_to @session.service.name, service_path(@session.service) %> with <%= link_to @session.practitioner.user.full_name, practitioner_path(@session.practitioner) %></h2>
-      <% if @session.status == 'confirmed' && @session.start_time < Time.now && @session.review == nil %>
+      <% if @session.status == 'confirmed' && @session.start_time < Time.current && @session.review == nil %>
         <%= link_to 'Rate', '', data: { toggle: "modal", target: "#newReviewModal" }, class: 'btn btn-flat ml-4' %>
       <% end %>
     </div>
@@ -82,7 +82,7 @@
         <%= simple_form_for [@session.practitioner.user, @conversation] do |f| %>
           <%= f.submit 'Send message', class: 'btn btn-flat' %>
         <% end %>
-        <% if @session.start_time >= Time.now %>
+        <% if @session.start_time >= Time.current %>
           <%= simple_form_for [@session] do |f| %>
             <%= f.submit 'Cancel this session',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost ml-5' %>
           <% end %>
@@ -97,7 +97,7 @@
       <div class="session-summary">
         <h3>Session summary</h3>
       <% if @session.start_time %>
-        <p>Session time: <%= @session.start_time.strftime('%b %d, %Y %I:%M %p') %></p>
+        <p>Session time: <span id='session_time'></span></p>
       <% else %>
         <p>Session time: TBD</p>
       <% end %>
@@ -121,7 +121,7 @@
       <div class="session-summary">
         <h3>Your session summary</h3>
         <% if @session.start_time %>
-          <p>Session time: <%= @session.start_time.strftime('%b %d, %Y %I:%M %p') %></p>
+          <p>Session time: <span id='session_time'></span></p>
         <% else %>
           <p>Session time: TBD</p>
         <% end %>
@@ -142,7 +142,7 @@
     </div>
   <% end %>
 </div>
-<% if @session.status == 'confirmed' && @session.start_time < Time.now && @session.review == nil %>
+<% if @session.status == 'confirmed' && @session.start_time < Time.current && @session.review == nil %>
   <div class="modal fade" id="newReviewModal" tabindex="-1" role="dialog" aria-labelledby="newReviewModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -174,5 +174,23 @@
       }
     })
   );
+  document.addEventListener('DOMContentLoaded', () => {
+    const tz = jstz.determine();
+    if (document.getElementById('primary_time')) {
+      <% if @session.primary_time %>
+        document.getElementById('primary_time').innerText = moment("<%= @session.primary_time.strftime('%FT%RZ') %>").tz(tz.name()).format('llll');
+      <% end %>
+      <% if @session.secondary_time %>
+        document.getElementById('secondary_time').innerText = moment("<%= @session.secondary_time.strftime('%FT%RZ') %>").tz(tz.name()).format('llll');
+      <% end %>
+      <% if @session.tertiary_time %>
+        document.getElementById('tertiary_time').innerText = moment("<%= @session.tertiary_time.strftime('%FT%RZ') %>").tz(tz.name()).format('llll');
+      <% end %>
+    } else if (document.getElementById('session_time')) {
+      <% if @session.start_time %>
+        document.getElementById('session_time').innerText = moment("<%= @session.start_time.strftime('%FT%RZ') %>").tz(tz.name()).format('llll');
+      <% end %>
+    }
+  });
 </script>
 

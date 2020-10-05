@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initConversationScroll();
 });
 
-
 // document.addEventListener('turbolinks:load', () => {
 //   initUpdateForm();
 //   previewImageOnFileSelect();

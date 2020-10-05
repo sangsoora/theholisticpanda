@@ -3,7 +3,7 @@ class ConversationsController < ApplicationController
 
   def show
     @message = Message.new
-    @messages = @conversation.messages.includes(:user)
+    @messages = @conversation.messages.includes(:user).group_by{ |t| t.created_at.to_date }
     @my_messages = @conversation.messages.where(["user_id = ?", current_user.id])
     @other_messages = @conversation.messages.where(["user_id = ?", @conversation.opposed_user(current_user).id])
     @notifications = Notification.includes(:actor).where(recipient: current_user).order("created_at DESC").unread
