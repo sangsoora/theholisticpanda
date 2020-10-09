@@ -27,6 +27,9 @@ if (document.getElementById('conversationbox')) {
           messageOuterDiv.classList.add('col-8','d-flex');
           messageOuterDiv.appendChild(messageDiv);
         }
+        if ($('#today').length === 0) {
+          conversationbox.append('<div class="conversation-date" id="today"><p>Today</p></div>');
+        }
         conversationbox.append(messageOuterDiv);
         conversationbox.scrollTop(conversationbox[0].scrollHeight);
       }

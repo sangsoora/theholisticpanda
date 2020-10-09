@@ -229,6 +229,7 @@ ActiveRecord::Schema.define(version: 2020_09_22_120824) do
     t.boolean "admin", default: false
     t.boolean "terms", default: false
     t.boolean "newsletter", default: false
+    t.string "timezone"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

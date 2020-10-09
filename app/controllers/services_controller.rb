@@ -1,11 +1,11 @@
 class ServicesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
-  before_action :set_notifications, only: [:index, :show]
-  before_action :set_service, only: [:show, :update, :destroy]
+  skip_before_action :authenticate_user!, only: %i[index show]
+  before_action :set_notifications, only: %i[index show]
+  before_action :set_service, only: %i[show update destroy]
 
   def index
     @services = policy_scope(Service).includes(:specialty, :practitioner_specialty, :languages, practitioner: [:user, :photo_attachment]).group_by { |service| service.specialty }
-    @services = @services.sort_by {|k, v| k[:name] }.to_h
+    @services = @services.sort_by { |k, _v| k[:name] }.to_h
     if params[:search]
       if params[:search][:specialty]
         if params[:search][:specialty].count == 2
@@ -89,24 +89,28 @@ class ServicesController < ApplicationController
   def show
     @session = Session.new
     @working_days_query = []
-    @service.practitioner.working_days.split(', ').each do |day|
-      if day == 'Mon'
-        @working_days_query << 'date.getDay() === 1'
-      elsif day == 'Tue'
-        @working_days_query << 'date.getDay() === 2'
-      elsif day == 'Wed'
-        @working_days_query << 'date.getDay() === 3'
-      elsif day == 'Thu'
-        @working_days_query << 'date.getDay() === 4'
-      elsif day == 'Fri'
-        @working_days_query << 'date.getDay() === 5'
-      elsif day == 'Sat'
-        @working_days_query << 'date.getDay() === 6'
-      elsif day == 'Sun'
-        @working_days_query << 'date.getDay() === 0'
+    if @service.practitioner.working_days
+      @service.practitioner.working_days.split(', ').each do |day|
+        if day == 'Mon'
+          @working_days_query << 'date.getDay() === 1'
+        elsif day == 'Tue'
+          @working_days_query << 'date.getDay() === 2'
+        elsif day == 'Wed'
+          @working_days_query << 'date.getDay() === 3'
+        elsif day == 'Thu'
+          @working_days_query << 'date.getDay() === 4'
+        elsif day == 'Fri'
+          @working_days_query << 'date.getDay() === 5'
+        elsif day == 'Sat'
+          @working_days_query << 'date.getDay() === 6'
+        elsif day == 'Sun'
+          @working_days_query << 'date.getDay() === 0'
+        end
       end
+    else
+      @working_days_query = []
     end
-    @last_time = @service.practitioner.ending_hour - @service.duration.to_i.minute
+    @service.practitioner.starting_hour && @service.practitioner.ending_hour ? @last_time = @service.practitioner.ending_hour - @service.duration.to_i.minute : ''
   end
 
   def create
@@ -118,7 +122,7 @@ class ServicesController < ApplicationController
     if @service.save!
       favorite_users = @service.practitioner.favorite_users
       favorite_users.each do |user|
-        Notification.create(recipient: user, actor: current_user, action: "created new service", notifiable: @service)
+        Notification.create(recipient: user, actor: current_user, action: 'created new service', notifiable: @service)
       end
       redirect_to practitioner_services_path(current_user.practitioner)
     else
@@ -128,14 +132,12 @@ class ServicesController < ApplicationController
 
   def update
     if @service.price.to_f == service_params[:price].to_f
-      if @service.update(service_params)
-        redirect_to practitioner_services_path(current_user.practitioner)
-      end
+      redirect_to practitioner_services_path(current_user.practitioner) if @service.update(service_params)
     else
       if @service.update(service_params)
         favorite_users = @service.favorite_users
         favorite_users.each do |user|
-          Notification.create(recipient: user, actor: current_user, action: "updated the price of service", notifiable: @service)
+          Notification.create(recipient: user, actor: current_user, action: 'updated the price of service', notifiable: @service)
         end
         redirect_to practitioner_services_path(current_user.practitioner)
       end
@@ -155,7 +157,7 @@ class ServicesController < ApplicationController
   end
 
   def set_notifications
-    @notifications = Notification.includes(:actor).where(recipient: current_user).order("created_at DESC").unread
+    @notifications = Notification.includes(:actor).where(recipient: current_user).order('created_at DESC').unread
   end
 
   def service_params

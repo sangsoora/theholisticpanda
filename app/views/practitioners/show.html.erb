@@ -26,6 +26,16 @@
         <p>Languages:
           <%= @practitioner.languages.pluck(:name).join(', ') %>
         </p>
+        <p>Working days:
+          <%= @practitioner.working_days %>
+        </p>
+        <p>Working hours:
+          <% if user_signed_in? %>
+            <% if @practitioner.starting_hour && @practitioner.ending_hour %><%= DateTime.new(Time.current.year, Time.current.month, Time.current.day, @practitioner.starting_hour.hour, @practitioner.starting_hour.min, 0).in_time_zone(current_user.timezone).strftime('%H:%M') %> ~ <%= DateTime.new(Time.current.year, Time.current.month, Time.current.day, @practitioner.ending_hour.hour, @practitioner.ending_hour.min, 0).in_time_zone(current_user.timezone).strftime('%H:%M') %><% end %>
+          <% else %>
+            <span id=working-hours></span>
+          <% end %>
+        </p>
       </div>
     </div>
     <div class="practitioner-btn" id="practitioner-btn">
@@ -80,3 +90,13 @@
     </div>
   </div>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('working-hours')) {
+      const tz = jstz.determine();
+      <% if @practitioner.starting_hour && @practitioner.ending_hour %>
+        document.getElementById('working-hours').innerText = moment("<%= DateTime.new(Time.current.year, Time.current.month, Time.current.day, @practitioner.starting_hour.hour, @practitioner.starting_hour.min, 0).strftime('%FT%RZ') %>").tz(tz.name()).format('HH:mm') + ' ~ ' + moment("<%= DateTime.new(Time.current.year, Time.current.month, Time.current.day, @practitioner.ending_hour.hour, @practitioner.ending_hour.min, 0).strftime('%FT%RZ') %>").tz(tz.name()).format('HH:mm');
+      <% end %>
+    }
+  });
+</script>

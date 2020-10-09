@@ -33,7 +33,7 @@ document.getElementById('workingdays').innerHTML = '<%= @practitioner.working_da
 workinghours.style.display = 'flex';
 workinghoursForm.style.display = 'none';
 workinghoursEdit.style.display = 'block';
-document.getElementById('workinghours').innerHTML = '<% if @practitioner.starting_hour %><%= @practitioner.starting_hour.strftime("%H:%M") %> ~ <%= @practitioner.ending_hour.strftime("%H:%M") %><% end %>'
+document.getElementById('workinghours').innerHTML = '<% if @practitioner.starting_hour && @practitioner.ending_hour %><%= (@practitioner.starting_hour + Time.current.in_time_zone(current_user.timezone).utc_offset).strftime("%H:%M") %> ~ <%= (@practitioner.ending_hour + Time.current.in_time_zone(current_user.timezone).utc_offset).strftime("%H:%M") %><% end %>'
 
 
 

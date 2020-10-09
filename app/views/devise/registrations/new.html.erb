@@ -25,6 +25,7 @@
                     required: true,
                     input_html: { autocomplete: "new-password" } %>
         <%= f.input :phone_number %>
+        <%= f.input :timezone, as: :hidden, input_html: { id: :timezone } %>
       </div>
 
       <div class="my-3">
@@ -62,4 +63,8 @@
       }
     });
   }
+  document.addEventListener('DOMContentLoaded', () => {
+    const tz = jstz.determine();
+    document.getElementById('timezone').value = tz.name();
+  });
 </script>

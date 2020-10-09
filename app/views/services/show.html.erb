@@ -17,7 +17,6 @@
         <%= f.input :primary_time, as: :string, label: 'Primary', input_html: {class: 'datepicker'} %>
         <%= f.input :secondary_time, as: :string, label: 'Secondary', input_html: {class: 'datepicker'} %>
         <%= f.input :tertiary_time, as: :string, label: 'Tertiary', input_html: {class: 'datepicker'} %>
-        <input class='form-control hidden' type='text' name='timezone' id='timezone'>
         <p>By sending session request, I agree to the Terms of Service and agree to pay the amount shown including the 3% service fee. Your card will be preauthorized for the amount, but will not be charged until your booking is confirmed. </p>
         <%= f.submit 'Send session request', class: 'btn btn-flat'%>
       <% end %>
@@ -48,11 +47,13 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     flatpickr(".datepicker", {
-      "enable": [
-        function(date) {
-          return (<%= @working_days_query.join(' || ') %>);
-        }
-      ],
+      <% unless @working_days_query == [] %>
+        "enable": [
+          function(date) {
+            return (<%= @working_days_query.join(' || ') %>);
+          }
+        ],
+      <% end %>
       /*"locale": {
         "firstDayOfWeek": 1
       },*/
@@ -61,11 +62,9 @@
       dateFormat: "d-m-Y H:i",
       minuteIncrement: 15,
       minDate: new Date().fp_incr(1),
-      defaultDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1, <%= @service.practitioner.starting_hour.strftime('%H') %>, <%= @service.practitioner.starting_hour.strftime('%M') %>,0,0),
-      minTime: "<%= @service.practitioner.starting_hour.strftime('%H:%M') %>",
-      maxTime: "<%= @last_time.strftime('%H:%M') %>"
+      defaultDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1, <%= @service.practitioner.starting_hour ? @service.practitioner.starting_hour.strftime('%H') : '9' %>, <%= @service.practitioner.starting_hour ? @service.practitioner.starting_hour.strftime('%M') : '0' %>,0,0),
+      minTime: "<%= @service.practitioner.starting_hour ? @service.practitioner.starting_hour.strftime('%H:%M') : '00:00' %>",
+      maxTime: "<%= @last_time ? @last_time.strftime('%H:%M') : '23:00' %>"
     });
-    const tz = jstz.determine();
-    document.getElementById('timezone').value = tz.name();
   });
 </script>

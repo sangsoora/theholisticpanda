@@ -16,17 +16,11 @@
           <input type="hidden" name="session[time]" value="primary">
           <div class="time-choices">
             <input type="radio" class="hidden" value="primary" name="session[time]" id="session_time_primary">
-            <label class="time-choice active" for="session_time_primary">
-              <span id='primary_time'></span>
-            </label>
+            <label class="time-choice active" for="session_time_primary"><%= @session.primary_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p') %></label>
             <input type="radio" class="hidden" value="secondary" name="session[time]" id="session_time_secondary">
-            <label class="time-choice" for="session_time_secondary">
-              <span id='secondary_time'></span>
-            </label>
+            <label class="time-choice" for="session_time_secondary"><%= @session.secondary_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p') %></label>
             <input type="radio" class="hidden" value="tertiary" name="session[time]" id="session_time_tertiary">
-            <label class="time-choice" for="session_time_tertiary">
-              <span id='tertiary_time'></span>
-            </label>
+            <label class="time-choice" for="session_time_tertiary"><%= @session.tertiary_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p') %></label>
           </div>
         </div>
         <% if @session.service.service_type == 'Virtual' %>
@@ -174,23 +168,5 @@
       }
     })
   );
-  document.addEventListener('DOMContentLoaded', () => {
-    const tz = jstz.determine();
-    if (document.getElementById('primary_time')) {
-      <% if @session.primary_time %>
-        document.getElementById('primary_time').innerText = moment("<%= @session.primary_time.strftime('%FT%RZ') %>").tz(tz.name()).format('llll');
-      <% end %>
-      <% if @session.secondary_time %>
-        document.getElementById('secondary_time').innerText = moment("<%= @session.secondary_time.strftime('%FT%RZ') %>").tz(tz.name()).format('llll');
-      <% end %>
-      <% if @session.tertiary_time %>
-        document.getElementById('tertiary_time').innerText = moment("<%= @session.tertiary_time.strftime('%FT%RZ') %>").tz(tz.name()).format('llll');
-      <% end %>
-    } else if (document.getElementById('session_time')) {
-      <% if @session.start_time %>
-        document.getElementById('session_time').innerText = moment("<%= @session.start_time.strftime('%FT%RZ') %>").tz(tz.name()).format('llll');
-      <% end %>
-    }
-  });
 </script>
 

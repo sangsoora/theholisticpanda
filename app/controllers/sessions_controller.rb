@@ -11,15 +11,10 @@ class SessionsController < ApplicationController
     @session = Session.new(session_params)
     authorize @session
     service = Service.find(params[:service_id])
-    @session.primary_time = @session.primary_time - @session.primary_time.in_time_zone(params[:timezone]).utc_offset
-    @session.secondary_time = @session.secondary_time - @session.secondary_time.in_time_zone(params[:timezone]).utc_offset
-    @session.tertiary_time = @session.tertiary_time - @session.tertiary_time.in_time_zone(params[:timezone]).utc_offset
-    @session.duration = service.duration
-    @session.status = 'pending'
-    @session.paid = false
-    @session.service = service
-    @session.amount = service.price * 1.03
-    @session.user = current_user
+    @session.primary_time = @session.primary_time - @session.primary_time.in_time_zone(current_user.timezone).utc_offset
+    @session.secondary_time = @session.secondary_time - @session.secondary_time.in_time_zone(current_user.timezone).utc_offset
+    @session.tertiary_time = @session.tertiary_time - @session.tertiary_time.in_time_zone(current_user.timezone).utc_offset
+    @session.update(duration: service.duration, status: 'pending', paid: false, service: service, amount: service.price * 1.03, user: current_user)
     if @session.save
       payment_session = Stripe::Checkout::Session.create(
         payment_method_types: ['card'],
@@ -33,7 +28,6 @@ class SessionsController < ApplicationController
         cancel_url: session_url(@session)
       )
       @session.update(checkout_session_id: payment_session.id)
-      Notification.create(recipient: @session.practitioner.user, actor: current_user, action: 'sent you a session request', notifiable: @session)
       redirect_to new_session_payment_path(@session)
     else
       render :new

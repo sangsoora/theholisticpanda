@@ -138,6 +138,10 @@ class PractitionersController < ApplicationController
     @health_goal = UserHealthGoal.new
     @newsletter = Newsletter.find_by(email: @practitioner.user.email) if @practitioner.user.newsletter
     @user = @practitioner.user
+    if @practitioner.starting_hour && @practitioner.ending_hour
+      @practitioner.starting_hour = @practitioner.starting_hour + Time.current.in_time_zone(current_user.timezone).utc_offset
+      @practitioner.ending_hour = @practitioner.ending_hour + Time.current.in_time_zone(current_user.timezone).utc_offset
+    end
   end
 
   def service
@@ -161,8 +165,9 @@ class PractitionersController < ApplicationController
           @workingdays = params[:practitioner][:workingday_ids].reject(&:blank?).join(', ')
           @practitioner.update(working_days: @workingdays)
         end
-        @practitioner.starting_hour = @practitioner.starting_hour - @practitioner.starting_hour.in_time_zone(params[:timezone]).utc_offset
-        @practitioner.ending_hour = @practitioner.ending_hour - @practitioner.ending_hour.in_time_zone(params[:timezone]).utc_offset
+        @starting_hour = @practitioner.starting_hour - Time.current.in_time_zone(current_user.timezone).utc_offset
+        @ending_hour = @practitioner.ending_hour - Time.current.in_time_zone(current_user.timezone).utc_offset
+        @practitioner.update(starting_hour: @starting_hour, ending_hour: @ending_hour)
         respond_to do |format|
           format.html { redirect_to practitioner_profile_path(@practitioner) }
           format.js

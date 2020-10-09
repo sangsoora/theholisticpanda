@@ -16,7 +16,7 @@
         </div>
         <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
       </div>
-
+      <input class='form-control hidden' type='text' name='timezone' id='timezone'>
       <div class="form-actions">
         <%= f.button :submit, "Log in", class: "btn-flat w-100" %>
       </div>
@@ -27,4 +27,9 @@
   </div>
 
 </div>
-
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tz = jstz.determine();
+    document.getElementById('timezone').value = tz.name();
+  });
+</script>

@@ -27,7 +27,7 @@
               <div class="session-content">
                 <button class="<%= session.status %>"><%= session.status %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
-                <p><small>When: <span id='session_time_<%= session.id %>'></span></small></p>
+                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small><%= humanized_money_with_symbol(session.amount) %></small></p>
                 <p><small>Session type: <%= session.service.service_type.capitalize %></small></p>
@@ -58,14 +58,6 @@
               </div>
             </div>
           </div>
-          <script>
-            document.addEventListener('DOMContentLoaded', () => {
-              const tz = jstz.determine();
-              if (document.getElementById('session_time_<%= session.id %>')) {
-                  document.getElementById('session_time_<%= session.id %>').innerText = moment("<%= session.start_time.strftime('%FT%RZ') %>").tz(tz.name()).format('llll');
-              }
-            });
-          </script>
         <% end %>
       </div>
     <% else %>
@@ -121,7 +113,7 @@
               <div class="session-content">
                 <button class="<%= session.status %>"><%= session.status %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
-                <p><small>When: <span id='cancelled_session_time_<%= session.id %>'></span><%= session.start_time.strftime('%b %d, %Y %I:%M %p') %></small></p>
+                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small><%= humanized_money_with_symbol(session.amount) %></small></p>
                 <p><small>Session type: <%= session.service.service_type.capitalize %></small></p>
@@ -130,14 +122,6 @@
             <div class="session-actions">
             </div>
           </div>
-          <script>
-            document.addEventListener('DOMContentLoaded', () => {
-              const tz = jstz.determine();
-              if (document.getElementById('cancelled_session_time_<%= session.id %>')) {
-                  document.getElementById('cancelled_session_time_<%= session.id %>').innerText = moment("<%= session.start_time.strftime('%FT%RZ') %>").tz(tz.name()).format('llll');
-              }
-            });
-          </script>
         <% end %>
       </div>
     <% else %>

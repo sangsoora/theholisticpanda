@@ -169,13 +169,13 @@
         </div>
         <div class="practitioner-profile-info-body">
           <div id="practitioner-workinghours">
-            <p id="workinghours"><% if @practitioner.starting_hour %><%= @practitioner.starting_hour.strftime('%H:%M') %> ~ <%= @practitioner.ending_hour.strftime('%H:%M') %><% end %></p>
+            <p id="workinghours"><% if @practitioner.starting_hour && @practitioner.ending_hour %><%= @practitioner.starting_hour.strftime('%H:%M') %> ~ <%= @practitioner.ending_hour.strftime('%H:%M') %><% end %></p>
             <button id='workinghours-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
           </div>
           <%= simple_form_for([@practitioner], remote: true, html: { id: :workinghours_form, style: 'display: none; align-items: center;' }) do |f| %>
-            <%= f.input :starting_hour, require: true, label: false, as: :time, minute_step: 30, default: Time.parse('00:00') %>
+            <%= f.input :starting_hour, require: true, label: false, minute_step: 30, default: Time.parse('00:00') %>
             &nbsp;&nbsp;~&nbsp;&nbsp;
-            <%= f.input :ending_hour, require: true, label: false, as: :time, minute_step: 30, default: Time.parse('00:00') %>
+            <%= f.input :ending_hour, require: true, label: false, minute_step: 30, default: Time.parse('00:00') %>
             <button type="submit"><i class='fas fa-check'></i></button>
             <button id='workinghours-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
           <% end %>
