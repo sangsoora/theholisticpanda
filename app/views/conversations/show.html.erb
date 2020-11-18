@@ -18,15 +18,26 @@
         <h2><%= @conversation.opposed_user(current_user).full_name %></h2>
       </div>
       <div class="messages" id="conversationbox" data-conversationId="<%= @conversation.id %>" data-userId="<%= current_user.id %>">
-        <% @messages.each do |message| %>
-          <% if current_user == message.user %>
-            <div class="col-8 offset-4 d-flex justify-content-end">
-              <div class="my-message-bubble my-msg"><%= render 'messages/message', message: message %></div>
-            </div>
-          <% else %>
-            <div class="col-8 d-flex">
-              <div class="other-message-bubble other-msg"><%= render 'messages/message', message: message %></div>
-            </div>
+        <% @messages.each do |date, messages| %>
+          <div class="conversation-date" <%= 'id=today' if date == Time.current.in_time_zone(current_user.timezone).to_date %>>
+            <p>
+              <% if date != Time.current.in_time_zone(current_user.timezone).to_date %>
+                <%= date.strftime('%b %d, %Y') %>
+              <% else %>
+                Today
+              <% end %>
+            </p>
+          </div>
+          <% messages.each do |message| %>
+            <% if current_user == message.user %>
+              <div class="col-8 offset-4 d-flex justify-content-end">
+                <div class="my-message-bubble my-msg"><%= render 'messages/message', message: message %></div>
+              </div>
+            <% else %>
+              <div class="col-8 d-flex">
+                <div class="other-message-bubble other-msg"><%= render 'messages/message', message: message %></div>
+              </div>
+            <% end %>
           <% end %>
         <% end %>
       </div>

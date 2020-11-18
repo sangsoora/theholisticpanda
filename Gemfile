@@ -44,6 +44,9 @@ gem 'country_select', '~> 4.0'
 gem 'google-api-client', '~> 0.34'
 gem 'letter_opener', group: :development
 gem 'rails_admin', '~> 2.0'
+gem 'momentjs-rails'
+gem 'moment_timezone-rails'
+gem 'jsTimezoneDetect-rails'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

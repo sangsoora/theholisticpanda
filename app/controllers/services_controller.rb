@@ -1,11 +1,11 @@
 class ServicesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
-  before_action :set_notifications, only: [:index, :show]
-  before_action :set_service, only: [:show, :update, :destroy]
+  skip_before_action :authenticate_user!, only: [:index]
+  before_action :set_notifications, only: %i[index show]
+  before_action :set_service, only: %i[show update destroy]
 
   def index
     @services = policy_scope(Service).includes(:specialty, :practitioner_specialty, :languages, practitioner: [:user, :photo_attachment]).group_by { |service| service.specialty }
-    @services = @services.sort_by {|k, v| k[:name] }.to_h
+    @services = @services.sort_by { |k, _v| k[:name] }.to_h
     if params[:search]
       if params[:search][:specialty]
         if params[:search][:specialty].count == 2
@@ -88,6 +88,7 @@ class ServicesController < ApplicationController
 
   def show
     @session = Session.new
+    @times = ['00:00', '00:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30', '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30']
   end
 
   def create
@@ -99,7 +100,7 @@ class ServicesController < ApplicationController
     if @service.save!
       favorite_users = @service.practitioner.favorite_users
       favorite_users.each do |user|
-        Notification.create(recipient: user, actor: current_user, action: "created new service", notifiable: @service)
+        Notification.create(recipient: user, actor: current_user, action: 'created new service', notifiable: @service)
       end
       redirect_to practitioner_services_path(current_user.practitioner)
     else
@@ -109,14 +110,12 @@ class ServicesController < ApplicationController
 
   def update
     if @service.price.to_f == service_params[:price].to_f
-      if @service.update(service_params)
-        redirect_to practitioner_services_path(current_user.practitioner)
-      end
+      redirect_to practitioner_services_path(current_user.practitioner) if @service.update(service_params)
     else
       if @service.update(service_params)
         favorite_users = @service.favorite_users
         favorite_users.each do |user|
-          Notification.create(recipient: user, actor: current_user, action: "updated the price of service", notifiable: @service)
+          Notification.create(recipient: user, actor: current_user, action: 'updated the price of service', notifiable: @service)
         end
         redirect_to practitioner_services_path(current_user.practitioner)
       end
@@ -136,7 +135,7 @@ class ServicesController < ApplicationController
   end
 
   def set_notifications
-    @notifications = Notification.includes(:actor).where(recipient: current_user).order("created_at DESC").unread
+    @notifications = Notification.includes(:actor).where(recipient: current_user).order('created_at DESC').unread
   end
 
   def service_params

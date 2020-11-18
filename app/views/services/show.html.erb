@@ -12,17 +12,128 @@
   <% end %>
   <div class="service-details">
     <div class="service-session-form">
-      <p>Please select 3 time slots you prefer and the practitioner will confirm it.</p>
+      <p class="mb-0">Please select 3 time slots you prefer and the practitioner will confirm it.</p>
       <%= simple_form_for [@service, @session] do |f| %>
-        <%= f.input :primary_time, as: :string, label: 'Primary', input_html: {class: "datepicker"} %>
-        <%= f.input :secondary_time, as: :string, label: 'Secondary', input_html: {class: "datepicker"} %>
-        <%= f.input :tertiary_time, as: :string, label: 'Tertiary', input_html: {class: "datepicker"} %>
+        <div class="d-flex">
+          <%= link_to 'Select primary time', '', data: { toggle: "modal", target: "#primaryTimeModal" }, class: 'btn btn-ghost my-2 col-5', id: 'primary-launch' %>
+          <p id='primary'></p>
+        </div>
+        <div class="d-flex">
+          <%= link_to 'Select secondary time', '', data: { toggle: "modal", target: "#secondaryTimeModal" }, class: 'btn btn-ghost my-2 col-5', id: 'secondary-launch' %>
+          <p id='secondary'></p>
+        </div>
+        <div class="d-flex">
+          <%= link_to 'Select tertiary time', '', data: { toggle: "modal", target: "#tertiaryTimeModal" }, class: 'btn btn-ghost my-2 col-5', id: 'tertiary-launch' %>
+          <p id='tertiary'></p>
+        </div>
+        <%= f.input :primary_time, as: :string, as: :hidden %>
+        <%= f.input :secondary_time, as: :string, as: :hidden %>
+        <%= f.input :tertiary_time, as: :string, as: :hidden %>
         <p>By sending session request, I agree to the Terms of Service and agree to pay the amount shown including the 3% service fee. Your card will be preauthorized for the amount, but will not be charged until your booking is confirmed. </p>
-        <%= f.submit "Send session request", class: 'btn btn-flat'%>
+        <%= f.submit 'Send session request', class: 'btn btn-flat'%>
       <% end %>
+      <div class="modal fade" id="primaryTimeModal" tabindex="-1" role="dialog" aria-labelledby="primaryTimeModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-photo modal-dialog-scrollable" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="primaryTimeModalTitle">Primary time for <%= @service.name %></h5>
+              <button type="button" class="close" id="close-primary" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body-header">
+              <%= link_to 'Previous', '', id: 'previous-btn-primary'  %>
+              <p id="calendar-days-primary"></p>
+              <%= link_to 'Next', '', id: 'next-btn-primary'  %>
+            </div>
+            <div class="circles">
+              <p><i class="fas fa-circle available"></i> Available</p>
+              <p><i class="fas fa-circle booked"></i> Booked</p>
+              <p><i class="fas fa-circle blocked"></i> Not Available</p>
+            </div>
+            <div class="modal-body">
+              <table class='booking-calendar' id='primary-calendar'>
+                <tr>
+                  <th></th>
+                  <% (0..6).to_a.each do |num| %>
+                    <% num = num + Time.now.wday - 7 %>
+                    <th><%= Date::ABBR_DAYNAMES[num] %></th>
+                  <% end %>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="secondaryTimeModal" tabindex="-1" role="dialog" aria-labelledby="secondaryTimeModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-photo modal-dialog-scrollable" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="secondaryTimeModalTitle">Secondary time for <%= @service.name %></h5>
+              <button type="button" class="close" id="close-secondary" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body-header">
+              <%= link_to 'Previous', '', id: 'previous-btn-secondary'  %>
+              <p id="calendar-days-secondary"></p>
+              <%= link_to 'Next', '', id: 'next-btn-secondary'  %>
+            </div>
+            <div class="circles">
+              <p><i class="fas fa-circle available"></i> Available</p>
+              <p><i class="fas fa-circle booked"></i> Booked</p>
+              <p><i class="fas fa-circle blocked"></i> Not Available</p>
+            </div>
+            <div class="modal-body">
+              <table class='booking-calendar' id='secondary-calendar'>
+                <tr>
+                  <th></th>
+                  <% (0..6).to_a.each do |num| %>
+                    <% num = num + Time.now.wday - 7 %>
+                    <th><%= Date::ABBR_DAYNAMES[num] %></th>
+                  <% end %>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="tertiaryTimeModal" tabindex="-1" role="dialog" aria-labelledby="tertiaryTimeModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-photo modal-dialog-scrollable" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="tertiaryTimeModalTitle">Tertiary time for <%= @service.name %></h5>
+              <button type="button" class="close" id="close-tertiary" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body-header">
+              <%= link_to 'Previous', '', id: 'previous-btn-tertiary'  %>
+              <p id="calendar-days-tertiary"></p>
+              <%= link_to 'Next', '', id: 'next-btn-tertiary'  %>
+            </div>
+            <div class="circles">
+              <p><i class="fas fa-circle available"></i> Available</p>
+              <p><i class="fas fa-circle booked"></i> Booked</p>
+              <p><i class="fas fa-circle blocked"></i> Not Available</p>
+            </div>
+            <div class="modal-body">
+              <table class='booking-calendar' id='tertiary-calendar'>
+                <tr>
+                  <th></th>
+                  <% (0..6).to_a.each do |num| %>
+                    <% num = num + Time.now.wday - 7 %>
+                    <th><%= Date::ABBR_DAYNAMES[num] %></th>
+                  <% end %>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="service-session-summary">
-      <div class="service-description">
+    <div class='service-session-summary'>
+      <div class='service-description'>
         <p><%= @service.description %></p>
         <p>Specialty: <%= @service.specialty.name %></p>
         <p>Related health goals:
@@ -44,3 +155,240 @@
     </div>
   </div>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('primary-launch').addEventListener('click', (e) => {
+      setCalendar(start, 'primary');
+      movePrevious(start, 'primary');
+      moveNext(start, 'primary');
+    })
+    document.getElementById('secondary-launch').addEventListener('click', (e) => {
+      setCalendar(start, 'secondary');
+      movePrevious(start, 'secondary');
+      moveNext(start, 'secondary');
+    })
+    document.getElementById('tertiary-launch').addEventListener('click', (e) => {
+      setCalendar(start, 'tertiary');
+      movePrevious(start, 'tertiary');
+      moveNext(start, 'tertiary');
+    })
+    let start = new Date();
+    const setCalendar = (start, calendar) => {
+      const day = start.getDay();
+      setCalendarDays(start, calendar);
+      setTimeTable(day, calendar);
+      getAvaialbleHours(start, calendar);
+      if (start <= new Date()) {
+        document.getElementById('previous-btn-' + calendar).setAttribute('style', 'pointer-events: none');
+      }
+    }
+    const setCalendarDays = (start, calendar) => {
+      let html = '';
+      let end = new Date(start);
+      end.setDate(start.getDate() + 6);
+      const startDay = start.getDay();
+      const startDate = start.getDate();
+      const startYear = start.getFullYear();
+      const startMonth = start.toLocaleString('default', { month: 'short' });
+      const endDay = end.getDay();
+      const endDate = end.getDate();
+      const endYear = end.getFullYear();
+      const endMonth = end.toLocaleString('default', { month: 'short' });
+      if (startYear !== endYear) {
+        html = startMonth + ' ' + startDate + ', ' + startYear + '-' + endMonth + ' ' + endDate + ', ' + endYear
+      } else if (startMonth !== endMonth) {
+        html = startMonth + ' ' + startDate + '-' + endMonth + ' ' + endDate + ', ' + startYear
+      } else {
+        html = startMonth + ' ' + startDate + '-' + endDate + ', ' + startYear
+      }
+      document.getElementById('calendar-days-' + calendar).innerHTML = html;
+    }
+    const setTimeTable = (day, calendar) => {
+      $('.added-time').remove();
+      let html = '';
+      const times = ['00:00', '00:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30', '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30'];
+      const day1 = (day + 1) > 6 ? (day + 1) - 7 : (day + 1);
+      const day2 = (day + 2) > 6 ? (day + 2) - 7 : (day + 2);
+      const day3 = (day + 3) > 6 ? (day + 3) - 7 : (day + 3);
+      const day4 = (day + 4) > 6 ? (day + 4) - 7 : (day + 4);
+      const day5 = (day + 5) > 6 ? (day + 5) - 7 : (day + 5);
+      const day6 = (day + 6) > 6 ? (day + 6) - 7 : (day + 6);
+      times.forEach((time) => {
+        html += `<tr class="added-time"><td>` + time + `</td><td data-day="` + day + `" id="` + day + `-` + time + `"></td><td data-day="` + day1 + `" id="` + day1 + `-` + time + `"></td><td data-day="` + day2 + `" id="` + day2 + `-` + time + `"></td><td data-day="` + day3 + `" id="` + day3 + `-` + time + `"></td><td data-day="` + day4 + `" id="` + day4 + `-` + time + `"></td><td data-day="` + day5 + `" id="` + day5 + `-` + time + `"></td><td data-day="` + day6 + `" id="` + day6 + `-` + time + `"></td></tr>`;
+      })
+      document.getElementById(calendar + '-calendar').insertAdjacentHTML('beforeend', html);
+    }
+    const getAvaialbleHours = (start, calendar) => {
+      let end = new Date(start);
+      end.setDate(start.getDate() + 6);
+      const startDate = start.getDate();
+      const startMonth = start.getMonth();
+      const startYear = start.getFullYear();
+      const endDate = end.getDate();
+      const endMonth = end.getMonth();
+      const endYear = end.getFullYear();
+      <% @service.practitioner.converted_working_hours.delete_if { |key, value| value.blank? }.each do |k, v| %>
+        <% v.each do |hour| %>
+          <% @times.each do |time| %>
+            <% if (hour[:starts]...hour[:ends]).include?(time) %>
+              document.getElementById('<%= k %>-<%= time %>').innerHTML = '<div class="available-cell"></div>';
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+      let sessions = [];
+      <% @service.sessions.where("status = ? AND start_time > ?", 'confirmed', 1.days.ago).order(start_time: :asc).select(:start_time, :duration).each do |session| %>
+        sessions.push(<%= session.to_json.html_safe %>);
+      <% end %>
+      const time_zone = jstz.determine().name();
+      let dates = [];
+      for (var i = 0; i < 7; i++) {
+        let addingDate = new Date(start);
+        addingDate.setDate(start.getDate() + i);
+        dates.push(formatDate(addingDate));
+      }
+      dates.forEach((date) => {
+        const selected_day = new Date(date).getDay();
+        const time_slots = document.querySelectorAll(`[data-day='` + selected_day + `']`);
+        time_slots.forEach((slot) => {
+          const slot_time = moment(date).format('YYYY-MM-DD') + ' ' + slot.id.split('-')[1];
+          const el = document.getElementById(new Date(slot_time).getDay() + '-' + slot_time.split(' ')[1]);
+          if (slot_time <= moment().format('YYYY-MM-DD HH:mm')) {
+            if (el.childNodes.length > 0) {
+              el.childNodes[0].classList.remove('available-cell');
+              el.childNodes[0].classList.add('blocked-cell');
+            } else {
+              el.insertAdjacentHTML('beforeend', '<div class="blocked-cell"></div>');
+            }
+          }
+          sessions.forEach((session) => {
+            const start_time = moment(session['start_time']).tz(time_zone).format('YYYY-MM-DD HH:mm');
+            const end_time = moment(session['start_time']).tz(time_zone).add(session['duration'], 'minutes').format('YYYY-MM-DD HH:mm');
+            const session_day = new Date(slot_time).getDay();
+            if (slot_time <= moment().format('YYYY-MM-DD HH:mm')) {
+              if (el.childNodes.length > 0) {
+                el.childNodes[0].classList.remove('available-cell');
+                el.childNodes[0].classList.add('blocked-cell');
+              } else {
+                el.insertAdjacentHTML('beforeend', '<div class="blocked-cell"></div>');
+              }
+            } else if (slot_time >= start_time && slot_time < end_time) {
+              if (el.childNodes.length > 0) {
+                el.childNodes[0].classList.remove('available-cell');
+                el.childNodes[0].classList.add('booked-cell');
+              }
+            }
+          })
+        })
+      })
+      const availables = document.getElementsByClassName('available-cell');
+      const working_hours = <%= @service.practitioner.converted_working_hours.to_json.html_safe %>;
+      let ending_hours = [];
+      var keys = Object.keys(working_hours);
+      for(key in keys){
+        const ending_date = dates.find(el =>  new Date(el).getDay() == parseInt(key));
+        if (working_hours[key].length > 0) {
+          working_hours[key].forEach((hour) => {
+            const nextDay = (parseInt(key) + 1) > 6 ? (parseInt(key) + 1) - 7 : (parseInt(key) + 1);
+            if (!(hour['ends'] == '24:00' && working_hours[nextDay].length > 0 && working_hours[nextDay][0]['starts'] == '00:00')) {
+              ending_hours.push(moment(ending_date + ' ' + hour['ends']).format());
+            }
+          })
+        }
+      }
+      for (let item of availables) {
+        const slot = item.parentNode;
+        const slot_date = dates.find(element =>  new Date(element).getDay() == parseInt(slot.dataset.day));
+        const slot_time = item.parentNode.id.split('-')[1];
+        const pointed_time = moment(slot_date + ' ' + slot_time);
+        const futureSessions = sessions.filter(it => moment(it.start_time).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'));
+        let endTime = '';
+        if (moment(ending_hours.filter(it => moment(it).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm')))['_i']) {
+          endTime = moment(ending_hours.filter(it => moment(it).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'))[0]);
+        }
+        if (endTime != '') {
+          endTimeDiff = endTime.diff(pointed_time, 'minutes');
+        }
+        if (futureSessions.length > 0) {
+          let nextTime = '';
+          let timeDiff = 0;
+          nextTime = moment(sessions.filter(it => moment(it.start_time).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'))[0]['start_time']);
+          nextTimeDiff = nextTime.diff(pointed_time, 'minutes');
+          if ((nextTimeDiff >= <%= @service.duration %>) && (endTimeDiff >= <%= @service.duration %>)) {
+            slot.style.cursor = "pointer";
+            const ending_time = moment(pointed_time).add(<%= @service.duration %>, 'minutes').format('LT');
+            const html = `<div class="available-hours"><p>` + pointed_time.format('ll') + ` ` + pointed_time.format('LT') + ` ~ ` + ending_time + `</p></div>`;
+            item.insertAdjacentHTML('beforeend', html);
+            slot.addEventListener('click', (e) => {
+              document.getElementById('session_' + calendar + '_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
+              document.getElementById('close-' + calendar).click();
+              document.getElementById(calendar).innerHTML = pointed_time.format('ddd, lll');
+              $('.added-time').remove();
+              let btn1 = document.getElementById('previous-btn-' + calendar),
+              btnClone1 = btn1.cloneNode(true);
+              btn1.parentNode.replaceChild(btnClone1, btn1);
+              let btn2 = document.getElementById('next-btn-' + calendar),
+              btnClone2 = btn2.cloneNode(true);
+              btn2.parentNode.replaceChild(btnClone2, btn2);
+            })
+          }
+        } else {
+          if (endTimeDiff >= <%= @service.duration %>) {
+            slot.style.cursor = "pointer";
+            const ending_time = moment(pointed_time).add(<%= @service.duration %>, 'minutes').format('LT');
+            const html = `<div class="available-hours"><p>` + pointed_time.format('ll') + ` ` + pointed_time.format('LT') + ` ~ ` + ending_time + `</p></div>`;
+            item.insertAdjacentHTML('beforeend', html);
+            slot.addEventListener('click', (e) => {
+              document.getElementById('session_' + calendar + '_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
+              document.getElementById('close-' + calendar).click();
+              document.getElementById(calendar).innerHTML = pointed_time.format('ddd, lll');
+              $('.added-time').remove();
+              let btn1 = document.getElementById('previous-btn-' + calendar),
+              btnClone1 = btn1.cloneNode(true);
+              btn1.parentNode.replaceChild(btnClone1, btn1);
+              let btn2 = document.getElementById('next-btn-' + calendar),
+              btnClone2 = btn2.cloneNode(true);
+              btn2.parentNode.replaceChild(btnClone2, btn2);
+            })
+          }
+        }
+      }
+    }
+    const formatDate = (date) => {
+      let d = new Date(date),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
+      if (month.length < 2)
+          month = '0' + month;
+      if (day.length < 2)
+          day = '0' + day;
+      return [year, month, day].join('-');
+    }
+    const movePrevious = (start, calendar) => {
+      document.getElementById('previous-btn-' + calendar).addEventListener('click', (e) => {
+        e.preventDefault();
+        start.setDate(start.getDate() - 7);
+        if (start <= new Date()) {
+          document.getElementById('previous-btn-' + calendar).setAttribute('style', 'pointer-events: none');
+        } else {
+          document.getElementById('previous-btn-' + calendar).setAttribute('style', 'pointer-events: auto');
+        }
+        setCalendar(start, calendar);
+      })
+    }
+    const moveNext = (start, calendar) => {
+      document.getElementById('next-btn-' + calendar).addEventListener('click', (e) => {
+        e.preventDefault();
+        start.setDate(start.getDate() + 7);
+        if (start <= new Date()) {
+          document.getElementById('previous-btn-' + calendar).setAttribute('style', 'pointer-events: none');
+        } else {
+          document.getElementById('previous-btn-' + calendar).setAttribute('style', 'pointer-events: auto');
+        }
+        setCalendar(start, calendar);
+      })
+    }
+
+  });
+</script>

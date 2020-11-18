@@ -14,3 +14,6 @@
 //= require activestorage
 //= require_tree .
 //= require jquery
+//= require moment
+//= require moment-timezone-with-data
+//= require jstz

@@ -5,6 +5,6 @@
     <%= message.content %>
   <% end %>
   <i>
-    <%= message.created_at.strftime("%k:%M") %>
+    <%= message.created_at.in_time_zone(current_user.timezone).strftime("%k:%M") %>
   </i>
 </p>

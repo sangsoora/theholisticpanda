@@ -26,14 +26,10 @@ address.style.display = 'flex';
 addressForm.style.display = 'none';
 addressEdit.style.display = 'block';
 document.getElementById('address').innerHTML = '<%= @practitioner.address %>'
-workingdays.style.display = 'flex';
-workingdaysForm.style.display = 'none';
-workingdaysEdit.style.display = 'block';
-document.getElementById('workingdays').innerHTML = '<%= @practitioner.working_days %>'
-workinghours.style.display = 'flex';
-workinghoursForm.style.display = 'none';
-workinghoursEdit.style.display = 'block';
-document.getElementById('workinghours').innerHTML = '<% if @practitioner.starting_hour %><%= @practitioner.starting_hour.strftime("%H:%M") %> ~ <%= @practitioner.ending_hour.strftime("%H:%M") %><% end %>'
+timezone.style.display = 'flex';
+timezoneForm.style.display = 'none';
+timezoneEdit.style.display = 'block';
+document.getElementById('timezone').innerHTML = '<%= @practitioner.timezone %>'
 
 
 

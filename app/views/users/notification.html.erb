@@ -17,7 +17,7 @@
             <%# elsif !notification.actor.is_practitioner? %>
             <% end %>
             <div class="notification-content">
-              <p><small><%= notification.created_at.strftime('%b %d, %Y') %></small></p>
+              <p><small><%= notification.created_at.in_time_zone(current_user.timezone).strftime('%b %d, %Y') %></small></p>
               <p>
                 <%= link_to notification.actor.full_name + " " + notification.action, notification_path(notification), method: :patch || :put %>
               </p>

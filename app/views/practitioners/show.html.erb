@@ -26,6 +26,106 @@
         <p>Languages:
           <%= @practitioner.languages.pluck(:name).join(', ') %>
         </p>
+        <div>
+          <p>Working hours (in your current time zone: <span id='time-zone'></span>)</p>
+          <table class='working-hours col-8'>
+            <tr>
+              <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th></th>
+            </tr>
+            <tr>
+              <% (0..6).to_a.each do |num| %>
+                <% if @practitioner.converted_working_hours[num] != [] %>
+                  <% if @practitioner.converted_working_hours[num].first[:starts] < '04:00' %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours[num].first[:ends] %></p></div></div></td>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                <% else %>
+                  <td></td>
+                <% end %>
+              <% end %>
+              <td class='time'>00 ~ 04</td>
+            </tr>
+            <tr>
+              <% (0..6).to_a.each do |num| %>
+                <% if @practitioner.converted_working_hours[num] != [] %>
+                  <% if (@practitioner.converted_working_hours[num].first[:starts] < '04:00' && @practitioner.converted_working_hours[num].first[:ends] > '08:00') || (@practitioner.converted_working_hours[num].first[:starts] >= '04:00' && @practitioner.converted_working_hours[num].first[:starts] < '08:00') || (@practitioner.converted_working_hours[num].first[:ends] > '04:00' && @practitioner.converted_working_hours[num].first[:ends] <= '08:00') %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours[num].first[:ends] %></p></div></div></td>
+                  <% elsif (@practitioner.converted_working_hours[num].last[:starts] < '04:00' && @practitioner.converted_working_hours[num].last[:ends] > '08:00') || (@practitioner.converted_working_hours[num].last[:starts] >= '04:00' && @practitioner.converted_working_hours[num].last[:starts] < '08:00') || (@practitioner.converted_working_hours[num].last[:ends] > '04:00' && @practitioner.converted_working_hours[num].last[:ends] <= '08:00') %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours[num].last[:ends] %></p></div></div></td>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                <% else %>
+                  <td></td>
+                <% end %>
+              <% end %>
+              <td class='time'>04 ~ 08</td>
+            </tr>
+            <tr>
+              <% (0..6).to_a.each do |num| %>
+                <% if @practitioner.converted_working_hours[num] != [] %>
+                  <% if (@practitioner.converted_working_hours[num].first[:starts] < '08:00' && @practitioner.converted_working_hours[num].first[:ends] > '12:00') || (@practitioner.converted_working_hours[num].first[:starts] >= '08:00' && @practitioner.converted_working_hours[num].first[:starts] < '12:00') || (@practitioner.converted_working_hours[num].first[:ends] > '08:00' && @practitioner.converted_working_hours[num].first[:ends] <= '12:00') %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours[num].first[:ends] %></p></div></div></td>
+                  <% elsif (@practitioner.converted_working_hours[num].last[:starts] < '08:00' && @practitioner.converted_working_hours[num].last[:ends] > '12:00') || (@practitioner.converted_working_hours[num].last[:starts] >= '08:00' && @practitioner.converted_working_hours[num].last[:starts] < '12:00') || (@practitioner.converted_working_hours[num].last[:ends] > '08:00' && @practitioner.converted_working_hours[num].last[:ends] <= '12:00') %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours[num].last[:ends] %></p></div></div></td>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                <% else %>
+                  <td></td>
+                <% end %>
+              <% end %>
+              <td class='time'>08 ~ 12</td>
+            </tr>
+            <tr>
+              <% (0..6).to_a.each do |num| %>
+                <% if @practitioner.converted_working_hours[num] != [] %>
+                  <% if (@practitioner.converted_working_hours[num].first[:starts] < '12:00' && @practitioner.converted_working_hours[num].first[:ends] > '16:00') || (@practitioner.converted_working_hours[num].first[:starts] >= '12:00' && @practitioner.converted_working_hours[num].first[:starts] < '16:00') || (@practitioner.converted_working_hours[num].first[:ends] > '12:00' && @practitioner.converted_working_hours[num].first[:ends] <= '16:00') %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours[num].first[:ends] %></p></div></div></td>
+                  <% elsif (@practitioner.converted_working_hours[num].last[:starts] < '12:00' && @practitioner.converted_working_hours[num].last[:ends] > '16:00') || (@practitioner.converted_working_hours[num].last[:starts] >= '12:00' && @practitioner.converted_working_hours[num].last[:starts] < '16:00') || (@practitioner.converted_working_hours[num].last[:ends] > '12:00' && @practitioner.converted_working_hours[num].last[:ends] <= '16:00') %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours[num].last[:ends] %></p></div></div></td>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                <% else %>
+                  <td></td>
+                <% end %>
+              <% end %>
+              <td class='time'>12 ~ 16</td>
+            </tr>
+            <tr>
+              <% (0..6).to_a.each do |num| %>
+                <% if @practitioner.converted_working_hours[num] != [] %>
+                  <% if (@practitioner.converted_working_hours[num].first[:starts] < '16:00' && @practitioner.converted_working_hours[num].first[:ends] > '20:00') || (@practitioner.converted_working_hours[num].first[:starts] >= '16:00' && @practitioner.converted_working_hours[num].first[:starts] < '20:00') || (@practitioner.converted_working_hours[num].first[:ends] > '16:00' && @practitioner.converted_working_hours[num].first[:ends] <= '20:00') %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours[num].first[:ends] %></p></div></div></td>
+                  <% elsif (@practitioner.converted_working_hours[num].last[:starts] < '16:00' && @practitioner.converted_working_hours[num].last[:ends] > '20:00') || (@practitioner.converted_working_hours[num].last[:starts] >= '16:00' && @practitioner.converted_working_hours[num].last[:starts] < '20:00') || (@practitioner.converted_working_hours[num].last[:ends] > '16:00' && @practitioner.converted_working_hours[num].last[:ends] <= '20:00') %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours[num].last[:ends] %></p></div></div></td>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                <% else %>
+                  <td></td>
+                <% end %>
+              <% end %>
+              <td class='time'>16 ~ 20</td>
+            </tr>
+            <tr>
+              <% (0..6).to_a.each do |num| %>
+                <% if @practitioner.converted_working_hours[num] != [] %>
+                  <% if @practitioner.converted_working_hours[num].last[:ends] > '20:00' %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours[num].last[:ends] %></p></div></div></td>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                <% else %>
+                  <td></td>
+                <% end %>
+              <% end %>
+              <td class='time'>20 ~ 24</td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
     <div class="practitioner-btn" id="practitioner-btn">
@@ -80,3 +180,8 @@
     </div>
   </div>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('time-zone').innerHTML = jstz.determine().name();
+  });
+</script>

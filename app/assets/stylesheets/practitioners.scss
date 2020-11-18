@@ -2,7 +2,7 @@
   padding: 6rem 0 2rem;
 }
 
-.practitioner-summary, .practitioner-name, .practitioner-description, .practitioner-service, .practitioner-profile-table, .practitioner-profile-info, .practitioner-profile-info-body, #practitioner-country, #practitioner-experience, #practitioner-certification, #practitioner-bio, #practitioner-workingdays, #practitioner-workinghours, #practitioner-video, #practitioner-website, #practitioner-address {
+.practitioner-summary, .practitioner-name, .practitioner-description, .practitioner-service, .practitioner-profile-table, .practitioner-profile-info, .practitioner-profile-info-body, #practitioner-country, #practitioner-experience, #practitioner-certification, #practitioner-bio, #practitioner-timezone, .practitioner-workinghours, #practitioner-video, #practitioner-website, #practitioner-address {
   display: flex;
 }
 
@@ -41,9 +41,6 @@
 
 .practitioner-btn {
   flex: 0 0 20%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
 }
 
 .pending, .verified {
