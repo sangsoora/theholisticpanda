@@ -127,7 +127,7 @@ class PractitionersController < ApplicationController
   end
 
   def profile
-    @columns = %w[specialties languages country experience certification bio workingdays workinghours video website sociallinks address healthgoals]
+    @columns = %w[specialties languages country experience certification bio video website sociallinks address healthgoals timezone]
     @workingdays = %w[Mon Tue Wed Thu Fri Sat Sun]
     @specialties = Specialty.all.sort_by(&:name)
     @languages = Language.all.sort_by(&:name)
@@ -138,10 +138,9 @@ class PractitionersController < ApplicationController
     @health_goal = UserHealthGoal.new
     @newsletter = Newsletter.find_by(email: @practitioner.user.email) if @practitioner.user.newsletter
     @user = @practitioner.user
-    if @practitioner.starting_hour && @practitioner.ending_hour
-      @practitioner.starting_hour = @practitioner.starting_hour + Time.current.in_time_zone(current_user.timezone).utc_offset
-      @practitioner.ending_hour = @practitioner.ending_hour + Time.current.in_time_zone(current_user.timezone).utc_offset
-    end
+    @working_hours = @practitioner.working_hours
+    # @practitioner.starting_hour = @practitioner.starting_hour + Time.current.in_time_zone(current_user.timezone).utc_offset
+    # @practitioner.ending_hour = @practitioner.ending_hour + Time.current.in_time_zone(current_user.timezone).utc_offset
   end
 
   def service
@@ -152,6 +151,7 @@ class PractitionersController < ApplicationController
   def update
     if params[:commit] == 'Proceed to background check'
       @practitioner.update(background_check_status: 'pending', background_check_consent: true)
+      (0..6).to_a.each { |num| WorkingHour.create(day: num, opens: '', closes: '', practitioner: @practitioner) }
       redirect_to root_path, notice: 'Thank you for your application'
     else
       if @practitioner.update(practitioner_params)
@@ -161,13 +161,6 @@ class PractitionersController < ApplicationController
         if @practitioner.website && !@practitioner.website.include?('http://' || 'https://')
           @practitioner.update(website: 'http://' + @practitioner.website)
         end
-        if params[:practitioner][:workingday_ids]
-          @workingdays = params[:practitioner][:workingday_ids].reject(&:blank?).join(', ')
-          @practitioner.update(working_days: @workingdays)
-        end
-        @starting_hour = @practitioner.starting_hour - Time.current.in_time_zone(current_user.timezone).utc_offset
-        @ending_hour = @practitioner.ending_hour - Time.current.in_time_zone(current_user.timezone).utc_offset
-        @practitioner.update(starting_hour: @starting_hour, ending_hour: @ending_hour)
         respond_to do |format|
           format.html { redirect_to practitioner_profile_path(@practitioner) }
           format.js
@@ -198,6 +191,6 @@ class PractitionersController < ApplicationController
   end
 
   def practitioner_params
-    params.require(:practitioner).permit(:location, :address, :bio, :video, :website, :latitude, :longitude, :certification, :experience, :working_days, :starting_hour, :ending_hour, :country_code, :background_check_status, :background_check_consent, :background_check_id, :photo)
+    params.require(:practitioner).permit(:location, :address, :bio, :video, :website, :latitude, :longitude, :certification, :experience, :timezone, :country_code, :background_check_status, :background_check_consent, :background_check_id, :photo)
   end
 end

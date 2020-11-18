@@ -125,59 +125,56 @@
       </div>
       <div class="practitioner-profile-info">
         <div class="practitioner-profile-info-title">
-          <p>Working days</p>
+          <p>Working hours</p>
         </div>
         <div class="practitioner-profile-info-body">
-          <div id="practitioner-workingdays">
-            <p id="workingdays"><%= @practitioner.working_days %></p>
-            <button id='workingdays-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
-          </div>
-          <%= simple_form_for([@practitioner], remote: true, html: { id: :workingdays_form, style: 'display: none;' }) do |f| %>
-            <div class="form-group">
-              <input type="hidden" name="practitioner[workingday_ids][]" value="">
-              <div class="workingdays-choices">
-                <% @workingdays.each do |workingday| %>
-                  <% if @practitioner.working_days %>
-                    <% if @practitioner.working_days.split(', ').include?(workingday) %>
-                      <input type="checkbox" class="hidden" value="<%= workingday %>" name="practitioner[workingday_ids][]" id="practitioner_workingday_ids_<%= workingday %>" checked>
-                      <label class="workingday-choice active" for="practitioner_workingday_ids_<%= workingday %>">
-                        <%= workingday %>
-                      </label>
-                    <% else %>
-                      <input type="checkbox" class="hidden" value="<%= workingday %>" name="practitioner[workingday_ids][]" id="practitioner_workingday_ids_<%= workingday %>">
-                      <label class="workingday-choice" for="practitioner_workingday_ids_<%= workingday %>">
-                        <%= workingday %>
-                      </label>
-                    <% end %>
-                  <% else %>
-                    <input type="checkbox" class="hidden" value="<%= workingday %>" name="practitioner[workingday_ids][]" id="practitioner_workingday_ids_<%= workingday %>">
-                    <label class="workingday-choice" for="practitioner_workingday_ids_<%= workingday %>">
-                      <%= workingday %>
-                    </label>
-                  <% end %>
-                <% end %>
-               </div>
+          <div>
+            <div class="practitioner-workinghours" id="practitioner-workinghours-1">
+              <p id="workinghours-1">Mon: <% if @practitioner.working_hours.find_by(day: 1).opens %><%= @practitioner.working_hours.find_by(day: 1).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 1).closes.strftime('%H:%M') %><% end %></p>
+              <button id='workinghours-edit-1'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
             </div>
-            <button type="submit"><i class='fas fa-check'></i></button>
-            <button id='workingdays-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-          <% end %>
+            <div class="practitioner-workinghours" id="practitioner-workinghours-2">
+              <p id="workinghours-2">Tue: <% if @practitioner.working_hours.find_by(day: 2).opens %><%= @practitioner.working_hours.find_by(day: 2).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 2).closes.strftime('%H:%M') %><% end %></p>
+              <button id='workinghours-edit-2'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+            </div>
+            <div class="practitioner-workinghours" id="practitioner-workinghours-3">
+              <p id="workinghours-3">Wed: <% if @practitioner.working_hours.find_by(day: 3).opens %><%= @practitioner.working_hours.find_by(day: 3).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 3).closes.strftime('%H:%M') %><% end %></p>
+              <button id='workinghours-edit-3'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+            </div>
+            <div class="practitioner-workinghours" id="practitioner-workinghours-4">
+              <p id="workinghours-4">Thu: <% if @practitioner.working_hours.find_by(day: 4).opens %><%= @practitioner.working_hours.find_by(day: 4).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 4).closes.strftime('%H:%M') %><% end %></p>
+              <button id='workinghours-edit-4'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+            </div>
+            <div class="practitioner-workinghours" id="practitioner-workinghours-5">
+              <p id="workinghours-5">Fri: <% if @practitioner.working_hours.find_by(day: 5).opens %><%= @practitioner.working_hours.find_by(day: 5).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 5).closes.strftime('%H:%M') %><% end %></p>
+              <button id='workinghours-edit-5'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+            </div>
+            <div class="practitioner-workinghours" id="practitioner-workinghours-6">
+              <p id="workinghours-6">Sat: <% if @practitioner.working_hours.find_by(day: 6).opens %><%= @practitioner.working_hours.find_by(day: 6).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 6).closes.strftime('%H:%M') %><% end %></p>
+              <button id='workinghours-edit-6'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+            </div>
+            <div class="practitioner-workinghours" id="practitioner-workinghours-0">
+              <p id="workinghours-0">Sun: <% if @practitioner.working_hours.find_by(day: 0).opens %><%= @practitioner.working_hours.find_by(day: 0).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 0).closes.strftime('%H:%M') %><% end %></p>
+              <button id='workinghours-edit-7'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+            </div>
+          </div>
         </div>
       </div>
       <div class="practitioner-profile-info">
         <div class="practitioner-profile-info-title">
-          <p>Working hours</p>
+          <p>Time zone<br>(where you conduct your service)</p>
         </div>
         <div class="practitioner-profile-info-body">
-          <div id="practitioner-workinghours">
-            <p id="workinghours"><% if @practitioner.starting_hour && @practitioner.ending_hour %><%= @practitioner.starting_hour.strftime('%H:%M') %> ~ <%= @practitioner.ending_hour.strftime('%H:%M') %><% end %></p>
-            <button id='workinghours-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+          <div id="practitioner-timezone">
+            <p id="timezone"><%= @practitioner.timezone %></p>
+            <button id='timezone-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
           </div>
-          <%= simple_form_for([@practitioner], remote: true, html: { id: :workinghours_form, style: 'display: none; align-items: center;' }) do |f| %>
-            <%= f.input :starting_hour, require: true, label: false, minute_step: 30, default: Time.parse('00:00') %>
-            &nbsp;&nbsp;~&nbsp;&nbsp;
-            <%= f.input :ending_hour, require: true, label: false, minute_step: 30, default: Time.parse('00:00') %>
+          <%= simple_form_for([@practitioner], remote: true, html: { id: :timezone_form, style: 'display: none; align-items: center;' }) do |f| %>
+            <%= f.input :timezone, label: false, as: :select do %>
+              <%= f.select :timezone, @practitioner.timezone_choice.map { |zone| [zone[1], zone[0]] },  {include_blank: 'Select a time zone'}, {class: 'form-control select optional' } %>
+            <% end %>
             <button type="submit"><i class='fas fa-check'></i></button>
-            <button id='workinghours-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+            <button id='timezone-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
           <% end %>
         </div>
       </div>

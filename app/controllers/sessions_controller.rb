@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
     @session.primary_time = @session.primary_time - @session.primary_time.in_time_zone(current_user.timezone).utc_offset
     @session.secondary_time = @session.secondary_time - @session.secondary_time.in_time_zone(current_user.timezone).utc_offset
     @session.tertiary_time = @session.tertiary_time - @session.tertiary_time.in_time_zone(current_user.timezone).utc_offset
-    @session.update(duration: service.duration, status: 'pending', paid: false, service: service, amount: service.price * 1.03, user: current_user)
+    @session.update(duration: service.duration, status: 'paid', paid: false, service: service, amount: service.price * 1.03, user: current_user)
     if @session.save
       payment_session = Stripe::Checkout::Session.create(
         payment_method_types: ['card'],

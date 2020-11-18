@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     resources :practitioner_languages, only: [:create]
     resources :practitioner_social_links, only: [:create]
     resources :favorite_practitioners, only: [:create]
+    resources :working_hours, only: [:create]
   end
 
   get 'practitioners/:id/profile', to: 'practitioners#profile', as: :practitioner_profile
@@ -39,6 +40,8 @@ Rails.application.routes.draw do
   resources :user_health_goals, only: [:destroy]
 
   resources :favorite_practitioners, only: [:destroy]
+
+  resources :working_hours, only: [:destroy]
 
   resources :languages, only: %i[create destroy]
 

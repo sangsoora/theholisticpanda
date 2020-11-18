@@ -1,5 +1,5 @@
 class ServicesController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index show]
+  skip_before_action :authenticate_user!, only: [:index]
   before_action :set_notifications, only: %i[index show]
   before_action :set_service, only: %i[show update destroy]
 
@@ -88,29 +88,7 @@ class ServicesController < ApplicationController
 
   def show
     @session = Session.new
-    @working_days_query = []
-    if @service.practitioner.working_days
-      @service.practitioner.working_days.split(', ').each do |day|
-        if day == 'Mon'
-          @working_days_query << 'date.getDay() === 1'
-        elsif day == 'Tue'
-          @working_days_query << 'date.getDay() === 2'
-        elsif day == 'Wed'
-          @working_days_query << 'date.getDay() === 3'
-        elsif day == 'Thu'
-          @working_days_query << 'date.getDay() === 4'
-        elsif day == 'Fri'
-          @working_days_query << 'date.getDay() === 5'
-        elsif day == 'Sat'
-          @working_days_query << 'date.getDay() === 6'
-        elsif day == 'Sun'
-          @working_days_query << 'date.getDay() === 0'
-        end
-      end
-    else
-      @working_days_query = []
-    end
-    @service.practitioner.starting_hour && @service.practitioner.ending_hour ? @last_time = @service.practitioner.ending_hour - @service.duration.to_i.minute : ''
+    @times = ['00:00', '00:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30', '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30']
   end
 
   def create

@@ -115,3 +115,111 @@
     font-size: 0.8rem;
   }
 }
+
+.booking-calendar {
+  border-radius: 0;
+  border-collapse: collapse;
+  box-shadow: none;
+  table-layout: fixed;
+  margin-bottom: 1.5rem;
+}
+
+.booking-calendar th {
+  background: none;
+  color: black;
+  border: 1px solid $gold;
+  opacity: 1;
+  text-align: center;
+  border-radius: 0;
+  border-collapse: collapse;
+  font-weight: 500;
+}
+
+.booking-calendar td {
+  background: white;
+  border: 1px solid $gold;
+  text-align: center;
+  font-size: 0.875rem;
+  border-radius: 0;
+  border-collapse: collapse;
+  height: 1.5rem;
+}
+
+.booking-calendar td.time {
+  background: none;
+}
+
+.blocked-cell {
+  height: 100%;
+  width: 100%;
+  background: #ccc;
+}
+
+.booked-cell {
+  height: 100%;
+  width: 100%;
+  background: $pink;
+}
+
+.added-time .available-cell {
+  height: 100%;
+  width: 100%;
+  background: $emerald;
+  position: relative;
+}
+
+.added-time .available-cell:hover .available-hours {
+  display: block;
+}
+
+.added-time .available-hours {
+  display: none;
+  position: absolute;
+  top: 1rem;
+  left: -80px;
+  right: 0;
+  background: #e8e8e8;
+  z-index: 100;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  p {
+    color: #4f4f4f;
+    font-size: 0.75rem;
+    font-weight: 400;
+    margin: 0.125rem 0.25rem;
+  }
+}
+
+.modal-body-header {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 1rem 0;
+}
+
+.circles {
+  display: flex;
+  margin: 0 1rem;
+  p {
+    margin-right: 2rem;
+    margin-bottom: 0;
+  }
+}
+
+i.available {
+  color: $emerald;
+}
+
+i.booked {
+  color: $pink;
+}
+
+i.blocked {
+  color: #ccc;
+}
+
+#primary, #secondary, #tertiary {
+  display: flex;
+  align-items:
+  center; margin-bottom: 0;
+  margin-left: 1.5rem;
+}

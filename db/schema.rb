@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_22_120824) do
+ActiveRecord::Schema.define(version: 2020_11_11_190318) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,14 +132,12 @@ ActiveRecord::Schema.define(version: 2020_09_22_120824) do
     t.string "location"
     t.string "address"
     t.text "bio"
-    t.string "working_days"
-    t.time "starting_hour"
-    t.time "ending_hour"
     t.string "country_code"
     t.string "experience"
     t.string "certification"
     t.string "video"
     t.string "website"
+    t.string "timezone"
     t.float "latitude"
     t.float "longitude"
     t.string "background_check_status"
@@ -234,6 +232,16 @@ ActiveRecord::Schema.define(version: 2020_09_22_120824) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "working_hours", force: :cascade do |t|
+    t.integer "day"
+    t.time "opens"
+    t.time "closes"
+    t.bigint "practitioner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["practitioner_id"], name: "index_working_hours_on_practitioner_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "favorite_practitioners", "practitioners"
   add_foreign_key "favorite_practitioners", "users"
@@ -255,4 +263,5 @@ ActiveRecord::Schema.define(version: 2020_09_22_120824) do
   add_foreign_key "specialty_health_goals", "specialties"
   add_foreign_key "user_health_goals", "health_goals"
   add_foreign_key "user_health_goals", "users"
+  add_foreign_key "working_hours", "practitioners"
 end
