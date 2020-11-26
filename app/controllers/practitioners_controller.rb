@@ -116,6 +116,7 @@ class PractitionersController < ApplicationController
     if @practitioner.save
       languages.each { |language| PractitionerLanguage.create!(practitioner: @practitioner, language: Language.find(language)) }
       specialties.each { |specialty| PractitionerSpecialty.create!(practitioner: @practitioner, specialty: Specialty.find(specialty)) }
+      (0..6).each { |day| WrokingHour.create!(day: day, practitioner: @practitioner, opens: '', closes: '') }
       respond_to do |format|
         format.html { redirect_to root_path }
         format.js
@@ -161,6 +162,7 @@ class PractitionersController < ApplicationController
         if @practitioner.website && !@practitioner.website.include?('http://' || 'https://')
           @practitioner.update(website: 'http://' + @practitioner.website)
         end
+        @param = practitioner_params
         respond_to do |format|
           format.html { redirect_to practitioner_profile_path(@practitioner) }
           format.js

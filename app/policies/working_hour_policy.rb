@@ -9,6 +9,10 @@ class WorkingHourPolicy < ApplicationPolicy
     user.practitioner
   end
 
+  def update?
+    user.practitioner
+  end
+
   def destroy?
     user_is_practitioner?
   end

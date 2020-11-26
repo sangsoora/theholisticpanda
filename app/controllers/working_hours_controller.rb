@@ -1,12 +1,18 @@
 class WorkingHoursController < ApplicationController
-  before_action :set_working_hour, only: [:destroy]
+  before_action :set_working_hour, only: %i[update destroy]
 
   def create
     @working_hour = WorkingHour.new(working_hour_params)
     authorize @working_hour
     @practitioner = Practitioner.find(params[:practitioner_id])
     @working_hour.practitioner = @practitioner
-    if @working_hour.save!
+    @working_hour.save!
+  end
+
+  def update
+    if @working_hour.update(working_hour_params)
+      @param = working_hour_params
+      @practitioner = @working_hour.practitioner
       respond_to do |format|
         format.html { redirect_to practitioner_profile_path(@practitioner) }
         format.js

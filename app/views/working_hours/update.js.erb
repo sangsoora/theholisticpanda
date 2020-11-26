@@ -1,0 +1,4 @@
+day<%= @param[:day] %>.style.display = 'flex';
+day<%= @param[:day] %>Form.style.display = 'none';
+day<%= @param[:day] %>Edit.style.display = 'block';
+document.getElementById("workinghour<%= @param[:day] %>").innerHTML = `&nbsp;<%= @working_hour.opens.strftime('%H:%M') %> ~ <%= @working_hour.closes.strftime('%H:%M') %>`;

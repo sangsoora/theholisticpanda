@@ -117,7 +117,7 @@
             <button id='bio-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
           </div>
           <%= simple_form_for([@practitioner], remote: true, html: { id: :bio_form, style: 'display: none; align-items: center;' }) do |f| %>
-            <%= f.input :bio, require: true, label: false, :input_html => { cols: 60, rows: 10 } %>
+            <%= f.input :bio, require: true, label: false, input_html: { cols: 60, rows: 10 } %>
             <button type="submit"><i class='fas fa-check'></i></button>
             <button id='bio-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
           <% end %>
@@ -129,33 +129,103 @@
         </div>
         <div class="practitioner-profile-info-body">
           <div>
-            <div class="practitioner-workinghours" id="practitioner-workinghours-1">
-              <p id="workinghours-1">Mon: <% if @practitioner.working_hours.find_by(day: 1).opens %><%= @practitioner.working_hours.find_by(day: 1).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 1).closes.strftime('%H:%M') %><% end %></p>
-              <button id='workinghours-edit-1'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+            <div class="practitioner-workinghours mb-2 mb-2" id="practitioner-day1">
+              <p id="day1">Mon: <% if @practitioner.working_hours.find_by(day: 1).opens %><span id="workinghour1"><%= @practitioner.working_hours.find_by(day: 1).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 1).closes.strftime('%H:%M') %></span><% end %></p>
+              <button id='day1-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+              <%= simple_form_for([@practitioner.working_hours.find_by(day: 1)], remote: true, label: 'Mon', html: { id: :day1_form, style: 'display: none;' }) do |f| %>
+                <p class="mb-3">Mon</p>
+                <div class="d-flex align-items-center mb-3">
+                  <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day1_opens} %>
+                  <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day1_closes} %>
+                  <%= f.input :day, as: :hidden %>
+                  <button type="submit"><i class='fas fa-check'></i></button>
+                  <button id='day1-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                </div>
+              <% end %>
             </div>
-            <div class="practitioner-workinghours" id="practitioner-workinghours-2">
-              <p id="workinghours-2">Tue: <% if @practitioner.working_hours.find_by(day: 2).opens %><%= @practitioner.working_hours.find_by(day: 2).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 2).closes.strftime('%H:%M') %><% end %></p>
-              <button id='workinghours-edit-2'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+            <div class="practitioner-workinghours mb-2" id="practitioner-day2">
+              <p id="day2">Tue: <% if @practitioner.working_hours.find_by(day: 2).opens %><span id="workinghour2"><%= @practitioner.working_hours.find_by(day: 2).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 2).closes.strftime('%H:%M') %></span><% end %></p>
+              <button id='day2-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+              <%= simple_form_for([@practitioner.working_hours.find_by(day: 2)], remote: true, html: { id: :day2_form, style: 'display: none;' }) do |f| %>
+                <p class="mb-3">Tue</p>
+                <div class="d-flex align-items-center mb-3">
+                  <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day2_opens} %>
+                  <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day2_closes} %>
+                  <%= f.input :day, as: :hidden %>
+                  <button type="submit"><i class='fas fa-check'></i></button>
+                  <button id='day2-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                </div>
+              <% end %>
             </div>
-            <div class="practitioner-workinghours" id="practitioner-workinghours-3">
-              <p id="workinghours-3">Wed: <% if @practitioner.working_hours.find_by(day: 3).opens %><%= @practitioner.working_hours.find_by(day: 3).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 3).closes.strftime('%H:%M') %><% end %></p>
-              <button id='workinghours-edit-3'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+            <div class="practitioner-workinghours mb-2" id="practitioner-day3">
+              <p id="day3">Wed: <% if @practitioner.working_hours.find_by(day: 3).opens %><span id="workinghour3"><%= @practitioner.working_hours.find_by(day: 3).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 3).closes.strftime('%H:%M') %></span><% end %></p>
+              <button id='day3-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+              <%= simple_form_for([@practitioner.working_hours.find_by(day: 3)], remote: true, html: { id: :day3_form, style: 'display: none;' }) do |f| %>
+                <p class="mb-3">Wed</p>
+                <div class="d-flex align-items-center mb-3">
+                  <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day3_opens} %>
+                  <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day3_closes} %>
+                  <%= f.input :day, as: :hidden %>
+                  <button type="submit"><i class='fas fa-check'></i></button>
+                  <button id='day3-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                </div>
+              <% end %>
             </div>
-            <div class="practitioner-workinghours" id="practitioner-workinghours-4">
-              <p id="workinghours-4">Thu: <% if @practitioner.working_hours.find_by(day: 4).opens %><%= @practitioner.working_hours.find_by(day: 4).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 4).closes.strftime('%H:%M') %><% end %></p>
-              <button id='workinghours-edit-4'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+            <div class="practitioner-workinghours mb-2" id="practitioner-day4">
+              <p id="day4">Thu: <% if @practitioner.working_hours.find_by(day: 4).opens %><span id="workinghour4"><%= @practitioner.working_hours.find_by(day: 4).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 4).closes.strftime('%H:%M') %></span><% end %></p>
+              <button id='day4-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+              <%= simple_form_for([@practitioner.working_hours.find_by(day: 4)], remote: true, html: { id: :day4_form, style: 'display: none;' }) do |f| %>
+                <p class="mb-3">Thu</p>
+                <div class="d-flex align-items-center mb-3">
+                  <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day4_opens} %>
+                  <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day4_closes} %>
+                  <%= f.input :day, as: :hidden %>
+                  <button type="submit"><i class='fas fa-check'></i></button>
+                  <button id='day4-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                </div>
+              <% end %>
             </div>
-            <div class="practitioner-workinghours" id="practitioner-workinghours-5">
-              <p id="workinghours-5">Fri: <% if @practitioner.working_hours.find_by(day: 5).opens %><%= @practitioner.working_hours.find_by(day: 5).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 5).closes.strftime('%H:%M') %><% end %></p>
-              <button id='workinghours-edit-5'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+            <div class="practitioner-workinghours mb-2" id="practitioner-day5">
+              <p id="day5">Fri: <% if @practitioner.working_hours.find_by(day: 5).opens %><span id="workinghour5"><%= @practitioner.working_hours.find_by(day: 5).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 5).closes.strftime('%H:%M') %></span><% end %></p>
+              <button id='day5-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+              <%= simple_form_for([@practitioner.working_hours.find_by(day: 5)], remote: true, html: { id: :day5_form, style: 'display: none;' }) do |f| %>
+                <p class="mb-3">Fri</p>
+                <div class="d-flex align-items-center mb-3">
+                  <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day5_opens} %>
+                  <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day5_closes} %>
+                  <%= f.input :day, as: :hidden %>
+                  <button type="submit"><i class='fas fa-check'></i></button>
+                  <button id='day5-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                </div>
+              <% end %>
             </div>
-            <div class="practitioner-workinghours" id="practitioner-workinghours-6">
-              <p id="workinghours-6">Sat: <% if @practitioner.working_hours.find_by(day: 6).opens %><%= @practitioner.working_hours.find_by(day: 6).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 6).closes.strftime('%H:%M') %><% end %></p>
-              <button id='workinghours-edit-6'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+            <div class="practitioner-workinghours mb-2" id="practitioner-day6">
+              <p id="day6">Sat: <% if @practitioner.working_hours.find_by(day: 6).opens %><span id="workinghour6"><%= @practitioner.working_hours.find_by(day: 6).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 6).closes.strftime('%H:%M') %></span><% end %></p>
+              <button id='day6-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+              <%= simple_form_for([@practitioner.working_hours.find_by(day: 6)], remote: true, html: { id: :day6_form, style: 'display: none;' }) do |f| %>
+                <p class="mb-3">Sat</p>
+                <div class="d-flex align-items-center mb-3">
+                  <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day6_opens} %>
+                  <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day6_closes} %>
+                  <%= f.input :day, as: :hidden %>
+                  <button type="submit"><i class='fas fa-check'></i></button>
+                  <button id='day6-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                </div>
+              <% end %>
             </div>
-            <div class="practitioner-workinghours" id="practitioner-workinghours-0">
-              <p id="workinghours-0">Sun: <% if @practitioner.working_hours.find_by(day: 0).opens %><%= @practitioner.working_hours.find_by(day: 0).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 0).closes.strftime('%H:%M') %><% end %></p>
-              <button id='workinghours-edit-7'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+            <div class="practitioner-workinghours mb-2" id="practitioner-day0">
+              <p>Sun: <span id="day0"><% if @practitioner.working_hours.find_by(day: 0).opens %><span id="workinghour0"><%= @practitioner.working_hours.find_by(day: 0).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 0).closes.strftime('%H:%M') %></span><% end %></span></p>
+              <button id='day0-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+              <%= simple_form_for([@practitioner.working_hours.find_by(day: 0)], remote: true, html: { id: :day0_form, style: 'display: none;' }) do |f| %>
+                <p class="mb-3">Sun</p>
+                <div class="d-flex align-items-center mb-3">
+                  <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day0_opens} %>
+                  <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day0_closes} %>
+                  <%= f.input :day, as: :hidden %>
+                  <button type="submit"><i class='fas fa-check'></i></button>
+                  <button id='day0-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                </div>
+              <% end %>
             </div>
           </div>
         </div>
@@ -342,6 +412,24 @@
       }
       <%= column %>Form.style.display = 'none';
       <%= column %>Edit.style.display = 'block';
+    })
+  <% end %>
+  <% (0..6).each do |num| %>
+    const day<%= num %> = document.getElementById('day<%= num %>');
+    const day<%= num %>Form = document.getElementById('day<%= num %>_form');
+    const day<%= num %>Edit = document.getElementById('day<%= num %>-edit');
+    const day<%= num %>Cancel = document.getElementById('day<%= num %>-cancel');
+    day<%= num %>Edit.addEventListener('click', (e) => {
+      e.preventDefault();
+      day<%= num %>.style.display = 'none';
+      day<%= num %>Form.style.display = 'block';
+      day<%= num %>Edit.style.display = 'none';
+    })
+    day<%= num %>Cancel.addEventListener('click', (e) => {
+      e.preventDefault();
+      day<%= num %>.style.display = 'flex';
+      day<%= num %>Form.style.display = 'none';
+      day<%= num %>Edit.style.display = 'block';
     })
   <% end %>
   function initAutocomplete() {
