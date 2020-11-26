@@ -41,7 +41,7 @@ Rails.application.routes.draw do
 
   resources :favorite_practitioners, only: [:destroy]
 
-  resources :working_hours, only: [:destroy]
+  resources :working_hours, only: %i[update destroy]
 
   resources :languages, only: %i[create destroy]
 

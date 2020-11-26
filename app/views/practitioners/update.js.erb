@@ -1,35 +1,41 @@
-country.style.display = 'flex';
-countryForm.style.display = 'none';
-countryEdit.style.display = 'block';
-document.getElementById('country').innerHTML = '<%= @practitioner.country_name %>'
-experience.style.display = 'flex';
-experienceForm.style.display = 'none';
-experienceEdit.style.display = 'block';
-document.getElementById('experience').innerHTML = '<%= @practitioner.experience %>'
-certification.style.display = 'flex';
-certificationForm.style.display = 'none';
-certificationEdit.style.display = 'block';
-document.getElementById('certification').innerHTML = '<%= @practitioner.certification %>'
-bio.style.display = 'flex';
-bioForm.style.display = 'none';
-bioEdit.style.display = 'block';
-document.getElementById('bio').innerHTML = '<%= @practitioner.bio %>'
-video.style.display = 'flex';
-videoForm.style.display = 'none';
-videoEdit.style.display = 'block';
-document.getElementById('video').innerHTML = '<a href="<%= @practitioner.video %>" target="_blank"><%= @practitioner.video %></a>'
-website.style.display = 'flex';
-websiteForm.style.display = 'none';
-websiteEdit.style.display = 'block';
-document.getElementById('website').innerHTML = '<a href="<%= @practitioner.website %>" target="_blank"><%= @practitioner.website %></a>'
-address.style.display = 'flex';
-addressForm.style.display = 'none';
-addressEdit.style.display = 'block';
-document.getElementById('address').innerHTML = '<%= @practitioner.address %>'
-timezone.style.display = 'flex';
-timezoneForm.style.display = 'none';
-timezoneEdit.style.display = 'block';
-document.getElementById('timezone').innerHTML = '<%= @practitioner.timezone %>'
-
-
-
+if ('<%= @param.keys.first %>' == "country_code") {
+  country.style.display = 'flex';
+  countryForm.style.display = 'none';
+  countryEdit.style.display = 'block';
+  document.getElementById('country').innerHTML = '<%= @practitioner.country_name %>'
+} else if ('<%= @param.keys.first %>' == "experience") {
+  experience.style.display = 'flex';
+  experienceForm.style.display = 'none';
+  experienceEdit.style.display = 'block';
+  document.getElementById('experience').innerHTML = '<%= @practitioner.experience %>'
+} else if ('<%= @param.keys.first %>' == "certification") {
+  certification.style.display = 'flex';
+  certificationForm.style.display = 'none';
+  certificationEdit.style.display = 'block';
+  document.getElementById('certification').innerHTML = '<%= @practitioner.certification %>'
+} else if ('<%= @param.keys.first %>' == "bio") {
+  bio.style.display = 'flex';
+  bioForm.style.display = 'none';
+  bioEdit.style.display = 'block';
+  document.getElementById('bio').innerHTML = '<%= @practitioner.bio %>'
+} else if ('<%= @param.keys.first %>' == "video") {
+  video.style.display = 'flex';
+  videoForm.style.display = 'none';
+  videoEdit.style.display = 'block';
+  document.getElementById('video').innerHTML = '<a href="<%= @practitioner.video %>" target="_blank"><%= @practitioner.video %></a>'
+} else if ('<%= @param.keys.first %>' == "website") {
+  website.style.display = 'flex';
+  websiteForm.style.display = 'none';
+  websiteEdit.style.display = 'block';
+  document.getElementById('website').innerHTML = '<a href="<%= @practitioner.website %>" target="_blank"><%= @practitioner.website %></a>'
+} else if ('<%= @param.keys.first %>' == "address") {
+  address.style.display = 'flex';
+  addressForm.style.display = 'none';
+  addressEdit.style.display = 'block';
+  document.getElementById('address').innerHTML = '<%= @practitioner.address %>'
+} else if ('<%= @param.keys.first %>' == "timezone") {
+  timezone.style.display = 'flex';
+  timezoneForm.style.display = 'none';
+  timezoneEdit.style.display = 'block';
+  document.getElementById('timezone').innerHTML = '<%= @practitioner.timezone %>'
+}
