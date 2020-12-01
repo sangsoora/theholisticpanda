@@ -32,98 +32,100 @@
             <tr>
               <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th></th>
             </tr>
-            <tr>
-              <% (0..6).to_a.each do |num| %>
-                <% if @practitioner.converted_working_hours[num] != [] %>
-                  <% if @practitioner.converted_working_hours[num].first[:starts] < '04:00' %>
-                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours[num].first[:ends] %></p></div></div></td>
+            <% if user_signed_in? %>
+              <tr>
+                <% (0..6).to_a.each do |num| %>
+                  <% if @converted_working_hours[num] != [] %>
+                    <% if @converted_working_hours[num].first[:starts] < '04:00' %>
+                      <td><div class="available-cell"><div class="available-hours"><p><%= @converted_working_hours[num].first[:starts] %> ~ <%= @converted_working_hours[num].first[:ends] %></p></div></div></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
                   <% else %>
                     <td></td>
                   <% end %>
-                <% else %>
-                  <td></td>
                 <% end %>
-              <% end %>
-              <td class='time'>00 ~ 04</td>
-            </tr>
-            <tr>
-              <% (0..6).to_a.each do |num| %>
-                <% if @practitioner.converted_working_hours[num] != [] %>
-                  <% if (@practitioner.converted_working_hours[num].first[:starts] < '04:00' && @practitioner.converted_working_hours[num].first[:ends] > '08:00') || (@practitioner.converted_working_hours[num].first[:starts] >= '04:00' && @practitioner.converted_working_hours[num].first[:starts] < '08:00') || (@practitioner.converted_working_hours[num].first[:ends] > '04:00' && @practitioner.converted_working_hours[num].first[:ends] <= '08:00') %>
-                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours[num].first[:ends] %></p></div></div></td>
-                  <% elsif (@practitioner.converted_working_hours[num].last[:starts] < '04:00' && @practitioner.converted_working_hours[num].last[:ends] > '08:00') || (@practitioner.converted_working_hours[num].last[:starts] >= '04:00' && @practitioner.converted_working_hours[num].last[:starts] < '08:00') || (@practitioner.converted_working_hours[num].last[:ends] > '04:00' && @practitioner.converted_working_hours[num].last[:ends] <= '08:00') %>
-                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours[num].last[:ends] %></p></div></div></td>
+                <td class='time'>00 ~ 04</td>
+              </tr>
+              <tr>
+                <% (0..6).to_a.each do |num| %>
+                  <% if @converted_working_hours[num] != [] %>
+                    <% if (@converted_working_hours[num].first[:starts] < '04:00' && @converted_working_hours[num].first[:ends] > '08:00') || (@converted_working_hours[num].first[:starts] >= '04:00' && @converted_working_hours[num].first[:starts] < '08:00') || (@converted_working_hours[num].first[:ends] > '04:00' && @converted_working_hours[num].first[:ends] <= '08:00') %>
+                      <td><div class="available-cell"><div class="available-hours"><p><%= @converted_working_hours[num].first[:starts] %> ~ <%= @converted_working_hours[num].first[:ends] %></p></div></div></td>
+                    <% elsif (@converted_working_hours[num].last[:starts] < '04:00' && @converted_working_hours[num].last[:ends] > '08:00') || (@converted_working_hours[num].last[:starts] >= '04:00' && @converted_working_hours[num].last[:starts] < '08:00') || (@converted_working_hours[num].last[:ends] > '04:00' && @converted_working_hours[num].last[:ends] <= '08:00') %>
+                      <td><div class="available-cell"><div class="available-hours"><p><%= @converted_working_hours[num].last[:starts] %> ~ <%= @converted_working_hours[num].last[:ends] %></p></div></div></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
                   <% else %>
                     <td></td>
                   <% end %>
-                <% else %>
-                  <td></td>
                 <% end %>
-              <% end %>
-              <td class='time'>04 ~ 08</td>
-            </tr>
-            <tr>
-              <% (0..6).to_a.each do |num| %>
-                <% if @practitioner.converted_working_hours[num] != [] %>
-                  <% if (@practitioner.converted_working_hours[num].first[:starts] < '08:00' && @practitioner.converted_working_hours[num].first[:ends] > '12:00') || (@practitioner.converted_working_hours[num].first[:starts] >= '08:00' && @practitioner.converted_working_hours[num].first[:starts] < '12:00') || (@practitioner.converted_working_hours[num].first[:ends] > '08:00' && @practitioner.converted_working_hours[num].first[:ends] <= '12:00') %>
-                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours[num].first[:ends] %></p></div></div></td>
-                  <% elsif (@practitioner.converted_working_hours[num].last[:starts] < '08:00' && @practitioner.converted_working_hours[num].last[:ends] > '12:00') || (@practitioner.converted_working_hours[num].last[:starts] >= '08:00' && @practitioner.converted_working_hours[num].last[:starts] < '12:00') || (@practitioner.converted_working_hours[num].last[:ends] > '08:00' && @practitioner.converted_working_hours[num].last[:ends] <= '12:00') %>
-                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours[num].last[:ends] %></p></div></div></td>
+                <td class='time'>04 ~ 08</td>
+              </tr>
+              <tr>
+                <% (0..6).to_a.each do |num| %>
+                  <% if @converted_working_hours[num] != [] %>
+                    <% if (@converted_working_hours[num].first[:starts] < '08:00' && @converted_working_hours[num].first[:ends] > '12:00') || (@converted_working_hours[num].first[:starts] >= '08:00' && @converted_working_hours[num].first[:starts] < '12:00') || (@converted_working_hours[num].first[:ends] > '08:00' && @converted_working_hours[num].first[:ends] <= '12:00') %>
+                      <td><div class="available-cell"><div class="available-hours"><p><%= @converted_working_hours[num].first[:starts] %> ~ <%= @converted_working_hours[num].first[:ends] %></p></div></div></td>
+                    <% elsif (@converted_working_hours[num].last[:starts] < '08:00' && @converted_working_hours[num].last[:ends] > '12:00') || (@converted_working_hours[num].last[:starts] >= '08:00' && @converted_working_hours[num].last[:starts] < '12:00') || (@converted_working_hours[num].last[:ends] > '08:00' && @converted_working_hours[num].last[:ends] <= '12:00') %>
+                      <td><div class="available-cell"><div class="available-hours"><p><%= @converted_working_hours[num].last[:starts] %> ~ <%= @converted_working_hours[num].last[:ends] %></p></div></div></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
                   <% else %>
                     <td></td>
                   <% end %>
-                <% else %>
-                  <td></td>
                 <% end %>
-              <% end %>
-              <td class='time'>08 ~ 12</td>
-            </tr>
-            <tr>
-              <% (0..6).to_a.each do |num| %>
-                <% if @practitioner.converted_working_hours[num] != [] %>
-                  <% if (@practitioner.converted_working_hours[num].first[:starts] < '12:00' && @practitioner.converted_working_hours[num].first[:ends] > '16:00') || (@practitioner.converted_working_hours[num].first[:starts] >= '12:00' && @practitioner.converted_working_hours[num].first[:starts] < '16:00') || (@practitioner.converted_working_hours[num].first[:ends] > '12:00' && @practitioner.converted_working_hours[num].first[:ends] <= '16:00') %>
-                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours[num].first[:ends] %></p></div></div></td>
-                  <% elsif (@practitioner.converted_working_hours[num].last[:starts] < '12:00' && @practitioner.converted_working_hours[num].last[:ends] > '16:00') || (@practitioner.converted_working_hours[num].last[:starts] >= '12:00' && @practitioner.converted_working_hours[num].last[:starts] < '16:00') || (@practitioner.converted_working_hours[num].last[:ends] > '12:00' && @practitioner.converted_working_hours[num].last[:ends] <= '16:00') %>
-                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours[num].last[:ends] %></p></div></div></td>
+                <td class='time'>08 ~ 12</td>
+              </tr>
+              <tr>
+                <% (0..6).to_a.each do |num| %>
+                  <% if @converted_working_hours[num] != [] %>
+                    <% if (@converted_working_hours[num].first[:starts] < '12:00' && @converted_working_hours[num].first[:ends] > '16:00') || (@converted_working_hours[num].first[:starts] >= '12:00' && @converted_working_hours[num].first[:starts] < '16:00') || (@converted_working_hours[num].first[:ends] > '12:00' && @converted_working_hours[num].first[:ends] <= '16:00') %>
+                      <td><div class="available-cell"><div class="available-hours"><p><%= @converted_working_hours[num].first[:starts] %> ~ <%= @converted_working_hours[num].first[:ends] %></p></div></div></td>
+                    <% elsif (@converted_working_hours[num].last[:starts] < '12:00' && @converted_working_hours[num].last[:ends] > '16:00') || (@converted_working_hours[num].last[:starts] >= '12:00' && @converted_working_hours[num].last[:starts] < '16:00') || (@converted_working_hours[num].last[:ends] > '12:00' && @converted_working_hours[num].last[:ends] <= '16:00') %>
+                      <td><div class="available-cell"><div class="available-hours"><p><%= @converted_working_hours[num].last[:starts] %> ~ <%= @converted_working_hours[num].last[:ends] %></p></div></div></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
                   <% else %>
                     <td></td>
                   <% end %>
-                <% else %>
-                  <td></td>
                 <% end %>
-              <% end %>
-              <td class='time'>12 ~ 16</td>
-            </tr>
-            <tr>
-              <% (0..6).to_a.each do |num| %>
-                <% if @practitioner.converted_working_hours[num] != [] %>
-                  <% if (@practitioner.converted_working_hours[num].first[:starts] < '16:00' && @practitioner.converted_working_hours[num].first[:ends] > '20:00') || (@practitioner.converted_working_hours[num].first[:starts] >= '16:00' && @practitioner.converted_working_hours[num].first[:starts] < '20:00') || (@practitioner.converted_working_hours[num].first[:ends] > '16:00' && @practitioner.converted_working_hours[num].first[:ends] <= '20:00') %>
-                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours[num].first[:ends] %></p></div></div></td>
-                  <% elsif (@practitioner.converted_working_hours[num].last[:starts] < '16:00' && @practitioner.converted_working_hours[num].last[:ends] > '20:00') || (@practitioner.converted_working_hours[num].last[:starts] >= '16:00' && @practitioner.converted_working_hours[num].last[:starts] < '20:00') || (@practitioner.converted_working_hours[num].last[:ends] > '16:00' && @practitioner.converted_working_hours[num].last[:ends] <= '20:00') %>
-                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours[num].last[:ends] %></p></div></div></td>
+                <td class='time'>12 ~ 16</td>
+              </tr>
+              <tr>
+                <% (0..6).to_a.each do |num| %>
+                  <% if @converted_working_hours[num] != [] %>
+                    <% if (@converted_working_hours[num].first[:starts] < '16:00' && @converted_working_hours[num].first[:ends] > '20:00') || (@converted_working_hours[num].first[:starts] >= '16:00' && @converted_working_hours[num].first[:starts] < '20:00') || (@converted_working_hours[num].first[:ends] > '16:00' && @converted_working_hours[num].first[:ends] <= '20:00') %>
+                      <td><div class="available-cell"><div class="available-hours"><p><%= @converted_working_hours[num].first[:starts] %> ~ <%= @converted_working_hours[num].first[:ends] %></p></div></div></td>
+                    <% elsif (@converted_working_hours[num].last[:starts] < '16:00' && @converted_working_hours[num].last[:ends] > '20:00') || (@converted_working_hours[num].last[:starts] >= '16:00' && @converted_working_hours[num].last[:starts] < '20:00') || (@converted_working_hours[num].last[:ends] > '16:00' && @converted_working_hours[num].last[:ends] <= '20:00') %>
+                      <td><div class="available-cell"><div class="available-hours"><p><%= @converted_working_hours[num].last[:starts] %> ~ <%= @converted_working_hours[num].last[:ends] %></p></div></div></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
                   <% else %>
                     <td></td>
                   <% end %>
-                <% else %>
-                  <td></td>
                 <% end %>
-              <% end %>
-              <td class='time'>16 ~ 20</td>
-            </tr>
-            <tr>
-              <% (0..6).to_a.each do |num| %>
-                <% if @practitioner.converted_working_hours[num] != [] %>
-                  <% if @practitioner.converted_working_hours[num].last[:ends] > '20:00' %>
-                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours[num].last[:ends] %></p></div></div></td>
+                <td class='time'>16 ~ 20</td>
+              </tr>
+              <tr>
+                <% (0..6).to_a.each do |num| %>
+                  <% if @converted_working_hours[num] != [] %>
+                    <% if @converted_working_hours[num].last[:ends] > '20:00' %>
+                      <td><div class="available-cell"><div class="available-hours"><p><%= @converted_working_hours[num].last[:starts] %> ~ <%= @converted_working_hours[num].last[:ends] %></p></div></div></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
                   <% else %>
                     <td></td>
                   <% end %>
-                <% else %>
-                  <td></td>
                 <% end %>
-              <% end %>
-              <td class='time'>20 ~ 24</td>
-            </tr>
+                <td class='time'>20 ~ 24</td>
+              </tr>
+            <% end %>
           </table>
         </div>
       </div>
@@ -182,6 +184,175 @@
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('time-zone').innerHTML = jstz.determine().name();
+    document.getElementById('time-zone').innerHTML = moment.tz.guess();
+    <% unless user_signed_in? %>
+      const user_time_offset = moment.tz.zone(moment.tz.guess()).utcOffset(Date.now());
+      const practitioner_time_offset = moment.tz.zone('<%= @practitioner.timezone %>').utcOffset(Date.now());
+      const time_diff = user_time_offset - practitioner_time_offset;
+      let converted_working_hours = {};
+      <% (0..6).to_a.each do |num| %> converted_working_hours[<%= num %>] = []; <% end %>
+      <% @practitioner.working_hours.each do |workingday| %>
+        let converted_open_hour_<%= workingday.day %> = '';
+        <% unless workingday.opens == nil %>
+          converted_open_hour_<%= workingday.day %> = moment('<%= workingday.opens %>').subtract(time_diff, 'm').toISOString();
+        <% end %>
+        let converted_close_hour_<%= workingday.day %> = '';
+        <% unless workingday.closes == nil %>
+          converted_close_hour_<%= workingday.day %> = moment('<%= workingday.closes %>').subtract(time_diff, 'm').toISOString();
+        <% end %>
+        if ((converted_open_hour_<%= workingday.day %> != '' ) && (converted_close_hour_<%= workingday.day %> != '')) {
+          if ((<%= workingday.day %> == 1) || (<%= workingday.day %> == 2) || (<%= workingday.day %> == 3) || (<%= workingday.day %> == 4) || (<%= workingday.day %> == 5)) {
+            if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '31') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '31')) {
+              converted_working_hours[<%= workingday.day %> - 1].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2)).substr(-2), 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
+            } else if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '31') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '01')) {
+              converted_working_hours[<%= workingday.day %> - 1].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': '24:00' });
+              if ((('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2)) != '00:00') {
+                converted_working_hours[<%= workingday.day %>].push({ 'starts': '00:00', 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2)).substr(-2) });
+              }
+            } else if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '1') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '01')) {
+              converted_working_hours[<%= workingday.day %>].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
+            } else if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '1') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '02')) {
+              converted_working_hours[<%= workingday.day %>].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': '24:00' });
+              converted_working_hours[<%= workingday.day %> + 1].push({ 'starts': '00:00', 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
+            } else if ((new Date(converted_open_hour).getDate() == '2') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '02')) {
+              converted_working_hours[<%= workingday.day %> + 1].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
+            }
+          } else if (<%= workingday.day %> == 0) {
+            if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '31') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '31')) {
+              converted_working_hours[6].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
+            } else if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '31') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '01')) {
+              converted_working_hours[6].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': '24:00' });
+              converted_working_hours[<%= workingday.day %>].push({ 'starts': '00:00', 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
+            }
+            else if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '1') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '01')) {
+              converted_working_hours[<%= workingday.day %>].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
+            } else if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '1') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '02')) {
+              converted_working_hours[<%= workingday.day %>].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': '24:00' });
+              converted_working_hours[<%= workingday.day %> + 1].push({ 'starts': '00:00', 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
+            } else if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '2') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '02')) {
+              converted_working_hours[<%= workingday.day %> + 1].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
+            }
+          } else if (<%= workingday.day %> == 6) {
+            if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '31') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '31')) {
+              converted_working_hours[<%= workingday.day %> - 1].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
+            } else if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '31') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '01')) {
+              converted_working_hours[<%= workingday.day %> - 1].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': '24:00' });
+              converted_working_hours[<%= workingday.day %>].push({ 'starts': '00:00', 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
+            } else if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '1') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '01')) {
+              converted_working_hours[<%= workingday.day %>].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
+            } else if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '1') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '02')) {
+              converted_working_hours[<%= workingday.day %>].push({ 'starts': ('0'+('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2)).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': '24:00' });
+              converted_working_hours[0].push({ 'starts': "00:00", 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
+            } else if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '2') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '02')) {
+              converted_working_hours[0].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
+            }
+          }
+        }
+      <% end %>
+      console.log(converted_working_hours);
+      const table = document.getElementsByTagName('table')[0];
+      let html = '';
+      html += `<tr>`;
+      for (var i = 0; i < 7; i++) {
+        if (converted_working_hours[i].length > 0) {
+          if (converted_working_hours[i][0]['starts'] < '04:00') {
+            html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][0]['starts'] +` ~ `+ converted_working_hours[i][0]['ends'] +`</p></div></div></td>`;
+          } else {
+            html += `<td></td>`;
+          }
+        } else {
+          html += `<td></td>`;
+        }
+      }
+      html += `<td class='time'>00 ~ 04</td>
+               </tr>`;
+      html += `<tr>`;
+      for (var i = 0; i < 7; i++) {
+        if (converted_working_hours[i].length == 1) {
+          if (((converted_working_hours[i][0]['starts'] < '04:00') && (converted_working_hours[i][0]['ends'] > '08:00')) || ((converted_working_hours[i][0]['starts'] >= '04:00') && (converted_working_hours[i][0]['starts'] < '08:00')) || ((converted_working_hours[i][0]['ends'] > '04:00') && (converted_working_hours[i][0]['ends'] <= '08:00'))) {
+            html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][0]['starts'] +` ~ `+ converted_working_hours[i][0]['ends'] +`</p></div></div></td>`;
+          } else if (converted_working_hours[i].length == 2) {
+            if (((converted_working_hours[i][1]['starts'] < '04:00') && (converted_working_hours[i][1]['ends']> '08:00')) || ((converted_working_hours[i][1]['starts'] >= '04:00') && (converted_working_hours[i][1]['starts'] < '08:00')) || ((converted_working_hours[i][1]['ends'] > '04:00') && (converted_working_hours[i][1]['ends'] <= '08:00'))) {
+              html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][1]['starts'] +` ~ `+ converted_working_hours[i][1]['ends'] +`</p></div></div></td>`;
+            }
+          } else {
+            html += `<td></td>`;
+          }
+        } else {
+          html += `<td></td>`;
+        }
+      }
+      html += `<td class='time'>04 ~ 08</td>
+               </tr>`;
+      html += `<tr>`;
+      for (var i = 0; i < 7; i++) {
+        if (converted_working_hours[i].length == 1) {
+          if (((converted_working_hours[i][0]['starts'] < '08:00') && (converted_working_hours[i][0]['ends'] > '12:00')) || ((converted_working_hours[i][0]['starts'] >= '08:00') && (converted_working_hours[i][0]['starts'] < '12:00')) || ((converted_working_hours[i][0]['ends'] > '08:00') && (converted_working_hours[i][0]['ends'] <= '12:00'))) {
+            html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][0]['starts'] +` ~ `+ converted_working_hours[i][0]['ends'] +`</p></div></div></td>`;
+          } else if (converted_working_hours[i].length == 2) {
+            if (((converted_working_hours[i][1]['starts'] < '08:00') && (converted_working_hours[i][1]['ends']> '12:00')) || ((converted_working_hours[i][1]['starts'] >= '08:00') && (converted_working_hours[i][1]['starts'] < '12:00')) || ((converted_working_hours[i][1]['ends'] > '08:00') && (converted_working_hours[i][1]['ends'] <= '12:00'))) {
+              html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][1]['starts'] +` ~ `+ converted_working_hours[i][1]['ends'] +`</p></div></div></td>`;
+            }
+          } else {
+            html += `<td></td>`;
+          }
+        } else {
+          html += `<td></td>`;
+        }
+      }
+      html += `<td class='time'>08 ~ 12</td>
+               </tr>`;
+      html += `<tr>`;
+      for (var i = 0; i < 7; i++) {
+        if (converted_working_hours[i].length == 1) {
+          if (((converted_working_hours[i][0]['starts'] < '12:00') && (converted_working_hours[i][0]['ends'] > '16:00')) || ((converted_working_hours[i][0]['starts'] >= '12:00') && (converted_working_hours[i][0]['starts'] < '16:00')) || ((converted_working_hours[i][0]['ends'] > '12:00') && (converted_working_hours[i][0]['ends'] <= '16:00'))) {
+            html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][0]['starts'] +` ~ `+ converted_working_hours[i][0]['ends'] +`</p></div></div></td>`;
+          } else if (converted_working_hours[i].length == 2) {
+            if (((converted_working_hours[i][1]['starts'] < '12:00') && (converted_working_hours[i][1]['ends']> '16:00')) || ((converted_working_hours[i][1]['starts'] >= '12:00') && (converted_working_hours[i][1]['starts'] < '16:00')) || ((converted_working_hours[i][1]['ends'] > '12:00') && (converted_working_hours[i][1]['ends'] <= '16:00'))) {
+              html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][1]['starts'] +` ~ `+ converted_working_hours[i][1]['ends'] +`</p></div></div></td>`;
+            }
+          } else {
+            html += `<td></td>`;
+          }
+        } else {
+          html += `<td></td>`;
+        }
+      }
+      html += `<td class='time'>12 ~ 16</td>
+               </tr>`;
+      html += `<tr>`;
+      for (var i = 0; i < 7; i++) {
+        if (converted_working_hours[i].length == 1) {
+          if (((converted_working_hours[i][0]['starts'] < '16:00') && (converted_working_hours[i][0]['ends'] > '20:00')) || ((converted_working_hours[i][0]['starts'] >= '16:00') && (converted_working_hours[i][0]['starts'] < '20:00')) || ((converted_working_hours[i][0]['ends'] > '16:00') && (converted_working_hours[i][0]['ends'] <= '20:00'))) {
+            html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][0]['starts'] +` ~ `+ converted_working_hours[i][0]['ends'] +`</p></div></div></td>`;
+          } else if (converted_working_hours[i].length == 2) {
+            if (((converted_working_hours[i][1]['starts'] < '16:00') && (converted_working_hours[i][1]['ends']> '20:00')) || ((converted_working_hours[i][1]['starts'] >= '16:00') && (converted_working_hours[i][1]['starts'] < '20:00')) || ((converted_working_hours[i][1]['ends'] > '16:00') && (converted_working_hours[i][1]['ends'] <= '20:00'))) {
+              html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][1]['starts'] +` ~ `+ converted_working_hours[i][1]['ends'] +`</p></div></div></td>`;
+            }
+          } else {
+            html += `<td></td>`;
+          }
+        } else {
+          html += `<td></td>`;
+        }
+      }
+      html += `<td class='time'>16 ~ 20</td>
+               </tr>`;
+      html += `<tr>`;
+      for (var i = 0; i < 7; i++) {
+        if (converted_working_hours[i].length > 0) {
+          if (converted_working_hours[i][converted_working_hours[i].length-1]['ends'] > '20:00') {
+            html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][converted_working_hours[i].length-1]['starts'] +` ~ `+ converted_working_hours[i][converted_working_hours[i].length-1]['ends'] +`</p></div></div></td>`;
+          } else {
+            html += `<td></td>`;
+          }
+        } else {
+          html += `<td></td>`;
+        }
+      }
+      html += `<td class='time'>20 ~ 24</td>
+               </tr>`;
+      table.insertAdjacentHTML('beforeend', html);
+    <% end %>
   });
 </script>
