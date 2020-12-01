@@ -198,6 +198,9 @@
         <% end %>
         let converted_close_hour_<%= workingday.day %> = '';
         <% unless workingday.closes == nil %>
+          if ((('0'+new Date(<%= workingday.closes %>).getHours()).substr(-2) + ':' + ('0'+new Date(<%= workingday.closes %>).getMinutes()).substr(-2)) == '00:00') {
+            converted_close_hour_<%= workingday.day %> = moment('<%= workingday.closes %>').add(1, 'days').subtract(time_diff, 'm').toISOString();
+          }
           converted_close_hour_<%= workingday.day %> = moment('<%= workingday.closes %>').subtract(time_diff, 'm').toISOString();
         <% end %>
         if ((converted_open_hour_<%= workingday.day %> != '' ) && (converted_close_hour_<%= workingday.day %> != '')) {
@@ -214,7 +217,7 @@
             } else if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '1') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '02')) {
               converted_working_hours[<%= workingday.day %>].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': '24:00' });
               converted_working_hours[<%= workingday.day %> + 1].push({ 'starts': '00:00', 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
-            } else if ((new Date(converted_open_hour).getDate() == '2') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '02')) {
+            } else if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '2') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '02')) {
               converted_working_hours[<%= workingday.day %> + 1].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
             }
           } else if (<%= workingday.day %> == 0) {

@@ -100,7 +100,6 @@ class PractitionersController < ApplicationController
   def show
     @conversation = Conversation.new
     if user_signed_in?
-
       user_time_offset = Time.current.in_time_zone(current_user.timezone).utc_offset
       practitioner_time_offset = Time.current.in_time_zone(@practitioner.timezone).utc_offset
       time_diff = user_time_offset - practitioner_time_offset
@@ -108,7 +107,13 @@ class PractitionersController < ApplicationController
       (0..6).to_a.each { |num| @converted_working_hours[num] = [] }
       @practitioner.working_hours.each do |workingday|
         converted_open_hour = workingday.opens + time_diff unless workingday.opens == nil
-        converted_close_hour = workingday.closes + time_diff unless workingday.closes == nil
+        unless workingday.closes == nil
+          if workingday.closes.strftime('%H:%M') == '00:00'
+            converted_close_hour = workingday.closes + 1.days + time_diff
+          else
+            converted_close_hour = workingday.closes + time_diff
+          end
+        end
         if converted_open_hour && converted_close_hour
           if workingday.day == 1 || workingday.day == 2 || workingday.day == 3 || workingday.day == 4 || workingday.day == 5
             if converted_open_hour.strftime('%d') == '31' && converted_close_hour.strftime('%d') == '31'
