@@ -3,8 +3,8 @@ class Service < ApplicationRecord
   has_many :sessions
   has_one :practitioner, through: :practitioner_specialty
   has_one :specialty, through: :practitioner_specialty
-  has_many :specialty_health_goals, through: :specialty
-  has_many :health_goals, through: :specialty_health_goals
+  has_many :service_health_goals
+  has_many :health_goals, through: :service_health_goals
   has_many :practitioner_languages, through: :practitioner
   has_many :languages, through: :practitioner_languages
   has_many :reviews, through: :sessions

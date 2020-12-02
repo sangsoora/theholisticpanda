@@ -45,16 +45,17 @@ Rails.application.routes.draw do
 
   resources :languages, only: %i[create destroy]
 
-  resources :specialties, only: %i[create destroy] do
-    resources :specialty_health_goals, only: [:create]
-  end
+  resources :specialties, only: %i[create destroy]
 
   resources :health_goals, only: %i[create destroy]
 
   resources :services, only: %i[create index show update destroy] do
     resources :sessions, only: [:create]
     resources :favorite_services, only: [:create]
+    resources :service_health_goals, only: [:create]
   end
+
+  resources :service_health_goals, only: [:destroy]
 
   resources :favorite_services, only: [:destroy]
 

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SpecialtyHealthGoalPolicyTest < ActiveSupport::TestCase
+class ServiceHealthGoalPolicyTest < ActiveSupport::TestCase
   def test_scope
   end
 
