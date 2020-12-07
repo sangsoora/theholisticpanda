@@ -1,5 +1,5 @@
 class SpecialtiesController < ApplicationController
-    before_action :set_specialty, only: [:destroy]
+  before_action :set_specialty, only: [:destroy]
 
   def create
     @specialty = Specialty.new(specialty_params)

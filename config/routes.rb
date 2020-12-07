@@ -45,6 +45,8 @@ Rails.application.routes.draw do
 
   resources :languages, only: %i[create destroy]
 
+  resources :specialty_categories, only: %i[create destroy]
+
   resources :specialties, only: %i[create destroy]
 
   resources :health_goals, only: %i[create destroy]

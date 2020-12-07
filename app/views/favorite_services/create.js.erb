@@ -1,1 +1,5 @@
-$("#service-btn").html('<%= j render "favorite_services/service_btn", service: @service %>');
+if (document.getElementById('service-btn')) {
+  document.getElementById('service-btn').innerHTML = '<%= j render "favorite_services/service_btn", service: @service %>';
+} else if (document.getElementById('fav-btn-<%= @service.id %>')) {
+  document.getElementById('fav-btn-<%= @service.id %>').innerHTML ='<%= j render "favorite_services/service_btn", service: @service %>';
+}

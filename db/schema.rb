@@ -200,6 +200,14 @@ ActiveRecord::Schema.define(version: 2020_12_02_131906) do
 
   create_table "specialties", force: :cascade do |t|
     t.string "name"
+    t.bigint "specialty_category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["specialty_category_id"], name: "index_specialties_on_specialty_category_id"
+  end
+
+  create_table "specialty_categories", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -261,6 +269,7 @@ ActiveRecord::Schema.define(version: 2020_12_02_131906) do
   add_foreign_key "services", "practitioner_specialties"
   add_foreign_key "sessions", "services"
   add_foreign_key "sessions", "users"
+  add_foreign_key "specialties", "specialty_categories"
   add_foreign_key "user_health_goals", "health_goals"
   add_foreign_key "user_health_goals", "users"
   add_foreign_key "working_hours", "practitioners"

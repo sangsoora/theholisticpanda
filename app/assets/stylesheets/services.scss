@@ -1,22 +1,58 @@
 .services-page, .service-page {
-  padding: 6rem 0 2rem;
+  padding: 10rem 0 2rem;
 }
 
-.service-details {
+.filter-bar {
+  margin-top: 68px;
+  background: white;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-}
+  border-top: 1px solid #dbdbdb;
+  position: fixed;
+  z-index: 10000;
+  padding: 0.5rem 2rem;
+  align-items: center;
+  i {
+    color: #dbdbdb;
+    font-size: 0.875rem;
 
-.service-session-form {
-  flex: 0 0 55%;
-}
-
-.service-session-summary {
-  flex: 0 0 40%;
+  }
 }
 
 #filter-form {
-  margin: 2rem 0;
+  flex: 0 0 70%;
+  .form-group {
+    margin-bottom: 0;
+  }
+  .btn {
+    padding: 0 0.5rem;
+    font-size: 0.875rem !important;
+  }
+  #health-goal-pop, #language-pop, #service-type-pop {
+    margin-bottom: 0;
+    padding: 0.5rem 1rem !important;
+    border-radius: 2rem !important;
+  }
+  .form-group {
+    position: relative;
+  }
+  .language-choices, .specialty-choices, .health-goal-choices {
+    max-height: 50vh;
+    overflow-y: scroll;
+    margin: 0;
+  }
+}
+
+#search_box {
+  flex: 0 0 30%;
+  font-size: 0.875rem !important;
+  padding: 0.125rem 0.5rem;
+  border: none;
+  &:focus {
+    border: none;
+    box-shadow: none;
+    outline: 0;
+  }
 }
 
 .specialty-select-box, .health-goal-select-box, .language-select-box, .service-type-select-box {
@@ -35,37 +71,28 @@
   }
 }
 
-.language-select-box {
-  left: -50%;
-}
+// .language-select-box {
+//   left: -50%;
+// }
 
 .service-type-select-box {
   width: 12vw;
 }
 
-.sort-btns, .specialty-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-gap: 1rem;
-  text-align: center;
-}
+// .sort-btns, .specialty-list {
+//   display: grid;
+//   grid-template-columns: 1fr 1fr 1fr 1fr;
+//   grid-gap: 1rem;
+//   text-align: center;
+// }
 
 .specialty-list {
   margin: 1rem auto;
 }
 
 .service-lists {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 2rem;
-  margin: 2rem auto;
+  display: block;
 }
-
-// .service-list-item {
-//   background-color: $pink;
-//   color: $emerald;
-//   padding: 1rem;
-// }
 
 .service-list-item {
   overflow: hidden;
@@ -73,47 +100,116 @@
   box-shadow: 0 0 0.5rem rgba(0,0,0,0.2);
   padding: 1rem;
   border-radius: 4px;
-}
-
-.service-list-item-title {
-  height: 5rem;
+  margin-bottom: 2rem;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  h3 {
-    width: 100%;
-    text-align: center;
-    font-size: 1.5rem;
+  .service-left-column {
+    flex: 0 0 60%;
+    border-right: 1px solid #dbdbdb;
+    padding: 0 1rem;
+  }
+  .service-right-column {
+    flex: 0 0 40%;
+    padding: 0 1rem;
+    .tabs-underlined {
+      justify-content: center;
+    }
+    .tabs-underlined .tab-underlined.active-tab {
+      font-weight: 400;
+    }
+    .tabs-underlined .tab-underlined {
+      margin: 0 1rem;
+      padding: 0 0.5rem;
+    }
   }
 }
 
-.service-list-item .service-list-item-infos {
+.service-list-item-title {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-}
+  margin-bottom: 1rem;
 
-.service-list-item-infos .service-list-item-user {
-  width: 2rem;
-}
-
-.service-list-item-practitioner {
-  width: 20%;
-  text-align: center;
-  p {
-    font-size: 0.75rem;
+  h3 {
+    flex: 0 0 95%;
+    font-size: 1.75rem;
+    margin-bottom: 0;
+  }
+  .fav-btn {
+    flex: 0 0 5%;
+    .btn {
+      font-size: 1.75rem;
+      border: none;
+      padding: 0;
+      line-height: 34px;
+    }
   }
 }
 
 .service-list-item-details {
-  width: 75%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  p {
-    width: 30%;
-    font-size: 0.8rem;
+  align-items: flex-start;
+  .service-list-item-detail-left {
+    flex: 0 0 20%;
+    .btn {
+      margin-top: 2.5rem;
+    }
   }
+  .service-list-item-detail-middle {
+    flex: 0 0 20%;
+  }
+  .service-list-item-detail-right {
+    flex: 0 0 40%;
+  }
+  label {
+    font-weight: 700;
+  }
+}
+
+.service-list-item-practitioner {
+  display: flex;
+  justify-content: space-between;
+  .profile-photo {
+    flex: 0 0 20%;
+    text-align: center;
+    font-size: 12px;
+  }
+  .general-info {
+    flex: 0 0 70%;
+  }
+  .service-list-item-user {
+    width: 100%;
+    margin-bottom: 0.25rem;
+  }
+}
+
+.service-list-item-infos {
+  p {
+    margin-bottom: 0;
+  }
+  p.short {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.sort-btns {
+  display: flex;
+}
+
+.service-details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.service-session-form {
+  flex: 0 0 55%;
+}
+
+.service-session-summary {
+  flex: 0 0 40%;
 }
 
 .booking-calendar {

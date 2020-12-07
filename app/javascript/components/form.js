@@ -28,12 +28,6 @@ const initUpdateForm = () => {
       }
     });
   }
-  const workingdaysForm = document.getElementById('workingdays_form');
-  if (workingdaysForm) {
-    $(".workingday-choice").click(function(){
-      $(this).toggleClass("active");
-    });
-  }
   const healthgoalsForm = document.getElementById('healthgoals_form');
   if (healthgoalsForm) {
     $('.health-goal-choice').on("click", function (e){
