@@ -8,7 +8,6 @@ class FavoriteServicesController < ApplicationController
     @favorite_service.service = @service
     @favorite_service.user = current_user
     @favorite_service.save!
-    # You will most certainly know that params are available in 'params' hash
     respond_to do |format|
       format.html { redirect_to service_path(@service) }
       format.js

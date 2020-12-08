@@ -1,0 +1,9 @@
+let html = '';
+<% if @specialties.length > 0 %>
+  <% @specialties.each do |specialty| %>
+     html += '<p><%= link_to specialty.name, specialty_category_path(specialty.specialty_category) %></p>';
+  <% end %>
+<% else %>
+  html = '<p style="opacity: .7;"><em><small>No result</small></em></p>';
+<% end %>
+document.getElementById('specialty-choices-list').innerHTML = html;

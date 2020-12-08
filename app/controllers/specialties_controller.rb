@@ -1,4 +1,5 @@
 class SpecialtiesController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:filter]
   before_action :set_specialty, only: [:destroy]
 
   def create
@@ -14,6 +15,11 @@ class SpecialtiesController < ApplicationController
   def destroy
     @specialty.destroy
     redirect_to root_path
+  end
+
+  def filter
+    @specialties = Specialty.where("name ILIKE ?", "%#{params[:query]}%")
+    authorize @specialties
   end
 
   private

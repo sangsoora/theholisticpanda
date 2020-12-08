@@ -196,21 +196,25 @@
         <% unless workingday.opens == nil %>
           converted_open_hour_<%= workingday.day %> = moment('<%= workingday.opens %>').subtract(time_diff, 'm').toISOString();
         <% end %>
+        console.log(converted_open_hour_<%= workingday.day %>);
         let converted_close_hour_<%= workingday.day %> = '';
         <% unless workingday.closes == nil %>
-          if ((('0'+new Date(<%= workingday.closes %>).getHours()).substr(-2) + ':' + ('0'+new Date(<%= workingday.closes %>).getMinutes()).substr(-2)) == '00:00') {
+          if (moment('<%= workingday.closes %>').format("HH:mm") == '00:00') {
+            console.log('hola')
             converted_close_hour_<%= workingday.day %> = moment('<%= workingday.closes %>').add(1, 'days').subtract(time_diff, 'm').toISOString();
+          } else {
+            converted_close_hour_<%= workingday.day %> = moment('<%= workingday.closes %>').subtract(time_diff, 'm').toISOString();
           }
-          converted_close_hour_<%= workingday.day %> = moment('<%= workingday.closes %>').subtract(time_diff, 'm').toISOString();
         <% end %>
+        console.log(converted_close_hour_<%= workingday.day %>);
         if ((converted_open_hour_<%= workingday.day %> != '' ) && (converted_close_hour_<%= workingday.day %> != '')) {
           if ((<%= workingday.day %> == 1) || (<%= workingday.day %> == 2) || (<%= workingday.day %> == 3) || (<%= workingday.day %> == 4) || (<%= workingday.day %> == 5)) {
             if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '31') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '31')) {
-              converted_working_hours[<%= workingday.day %> - 1].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2)).substr(-2), 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
+              converted_working_hours[<%= workingday.day %> - 1].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
             } else if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '31') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '01')) {
               converted_working_hours[<%= workingday.day %> - 1].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': '24:00' });
               if ((('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2)) != '00:00') {
-                converted_working_hours[<%= workingday.day %>].push({ 'starts': '00:00', 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2)).substr(-2) });
+                converted_working_hours[<%= workingday.day %>].push({ 'starts': '00:00', 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
               }
             } else if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '1') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '01')) {
               converted_working_hours[<%= workingday.day %>].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
@@ -244,7 +248,7 @@
             } else if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '1') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '01')) {
               converted_working_hours[<%= workingday.day %>].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
             } else if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '1') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '02')) {
-              converted_working_hours[<%= workingday.day %>].push({ 'starts': ('0'+('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2)).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': '24:00' });
+              converted_working_hours[<%= workingday.day %>].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': '24:00' });
               converted_working_hours[0].push({ 'starts': "00:00", 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
             } else if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '2') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '02')) {
               converted_working_hours[0].push({ 'starts': ('0'+new Date(converted_open_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_open_hour_<%= workingday.day %>).getMinutes()).substr(-2), 'ends': ('0'+new Date(converted_close_hour_<%= workingday.day %>).getHours()).substr(-2) + ':' + ('0'+new Date(converted_close_hour_<%= workingday.day %>).getMinutes()).substr(-2) });
@@ -252,12 +256,13 @@
           }
         }
       <% end %>
+      console.log(converted_working_hours);
       const table = document.getElementsByTagName('table')[0];
       let html = '';
       html += `<tr>`;
       for (var i = 0; i < 7; i++) {
         if (converted_working_hours[i].length > 0) {
-          if (converted_working_hours[i][0]['starts'] < '04:00') {
+          if ((converted_working_hours[i][0]['starts'] < '04:00') && (converted_working_hours[i][0]['ends'] != '00:00')) {
             html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][0]['starts'] +` ~ `+ converted_working_hours[i][0]['ends'] +`</p></div></div></td>`;
           } else {
             html += `<td></td>`;
@@ -273,10 +278,14 @@
         if (converted_working_hours[i].length == 1) {
           if (((converted_working_hours[i][0]['starts'] < '04:00') && (converted_working_hours[i][0]['ends'] > '08:00')) || ((converted_working_hours[i][0]['starts'] >= '04:00') && (converted_working_hours[i][0]['starts'] < '08:00')) || ((converted_working_hours[i][0]['ends'] > '04:00') && (converted_working_hours[i][0]['ends'] <= '08:00'))) {
             html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][0]['starts'] +` ~ `+ converted_working_hours[i][0]['ends'] +`</p></div></div></td>`;
-          } else if (converted_working_hours[i].length == 2) {
-            if (((converted_working_hours[i][1]['starts'] < '04:00') && (converted_working_hours[i][1]['ends']> '08:00')) || ((converted_working_hours[i][1]['starts'] >= '04:00') && (converted_working_hours[i][1]['starts'] < '08:00')) || ((converted_working_hours[i][1]['ends'] > '04:00') && (converted_working_hours[i][1]['ends'] <= '08:00'))) {
-              html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][1]['starts'] +` ~ `+ converted_working_hours[i][1]['ends'] +`</p></div></div></td>`;
-            }
+          } else {
+            html += `<td></td>`;
+          }
+        } else if (converted_working_hours[i].length == 2) {
+          if (((converted_working_hours[i][0]['starts'] < '04:00') && (converted_working_hours[i][0]['ends'] > '08:00')) || ((converted_working_hours[i][0]['starts'] >= '04:00') && (converted_working_hours[i][0]['starts'] < '08:00')) || ((converted_working_hours[i][0]['ends'] > '04:00') && (converted_working_hours[i][0]['ends'] <= '08:00'))) {
+            html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][0]['starts'] +` ~ `+ converted_working_hours[i][0]['ends'] +`</p></div></div></td>`;
+          } else if (((converted_working_hours[i][1]['starts'] < '04:00') && (converted_working_hours[i][1]['ends'] > '08:00')) || ((converted_working_hours[i][1]['starts'] >= '04:00') && (converted_working_hours[i][1]['starts'] < '08:00')) || ((converted_working_hours[i][1]['ends'] > '04:00') && (converted_working_hours[i][1]['ends'] <= '08:00'))) {
+            html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][1]['starts'] +` ~ `+ converted_working_hours[i][1]['ends'] +`</p></div></div></td>`;
           } else {
             html += `<td></td>`;
           }
@@ -291,10 +300,14 @@
         if (converted_working_hours[i].length == 1) {
           if (((converted_working_hours[i][0]['starts'] < '08:00') && (converted_working_hours[i][0]['ends'] > '12:00')) || ((converted_working_hours[i][0]['starts'] >= '08:00') && (converted_working_hours[i][0]['starts'] < '12:00')) || ((converted_working_hours[i][0]['ends'] > '08:00') && (converted_working_hours[i][0]['ends'] <= '12:00'))) {
             html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][0]['starts'] +` ~ `+ converted_working_hours[i][0]['ends'] +`</p></div></div></td>`;
-          } else if (converted_working_hours[i].length == 2) {
-            if (((converted_working_hours[i][1]['starts'] < '08:00') && (converted_working_hours[i][1]['ends']> '12:00')) || ((converted_working_hours[i][1]['starts'] >= '08:00') && (converted_working_hours[i][1]['starts'] < '12:00')) || ((converted_working_hours[i][1]['ends'] > '08:00') && (converted_working_hours[i][1]['ends'] <= '12:00'))) {
-              html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][1]['starts'] +` ~ `+ converted_working_hours[i][1]['ends'] +`</p></div></div></td>`;
-            }
+          } else {
+            html += `<td></td>`;
+          }
+        } else if (converted_working_hours[i].length == 2) {
+          if (((converted_working_hours[i][0]['starts'] < '08:00') && (converted_working_hours[i][0]['ends'] > '12:00')) || ((converted_working_hours[i][0]['starts'] >= '08:00') && (converted_working_hours[i][0]['starts'] < '12:00')) || ((converted_working_hours[i][0]['ends'] > '08:00') && (converted_working_hours[i][0]['ends'] <= '12:00'))) {
+            html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][0]['starts'] +` ~ `+ converted_working_hours[i][0]['ends'] +`</p></div></div></td>`;
+          } else if (((converted_working_hours[i][1]['starts'] < '08:00') && (converted_working_hours[i][1]['ends'] > '12:00')) || ((converted_working_hours[i][1]['starts'] >= '08:00') && (converted_working_hours[i][1]['starts'] < '12:00')) || ((converted_working_hours[i][1]['ends'] > '08:00') && (converted_working_hours[i][1]['ends'] <= '12:00'))) {
+            html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][1]['starts'] +` ~ `+ converted_working_hours[i][1]['ends'] +`</p></div></div></td>`;
           } else {
             html += `<td></td>`;
           }
@@ -309,10 +322,14 @@
         if (converted_working_hours[i].length == 1) {
           if (((converted_working_hours[i][0]['starts'] < '12:00') && (converted_working_hours[i][0]['ends'] > '16:00')) || ((converted_working_hours[i][0]['starts'] >= '12:00') && (converted_working_hours[i][0]['starts'] < '16:00')) || ((converted_working_hours[i][0]['ends'] > '12:00') && (converted_working_hours[i][0]['ends'] <= '16:00'))) {
             html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][0]['starts'] +` ~ `+ converted_working_hours[i][0]['ends'] +`</p></div></div></td>`;
-          } else if (converted_working_hours[i].length == 2) {
-            if (((converted_working_hours[i][1]['starts'] < '12:00') && (converted_working_hours[i][1]['ends']> '16:00')) || ((converted_working_hours[i][1]['starts'] >= '12:00') && (converted_working_hours[i][1]['starts'] < '16:00')) || ((converted_working_hours[i][1]['ends'] > '12:00') && (converted_working_hours[i][1]['ends'] <= '16:00'))) {
-              html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][1]['starts'] +` ~ `+ converted_working_hours[i][1]['ends'] +`</p></div></div></td>`;
-            }
+          } else {
+            html += `<td></td>`;
+          }
+        } else if (converted_working_hours[i].length == 2) {
+          if (((converted_working_hours[i][0]['starts'] < '12:00') && (converted_working_hours[i][0]['ends'] > '16:00')) || ((converted_working_hours[i][0]['starts'] >= '12:00') && (converted_working_hours[i][0]['starts'] < '16:00')) || ((converted_working_hours[i][0]['ends'] > '12:00') && (converted_working_hours[i][0]['ends'] <= '16:00'))) {
+            html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][0]['starts'] +` ~ `+ converted_working_hours[i][0]['ends'] +`</p></div></div></td>`;
+          } else if (((converted_working_hours[i][1]['starts'] < '12:00') && (converted_working_hours[i][1]['ends'] > '16:00')) || ((converted_working_hours[i][1]['starts'] >= '12:00') && (converted_working_hours[i][1]['starts'] < '16:00')) || ((converted_working_hours[i][1]['ends'] > '12:00') && (converted_working_hours[i][1]['ends'] <= '16:00'))) {
+            html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][1]['starts'] +` ~ `+ converted_working_hours[i][1]['ends'] +`</p></div></div></td>`;
           } else {
             html += `<td></td>`;
           }
@@ -327,10 +344,14 @@
         if (converted_working_hours[i].length == 1) {
           if (((converted_working_hours[i][0]['starts'] < '16:00') && (converted_working_hours[i][0]['ends'] > '20:00')) || ((converted_working_hours[i][0]['starts'] >= '16:00') && (converted_working_hours[i][0]['starts'] < '20:00')) || ((converted_working_hours[i][0]['ends'] > '16:00') && (converted_working_hours[i][0]['ends'] <= '20:00'))) {
             html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][0]['starts'] +` ~ `+ converted_working_hours[i][0]['ends'] +`</p></div></div></td>`;
-          } else if (converted_working_hours[i].length == 2) {
-            if (((converted_working_hours[i][1]['starts'] < '16:00') && (converted_working_hours[i][1]['ends']> '20:00')) || ((converted_working_hours[i][1]['starts'] >= '16:00') && (converted_working_hours[i][1]['starts'] < '20:00')) || ((converted_working_hours[i][1]['ends'] > '16:00') && (converted_working_hours[i][1]['ends'] <= '20:00'))) {
-              html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][1]['starts'] +` ~ `+ converted_working_hours[i][1]['ends'] +`</p></div></div></td>`;
-            }
+          } else {
+            html += `<td></td>`;
+          }
+        } else if (converted_working_hours[i].length == 2) {
+          if (((converted_working_hours[i][0]['starts'] < '16:00') && (converted_working_hours[i][0]['ends'] > '20:00')) || ((converted_working_hours[i][0]['starts'] >= '16:00') && (converted_working_hours[i][0]['starts'] < '20:00')) || ((converted_working_hours[i][0]['ends'] > '16:00') && (converted_working_hours[i][0]['ends'] <= '20:00'))) {
+            html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][0]['starts'] +` ~ `+ converted_working_hours[i][0]['ends'] +`</p></div></div></td>`;
+          } else if (((converted_working_hours[i][1]['starts'] < '16:00') && (converted_working_hours[i][1]['ends'] > '20:00')) || ((converted_working_hours[i][1]['starts'] >= '16:00') && (converted_working_hours[i][1]['starts'] < '20:00')) || ((converted_working_hours[i][1]['ends'] > '16:00') && (converted_working_hours[i][1]['ends'] <= '20:00'))) {
+            html += `<td><div class="available-cell"><div class="available-hours"><p>`+ converted_working_hours[i][1]['starts'] +` ~ `+ converted_working_hours[i][1]['ends'] +`</p></div></div></td>`;
           } else {
             html += `<td></td>`;
           }

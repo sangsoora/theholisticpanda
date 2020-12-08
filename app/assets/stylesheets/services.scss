@@ -43,19 +43,7 @@
   }
 }
 
-#search_box {
-  flex: 0 0 30%;
-  font-size: 0.875rem !important;
-  padding: 0.125rem 0.5rem;
-  border: none;
-  &:focus {
-    border: none;
-    box-shadow: none;
-    outline: 0;
-  }
-}
-
-.specialty-select-box, .health-goal-select-box, .language-select-box, .service-type-select-box {
+.specialty-select-box, .health-goal-select-box, .language-select-box, .service-type-select-box, #text-select-box {
   display: none;
   position: absolute;
   top: 2.75rem;
@@ -71,12 +59,67 @@
   }
 }
 
+.search-box-wrapper {
+  flex: 0 0 30%;
+  position: relative;
+}
+
+#search-box {
+  font-size: 0.875rem !important;
+  padding: 0.125rem 0.5rem;
+  border: none;
+  width: 90%;
+  &:focus {
+    border: none;
+    box-shadow: none;
+    outline: 0;
+  }
+}
+
+#text-select-box {
+  width: 30vw;
+  left: 0;
+  #text-choices {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+#practitioner-choices, #specialty-choices {
+  flex: 0 0 45%;
+  h4 {
+    font-size: 1rem;
+    opacity: .4;
+    border-bottom: 1px solid #dbdbdb;
+  }
+  p {
+    margin-bottom: 0.5rem;
+  }
+  a {
+    font-size: 0.875rem;
+  }
+  .avatar-bordered {
+    width: 1.5rem;
+    margin-right: 0.25rem;
+  }
+}
+
+#practitioner-choices-list, #specialty-choices-list {
+  overflow-y: scroll;
+  max-height: 60vh;
+}
+
+
 // .language-select-box {
 //   left: -50%;
 // }
 
 .service-type-select-box {
   width: 12vw;
+}
+
+.sort-btns {
+  display: flex;
 }
 
 // .sort-btns, .specialty-list {
@@ -193,10 +236,6 @@
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
   }
-}
-
-.sort-btns {
-  display: flex;
 }
 
 .service-details {

@@ -6,6 +6,10 @@ Rails.application.routes.draw do
 
   get '/become-a-practitioner', to: 'pages#become_a_practitioner', as: :become_a_practitioner
 
+  get '/practitioners/filter', to: 'practitioners#filter', as: :practitioner_filter
+
+  get '/specialties/filter', to: 'specialties#filter', as: :specialty_filter
+
   devise_scope :user do
     match '/sessions/user', to: 'devise/sessions#create', via: :post
   end
@@ -45,7 +49,7 @@ Rails.application.routes.draw do
 
   resources :languages, only: %i[create destroy]
 
-  resources :specialty_categories, only: %i[create destroy]
+  resources :specialty_categories, only: %i[show create destroy]
 
   resources :specialties, only: %i[create destroy]
 

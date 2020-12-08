@@ -12,4 +12,8 @@ class SpecialtyPolicy < ApplicationPolicy
   def destroy?
     user.admin?
   end
+
+  def filter?
+    true
+  end
 end

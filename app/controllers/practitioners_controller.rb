@@ -1,5 +1,5 @@
 class PractitionersController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
+  skip_before_action :authenticate_user!, only: [:index, :show, :filter]
   before_action :set_practitioner, only: [:show, :profile, :service, :update, :destroy]
   before_action :set_notifications, only: [:index, :show, :new, :profile, :service]
 
@@ -125,6 +125,12 @@ class PractitionersController < ApplicationController
     else
       render :new
     end
+  end
+
+  def filter
+    @practitioners = Practitioner.left_outer_joins(:user).where("(first_name ILIKE :search) or (last_name ILIKE :search) or (first_name || ' ' || last_name ILIKE :search)", :search => "%#{params[:query]}%")
+    authorize @practitioners
+    respond_to :js
   end
 
   def profile
