@@ -21,7 +21,7 @@ import "cropperjs/dist/cropper.css";
 // import { initUpdateNavbarOnScroll } from '../components/navbar';
 import { initUpdateForm } from '../components/form';
 import { previewImageOnFileSelect } from '../components/image_cropper';
-import { initConversationScroll } from '../components/conversation_scroll'
+import { initConversationScroll } from '../components/conversation_scroll';
 // document.addEventListener("scroll", () => {
 //   // Call your JS functions here
 //   initUpdateNavbarOnScroll();

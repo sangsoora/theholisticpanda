@@ -28,12 +28,6 @@ const initUpdateForm = () => {
       }
     });
   }
-  const workingdaysForm = document.getElementById('workingdays_form');
-  if (workingdaysForm) {
-    $(".workingday-choice").click(function(){
-      $(this).toggleClass("active");
-    });
-  }
   const healthgoalsForm = document.getElementById('healthgoals_form');
   if (healthgoalsForm) {
     $('.health-goal-choice').on("click", function (e){
@@ -49,49 +43,45 @@ const initUpdateForm = () => {
     $(".language-choice").click(function(){
       if ($(this).hasClass("active")) {
         $(this).removeClass("active");
-        languageSelectBoxBtn.innerText = 'Languages (' + $('.language-choice.active').length + ')'
+        document.getElementById('language-pop').innerText = 'Languages (' + $('.language-choice.active').length + ')'
         if ( $('.language-choice.active').length === 0 ) {
-          languageSelectBoxBtn.innerText = 'Languages'
+          document.getElementById('language-pop').innerText = 'Languages'
         }
       } else {
         $(this).addClass("active");
-        languageSelectBoxBtn.innerText = 'Languages (' + $('.language-choice.active').length + ')'
+        document.getElementById('language-pop').innerText = 'Languages (' + $('.language-choice.active').length + ')'
       }
     });
     $(".specialty-choice").click(function(){
       if ($(this).hasClass("active")) {
         $(this).removeClass("active");
-        specialtySelectBoxBtn.innerText = 'Specialties (' + $('.specialty-choice.active').length + ')'
+        document.getElementById('specialty-pop').innerText = 'Specialties (' + $('.specialty-choice.active').length + ')'
         if ( $('.specialty-choice.active').length === 0 ) {
-          $("#health-goal-selector").removeClass('hidden');
-          specialtySelectBoxBtn.innerText = 'Specialties'
+          document.getElementById('specialty-pop').innerText = 'Specialties'
         }
       } else {
         $(this).addClass("active");
-        specialtySelectBoxBtn.innerText = 'Specialties (' + $('.specialty-choice.active').length + ')'
-        if (!$("#health-goal-selector").hasClass('hidden')) {
-          $("#health-goal-selector").addClass('hidden');
-        }
+        document.getElementById('specialty-pop').innerText = 'Specialties (' + $('.specialty-choice.active').length + ')'
+
       }
     });
+
+  }
+  const topFilterForm = document.getElementById('top-filter-form');
+  if (topFilterForm) {
     $(".health-goal-choice").click(function(){
       if ($(this).hasClass("active")) {
         $(this).removeClass("active");
         healthGoalSelectBoxBtn.innerText = 'Health Goals (' + $('.health-goal-choice.active').length + ')'
         if ( $('.health-goal-choice.active').length === 0 ) {
-          $("#specialty-selector").removeClass('hidden');
           healthGoalSelectBoxBtn.innerText = 'Health Goals'
         }
       } else {
         $(this).addClass("active");
         healthGoalSelectBoxBtn.innerText = 'Health Goals (' + $('.health-goal-choice.active').length + ')'
-        if (!$("#specialty-selector").hasClass('hidden')) {
-          $("#specialty-selector").addClass('hidden');
-        }
       }
     });
   }
-
 }
 
 export { initUpdateForm };

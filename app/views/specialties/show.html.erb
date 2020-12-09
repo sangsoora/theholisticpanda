@@ -1,0 +1,112 @@
+<div class="container specialty-page">
+  <h2><%= @specialty.name %></h2>
+  <p><%= @specialty.description %></p>
+  <div class="service-lists">
+    <% @specialty.services.each do |service| %>
+      <div class="service-list-item" data-price="<%= service.price.to_i %>" data-duration="<%= service.duration %>">
+        <div class="service-left-column">
+          <div class="service-list-item-title">
+            <h3><%= link_to service.name, service_path(service) %></h3>
+            <div class="fav-btn" id="fav-btn-<%= service.id %>">
+              <% if user_signed_in? %>
+                <%= render 'favorite_services/service_btn', service: service %>
+              <% end %>
+            </div>
+          </div>
+          <div class="service-list-item-goals">
+            <% service.health_goals.order(:name).each do |goal| %>
+              <% if user_signed_in? %>
+                <% if current_user.health_goals.include?(goal) %>
+                  <div class="service-goal match"><%= goal.name %></div>
+                <% else %>
+                  <div class="service-goal"><%= goal.name %></div>
+                <% end %>
+              <% else %>
+                <div class="service-goal"><%= goal.name %></div>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="service-list-item-details">
+            <div class="service-list-item-detail-left">
+              <% if service.reviews.count > 0 %>
+                <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+              <% else %>
+                <p>No reviews!</p>
+              <% end %>
+              <a class="btn btn-flat" href="/services/<%= service.id %>">Book</a>
+            </div>
+            <div class="service-list-item-detail-middle">
+              <label>TYPE</label>
+              <p><%= service.service_type.capitalize %></p>
+              <label>PRICE</label>
+              <p>CA$ <%= service.price.to_f.round(2) %></p>
+            </div>
+            <div class="service-list-item-detail-right">
+              <label>LANGUAGES</label>
+              <p>
+                <% if service.languages.length <= 2 %>
+                  <%= service.languages.pluck(:name).join(', ') %>
+                <% elsif service.languages.length > 2 %>
+                  <%= service.languages.first(2).pluck(:name).join(', ') %>, + <%= service.languages.length - 2 %>
+                <% end %>
+
+              </p>
+              <label>DURATION</label>
+              <p><%= service.duration %> mins</p>
+            </div>
+          </div>
+        </div>
+        <div class="service-right-column">
+          <ul class="list-inline tabs-underlined">
+            <li>
+              <p class="tab-underlined active-tab" id="tab-practitioner-<%= service.id %>">Practitioner</p>
+            </li>
+            <li>
+              <p class="tab-underlined" id="tab-service-<%= service.id %>">Service Info</p>
+            </li>
+          </ul>
+          <div class="lists" id="practitioner-<%= service.id %>">
+            <div class="service-list-item-practitioner">
+              <div class="profile-photo">
+                <a href="/practitioners/<%= service.practitioner.id %>">
+                  <% if service.practitioner.photo.attached? %>
+                    <a href="/practitioners/1"><%= cl_image_tag service.practitioner.photo.key, class: 'service-list-item-user avatar-bordered' %></a>
+                  <% else %>
+                    <img src='https://kitt.lewagon.com/placeholder/users/random' class="service-list-item-user avatar-bordered"/>
+                  <% end %>
+                </a>
+                <p><%= service.practitioner.location %></p>
+              </div>
+              <div class="general-info">
+                <h4><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h4>
+                <p><%= service.practitioner.specialties.pluck(:name).join(', ') %></p>
+              </div>
+            </div>
+          </div>
+          <div class="lists hidden" id="service-<%= service.id %>">
+            <div class="service-list-item-infos">
+              <p <%= 'class=short' if service.description.length >= 250 %> ><%= service.description %></p>
+              <% if service.description.length >= 250 %>
+                <%= link_to 'Read more', service_path(service) %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        document.getElementById("tab-practitioner-<%= service.id %>").addEventListener('click', (e) => {
+          e.target.classList.add('active-tab');
+          document.getElementById("tab-service-<%= service.id %>").classList.remove('active-tab');
+          document.getElementById("practitioner-<%= service.id %>").classList.remove('hidden');
+          document.getElementById("service-<%= service.id %>").classList.add('hidden');
+        })
+        document.getElementById("tab-service-<%= service.id %>").addEventListener('click', (e) => {
+          e.target.classList.add('active-tab');
+          document.getElementById("tab-practitioner-<%= service.id %>").classList.remove('active-tab');
+          document.getElementById("service-<%= service.id %>").classList.remove('hidden');
+          document.getElementById("practitioner-<%= service.id %>").classList.add('hidden');
+        })
+      </script>
+    <% end %>
+  </div>
+</div>

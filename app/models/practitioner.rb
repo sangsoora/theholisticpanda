@@ -33,6 +33,72 @@ class Practitioner < ApplicationRecord
     (reviews.sum(:rating).to_f / reviews.size).round(2)
   end
 
+  def converted_working_hours(user)
+    user_time_offset = Time.current.in_time_zone(user.timezone).utc_offset
+    practitioner_time_offset = Time.current.in_time_zone(timezone).utc_offset
+    time_diff = user_time_offset - practitioner_time_offset
+    converted_working_hours = {}
+    (0..6).to_a.each { |num| converted_working_hours[num] = [] }
+    working_hours.each do |workingday|
+      converted_open_hour = workingday.opens + time_diff unless workingday.opens == nil
+      unless workingday.closes == nil
+        if workingday.closes.strftime('%H:%M') == '00:00'
+          converted_close_hour = workingday.closes + 1.days + time_diff
+        else
+          converted_close_hour = workingday.closes + time_diff
+        end
+      end
+      if converted_open_hour && converted_close_hour
+        if workingday.day == 1 || workingday.day == 2 || workingday.day == 3 || workingday.day == 4 || workingday.day == 5
+          if converted_open_hour.strftime('%d') == '31' && converted_close_hour.strftime('%d') == '31'
+            converted_working_hours[workingday.day - 1] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
+          elsif converted_open_hour.strftime('%d') == '31' && converted_close_hour.strftime('%d') == '01'
+            converted_working_hours[workingday.day - 1] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': '24:00' }
+            if converted_close_hour.strftime('%H:%M') != '00:00'
+              converted_working_hours[workingday.day] << { 'starts': '00:00', 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
+            end
+          elsif converted_open_hour.strftime('%d') == '01' && converted_close_hour.strftime('%d') == '01'
+            converted_working_hours[workingday.day] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
+          elsif converted_open_hour.strftime('%d') == '01' && converted_close_hour.strftime('%d') == '02'
+            converted_working_hours[workingday.day] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': '24:00' }
+            converted_working_hours[workingday.day + 1] << { 'starts': '00:00', 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
+          elsif converted_open_hour.strftime('%d') == '02' && converted_close_hour.strftime('%d') == '02'
+            converted_working_hours[workingday.day + 1] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
+          end
+        elsif workingday.day == 0
+          if converted_open_hour.strftime('%d') == '31' && converted_close_hour.strftime('%d') == '31'
+            converted_working_hours[6] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
+          elsif converted_open_hour.strftime('%d') == '31' && converted_close_hour.strftime('%d') == '01'
+            converted_working_hours[6] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': '24:00' }
+            converted_working_hours[workingday.day] << { 'starts': '00:00', 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
+          elsif converted_open_hour.strftime('%d') == '01' && converted_close_hour.strftime('%d') == '01'
+            converted_working_hours[workingday.day] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
+          elsif converted_open_hour.strftime('%d') == '01' && converted_close_hour.strftime('%d') == '02'
+            converted_working_hours[workingday.day] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': '24:00' }
+            converted_working_hours[workingday.day + 1] << { 'starts': '00:00', 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
+          elsif converted_open_hour.strftime('%d') == '02' && converted_close_hour.strftime('%d') == '02'
+            converted_working_hours[workingday.day + 1] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
+          end
+        elsif workingday.day == 6
+          if converted_open_hour.strftime('%d') == '31' && converted_close_hour.strftime('%d') == '31'
+            converted_working_hours[workingday.day - 1] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
+          elsif converted_open_hour.strftime('%d') == '31' && converted_close_hour.strftime('%d') == '01'
+            converted_working_hours[workingday.day - 1] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': '24:00' }
+            converted_working_hours[workingday.day] << { 'starts': '00:00', 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
+          elsif converted_open_hour.strftime('%d') == '01' && converted_close_hour.strftime('%d') == '01'
+            converted_working_hours[workingday.day] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
+          elsif converted_open_hour.strftime('%d') == '01' && converted_close_hour.strftime('%d') == '02'
+            converted_working_hours[workingday.day] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': '24:00' }
+            converted_working_hours[0] << { 'starts': "00:00", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
+          elsif converted_open_hour.strftime('%d') == '02' && converted_close_hour.strftime('%d') == '02'
+            converted_working_hours[0] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
+          end
+        end
+      end
+    end
+    converted_working_hours
+  end
+
   def timezone_choice
     timezone = [
       ['Etc/GMT+12', '(GMT-12:00) International Date Line West'],

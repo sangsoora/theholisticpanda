@@ -127,7 +127,7 @@
   margin: 1rem 0;
 }
 
-.language-choice, .specialty-choice, .health-goal-choice, .workingday-choice {
+.language-choice, .specialty-choice, .health-goal-choice {
   color: $gold;
   background: white;
   padding: 0.25rem 0.5rem;
@@ -136,6 +136,7 @@
   text-align: center;
   margin-bottom: 1rem;
   margin-right: 1rem;
+  font-size: 0.875rem;
   &:hover {
     opacity: 1;
     cursor: pointer;

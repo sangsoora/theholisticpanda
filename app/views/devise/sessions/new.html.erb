@@ -25,7 +25,7 @@
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const tz = jstz.determine();
-    document.getElementById('timezone').value = tz.name();
+    const tz = moment.tz.guess();
+    document.getElementById('timezone').value = tz;
   });
 </script>

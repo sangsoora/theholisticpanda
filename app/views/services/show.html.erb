@@ -137,7 +137,7 @@
         <p><%= @service.description %></p>
         <p>Specialty: <%= @service.specialty.name %></p>
         <p>Related health goals:
-          <%= @service.specialty.health_goals.pluck(:name).join(', ') %>
+          <%= @service.health_goals.pluck(:name).join(', ') %>
         </p>
         <p>Session type: <%= @service.service_type %></p>
         <p>Duration: <%= @service.duration %>m</p>
@@ -227,7 +227,7 @@
       const endDate = end.getDate();
       const endMonth = end.getMonth();
       const endYear = end.getFullYear();
-      <% @service.practitioner.converted_working_hours.delete_if { |key, value| value.blank? }.each do |k, v| %>
+      <% @service.practitioner.converted_working_hours(current_user).delete_if { |key, value| value.blank? }.each do |k, v| %>
         <% v.each do |hour| %>
           <% @times.each do |time| %>
             <% if (hour[:starts]...hour[:ends]).include?(time) %>
@@ -240,7 +240,7 @@
       <% @service.sessions.where("status = ? AND start_time > ?", 'confirmed', 1.days.ago).order(start_time: :asc).select(:start_time, :duration).each do |session| %>
         sessions.push(<%= session.to_json.html_safe %>);
       <% end %>
-      const time_zone = jstz.determine().name();
+      const time_zone = moment.tz.guess();
       let dates = [];
       for (var i = 0; i < 7; i++) {
         let addingDate = new Date(start);
@@ -264,7 +264,6 @@
           sessions.forEach((session) => {
             const start_time = moment(session['start_time']).tz(time_zone).format('YYYY-MM-DD HH:mm');
             const end_time = moment(session['start_time']).tz(time_zone).add(session['duration'], 'minutes').format('YYYY-MM-DD HH:mm');
-            const session_day = new Date(slot_time).getDay();
             if (slot_time <= moment().format('YYYY-MM-DD HH:mm')) {
               if (el.childNodes.length > 0) {
                 el.childNodes[0].classList.remove('available-cell');
@@ -282,7 +281,7 @@
         })
       })
       const availables = document.getElementsByClassName('available-cell');
-      const working_hours = <%= @service.practitioner.converted_working_hours.to_json.html_safe %>;
+      const working_hours = <%= @service.practitioner.converted_working_hours(current_user).to_json.html_safe %>;
       let ending_hours = [];
       var keys = Object.keys(working_hours);
       for(key in keys){

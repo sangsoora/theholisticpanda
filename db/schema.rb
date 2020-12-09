@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_11_190318) do
+ActiveRecord::Schema.define(version: 2020_12_02_131906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -158,6 +158,15 @@ ActiveRecord::Schema.define(version: 2020_11_11_190318) do
     t.index ["session_id"], name: "index_reviews_on_session_id"
   end
 
+  create_table "service_health_goals", force: :cascade do |t|
+    t.bigint "service_id"
+    t.bigint "health_goal_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["health_goal_id"], name: "index_service_health_goals_on_health_goal_id"
+    t.index ["service_id"], name: "index_service_health_goals_on_service_id"
+  end
+
   create_table "services", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -191,17 +200,17 @@ ActiveRecord::Schema.define(version: 2020_11_11_190318) do
 
   create_table "specialties", force: :cascade do |t|
     t.string "name"
+    t.text "description"
+    t.bigint "specialty_category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["specialty_category_id"], name: "index_specialties_on_specialty_category_id"
   end
 
-  create_table "specialty_health_goals", force: :cascade do |t|
-    t.bigint "specialty_id"
-    t.bigint "health_goal_id"
+  create_table "specialty_categories", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["health_goal_id"], name: "index_specialty_health_goals_on_health_goal_id"
-    t.index ["specialty_id"], name: "index_specialty_health_goals_on_specialty_id"
   end
 
   create_table "user_health_goals", force: :cascade do |t|
@@ -256,11 +265,12 @@ ActiveRecord::Schema.define(version: 2020_11_11_190318) do
   add_foreign_key "practitioner_specialties", "specialties"
   add_foreign_key "practitioners", "users"
   add_foreign_key "reviews", "sessions"
+  add_foreign_key "service_health_goals", "health_goals"
+  add_foreign_key "service_health_goals", "services"
   add_foreign_key "services", "practitioner_specialties"
   add_foreign_key "sessions", "services"
   add_foreign_key "sessions", "users"
-  add_foreign_key "specialty_health_goals", "health_goals"
-  add_foreign_key "specialty_health_goals", "specialties"
+  add_foreign_key "specialties", "specialty_categories"
   add_foreign_key "user_health_goals", "health_goals"
   add_foreign_key "user_health_goals", "users"
   add_foreign_key "working_hours", "practitioners"

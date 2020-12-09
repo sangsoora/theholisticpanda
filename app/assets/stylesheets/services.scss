@@ -1,5 +1,253 @@
 .services-page, .service-page {
-  padding: 6rem 0 2rem;
+  padding: 10rem 0 2rem;
+}
+
+.filter-bar {
+  margin-top: 68px;
+  background: white;
+  width: 100%;
+  display: flex;
+  border-top: 1px solid #dbdbdb;
+  position: fixed;
+  z-index: 10;
+  padding: 0.5rem 2rem;
+  align-items: center;
+  i {
+    color: #dbdbdb;
+    font-size: 0.875rem;
+  }
+}
+
+#filter-form {
+  flex: 0 0 70%;
+  .form-group {
+    margin-bottom: 0;
+  }
+  .btn {
+    padding: 0 0.5rem;
+    font-size: 0.875rem !important;
+  }
+  #specialty-pop, #health-goal-pop, #language-pop, #service-type-pop {
+    margin-bottom: 0;
+    padding: 0.5rem 1rem !important;
+    border-radius: 2rem !important;
+    &.active-filter {
+      background: #c6ffc4;
+    }
+  }
+  .form-group {
+    position: relative;
+  }
+  .language-choices, .specialty-choices, .health-goal-choices {
+    max-height: 50vh;
+    overflow-y: scroll;
+    margin: 0;
+  }
+}
+
+.specialty-select-box, .health-goal-select-box, .language-select-box, .service-type-select-box, #text-select-box {
+  display: none;
+  position: absolute;
+  top: 2.75rem;
+  left: 0;
+  background: white;
+  width: 40vw;
+  padding: 1rem;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  // z-index: 1;
+  &.opened {
+    display: block;
+  }
+}
+
+.search-box-wrapper {
+  flex: 0 0 30%;
+  position: relative;
+}
+
+#search-box {
+  font-size: 0.875rem !important;
+  padding: 0.125rem 0.5rem;
+  border: none;
+  width: 90%;
+  &:focus {
+    border: none;
+    box-shadow: none;
+    outline: 0;
+  }
+}
+
+#text-select-box {
+  width: 30vw;
+  left: 0;
+  #text-choices {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+#practitioner-choices, #specialty-choices {
+  flex: 0 0 45%;
+  h4 {
+    font-size: 1rem;
+    opacity: .4;
+    border-bottom: 1px solid #dbdbdb;
+  }
+  p {
+    margin-bottom: 0.5rem;
+  }
+  a {
+    font-size: 0.875rem;
+  }
+  .avatar-bordered {
+    width: 1.5rem;
+    margin-right: 0.25rem;
+  }
+}
+
+#practitioner-choices-list, #specialty-choices-list {
+  overflow-y: scroll;
+  max-height: 60vh;
+}
+
+.service-type-select-box {
+  width: 12vw;
+}
+
+.sort-btns {
+  display: flex;
+}
+
+.specialty-list {
+  margin: 1rem auto;
+}
+
+.service-lists {
+  display: block;
+}
+
+.service-list-item {
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 0 0.5rem rgba(0,0,0,0.2);
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 2rem;
+  display: flex;
+  .service-left-column {
+    flex: 0 0 60%;
+    border-right: 1px solid #dbdbdb;
+    padding: 0 1rem;
+  }
+  .service-right-column {
+    flex: 0 0 40%;
+    padding: 0 1rem;
+    .tabs-underlined {
+      justify-content: center;
+    }
+    .tabs-underlined .tab-underlined.active-tab {
+      font-weight: 400;
+    }
+    .tabs-underlined .tab-underlined {
+      margin: 0 1rem;
+      padding: 0 0.5rem;
+    }
+  }
+}
+
+.service-list-item-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  h3 {
+    flex: 0 0 95%;
+    font-size: 1.75rem;
+    margin-bottom: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+  .fav-btn {
+    flex: 0 0 5%;
+    .btn {
+      font-size: 1.75rem;
+      border: none;
+      padding: 0;
+      line-height: 34px;
+    }
+  }
+}
+
+.service-list-item-goals {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+  .service-goal {
+    font-size: 0.875rem;
+    padding: 0 0.5rem;
+    border-radius: 2rem;
+    border: 1px solid $pink;
+    color: $pink;
+    margin-right: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+  .service-goal.match {
+    background: $pink;
+    color: white;
+  }
+}
+
+.service-list-item-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  .service-list-item-detail-left {
+    flex: 0 0 20%;
+    .btn {
+      margin-top: 2.5rem;
+    }
+  }
+  .service-list-item-detail-middle {
+    flex: 0 0 20%;
+  }
+  .service-list-item-detail-right {
+    flex: 0 0 40%;
+  }
+  label {
+    font-weight: 700;
+  }
+}
+
+.service-list-item-practitioner {
+  display: flex;
+  justify-content: space-between;
+  .profile-photo {
+    flex: 0 0 35%;
+    text-align: center;
+    font-size: 0.875rem;
+  }
+  .general-info {
+    flex: 0 0 55%;
+  }
+  .service-list-item-user {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.service-list-item-infos {
+  p {
+    margin-bottom: 0;
+  }
+  p.short {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+  }
 }
 
 .service-details {
@@ -13,107 +261,6 @@
 
 .service-session-summary {
   flex: 0 0 40%;
-}
-
-#filter-form {
-  margin: 2rem 0;
-}
-
-.specialty-select-box, .health-goal-select-box, .language-select-box, .service-type-select-box {
-  display: none;
-  position: absolute;
-  top: 2.75rem;
-  left: 0;
-  background: white;
-  width: 40vw;
-  padding: 1rem;
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
-  border-radius: 10px;
-  z-index: 100000;
-  &.opened {
-    display: block;
-  }
-}
-
-.language-select-box {
-  left: -50%;
-}
-
-.service-type-select-box {
-  width: 12vw;
-}
-
-.sort-btns, .specialty-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-gap: 1rem;
-  text-align: center;
-}
-
-.specialty-list {
-  margin: 1rem auto;
-}
-
-.service-lists {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 2rem;
-  margin: 2rem auto;
-}
-
-// .service-list-item {
-//   background-color: $pink;
-//   color: $emerald;
-//   padding: 1rem;
-// }
-
-.service-list-item {
-  overflow: hidden;
-  background: white;
-  box-shadow: 0 0 0.5rem rgba(0,0,0,0.2);
-  padding: 1rem;
-  border-radius: 4px;
-}
-
-.service-list-item-title {
-  height: 5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  h3 {
-    width: 100%;
-    text-align: center;
-    font-size: 1.5rem;
-  }
-}
-
-.service-list-item .service-list-item-infos {
-  display: flex;
-  justify-content: space-between;
-}
-
-.service-list-item-infos .service-list-item-user {
-  width: 2rem;
-}
-
-.service-list-item-practitioner {
-  width: 20%;
-  text-align: center;
-  p {
-    font-size: 0.75rem;
-  }
-}
-
-.service-list-item-details {
-  width: 75%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  p {
-    width: 30%;
-    font-size: 0.8rem;
-  }
 }
 
 .booking-calendar {

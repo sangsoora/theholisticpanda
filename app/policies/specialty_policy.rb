@@ -5,11 +5,19 @@ class SpecialtyPolicy < ApplicationPolicy
     end
   end
 
+  def show?
+    true
+  end
+
   def create?
     user.admin?
   end
 
   def destroy?
     user.admin?
+  end
+
+  def filter?
+    true
   end
 end

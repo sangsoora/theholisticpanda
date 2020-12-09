@@ -3,7 +3,7 @@
   justify-content: space-between;
   background-color: white;
   transition: 0.5s background-color ease;
-  font-size: 1.25rem;
+  font-size: 1rem;
   z-index: 1000;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .nav-item {
-  padding-left: 2rem;
+  padding-left: 1rem;
 }
 
 .nav-item img {
@@ -55,5 +55,28 @@
   }
   &.all {
     background: white;
+  }
+}
+
+#top-filter-form {
+  .form-group {
+    margin-bottom: 0;
+  }
+  .btn {
+    padding: 0.25rem 1rem;
+    font-size: 0.875rem !important;
+  }
+  #health-goal-pop {
+    margin-bottom: 0;
+    padding: 0.5rem 1rem !important;
+    border-radius: 2rem !important;
+  }
+  .form-group {
+    position: relative;
+  }
+  .health-goal-choices {
+    max-height: 50vh;
+    overflow-y: scroll;
+    margin: 0;
   }
 }

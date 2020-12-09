@@ -1,5 +1,5 @@
 class PractitionersController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show]
+  skip_before_action :authenticate_user!, only: [:index, :show, :filter]
   before_action :set_practitioner, only: [:show, :profile, :service, :update, :destroy]
   before_action :set_notifications, only: [:index, :show, :new, :profile, :service]
 
@@ -99,70 +99,6 @@ class PractitionersController < ApplicationController
 
   def show
     @conversation = Conversation.new
-    if user_signed_in?
-      user_time_offset = Time.current.in_time_zone(current_user.timezone).utc_offset
-      practitioner_time_offset = Time.current.in_time_zone(@practitioner.timezone).utc_offset
-      time_diff = user_time_offset - practitioner_time_offset
-      @converted_working_hours = Hash.new
-      (0..6).to_a.each { |num| @converted_working_hours[num] = [] }
-      @practitioner.working_hours.each do |workingday|
-        converted_open_hour = workingday.opens + time_diff unless workingday.opens == nil
-        unless workingday.closes == nil
-          if workingday.closes.strftime('%H:%M') == '00:00'
-            converted_close_hour = workingday.closes + 1.days + time_diff
-          else
-            converted_close_hour = workingday.closes + time_diff
-          end
-        end
-        if converted_open_hour && converted_close_hour
-          if workingday.day == 1 || workingday.day == 2 || workingday.day == 3 || workingday.day == 4 || workingday.day == 5
-            if converted_open_hour.strftime('%d') == '31' && converted_close_hour.strftime('%d') == '31'
-              @converted_working_hours[workingday.day - 1] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
-            elsif converted_open_hour.strftime('%d') == '31' && converted_close_hour.strftime('%d') == '01'
-              @converted_working_hours[workingday.day - 1] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': '24:00' }
-              if converted_close_hour.strftime('%H:%M') != '00:00'
-                @converted_working_hours[workingday.day] << { 'starts': '00:00', 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
-              end
-            elsif converted_open_hour.strftime('%d') == '01' && converted_close_hour.strftime('%d') == '01'
-              @converted_working_hours[workingday.day] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
-            elsif converted_open_hour.strftime('%d') == '01' && converted_close_hour.strftime('%d') == '02'
-              @converted_working_hours[workingday.day] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': '24:00' }
-              @converted_working_hours[workingday.day + 1] << { 'starts': '00:00', 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
-            elsif converted_open_hour.strftime('%d') == '02' && converted_close_hour.strftime('%d') == '02'
-              @converted_working_hours[workingday.day + 1] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
-            end
-          elsif workingday.day == 0
-            if converted_open_hour.strftime('%d') == '31' && converted_close_hour.strftime('%d') == '31'
-              @converted_working_hours[6] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
-            elsif converted_open_hour.strftime('%d') == '31' && converted_close_hour.strftime('%d') == '01'
-              @converted_working_hours[6] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': '24:00' }
-              @converted_working_hours[workingday.day] << { 'starts': '00:00', 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
-            elsif converted_open_hour.strftime('%d') == '01' && converted_close_hour.strftime('%d') == '01'
-              @converted_working_hours[workingday.day] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
-            elsif converted_open_hour.strftime('%d') == '01' && converted_close_hour.strftime('%d') == '02'
-              @converted_working_hours[workingday.day] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': '24:00' }
-              @converted_working_hours[workingday.day + 1] << { 'starts': '00:00', 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
-            elsif converted_open_hour.strftime('%d') == '02' && converted_close_hour.strftime('%d') == '02'
-              @converted_working_hours[workingday.day + 1] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
-            end
-          elsif workingday.day == 6
-            if converted_open_hour.strftime('%d') == '31' && converted_close_hour.strftime('%d') == '31'
-              @converted_working_hours[workingday.day - 1] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
-            elsif converted_open_hour.strftime('%d') == '31' && converted_close_hour.strftime('%d') == '01'
-              @converted_working_hours[workingday.day - 1] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': '24:00' }
-              @converted_working_hours[workingday.day] << { 'starts': '00:00', 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
-            elsif converted_open_hour.strftime('%d') == '01' && converted_close_hour.strftime('%d') == '01'
-              @converted_working_hours[workingday.day] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
-            elsif converted_open_hour.strftime('%d') == '01' && converted_close_hour.strftime('%d') == '02'
-              @converted_working_hours[workingday.day] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': '24:00' }
-              @converted_working_hours[0] << { 'starts': "00:00", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
-            elsif converted_open_hour.strftime('%d') == '02' && converted_close_hour.strftime('%d') == '02'
-              @converted_working_hours[0] << { 'starts': "#{converted_open_hour.strftime('%H:%M')}", 'ends': "#{converted_close_hour.strftime('%H:%M')}" }
-            end
-          end
-        end
-      end
-    end
   end
 
   def new
@@ -189,6 +125,12 @@ class PractitionersController < ApplicationController
     else
       render :new
     end
+  end
+
+  def filter
+    @practitioners = Practitioner.left_outer_joins(:user).where("(first_name ILIKE :search) or (last_name ILIKE :search) or (first_name || ' ' || last_name ILIKE :search)", :search => "%#{params[:query]}%")
+    authorize @practitioners
+    respond_to :js
   end
 
   def profile

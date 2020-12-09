@@ -1,7 +1,7 @@
 class HealthGoal < ApplicationRecord
   has_many :user_health_goals
-  has_many :specialty_health_goals
+  has_many :service_health_goals
   has_many :users, through: :user_health_goals
-  has_many :specialties, through: :specialty_health_goals
-  has_many :practitioner, through: :specialties
+  has_many :services, through: :service_health_goals
+  has_many :practitioners, through: :services
 end

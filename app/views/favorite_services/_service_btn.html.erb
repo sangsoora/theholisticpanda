@@ -1,5 +1,5 @@
 <% if FavoriteService.find_by(user: current_user, service: service) %>
-  <a data-confirm="Are you sure?" class="btn btn-ghost w-100 ml-3" rel="nofollow" data-method="delete" data-remote="true" href="/favorite_services/<%= FavoriteService.find_by(user: current_user, service: service).id %>"><i class="fas fa-heart-broken pink-icon"></i> Remove favorite</a>
+  <a data-confirm="Are you sure?" class="btn btn-ghost" rel="nofollow" data-method="delete" data-remote="true" href="/favorite_services/<%= FavoriteService.find_by(user: current_user, service: service).id %>"><i class="fas fa-heart pink-icon"></i></a>
 <% else %>
-  <a class="btn btn-ghost w-100 ml-3" rel="nofollow" data-method="post" data-remote="true" href="/services/<%= service.id %>/favorite_services"><i class="fas fa-heart pink-icon"></i> Save as favorite</a>
+  <a class="btn btn-ghost" rel="nofollow" data-method="post" data-remote="true" href="/services/<%= service.id %>/favorite_services"><i class="far fa-heart pink-icon"></i></a>
 <% end %>
