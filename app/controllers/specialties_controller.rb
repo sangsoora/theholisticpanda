@@ -1,6 +1,9 @@
 class SpecialtiesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:filter]
-  before_action :set_specialty, only: [:destroy]
+  skip_before_action :authenticate_user!, only: %i[show filter]
+  before_action :set_specialty, only: %i[show destroy]
+
+  def show
+  end
 
   def create
     @specialty = Specialty.new(specialty_params)

@@ -1,9 +1,5 @@
 class SpecialtyCategoriesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:show]
-  before_action :set_specialty_category, only: %i[show destroy]
-
-  def show
-  end
+  before_action :set_specialty_category, only: [:destroy]
 
   def create
     @specialty_category = SpecialtyCategory.new(specialty_category_params)

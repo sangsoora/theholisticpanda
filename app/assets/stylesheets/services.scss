@@ -9,13 +9,12 @@
   display: flex;
   border-top: 1px solid #dbdbdb;
   position: fixed;
-  z-index: 10000;
+  z-index: 10;
   padding: 0.5rem 2rem;
   align-items: center;
   i {
     color: #dbdbdb;
     font-size: 0.875rem;
-
   }
 }
 
@@ -28,10 +27,13 @@
     padding: 0 0.5rem;
     font-size: 0.875rem !important;
   }
-  #health-goal-pop, #language-pop, #service-type-pop {
+  #specialty-pop, #health-goal-pop, #language-pop, #service-type-pop {
     margin-bottom: 0;
     padding: 0.5rem 1rem !important;
     border-radius: 2rem !important;
+    &.active-filter {
+      background: #c6ffc4;
+    }
   }
   .form-group {
     position: relative;
@@ -53,7 +55,7 @@
   padding: 1rem;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
   border-radius: 10px;
-  z-index: 100000;
+  // z-index: 1;
   &.opened {
     display: block;
   }
@@ -109,11 +111,6 @@
   max-height: 60vh;
 }
 
-
-// .language-select-box {
-//   left: -50%;
-// }
-
 .service-type-select-box {
   width: 12vw;
 }
@@ -121,13 +118,6 @@
 .sort-btns {
   display: flex;
 }
-
-// .sort-btns, .specialty-list {
-//   display: grid;
-//   grid-template-columns: 1fr 1fr 1fr 1fr;
-//   grid-gap: 1rem;
-//   text-align: center;
-// }
 
 .specialty-list {
   margin: 1rem auto;
@@ -170,12 +160,15 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 1rem;
-
+  margin-bottom: 0.75rem;
   h3 {
     flex: 0 0 95%;
     font-size: 1.75rem;
     margin-bottom: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
   }
   .fav-btn {
     flex: 0 0 5%;
@@ -185,6 +178,25 @@
       padding: 0;
       line-height: 34px;
     }
+  }
+}
+
+.service-list-item-goals {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+  .service-goal {
+    font-size: 0.875rem;
+    padding: 0 0.5rem;
+    border-radius: 2rem;
+    border: 1px solid $pink;
+    color: $pink;
+    margin-right: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+  .service-goal.match {
+    background: $pink;
+    color: white;
   }
 }
 
@@ -213,16 +225,16 @@
   display: flex;
   justify-content: space-between;
   .profile-photo {
-    flex: 0 0 20%;
+    flex: 0 0 35%;
     text-align: center;
-    font-size: 12px;
+    font-size: 0.875rem;
   }
   .general-info {
-    flex: 0 0 70%;
+    flex: 0 0 55%;
   }
   .service-list-item-user {
     width: 100%;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
   }
 }
 
@@ -233,7 +245,7 @@
   p.short {
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 5;
+    -webkit-line-clamp: 6;
     -webkit-box-orient: vertical;
   }
 }

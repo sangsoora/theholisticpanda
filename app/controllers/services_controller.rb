@@ -6,83 +6,44 @@ class ServicesController < ApplicationController
   def index
     @services = policy_scope(Service).includes(:specialty, :practitioner_specialty, :languages, practitioner: [:user, :photo_attachment]).group_by { |service| service.specialty }
     @services = @services.sort_by { |k, _v| k[:name] }.to_h
-    if params[:search]
-      if params[:search][:specialty]
-        if params[:search][:specialty].count == 2
-          @services_by_specialty = Service.filter_by_specialty(params[:search][:specialty][0])
-        elsif params[:search][:specialty].count > 2
-          @services_by_specialty = params[:search][:specialty].reject(&:blank?).map do |keyword|
-            Service.filter_by_specialty(keyword)
+    if params[:search] && params[:search][:health_goal]
+      if params[:filter]
+        if params[:filter][:specialty].length >= 2
+          if params[:filter][:language].length >= 2
+            if params[:filter][:service_type] != ""
+              @filtered_with_specialty = Service.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?)).filter_by_specialty(params[:filter][:specialty].reject(&:blank?))
+              @filtered_with_language = Service.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?)).filter_by_language(params[:filter][:language].reject(&:blank?))
+              @filtered_with_type = Service.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?)).filter_by_service_type(params[:filter][:service_type])
+              @filtered_services = (@filtered_with_specialty & @filtered_with_language & @filtered_with_type)
+            else
+              @filtered_with_specialty = Service.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?)).filter_by_specialty(params[:filter][:specialty].reject(&:blank?))
+              @filtered_with_language = Service.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?)).filter_by_language(params[:filter][:language].reject(&:blank?))
+              @filtered_services = (@filtered_with_specialty & @filtered_with_language)
+            end
+          elsif params[:filter][:service_type] != ""
+            @filtered_with_specialty = Service.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?)).filter_by_specialty(params[:filter][:specialty].reject(&:blank?))
+            @filtered_with_type = Service.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?)).filter_by_service_type(params[:filter][:service_type])
+            @filtered_services = (@filtered_with_specialty & @filtered_with_type)
+          else
+            @filtered_services = Service.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?)).filter_by_specialty(params[:filter][:specialty].reject(&:blank?))
           end
-          @services_by_specialty.flatten!
-        elsif params[:search][:specialty].count == 1
-          @services_by_specialty = []
-        end
-      else
-        @services_by_specialty = []
-      end
-      if params[:search][:health_goal]
-        if params[:search][:health_goal].count == 2
-          @services_by_health_goal = Service.filter_by_health_goal(params[:search][:health_goal][0])
-        elsif params[:search][:health_goal].count > 2
-          @services_by_health_goal = params[:search][:health_goal].reject(&:blank?).map do |keyword|
-            Service.filter_by_health_goal(keyword)
+        elsif params[:filter][:language].length >= 2
+          if params[:filter][:service_type] != ""
+            @filtered_with_language = Service.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?)).filter_by_language(params[:filter][:language].reject(&:blank?))
+            @filtered_with_type = Service.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?)).filter_by_service_type(params[:filter][:service_type])
+            @filtered_services = (@filtered_with_language & @filtered_with_type)
+          else
+            @filtered_services = Service.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?)).filter_by_language(params[:filter][:language].reject(&:blank?))
           end
-          @services_by_health_goal.flatten!
-        elsif params[:search][:health_goal].count == 1
-          @services_by_health_goal = []
+        elsif params[:filter][:service_type] != ""
+          @filtered_services = Service.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?)).filter_by_service_type(params[:filter][:service_type])
+        elsif params[:filter][:specialty].length == 1 && params[:filter][:language].length == 1 && params[:filter][:service_type] == ""
+          @filtered_services = Service.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?))
         end
       else
-        @services_by_health_goal = []
+        @filtered_services = Service.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?))
       end
-      if params[:search][:language]
-        if params[:search][:language].count == 2
-          @services_by_language = Service.filter_by_language(params[:search][:language][0])
-        elsif params[:search][:language].count > 2
-          @services_by_language = params[:search][:language].reject(&:blank?).map do |keyword|
-            Service.filter_by_language(keyword)
-          end
-          @services_by_language.flatten!
-        elsif params[:search][:language].count == 1
-          @services_by_language = []
-        end
-      else
-        @services_by_language = []
-      end
-      if params[:search][:service_type]
-        if params[:search][:service_type].present?
-          @services_by_service_type = Service.filter_by_service_type(params[:search][:service_type].split(' ')[0])
-        else
-          @services_by_service_type = []
-        end
-      else
-        @services_by_service_type = []
-      end
-      if @services_by_specialty == [] && @services_by_health_goal == [] && @services_by_language == []
-        @filtered_services = @services_by_service_type.uniq.compact.sort_by(&:id)
-      elsif @services_by_specialty == [] && @services_by_health_goal == [] && @services_by_service_type == []
-        @filtered_services = @services_by_language.uniq.compact.sort_by(&:id)
-      elsif @services_by_specialty == [] && @services_by_language == [] && @services_by_service_type == []
-        @filtered_services = @services_by_health_goal.uniq.compact.sort_by(&:id)
-      elsif @services_by_health_goal == [] && @services_by_language == [] && @services_by_service_type == []
-        @filtered_services = @services_by_specialty.uniq.compact.sort_by(&:id)
-      elsif @services_by_specialty == [] && @services_by_service_type == []
-        @filtered_services = (@services_by_health_goal & @services_by_language).uniq.compact.sort_by(&:id)
-      elsif @services_by_health_goal == [] && @services_by_service_type == []
-        @filtered_services = (@services_by_specialty & @services_by_language).uniq.compact.sort_by(&:id)
-      elsif @services_by_specialty == [] && @services_by_language == []
-        @filtered_services = (@services_by_health_goal & @services_by_service_type).uniq.compact.sort_by(&:id)
-      elsif @services_by_health_goal == [] && @services_by_language == []
-        @filtered_services = (@services_by_specialty & @services_by_service_type).uniq.compact.sort_by(&:id)
-      elsif @services_by_specialty == [] && @services_by_health_goal == []
-        @filtered_services = (@services_by_language & @services_by_service_type).uniq.compact.sort_by(&:id)
-      elsif @services_by_specialty == []
-        @filtered_services = (@services_by_health_goal & @services_by_language & @services_by_service_type).uniq.compact.sort_by(&:id)
-      elsif @services_by_health_goal == []
-        @filtered_services = (@services_by_specialty & @services_by_language & @services_by_service_type).uniq.compact.sort_by(&:id)
-      end
-      @filtered_services = @filtered_services.sort_by(&:price)
-      @grouped_services = @filtered_services.group_by { |service| service.practitioner }
+      @filtered_services = @filtered_services.uniq.compact.sort_by(&:price)
     end
   end
 

@@ -5,6 +5,10 @@ class SpecialtyPolicy < ApplicationPolicy
     end
   end
 
+  def show?
+    true
+  end
+
   def create?
     user.admin?
   end

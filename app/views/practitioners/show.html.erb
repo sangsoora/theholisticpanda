@@ -196,17 +196,14 @@
         <% unless workingday.opens == nil %>
           converted_open_hour_<%= workingday.day %> = moment('<%= workingday.opens %>').subtract(time_diff, 'm').toISOString();
         <% end %>
-        console.log(converted_open_hour_<%= workingday.day %>);
         let converted_close_hour_<%= workingday.day %> = '';
         <% unless workingday.closes == nil %>
           if (moment('<%= workingday.closes %>').format("HH:mm") == '00:00') {
-            console.log('hola')
             converted_close_hour_<%= workingday.day %> = moment('<%= workingday.closes %>').add(1, 'days').subtract(time_diff, 'm').toISOString();
           } else {
             converted_close_hour_<%= workingday.day %> = moment('<%= workingday.closes %>').subtract(time_diff, 'm').toISOString();
           }
         <% end %>
-        console.log(converted_close_hour_<%= workingday.day %>);
         if ((converted_open_hour_<%= workingday.day %> != '' ) && (converted_close_hour_<%= workingday.day %> != '')) {
           if ((<%= workingday.day %> == 1) || (<%= workingday.day %> == 2) || (<%= workingday.day %> == 3) || (<%= workingday.day %> == 4) || (<%= workingday.day %> == 5)) {
             if ((new Date(converted_open_hour_<%= workingday.day %>).getDate() == '31') && (new Date(converted_close_hour_<%= workingday.day %>).getDate() == '31')) {
@@ -256,7 +253,6 @@
           }
         }
       <% end %>
-      console.log(converted_working_hours);
       const table = document.getElementsByTagName('table')[0];
       let html = '';
       html += `<tr>`;

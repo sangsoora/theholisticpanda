@@ -1,53 +1,80 @@
+<% content_for :navbar do %>
+  <%= render 'shared/navbar_with_filter' %>
+<% end %>
 <div class="filter-bar">
-  <%= simple_form_for :search, url: services_path, method: "GET", html: { id: 'filter-form' } do |f| %>
-    <div class="d-flex align-items-center">
-      <fieldset class="form-group mr-4 check_boxes required search_health_goal <%= "hidden" if params[:search] && params[:search][:specialty] && params[:search][:specialty] != [""] %>" id="health-goal-selector">
-        <legend class="btn btn-ghost" id="health-goal-pop">Health Goals <% if params[:search] && params[:search][:health_goal] && params[:search][:health_goal].length > 1 %>(<%= params[:search][:health_goal].reject(&:blank?).count %>)<% end %></legend>
-        <div class="health-goal-select-box" id="health-goal-select-box">
-          <div class="health-goal-choices">
-            <% HealthGoal.all.sort_by(&:name).each do |goal| %>
-              <% if params[:search] && params[:search][:health_goal] %>
-                <% if params[:search][:health_goal].include?((goal.id).to_s) %>
-                  <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]" id="search_health_goal_<%= goal.id %>" checked><label class="form-check-label collection_check_boxes health-goal-choice active" for="search_health_goal_<%= goal.id %>"><%= goal.name %></label>
-                <% else %>
-                  <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]" id="search_health_goal_<%= goal.id %>"><label class="form-check-label collection_check_boxes health-goal-choice" for="search_health_goal_<%= goal.id %>"><%= goal.name %></label>
-                <% end %>
-              <% else %>
-                <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]" id="search_health_goal_<%= goal.id %>"><label class="form-check-label collection_check_boxes health-goal-choice" for="search_health_goal_<%= goal.id %>"><%= goal.name %></label>
-              <% end %>
+  <%= simple_form_for :filter, url: services_path, method: "GET", html: { id: 'filter-form' } do |f| %>
+    <% if params[:search] && params[:search][:health_goal] %>
+      <div class="d-flex align-items-center">
+        <fieldset class="form-group check_boxes required search_health_goal hidden">
+          <% HealthGoal.all.sort_by(&:name).each do |goal| %>
+            <% if params[:search][:health_goal].include?((goal.id).to_s) %>
+              <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]" checked>
+            <% else %>
+              <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]">
             <% end %>
+          <% end %>
+          <input type="hidden" name="search[health_goal][]" value="">
+        </fieldset>
+        <fieldset class="form-group mr-4 check_boxes required filter_specialty">
+          <legend class="btn btn-ghost <% if params[:filter] && params[:filter][:specialty] && params[:filter][:specialty].length > 1 %>active-filter<% end %>" id="specialty-pop">Specialties <% if params[:filter] && params[:filter][:specialty] && params[:filter][:specialty].length > 1 %>(<%= params[:filter][:specialty].reject(&:blank?).count %>)<% end %></legend>
+          <div class="specialty-select-box" id="specialty-select-box">
+            <div class="specialty-choices">
+              <% Specialty.all.sort_by(&:name).each do |specialty| %>
+                <% if params[:filter] && params[:filter][:specialty] %>
+                  <% if params[:filter][:specialty].include?((specialty.id).to_s) %>
+                    <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= specialty.id %>" name="filter[specialty][]" id="filter_specialty_<%= specialty.id %>" checked><label class="form-check-label collection_check_boxes specialty-choice active" for="filter_specialty_<%= specialty.id %>"><%= specialty.name %></label>
+                  <% else %>
+                    <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= specialty.id %>" name="filter[specialty][]" id="filter_specialty_<%= specialty.id %>"><label class="form-check-label collection_check_boxes specialty-choice" for="filter_specialty_<%= specialty.id %>"><%= specialty.name %></label>
+                  <% end %>
+                <% else %>
+                  <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= specialty.id %>" name="filter[specialty][]" id="filter_specialty_<%= specialty.id %>"><label class="form-check-label collection_check_boxes specialty-choice" for="filter_specialty_<%= specialty.id %>"><%= specialty.name %></label>
+                <% end %>
+              <% end %>
+            </div>
+            <div class="d-flex justify-content-between pt-3">
+              <input type="submit" name="commit" value="Clear" class="btn btn-ghost" id="clear-specialty-filter">
+              <%= f.submit "Apply", class: "btn btn-flat" %>
+            </div>
+          </div>
+          <input type="hidden" name="filter[specialty][]" value="">
+        </fieldset>
+        <fieldset class="form-group mr-4 check_boxes required filter_language">
+          <legend class="btn btn-ghost <% if params[:filter] && params[:filter][:language] && params[:filter][:language].length > 1 %>active-filter<% end %>" id="language-pop">Languages <% if params[:filter] && params[:filter][:language] && params[:filter][:language].length > 1 %>(<%= params[:filter][:language].reject(&:blank?).count %>)<% end %></legend>
+          <div class="language-select-box" id="language-select-box">
+            <div class="language-choices">
+              <% Language.includes(:practitioner_languages).where.not(practitioner_languages: { id: nil }).sort_by(&:name).each do |language| %>
+                <% if params[:filter] && params[:filter][:language] && params[:filter][:language].include?((language.id).to_s) %>
+                  <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= language.id %>" name="filter[language][]" id="filter_language_<%= language.id %>" checked><label class="form-check-label collection_check_boxes language-choice active" for="filter_language_<%= language.id %>"><%= language.name %></label>
+                <% else %>
+                  <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= language.id %>" name="filter[language][]" id="filter_language_<%= language.id %>"><label class="form-check-label collection_check_boxes language-choice" for="filter_language_<%= language.id %>"><%= language.name %></label>
+                <% end %>
+              <% end %>
+            </div>
+            <div class="d-flex justify-content-between pt-3">
+              <input type="submit" name="commit" value="Clear" class="btn btn-ghost" id="clear-language-filter">
+              <%= f.submit "Apply", class: "btn btn-flat" %>
+            </div>
+          </div>
+          <input type="hidden" name="filter[language][]" value="">
+        </fieldset>
+        <div class="form-group select mr-4 required filter_service_type">
+          <label class="btn btn-ghost <% if params[:filter] && params[:filter][:service_type] && params[:filter][:service_type].length > 1 %>active-filter<% end %>" id="service-type-pop" style="cursor: default;" for="filter_service_type">Service type</label>
+          <div class="service-type-select-box" id="service-type-select-box">
+            <select class="form-control select required" name="filter[service_type]" id="filter_service_type">
+              <option value="">Both</option>
+              <option value="Virtual" <%= 'selected' if params[:filter] && params[:filter][:service_type] == "Virtual" %>>Virtual</option>
+              <option value="In-person" <%= 'selected' if params[:filter] && params[:filter][:service_type] == "In-person" %>>In-person</option>
+            </select>
+            <div class="d-flex justify-content-between pt-3">
+              <input type="submit" name="commit" value="Clear" class="btn btn-ghost" id="clear-type-filter">
+              <%= f.submit "Apply", class: "btn btn-flat" %>
+            </div>
           </div>
         </div>
-        <input type="hidden" name="search[health_goal][]" value="">
-      </fieldset>
-      <!-- <fieldset class="form-group mr-4 check_boxes required search_language">
-        <legend class="btn btn-ghost" id="language-pop">Language <% if params[:search] && params[:search][:language] && params[:search][:language].length > 1 %>(<%= params[:search][:language].reject(&:blank?).count %>)<% end %></legend>
-        <div class="language-select-box" id="language-select-box">
-          <div class="language-choices">
-            <%# Language.includes(:practitioner_languages).where.not(practitioner_languages: { id: nil }).sort_by(&:name).each do |language| %>
-              <%# if params[:search] && params[:search][:language] && params[:search][:language].include?((language.id).to_s) %>
-                <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%#= language.id %>" name="search[language][]" id="search_language_<%#= language.id %>" checked><label class="form-check-label collection_check_boxes language-choice active" for="search_language_<%#= language.id %>"><%#= language.name %></label>
-              <%# else %>
-                <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%#= language.id %>" name="search[language][]" id="search_language_<%#= language.id %>"><label class="form-check-label collection_check_boxes language-choice" for="search_language_<%#= language.id %>"><%#= language.name %></label>
-              <%# end %>
-            <%# end %>
-          </div>
-        </div>
-        <input type="hidden" name="search[language][]" value="">
-      </fieldset>
-      <div class="form-group select mr-4 required search_service_type">
-        <label class="btn btn-ghost" id="service-type-pop" style="cursor: default;" for="search_service_type">Service type</label>
-        <div class="service-type-select-box" id="service-type-select-box">
-          <select class="form-control select required" name="search[service_type]" id="search_service_type">
-            <option value="">Both</option>
-            <option value="Virtual" <%#= 'selected' if params[:search] && params[:search][:service_type] == "Virtual" %>>Virtual</option>
-            <option value="In-person" <%#= 'selected' if params[:search] && params[:search][:service_type] == "In-person" %>>In-person</option>
-          </select>
-        </div>
-      </div> -->
-      <%= f.submit "Apply", class: "btn btn-flat" %>
-      <%= link_to "Reset", services_path, class: 'btn btn-ghost ml-5' %>
-    </div>
+      </div>
+    <% else %>
+      <p style="margin-bottom: 0;">Please choose health goals you are interested in to start!</p>
+    <% end %>
   <% end %>
   <div class="search-box-wrapper">
     <i class="fas fa-search"></i><input id="search-box" placeholder="Search by practitioner name or specialty">
@@ -85,6 +112,15 @@
                     <% end %>
                   </div>
                 </div>
+                <div class="service-list-item-goals">
+                  <% service.health_goals.order(:name).each do |goal| %>
+                    <% if params[:search][:health_goal].include?((goal.id).to_s) %>
+                      <div class="service-goal match"><%= goal.name %></div>
+                    <% else %>
+                      <div class="service-goal"><%= goal.name %></div>
+                    <% end %>
+                  <% end %>
+                </div>
                 <div class="service-list-item-details">
                   <div class="service-list-item-detail-left">
                     <% if service.reviews.count > 0 %>
@@ -108,7 +144,6 @@
                       <% elsif service.languages.length > 2 %>
                         <%= service.languages.first(2).pluck(:name).join(', ') %>, + <%= service.languages.length - 2 %>
                       <% end %>
-
                     </p>
                     <label>DURATION</label>
                     <p><%= service.duration %> mins</p>
@@ -137,8 +172,17 @@
                       <p><%= service.practitioner.location %></p>
                     </div>
                     <div class="general-info">
-                      <h4><%= service.practitioner.user.full_name %></h4>
-                      <p><%= service.practitioner.specialties.pluck(:name).join(', ') %></p>
+                      <h4><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h4>
+                      <label>Specialties</label>
+                      <p>
+                        <% if service.practitioner.specialties.length <= 2 %>
+                          <%= service.practitioner.specialties.pluck(:name).join(', ') %>
+                        <% elsif service.practitioner.specialties.length > 2 %>
+                          <%= service.practitioner.specialties.first(2).pluck(:name).join(', ') %>, + <%= service.practitioner.specialties.length - 2 %>
+                        <% end %>
+                      </p>
+                      <label>Experience</label>
+                      <p><%= service.practitioner.experience %></p>
                     </div>
                   </div>
                 </div>
@@ -184,6 +228,19 @@
                   <% end %>
                 </div>
               </div>
+              <div class="service-list-item-goals">
+                <% service.health_goals.order(:name).each do |goal| %>
+                  <% if user_signed_in? %>
+                    <% if current_user.health_goals.include?(goal) %>
+                      <div class="service-goal match"><%= goal.name %></div>
+                    <% else %>
+                      <div class="service-goal"><%= goal.name %></div>
+                    <% end %>
+                  <% else %>
+                    <div class="service-goal"><%= goal.name %></div>
+                  <% end %>
+                <% end %>
+              </div>
               <div class="service-list-item-details">
                 <div class="service-list-item-detail-left">
                   <% if service.reviews.count > 0 %>
@@ -207,7 +264,6 @@
                     <% elsif service.languages.length > 2 %>
                       <%= service.languages.first(2).pluck(:name).join(', ') %>, + <%= service.languages.length - 2 %>
                     <% end %>
-
                   </p>
                   <label>DURATION</label>
                   <p><%= service.duration %> mins</p>
@@ -228,7 +284,7 @@
                   <div class="profile-photo">
                     <a href="/practitioners/<%= service.practitioner.id %>">
                       <% if service.practitioner.photo.attached? %>
-                        <%= cl_image_tag service.practitioner.photo.key, class: 'service-list-item-user avatar-bordered' %>
+                        <a href="/practitioners/1"><%= cl_image_tag service.practitioner.photo.key, class: 'service-list-item-user avatar-bordered' %></a>
                       <% else %>
                         <img src='https://kitt.lewagon.com/placeholder/users/random' class="service-list-item-user avatar-bordered"/>
                       <% end %>
@@ -236,8 +292,17 @@
                     <p><%= service.practitioner.location %></p>
                   </div>
                   <div class="general-info">
-                    <h4><%= service.practitioner.user.full_name %></h4>
-                    <p><%= service.practitioner.specialties.pluck(:name).join(', ') %></p>
+                    <h4><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h4>
+                    <label>Specialties</label>
+                    <p>
+                      <% if service.practitioner.specialties.length <= 2 %>
+                        <%= service.practitioner.specialties.pluck(:name).join(', ') %>
+                      <% elsif service.practitioner.specialties.length > 2 %>
+                        <%= service.practitioner.specialties.first(2).pluck(:name).join(', ') %>, + <%= service.practitioner.specialties.length - 2 %>
+                      <% end %>
+                    </p>
+                    <label>Experience</label>
+                    <p><%= service.practitioner.experience %></p>
                   </div>
                 </div>
               </div>
@@ -272,55 +337,92 @@
 </div>
 </div>
 <script>
-  const healthGoalSelectBoxBtn = document.getElementById('health-goal-pop');
-  // const languageSelectBoxBtn = document.getElementById('language-pop');
-  // const serviceTypeSelectBoxBtn = document.getElementById('service-type-pop');
-  const healthGoalSelectBox = document.getElementById('health-goal-select-box');
-  // const languageSelectBox = document.getElementById('language-select-box');
-  // const serviceTypeSelectBox = document.getElementById('service-type-select-box');
-  healthGoalSelectBoxBtn.addEventListener('click', () => {
-    healthGoalSelectBoxBtn.classList.toggle('btn-opened');
-    // languageSelectBoxBtn.classList.remove('btn-opened');
-    // serviceTypeSelectBoxBtn.classList.remove('btn-opened');
-    healthGoalSelectBox.classList.toggle('opened');
-    // languageSelectBox.classList.remove('opened');
-    // serviceTypeSelectBox.classList.remove('opened');
-  });
-  // languageSelectBoxBtn.addEventListener('click', () => {
-  //   languageSelectBoxBtn.classList.toggle('btn-opened');
-  //   healthGoalSelectBoxBtn.classList.remove('btn-opened');
-  //   serviceTypeSelectBoxBtn.classList.remove('btn-opened');
-  //   languageSelectBox.classList.toggle('opened');
-  //   healthGoalSelectBox.classList.remove('opened');
-  //   serviceTypeSelectBox.classList.remove('opened');
-  // });
-  // serviceTypeSelectBoxBtn.addEventListener('click', () => {
-  //   serviceTypeSelectBoxBtn.classList.toggle('btn-opened');
-  //   languageSelectBoxBtn.classList.remove('btn-opened');
-  //   healthGoalSelectBoxBtn.classList.remove('btn-opened');
-  //   serviceTypeSelectBox.classList.toggle('opened');
-  //   healthGoalSelectBox.classList.remove('opened');
-  //   languageSelectBox.classList.remove('opened');
-  // });
-  document.addEventListener('click', function(event) {
-    const healthGoalBoxClick = healthGoalSelectBox.contains(event.target);
-    const healthGoalBtnClick = healthGoalSelectBoxBtn.contains(event.target);
-    // const languageBoxClick = languageSelectBox.contains(event.target);
-    // const languageBtnClick = languageSelectBoxBtn.contains(event.target);
-    // const serviceTypeBoxClick = serviceTypeSelectBox.contains(event.target);
-    // const serviceTypeBtnClick = serviceTypeSelectBoxBtn.contains(event.target);
-    if (healthGoalSelectBox.classList.contains('opened') && (!healthGoalBoxClick) && (!healthGoalBtnClick)) {
-      healthGoalSelectBoxBtn.classList.remove('btn-opened');
-      healthGoalSelectBox.classList.remove('opened');
+  if (document.getElementById('specialty-pop')) {
+    const specialtySelectBoxBtn = document.getElementById('specialty-pop');
+    const languageSelectBoxBtn = document.getElementById('language-pop');
+    const serviceTypeSelectBoxBtn = document.getElementById('service-type-pop');
+    const specialtySelectBox = document.getElementById('specialty-select-box');
+    const languageSelectBox = document.getElementById('language-select-box');
+    const serviceTypeSelectBox = document.getElementById('service-type-select-box');
+    if (specialtySelectBoxBtn) {
+      specialtySelectBoxBtn.addEventListener('click', () => {
+        specialtySelectBoxBtn.classList.toggle('btn-opened');
+        languageSelectBoxBtn.classList.remove('btn-opened');
+        serviceTypeSelectBoxBtn.classList.remove('btn-opened');
+        specialtySelectBox.classList.toggle('opened');
+        languageSelectBox.classList.remove('opened');
+        serviceTypeSelectBox.classList.remove('opened');
+      });
     }
-    //  else if (languageSelectBox.classList.contains('opened') && (!languageBoxClick) && (!languageBtnClick)) {
-    //   languageSelectBoxBtn.classList.remove('btn-opened');
-    //   languageSelectBox.classList.remove('opened');
-    // } else if (serviceTypeSelectBox.classList.contains('opened') && (!serviceTypeBoxClick) && (!serviceTypeBtnClick)) {
-    //   serviceTypeSelectBoxBtn.classList.remove('btn-opened');
-    //   serviceTypeSelectBox.classList.remove('opened');
-    // }
-  })
+    if (languageSelectBoxBtn) {
+      languageSelectBoxBtn.addEventListener('click', () => {
+        languageSelectBoxBtn.classList.toggle('btn-opened');
+        specialtySelectBoxBtn.classList.remove('btn-opened');
+        serviceTypeSelectBoxBtn.classList.remove('btn-opened');
+        languageSelectBox.classList.toggle('opened');
+        specialtySelectBox.classList.remove('opened');
+        serviceTypeSelectBox.classList.remove('opened');
+      });
+    }
+    if (serviceTypeSelectBoxBtn) {
+      serviceTypeSelectBoxBtn.addEventListener('click', () => {
+        serviceTypeSelectBoxBtn.classList.toggle('btn-opened');
+        languageSelectBoxBtn.classList.remove('btn-opened');
+        specialtySelectBoxBtn.classList.remove('btn-opened');
+        serviceTypeSelectBox.classList.toggle('opened');
+        specialtySelectBox.classList.remove('opened');
+        languageSelectBox.classList.remove('opened');
+      });
+    }
+    document.addEventListener('click', (event) => {
+      const specialtyBoxClick = specialtySelectBox.contains(event.target);
+      const specialtyBtnClick = specialtySelectBoxBtn.contains(event.target);
+      const languageBoxClick = languageSelectBox.contains(event.target);
+      const languageBtnClick = languageSelectBoxBtn.contains(event.target);
+      const serviceTypeBoxClick = serviceTypeSelectBox.contains(event.target);
+      const serviceTypeBtnClick = serviceTypeSelectBoxBtn.contains(event.target);
+      if (specialtySelectBox.classList.contains('opened') && (!specialtyBoxClick) && (!specialtyBtnClick)) {
+        specialtySelectBoxBtn.classList.remove('btn-opened');
+        specialtySelectBox.classList.remove('opened');
+        // document.getElementById('filter-form').submit();
+      } else if (languageSelectBox.classList.contains('opened') && (!languageBoxClick) && (!languageBtnClick)) {
+        languageSelectBoxBtn.classList.remove('btn-opened');
+        languageSelectBox.classList.remove('opened');
+        // document.getElementById('filter-form').submit();
+      } else if (serviceTypeSelectBox.classList.contains('opened') && (!serviceTypeBoxClick) && (!serviceTypeBtnClick)) {
+        serviceTypeSelectBoxBtn.classList.remove('btn-opened');
+        serviceTypeSelectBox.classList.remove('opened');
+        // document.getElementById('filter-form').submit();
+      }
+    })
+    const clearSpecialty = document.getElementById('clear-specialty-filter');
+    clearSpecialty.addEventListener('click', (e) => {
+      e.preventDefault();
+      uncheckAll('specialty-choices');
+      document.getElementById('filter-form').submit();
+    });
+    const clearLanguage = document.getElementById('clear-language-filter');
+    clearLanguage.addEventListener('click', (e) => {
+      e.preventDefault();
+      uncheckAll('language-choices');
+      document.getElementById('filter-form').submit();
+    });
+    const clearType = document.getElementById('clear-type-filter');
+    clearType.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('filter_service_type').value = '';
+      document.getElementById('filter-form').submit();
+    });
+  }
+  const uncheckAll = (divid) => {
+    var checks = document.querySelectorAll('.' + divid + ' input[type="checkbox"]');
+    for(var i =0; i< checks.length;i++){
+      var check = checks[i];
+      if(!check.disabled){
+        check.checked = false;
+      }
+    }
+  }
   const priceBtn = document.getElementById('sortPrice');
   const durationBtn = document.getElementById('sortDuration');
   if (priceBtn) {
@@ -366,7 +468,6 @@
       success: function(data){
       }
     });
-               // document.getElementById('practitioner-choices').insertAdjacentHTML('beforeend', html);
   }
   const getSpecialtiesByName = (string) => {
     $.ajax({

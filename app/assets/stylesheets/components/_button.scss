@@ -7,7 +7,7 @@
   transition: opacity 0.3s ease;
   opacity: 0.7;
   &.btn-opened {
-    background-color: $emerald;
+    background-color: $emerald !important;
     color: white;
     opacity: 1;
     &:hover {

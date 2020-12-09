@@ -200,6 +200,7 @@ ActiveRecord::Schema.define(version: 2020_12_02_131906) do
 
   create_table "specialties", force: :cascade do |t|
     t.string "name"
+    t.text "description"
     t.bigint "specialty_category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
