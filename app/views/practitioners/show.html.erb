@@ -36,7 +36,7 @@
               <tr>
                 <% (0..6).to_a.each do |num| %>
                   <% if @practitioner.converted_working_hours(current_user)[num] != [] %>
-                    <% if @practitioner.converted_working_hours(current_user)[num].first[:starts] < '04:00' %>
+                    <% if (@practitioner.converted_working_hours(current_user)[num].first[:starts] < '04:00') && (@practitioner.converted_working_hours(current_user)[num].first[:ends] != '00:00') %>
                       <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].first[:ends] %></p></div></div></td>
                     <% else %>
                       <td></td>
