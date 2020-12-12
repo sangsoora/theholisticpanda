@@ -129,6 +129,7 @@ ActiveRecord::Schema.define(version: 2020_12_02_131906) do
   end
 
   create_table "practitioners", force: :cascade do |t|
+    t.string "title"
     t.string "location"
     t.string "address"
     t.text "bio"
@@ -138,6 +139,7 @@ ActiveRecord::Schema.define(version: 2020_12_02_131906) do
     t.string "video"
     t.string "website"
     t.string "timezone"
+    t.boolean "insurance"
     t.float "latitude"
     t.float "longitude"
     t.string "background_check_status"

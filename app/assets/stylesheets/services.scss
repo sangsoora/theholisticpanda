@@ -1,5 +1,5 @@
 .services-page, .service-page {
-  padding: 10rem 0 2rem;
+  padding: 9rem 0 2rem;
 }
 
 .filter-bar {
@@ -29,7 +29,7 @@
   }
   #specialty-pop, #health-goal-pop, #language-pop, #service-type-pop {
     margin-bottom: 0;
-    padding: 0.5rem 1rem !important;
+    padding: 0.25rem 1rem !important;
     border-radius: 2rem !important;
     &.active-filter {
       background: #c6ffc4;
@@ -48,7 +48,7 @@
 .specialty-select-box, .health-goal-select-box, .language-select-box, .service-type-select-box, #text-select-box {
   display: none;
   position: absolute;
-  top: 2.75rem;
+  top: 2.5rem;
   left: 0;
   background: white;
   width: 40vw;
@@ -163,7 +163,7 @@
   margin-bottom: 0.75rem;
   h3 {
     flex: 0 0 95%;
-    font-size: 1.75rem;
+    font-size: 1.375rem;
     margin-bottom: 0;
     overflow: hidden;
     display: -webkit-box;
@@ -173,20 +173,19 @@
   .fav-btn {
     flex: 0 0 5%;
     .btn {
-      font-size: 1.75rem;
+      font-size: 1.375rem;
       border: none;
       padding: 0;
-      line-height: 34px;
     }
   }
 }
 
-.service-list-item-goals {
+.service-list-item-goals, .practitioner-specialties {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 0.75rem;
   .service-goal {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     padding: 0 0.5rem;
     border-radius: 2rem;
     border: 1px solid $pink;
@@ -225,12 +224,15 @@
   display: flex;
   justify-content: space-between;
   .profile-photo {
-    flex: 0 0 35%;
+    flex: 0 0 30%;
     text-align: center;
     font-size: 0.875rem;
   }
   .general-info {
-    flex: 0 0 55%;
+    flex: 0 0 60%;
+    p {
+      margin-bottom: 0;
+    }
   }
   .service-list-item-user {
     width: 100%;
@@ -369,4 +371,18 @@ i.blocked {
   align-items:
   center; margin-bottom: 0;
   margin-left: 1.5rem;
+}
+
+input[type='radio']:checked:after {
+    width: 16px;
+    height: 16px;
+    border-radius: 16px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: $emerald;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
 }

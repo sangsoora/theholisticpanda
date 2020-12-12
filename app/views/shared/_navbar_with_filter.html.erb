@@ -4,7 +4,11 @@
     <%= simple_form_for :search, url: services_path, method: "GET", html: { id: 'top-filter-form' } do |f| %>
       <div class="d-flex align-items-center">
         <fieldset class="form-group mr-4 check_boxes required search_health_goal">
-          <legend class="btn btn-ghost" id="health-goal-pop">Health Goals <% if params[:search] && params[:search][:health_goal] && params[:search][:health_goal].length > 1 %>(<%= params[:search][:health_goal].reject(&:blank?).count %>)<% end %></legend>
+          <% if params[:search] && params[:search][:health_goal] && params[:search][:health_goal].length > 1 %>
+            <legend class="btn btn-ghost btn-filter" id="health-goal-pop">Health Goals (<%= params[:search][:health_goal].reject(&:blank?).count %>)&nbsp;&nbsp;<i class="fas fa-chevron-down"></i></legend>
+          <% else %>
+            <legend class="btn btn-ghost btn-filter" id="health-goal-pop">Choose Health Goals&nbsp;&nbsp;<i class="fas fa-chevron-down"></i></legend>
+          <% end %>
           <div class="health-goal-select-box" id="health-goal-select-box">
             <div class="health-goal-choices">
               <% HealthGoal.all.sort_by(&:name).each do |goal| %>

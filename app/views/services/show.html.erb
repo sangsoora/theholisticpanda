@@ -302,8 +302,8 @@
         const pointed_time = moment(slot_date + ' ' + slot_time);
         const futureSessions = sessions.filter(it => moment(it.start_time).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'));
         let endTime = '';
-        if (moment(ending_hours.filter(it => moment(it).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm')))['_i']) {
-          endTime = moment(ending_hours.filter(it => moment(it).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'))[0]);
+        if (moment(ending_hours.sort().filter(it => moment(it).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm')))['_i']) {
+          endTime = moment(ending_hours.sort().filter(it => moment(it).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'))[0]);
         }
         if (endTime != '') {
           endTimeDiff = endTime.diff(pointed_time, 'minutes');

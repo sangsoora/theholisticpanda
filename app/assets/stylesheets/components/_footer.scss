@@ -2,16 +2,22 @@
   background: white;
   padding: 0px 3rem;
   color: rgba(0,0,0,0.3);
+  h3 {
+    font-size: 1.25rem;
+  }
+  p {
+    margin-bottom: 0.5rem;
+  }
 }
 
 .footer-top {
   display: flex;
   justify-content: space-around;
-  padding: 2rem 0;
+  padding: 1rem 0;
 }
 
 .footer-top h3 {
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
 }
 
 .footer-links {
@@ -33,5 +39,5 @@
 
 .footer-newsletter, .footer-copyright {
   text-align: center;
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
 }

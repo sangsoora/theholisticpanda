@@ -60,11 +60,19 @@
         <div class="form-group select mr-4 required filter_service_type">
           <label class="btn btn-ghost <% if params[:filter] && params[:filter][:service_type] && params[:filter][:service_type].length > 1 %>active-filter<% end %>" id="service-type-pop" style="cursor: default;" for="filter_service_type">Service type</label>
           <div class="service-type-select-box" id="service-type-select-box">
-            <select class="form-control select required" name="filter[service_type]" id="filter_service_type">
-              <option value="">Both</option>
-              <option value="Virtual" <%= 'selected' if params[:filter] && params[:filter][:service_type] == "Virtual" %>>Virtual</option>
-              <option value="In-person" <%= 'selected' if params[:filter] && params[:filter][:service_type] == "In-person" %>>In-person</option>
-            </select>
+            <fieldset class="form-group radio_buttons required filter_service_type">
+              <input type="hidden" name="filter[service_type]" id="filter_service_type" value="">
+              <div class="form-check">
+                <input class="form-check-input radio_buttons required" type="radio" value="" name="filter[service_type]" id="filter_service_type_both" <%= 'checked' unless params[:filter] && params[:filter][:service_type].length > 1 %>><label class="form-check-label collection_radio_buttons" for="filter_service_type_both">Both</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input radio_buttons required" type="radio" value="Virtual" name="filter[service_type]" id="filter_service_type_virtual" <%= 'checked' if params[:filter] && params[:filter][:service_type] == "Virtual" %>><label class="form-check-label collection_radio_buttons" for="filter_service_type_virtual">Virtual</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input radio_buttons required" readonly="readonly" type="radio" value="In-person" name="filter[service_type]" id="filter_service_type_person" <%= 'checked' if params[:filter] && params[:filter][:service_type] == "In-person" %>><label class="form-check-label collection_radio_buttons" for="filter_service_type_person">In-person</label>
+              </div>
+            </fieldset>
+
             <div class="d-flex justify-content-between pt-3">
               <input type="submit" name="commit" value="Clear" class="btn btn-ghost" id="clear-type-filter">
               <%= f.submit "Apply", class: "btn btn-flat" %>
@@ -72,8 +80,6 @@
           </div>
         </div>
       </div>
-    <% else %>
-      <p style="margin-bottom: 0;">Please choose health goals you are interested in to start!</p>
     <% end %>
   <% end %>
   <div class="search-box-wrapper">
@@ -173,14 +179,23 @@
                     </div>
                     <div class="general-info">
                       <h4><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h4>
-                      <label>Specialties</label>
-                      <p>
-                        <% if service.practitioner.specialties.length <= 2 %>
-                          <%= service.practitioner.specialties.pluck(:name).join(', ') %>
-                        <% elsif service.practitioner.specialties.length > 2 %>
-                          <%= service.practitioner.specialties.first(2).pluck(:name).join(', ') %>, + <%= service.practitioner.specialties.length - 2 %>
+                      <!-- <label>Specialties</label> -->
+                      <div class="practitioner-specialties">
+                        <% service.practitioner.specialties.order(:name).each do |specialty| %>
+                          <% if params[:search][:specialty] && params[:search][:specialty].include?((specialty.id).to_s) %>
+                            <div class="service-goal match"><%= specialty.name %></div>
+                          <% else %>
+                            <div class="service-goal"><%= specialty.name %></div>
+                          <% end %>
                         <% end %>
-                      </p>
+                      </div>
+                      <!-- <p>
+                        <%# if service.practitioner.specialties.length <= 2 %>
+                          <%#= service.practitioner.specialties.pluck(:name).join(', ') %>
+                        <%# elsif service.practitioner.specialties.length > 2 %>
+                          <%#= service.practitioner.specialties.first(2).pluck(:name).join(', ') %>, + <%= service.practitioner.specialties.length - 2 %>
+                        <%# end %>
+                      </p> -->
                       <label>Experience</label>
                       <p><%= service.practitioner.experience %></p>
                     </div>
@@ -217,7 +232,7 @@
       <% end %>
     <% else %>
       <div class="service-lists">
-        <% Service.all.each do |service| %>
+        <% Service.all.sort_by(&:price).each do |service| %>
           <div class="service-list-item" data-price="<%= service.price.to_i %>" data-duration="<%= service.duration %>">
             <div class="service-left-column">
               <div class="service-list-item-title">
@@ -293,14 +308,19 @@
                   </div>
                   <div class="general-info">
                     <h4><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h4>
-                    <label>Specialties</label>
-                    <p>
-                      <% if service.practitioner.specialties.length <= 2 %>
-                        <%= service.practitioner.specialties.pluck(:name).join(', ') %>
-                      <% elsif service.practitioner.specialties.length > 2 %>
-                        <%= service.practitioner.specialties.first(2).pluck(:name).join(', ') %>, + <%= service.practitioner.specialties.length - 2 %>
+                    <!-- <label>Specialties</label> -->
+                    <!-- <p>
+                      <%# if service.practitioner.specialties.length <= 2 %>
+                        <%#= service.practitioner.specialties.pluck(:name).join(', ') %>
+                      <%# elsif service.practitioner.specialties.length > 2 %>
+                        <%#= service.practitioner.specialties.first(2).pluck(:name).join(', ') %>, + <%= service.practitioner.specialties.length - 2 %>
+                      <%# end %>
+                    </p> -->
+                    <div class="practitioner-specialties">
+                      <% service.practitioner.specialties.order(:name).each do |specialty| %>
+                        <div class="service-goal"><%= specialty.name %></div>
                       <% end %>
-                    </p>
+                    </div>
                     <label>Experience</label>
                     <p><%= service.practitioner.experience %></p>
                   </div>
@@ -410,7 +430,9 @@
     const clearType = document.getElementById('clear-type-filter');
     clearType.addEventListener('click', (e) => {
       e.preventDefault();
-      document.getElementById('filter_service_type').value = '';
+      document.getElementById('filter_service_type_both').checked = true;
+      document.getElementById('filter_service_type_virtual').checked = false;
+      document.getElementById('filter_service_type_person').checked = false;
       document.getElementById('filter-form').submit();
     });
   }

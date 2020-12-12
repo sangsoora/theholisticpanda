@@ -1,164 +1,75 @@
 <div class="container practitioner-page">
-  <div class="practitioner-summary">
-    <div class="practitioner-img">
-      <% if @practitioner.photo.attached? %>
-        <%= cl_image_tag @practitioner.photo.key, class: 'avatar-full' %>
-      <% else %>
-        <img src='https://kitt.lewagon.com/placeholder/users/random' class='avatar-full' />
-      <% end %>
-    </div>
-    <div class="practitioner-body">
-      <div class="practitioner-name">
-        <button class="verified">Verified</button>
-        <h3><%= @practitioner.user.full_name %></h3>
-        <p class="practitioner-rating">
-          <% if @practitioner.reviews.count > 0 %>
-            <i class="fas fa-star mr-2 pink-icon"></i><%= @practitioner.rating_avg %> (<%= @practitioner.reviews.count %>)
+  <div class="practitioner-overview">
+    <div class="practitioner-main">
+      <%= image_tag('banner', alt: 'Holistic Service', class: 'banner') %>
+      <div class="practitioner-info">
+        <div class="practitioner-img">
+          <% if @practitioner.photo.attached? %>
+            <%= cl_image_tag @practitioner.photo.key, class: 'avatar-full' %>
           <% else %>
-            No reviews!
+            <img src='https://kitt.lewagon.com/placeholder/users/random' class='avatar-full' />
           <% end %>
-        </p>
-      </div>
-      <div class="practitioner-detail">
-        <p>Specailty:
-          <%= @practitioner.specialties.pluck(:name).join(', ') %>
-        </p>
-        <p>Languages:
-          <%= @practitioner.languages.pluck(:name).join(', ') %>
-        </p>
-        <div>
-          <p>Working hours (in your current time zone: <span id='time-zone'></span>)</p>
-          <table class='working-hours col-8'>
-            <tr>
-              <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th></th>
-            </tr>
-            <% if user_signed_in? %>
-              <tr>
-                <% (0..6).to_a.each do |num| %>
-                  <% if @practitioner.converted_working_hours(current_user)[num] != [] %>
-                    <% if @practitioner.converted_working_hours(current_user)[num].first[:starts] < '04:00' %>
-                      <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].first[:ends] %></p></div></div></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-                  <% else %>
-                    <td></td>
-                  <% end %>
-                <% end %>
-                <td class='time'>00 ~ 04</td>
-              </tr>
-              <tr>
-                <% (0..6).to_a.each do |num| %>
-                  <% if @practitioner.converted_working_hours(current_user)[num] != [] %>
-                    <% if (@practitioner.converted_working_hours(current_user)[num].first[:starts] < '04:00' && @practitioner.converted_working_hours(current_user)[num].first[:ends] > '08:00') || (@practitioner.converted_working_hours(current_user)[num].first[:starts] >= '04:00' && @practitioner.converted_working_hours(current_user)[num].first[:starts] < '08:00') || (@practitioner.converted_working_hours(current_user)[num].first[:ends] > '04:00' && @practitioner.converted_working_hours(current_user)[num].first[:ends] <= '08:00') %>
-                      <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].first[:ends] %></p></div></div></td>
-                    <% elsif (@practitioner.converted_working_hours(current_user)[num].last[:starts] < '04:00' && @practitioner.converted_working_hours(current_user)[num].last[:ends] > '08:00') || (@practitioner.converted_working_hours(current_user)[num].last[:starts] >= '04:00' && @practitioner.converted_working_hours(current_user)[num].last[:starts] < '08:00') || (@practitioner.converted_working_hours(current_user)[num].last[:ends] > '04:00' && @practitioner.converted_working_hours(current_user)[num].last[:ends] <= '08:00') %>
-                      <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].last[:ends] %></p></div></div></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-                  <% else %>
-                    <td></td>
-                  <% end %>
-                <% end %>
-                <td class='time'>04 ~ 08</td>
-              </tr>
-              <tr>
-                <% (0..6).to_a.each do |num| %>
-                  <% if @practitioner.converted_working_hours(current_user)[num] != [] %>
-                    <% if (@practitioner.converted_working_hours(current_user)[num].first[:starts] < '08:00' && @practitioner.converted_working_hours(current_user)[num].first[:ends] > '12:00') || (@practitioner.converted_working_hours(current_user)[num].first[:starts] >= '08:00' && @practitioner.converted_working_hours(current_user)[num].first[:starts] < '12:00') || (@practitioner.converted_working_hours(current_user)[num].first[:ends] > '08:00' && @practitioner.converted_working_hours(current_user)[num].first[:ends] <= '12:00') %>
-                      <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].first[:ends] %></p></div></div></td>
-                    <% elsif (@practitioner.converted_working_hours(current_user)[num].last[:starts] < '08:00' && @practitioner.converted_working_hours(current_user)[num].last[:ends] > '12:00') || (@practitioner.converted_working_hours(current_user)[num].last[:starts] >= '08:00' && @practitioner.converted_working_hours(current_user)[num].last[:starts] < '12:00') || (@practitioner.converted_working_hours(current_user)[num].last[:ends] > '08:00' && @practitioner.converted_working_hours(current_user)[num].last[:ends] <= '12:00') %>
-                      <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].last[:ends] %></p></div></div></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-                  <% else %>
-                    <td></td>
-                  <% end %>
-                <% end %>
-                <td class='time'>08 ~ 12</td>
-              </tr>
-              <tr>
-                <% (0..6).to_a.each do |num| %>
-                  <% if @practitioner.converted_working_hours(current_user)[num] != [] %>
-                    <% if (@practitioner.converted_working_hours(current_user)[num].first[:starts] < '12:00' && @practitioner.converted_working_hours(current_user)[num].first[:ends] > '16:00') || (@practitioner.converted_working_hours(current_user)[num].first[:starts] >= '12:00' && @practitioner.converted_working_hours(current_user)[num].first[:starts] < '16:00') || (@practitioner.converted_working_hours(current_user)[num].first[:ends] > '12:00' && @practitioner.converted_working_hours(current_user)[num].first[:ends] <= '16:00') %>
-                      <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].first[:ends] %></p></div></div></td>
-                    <% elsif (@practitioner.converted_working_hours(current_user)[num].last[:starts] < '12:00' && @practitioner.converted_working_hours(current_user)[num].last[:ends] > '16:00') || (@practitioner.converted_working_hours(current_user)[num].last[:starts] >= '12:00' && @practitioner.converted_working_hours(current_user)[num].last[:starts] < '16:00') || (@practitioner.converted_working_hours(current_user)[num].last[:ends] > '12:00' && @practitioner.converted_working_hours(current_user)[num].last[:ends] <= '16:00') %>
-                      <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].last[:ends] %></p></div></div></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-                  <% else %>
-                    <td></td>
-                  <% end %>
-                <% end %>
-                <td class='time'>12 ~ 16</td>
-              </tr>
-              <tr>
-                <% (0..6).to_a.each do |num| %>
-                  <% if @practitioner.converted_working_hours(current_user)[num] != [] %>
-                    <% if (@practitioner.converted_working_hours(current_user)[num].first[:starts] < '16:00' && @practitioner.converted_working_hours(current_user)[num].first[:ends] > '20:00') || (@practitioner.converted_working_hours(current_user)[num].first[:starts] >= '16:00' && @practitioner.converted_working_hours(current_user)[num].first[:starts] < '20:00') || (@practitioner.converted_working_hours(current_user)[num].first[:ends] > '16:00' && @practitioner.converted_working_hours(current_user)[num].first[:ends] <= '20:00') %>
-                      <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].first[:ends] %></p></div></div></td>
-                    <% elsif (@practitioner.converted_working_hours(current_user)[num].last[:starts] < '16:00' && @practitioner.converted_working_hours(current_user)[num].last[:ends] > '20:00') || (@practitioner.converted_working_hours(current_user)[num].last[:starts] >= '16:00' && @practitioner.converted_working_hours(current_user)[num].last[:starts] < '20:00') || (@practitioner.converted_working_hours(current_user)[num].last[:ends] > '16:00' && @practitioner.converted_working_hours(current_user)[num].last[:ends] <= '20:00') %>
-                      <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].last[:ends] %></p></div></div></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-                  <% else %>
-                    <td></td>
-                  <% end %>
-                <% end %>
-                <td class='time'>16 ~ 20</td>
-              </tr>
-              <tr>
-                <% (0..6).to_a.each do |num| %>
-                  <% if @practitioner.converted_working_hours(current_user)[num] != [] %>
-                    <% if @practitioner.converted_working_hours(current_user)[num].last[:ends] > '20:00' %>
-                      <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].last[:ends] %></p></div></div></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-                  <% else %>
-                    <td></td>
-                  <% end %>
-                <% end %>
-                <td class='time'>20 ~ 24</td>
-              </tr>
+          <p class="practitioner-rating">
+            <% if @practitioner.reviews.count > 0 %>
+              <i class="fas fa-star mr-2 pink-icon"></i><%= @practitioner.rating_avg %> (<%= @practitioner.reviews.count %>)
+            <% else %>
+              No reviews!
             <% end %>
-          </table>
+          </p>
+          <div class="text-center">
+            <p>Response Rate: 100%</p>
+          </div>
+        </div>
+        <div class="practitioner-detail">
+          <div class="practitioner-name">
+            <!-- <button class="verified">Verified</button> -->
+            <h3><%= @practitioner.user.full_name %></h3>
+            <div class="practitioner-btn" id="practitioner-btn">
+              <%= render 'favorite_practitioners/practitioner_btn', practitioner: @practitioner %>
+            </div>
+          </div>
+          <h4><em><%= @practitioner.title %></em></h4>
+          <p><%= @practitioner.specialties.pluck(:name).join(', ') %></p>
+          <p><i class="fas fa-map-marker-alt pink-icon"></i> Location: <%= @practitioner.location %></p>
+          <p><i class="fas fa-microphone pink-icon"></i> Languages:
+            <%= @practitioner.languages.pluck(:name).join(', ') %>
+          </p>
+          <p><i class="fas fa-stopwatch pink-icon"></i> Experience: <%= @practitioner.experience %></p>
+          <p><i class="fas fa-check-circle pink-icon"></i> Accepts Insurance: <%= @practitioner.insurance ? 'Yes' : 'No' %></p>
+          <% if @practitioner.address %>
+            <p><i class="far fa-map pink-icon"></i> Address: <%= @practitioner.address %></p>
+          <% end %>
         </div>
       </div>
-    </div>
-    <div class="practitioner-btn" id="practitioner-btn">
-      <%= render 'favorite_practitioners/practitioner_btn', practitioner: @practitioner %>
-    </div>
-  </div>
-  <div class="practitioner-description">
-    <div class="practitioner-description-left">
       <div class="practitioner-bio">
-        <h3>Bio</h3>
-        <p><%= @practitioner.bio %></p>
+        <h4><i class="fas fa-info-circle"></i> Bio</h4>
+        <p style="margin-bottom: 2rem;"><%= @practitioner.bio %></p>
+        <h4><i class="fas fa-award"></i> Certifications</h4>
+        <p><%= @practitioner.certification %></p>
       </div>
       <div class="practitioner-services">
-        <h3>Services</h3>
+        <h4><i class="fas fa-shopping-cart"></i> Services</h4>
         <% @practitioner.services.each do |service| %>
           <div class="practitioner-service">
             <div class="practitioner-service-info">
-              <div class="d-flex justify-content-between align-items-center">
-                <h4><%= service.name %></h4>
-                <% if current_user != @practitioner.user %>
-                  <%= link_to 'Book now', service_path(service), class: 'btn btn-flat' %>
-                <% end %>
+              <div class="practitioner-service-summary">
+                <div style="flex: 0 0 70%;">
+                  <h4><%= service.name %></h4>
+                  <p><%= service.duration %>m</p>
+                  <p><%= service.service_type.capitalize %></p>
+                </div>
+                <div class="text-center" style="flex: 0 0 25%;">
+                  <% if service.reviews.count > 0 %>
+                    <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+                  <% else %>
+                    <p>No reviews!</p>
+                  <% end %>
+                  <p>CA<%= humanized_money_with_symbol(service.price) %></p>
+                  <% if current_user != @practitioner.user %>
+                    <%= link_to 'Book now', service_path(service), class: 'btn btn-flat' %>
+                  <% end %>
+                </div>
               </div>
-              <% if service.reviews.count > 0 %>
-                <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
-              <% else %>
-                <p>No reviews!</p>
-              <% end %>
-              <p>Service Type: <%= service.service_type.capitalize %></p>
-              <p>Duration: <%= service.duration %>m</p>
-              <p>Service Price: CA<%= humanized_money_with_symbol(service.price) %></p>
               <div class="practitioner-service-description">
                 <p><%= service.description %></p>
                 <!-- <button>+ show more</button> -->
@@ -167,18 +78,134 @@
           </div>
         <% end %>
       </div>
+      <% if @practitioner.reviews.count > 0 %>
+        <div class="practitioner-review">
+          <h4><i class="far fa-comment"></i> Reviews</h4>
+          <% @practitioner.reviews.each do |review| %>
+            <div class="review-box">
+              <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %></p>
+              <p><%= review.comment %></p>
+              <p><small><i><%= review.session.user.full_name %> - <%= review.created_at.strftime('%b %d, %Y') %></i></small></p>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
     </div>
-    <div class="practitioner-description-right">
+    <div class="practitioner-sidebar">
       <div class="practitioner-video">
         <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<%= @practitioner.video %>?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<%= @practitioner.video %>" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
       </div>
-      <div class="practitioner-review mt-5">
-        <% @practitioner.reviews.each do |review| %>
-          <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %> - <%= review.comment %> <small><i>by <%= review.session.user.full_name %></i></small></p>
-        <% end %>
+      <div class="mt-4">
+        <p>Practitioner Working Hours<br>(in your current time zone: <span id='time-zone'></span>)</p>
+        <table class='working-hours'>
+          <tr>
+            <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th></th>
+          </tr>
+          <% if user_signed_in? %>
+            <tr>
+              <% (0..6).to_a.each do |num| %>
+                <% if @practitioner.converted_working_hours(current_user)[num] != [] %>
+                  <% if (@practitioner.converted_working_hours(current_user)[num].first[:starts] < '04:00') && (@practitioner.converted_working_hours(current_user)[num].first[:ends] != '00:00') %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].first[:ends] %></p></div></div></td>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                <% else %>
+                  <td></td>
+                <% end %>
+              <% end %>
+              <td class='time'>00 ~ 04</td>
+            </tr>
+            <tr>
+              <% (0..6).to_a.each do |num| %>
+                <% if @practitioner.converted_working_hours(current_user)[num] != [] %>
+                  <% if (@practitioner.converted_working_hours(current_user)[num].first[:starts] < '04:00' && @practitioner.converted_working_hours(current_user)[num].first[:ends] > '08:00') || (@practitioner.converted_working_hours(current_user)[num].first[:starts] >= '04:00' && @practitioner.converted_working_hours(current_user)[num].first[:starts] < '08:00') || (@practitioner.converted_working_hours(current_user)[num].first[:ends] > '04:00' && @practitioner.converted_working_hours(current_user)[num].first[:ends] <= '08:00') %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].first[:ends] %></p></div></div></td>
+                  <% elsif (@practitioner.converted_working_hours(current_user)[num].last[:starts] < '04:00' && @practitioner.converted_working_hours(current_user)[num].last[:ends] > '08:00') || (@practitioner.converted_working_hours(current_user)[num].last[:starts] >= '04:00' && @practitioner.converted_working_hours(current_user)[num].last[:starts] < '08:00') || (@practitioner.converted_working_hours(current_user)[num].last[:ends] > '04:00' && @practitioner.converted_working_hours(current_user)[num].last[:ends] <= '08:00') %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].last[:ends] %></p></div></div></td>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                <% else %>
+                  <td></td>
+                <% end %>
+              <% end %>
+              <td class='time'>04 ~ 08</td>
+            </tr>
+            <tr>
+              <% (0..6).to_a.each do |num| %>
+                <% if @practitioner.converted_working_hours(current_user)[num] != [] %>
+                  <% if (@practitioner.converted_working_hours(current_user)[num].first[:starts] < '08:00' && @practitioner.converted_working_hours(current_user)[num].first[:ends] > '12:00') || (@practitioner.converted_working_hours(current_user)[num].first[:starts] >= '08:00' && @practitioner.converted_working_hours(current_user)[num].first[:starts] < '12:00') || (@practitioner.converted_working_hours(current_user)[num].first[:ends] > '08:00' && @practitioner.converted_working_hours(current_user)[num].first[:ends] <= '12:00') %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].first[:ends] %></p></div></div></td>
+                  <% elsif (@practitioner.converted_working_hours(current_user)[num].last[:starts] < '08:00' && @practitioner.converted_working_hours(current_user)[num].last[:ends] > '12:00') || (@practitioner.converted_working_hours(current_user)[num].last[:starts] >= '08:00' && @practitioner.converted_working_hours(current_user)[num].last[:starts] < '12:00') || (@practitioner.converted_working_hours(current_user)[num].last[:ends] > '08:00' && @practitioner.converted_working_hours(current_user)[num].last[:ends] <= '12:00') %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].last[:ends] %></p></div></div></td>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                <% else %>
+                  <td></td>
+                <% end %>
+              <% end %>
+              <td class='time'>08 ~ 12</td>
+            </tr>
+            <tr>
+              <% (0..6).to_a.each do |num| %>
+                <% if @practitioner.converted_working_hours(current_user)[num] != [] %>
+                  <% if (@practitioner.converted_working_hours(current_user)[num].first[:starts] < '12:00' && @practitioner.converted_working_hours(current_user)[num].first[:ends] > '16:00') || (@practitioner.converted_working_hours(current_user)[num].first[:starts] >= '12:00' && @practitioner.converted_working_hours(current_user)[num].first[:starts] < '16:00') || (@practitioner.converted_working_hours(current_user)[num].first[:ends] > '12:00' && @practitioner.converted_working_hours(current_user)[num].first[:ends] <= '16:00') %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].first[:ends] %></p></div></div></td>
+                  <% elsif (@practitioner.converted_working_hours(current_user)[num].last[:starts] < '12:00' && @practitioner.converted_working_hours(current_user)[num].last[:ends] > '16:00') || (@practitioner.converted_working_hours(current_user)[num].last[:starts] >= '12:00' && @practitioner.converted_working_hours(current_user)[num].last[:starts] < '16:00') || (@practitioner.converted_working_hours(current_user)[num].last[:ends] > '12:00' && @practitioner.converted_working_hours(current_user)[num].last[:ends] <= '16:00') %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].last[:ends] %></p></div></div></td>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                <% else %>
+                  <td></td>
+                <% end %>
+              <% end %>
+              <td class='time'>12 ~ 16</td>
+            </tr>
+            <tr>
+              <% (0..6).to_a.each do |num| %>
+                <% if @practitioner.converted_working_hours(current_user)[num] != [] %>
+                  <% if (@practitioner.converted_working_hours(current_user)[num].first[:starts] < '16:00' && @practitioner.converted_working_hours(current_user)[num].first[:ends] > '20:00') || (@practitioner.converted_working_hours(current_user)[num].first[:starts] >= '16:00' && @practitioner.converted_working_hours(current_user)[num].first[:starts] < '20:00') || (@practitioner.converted_working_hours(current_user)[num].first[:ends] > '16:00' && @practitioner.converted_working_hours(current_user)[num].first[:ends] <= '20:00') %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].first[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].first[:ends] %></p></div></div></td>
+                  <% elsif (@practitioner.converted_working_hours(current_user)[num].last[:starts] < '16:00' && @practitioner.converted_working_hours(current_user)[num].last[:ends] > '20:00') || (@practitioner.converted_working_hours(current_user)[num].last[:starts] >= '16:00' && @practitioner.converted_working_hours(current_user)[num].last[:starts] < '20:00') || (@practitioner.converted_working_hours(current_user)[num].last[:ends] > '16:00' && @practitioner.converted_working_hours(current_user)[num].last[:ends] <= '20:00') %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].last[:ends] %></p></div></div></td>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                <% else %>
+                  <td></td>
+                <% end %>
+              <% end %>
+              <td class='time'>16 ~ 20</td>
+            </tr>
+            <tr>
+              <% (0..6).to_a.each do |num| %>
+                <% if @practitioner.converted_working_hours(current_user)[num] != [] %>
+                  <% if @practitioner.converted_working_hours(current_user)[num].last[:ends] > '20:00' %>
+                    <td><div class="available-cell"><div class="available-hours"><p><%= @practitioner.converted_working_hours(current_user)[num].last[:starts] %> ~ <%= @practitioner.converted_working_hours(current_user)[num].last[:ends] %></p></div></div></td>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                <% else %>
+                  <td></td>
+                <% end %>
+              <% end %>
+              <td class='time'>20 ~ 24</td>
+            </tr>
+          <% end %>
+        </table>
       </div>
+      <% if current_user == @practitioner.user %>
+        <%= link_to 'Edit', practitioner_profile_path(@practitioner), class: 'btn btn-flat w-100 mt-3' %>
+      <% else %>
+        <%= simple_form_for [@practitioner.user, @conversation], html: {class: "w-100"} do |f| %>
+          <%= f.submit 'Send message', class: 'btn btn-flat w-100 mt-3' %>
+        <% end %>
+      <% end %>
     </div>
   </div>
 </div>
