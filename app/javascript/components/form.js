@@ -72,13 +72,13 @@ const initUpdateForm = () => {
     $(".health-goal-choice").click(function(){
       if ($(this).hasClass("active")) {
         $(this).removeClass("active");
-        healthGoalSelectBoxBtn.innerText = 'Health Goals (' + $('.health-goal-choice.active').length + ')'
+        healthGoalSelectBoxBtn.innerHTML = 'Health Goals (' + $('.health-goal-choice.active').length + ')&nbsp;&nbsp;<i class="fas fa-chevron-down"></i>'
         if ( $('.health-goal-choice.active').length === 0 ) {
-          healthGoalSelectBoxBtn.innerText = 'Health Goals'
+          healthGoalSelectBoxBtn.innerHTML = 'Choose Health Goals&nbsp;&nbsp;<i class="fas fa-chevron-down"></i>'
         }
       } else {
         $(this).addClass("active");
-        healthGoalSelectBoxBtn.innerText = 'Health Goals (' + $('.health-goal-choice.active').length + ')'
+        healthGoalSelectBoxBtn.innerHTML = 'Health Goals (' + $('.health-goal-choice.active').length + ')&nbsp;&nbsp;<i class="fas fa-chevron-down"></i>'
       }
     });
   }

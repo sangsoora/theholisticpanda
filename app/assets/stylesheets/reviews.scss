@@ -1,3 +1,18 @@
-// Place all the styles related to the reviews controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.practitioner-review {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  h4 {
+    flex: 0 0 100%;
+  }
+  .review-box {
+    flex: 0 0 48%;
+    border: 1px solid lightgrey;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    p {
+      margin-bottom: 0.25rem;
+    }
+  }
+}
