@@ -134,7 +134,7 @@ class PractitionersController < ApplicationController
   end
 
   def profile
-    @columns = %w[specialties languages country experience certification bio video website sociallinks address healthgoals timezone]
+    @columns = %w[title specialties languages country experience certification bio approach video address healthgoals timezone city name phone]
     @workingdays = %w[Mon Tue Wed Thu Fri Sat Sun]
     @specialties = Specialty.all.sort_by(&:name)
     @languages = Language.all.sort_by(&:name)
@@ -162,9 +162,6 @@ class PractitionersController < ApplicationController
       if @practitioner.update(practitioner_params)
         if @practitioner.video && !@practitioner.video.include?('http://' || 'https://')
           @practitioner.update(video: 'http://' + @practitioner.video)
-        end
-        if @practitioner.website && !@practitioner.website.include?('http://' || 'https://')
-          @practitioner.update(website: 'http://' + @practitioner.website)
         end
         @param = practitioner_params
         respond_to do |format|
@@ -197,6 +194,6 @@ class PractitionersController < ApplicationController
   end
 
   def practitioner_params
-    params.require(:practitioner).permit(:location, :address, :bio, :video, :website, :latitude, :longitude, :certification, :experience, :timezone, :country_code, :background_check_status, :background_check_consent, :background_check_id, :photo)
+    params.require(:practitioner).permit(:title, :location, :address, :bio, :approach, :video, :latitude, :longitude, :certification, :experience, :timezone, :country_code, :background_check_status, :background_check_consent, :background_check_id, :photo)
   end
 end

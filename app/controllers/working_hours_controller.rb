@@ -22,7 +22,8 @@ class WorkingHoursController < ApplicationController
 
   def destroy
     @practitioner = @working_hour.practitioner
-    @working_hour.destroy
+    @num = @working_hour.day
+    @working_hour.update(opens: nil, closes: nil)
     respond_to do |format|
       format.html { redirect_to practitioner_profile_path(@practitioner) }
       format.js

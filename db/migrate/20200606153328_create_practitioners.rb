@@ -5,11 +5,11 @@ class CreatePractitioners < ActiveRecord::Migration[5.2]
       t.string :location
       t.string :address
       t.text :bio
+      t.text :approach
       t.string :country_code
       t.string :experience
       t.string :certification
       t.string :video
-      t.string :website
       t.string :timezone
       t.boolean :insurance
       t.float :latitude

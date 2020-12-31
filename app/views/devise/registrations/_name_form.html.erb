@@ -1,0 +1,8 @@
+<%= simple_form_for(resource, url: registration_path(resource), remote: true, html: { method: :put, id: :name_form, style: 'display: none; align-items: center;' }) do |f| %>
+  <div class="d-flex justify-content-between">
+    <div style="flex: 0 0 45%"><%= f.input :first_name, require: true, label: false %></div>
+    <div style="flex: 0 0 45%"><%= f.input :last_name, require: true, label: false %></div>
+  </div>
+  <button type="submit"><i class='fas fa-check'></i></button>
+  <button id='name-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+<% end %>

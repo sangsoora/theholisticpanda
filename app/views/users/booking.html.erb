@@ -149,10 +149,13 @@
       e.preventDefault();
       showBlock(tabIndex);
       const activeTab = document.querySelector('.active-tab');
-      event.currentTarget.classList.toggle('active-tab');
-      if (activeTab !== null) {
-        activeTab.classList.remove('active-tab');
+      if (!e.currentTarget.classList.contains('active-tab')) {
+        if (activeTab !== null) {
+          activeTab.classList.remove('active-tab');
+        }
+        e.currentTarget.classList.toggle('active-tab');
       }
     })
   }
+
 </script>

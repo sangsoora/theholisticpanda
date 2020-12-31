@@ -17,6 +17,8 @@
   <body>
     <% if content_for?(:navbar) %>
       <%= yield(:navbar) %>
+    <% elsif content_for?(:home_navbar) %>
+      <%= yield(:home_navbar) %>
     <% else %>
       <%= render 'shared/navbar' %>
     <% end %>

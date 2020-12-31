@@ -62,9 +62,9 @@
       <div class="modal-body">
         <%= simple_form_for([@service]) do |f| %>
           <%= f.input :name %>
-          <div class="form-group select require service_service_type">
-            <label class="select require" for="service_service_type">Service type</label>
-            <select class="form-control select require" name="service[service_type]" id="service_service_type">
+          <div class="form-group select required service_service_type">
+            <label class="select required" for="service_service_type">Service type</label>
+            <select class="form-control select require" name="service[service_type]" id="service_service_type" required>
               <option value=""></option>
               <option value="Virtual">Virtual</option>
               <% if @practitioner.address %>
@@ -73,7 +73,7 @@
             </select>
           </div>
           <%= f.input :specialty, as: :select, collection: @practitioner.specialties, require: true %>
-          <%= f.input :duration, input_html: { value: 15, min: 15, step: 15 } %>
+          <%= f.input :duration, input_html: { value: 15, min: 15, step: 15 }, require: true %>
           <div class="form-group string required service_price">
             <label class="string required" for="service_price">Price <abbr title="required">*</abbr></label>
             <input class="form-control string required" type="text" name="service[price]" id="service_price">
