@@ -268,8 +268,10 @@
                 <h5>Specify if your service accept insurance.</h5>
                 <div id="practitioner-insurance">
                   <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="insurance">
-                    <label class="custom-control-label" for="insurance">Toggle this switch element</label>
+                    <%= simple_form_for([@practitioner], remote: true, html: { id: :insurance_form, style: 'align-items: center;' }) do |f| %>
+                      <%= f.input :insurance, as: :boolean, input_html: { class: 'custom-control-input', id: 'insurance' },label: '&nbsp;'.html_safe, label_html: { class: 'custom-control-label' } %>
+                      <button type="submit" class="hidden" id="insurance-submit"></button>
+                    <% end %>
                   </div>
                 </div>
                 <%= simple_form_for([@practitioner], remote: true, html: { id: :title_form, style: 'display: none; align-items: center;' }) do |f| %>
@@ -327,7 +329,7 @@
               <div class="biography-list">
                 <h5>Tell us about your healing approach.</h5>
                 <div id="practitioner-approach">
-                  <p id="approach"><%= (@practitioner.approach) %></p>
+                  <p id="approach"><%= @practitioner.approach.gsub(/\n/, '<br/>').html_safe %></p>
                   <button id='approach-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
                 </div>
                 <%= simple_form_for([@practitioner], remote: true, html: { id: :approach_form, style: 'display: none; align-items: center;' }) do |f| %>
@@ -519,6 +521,11 @@
       <%= column %>Edit.style.display = 'block';
     })
   <% end %>
+  const insurance = document.getElementById('insurance');
+  const insuranceSubmit = document.getElementById('insurance-submit');
+  insurance.addEventListener('click', (e) => {
+    insuranceSubmit.click();
+  })
   <% (0..6).each do |num| %>
     const day<%= num %> = document.getElementById('day<%= num %>');
     const day<%= num %>Form = document.getElementById('day<%= num %>_form');
