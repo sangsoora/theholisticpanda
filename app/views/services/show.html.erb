@@ -134,7 +134,7 @@
     </div>
     <div class='service-session-summary'>
       <div class='service-description'>
-        <p><%= @service.description %></p>
+        <p><%= @service.description.gsub(/\n/, '<br/>').html_safe %></p>
         <p>Specialty: <%= @service.specialty.name %></p>
         <p>Related health goals:
           <%= @service.health_goals.pluck(:name).join(', ') %>
@@ -149,7 +149,7 @@
       </div>
       <div class="service-review">
         <% @service.reviews.includes(session: :user).each do |review| %>
-          <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %> - <%= review.comment %> <small><i>by <%= review.session.user.full_name %></i></small></p>
+          <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %> - <%= review.comment.gsub(/\n/, '<br/>').html_safe %> <small><i>by <%= review.session.user.full_name %></i></small></p>
         <% end %>
       </div>
     </div>

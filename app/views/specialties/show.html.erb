@@ -1,6 +1,6 @@
 <div class="container specialty-page">
   <h2><%= @specialty.name %></h2>
-  <p><%= @specialty.description %></p>
+  <p><%= @specialty.description.gsub(/\n/, '<br/>').html_safe %></p>
   <div class="service-lists">
     <% @specialty.services.each do |service| %>
       <div class="service-list-item" data-price="<%= service.price.to_i %>" data-duration="<%= service.duration %>">
@@ -69,8 +69,8 @@
             <div class="service-list-item-practitioner">
               <div class="profile-photo">
                 <a href="/practitioners/<%= service.practitioner.id %>">
-                  <% if service.practitioner.photo.attached? %>
-                    <a href="/practitioners/1"><%= cl_image_tag service.practitioner.photo.key, class: 'service-list-item-user avatar-bordered' %></a>
+                  <% if service.practitioner.user.photo.attached? %>
+                    <a href="/practitioners/1"><%= cl_image_tag service.practitioner.user.photo.key, class: 'service-list-item-user avatar-bordered' %></a>
                   <% else %>
                     <img src='https://kitt.lewagon.com/placeholder/users/random' class="service-list-item-user avatar-bordered"/>
                   <% end %>
@@ -85,8 +85,8 @@
           </div>
           <div class="lists hidden" id="service-<%= service.id %>">
             <div class="service-list-item-infos">
-              <p <%= 'class=short' if service.description.length >= 250 %> ><%= service.description %></p>
-              <% if service.description.length >= 250 %>
+              <p <%= 'class=short' if service.description.length >= 300 %> ><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
+              <% if service.description.length >= 300 %>
                 <%= link_to 'Read more', service_path(service) %>
               <% end %>
             </div>

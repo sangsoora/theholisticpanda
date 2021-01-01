@@ -1,11 +1,15 @@
 <div class="container practitioner-page">
   <div class="practitioner-overview">
     <div class="practitioner-main">
-      <%= image_tag('banner', alt: 'Holistic Service', class: 'banner') %>
+      <% if @practitioner.banner_image.attached? %>
+        <%= cl_image_tag @practitioner.banner_image.key, class: 'banner' %>
+      <% else %>
+        <%= image_tag('banner', alt: 'Holistic Service', class: 'banner') %>
+      <% end %>
       <div class="practitioner-info">
         <div class="practitioner-img">
-          <% if @practitioner.photo.attached? %>
-            <%= cl_image_tag @practitioner.photo.key, class: 'avatar-full' %>
+          <% if @practitioner.user.photo.attached? %>
+            <%= cl_image_tag @practitioner.user.photo.key, class: 'avatar-full' %>
           <% else %>
             <img src='https://kitt.lewagon.com/placeholder/users/random' class='avatar-full' />
           <% end %>
@@ -45,7 +49,9 @@
       </div>
       <div class="practitioner-bio">
         <h4><i class="fas fa-info-circle"></i> About Me</h4>
-        <p style="margin-bottom: 2rem;"><%= @practitioner.bio %></p>
+        <p style="margin-bottom: 2rem;"><%= @practitioner.bio.gsub(/\n/, '<br/>').html_safe %></p>
+        <h4><i class="far fa-question-circle"></i> Healing Approach</h4>
+        <p style="margin-bottom: 2rem;"><%= @practitioner.approach.gsub(/\n/, '<br/>').html_safe %></p>
         <h4><i class="fas fa-award"></i> Certifications & Trainings</h4>
         <p><%= @practitioner.certification %></p>
       </div>
@@ -73,7 +79,7 @@
                 </div>
               </div>
               <div class="practitioner-service-description">
-                <p><%= service.description %></p>
+                <p><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
                 <!-- <button>+ show more</button> -->
               </div>
             </div>
@@ -86,7 +92,7 @@
           <% @practitioner.reviews.each do |review| %>
             <div class="review-box">
               <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %></p>
-              <p><%= review.comment %></p>
+              <p><%= review.comment.gsub(/\n/, '<br/>').html_safe %></p>
               <p><small><i><%= review.session.user.full_name %> - <%= review.created_at.strftime('%b %d, %Y') %></i></small></p>
             </div>
           <% end %>

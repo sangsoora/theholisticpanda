@@ -4,7 +4,7 @@ class ServicesController < ApplicationController
   before_action :set_service, only: %i[show update destroy]
 
   def index
-    @services = policy_scope(Service).includes(:specialty, :practitioner_specialty, :languages, practitioner: [:user, :photo_attachment]).group_by { |service| service.specialty }
+    @services = policy_scope(Service).includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}]).group_by { |service| service.specialty }
     @services = @services.sort_by { |k, _v| k[:name] }.to_h
     if params[:search] && params[:search][:health_goal]
       @primary_filtered_services = Service.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?))

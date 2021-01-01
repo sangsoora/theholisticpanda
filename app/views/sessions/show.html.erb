@@ -47,7 +47,7 @@
       </div>
     <% end %>
   <% elsif @session.user == current_user %>
-    <div class="d-flex">
+    <div class="d-flex align-items-center">
       <h2><%= link_to @session.service.name, service_path(@session.service) %> with <%= link_to @session.practitioner.user.full_name, practitioner_path(@session.practitioner) %></h2>
       <% if @session.status == 'confirmed' && @session.start_time < Time.current && @session.review == nil %>
         <%= link_to 'Rate', '', data: { toggle: "modal", target: "#newReviewModal" }, class: 'btn btn-flat ml-4' %>

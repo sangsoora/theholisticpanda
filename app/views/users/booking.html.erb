@@ -18,8 +18,8 @@
           <div class="session">
             <div class="session-head">
               <% if session.practitioner.user != current_user %>
-                <% if session.practitioner.photo.attached? %>
-                  <%= cl_image_tag session.practitioner.photo.key, class: "avatar" %>
+                <% if session.practitioner.user.photo.attached? %>
+                  <%= cl_image_tag session.practitioner.user.photo.key, class: "avatar" %>
                 <% else %>
                   <img class='avatar' src='https://kitt.lewagon.com/placeholder/users/random' />
                 <% end %>
@@ -72,8 +72,8 @@
           <div class="session">
             <div class="session-head">
               <% if session.practitioner.user != current_user %>
-                <% if session.practitioner.photo.attached? %>
-                  <%= cl_image_tag session.practitioner.photo.key, class: "avatar" %>
+                <% if session.practitioner.user.photo.attached? %>
+                  <%= cl_image_tag session.practitioner.user.photo.key, class: "avatar" %>
                 <% else %>
                   <img class='avatar' src='https://kitt.lewagon.com/placeholder/users/random' />
                 <% end %>
@@ -104,8 +104,8 @@
           <div class="session">
             <div class="session-head">
               <% if session.practitioner.user != current_user %>
-                <% if session.practitioner.photo.attached? %>
-                  <%= cl_image_tag session.practitioner.photo.key, class: "avatar" %>
+                <% if session.practitioner.user.photo.attached? %>
+                  <%= cl_image_tag session.practitioner.user.photo.key, class: "avatar" %>
                 <% else %>
                   <img class='avatar' src='https://kitt.lewagon.com/placeholder/users/random' />
                 <% end %>

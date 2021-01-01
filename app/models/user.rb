@@ -14,6 +14,7 @@ class User < ApplicationRecord
   has_many :conversations_as_recipient, foreign_key: :recipient_id, class_name: :Conversation, dependent: :destroy
   has_many :conversations_as_sender, foreign_key: :sender_id, class_name: :Conversation, dependent: :destroy
   has_many :health_goals, through: :user_health_goals
+  has_one_attached :photo
 
   validates :email, presence: true, format: { with: /.+@.+\..+/ }
   validates :first_name, presence: true, length: { minimum: 2, maximum: 20 }

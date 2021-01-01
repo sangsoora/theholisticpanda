@@ -14,12 +14,13 @@
   </div>
   <div class="practitioner-profile-table">
     <div class="practitioner-profile-img">
-      <% if @practitioner.photo.attached? %>
-        <%= cl_image_tag @practitioner.photo.key, class: 'avatar-full' %>
+      <% if @practitioner.user.photo.attached? %>
+        <%= cl_image_tag @practitioner.user.photo.key, class: 'avatar-full' %>
       <% else %>
         <img src='https://kitt.lewagon.com/placeholder/users/random' class='avatar-full' />
       <% end %>
-      <%= link_to '📷', '', data: { toggle: "modal", target: "#profilePictureModal" }, class: 'btn btn-ghost mt-4 w-100' %>
+      <%= link_to '📷 Profile photo', '', data: { toggle: "modal", target: "#profilePictureModal" }, class: 'btn btn-ghost mt-4 w-100' %>
+      <%= link_to '📷 Banner image', '', data: { toggle: "modal", target: "#bannerImageModal" }, class: 'btn btn-ghost mt-4 w-100' %>
     </div>
     <div class="practitioner-profile-infos">
       <ul class="list-inline tabs-underlined">
@@ -469,7 +470,7 @@
         </button>
       </div>
       <div class="modal-body text-center">
-        <%= simple_form_for([@practitioner]) do |f| %>
+        <%= simple_form_for(current_user, url: registration_path(current_user)) do |f| %>
           <div class="row">
             <div class="col-10 offset-1 p-0">
               <%= f.input :photo, as: :file, input_html: { class: 'd-none', id: 'photo-input' }, label_html: { class: 'upload-photo'}, label: '📷 Upload a profile photo' %>
@@ -495,6 +496,37 @@
 </div>
 <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
   <%= render 'devise/registrations/password_form', resource: current_user %>
+</div>
+<div class="modal fade" id="bannerImageModal" tabindex="-1" role="dialog" aria-labelledby="bannerImageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-photo" role="document">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <h5 class="modal-title" id="bannerImageModalLabel">Upload banner image</h5>
+        <button data-dismiss="modal" aria-label="Close" style="display: none;" id="close-modal">
+        </button>
+      </div>
+      <div class="modal-body text-center">
+
+        <%= simple_form_for([@practitioner]) do |f| %>
+          <div class="row">
+            <div class="col-10 offset-1 p-0">
+              <%= f.input :banner_image, as: :file, input_html: { class: 'd-none', id: 'banner-input' }, label_html: { class: 'upload-photo'}, label: '📷 Upload a banner photo' %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-8 offset-2 p-0">
+              <canvas id="banner-canvas" style="width: 675px; height: 232px;"></canvas>
+            </div>
+          </div>
+          <div class="d-flex justify-content-around mt-4">
+            <%#= link_to 'Reset', '', class: 'btn btn-ghost', id: 'btnReset'  %>
+            <%#= link_to 'Crop', '', class: 'btn btn-ghost', id: 'btnCrop' %>
+            <%= f.button :submit, "Upload", class: 'btn-flat', id: 'btnBannerUpload', disabled: true %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
   <% @columns.each do |column| %>

@@ -49,8 +49,8 @@
           <%#@filtered_practitioners.each do |practitioner| %>
             <a href="/practitioners/<%# practitioner.id %>">
               <div class='card-featured'>
-                <%#if practitioner.photo.attached? %>
-                  <%# cl_image_tag practitioner.photo.key %>
+                <%#if practitioner.user.photo.attached? %>
+                  <%# cl_image_tag practitioner.user.photo.key %>
                 <%#else %>
                   <img src='https://kitt.lewagon.com/placeholder/users/random' />
                 <%#end %>
@@ -68,8 +68,8 @@
         <%#@practitioners.each do |practitioner| %>
           <a href="/practitioners/<%# practitioner.id %>">
             <div class='card-featured'>
-              <%#if practitioner.photo.attached? %>
-                <%# cl_image_tag practitioner.photo.key %>
+              <%#if practitioner.user.photo.attached? %>
+                <%# cl_image_tag practitioner.user.photo.key %>
               <%#else %>
                 <img src='https://kitt.lewagon.com/placeholder/users/random' />
               <%#end %>
