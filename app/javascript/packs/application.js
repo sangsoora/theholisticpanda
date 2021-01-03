@@ -22,6 +22,7 @@ import "cropperjs/dist/cropper.css";
 import { initUpdateForm } from '../components/form';
 import { previewImageOnFileSelect } from '../components/image_cropper';
 import { initConversationScroll } from '../components/conversation_scroll';
+import { previewBannerOnFileSelect } from '../components/banner_upload';
 // document.addEventListener("scroll", () => {
 //   // Call your JS functions here
 //   initUpdateNavbarOnScroll();
@@ -31,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initUpdateForm();
   previewImageOnFileSelect();
   initConversationScroll();
+  previewBannerOnFileSelect();
 });
 
 // document.addEventListener('turbolinks:load', () => {

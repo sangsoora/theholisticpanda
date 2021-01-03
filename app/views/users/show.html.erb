@@ -1,41 +1,65 @@
 <div class="container account">
   <div class="d-flex align-items-center">
     <h1>Welcome, <%= @user.first_name %></h1>
-    <%= link_to 'Edit', '', data: { toggle: "modal", target: "#profileEditModal" }, class: 'btn btn-ghost m-3' %>
     <%= link_to 'Reset password', '', data: { toggle: "modal", target: "#passwordModal" }, class: 'btn btn-ghost ml-3' %>
   </div>
   <div class="profile-infos">
-    <div class="profile-info my-4">
+    <div class="profile-info">
       <div class="profile-info-title">
-        <p>Health Goals</p>
+        <h5 class="personal-tab personal-active-tab" id="personal-basic">Basic Info</h5>
+        <div class="personal-list">
+          <p class="personal-basic-tab personal-basic-active-tab">Name</p>
+          <p class="personal-basic-tab">Phone number</p>
+        </div>
+        <h5 class="personal-tab" id="personal-additional">Additional Info</h5>
+        <div class="personal-list">
+          <p class="personal-additional-tab personal-additional-active-tab">Health Goals</p>
+          <p class="personal-additional-tab">Newsletter</p>
+        </div>
       </div>
       <div class="profile-info-body">
-        <div id="health-goals">
-          <div id="health-goals-list">
-            <%= render "user_health_goals/user_health_goals_list", user: current_user %>
+        <div id="personal-basic-wrapper">
+          <div class="personal-basic-list">
+            <h5>Edit your name.</h5>
+            <div id="user-name">
+              <p id="name"><%= current_user.full_name %></p>
+              <button id='name-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
+            </div>
+            <%= render 'devise/registrations/name_form', resource: current_user %>
           </div>
-          <% if @user.health_goals.count < UserHealthGoal.count %>
-            <button id='healthgoals-edit' class='ml-0'><p><%= link_to '+ Add', '' %></p></button>
-          <% end %>
+          <div class="personal-basic-list">
+            <h5>Edit your phone number.</h5>
+            <div id="user-phone">
+              <p id="phone"><%= current_user.phone_number %></p>
+              <button id='phone-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
+            </div>
+            <%= render 'devise/registrations/phone_form', resource: current_user %>
+          </div>
         </div>
-        <%= simple_form_for([@user, @user_health_goal], remote: true, html: { id: :healthgoals_form, style: 'display: none;' }) do |f| %>
-          <%= render "user_health_goals/update_form", user: current_user, health_goals: @health_goals %>
-        <% end %>
+        <div id="personal-additional-wrapper" class="hidden">
+          <div class="personal-additional-list">
+            <h5>Add health goals you are interested as service user.</h5>
+            <div id="health-goals">
+              <div id="health-goals-list">
+                <%= render "user_health_goals/user_health_goals_list", user: current_user %>
+              </div>
+              <% if @user.health_goals.count < HealthGoal.count %>
+                <button id='healthgoals-edit' class='ml-0'><%= link_to '+ Add', '' %></button>
+              <% end %>
+            </div>
+            <%= simple_form_for([@user, @user_health_goal], remote: true, html: { id: :healthgoals_form, style: 'display: none;' }) do |f| %>
+              <%= render "user_health_goals/update_form", user: current_user, health_goals: @health_goals %>
+            <% end %>
+          </div>
+          <div class="personal-additional-list">
+            <h5>Subsribe to our newsletter for more info.</h5>
+            <div id="newsletter">
+              <%= render "newsletters/newsletter_form", user: @user, newsletter: @newsletter %>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="profile-info my-4">
-      <div class="profile-info-title">
-        <p>Newsletter</p>
-      </div>
-      <div class="profile-info-body">
-        <div id="newsletter">
-          <%= render "newsletters/newsletter_form", user: @user, newsletter: @newsletter %>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal fade" id="profileEditModal" tabindex="-1" role="dialog" aria-labelledby="profileEditModalLabel" aria-hidden="true">
-    <%= render 'devise/registrations/edit_form', resource: current_user %>
   </div>
   <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
     <%= render 'devise/registrations/password_form', resource: current_user %>
@@ -46,6 +70,14 @@
   const healthgoalsForm = document.getElementById('healthgoals_form');
   const healthgoalsEdit = document.getElementById('healthgoals-edit');
   const healthgoalsCancel = document.getElementById('healthgoals-cancel');
+  const name = document.getElementById('user-name');
+  const nameForm = document.getElementById('name_form');
+  const nameEdit = document.getElementById('name-edit');
+  const nameCancel = document.getElementById('name-cancel');
+  const phone = document.getElementById('user-phone');
+  const phoneForm = document.getElementById('phone_form');
+  const phoneEdit = document.getElementById('phone-edit');
+  const phoneCancel = document.getElementById('phone-cancel');
   healthgoalsEdit.addEventListener('click', (e) => {
     e.preventDefault();
     healthgoals.style.display = 'none';
@@ -58,4 +90,71 @@
     healthgoalsForm.style.display = 'none';
     healthgoalsEdit.style.display = 'block';
   })
+  nameEdit.addEventListener('click', (e) => {
+    e.preventDefault();
+    name.style.display = 'none';
+    nameForm.style.display = 'flex';
+    nameEdit.style.display = 'none';
+  })
+  nameCancel.addEventListener('click', (e) => {
+    e.preventDefault();
+    name.style.display = 'block';
+    nameForm.style.display = 'none';
+    nameEdit.style.display = 'block';
+  })
+  phoneEdit.addEventListener('click', (e) => {
+    e.preventDefault();
+    phone.style.display = 'none';
+    phoneForm.style.display = 'flex';
+    phoneEdit.style.display = 'none';
+  })
+  phoneCancel.addEventListener('click', (e) => {
+    e.preventDefault();
+    phone.style.display = 'block';
+    phoneForm.style.display = 'none';
+    phoneEdit.style.display = 'block';
+  })
+  const toggleTabs = (tabs, lists, query) => {
+    const entries = function*(iterable) {
+      let i = 0;
+      for (item of iterable) {
+        yield [i++, item]
+      }
+    }
+    const showBlock = index => {
+      for (const [blockIndex, block] of entries(lists)) {
+        block.style.display = blockIndex === index ? 'block' : 'none'
+      }
+    }
+    showBlock(0)
+    for (const [tabIndex, tab] of entries(tabs)) {
+      tab.addEventListener('click', e => {
+        e.preventDefault();
+        showBlock(tabIndex);
+        const activeTab = document.querySelector('.' + query);
+        if (!e.currentTarget.classList.contains(query)) {
+          if (activeTab !== null) {
+            activeTab.classList.remove(query);
+          }
+          e.currentTarget.classList.toggle(query);
+        }
+        if (e.currentTarget.id == 'personal-basic') {
+          document.getElementById('personal-basic-wrapper').classList.remove('hidden');
+          document.getElementById('personal-additional-wrapper').classList.add('hidden');
+        } else if (e.currentTarget.id == 'personal-additional') {
+          document.getElementById('personal-basic-wrapper').classList.add('hidden');
+          document.getElementById('personal-additional-wrapper').classList.remove('hidden');
+        }
+      })
+    }
+  }
+  const personalTabs = document.querySelectorAll('.personal-tab');
+  const personalLists = document.querySelectorAll('.personal-list');
+  const personalBasicTabs = document.querySelectorAll('.personal-basic-tab');
+  const personalBasicLists = document.querySelectorAll('.personal-basic-list');
+  const personalAdditionalTabs = document.querySelectorAll('.personal-additional-tab');
+  const personalAdditionalLists = document.querySelectorAll('.personal-additional-list');
+  toggleTabs(personalTabs, personalLists, 'personal-active-tab');
+  toggleTabs(personalBasicTabs, personalBasicLists, 'personal-basic-active-tab');
+  toggleTabs(personalAdditionalTabs, personalAdditionalLists, 'personal-additional-active-tab');
 </script>

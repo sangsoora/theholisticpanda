@@ -133,11 +133,11 @@ ActiveRecord::Schema.define(version: 2020_12_02_131906) do
     t.string "location"
     t.string "address"
     t.text "bio"
+    t.text "approach"
     t.string "country_code"
     t.string "experience"
     t.string "certification"
     t.string "video"
-    t.string "website"
     t.string "timezone"
     t.boolean "insurance"
     t.float "latitude"
@@ -174,6 +174,7 @@ ActiveRecord::Schema.define(version: 2020_12_02_131906) do
     t.text "description"
     t.string "service_type"
     t.integer "duration"
+    t.boolean "active"
     t.bigint "practitioner_specialty_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

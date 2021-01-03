@@ -89,8 +89,8 @@
               <div class="service-list-item-infos">
                 <div class="service-list-item-practitioner">
                   <a href="/practitioners/<%#= service.practitioner.id %>">
-                    <%# if service.practitioner.photo.attached? %>
-                      <%#= cl_image_tag service.practitioner.photo.key, class: 'service-list-item-user avatar-bordered' %>
+                    <%# if service.practitioner.user.photo.attached? %>
+                      <%#= cl_image_tag service.practitioner.user.photo.key, class: 'service-list-item-user avatar-bordered' %>
                     <%# else %>
                       <img src='https://kitt.lewagon.com/placeholder/users/random' class="service-list-item-user avatar-bordered"/>
                     <%# end %>
@@ -141,8 +141,8 @@
               <div class="service-list-item-infos">
                 <div class="service-list-item-practitioner">
                   <a href="/practitioners/<%#= service.practitioner.id %>">
-                    <%# if service.practitioner.photo.attached? %>
-                      <%#= cl_image_tag service.practitioner.photo.key, class: 'service-list-item-user avatar-bordered' %>
+                    <%# if service.practitioner.user.photo.attached? %>
+                      <%#= cl_image_tag service.practitioner.user.photo.key, class: 'service-list-item-user avatar-bordered' %>
                     <%# else %>
                       <img src='https://kitt.lewagon.com/placeholder/users/random' class="service-list-item-user avatar-bordered"/>
                     <%# end %>

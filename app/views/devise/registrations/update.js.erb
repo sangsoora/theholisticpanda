@@ -1,0 +1,11 @@
+if ('<%= @param.keys.first %>' == "first_name") {
+  name.style.display = 'flex';
+  nameForm.style.display = 'none';
+  nameEdit.style.display = 'block';
+  document.getElementById('name').innerHTML = '<%= @user.full_name %>'
+} else if ('<%= @param.keys.first %>' == "phone_number") {
+  phone.style.display = 'flex';
+  phoneForm.style.display = 'none';
+  phoneEdit.style.display = 'block';
+  document.getElementById('phone').innerHTML = '<%= @user.phone_number %>'
+}

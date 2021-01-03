@@ -150,7 +150,7 @@
       font-weight: 400;
     }
     .tabs-underlined .tab-underlined {
-      margin: 0 1rem;
+      margin: 0 1rem 1rem;
       padding: 0 0.5rem;
     }
   }
@@ -227,6 +227,9 @@
     flex: 0 0 30%;
     text-align: center;
     font-size: 0.875rem;
+    p {
+      margin-bottom: 0.5rem;
+    }
   }
   .general-info {
     flex: 0 0 60%;

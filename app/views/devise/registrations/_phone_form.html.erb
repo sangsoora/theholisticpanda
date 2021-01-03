@@ -1,0 +1,5 @@
+<%= simple_form_for(resource, url: registration_path(resource), remote: true, html: { method: :put, id: :phone_form, style: 'display: none; align-items: center;' }) do |f| %>
+  <%= f.input :phone_number, require: true, label: false %>
+  <button type="submit"><i class='fas fa-check'></i></button>
+  <button id='phone-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+<% end %>

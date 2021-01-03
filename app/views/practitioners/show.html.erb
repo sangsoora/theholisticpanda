@@ -1,11 +1,15 @@
 <div class="container practitioner-page">
   <div class="practitioner-overview">
     <div class="practitioner-main">
-      <%= image_tag('banner', alt: 'Holistic Service', class: 'banner') %>
+      <% if @practitioner.banner_image.attached? %>
+        <%= cl_image_tag @practitioner.banner_image.key, class: 'banner' %>
+      <% else %>
+        <%= image_tag('banner', alt: 'Holistic Service', class: 'banner') %>
+      <% end %>
       <div class="practitioner-info">
         <div class="practitioner-img">
-          <% if @practitioner.photo.attached? %>
-            <%= cl_image_tag @practitioner.photo.key, class: 'avatar-full' %>
+          <% if @practitioner.user.photo.attached? %>
+            <%= cl_image_tag @practitioner.user.photo.key, class: 'avatar-full' %>
           <% else %>
             <img src='https://kitt.lewagon.com/placeholder/users/random' class='avatar-full' />
           <% end %>
@@ -22,8 +26,10 @@
         </div>
         <div class="practitioner-detail">
           <div class="practitioner-name">
-            <!-- <button class="verified">Verified</button> -->
-            <h3><%= @practitioner.user.full_name %></h3>
+            <div class="d-flex align-items-center">
+              <button class="verified">Checked</button>
+              <h3><%= @practitioner.user.full_name %></h3>
+            </div>
             <div class="practitioner-btn" id="practitioner-btn">
               <%= render 'favorite_practitioners/practitioner_btn', practitioner: @practitioner %>
             </div>
@@ -42,14 +48,16 @@
         </div>
       </div>
       <div class="practitioner-bio">
-        <h4><i class="fas fa-info-circle"></i> Bio</h4>
-        <p style="margin-bottom: 2rem;"><%= @practitioner.bio %></p>
-        <h4><i class="fas fa-award"></i> Certifications</h4>
+        <h4><i class="fas fa-info-circle"></i> About Me</h4>
+        <p style="margin-bottom: 2rem;"><%= @practitioner.bio.gsub(/\n/, '<br/>').html_safe %></p>
+        <h4><i class="far fa-question-circle"></i> Healing Approach</h4>
+        <p style="margin-bottom: 2rem;"><%= @practitioner.approach.gsub(/\n/, '<br/>').html_safe %></p>
+        <h4><i class="fas fa-award"></i> Certifications & Trainings</h4>
         <p><%= @practitioner.certification %></p>
       </div>
       <div class="practitioner-services">
         <h4><i class="fas fa-shopping-cart"></i> Services</h4>
-        <% @practitioner.services.each do |service| %>
+        <% @practitioner.services.where(active: true).each do |service| %>
           <div class="practitioner-service">
             <div class="practitioner-service-info">
               <div class="practitioner-service-summary">
@@ -71,7 +79,7 @@
                 </div>
               </div>
               <div class="practitioner-service-description">
-                <p><%= service.description %></p>
+                <p><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
                 <!-- <button>+ show more</button> -->
               </div>
             </div>
@@ -84,7 +92,7 @@
           <% @practitioner.reviews.each do |review| %>
             <div class="review-box">
               <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %></p>
-              <p><%= review.comment %></p>
+              <p><%= review.comment.gsub(/\n/, '<br/>').html_safe %></p>
               <p><small><i><%= review.session.user.full_name %> - <%= review.created_at.strftime('%b %d, %Y') %></i></small></p>
             </div>
           <% end %>
@@ -97,11 +105,11 @@
           <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<%= @practitioner.video %>" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
       </div>
-      <div class="mt-4">
+      <div class="practitioner-timetable mt-3">
         <p>Practitioner Working Hours<br>(in your current time zone: <span id='time-zone'></span>)</p>
         <table class='working-hours'>
           <tr>
-            <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th></th>
+            <th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th></th>
           </tr>
           <% if user_signed_in? %>
             <tr>

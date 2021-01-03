@@ -27,13 +27,13 @@ class UsersController < ApplicationController
 
   def booking
     if current_user.practitioner
-      @confirmed_sessions = current_user.practitioner.sessions.includes(:review, service: [practitioner: :photo_attachment]).where(['status= ?', 'confirmed'])
-      @pending_sessions = current_user.practitioner.sessions.includes(:review, service: [practitioner: :photo_attachment]).where(['paid = ? AND status= ?', true, 'pending'])
-      @cancelled_sessions = current_user.practitioner.sessions.includes(:review, service: [practitioner: :photo_attachment]).where(['status= ?', 'cancelled'])
+      @confirmed_sessions = current_user.practitioner.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'confirmed'])
+      @pending_sessions = current_user.practitioner.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['paid = ? AND status= ?', true, 'pending'])
+      @cancelled_sessions = current_user.practitioner.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'cancelled'])
     else
-      @confirmed_sessions = current_user.sessions.includes(:review, service: [practitioner: :photo_attachment]).where(['status= ?', 'confirmed'])
-      @pending_sessions = current_user.sessions.includes(:review, service: [practitioner: :photo_attachment]).where(['status= ?', 'pending'])
-      @cancelled_sessions = current_user.sessions.includes(:review, service: [practitioner: :photo_attachment]).where(['status= ?', 'cancelled'])
+      @confirmed_sessions = current_user.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'confirmed'])
+      @pending_sessions = current_user.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'pending'])
+      @cancelled_sessions = current_user.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'cancelled'])
     end
     @review = Review.new
   end
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
   end
 
   def notification
-    @my_notifications = Notification.includes(actor: [practitioner: :photo_attachment]).where(recipient: current_user).order('created_at DESC')
+    @my_notifications = Notification.includes(actor: [practitioner: [{user: :photo_attachment}]]).where(recipient: current_user).order('created_at DESC')
   end
 
   private

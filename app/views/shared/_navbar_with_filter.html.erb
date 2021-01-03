@@ -7,7 +7,7 @@
           <% if params[:search] && params[:search][:health_goal] && params[:search][:health_goal].length > 1 %>
             <legend class="btn btn-ghost btn-filter" id="health-goal-pop">Health Goals (<%= params[:search][:health_goal].reject(&:blank?).count %>)&nbsp;&nbsp;<i class="fas fa-chevron-down"></i></legend>
           <% else %>
-            <legend class="btn btn-ghost btn-filter" id="health-goal-pop">Choose Health Goals&nbsp;&nbsp;<i class="fas fa-chevron-down"></i></legend>
+            <legend class="btn btn-ghost btn-filter" id="health-goal-pop">Select Health Goals&nbsp;&nbsp;<i class="fas fa-chevron-down"></i></legend>
           <% end %>
           <div class="health-goal-select-box" id="health-goal-select-box">
             <div class="health-goal-choices">
@@ -39,81 +39,50 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <% if user_signed_in? %>
-        <% if current_user.practitioner %>
-          <li class="nav-item btn-group">
-            <a class="dropdown-toggle nav-link" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-bell"></i>
-                <span class="unread-count" id="unread-count">
-                  <%= @notifications.length if @notifications.present? %>
-                </span>
-            </a>
-            <div class="dropdown-menu notification-drop" aria-labelledby="dropdownMenu1">
-              <% if @notifications.present? %>
-                <% @notifications.first(10).each do |notification| %>
-                  <%= link_to notification.actor.full_name + " " + notification.action, notification_path(notification), method: :patch || :put, class: 'dropdown-item' %>
-                <% end %>
+        <li class="nav-item">
+          <%= link_to 'Find holistic services', services_path, class: "nav-link", style: "font-weight: 800;" %>
+        </li>
+        <li class="nav-item btn-group">
+          <a class="dropdown-toggle nav-link" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-bell"></i>
+              <span class="unread-count" id="unread-count">
+                <%= @notifications.length if @notifications.present? %>
+              </span>
+          </a>
+          <div class="dropdown-menu notification-drop" aria-labelledby="dropdownMenu1">
+            <% if @notifications.present? %>
+              <% @notifications.first(10).each do |notification| %>
+                <%= link_to notification.actor.full_name + " " + notification.action, notification_path(notification), method: :patch || :put, class: 'dropdown-item' %>
               <% end %>
-              <%= link_to 'See All', user_notifications_path(current_user), class: 'dropdown-item text-center all' %>
-            </div>
-          </li>
-          <li class="nav-item">
-            <%= link_to 'My sessions', user_sessions_path(current_user), class: 'nav-link' %>
-          </li>
-          <li class="nav-item">
-            <%= link_to 'My favorites', user_favorites_path(current_user), class: 'nav-link' %>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome, <%= current_user.first_name %></a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-              <% if current_user.conversations.present? %>
-                <%= link_to 'Messages', conversation_path(current_user.last_conversation), class: "dropdown-item" %>
-              <% end %>
+            <% end %>
+            <%= link_to 'See All', user_notifications_path(current_user), class: 'dropdown-item text-center all' %>
+          </div>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'My sessions', user_sessions_path(current_user), class: 'nav-link' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'My favorites', user_favorites_path(current_user), class: 'nav-link' %>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome, <%= current_user.first_name %></a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <% if current_user.conversations.present? %>
+              <%= link_to 'Messages', conversation_path(current_user.last_conversation), class: "dropdown-item" %>
+            <% end %>
+            <% if current_user.practitioner %>
               <%= link_to 'View my page', practitioner_path(current_user.practitioner), class: "dropdown-item" %>
-              <%= link_to 'My account', practitioner_profile_path(current_user.practitioner), class: "dropdown-item" %>
+              <%= link_to 'My profile', practitioner_profile_path(current_user.practitioner), class: "dropdown-item" %>
               <%= link_to 'My services', practitioner_services_path(current_user.practitioner), class: 'dropdown-item' %>
-              <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
-            </div>
-          </li>
-        <% else %>
-          <li class="nav-item">
-            <%= link_to 'Become a practitioner', become_a_practitioner_path, class: "nav-link" %>
-          </li>
-          <li class="nav-item btn-group">
-            <a class="dropdown-toggle nav-link" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-bell"></i>
-                <span class="unread-count" id="unread-count">
-                  <%= @notifications.length if @notifications.present? %>
-                </span>
-            </a>
-            <div class="dropdown-menu notification-drop" aria-labelledby="dropdownMenu1">
-              <% if @notifications.present? %>
-                <% @notifications.first(10).each do |notification| %>
-                  <%= link_to notification.actor.full_name + " " + notification.action, notification_path(notification), method: :patch || :put, class: 'dropdown-item' %>
-                <% end %>
-              <% end %>
-              <%= link_to 'See All', user_notifications_path(current_user), class: 'dropdown-item text-center all' %>
-            </div>
-          </li>
-          <li class="nav-item">
-            <%= link_to 'My sessions', user_sessions_path(current_user), class: 'nav-link' %>
-          </li>
-          <li class="nav-item">
-            <%= link_to 'My favorites', user_favorites_path(current_user), class: 'nav-link' %>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome, <%= current_user.first_name %></a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-              <% if current_user.conversations.present? %>
-                <%= link_to 'Messages', conversation_path(current_user.last_conversation), class: "dropdown-item" %>
-              <% end %>
-              <%= link_to 'My account', user_path(current_user), class: "dropdown-item" %>
-              <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
-            </div>
-          </li>
-        <% end %>
+            <% else %>
+              <%= link_to 'My profile', user_path(current_user), class: "dropdown-item" %>
+            <% end %>
+            <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+          </div>
+        </li>
       <% else %>
         <li class="nav-item">
-          <%= link_to "Become a practitioner", become_a_practitioner_path, class: "nav-link" %>
+          <%= link_to 'Find holistic services', services_path, class: "nav-link", style: "font-weight: 800;" %>
         </li>
         <li class="nav-item">
           <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>

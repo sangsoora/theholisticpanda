@@ -3,6 +3,11 @@ if ('<%= @param.keys.first %>' == "country_code") {
   countryForm.style.display = 'none';
   countryEdit.style.display = 'block';
   document.getElementById('country').innerHTML = '<%= @practitioner.country_name %>'
+} else if ('<%= @param.keys.first %>' == "title") {
+  title.style.display = 'flex';
+  titleForm.style.display = 'none';
+  titleEdit.style.display = 'block';
+  document.getElementById('title').innerHTML = '<%= @practitioner.title %>'
 } else if ('<%= @param.keys.first %>' == "experience") {
   experience.style.display = 'flex';
   experienceForm.style.display = 'none';
@@ -17,17 +22,12 @@ if ('<%= @param.keys.first %>' == "country_code") {
   bio.style.display = 'flex';
   bioForm.style.display = 'none';
   bioEdit.style.display = 'block';
-  document.getElementById('bio').innerHTML = '<%= @practitioner.bio %>'
+  document.getElementById('bio').innerHTML = '<%= @practitioner.bio.gsub(/\n/, "<br/>").html_safe %>';
 } else if ('<%= @param.keys.first %>' == "video") {
   video.style.display = 'flex';
   videoForm.style.display = 'none';
   videoEdit.style.display = 'block';
   document.getElementById('video').innerHTML = '<a href="<%= @practitioner.video %>" target="_blank"><%= @practitioner.video %></a>'
-} else if ('<%= @param.keys.first %>' == "website") {
-  website.style.display = 'flex';
-  websiteForm.style.display = 'none';
-  websiteEdit.style.display = 'block';
-  document.getElementById('website').innerHTML = '<a href="<%= @practitioner.website %>" target="_blank"><%= @practitioner.website %></a>'
 } else if ('<%= @param.keys.first %>' == "address") {
   address.style.display = 'flex';
   addressForm.style.display = 'none';
@@ -38,4 +38,20 @@ if ('<%= @param.keys.first %>' == "country_code") {
   timezoneForm.style.display = 'none';
   timezoneEdit.style.display = 'block';
   document.getElementById('timezone').innerHTML = '<%= @practitioner.timezone %>'
+} else if ('<%= @param.keys.first %>' == "location") {
+  city.style.display = 'flex';
+  cityForm.style.display = 'none';
+  cityEdit.style.display = 'block';
+  document.getElementById('city').innerHTML = '<%= @practitioner.location %>'
+} else if ('<%= @param.keys.first %>' == "approach") {
+  approach.style.display = 'flex';
+  approachForm.style.display = 'none';
+  approachEdit.style.display = 'block';
+  document.getElementById('approach').innerHTML = '<%= @practitioner.approach.gsub(/\n/, "<br/>").html_safe %>'
+} else if ('<%= @param.keys.first %>' == "insurance") {
+  if (<%= @practitioner.insurance %>) {
+    insurance.checked = true;
+  } else {
+    insurance.checked = false;
+  }
 }

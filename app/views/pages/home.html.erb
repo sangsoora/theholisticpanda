@@ -1,3 +1,6 @@
+<% content_for :home_navbar do %>
+  <%= render 'shared/home_navbar' %>
+<% end %>
 <section id='top-banner'>
   <%= render 'top_banner' %>
 </section>
@@ -9,8 +12,8 @@
         <% @practitioners.first(3).each do |practitioner| %>
           <div class='card-featured'>
             <a href="/practitioners/<%= practitioner.id %>">
-              <% if practitioner.photo.attached? %>
-                <%= cl_image_tag practitioner.photo.key %>
+              <% if practitioner.user.photo.attached? %>
+                <%= cl_image_tag practitioner.user.photo.key %>
               <% else %>
                 <img src='https://kitt.lewagon.com/placeholder/users/random' />
               <% end %>
@@ -19,7 +22,7 @@
               <a href="/practitioners/<%= practitioner.id %>">
                 <h2><%= practitioner.user.full_name %></h2>
               </a>
-              <p id="bio-<%= practitioner.id %>"><%= practitioner.bio %></p>
+              <p id="bio-<%= practitioner.id %>"><%= practitioner.bio.gsub(/\n/, '<br/>').html_safe %></p>
               <%= link_to 'See more', practitioner_path(practitioner) %>
             </div>
           </div>

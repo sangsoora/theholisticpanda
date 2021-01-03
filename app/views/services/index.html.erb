@@ -19,7 +19,7 @@
           <legend class="btn btn-ghost <% if params[:filter] && params[:filter][:specialty] && params[:filter][:specialty].length > 1 %>active-filter<% end %>" id="specialty-pop">Specialties <% if params[:filter] && params[:filter][:specialty] && params[:filter][:specialty].length > 1 %>(<%= params[:filter][:specialty].reject(&:blank?).count %>)<% end %></legend>
           <div class="specialty-select-box" id="specialty-select-box">
             <div class="specialty-choices">
-              <% Specialty.all.sort_by(&:name).each do |specialty| %>
+              <% @filtered_services_specialties.sort_by(&:name).each do |specialty| %>
                 <% if params[:filter] && params[:filter][:specialty] %>
                   <% if params[:filter][:specialty].include?((specialty.id).to_s) %>
                     <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= specialty.id %>" name="filter[specialty][]" id="filter_specialty_<%= specialty.id %>" checked><label class="form-check-label collection_check_boxes specialty-choice active" for="filter_specialty_<%= specialty.id %>"><%= specialty.name %></label>
@@ -42,7 +42,7 @@
           <legend class="btn btn-ghost <% if params[:filter] && params[:filter][:language] && params[:filter][:language].length > 1 %>active-filter<% end %>" id="language-pop">Languages <% if params[:filter] && params[:filter][:language] && params[:filter][:language].length > 1 %>(<%= params[:filter][:language].reject(&:blank?).count %>)<% end %></legend>
           <div class="language-select-box" id="language-select-box">
             <div class="language-choices">
-              <% Language.includes(:practitioner_languages).where.not(practitioner_languages: { id: nil }).sort_by(&:name).each do |language| %>
+              <% @filtered_services_languages.sort_by(&:name).each do |language| %>
                 <% if params[:filter] && params[:filter][:language] && params[:filter][:language].include?((language.id).to_s) %>
                   <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= language.id %>" name="filter[language][]" id="filter_language_<%= language.id %>" checked><label class="form-check-label collection_check_boxes language-choice active" for="filter_language_<%= language.id %>"><%= language.name %></label>
                 <% else %>
@@ -169,8 +169,8 @@
                   <div class="service-list-item-practitioner">
                     <div class="profile-photo">
                       <a href="/practitioners/<%= service.practitioner.id %>">
-                        <% if service.practitioner.photo.attached? %>
-                          <%= cl_image_tag service.practitioner.photo.key, class: 'service-list-item-user avatar-bordered' %>
+                        <% if service.practitioner.user.photo.attached? %>
+                          <%= cl_image_tag service.practitioner.user.photo.key, class: 'service-list-item-user avatar-bordered' %>
                         <% else %>
                           <img src='https://kitt.lewagon.com/placeholder/users/random' class="service-list-item-user avatar-bordered"/>
                         <% end %>
@@ -203,8 +203,8 @@
                 </div>
                 <div class="lists hidden" id="service-<%= service.id %>">
                   <div class="service-list-item-infos">
-                    <p <%= 'class=short' if service.description.length >= 250 %> ><%= service.description %></p>
-                    <% if service.description.length >= 250 %>
+                    <p <%= 'class=short' if service.description.length >= 300 %> ><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
+                    <% if service.description.length >= 300 %>
                       <%= link_to 'Read more', service_path(service) %>
                     <% end %>
                   </div>
@@ -232,7 +232,7 @@
       <% end %>
     <% else %>
       <div class="service-lists">
-        <% Service.all.sort_by(&:price).each do |service| %>
+        <% @all_services.sort_by(&:price).each do |service| %>
           <div class="service-list-item" data-price="<%= service.price.to_i %>" data-duration="<%= service.duration %>">
             <div class="service-left-column">
               <div class="service-list-item-title">
@@ -298,8 +298,8 @@
                 <div class="service-list-item-practitioner">
                   <div class="profile-photo">
                     <a href="/practitioners/<%= service.practitioner.id %>">
-                      <% if service.practitioner.photo.attached? %>
-                        <a href="/practitioners/1"><%= cl_image_tag service.practitioner.photo.key, class: 'service-list-item-user avatar-bordered' %></a>
+                      <% if service.practitioner.user.photo.attached? %>
+                        <a href="/practitioners/1"><%= cl_image_tag service.practitioner.user.photo.key, class: 'service-list-item-user avatar-bordered' %></a>
                       <% else %>
                         <img src='https://kitt.lewagon.com/placeholder/users/random' class="service-list-item-user avatar-bordered"/>
                       <% end %>
@@ -328,8 +328,8 @@
               </div>
               <div class="lists hidden" id="service-<%= service.id %>">
                 <div class="service-list-item-infos">
-                  <p <%= 'class=short' if service.description.length >= 250 %> ><%= service.description %></p>
-                  <% if service.description.length >= 250 %>
+                  <p <%= 'class=short' if service.description.length >= 300 %> ><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
+                  <% if service.description.length >= 300 %>
                     <%= link_to 'Read more', service_path(service) %>
                   <% end %>
                 </div>

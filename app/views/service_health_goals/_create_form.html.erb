@@ -1,0 +1,11 @@
+<div>
+  <label>Related Health Goals (max. 5)</label>
+</div>
+<fieldset class="form-group m-0 p-0 check_boxes required service_health_goal">
+  <div class="health-goal-choices">
+    <% HealthGoal.all.sort_by(&:name).each do |goal| %>
+      <input class="form-check-input check_boxes required hidden check" type="checkbox" value="<%= goal.id %>" name="service[health_goal][]" id="create_service_health_goal_<%= goal.id %>"><label class="form-check-label collection_check_boxes health-goal-choice small" for="create_service_health_goal_<%= goal.id %>" id="create_label_<%= goal.id %>"><%= goal.name %></label>
+    <% end %>
+    <input type="hidden" name="service[health_goal][]" value="">
+  </div>
+</fieldset>

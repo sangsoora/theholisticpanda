@@ -6,6 +6,37 @@ class RegistrationsController < Devise::RegistrationsController
   def edit
   end
 
+  def update
+    account_update_params = devise_parameter_sanitizer.sanitize(:account_update)
+    @user = User.find(resource.id)
+
+    @update = update_resource(@user, account_update_params)
+    @param = account_update_params
+    if resource.practitioner
+      @practitioner = resource.practitioner
+    end
+    unless account_update_params[:password]
+      respond_to do |format|
+        if resource.practitioner
+          format.html { redirect_to practitioner_profile_path(@practitioner) }
+        else
+          format.html { redirect_to user_path(resource) }
+        end
+        format.js
+      end
+    else
+      if @update
+        # Sign in the user bypassing validation in case their password changed
+        sign_in @user, :bypass => true
+      end
+      if resource.practitioner
+        redirect_to practitioner_profile_path(@practitioner)
+      else
+        redirect_to user_path(resource)
+      end
+    end
+  end
+
   protected
 
   def update_resource(resource, params)
@@ -14,13 +45,5 @@ class RegistrationsController < Devise::RegistrationsController
 
     # Allows user to update registration information without password.
     resource.update_without_password(params.except("current_password"))
-  end
-
-  def after_update_path_for(resource)
-    if resource.practitioner
-      practitioner_profile_path(resource.practitioner)
-    else
-      user_path(resource)
-    end
   end
 end

@@ -13,9 +13,9 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: %i[first_name last_name phone_number terms newsletter timezone])
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[first_name last_name phone_number terms newsletter timezone photo])
 
-    devise_parameter_sanitizer.permit(:account_update, keys: %i[first_name last_name phone_number terms newsletter timezone])
+    devise_parameter_sanitizer.permit(:account_update, keys: %i[first_name last_name phone_number terms newsletter timezone photo])
   end
 
   def store_location

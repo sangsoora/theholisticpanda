@@ -1,8 +1,8 @@
 let html = '';
 <% if @practitioners.length > 0 %>
   <% @practitioners.each do |practitioner| %>
-    <% if practitioner.photo.attached? %>
-       html += '<p><%= cl_image_tag service.practitioner.photo.key, class: "service-list-item-user avatar-bordered" %><%= link_to practitioner.user.full_name, practitioner_path(practitioner) %></p>';
+    <% if practitioner.user.photo.attached? %>
+       html += '<p><%= cl_image_tag service.practitioner.user.photo.key, class: "service-list-item-user avatar-bordered" %><%= link_to practitioner.user.full_name, practitioner_path(practitioner) %></p>';
     <% else %>
       html += '<p><img src="https://kitt.lewagon.com/placeholder/users/random" class="service-list-item-user avatar-bordered"/><%= link_to practitioner.user.full_name, practitioner_path(practitioner) %></p>';
     <% end %>
