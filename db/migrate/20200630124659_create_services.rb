@@ -5,6 +5,7 @@ class CreateServices < ActiveRecord::Migration[5.2]
       t.text :description
       t.string :service_type
       t.integer :duration
+      t.boolean :active
       t.references :practitioner_specialty, foreign_key: true
 
       t.timestamps

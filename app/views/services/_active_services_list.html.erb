@@ -1,0 +1,52 @@
+<% active_serivces.sort.reverse.each do |service| %>
+  <div class="practitioner-service">
+    <div class="practitioner-service-info" id="service-<%= service.id %>">
+      <div class="d-flex justify-content-between">
+        <h4><%= service.name %></h4>
+        <div>
+          <a class="fas fa-pen" href="" id="service-btn-<%= service.id %>"></a>
+          <% if service.sessions == [] %>
+            <%= link_to '', service_path(service), method: :delete, data: { confirm: "Are you sure to remove this service?"}, class: 'fas fa-trash ml-3' %>
+          <% end %>
+        </div>
+      </div>
+      <%= simple_form_for([service], html: { id: "edit_active_#{service.id}" }) do |f| %>
+        <%= f.input :active, as: :hidden, input_html: { value: :false }%>
+        <%= f.submit :Deactivate, class: 'btn btn-flat mb-3', style: 'background: #e57850' %>
+      <% end %>
+      <p>Booked <%= service.sessions.where(status: "confirmed").count %> times</p>
+      <% if service.reviews.count > 0 %>
+        <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+      <% else %>
+        <p>No reviews!</p>
+      <% end %>
+      <p>Specialty: <%= service.specialty.name %></p>
+      <p>Related Health Goal(s): <%= service.health_goals.pluck(:name).join(', ') %></p>
+      <p>Service Type: <%= service.service_type.capitalize %></p>
+      <p>Duration: <%= service.duration %>m</p>
+      <p>Service Price: CA<%= humanized_money_with_symbol(service.price) %></p>
+      <div class="practitioner-service-description">
+        <p><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
+      </div>
+    </div>
+    <%= simple_form_for([service], html: { class: 'w-100', style: 'display: none;' }) do |f| %>
+      <%= f.input :name, label: 'Name of the Service' %>
+      <div class="form-group select require service_service_type form-group-valid">
+        <label class="select require" for="service_service_type">Service type</label>
+        <select class="form-control is-valid select require" name="service[service_type]" id="service_service_type">
+          <option value=""></option>
+          <option value="Virtual" <%= 'selected' if service.service_type == "Virtual" %>>Virtual</option>
+          <% if service.practitioner.address %>
+            <option value="In-person" <%= 'selected' if service.service_type == "In-person" %>>In-person</option>
+          <% end %>
+        </select>
+      </div>
+      <%= render "service_health_goals/update_form", service: service %>
+      <%= f.input :duration, input_html: { min: 15, step: 15 } %>
+      <%= f.input :price %>
+      <%= f.input :description, input_html: { rows: 5 } %>
+      <%= f.submit :Update, class: 'btn btn-flat' %>
+      <%= link_to 'Cancel', '', class: 'btn btn-ghost ml-3' %>
+    <% end %>
+  </div>
+<% end %>

@@ -232,7 +232,7 @@
       <% end %>
     <% else %>
       <div class="service-lists">
-        <% Service.all.sort_by(&:price).each do |service| %>
+        <% @all_services.sort_by(&:price).each do |service| %>
           <div class="service-list-item" data-price="<%= service.price.to_i %>" data-duration="<%= service.duration %>">
             <div class="service-left-column">
               <div class="service-list-item-title">

@@ -16,6 +16,6 @@ class ServiceHealthGoalPolicy < ApplicationPolicy
   private
 
   def user_is_owner?
-    record.practitioner.user == user
+    record.service.practitioner.user == user
   end
 end

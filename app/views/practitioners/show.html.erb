@@ -57,7 +57,7 @@
       </div>
       <div class="practitioner-services">
         <h4><i class="fas fa-shopping-cart"></i> Services</h4>
-        <% @practitioner.services.each do |service| %>
+        <% @practitioner.services.where(active: true).each do |service| %>
           <div class="practitioner-service">
             <div class="practitioner-service-info">
               <div class="practitioner-service-summary">

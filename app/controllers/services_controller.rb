@@ -4,10 +4,11 @@ class ServicesController < ApplicationController
   before_action :set_service, only: %i[show update destroy]
 
   def index
-    @services = policy_scope(Service).includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}]).group_by { |service| service.specialty }
+    @all_services = policy_scope(Service).where(active: true).includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}])
+    @services = policy_scope(Service).where(active: true).includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}]).group_by { |service| service.specialty }
     @services = @services.sort_by { |k, _v| k[:name] }.to_h
     if params[:search] && params[:search][:health_goal]
-      @primary_filtered_services = Service.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?))
+      @primary_filtered_services = Service.where(active: true).filter_by_health_goal(params[:search][:health_goal].reject(&:blank?))
       @filtered_services_specialties = @primary_filtered_services.uniq.compact.map { |service| service.specialty }.uniq
       @filtered_services_languages = @primary_filtered_services.uniq.compact.map { |service| service.languages }.flatten.uniq
       if params[:filter]
@@ -61,10 +62,15 @@ class ServicesController < ApplicationController
     @practitioner_specialty = PractitionerSpecialty.find_by(practitioner: current_user.practitioner, specialty: Specialty.find(params[:service][:specialty]))
     @service.practitioner = current_user.practitioner
     @service.practitioner_specialty = @practitioner_specialty
+    @service.active = true
     if @service.save!
       favorite_users = @service.practitioner.favorite_users
       favorite_users.each do |user|
         Notification.create(recipient: user, actor: current_user, action: 'created new service', notifiable: @service)
+      end
+      @service_health_goals = params[:service][:health_goal].reject(&:blank?).map(&:to_i)
+      @service_health_goals.each do |goal|
+        ServiceHealthGoal.create(service: @service, health_goal: HealthGoal.find(goal))
       end
       redirect_to practitioner_services_path(current_user.practitioner)
     else
@@ -73,6 +79,17 @@ class ServicesController < ApplicationController
   end
 
   def update
+    @service_health_goals = params[:service][:health_goal].reject(&:blank?).map(&:to_i)
+    @service_health_goals.each do |goal|
+      if @service.health_goal_ids.exclude?(goal)
+        ServiceHealthGoal.create(service: @service, health_goal: HealthGoal.find(goal))
+      end
+    end
+    @service.health_goal_ids.each do |id|
+      if @service_health_goals.exclude?(id)
+        ServiceHealthGoal.find_by(service: @service, health_goal: HealthGoal.find(id)).destroy
+      end
+    end
     if @service.price.to_f == service_params[:price].to_f
       redirect_to practitioner_services_path(current_user.practitioner) if @service.update(service_params)
     else
@@ -103,6 +120,6 @@ class ServicesController < ApplicationController
   end
 
   def service_params
-    params.require(:service).permit(:name, :description, :service_type, :price, :duration)
+    params.require(:service).permit(:name, :description, :service_type, :price, :duration, :active)
   end
 end

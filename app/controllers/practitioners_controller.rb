@@ -150,6 +150,8 @@ class PractitionersController < ApplicationController
 
   def service
     @services = @practitioner.services.includes(:sessions, :specialty, :practitioner)
+    @active_serivces = @practitioner.services.where(active: true).includes(:sessions, :specialty, :practitioner)
+    @deactivated_serivces = @practitioner.services.where(active: false).includes(:sessions, :specialty, :practitioner)
     @service = Service.new
   end
 

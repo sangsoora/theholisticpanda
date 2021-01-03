@@ -198,6 +198,12 @@
   }
 }
 
+.health-goal-choice.small {
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .workingday-choice {
   width: 4rem;
 }
@@ -285,7 +291,7 @@
   flex-wrap: wrap;
 }
 
-.practitioner-specialty, .practitioner-language {
+.practitioner-specialty, .practitioner-language, .service-health-goals {
   background: $gold;
   color: $emerald;
   padding: 0.25rem 1rem;
@@ -335,4 +341,17 @@
 
 .infos-active-tab, .personal-active-tab {
   font-weight: 800;
+}
+
+.application-box {
+  background: white;
+  box-shadow: 0 7px 25px 0 rgba(0,0,0,.1);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  width: 70%;
+  margin: 1rem auto;
+}
+
+.service-health-goals p {
+  margin-bottom: 0;
 }
