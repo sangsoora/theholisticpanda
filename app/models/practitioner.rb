@@ -11,9 +11,13 @@ class Practitioner < ApplicationRecord
   has_many :specialties, through: :practitioner_specialties
   has_many :health_goals, through: :specialties
   has_many :practitioner_social_links, dependent: :destroy
+  has_many :practitioner_certifications, dependent: :destroy
+  has_many :practitioner_memberships, dependent: :destroy
   has_many :favorite_practitioners, dependent: :destroy
   has_many :favorite_users, through: :favorite_practitioners, source: :user
   validates_uniqueness_of :user
+  validates :bio, presence: true, length: {minimum: 5, maximum: 1000}
+  validates :approach, length: {minimum: 5, maximum: 1000}
   scope :filter_by_specialty, ->(specialties) { joins(:specialties).where(specialties: { id: specialties }) }
   scope :filter_by_health_goal, ->(health_goals) { joins(:health_goals).where(health_goals: { id: health_goals }) }
   scope :filter_by_language, ->(languages) { joins(:languages).where(languages: { id: languages }) }

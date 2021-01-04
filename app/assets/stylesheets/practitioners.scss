@@ -2,7 +2,7 @@
   padding: 6rem 0 2rem;
 }
 
-.practitioner-overview, .practitioner-info, .practitioner-name, .practitioner-service, .practitioner-profile-table, .practitioner-profile-info, .practitioner-profile-info-body, #practitioner-title, #practitioner-city, #practitioner-country, #practitioner-experience, #practitioner-certification, #practitioner-bio, #practitioner-approach, #practitioner-timezone, .practitioner-workinghours, #practitioner-video, #practitioner-address, #practitioner-name, #practitioner-phone {
+.practitioner-overview, .practitioner-info, .practitioner-name, .practitioner-service, .practitioner-profile-table, .practitioner-profile-info, .practitioner-profile-info-body, #practitioner-title, #practitioner-city, #practitioner-country, #practitioner-experience, #practitioner-certification, #practitioner-membership, #practitioner-bio, #practitioner-approach, #practitioner-timezone, .practitioner-workinghours, #practitioner-video, #practitioner-address, #practitioner-name, #practitioner-phone {
   display: flex;
 }
 
@@ -332,7 +332,7 @@
   margin: 1rem 0;
 }
 
-.basic-info-active-tab, .specialization-active-tab, .biography-active-tab, .credentials-active-tab, .personal-basic-active-tab, .personal-additional-active-tab {
+.basic-info-active-tab, .biography-active-tab, .credentials-active-tab, .operation-active-tab, .personal-basic-active-tab, .personal-additional-active-tab {
   font-weight: 800;
   background: $emerald;
   color: $gold !important;

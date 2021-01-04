@@ -13,11 +13,6 @@ if ('<%= @param.keys.first %>' == "country_code") {
   experienceForm.style.display = 'none';
   experienceEdit.style.display = 'block';
   document.getElementById('experience').innerHTML = '<%= @practitioner.experience %>'
-} else if ('<%= @param.keys.first %>' == "certification") {
-  certification.style.display = 'flex';
-  certificationForm.style.display = 'none';
-  certificationEdit.style.display = 'block';
-  document.getElementById('certification').innerHTML = '<%= @practitioner.certification %>'
 } else if ('<%= @param.keys.first %>' == "bio") {
   bio.style.display = 'flex';
   bioForm.style.display = 'none';

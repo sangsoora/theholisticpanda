@@ -50,7 +50,8 @@
             <label class="string required" for="service_price">Price <abbr title="required">*</abbr></label>
             <input class="form-control string required" type="text" name="service[price]" id="service_price">
           </div>
-          <%= f.input :description, input_html: { rows: 5 } %>
+          <%= f.input :description, input_html: { rows: 5, maxlength: 1000 } %>
+          <p id="description-counter">0/1000</p>
           <%= f.submit :Create, class: 'btn btn-flat' %>
           <%= link_to 'Cancel', '', class: 'btn btn-ghost ml-3' %>
         <% end %>
@@ -59,6 +60,18 @@
   </div>
 </div>
 <script>
+  document.getElementById('service_description').addEventListener('keyup', (e) => {
+    const description_count = document.getElementById('service_description').value.length;
+    const description_max = document.getElementById('service_description').maxLength;
+    const description_counter = document.getElementById('description-counter');
+    if (description_count == 1000) {
+      description_counter.innerText = '1000/1000';
+      description_counter.style.color = 'red';
+    } else {
+      description_counter.innerText = description_count + '/1000';
+      description_counter.style.color = 'black';
+    }
+  })
   var max = 5;
   var checks = document.querySelectorAll(".check");
   for (var i = 0; i < checks.length; i++) {
@@ -91,6 +104,18 @@
         document.getElementById('<%= service.id %>_label_' + e.currentTarget.value).classList.toggle('active');
       }
     }
+    document.getElementById('service_description_<%= service.id %>').addEventListener('keyup', (e) => {
+      const description_count_<%= service.id %> = document.getElementById('service_description_<%= service.id %>').value.length;
+      const description_max_<%= service.id %> = document.getElementById('service_description_<%= service.id %>').maxLength;
+      const description_counter_<%= service.id %> = document.getElementById('description-counter-<%= service.id %>');
+      if (description_count_<%= service.id %> == 1000) {
+        description_counter_<%= service.id %>.innerText = '1000/1000';
+        description_counter_<%= service.id %>.style.color = 'red';
+      } else {
+        description_counter_<%= service.id %>.innerText = description_count_<%= service.id %> + '/1000';
+        description_counter_<%= service.id %>.style.color = 'black';
+      }
+    })
   <% end %>
   const tabs = document.querySelectorAll('.tab-underlined');
   const lists = document.querySelectorAll('.lists');

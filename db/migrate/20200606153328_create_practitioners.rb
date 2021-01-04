@@ -8,7 +8,6 @@ class CreatePractitioners < ActiveRecord::Migration[5.2]
       t.text :approach
       t.string :country_code
       t.string :experience
-      t.string :certification
       t.string :video
       t.string :timezone
       t.boolean :insurance

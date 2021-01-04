@@ -3,7 +3,7 @@ class Service < ApplicationRecord
   has_many :sessions
   has_one :practitioner, through: :practitioner_specialty
   has_one :specialty, through: :practitioner_specialty
-  has_many :service_health_goals
+  has_many :service_health_goals, dependent: :destroy
   has_many :health_goals, through: :service_health_goals
   has_many :practitioner_languages, through: :practitioner
   has_many :languages, through: :practitioner_languages
@@ -13,7 +13,7 @@ class Service < ApplicationRecord
   validates :name, presence: true
   validates :duration, presence: true
   validates :price, presence: true
-  validates :description, presence: true, length: {minimum: 20, maximum: 500}
+  validates :description, presence: true, length: {minimum: 5, maximum: 1000}
   validates :service_type, presence: true
   monetize :price_cents
   scope :filter_by_specialty, ->(specialty) { joins(:specialty).where(specialties: { id: specialty }) }

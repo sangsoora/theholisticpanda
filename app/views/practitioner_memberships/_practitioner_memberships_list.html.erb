@@ -1,0 +1,8 @@
+<% practitioner.practitioner_memberships.each do |membership| %>
+  <div class="practitioner-membership mb-2" data-membership-id="<%= membership.id %>">
+    <div class="d-flex align-items-center">
+      <p><%= membership.name %></p>
+      <button><p><%= link_to '', practitioner_membership_path(membership), remote: true, method: :delete, data: { confirm: "Are you sure to remove this membership?"}, class: 'fas fa-trash' %></p></button>
+    </div>
+  </div>
+<% end %>
