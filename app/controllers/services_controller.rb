@@ -79,15 +79,17 @@ class ServicesController < ApplicationController
   end
 
   def update
-    @service_health_goals = params[:service][:health_goal].reject(&:blank?).map(&:to_i)
-    @service_health_goals.each do |goal|
-      if @service.health_goal_ids.exclude?(goal)
-        ServiceHealthGoal.create(service: @service, health_goal: HealthGoal.find(goal))
+    if params[:service][:health_goal]
+      @service_health_goals = params[:service][:health_goal].reject(&:blank?).map(&:to_i)
+      @service_health_goals.each do |goal|
+        if @service.health_goal_ids.exclude?(goal)
+          ServiceHealthGoal.create(service: @service, health_goal: HealthGoal.find(goal))
+        end
       end
-    end
-    @service.health_goal_ids.each do |id|
-      if @service_health_goals.exclude?(id)
-        ServiceHealthGoal.find_by(service: @service, health_goal: HealthGoal.find(id)).destroy
+      @service.health_goal_ids.each do |id|
+        if @service_health_goals.exclude?(id)
+          ServiceHealthGoal.find_by(service: @service, health_goal: HealthGoal.find(id)).destroy
+        end
       end
     end
     if @service.price.to_f == service_params[:price].to_f

@@ -52,8 +52,15 @@
         <p style="margin-bottom: 2rem;"><%= @practitioner.bio.gsub(/\n/, '<br/>').html_safe %></p>
         <h4><i class="far fa-question-circle"></i> Healing Approach</h4>
         <p style="margin-bottom: 2rem;"><%= @practitioner.approach.gsub(/\n/, '<br/>').html_safe %></p>
-        <h4><i class="fas fa-award"></i> Certifications & Trainings</h4>
-        <p><%= @practitioner.certification %></p>
+        <h4><i class="fas fa-award"></i> Education & Certification</h4>
+        <% if @practitioner.practitioner_certifications.where(certification_type: 'Education').count > 0 %>
+          <p style="margin-bottom: 2rem;"><strong>Education</strong>: <%= @practitioner.practitioner_certifications.where(certification_type: 'Education').pluck(:name).join(', ') %></p>
+        <% end %>
+        <% if @practitioner.practitioner_certifications.where(certification_type: 'Certification').count > 0 %>
+          <p style="margin-bottom: 2rem;"><strong>Certification</strong>: <%= @practitioner.practitioner_certifications.where(certification_type: 'Certification').pluck(:name).join(', ') %></p>
+        <% end %>
+        <h4><i class="fas fa-users"></i> Professional Membership</h4>
+        <p style="margin-bottom: 2rem;"><%= @practitioner.practitioner_memberships.pluck(:name).join(', ') %></p>
       </div>
       <div class="practitioner-services">
         <h4><i class="fas fa-shopping-cart"></i> Services</h4>
@@ -80,7 +87,6 @@
               </div>
               <div class="practitioner-service-description">
                 <p><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
-                <!-- <button>+ show more</button> -->
               </div>
             </div>
           </div>
@@ -93,7 +99,9 @@
             <div class="review-box">
               <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %></p>
               <p><%= review.comment.gsub(/\n/, '<br/>').html_safe %></p>
-              <p><small><i><%= review.session.user.full_name %> - <%= review.created_at.strftime('%b %d, %Y') %></i></small></p>
+              <p><small><i><%= review.session.user.full_name %></i></small></p>
+              <p><small><i><%= review.session.service.name %></i></small></p>
+              <p><small><i><%= review.created_at.strftime('%b %d, %Y') %></i></small></p>
             </div>
           <% end %>
         </div>
@@ -102,7 +110,7 @@
     <div class="practitioner-sidebar">
       <div class="practitioner-video">
         <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<%= @practitioner.video %>" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <iframe class="embed-responsive-item" src="<%= @practitioner.video %>" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
       </div>
       <div class="practitioner-timetable mt-3">

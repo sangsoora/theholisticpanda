@@ -6,6 +6,7 @@ class CreateSessions < ActiveRecord::Migration[5.2]
       t.datetime :primary_time
       t.datetime :secondary_time
       t.datetime :tertiary_time
+      t.text :message
       t.monetize :amount, currency: { present: false }
       t.boolean :paid
       t.string :link

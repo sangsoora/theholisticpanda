@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_02_131906) do
+ActiveRecord::Schema.define(version: 2021_01_04_130550) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,6 +101,15 @@ ActiveRecord::Schema.define(version: 2020_12_02_131906) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "practitioner_certifications", force: :cascade do |t|
+    t.string "certification_type"
+    t.string "name"
+    t.bigint "practitioner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["practitioner_id"], name: "index_practitioner_certifications_on_practitioner_id"
+  end
+
   create_table "practitioner_languages", force: :cascade do |t|
     t.bigint "practitioner_id"
     t.bigint "language_id"
@@ -108,6 +117,14 @@ ActiveRecord::Schema.define(version: 2020_12_02_131906) do
     t.datetime "updated_at", null: false
     t.index ["language_id"], name: "index_practitioner_languages_on_language_id"
     t.index ["practitioner_id"], name: "index_practitioner_languages_on_practitioner_id"
+  end
+
+  create_table "practitioner_memberships", force: :cascade do |t|
+    t.string "name"
+    t.bigint "practitioner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["practitioner_id"], name: "index_practitioner_memberships_on_practitioner_id"
   end
 
   create_table "practitioner_social_links", force: :cascade do |t|
@@ -136,7 +153,6 @@ ActiveRecord::Schema.define(version: 2020_12_02_131906) do
     t.text "approach"
     t.string "country_code"
     t.string "experience"
-    t.string "certification"
     t.string "video"
     t.string "timezone"
     t.boolean "insurance"
@@ -188,6 +204,7 @@ ActiveRecord::Schema.define(version: 2020_12_02_131906) do
     t.datetime "primary_time"
     t.datetime "secondary_time"
     t.datetime "tertiary_time"
+    t.text "message"
     t.integer "amount_cents", default: 0, null: false
     t.boolean "paid"
     t.string "link"
@@ -261,8 +278,10 @@ ActiveRecord::Schema.define(version: 2020_12_02_131906) do
   add_foreign_key "favorite_services", "users"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users"
+  add_foreign_key "practitioner_certifications", "practitioners"
   add_foreign_key "practitioner_languages", "languages"
   add_foreign_key "practitioner_languages", "practitioners"
+  add_foreign_key "practitioner_memberships", "practitioners"
   add_foreign_key "practitioner_social_links", "practitioners"
   add_foreign_key "practitioner_specialties", "practitioners"
   add_foreign_key "practitioner_specialties", "specialties"

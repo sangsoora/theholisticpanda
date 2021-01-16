@@ -44,7 +44,8 @@
       <%= render "service_health_goals/update_form", service: service %>
       <%= f.input :duration, input_html: { min: 15, step: 15 } %>
       <%= f.input :price %>
-      <%= f.input :description, input_html: { rows: 5 } %>
+      <%= f.input :description, input_html: { id: "service_description_#{service.id}", rows: 5, maxlength: 1000 } %>
+      <p id="description-counter-<%= service.id %>" <% if service.description.gsub(/\n/, '<br/>').html_safe.length == 1000 %>style="color: red;"<% end %>><%= service.description.gsub(/\n/, '<br/>').html_safe.length %>/1000</p>
       <%= f.submit :Update, class: 'btn btn-flat' %>
       <%= link_to 'Cancel', '', class: 'btn btn-ghost ml-3' %>
     <% end %>

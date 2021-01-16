@@ -1,10 +1,12 @@
 <% provide :head_tags do %>
-  <meta name='turbolinks-visit-control' content='reload'>
-  <script>
-    document.addEventListener("DOMContentLoaded", function(){
-      initMap(<%=@session.practitioner.latitude%>, <%=@session.practitioner.longitude%>)
-    });
-  </script>
+  <% if @session.service.service_type == 'In-person' %>
+    <meta name='turbolinks-visit-control' content='reload'>
+    <script>
+      document.addEventListener("DOMContentLoaded", function(){
+        initMap(<%=@session.practitioner.latitude%>, <%=@session.practitioner.longitude%>, 'session-map')
+      });
+    </script>
+  <% end %>
 <% end %>
 <div class="container session-page">
   <% if @session.practitioner.user == current_user %>
@@ -107,7 +109,7 @@
       <% end %>
       </div>
       <div class="session-location">
-        <div id="map"></div>
+        <div id="session-map"></div>
       </div>
     </div>
   <% else %>

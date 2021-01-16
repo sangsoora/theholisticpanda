@@ -1,55 +1,98 @@
-<div class="container service-page">
-  <div class="d-flex">
-    <h2><%= @service.name %> with <%= link_to @service.practitioner.user.first_name, practitioner_path(@service.practitioner) %></h2>
-    <div id="service-btn">
-      <%= render 'favorite_services/service_btn', service: @service %>
-    </div>
-  </div>
-  <% if @service.reviews.count > 0 %>
-    <p><i class="fas fa-star mr-2 pink-icon"></i><%= @service.rating_avg %> (<%= @service.reviews.count %>)</p>
-  <% else %>
-    <p>No reviews!</p>
+<% provide :head_tags do %>
+  <% if @service.service_type == 'In-person' %>
+    <meta name='turbolinks-visit-control' content='reload'>
+    <script>
+      document.addEventListener("DOMContentLoaded", function(){
+        initMap(<%=@service.practitioner.latitude%>, <%=@service.practitioner.longitude%>, 'service-map')
+      });
+    </script>
   <% end %>
+<% end %>
+<div class="container service-page">
   <div class="service-details">
+    <div class="service-info">
+      <div class="service-description">
+        <div class="d-flex justify-content-between">
+          <h2><%= @service.name %></h2>
+          <div class="service-btn" id="service-btn">
+            <%= render 'favorite_services/service_btn', service: @service %>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <% if @service.reviews.count > 0 %>
+            <p><i class="fas fa-star mr-2 pink-icon"></i><%= @service.rating_avg %> (<%= @service.reviews.count %>)</p>
+          <% else %>
+            <p>No reviews!</p>
+          <% end %>
+          <p><i class="fas fa-coins mr-2 pink-icon"></i>CA$ <%= @service.price.to_f.round(2) %></p>
+          <p><i class="fas fa-location-arrow mr-2 pink-icon"></i> <%= @service.service_type %></p>
+          <p><i class="far fa-clock mr-2 pink-icon"></i> <%= @service.duration %>m</p>
+        </div>
+        <p><%= @service.description.gsub(/\n/, '<br/>').html_safe %></p>
+        <div class="d-flex">
+          <div style="flex: 0 0 50%;">
+            <p><strong>Specialty</strong></p>
+            <div class="d-flex">
+              <div class="service-specialty"><%= link_to @service.specialty.name, specialty_path(@service.specialty) %></div>
+            </div>
+          </div>
+          <div style="flex: 0 0 50%;">
+            <p><strong>Related Health Goal(s)</strong></p>
+            <div class="service-list-item-goals">
+              <% @service.health_goals.order(:name).each do |goal| %>
+                <% if user_signed_in? %>
+                  <% if current_user.health_goals.include?(goal) %>
+                    <div class="service-goal match"><%= goal.name %></div>
+                  <% else %>
+                    <div class="service-goal"><%= goal.name %></div>
+                  <% end %>
+                <% else %>
+                  <div class="service-goal"><%= goal.name %></div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <%= link_to 'See Availability', '', data: { toggle: "modal", target: "#timeslotModal" }, class: 'btn btn-ghost', id: 'modal-launch' %>
+      </div>
+      <div class="service-practitioner">
+        <% if @service.practitioner.user.photo.attached? %>
+          <%= cl_image_tag @service.practitioner.user.photo.key, class: 'avatar-full mb-4' %>
+        <% else %>
+          <img src='https://kitt.lewagon.com/placeholder/users/random' class='avatar-full mb-4' />
+        <% end %>
+        <%= link_to @service.practitioner.user.full_name, practitioner_path(@service.practitioner), class: 'service-practitioner-name' %>
+      </div>
+    </div>
     <div class="service-session-form">
-      <p class="mb-0">Please select 3 time slots you prefer and the practitioner will confirm it.</p>
+      <!-- <p class="mb-0">Please select 3 time slots you prefer and the practitioner will confirm it.</p> -->
       <%= simple_form_for [@service, @session] do |f| %>
-        <div class="d-flex">
-          <%= link_to 'Select primary time', '', data: { toggle: "modal", target: "#primaryTimeModal" }, class: 'btn btn-ghost my-2 col-5', id: 'primary-launch' %>
-          <p id='primary'></p>
-        </div>
-        <div class="d-flex">
-          <%= link_to 'Select secondary time', '', data: { toggle: "modal", target: "#secondaryTimeModal" }, class: 'btn btn-ghost my-2 col-5', id: 'secondary-launch' %>
-          <p id='secondary'></p>
-        </div>
-        <div class="d-flex">
-          <%= link_to 'Select tertiary time', '', data: { toggle: "modal", target: "#tertiaryTimeModal" }, class: 'btn btn-ghost my-2 col-5', id: 'tertiary-launch' %>
-          <p id='tertiary'></p>
-        </div>
         <%= f.input :primary_time, as: :string, as: :hidden %>
         <%= f.input :secondary_time, as: :string, as: :hidden %>
         <%= f.input :tertiary_time, as: :string, as: :hidden %>
-        <p>By sending session request, I agree to the Terms of Service and agree to pay the amount shown including the 3% service fee. Your card will be preauthorized for the amount, but will not be charged until your booking is confirmed. </p>
-        <%= f.submit 'Send session request', class: 'btn btn-flat'%>
+        <%= f.input :message, as: :hidden %>
+        <!-- <p>By sending session request, I agree to the Terms of Service and agree to pay the amount shown including the 3% service fee. Your card will be preauthorized for the amount, but will not be charged until your booking is confirmed. </p> -->
+        <%= f.submit 'Send session request', class: 'btn btn-flat hidden', id: 'create_session' %>
       <% end %>
-      <div class="modal fade" id="primaryTimeModal" tabindex="-1" role="dialog" aria-labelledby="primaryTimeModalTitle" aria-hidden="true">
+      <div class="modal fade" id="timeslotModal" tabindex="-1" role="dialog" aria-labelledby="timeslotModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-photo modal-dialog-scrollable" role="document">
-          <div class="modal-content">
+          <div class="modal-content" id="primary-time-modal">
             <div class="modal-header">
-              <h5 class="modal-title" id="primaryTimeModalTitle">Primary time for <%= @service.name %></h5>
-              <button type="button" class="close" id="close-primary" data-dismiss="modal" aria-label="Close">
+              <h5 class="modal-title" id="timeslotModalTitle1">Please choose time slot for session request (1/3)</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body-header">
-              <%= link_to 'Previous', '', id: 'previous-btn-primary'  %>
+              <%= link_to 'Previous', '', id: 'previous-btn-primary' %>
               <p id="calendar-days-primary"></p>
-              <%= link_to 'Next', '', id: 'next-btn-primary'  %>
+              <%= link_to 'Next', '', id: 'next-btn-primary' %>
             </div>
             <div class="circles">
               <p><i class="fas fa-circle available"></i> Available</p>
               <p><i class="fas fa-circle booked"></i> Booked</p>
               <p><i class="fas fa-circle blocked"></i> Not Available</p>
+              <p><i class="fas fa-circle chosen"></i> Slot You Selected</p>
             </div>
             <div class="modal-body">
               <table class='booking-calendar' id='primary-calendar'>
@@ -62,27 +105,28 @@
                 </tr>
               </table>
             </div>
+            <div class="modal-footer">
+              <p id='primary' class="mr-3"></p>
+              <button type="button" class="btn btn-flat" id="primary-launch" disabled="">Next</button>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="modal fade" id="secondaryTimeModal" tabindex="-1" role="dialog" aria-labelledby="secondaryTimeModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-photo modal-dialog-scrollable" role="document">
-          <div class="modal-content">
+          <div class="modal-content hidden" id="secondary-time-modal">
             <div class="modal-header">
-              <h5 class="modal-title" id="secondaryTimeModalTitle">Secondary time for <%= @service.name %></h5>
-              <button type="button" class="close" id="close-secondary" data-dismiss="modal" aria-label="Close">
+              <h5 class="modal-title" id="timeslotModalTitle2">Please choose time slot for session request (2/3)</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body-header">
-              <%= link_to 'Previous', '', id: 'previous-btn-secondary'  %>
+              <%= link_to 'Previous', '', id: 'previous-btn-secondary' %>
               <p id="calendar-days-secondary"></p>
-              <%= link_to 'Next', '', id: 'next-btn-secondary'  %>
+              <%= link_to 'Next', '', id: 'next-btn-secondary' %>
             </div>
             <div class="circles">
               <p><i class="fas fa-circle available"></i> Available</p>
               <p><i class="fas fa-circle booked"></i> Booked</p>
               <p><i class="fas fa-circle blocked"></i> Not Available</p>
+              <p><i class="fas fa-circle chosen"></i> Slot You Selected</p>
             </div>
             <div class="modal-body">
               <table class='booking-calendar' id='secondary-calendar'>
@@ -95,27 +139,31 @@
                 </tr>
               </table>
             </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-ghost" id="back-primary">Back</button>
+              <div class="d-flex">
+                <p id='secondary' class="mr-3"></p>
+                <button type="button" class="btn btn-flat" id="secondary-launch" disabled="">Next</button>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="modal fade" id="tertiaryTimeModal" tabindex="-1" role="dialog" aria-labelledby="tertiaryTimeModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-photo modal-dialog-scrollable" role="document">
-          <div class="modal-content">
+          <div class="modal-content hidden" id="tertiary-time-modal">
             <div class="modal-header">
-              <h5 class="modal-title" id="tertiaryTimeModalTitle">Tertiary time for <%= @service.name %></h5>
+              <h5 class="modal-title" id="timeslotModalTitle3">Please choose time slot for session request (3/3)</h5>
               <button type="button" class="close" id="close-tertiary" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body-header">
-              <%= link_to 'Previous', '', id: 'previous-btn-tertiary'  %>
+              <%= link_to 'Previous', '', id: 'previous-btn-tertiary' %>
               <p id="calendar-days-tertiary"></p>
-              <%= link_to 'Next', '', id: 'next-btn-tertiary'  %>
+              <%= link_to 'Next', '', id: 'next-btn-tertiary' %>
             </div>
             <div class="circles">
               <p><i class="fas fa-circle available"></i> Available</p>
               <p><i class="fas fa-circle booked"></i> Booked</p>
               <p><i class="fas fa-circle blocked"></i> Not Available</p>
+              <p><i class="fas fa-circle chosen"></i> Slot You Selected</p>
             </div>
             <div class="modal-body">
               <table class='booking-calendar' id='tertiary-calendar'>
@@ -128,60 +176,170 @@
                 </tr>
               </table>
             </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-ghost" id="back-secondary">Back</button>
+              <div class="d-flex">
+                <p id='tertiary' class="mr-3"></p>
+                <button type="button" class="btn btn-flat" id="tertiary-launch" disabled="">Next</button>
+              </div>
+            </div>
+          </div>
+          <div class="modal-content hidden" id="message-modal">
+            <div class="modal-header">
+              <h5 class="modal-title" id="timeslotModalTitle4">Message for <%= @service.name %></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <label for="session-message">Let your practitioner know what is your goal or objective for this session.</label>
+              <textarea id="session-message" class="form-control text"></textarea>
+              <div class="my-4">
+                <p>Your Chosen Time Slots. Practitioner will choose one of the time slot and confirm it.</p>
+                <p>Your First Choice: <span id='primary-final'></span></p>
+                <p>Your Second Choice: <span id='secondary-final'></span></p>
+                <p>Your Third Choice: <span id='tertiary-final'></span></p>
+              </div>
+              <p>By sending session request, you agree to the Terms of Service and agree to pay the amount shown including the tax depending on practitioner and your location.<br>Your card will be preauthorized for the amount, but will not be charged until your session is delivered.</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-ghost" id="back-tertiary">Back</button>
+              <button type="button" class="btn btn-flat" id="send-request">Send session request</button>
+            </div>
           </div>
         </div>
       </div>
+
     </div>
-    <div class='service-session-summary'>
-      <div class='service-description'>
-        <p><%= @service.description.gsub(/\n/, '<br/>').html_safe %></p>
-        <p>Specialty: <%= @service.specialty.name %></p>
-        <p>Related health goals:
-          <%= @service.health_goals.pluck(:name).join(', ') %>
-        </p>
-        <p>Session type: <%= @service.service_type %></p>
-        <p>Duration: <%= @service.duration %>m</p>
-      </div>
-      <div class="service-total-price">
-        <p>Session: CA$ <%= @service.price.to_f.round(2) %></p>
-        <p>Service fee: C$ <%=( @service.price * 0.03).round(2) %></p>
-        <p>Total price: C$ <%= (@service.price * 1.03).round(2) %></p>
-      </div>
-      <div class="service-review">
+    <div class="service-review">
+      <% if @service.reviews.count > 0 %>
+        <h4><i class="fas fa-star mr-2 pink-icon"></i><%= @service.rating_avg %> (<%= @service.reviews.count %> Reviews)</h4>
         <% @service.reviews.includes(session: :user).each do |review| %>
-          <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %> - <%= review.comment.gsub(/\n/, '<br/>').html_safe %> <small><i>by <%= review.session.user.full_name %></i></small></p>
+          <div class="review-box">
+            <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %></p>
+            <p><%= review.comment.gsub(/\n/, '<br/>').html_safe %></p>
+            <p><small><i><%= review.session.user.full_name %></i></small></p>
+            <p><small><i><%= review.created_at.strftime('%b %d, %Y') %></i></small></p>
+          </div>
         <% end %>
+      <% else %>
+        <h4>No reviews!</h4>
+      <% end %>
+    </div>
+    <% if @service.service_type == 'In-person' %>
+      <div class="service-location">
+        <h4>Practitioner Location</h4>
+        <p><i class="fas fa-map-marker-alt pink-icon"></i> <%= @service.practitioner.address %></p>
+        <div id="service-map"></div>
       </div>
+    <% end %>
+    <div class="related-services">
+      <h4>Related Services</h4>
+      <% Service.where(active: true).joins(:practitioner_specialty).joins(:specialty).where(specialties: {id: @service.specialty.id}).each do |service| %>
+        <% if service.id != @service.id %>
+          <div class="review-box">
+            <p><%= link_to service.name, service_path(service) %></p>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="other-services">
+      <h4>Other Services By This Pracitioner</h4>
+      <% @service.practitioner.services.each do |service| %>
+        <% if service.id != @service.id %>
+          <div class="review-box">
+            <p><%= link_to service.name, service_path(service) %></p>
+          </div>
+        <% end %>
+      <% end %>
     </div>
   </div>
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('modal-launch').addEventListener('click', (e) => {
+      if (!document.getElementById('primary-time-modal').classList.contains('hidden')) {
+        setCalendar(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        movePrevious(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        moveNext(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+      } else if (!document.getElementById('secondary-time-modal').classList.contains('hidden')) {
+        setCalendar(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        movePrevious(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        moveNext(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+      } else if (!document.getElementById('tertiary-time-modal').classList.contains('hidden')) {
+        setCalendar(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        movePrevious(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        moveNext(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+      }
+    })
     document.getElementById('primary-launch').addEventListener('click', (e) => {
-      setCalendar(start, 'primary');
-      movePrevious(start, 'primary');
-      moveNext(start, 'primary');
+      document.getElementById('primary-time-modal').classList.add('hidden');
+      setTimeout(function(){
+        setCalendar(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        movePrevious(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        moveNext(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        document.getElementById('secondary-time-modal').classList.remove('hidden');
+      }, 500);
     })
     document.getElementById('secondary-launch').addEventListener('click', (e) => {
-      setCalendar(start, 'secondary');
-      movePrevious(start, 'secondary');
-      moveNext(start, 'secondary');
+      document.getElementById('secondary-time-modal').classList.add('hidden');
+      setTimeout(function(){
+        setCalendar(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        movePrevious(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        moveNext(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        document.getElementById('tertiary-time-modal').classList.remove('hidden');
+      }, 500);
     })
     document.getElementById('tertiary-launch').addEventListener('click', (e) => {
-      setCalendar(start, 'tertiary');
-      movePrevious(start, 'tertiary');
-      moveNext(start, 'tertiary');
+      document.getElementById('tertiary-time-modal').classList.add('hidden');
+      setTimeout(function(){
+        document.getElementById('message-modal').classList.remove('hidden');
+      }, 500);
+    })
+    document.getElementById('send-request').addEventListener('click', (e) => {
+      document.getElementById('session_message').value = document.getElementById('session-message').value
+      document.getElementById('create_session').click();
     })
     let start = new Date();
-    const setCalendar = (start, calendar) => {
+    const setCalendar = (start, calendar, dt1, dt2, dt3) => {
       const day = start.getDay();
       setCalendarDays(start, calendar);
       setTimeTable(day, calendar);
-      getAvaialbleHours(start, calendar);
+      getAvaialbleHours(start, calendar, dt1, dt2, dt3);
       if (start <= new Date()) {
         document.getElementById('previous-btn-' + calendar).setAttribute('style', 'pointer-events: none');
       }
     }
+    document.getElementById('back-primary').addEventListener('click', (e) => {
+      start = new Date();
+      document.getElementById('secondary-time-modal').classList.add('hidden');
+      setTimeout(function(){
+        setCalendar(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        movePrevious(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        moveNext(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        document.getElementById('primary-time-modal').classList.remove('hidden');
+      }, 500);
+    })
+    document.getElementById('back-secondary').addEventListener('click', (e) => {
+      start = new Date();
+      document.getElementById('tertiary-time-modal').classList.add('hidden');
+      setTimeout(function(){
+        setCalendar(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        movePrevious(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        moveNext(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        document.getElementById('secondary-time-modal').classList.remove('hidden');
+      }, 500);
+    })
+    document.getElementById('back-tertiary').addEventListener('click', (e) => {
+      start = new Date();
+      document.getElementById('message-modal').classList.add('hidden');
+      setTimeout(function(){
+        setCalendar(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        movePrevious(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        moveNext(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        document.getElementById('tertiary-time-modal').classList.remove('hidden');
+      }, 500);
+    })
     const setCalendarDays = (start, calendar) => {
       let html = '';
       let end = new Date(start);
@@ -218,7 +376,7 @@
       })
       document.getElementById(calendar + '-calendar').insertAdjacentHTML('beforeend', html);
     }
-    const getAvaialbleHours = (start, calendar) => {
+    const getAvaialbleHours = (start, calendar, dt1, dt2, dt3) => {
       let end = new Date(start);
       end.setDate(start.getDate() + 6);
       const startDate = start.getDate();
@@ -280,6 +438,27 @@
           })
         })
       })
+      if (dt1 != '' ) {
+        if ((new Date(dt1) >= start) && (new Date(dt1) <= new Date(moment(new Date(start)).add(7, 'd').toISOString()))) {
+          const el = document.getElementById(new Date(dt1).getDay() + '-' + ("0" + new Date(dt1).getHours()).slice(-2) + ':' + ("0" + new Date(dt1).getMinutes()).slice(-2));
+          el.childNodes[0].classList.remove('available-cell');
+          el.childNodes[0].classList.add('blocked-cell');
+        }
+      }
+      if (dt2 != '') {
+        if ((new Date(dt2) >= start) && (new Date(dt2) <= new Date(moment(new Date(start)).add(7, 'd').toISOString()))) {
+          const el = document.getElementById(new Date(dt2).getDay() + '-' + ("0" + new Date(dt2).getHours()).slice(-2) + ':' + ("0" + new Date(dt2).getMinutes()).slice(-2));
+          el.childNodes[0].classList.remove('available-cell');
+          el.childNodes[0].classList.add('blocked-cell');
+        }
+      }
+      if (dt3 != '') {
+        if ((new Date(dt3) >= start) && (new Date(dt3) <= new Date(moment(new Date(start)).add(7, 'd').toISOString()))) {
+          const el = document.getElementById(new Date(dt3).getDay() + '-' + ("0" + new Date(dt3).getHours()).slice(-2) + ':' + ("0" + new Date(dt3).getMinutes()).slice(-2));
+          el.childNodes[0].classList.remove('available-cell');
+          el.childNodes[0].classList.add('blocked-cell');
+        }
+      }
       const availables = document.getElementsByClassName('available-cell');
       const working_hours = <%= @service.practitioner.converted_working_hours(current_user).to_json.html_safe %>;
       let ending_hours = [];
@@ -319,16 +498,25 @@
             const html = `<div class="available-hours"><p>` + pointed_time.format('ll') + ` ` + pointed_time.format('LT') + ` ~ ` + ending_time + `</p></div>`;
             item.insertAdjacentHTML('beforeend', html);
             slot.addEventListener('click', (e) => {
+              e.currentTarget.childNodes[0].classList.remove('available-cell');
+              if (document.getElementsByClassName('chosen-cell')[0]) {
+                document.getElementsByClassName('chosen-cell')[0].classList.add('available-cell');
+                document.getElementsByClassName('chosen-cell')[0].classList.remove('chosen-cell');
+              }
+              e.currentTarget.childNodes[0].classList.add('chosen-cell');
+              document.getElementsByClassName('chosen-cell')
               document.getElementById('session_' + calendar + '_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
-              document.getElementById('close-' + calendar).click();
               document.getElementById(calendar).innerHTML = pointed_time.format('ddd, lll');
-              $('.added-time').remove();
-              let btn1 = document.getElementById('previous-btn-' + calendar),
-              btnClone1 = btn1.cloneNode(true);
-              btn1.parentNode.replaceChild(btnClone1, btn1);
-              let btn2 = document.getElementById('next-btn-' + calendar),
-              btnClone2 = btn2.cloneNode(true);
-              btn2.parentNode.replaceChild(btnClone2, btn2);
+              document.getElementById(calendar + '-launch').disabled = false;
+              document.getElementById(calendar + '-launch').setAttribute('data-first-time', pointed_time);
+              document.getElementById(calendar + '-final').innerHTML = pointed_time.format('ddd, lll');
+              // $('.added-time').remove();
+              // let btn1 = document.getElementById('previous-btn-' + calendar),
+              // btnClone1 = btn1.cloneNode(true);
+              // btn1.parentNode.replaceChild(btnClone1, btn1);
+              // let btn2 = document.getElementById('next-btn-' + calendar),
+              // btnClone2 = btn2.cloneNode(true);
+              // btn2.parentNode.replaceChild(btnClone2, btn2);
             })
           }
         } else {
@@ -338,16 +526,24 @@
             const html = `<div class="available-hours"><p>` + pointed_time.format('ll') + ` ` + pointed_time.format('LT') + ` ~ ` + ending_time + `</p></div>`;
             item.insertAdjacentHTML('beforeend', html);
             slot.addEventListener('click', (e) => {
+              e.currentTarget.childNodes[0].classList.remove('available-cell');
+              if (document.getElementsByClassName('chosen-cell')[0]) {
+                document.getElementsByClassName('chosen-cell')[0].classList.add('available-cell');
+                document.getElementsByClassName('chosen-cell')[0].classList.remove('chosen-cell');
+              }
+              e.currentTarget.childNodes[0].classList.add('chosen-cell');
               document.getElementById('session_' + calendar + '_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
-              document.getElementById('close-' + calendar).click();
               document.getElementById(calendar).innerHTML = pointed_time.format('ddd, lll');
-              $('.added-time').remove();
-              let btn1 = document.getElementById('previous-btn-' + calendar),
-              btnClone1 = btn1.cloneNode(true);
-              btn1.parentNode.replaceChild(btnClone1, btn1);
-              let btn2 = document.getElementById('next-btn-' + calendar),
-              btnClone2 = btn2.cloneNode(true);
-              btn2.parentNode.replaceChild(btnClone2, btn2);
+              document.getElementById(calendar + '-launch').disabled = false;
+              document.getElementById(calendar + '-launch').setAttribute('data-first-time', pointed_time);
+              document.getElementById(calendar + '-final').innerHTML = pointed_time.format('ddd, lll');
+              // $('.added-time').remove();
+              // let btn1 = document.getElementById('previous-btn-' + calendar),
+              // btnClone1 = btn1.cloneNode(true);
+              // btn1.parentNode.replaceChild(btnClone1, btn1);
+              // let btn2 = document.getElementById('next-btn-' + calendar),
+              // btnClone2 = btn2.cloneNode(true);
+              // btn2.parentNode.replaceChild(btnClone2, btn2);
             })
           }
         }
@@ -364,7 +560,7 @@
           day = '0' + day;
       return [year, month, day].join('-');
     }
-    const movePrevious = (start, calendar) => {
+    const movePrevious = (start, calendar, dt1, dt2, dt3) => {
       document.getElementById('previous-btn-' + calendar).addEventListener('click', (e) => {
         e.preventDefault();
         start.setDate(start.getDate() - 7);
@@ -373,10 +569,10 @@
         } else {
           document.getElementById('previous-btn-' + calendar).setAttribute('style', 'pointer-events: auto');
         }
-        setCalendar(start, calendar);
+        setCalendar(start, calendar, dt1, dt2, dt3);
       })
     }
-    const moveNext = (start, calendar) => {
+    const moveNext = (start, calendar, dt1, dt2, dt3) => {
       document.getElementById('next-btn-' + calendar).addEventListener('click', (e) => {
         e.preventDefault();
         start.setDate(start.getDate() + 7);
@@ -385,9 +581,8 @@
         } else {
           document.getElementById('previous-btn-' + calendar).setAttribute('style', 'pointer-events: auto');
         }
-        setCalendar(start, calendar);
+        setCalendar(start, calendar, dt1, dt2, dt3);
       })
     }
-
   });
 </script>

@@ -134,7 +134,7 @@ class PractitionersController < ApplicationController
   end
 
   def profile
-    @columns = %w[title specialties languages country experience certification bio approach video address healthgoals timezone city name phone]
+    @columns = %w[title specialties languages certifications memberships country experience bio approach video address healthgoals timezone city name phone]
     @workingdays = %w[Mon Tue Wed Thu Fri Sat Sun]
     @specialties = Specialty.all.sort_by(&:name)
     @languages = Language.all.sort_by(&:name)
@@ -142,6 +142,8 @@ class PractitionersController < ApplicationController
     @practitioner_specialty = PractitionerSpecialty.new
     @practitioner_language = PractitionerLanguage.new
     @practitioner_social_link = PractitionerSocialLink.new
+    @practitioner_certification = PractitionerCertification.new
+    @practitioner_membership = PractitionerMembership.new
     @health_goal = UserHealthGoal.new
     @newsletter = Newsletter.find_by(email: @practitioner.user.email) if @practitioner.user.newsletter
     @user = @practitioner.user
@@ -196,6 +198,6 @@ class PractitionersController < ApplicationController
   end
 
   def practitioner_params
-    params.require(:practitioner).permit(:title, :location, :address, :bio, :approach, :video, :latitude, :longitude, :certification, :experience, :timezone, :country_code, :background_check_status, :background_check_consent, :background_check_id, :insurance, :banner_image)
+    params.require(:practitioner).permit(:title, :location, :address, :bio, :approach, :video, :latitude, :longitude, :experience, :timezone, :country_code, :background_check_status, :background_check_consent, :background_check_id, :insurance, :banner_image)
   end
 end

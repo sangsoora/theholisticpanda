@@ -28,6 +28,8 @@ Rails.application.routes.draw do
     resources :practitioner_specialties, only: [:create]
     resources :practitioner_languages, only: [:create]
     resources :practitioner_social_links, only: [:create]
+    resources :practitioner_certifications, only: [:create]
+    resources :practitioner_memberships, only: [:create]
     resources :favorite_practitioners, only: [:create]
     resources :working_hours, only: [:create]
   end
@@ -40,6 +42,10 @@ Rails.application.routes.draw do
   resources :practitioner_languages, only: [:destroy]
 
   resources :practitioner_social_links, only: [:destroy]
+
+  resources :practitioner_certifications, only: [:destroy]
+
+  resources :practitioner_memberships, only: [:destroy]
 
   resources :user_health_goals, only: [:destroy]
 

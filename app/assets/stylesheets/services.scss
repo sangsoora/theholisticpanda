@@ -1,5 +1,9 @@
-.services-page, .service-page {
-  padding: 9rem 0 2rem;
+.services-page {
+  padding: 8rem 0 2rem;
+}
+
+.service-page {
+  padding: 7rem 0 2rem;
 }
 
 .filter-bar {
@@ -199,6 +203,26 @@
   }
 }
 
+.service-specialty {
+  font-size: 0.75rem;
+  padding: 0 0.5rem;
+  border-radius: 2rem;
+  border: 1px solid $pink;
+  color: $pink;
+  margin-right: 0.5rem;
+  margin-bottom: 0.25rem;
+  a {
+    color: $pink;
+  }
+  a:hover {
+    color: $pink;
+  }
+}
+
+#service-map {
+  height: 500px;
+}
+
 .service-list-item-details {
   display: flex;
   justify-content: space-between;
@@ -256,8 +280,28 @@
 }
 
 .service-details {
+  box-shadow: 0 7px 25px 0 rgba(0,0,0,.1);
+  background: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.service-info {
   display: flex;
   justify-content: space-between;
+}
+
+.service-description {
+  flex: 0 0 70%;
+}
+
+.service-practitioner {
+  flex: 0 0 25%;
+  text-align: center;
+  .service-practitioner-name {
+    font-weight: 700;
+    font-size: 1.25rem;
+  }
 }
 
 .service-session-form {
@@ -311,6 +355,12 @@
   height: 100%;
   width: 100%;
   background: $pink;
+}
+
+.chosen-cell {
+  height: 100%;
+  width: 100%;
+  background: red;
 }
 
 .added-time .available-cell {
@@ -369,6 +419,10 @@ i.blocked {
   color: #ccc;
 }
 
+i.chosen {
+  color: red;
+}
+
 #primary, #secondary, #tertiary {
   display: flex;
   align-items:
@@ -388,4 +442,15 @@ input[type='radio']:checked:after {
     display: inline-block;
     visibility: visible;
     border: 2px solid white;
+}
+
+.service-btn .btn {
+  font-size: 1.75rem;
+  border: none;
+  padding: 0;
+  line-height: 34px;
+}
+
+.service-review, .service-location, .related-services, .other-services {
+  margin: 2rem 0;
 }

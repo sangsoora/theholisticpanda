@@ -1,0 +1,22 @@
+<% if practitioner.practitioner_certifications.where(certification_type: 'Education').count > 0 %>
+  <p><strong>Education</strong></p>
+  <% practitioner.practitioner_certifications.where(certification_type: 'Education').each do |certification| %>
+    <div class="practitioner-certification mb-2" data-certification-id="<%= certification.id %>">
+      <div class="d-flex align-items-center">
+        <p><%= certification.name %></p>
+        <button><p><%= link_to '', practitioner_certification_path(certification), remote: true, method: :delete, data: { confirm: "Are you sure to remove this certification?"}, class: 'fas fa-trash' %></p></button>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+<% if practitioner.practitioner_certifications.where(certification_type: 'Certification').count > 0 %>
+  <p><strong>Certification</strong></p>
+  <% practitioner.practitioner_certifications.where(certification_type: 'Certification').each do |certification| %>
+    <div class="practitioner-certification mb-2" data-certification-id="<%= certification.id %>">
+      <div class="d-flex align-items-center">
+        <p><%= certification.name %></p>
+        <button><p><%= link_to '', practitioner_certification_path(certification), remote: true, method: :delete, data: { confirm: "Are you sure to remove this certification?"}, class: 'fas fa-trash' %></p></button>
+      </div>
+    </div>
+  <% end %>
+<% end %>
