@@ -204,6 +204,7 @@ ActiveRecord::Schema.define(version: 2021_01_04_130550) do
     t.datetime "primary_time"
     t.datetime "secondary_time"
     t.datetime "tertiary_time"
+    t.text "message"
     t.integer "amount_cents", default: 0, null: false
     t.boolean "paid"
     t.string "link"
