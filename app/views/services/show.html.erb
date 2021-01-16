@@ -233,6 +233,26 @@
         <div id="service-map"></div>
       </div>
     <% end %>
+    <div class="related-services">
+      <h4>Related Services</h4>
+      <% Service.where(active: true).joins(:practitioner_specialty).joins(:specialty).where(specialties: {id: @service.specialty.id}).each do |service| %>
+        <% if service.id != @service.id %>
+          <div class="review-box">
+            <p><%= link_to service.name, service_path(service) %></p>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="other-services">
+      <h4>Other Services By This Pracitioner</h4>
+      <% @service.practitioner.services.each do |service| %>
+        <% if service.id != @service.id %>
+          <div class="review-box">
+            <p><%= link_to service.name, service_path(service) %></p>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
 <script>

@@ -363,7 +363,6 @@
   background: red;
 }
 
-
 .added-time .available-cell {
   height: 100%;
   width: 100%;
@@ -452,6 +451,6 @@ input[type='radio']:checked:after {
   line-height: 34px;
 }
 
-.service-review, .service-location {
+.service-review, .service-location, .related-services, .other-services {
   margin: 2rem 0;
 }
