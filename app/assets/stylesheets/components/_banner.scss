@@ -1,35 +1,49 @@
 .top-banner {
-  background-image: image-url("yoga.jpg");
+  background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('group.png');
   background-size: cover;
   height: calc(100vh - 4.25rem);
   margin-top: 4.25rem;
   text-align: center;
-  padding-top: 20vh;
+  padding-top: 15vh;
   .btn-flat {
-    padding: 0.75rem 4rem;
+    padding: 0.5rem 4rem;
     font-size: 1.25rem;
+    font-weight: 600;
   }
 }
 
-.top-banner h1 {
-  font-size: 4rem;
-  color: white;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+.top-banner {
+  h1 {
+    font-size: 4rem;
+    color: white;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+  }
+  h4 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: $gold;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+  }
+  .btn-flat {
+    background: $pink;
+  }
 }
 
 .middle-banner {
-  background-image: image-url("virtual.jpg");
+  background-image: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ), url('specialty.jpg');
   background-size: cover;
-  height: calc(100vh - 4.25rem);
   padding-top: 10vh;
 }
 
-.middle-banner h1 {
+.middle-banner h2 {
   color: white;
-  font-size: 4rem;
+  font-size: 2rem;
   width: 80%;
-  margin: 1.5rem auto 15vh;
+  margin: 1.5rem auto 0;
   text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+  text-align: center;
+  padding-top: 12rem;
+  padding-bottom: 5rem;
 }
 
 .middle-banner-body {
@@ -82,3 +96,46 @@
   text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
   padding: 0 10rem;
 }
+
+.swiper-container {
+  width: 90%;
+  margin: 1rem auto;
+}
+
+.swiper-slide {
+  text-align: center;
+  img {
+    width: 60%;
+  }
+  p {
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+}
+
+.swiper-button-prev, .swiper-button-next {
+  top: auto !important;
+  bottom: 80px;
+}
+
+.swiper-button-prev {
+  left: 20px !important;
+}
+
+.swiper-button-next {
+  right: 20px !important;
+}
+
+.swiper-button-prev:after, .swiper-container-rtl .swiper-button-next:after {
+  font-size: 1.5rem !important;
+  font-weight: 700;
+  color: $pink;
+}
+
+.swiper-button-next:after, .swiper-container-rtl .swiper-button-prev:after {
+  font-size: 1.5rem !important;
+  font-weight: 700;
+  color: $pink;
+  right: 40px;
+}
+

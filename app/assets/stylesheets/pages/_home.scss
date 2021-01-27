@@ -3,3 +3,21 @@
   margin-top: 3rem;
   margin-bottom: 3rem;
 }
+
+.featured-practitioners-specialty {
+  font-size: 0.75rem;
+  padding: 0 0.5rem;
+  border-radius: 2rem;
+  border: 1px solid #e57850;
+  color: #e57850;
+  margin: 0.5rem auto;
+  flex: 0 0 100%;
+}
+
+.talent-img {
+  width: 30%;
+  img {
+    width: 100%;
+    border-radius: 0.5rem;
+  }
+}
