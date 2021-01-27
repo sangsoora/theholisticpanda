@@ -7,9 +7,9 @@
 <section id='featured-practitioners'>
   <div class='d-flex justify-content-center my-4 text-center'>
     <div class='col-10'>
-      <h2>Featured Practitioners</h2>
+      <h2>Our Featured Practitioners</h2>
       <div class='cards-featured'>
-        <% @practitioners.first(3).each do |practitioner| %>
+        <% @practitioners.first(4).each do |practitioner| %>
           <div class='card-featured'>
             <a href="/practitioners/<%= practitioner.id %>">
               <% if practitioner.user.photo.attached? %>
@@ -18,17 +18,25 @@
                 <img src='https://kitt.lewagon.com/placeholder/users/random' />
               <% end %>
             </a>
-            <div class='card-featured-infos'>
               <a href="/practitioners/<%= practitioner.id %>">
                 <h2><%= practitioner.user.full_name %></h2>
               </a>
-              <p id="bio-<%= practitioner.id %>"><%= practitioner.bio.gsub(/\n/, '<br/>').html_safe %></p>
-              <%= link_to 'See more', practitioner_path(practitioner) %>
+            <div class='card-featured-infos'>
+              <p><%= practitioner.title %></p>
+              <p>Specialized in:</p>
+              <div class="d-flex" style="flex-wrap: wrap;">
+                <% practitioner.specialties.first(3).each do |specialty| %>
+                  <div class="featured-practitioners-specialty"><%= link_to specialty.name, specialty_path(specialty) %></div>
+                <% end %>
+                <a href="/practitioners/<%= practitioner.id %>" style="margin: 0 auto;"><p>and more</p></a>
+              </div>
+              <!-- <p id="bio-<%#= practitioner.id %>"><%#= practitioner.bio.gsub(/\n/, '<br/>').html_safe %></p> -->
+              <%#= link_to 'See more', practitioner_path(practitioner) %>
             </div>
           </div>
         <% end %>
       </div>
-      <div class='cards-review'>
+      <!-- <div class='cards-review'>
         <div class='card-review' style='background-image: url(https://kitt.lewagon.com/placeholder/users/fanny-rojon)'>
           <div class='name'>
             <h3>Diana</h3>
@@ -53,16 +61,16 @@
             <p>It rocks!</p>
           </div>
         </div>
-      </div>
-      <div class='text-center'>
-        <%= link_to "Find a service now", services_path, class: 'btn btn-flat' %>
-      </div>
+      </div> -->
+      <!-- <div class='text-center'>
+        <%#= link_to "Find a service now", services_path, class: 'btn btn-flat' %>
+      </div> -->
     </div>
   </div>
 </section>
-<section id='middle-banner'>
+<section id='middle-banner' style="position: relative;">
   <%= render 'middle_banner' %>
-  <div class='d-flex justify-content-center text-center'>
+  <!-- <div class='d-flex justify-content-center text-center'>
     <div class='col-10'>
       <div class='cards-practitioner'>
         <div class='card-practitioner'>
@@ -70,7 +78,7 @@
           <div class='card-practitioner-infos'>
             <h2>Diana Choi</h2>
             <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
-            <%= link_to 'View profile', '', class: 'btn btn-ghost view-btn' %>
+            <%#= link_to 'View profile', '', class: 'btn btn-ghost view-btn' %>
           </div>
         </div>
         <div class='card-practitioner'>
@@ -78,7 +86,7 @@
             <div class='card-practitioner-infos'>
             <h2>Janet Lam</h2>
             <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
-            <%= link_to 'View profile', '', class: 'btn btn-ghost view-btn' %>
+            <%#= link_to 'View profile', '', class: 'btn btn-ghost view-btn' %>
           </div>
         </div>
         <div class='card-practitioner'>
@@ -86,7 +94,7 @@
             <div class='card-practitioner-infos'>
             <h2>Sangsoo Ra</h2>
             <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
-            <%= link_to 'View profile', '', class: 'btn btn-ghost view-btn' %>
+            <%#= link_to 'View profile', '', class: 'btn btn-ghost view-btn' %>
           </div>
         </div>
         <div class='card-practitioner'>
@@ -94,13 +102,142 @@
             <div class='card-practitioner-infos'>
             <h2>Ankit Walani</h2>
             <p>Charming and well located. Don’t miss it!  You’ll never forget this amazing experience.</p>
-            <%= link_to 'View profile', '', class: 'btn btn-ghost view-btn' %>
+            <%#= link_to 'View profile', '', class: 'btn btn-ghost view-btn' %>
           </div>
         </div>
       </div>
     </div>
+  </div> -->
+</section>
+<section id="why-panda">
+  <div class='d-flex justify-content-center my-4 text-center'>
+    <div class="col-10">
+      <h2>Why The Holistic Panda?</h2>
+      <div class="cards-why">
+        <div class="card-why">
+          <%= image_tag("time.png") %>
+          <h4>SAVE TIME</h4>
+          <ul>
+            <li><p>Easily search through our diverse range of holistic services from over 20 specialities</p></li>
+            <li><p>Securely book and pay for your session in just a few clicks</p></li>
+            <li><p>Access wellness services anytime, anywhere</p></li>
+          </ul>
+        </div>
+        <div class="card-why">
+          <%= image_tag("mind.png") %>
+          <h4>PEACE OF MIND</h4>
+          <ul>
+            <li><p>Enjoy free signup & zero booking fee</p>
+            <li><p>Receive free 15 minute discovery call with practitioners to identify the fit for your needs</p></li>
+            <li><p>Book with trusted practitioners that have received background checks</p></li>
+            <li><p>Check reviews and ratings posted by other wellness seekers</p></li>
+            </li>
+          </ul>
+        </div>
+        <div class="card-why">
+          <%= image_tag("connected.png") %>
+          <h4>STAY CONNECTED</h4>
+          <ul>
+            <li><p>Learn about holistic wellness through our content and thought leadership articles</p></li>
+            <li><p>Join events with experts to optimise health and wellness, including mental, emotional, and spiritual wellbeing</p></li>
+            <li><p>Be a part of a community of like-minded people</p></li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class='d-flex justify-content-center text-center'>
+</section>
+<section id="how-works">
+  <div class='d-flex justify-content-center my-4 text-center'>
+    <div class="col-10">
+      <h2>How Does It Work?</h2>
+      <div class="cards-works">
+        <div class="card-works">
+          <div class="work-img">
+            <%= image_tag("works1.png") %>
+          </div>
+          <div class="work-description">
+            <div class="w-100">
+              <h3>Search By Health Goals</h3>
+              <br>
+              <p><strong>Select your health goals</strong> and <strong>filter results</strong></p>
+              <p>by your preferences for</p>
+              <p><strong>specialties, languages, and session type.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="card-works">
+          <div class="work-description">
+            <div class="w-100">
+              <h3>Choose A Holistic Service</h3>
+              <br>
+              <p><strong>Review</strong> service descriptions,</p>
+              <p><strong>explore</strong> practitioners’ bio page, and</p>
+              <p><strong>read</strong> reviews from other wellness seekers</p>
+            </div>
+          </div>
+          <div class="work-img">
+            <%= image_tag("works2.png") %>
+          </div>
+        </div>
+        <div class="card-works">
+          <div class="work-img">
+            <%= image_tag("works1.png") %>
+          </div>
+          <div class="work-description">
+            <div class="w-100">
+              <h3>Book Your Session</h3>
+              <br>
+              <p><strong>Submit 3 time requests</strong> and await booking confirmation with session details</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-works">
+          <div class="work-description">
+            <div class="w-100">
+              <h3>Start Your Journey</h3>
+              <p><strong>Conduct the session</strong> with your practitioner</p>
+              <p>either <strong>virtually</strong> or <strong>in-person</strong>.</p>
+              <p>Your wellness journey starts here!</p>
+            </div>
+          </div>
+          <div class="work-img">
+            <%= image_tag("works4.png") %>
+          </div>
+        </div>
+
+        <div class="card-works">
+        </div>
+        <div class="card-works">
+        </div>
+        <div class="card-works">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="become-practitoner">
+  <div class='d-flex justify-content-center my-4 text-center'>
+    <div class="col-10">
+      <h2>Have Talents To Share?</h2>
+      <h4 class="my-4">Join The Holistic Panda As A Practitioner<br>And Get Connected With Holistic Service Seekers Around The World!</h4>
+      <div class="d-flex justify-content-between my-4" style="flex-wrap: wrap;">
+        <div class="talent-img">
+          <%= image_tag("talent1.png") %>
+        </div>
+        <div class="talent-img">
+          <%= image_tag("talent2.png") %>
+        </div>
+        <div class="talent-img">
+          <%= image_tag("talent3.png") %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="newsletter">
+  <div class='d-flex justify-content-center my-4 text-center'>
     <div class="col-10">
       <% if !(user_signed_in? && current_user.newsletter) %>
         <h2>Sign up to our newsletter stay updated</h2>
@@ -117,6 +254,7 @@
     </div>
   </div>
 </section>
-<section id='bottom-banner'>
-  <%= render 'bottom_banner' %>
+<!-- <section id='bottom-banner'>
+  <%#= render 'bottom_banner' %>
 </section>
+ -->

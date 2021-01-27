@@ -17,8 +17,10 @@
 import 'bootstrap';
 import '../plugins/flatpickr';
 import "cropperjs/dist/cropper.css";
+import '../plugins/swiper';
 
 // import { initUpdateNavbarOnScroll } from '../components/navbar';
+import { initSpecialtySwiper } from '../plugins/swiper';
 import { initUpdateForm } from '../components/form';
 import { previewImageOnFileSelect } from '../components/image_cropper';
 import { initConversationScroll } from '../components/conversation_scroll';
@@ -33,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   previewImageOnFileSelect();
   initConversationScroll();
   previewBannerOnFileSelect();
+  initSpecialtySwiper();
 });
 
 // document.addEventListener('turbolinks:load', () => {

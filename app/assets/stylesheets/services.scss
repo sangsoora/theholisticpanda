@@ -360,7 +360,7 @@
 .chosen-cell {
   height: 100%;
   width: 100%;
-  background: red;
+  background: $gold;
 }
 
 .added-time .available-cell {
@@ -420,7 +420,7 @@ i.blocked {
 }
 
 i.chosen {
-  color: red;
+  color: $gold;
 }
 
 #primary, #secondary, #tertiary {
