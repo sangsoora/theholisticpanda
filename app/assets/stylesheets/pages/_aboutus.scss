@@ -1,0 +1,23 @@
+.aboutus-container {
+  width: 80%;
+  margin: 1rem auto;
+  .logo {
+    width: 40%;
+    margin: 0 auto 2rem;
+  }
+  img {
+    width: 100%;
+  }
+}
+
+.our-team {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  .team-member {
+    flex: 0 0 25%;
+  }
+  h3 {
+    margin: 1rem auto;
+  }
+}
