@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   get '/become-a-practitioner', to: 'pages#become_a_practitioner', as: :become_a_practitioner
 
+  get '/aboutus', to: 'pages#aboutus', as: :aboutus
+
   get '/practitioners/filter', to: 'practitioners#filter', as: :practitioner_filter
 
   get '/specialties/filter', to: 'specialties#filter', as: :specialty_filter
