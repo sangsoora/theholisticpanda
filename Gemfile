@@ -28,8 +28,6 @@ gem 'jbuilder', '~> 2.5'
 gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-gem 'json'
-gem 'json_pure'
 gem 'devise'
 gem 'autoprefixer-rails'
 gem 'simple_form'
@@ -49,7 +47,6 @@ gem 'rails_admin', '~> 2.0'
 gem 'momentjs-rails'
 gem 'moment_timezone-rails'
 gem 'jsTimezoneDetect-rails'
-gem 'mini_racer'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
