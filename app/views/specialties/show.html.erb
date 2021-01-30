@@ -1,6 +1,11 @@
 <div class="container specialty-page">
-  <h2><%= @specialty.name %></h2>
-  <p><%= @specialty.description.gsub(/\n/, '<br/>').html_safe %></p>
+  <div class="specialty-img">
+    <%= image_tag("specialty/#{@specialty.id}") %>
+  </div>
+
+    <h2 class="text-center"><%= @specialty.name %></h2>
+    <p><%= @specialty.description.gsub(/\n/, '<br/>').html_safe %></p>
+
   <div class="service-lists">
     <% @specialty.services.where(active: true).each do |service| %>
       <div class="service-list-item" data-price="<%= service.price.to_i %>" data-duration="<%= service.duration %>">

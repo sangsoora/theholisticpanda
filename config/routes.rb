@@ -8,6 +8,8 @@ Rails.application.routes.draw do
 
   get '/aboutus', to: 'pages#aboutus', as: :aboutus
 
+  get '/faq', to: 'pages#faq', as: :faq
+
   get '/practitioners/filter', to: 'practitioners#filter', as: :practitioner_filter
 
   get '/specialties/filter', to: 'specialties#filter', as: :specialty_filter

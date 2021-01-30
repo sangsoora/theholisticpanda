@@ -8,7 +8,7 @@
       <% if user_signed_in? %>
         <% if !current_user.practitioner %>
           <li class="nav-item">
-            <%= link_to 'Become a practitioner', become_a_practitioner_path, class: "nav-link" %>
+            <%= link_to 'Become a practitioner', become_a_practitioner_path, class: "nav-link", style: "font-weight: 600;" %>
           </li>
         <% end %>
         <li class="nav-item btn-group">
@@ -51,7 +51,7 @@
         </li>
       <% else %>
         <li class="nav-item">
-          <%= link_to "Become a practitioner", become_a_practitioner_path, class: "nav-link" %>
+          <%= link_to "Become a practitioner", become_a_practitioner_path, class: "nav-link", style: "font-weight: 600;" %>
         </li>
         <li class="nav-item">
           <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>

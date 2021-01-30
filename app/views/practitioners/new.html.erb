@@ -9,7 +9,6 @@
         <small class="form-text text-muted">Please provide the right infomation for background check</small>
       </div>
       <div class="d-flex justify-content-between">
-        <%= f.input :certification %>
         <%= f.input :experience, collection: ['Less than 1 year', '2-5 years', '5-10 years', 'More than 10 years'], as: :select, require: true %>
       </div>
       <%= f.input :timezone, label: 'Time zone (where you will be conducting your service)', as: :select do %>
