@@ -35,3 +35,5 @@ yarn-debug.log*
 
 # Ignore .env file containing credentials.
 .env*
+
+# Elastic Beanstalk Filesl
