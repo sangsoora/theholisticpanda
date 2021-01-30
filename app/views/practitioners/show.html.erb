@@ -4,7 +4,7 @@
       <% if @practitioner.banner_image.attached? %>
         <%= cl_image_tag @practitioner.banner_image.key, class: 'banner' %>
       <% else %>
-        <%= image_tag('banner', alt: 'Holistic Service', class: 'banner') %>
+        <%= image_tag('practitioner-bio', alt: 'Holistic Service', class: 'banner') %>
       <% end %>
       <div class="practitioner-info">
         <div class="practitioner-img">

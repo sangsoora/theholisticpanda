@@ -93,7 +93,7 @@
       <div class="session-summary">
         <h3>Session summary</h3>
       <% if @session.start_time %>
-        <p>Session time: <span id='session_time'></span></p>
+        <p>Session time: <span id='session_time'><%= @session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p') %></span></p>
       <% else %>
         <p>Session time: TBD</p>
       <% end %>
@@ -117,7 +117,7 @@
       <div class="session-summary">
         <h3>Your session summary</h3>
         <% if @session.start_time %>
-          <p>Session time: <span id='session_time'></span></p>
+          <p>Session time: <span id='session_time'><%= @session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p') %></span></p>
         <% else %>
           <p>Session time: TBD</p>
         <% end %>
@@ -128,12 +128,13 @@
           <p>Address: <%= @session.service.practitioner.address %></p>
         <% end %>
         <p>Total price: CA$ <%= (@session.service.price * 1.03).round(2) %></p>
+        <p>Virtual Session Link: <%= @session.link %></p>
         <% if @session.user == current_user %>
           <p>Cancellation Policy: Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
         <% end %>
       </div>
-      <div class="session-location">
-        <p>zoom link</p>
+      <div class="session-location" style="display: flex; justify-content: flex-end;">
+        <%= image_tag('logo-square.jpeg') %>
       </div>
     </div>
   <% end %>

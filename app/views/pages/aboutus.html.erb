@@ -1,12 +1,12 @@
 <% content_for :home_navbar do %>
   <%= render 'shared/home_navbar' %>
 <% end %>
-<div class="about-banner">
-  <h1>About Us</h1>
+<div class="aboutus-img">
+  <%= image_tag('aboutus.png') %>
 </div>
 <div class="aboutus-container">
   <div class="logo">
-    <%= image_tag("logo.png") %>
+    <h1>About Us</h1>
   </div>
   <div>
     <p>The Holistic Panda was founded in 2020 amid a global health pandemic. Three founders came together with a shared mission to simplify and quicken the process of finding a diverse range of holistic therapies provided by trusted practitioners. We understand health needs are unique, can be culturally diverse, and will likely evolve throughout the different stages of one’s life. Your journey to accessing alternative healthcare options should be uncomplicated and seamless.</p>
@@ -22,14 +22,17 @@
     <div class="team-member">
       <%= image_tag("Sangsoo.JPG", class: 'avatar-full') %>
       <h3><a href="https://www.linkedin.com/in/diana-choi-1b5b6849/">Diana Choi</a></h3>
+      <p>Co-Founder</p>
     </div>
     <div class="team-member">
       <%= image_tag("Sangsoo.JPG", class: 'avatar-full') %>
       <h3><a href="https://www.linkedin.com/in/janetlam1/">Janet Lam</a></h3>
+      <p>Co-Founder</p>
     </div>
     <div class="team-member">
       <%= image_tag("Sangsoo.JPG", class: 'avatar-full') %>
       <h3><a href="https://www.linkedin.com/in/sangsoora/">Sangsoo Ra</a></h3>
+      <p>Co-Founder</p>
     </div>
   </div>
 </div>
