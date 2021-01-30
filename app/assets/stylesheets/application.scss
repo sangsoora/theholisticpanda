@@ -4,10 +4,10 @@
 @import "config/bootstrap_variables";
 
 // External libraries
-// @import "../../node_modules/bootstrap/scss/bootstrap";
+@import "bootstrap/scss/bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
-// @import "../../node_modules/flatpickr/dist/flatpickr";
+@import "flatpickr/dist/flatpickr";
 
 // Your CSS partials
 @import "components/index";
