@@ -29,7 +29,7 @@ gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem 'devise'
-gem 'autoprefixer-rails'
+# gem 'autoprefixer-rails'
 gem 'simple_form'
 gem 'font-awesome-sass', '~> 5.12.0'
 gem 'faker'
