@@ -1,15 +1,12 @@
-// const initUpdateNavbarOnScroll = () => {
-//   const navbar = document.querySelector('.navbar-holistic');
+const initOpenSideNavbar = () => {
+  const open = document.getElementById("open-side");
+  const close = document.getElementById("close-side");
+  open.addEventListener('click', e => {
+    document.getElementById("side-nav").style.width = "100vw";
+  })
+  close.addEventListener('click', e => {
+    document.getElementById("side-nav").style.width = "0";
+  });
+}
 
-//   if (navbar) {
-//     window.addEventListener('scroll', () => {
-//       if (window.scrollY > 0) {
-//         navbar.classList.add('navbar-holistic-white');
-//       } else {
-//         navbar.classList.remove('navbar-holistic-white');
-//       }
-//     });
-//   }
-// }
-
-// export { initUpdateNavbarOnScroll };
+export { initOpenSideNavbar };
