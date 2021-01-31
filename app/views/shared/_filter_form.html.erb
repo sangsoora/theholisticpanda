@@ -1,0 +1,31 @@
+<%= simple_form_for :search, url: services_path, method: "GET", html: { id: 'top-filter-form' } do |f| %>
+  <div class="d-flex align-items-center">
+    <fieldset class="form-group check_boxes required search_health_goal">
+      <% if params[:search] && params[:search][:health_goal] && params[:search][:health_goal].length > 1 %>
+        <legend class="btn btn-ghost btn-filter" id="health-goal-pop">Health Goals (<%= params[:search][:health_goal].reject(&:blank?).count %>)&nbsp;&nbsp;<i class="fas fa-chevron-down"></i></legend>
+      <% else %>
+        <legend class="btn btn-ghost btn-filter" id="health-goal-pop">Select Health Goals&nbsp;&nbsp;<i class="fas fa-chevron-down"></i></legend>
+      <% end %>
+      <div class="health-goal-select-box" id="health-goal-select-box">
+        <div class="health-goal-choices">
+          <% HealthGoal.all.sort_by(&:name).each do |goal| %>
+            <% if params[:search] && params[:search][:health_goal] %>
+              <% if params[:search][:health_goal].include?((goal.id).to_s) %>
+                <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]" id="search_health_goal_<%= goal.id %>" checked><label class="form-check-label collection_check_boxes health-goal-choice active" for="search_health_goal_<%= goal.id %>"><%= goal.name %></label>
+              <% else %>
+                <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]" id="search_health_goal_<%= goal.id %>"><label class="form-check-label collection_check_boxes health-goal-choice" for="search_health_goal_<%= goal.id %>"><%= goal.name %></label>
+              <% end %>
+            <% else %>
+              <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]" id="search_health_goal_<%= goal.id %>"><label class="form-check-label collection_check_boxes health-goal-choice" for="search_health_goal_<%= goal.id %>"><%= goal.name %></label>
+            <% end %>
+          <% end %>
+          <input type="hidden" name="search[health_goal][]" value="">
+        </div>
+        <div class="d-flex justify-content-between pt-3">
+          <%= link_to "Reset", services_path, class: 'btn btn-ghost' %>
+          <%= f.submit "Apply", class: "btn btn-flat" %>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+<% end %>

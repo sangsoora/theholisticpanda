@@ -11,7 +11,7 @@
             <% if notification.actor.is_practitioner? && notification.actor.practitioner.user.photo.attached? %>
               <%= cl_image_tag notification.actor.photo.key, class: "avatar" %>
             <% else %>
-              <%= image_tag 'profile.png', class: "avatar" %>
+              <%= image_tag 'panda.png', class: "avatar" %>
             <% end %>
             <div class="notification-content">
               <p><small><%= notification.created_at.in_time_zone(current_user.timezone).strftime('%b %d, %Y') %></small></p>

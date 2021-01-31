@@ -49,6 +49,10 @@
   }
 }
 
+.filter_specialty, .filter_language, .filter_service_type {
+  margin-right: 1.5rem;
+}
+
 .specialty-select-box, .health-goal-select-box, .language-select-box, .service-type-select-box, #text-select-box {
   display: none;
   position: absolute;
@@ -453,4 +457,156 @@ input[type='radio']:checked:after {
 
 .service-review, .service-location, .related-services, .other-services {
   margin: 2rem 0;
+}
+
+.details-mobile {
+  display: none;
+}
+
+// X-Small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) {
+  .filter-bar {
+    margin-top: 109px;
+    display: block;
+  }
+  .filter_specialty, .filter_language, .filter_service_type {
+    margin-right: 0.5rem;
+  }
+  #filter-form {
+    #specialty-pop, #health-goal-pop, #language-pop, #service-type-pop {
+      font-size: 0.5rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+  }
+  .specialty-select-box, .health-goal-select-box, .language-select-box, .service-type-select-box, #text-select-box {
+    top: 0.5rem;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+  }
+  .specialty-select-box.opened {
+    left: -25%;
+    width: 94vw;
+  }
+  .language-select-box.opened {
+    left: -132%;
+    width: 94vw;
+  }
+  .service-type-select-box.opened {
+    top: 2.5rem;
+    left: -50%;
+    width: 50vw;
+  }
+  #text-select-box {
+    top: 2rem;
+  }
+  .search_health_goal {
+    width: 100%;
+  }
+  .service-list-item {
+    box-shadow: none;
+    border: 1px $pink solid;
+    display: block;
+    .service-left-column {
+      border-right: none;
+      padding: 0;
+    }
+    .service-right-column {
+      display: none;
+      .tabs-underlined {
+        justify-content: center;
+      }
+      .tabs-underlined .tab-underlined.active-tab {
+        font-weight: 400;
+      }
+      .tabs-underlined .tab-underlined {
+        margin: 0 1rem 1rem;
+        padding: 0 0.5rem;
+      }
+    }
+  }
+  .service-list-item-title {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    h3 {
+      flex: 0 0 90%;
+      font-size: 1.125rem;
+      -webkit-line-clamp: 3;
+    }
+    .fav-btn {
+      flex: 0 0 5%;
+      .btn {
+        font-size: 1.125rem;
+        border: none;
+        padding: 0;
+      }
+    }
+  }
+  .service-list-item-goals, .practitioner-specialties {
+    margin-bottom: 0.5rem;
+    .service-goal {
+      font-size: 0.625rem;
+      margin-right: 0.25rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+  .service-list-item-details {
+    text-align: center;
+    p, label {
+      font-size: 0.75rem;
+    }
+    .avatar-bordered {
+      width: 100%;
+    }
+    .btn-flat {
+      padding: 0.25rem 1rem;
+      font-size: 0.875rem;
+    }
+    .service-list-item-detail-left {
+      flex: 0 0 25%;
+      text-align: center;
+      p {
+        margin-bottom: 0.25rem;
+      }
+    }
+    .service-list-item-detail-middle {
+      flex: 0 0 35%;
+    }
+    .service-list-item-detail-right {
+      flex: 0 0 35%;
+    }
+  }
+  .details-desktop {
+    display: none;
+  }
+  .details-mobile {
+    display: flex;
+  }
+  #search-box {
+    font-size: 0.75rem !important;
+  }
+}
+
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 767.98px) {
+  .services-page {
+    padding: 12rem 0 2rem;
+  }
+}
+
+// Medium devices (tablets, less than 992px)
+@media (max-width: 991.98px) {
+
+}
+
+// Large devices (desktops, less than 1200px)
+@media (max-width: 1199.98px) {
+
+}
+
+// X-Large devices (large desktops, less than 1400px)
+@media (max-width: 1399.98px) {
+
 }

@@ -11,6 +11,10 @@
     font-weight: 600;
     background: $pink;
   }
+  .btn-flat:hover {
+    background: $pink;
+    opacity: 0.8;
+  }
   h1 {
     font-size: 4rem;
     color: white;
@@ -109,14 +113,14 @@
   margin-top: 4.25rem;
   text-align: center;
   padding-top: 20vh;
+  h1 {
+    font-size: 3rem;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    padding: 0 10rem;
+  }
 }
 
-.apply-banner h1 {
-  font-size: 3rem;
-  color: white;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-  padding: 0 10rem;
-}
 
 #explore-specialties-desktop {
   width: 90%;
@@ -138,6 +142,9 @@
 .swiper-button-prev, .swiper-button-next {
   top: auto !important;
   bottom: 64px;
+  &:focus {
+    outline: none;
+  }
 }
 
 .swiper-button-prev {
@@ -250,6 +257,17 @@
       padding: 0.5rem 2rem;
       font-size: 1rem;
       margin-bottom: 3rem;
+    }
+  }
+  .apply-banner {
+    background-image: image-url("instructor.jpg");
+    padding-top: 20vh;
+    h1 {
+      font-size: 2rem;
+      padding: 0 2rem;
+    }
+    .btn-wide {
+      width: auto !important;
     }
   }
 }

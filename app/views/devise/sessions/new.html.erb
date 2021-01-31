@@ -1,6 +1,6 @@
 <div class="container devise">
   <div class="login">
-    <h2>Log in</h2>
+    <h2>Login</h2>
     <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <div class="form-inputs">
         <%= f.input :email,
@@ -11,7 +11,7 @@
                     required: false,
                     input_html: { autocomplete: "current-password" } %>
         <div class="mb-2">
-          <%= link_to "Forgot your password?", new_password_path(resource_name) %>
+          <%= link_to "Forgot Your Password?", new_password_path(resource_name) %>
         </div>
         <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
       </div>
