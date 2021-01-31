@@ -67,21 +67,6 @@ const initUpdateForm = () => {
     });
 
   }
-  const topFilterForm = document.getElementById('top-filter-form');
-  if (topFilterForm) {
-    $(".health-goal-choice").click(function(){
-      if ($(this).hasClass("active")) {
-        $(this).removeClass("active");
-        healthGoalSelectBoxBtn.innerHTML = 'Health Goals (' + $('.health-goal-choice.active').length + ')&nbsp;&nbsp;<i class="fas fa-chevron-down"></i>'
-        if ( $('.health-goal-choice.active').length === 0 ) {
-          healthGoalSelectBoxBtn.innerHTML = 'Choose Health Goals&nbsp;&nbsp;<i class="fas fa-chevron-down"></i>'
-        }
-      } else {
-        $(this).addClass("active");
-        healthGoalSelectBoxBtn.innerHTML = 'Health Goals (' + $('.health-goal-choice.active').length + ')&nbsp;&nbsp;<i class="fas fa-chevron-down"></i>'
-      }
-    });
-  }
 }
 
 export { initUpdateForm };

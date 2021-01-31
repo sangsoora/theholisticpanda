@@ -16,7 +16,7 @@
       <div class="session-container">
         <% @confirmed_sessions.each do |session| %>
           <div class="session">
-            <div class="session-head">
+            <div class="session-head session-desktop">
               <% if session.practitioner.user != current_user %>
                 <% if session.practitioner.user.photo.attached? %>
                   <%= cl_image_tag session.practitioner.user.photo.key, class: "avatar" %>
@@ -33,10 +33,32 @@
                 <p><small>Session type: <%= session.service.service_type.capitalize %></small></p>
               </div>
             </div>
-            <div class="session-actions">
+            <div class="session-actions session-desktop">
               <% if session.start_time < Time.current && current_user == session.user && session.review == nil %>
                 <%= link_to 'Rate', '', data: { toggle: "modal", target: "#newReviewModal#{session.id}" }, class: 'btn btn-flat' %>
               <% end %>
+            </div>
+            <div class="session-head session-mobile">
+              <% if session.practitioner.user != current_user %>
+                <% if session.practitioner.user.photo.attached? %>
+                  <%= cl_image_tag session.practitioner.user.photo.key, class: "avatar" %>
+                <% else %>
+                  <img class='avatar' src='https://kitt.lewagon.com/placeholder/users/random' />
+                <% end %>
+              <% end %>
+              <% if session.start_time < Time.current && current_user == session.user && session.review == nil %>
+                <%= link_to 'Rate', '', data: { toggle: "modal", target: "#newReviewModal#{session.id}" }, class: 'btn btn-flat' %>
+              <% end %>
+            </div>
+            <div class="session-actions session-mobile">
+              <div class="session-content">
+                <button class="<%= session.status %>"><%= session.status %></button>
+                <p><%= link_to session.service.name, session_path(session) %></p>
+                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p') %></small></p>
+                <p><small>Duration: <%= session.service.duration %>m</small></p>
+                <p><small><%= humanized_money_with_symbol(session.amount) %></small></p>
+                <p><small>Session type: <%= session.service.service_type.capitalize %></small></p>
+              </div>
             </div>
           </div>
           <div class="modal fade" id="newReviewModal<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="newReviewModalLabel<%= session.id %>" aria-hidden="true">
@@ -70,7 +92,7 @@
       <div class="session-container">
         <% @pending_sessions.each do |session| %>
           <div class="session">
-            <div class="session-head">
+            <div class="session-head session-desktop">
               <% if session.practitioner.user != current_user %>
                 <% if session.practitioner.user.photo.attached? %>
                   <%= cl_image_tag session.practitioner.user.photo.key, class: "avatar" %>
@@ -87,7 +109,26 @@
                 <p><small>Session type: <%= session.service.service_type.capitalize %></small></p>
               </div>
             </div>
-            <div class="session-actions">
+            <div class="session-actions session-desktop">
+            </div>
+            <div class="session-head session-mobile">
+              <% if session.practitioner.user != current_user %>
+                <% if session.practitioner.user.photo.attached? %>
+                  <%= cl_image_tag session.practitioner.user.photo.key, class: "avatar" %>
+                <% else %>
+                  <img class='avatar' src='https://kitt.lewagon.com/placeholder/users/random' />
+                <% end %>
+              <% end %>
+            </div>
+            <div class="session-actions session-mobile">
+              <div class="session-content">
+                <button class="<%= session.status %>"><%= session.status %></button>
+                <p><%= link_to session.service.name, session_path(session) %></p>
+                <p><small>When: TBD</small></p>
+                <p><small>Duration: <%= session.service.duration %>m</small></p>
+                <p><small><%= humanized_money_with_symbol(session.amount) %></small></p>
+                <p><small>Session type: <%= session.service.service_type.capitalize %></small></p>
+              </div>
             </div>
           </div>
         <% end %>
@@ -102,7 +143,7 @@
       <div class="session-container">
         <% @cancelled_sessions.each do |session| %>
           <div class="session">
-            <div class="session-head">
+            <div class="session-head session-desktop">
               <% if session.practitioner.user != current_user %>
                 <% if session.practitioner.user.photo.attached? %>
                   <%= cl_image_tag session.practitioner.user.photo.key, class: "avatar" %>
@@ -119,7 +160,26 @@
                 <p><small>Session type: <%= session.service.service_type.capitalize %></small></p>
               </div>
             </div>
-            <div class="session-actions">
+            <div class="session-actions session-desktop">
+            </div>
+            <div class="session-head session-mobile">
+              <% if session.practitioner.user != current_user %>
+                <% if session.practitioner.user.photo.attached? %>
+                  <%= cl_image_tag session.practitioner.user.photo.key, class: "avatar" %>
+                <% else %>
+                  <img class='avatar' src='https://kitt.lewagon.com/placeholder/users/random' />
+                <% end %>
+              <% end %>
+            </div>
+            <div class="session-actions session-mobile">
+              <div class="session-content">
+                <button class="<%= session.status %>"><%= session.status %></button>
+                <p><%= link_to session.service.name, session_path(session) %></p>
+                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p') %></small></p>
+                <p><small>Duration: <%= session.service.duration %>m</small></p>
+                <p><small><%= humanized_money_with_symbol(session.amount) %></small></p>
+                <p><small>Session type: <%= session.service.service_type.capitalize %></small></p>
+              </div>
             </div>
           </div>
         <% end %>

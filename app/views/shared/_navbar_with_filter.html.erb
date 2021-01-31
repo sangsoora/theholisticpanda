@@ -1,37 +1,7 @@
 <div class="navbar navbar-expand-sm navbar-light navbar-holistic fixed-top">
   <div class="d-flex align-items-center">
     <a class="navbar-brand" href="/"><%= image_tag('logo', alt: 'The Holistic Panda') %></a>
-    <%= simple_form_for :search, url: services_path, method: "GET", html: { id: 'top-filter-form' } do |f| %>
-      <div class="d-flex align-items-center">
-        <fieldset class="form-group mr-4 check_boxes required search_health_goal">
-          <% if params[:search] && params[:search][:health_goal] && params[:search][:health_goal].length > 1 %>
-            <legend class="btn btn-ghost btn-filter" id="health-goal-pop">Health Goals (<%= params[:search][:health_goal].reject(&:blank?).count %>)&nbsp;&nbsp;<i class="fas fa-chevron-down"></i></legend>
-          <% else %>
-            <legend class="btn btn-ghost btn-filter" id="health-goal-pop">Select Health Goals&nbsp;&nbsp;<i class="fas fa-chevron-down"></i></legend>
-          <% end %>
-          <div class="health-goal-select-box" id="health-goal-select-box">
-            <div class="health-goal-choices">
-              <% HealthGoal.all.sort_by(&:name).each do |goal| %>
-                <% if params[:search] && params[:search][:health_goal] %>
-                  <% if params[:search][:health_goal].include?((goal.id).to_s) %>
-                    <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]" id="search_health_goal_<%= goal.id %>" checked><label class="form-check-label collection_check_boxes health-goal-choice active" for="search_health_goal_<%= goal.id %>"><%= goal.name %></label>
-                  <% else %>
-                    <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]" id="search_health_goal_<%= goal.id %>"><label class="form-check-label collection_check_boxes health-goal-choice" for="search_health_goal_<%= goal.id %>"><%= goal.name %></label>
-                  <% end %>
-                <% else %>
-                  <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]" id="search_health_goal_<%= goal.id %>"><label class="form-check-label collection_check_boxes health-goal-choice" for="search_health_goal_<%= goal.id %>"><%= goal.name %></label>
-                <% end %>
-              <% end %>
-              <input type="hidden" name="search[health_goal][]" value="">
-            </div>
-            <div class="d-flex justify-content-between pt-3">
-              <%= link_to "Reset", services_path, class: 'btn btn-ghost' %>
-              <%= f.submit "Apply", class: "btn btn-flat" %>
-            </div>
-          </div>
-        </fieldset>
-      </div>
-    <% end %>
+    <div id="top-filter-desktop"></div>
   </div>
   <button class="navbar-toggler" type="button" id="open-side">&#9776;</button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -91,6 +61,7 @@
       <% end %>
     </ul>
   </div>
+  <div id="top-filter-mobile"></div>
 </div>
 <div id="side-nav" class="side-nav">
   <a class="close-side" id="close-side">&times;</a>
@@ -150,18 +121,61 @@
 </div>
 
 <script>
-  const healthGoalSelectBoxBtn = document.getElementById('health-goal-pop');
-  const healthGoalSelectBox = document.getElementById('health-goal-select-box');
-  healthGoalSelectBoxBtn.addEventListener('click', () => {
-    healthGoalSelectBoxBtn.classList.toggle('btn-opened');
-    healthGoalSelectBox.classList.toggle('opened');
-  });
-  document.addEventListener('click', function(event) {
-    const healthGoalBoxClick = healthGoalSelectBox.contains(event.target);
-    const healthGoalBtnClick = healthGoalSelectBoxBtn.contains(event.target);
-    if (healthGoalSelectBox.classList.contains('opened') && (!healthGoalBoxClick) && (!healthGoalBtnClick)) {
-      healthGoalSelectBoxBtn.classList.remove('btn-opened');
-      healthGoalSelectBox.classList.remove('opened');
+  document.addEventListener('DOMContentLoaded', () => {
+    const displayWindowSize = () => {
+      w = document.documentElement.clientWidth;
+      return w;
     }
-  });
+    const resetButtons = () => {
+      const healthGoalSelectBoxBtn = document.getElementById('health-goal-pop');
+      const healthGoalSelectBox = document.getElementById('health-goal-select-box');
+      healthGoalSelectBoxBtn.addEventListener('click', () => {
+        healthGoalSelectBoxBtn.classList.toggle('btn-opened');
+        healthGoalSelectBox.classList.toggle('opened');
+      });
+      document.addEventListener('click', function(event) {
+        const healthGoalBoxClick = healthGoalSelectBox.contains(event.target);
+        const healthGoalBtnClick = healthGoalSelectBoxBtn.contains(event.target);
+        if (healthGoalSelectBox.classList.contains('opened') && (!healthGoalBoxClick) && (!healthGoalBtnClick)) {
+          healthGoalSelectBoxBtn.classList.remove('btn-opened');
+          healthGoalSelectBox.classList.remove('opened');
+        }
+      });
+      $(".health-goal-choice").click(function(){
+        if ($(this).hasClass("active")) {
+          $(this).removeClass("active");
+          document.getElementById('health-goal-pop').innerHTML = 'Health Goals (' + $('.health-goal-choice.active').length + ')&nbsp;&nbsp;<i class="fas fa-chevron-down"></i>'
+          if ( $('.health-goal-choice.active').length === 0 ) {
+            document.getElementById('health-goal-pop').innerHTML = 'Choose Health Goals&nbsp;&nbsp;<i class="fas fa-chevron-down"></i>'
+          }
+        } else {
+          $(this).addClass("active");
+          document.getElementById('health-goal-pop').innerHTML = 'Health Goals (' + $('.health-goal-choice.active').length + ')&nbsp;&nbsp;<i class="fas fa-chevron-down"></i>'
+        }
+      });
+    }
+    const topFilterDesktop = document.getElementById('top-filter-desktop');
+    const topFilterMobile = document.getElementById('top-filter-mobile');
+    if (displayWindowSize() >= 576) {
+      topFilterMobile.innerHTML = '';
+      topFilterDesktop.innerHTML = `<%= render 'shared/filter_form' %>`;
+      resetButtons();
+    } else {
+      console.log(displayWindowSize());
+      topFilterDesktop.innerHTML = '';
+      topFilterMobile.innerHTML = `<%= render 'shared/filter_form' %>`;
+      resetButtons();
+    }
+    window.addEventListener("resize", (e) => {
+      if (displayWindowSize() >= 576) {
+        topFilterMobile.innerHTML = '';
+        topFilterDesktop.innerHTML = `<%= render 'shared/filter_form' %>`;
+        resetButtons();
+      } else {
+        topFilterDesktop.innerHTML = '';
+        topFilterMobile.innerHTML = `<%= render 'shared/filter_form' %>`;
+        resetButtons();
+      }
+    });
+  })
 </script>

@@ -15,7 +15,7 @@
           <% end %>
           <input type="hidden" name="search[health_goal][]" value="">
         </fieldset>
-        <fieldset class="form-group mr-4 check_boxes required filter_specialty">
+        <fieldset class="form-group check_boxes required filter_specialty">
           <legend class="btn btn-ghost <% if params[:filter] && params[:filter][:specialty] && params[:filter][:specialty].length > 1 %>active-filter<% end %>" id="specialty-pop">Specialties <% if params[:filter] && params[:filter][:specialty] && params[:filter][:specialty].length > 1 %>(<%= params[:filter][:specialty].reject(&:blank?).count %>)<% end %></legend>
           <div class="specialty-select-box" id="specialty-select-box">
             <div class="specialty-choices">
@@ -38,7 +38,7 @@
           </div>
           <input type="hidden" name="filter[specialty][]" value="">
         </fieldset>
-        <fieldset class="form-group mr-4 check_boxes required filter_language">
+        <fieldset class="form-group check_boxes required filter_language">
           <legend class="btn btn-ghost <% if params[:filter] && params[:filter][:language] && params[:filter][:language].length > 1 %>active-filter<% end %>" id="language-pop">Languages <% if params[:filter] && params[:filter][:language] && params[:filter][:language].length > 1 %>(<%= params[:filter][:language].reject(&:blank?).count %>)<% end %></legend>
           <div class="language-select-box" id="language-select-box">
             <div class="language-choices">
@@ -57,7 +57,7 @@
           </div>
           <input type="hidden" name="filter[language][]" value="">
         </fieldset>
-        <div class="form-group select mr-4 required filter_service_type">
+        <div class="form-group select required filter_service_type">
           <label class="btn btn-ghost <% if params[:filter] && params[:filter][:service_type] && params[:filter][:service_type].length > 1 %>active-filter<% end %>" id="service-type-pop" style="cursor: default;" for="filter_service_type">Service type</label>
           <div class="service-type-select-box" id="service-type-select-box">
             <fieldset class="form-group radio_buttons required filter_service_type">
@@ -127,7 +127,7 @@
                     <% end %>
                   <% end %>
                 </div>
-                <div class="service-list-item-details">
+                <div class="service-list-item-details details-desktop">
                   <div class="service-list-item-detail-left">
                     <% if service.reviews.count > 0 %>
                       <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
@@ -153,6 +153,32 @@
                     </p>
                     <label>DURATION</label>
                     <p><%= service.duration %> mins</p>
+                  </div>
+                </div>
+                <div class="service-list-item-details details-mobile">
+                  <div class="service-list-item-detail-left">
+                    <a href="/practitioners/<%= service.practitioner.id %>">
+                      <% if service.practitioner.user.photo.attached? %>
+                        <a href="/practitioners/1"><%= cl_image_tag service.practitioner.user.photo.key, class: 'service-list-item-user avatar-bordered' %></a>
+                      <% else %>
+                        <img src='https://kitt.lewagon.com/placeholder/users/random' class="service-list-item-user avatar-bordered"/>
+                      <% end %>
+                    </a>
+                    <p><%= service.practitioner.user.full_name %></p>
+                  </div>
+                  <div class="service-list-item-detail-middle">
+                    <label>TYPE</label>
+                    <p><%= service.service_type.capitalize %></p>
+                    <% if service.reviews.count > 0 %>
+                      <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+                    <% else %>
+                      <p>No reviews!</p>
+                    <% end %>
+                  </div>
+                  <div class="service-list-item-detail-right">
+                    <label>PRICE</label>
+                    <p>CA$ <%= service.price.to_f.round(2) %></p>
+                    <a class="btn btn-flat" href="/services/<%= service.id %>">Book</a>
                   </div>
                 </div>
               </div>
@@ -256,7 +282,7 @@
                   <% end %>
                 <% end %>
               </div>
-              <div class="service-list-item-details">
+              <div class="service-list-item-details details-desktop">
                 <div class="service-list-item-detail-left">
                   <% if service.reviews.count > 0 %>
                     <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
@@ -282,6 +308,32 @@
                   </p>
                   <label>DURATION</label>
                   <p><%= service.duration %> mins</p>
+                </div>
+              </div>
+              <div class="service-list-item-details details-mobile">
+                <div class="service-list-item-detail-left">
+                  <a href="/practitioners/<%= service.practitioner.id %>">
+                    <% if service.practitioner.user.photo.attached? %>
+                      <a href="/practitioners/1"><%= cl_image_tag service.practitioner.user.photo.key, class: 'service-list-item-user avatar-bordered' %></a>
+                    <% else %>
+                      <img src='https://kitt.lewagon.com/placeholder/users/random' class="service-list-item-user avatar-bordered"/>
+                    <% end %>
+                  </a>
+                  <p><%= service.practitioner.user.full_name %></p>
+                </div>
+                <div class="service-list-item-detail-middle">
+                  <label>TYPE</label>
+                  <p><%= service.service_type.capitalize %></p>
+                  <% if service.reviews.count > 0 %>
+                    <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+                  <% else %>
+                    <p>No reviews!</p>
+                  <% end %>
+                </div>
+                <div class="service-list-item-detail-right">
+                  <label>PRICE</label>
+                  <p>CA$ <%= service.price.to_f.round(2) %></p>
+                  <a class="btn btn-flat" href="/services/<%= service.id %>">Book</a>
                 </div>
               </div>
             </div>
