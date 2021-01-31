@@ -6,7 +6,7 @@
 </section>
 <section id='featured-practitioners'>
   <div class='d-flex justify-content-center my-4 text-center'>
-    <div class='col-10'>
+    <div class='container' id='featured-practitioners-desktop'>
       <h2>Our Featured Practitioners</h2>
       <div class='cards-featured'>
         <% @practitioners.first(4).each do |practitioner| %>
@@ -30,41 +30,73 @@
                 <% end %>
                 <a href="/practitioners/<%= practitioner.id %>" style="margin: 0 auto;"><p>and more</p></a>
               </div>
-              <!-- <p id="bio-<%#= practitioner.id %>"><%#= practitioner.bio.gsub(/\n/, '<br/>').html_safe %></p> -->
-              <%#= link_to 'See more', practitioner_path(practitioner) %>
             </div>
           </div>
         <% end %>
       </div>
-      <!-- <div class='cards-review'>
-        <div class='card-review' style='background-image: url(https://kitt.lewagon.com/placeholder/users/fanny-rojon)'>
-          <div class='name'>
-            <h3>Diana</h3>
+    </div>
+    <div class="container" id="featured-practitioners-mobile">
+      <h2>Our Featured Practitioners</h2>
+      <div class="swiper-container" id="practitioners-swiper">
+        <div class="swiper-wrapper">
+          <% @practitioners.first(4).each do |practitioner| %>
+          <div class="swiper-slide">
+            <div class='card-featured'>
+              <a href="/practitioners/<%= practitioner.id %>">
+                <% if practitioner.user.photo.attached? %>
+                  <%= cl_image_tag practitioner.user.photo.key %>
+                <% else %>
+                  <img src='https://kitt.lewagon.com/placeholder/users/random' />
+                <% end %>
+              </a>
+                <a href="/practitioners/<%= practitioner.id %>">
+                  <h2><%= practitioner.user.full_name %></h2>
+                </a>
+              <div class='card-featured-infos'>
+                <p><%= practitioner.title %></p>
+                <p>Specialized in:</p>
+                <div class="d-flex" style="flex-wrap: wrap;">
+                  <% practitioner.specialties.first(3).each do |specialty| %>
+                    <div class="featured-practitioners-specialty"><%= link_to specialty.name, specialty_path(specialty) %></div>
+                  <% end %>
+                  <a href="/practitioners/<%= practitioner.id %>" style="margin: 0 auto;"><p>and more</p></a>
+                </div>
+              </div>
+            </div>
+
           </div>
-          <div class='review'>
-            <p>Awesome!</p>
-          </div>
+          <% end %>
         </div>
-        <div class='card-review' style='background-image: url(https://kitt.lewagon.com/placeholder/users/rosemaryakl)'>
-          <div class='name'>
-            <h3>Janet</h3>
-          </div>
-          <div class='review'>
-            <p>Superb!</p>
-          </div>
-        </div>
-        <div class='card-review' style='background-image: url(https://kitt.lewagon.com/placeholder/users/primaulia)'>
-          <div class='name'>
-            <h3>Sangsoo</h3>
-          </div>
-          <div class='review'>
-            <p>It rocks!</p>
-          </div>
-        </div>
-      </div> -->
+      </div>
     </div>
   </div>
 </section>
+<!-- <div class='cards-review'>
+  <div class='card-review' style='background-image: url(https://kitt.lewagon.com/placeholder/users/fanny-rojon)'>
+    <div class='name'>
+      <h3>Diana</h3>
+    </div>
+    <div class='review'>
+      <p>Awesome!</p>
+    </div>
+  </div>
+  <div class='card-review' style='background-image: url(https://kitt.lewagon.com/placeholder/users/rosemaryakl)'>
+    <div class='name'>
+      <h3>Janet</h3>
+    </div>
+    <div class='review'>
+      <p>Superb!</p>
+    </div>
+  </div>
+  <div class='card-review' style='background-image: url(https://kitt.lewagon.com/placeholder/users/primaulia)'>
+    <div class='name'>
+      <h3>Sangsoo</h3>
+    </div>
+    <div class='review'>
+      <p>It rocks!</p>
+    </div>
+  </div>
+</div> -->
 <section id='specialty-banner' class='text-center'>
   <%= render 'specialty_banner' %>
   <div class="specilaty-definition">
@@ -78,7 +110,7 @@
 </section>
 <section id="why-panda">
   <div class='d-flex justify-content-center my-4 text-center'>
-    <div class="col-10">
+    <div class="container">
       <h2>Why The Holistic Panda?</h2>
       <div class="cards-why">
         <div class="card-why">
@@ -107,7 +139,6 @@
             <li><p>Learn about holistic wellness through our content and articles</p></li>
             <li><p>Join events with experts to optimise health and wellness, including mental, emotional, and spiritual wellbeing</p></li>
             <li><p>Be a part of a community of like-minded people</p></li>
-
           </ul>
         </div>
       </div>
@@ -116,7 +147,7 @@
 </section>
 <section id="how-works">
   <div class='d-flex justify-content-center my-4 text-center'>
-    <div class="col-10">
+    <div class="container">
       <h2>How Does It Work?</h2>
       <div class="cards-works">
         <div class="card-works">
@@ -124,7 +155,7 @@
             <%= image_tag("works1.png") %>
           </div>
           <div class="work-description">
-            <div class="w-100">
+            <div>
               <h3>Search By Health Goals</h3>
               <br>
               <p><strong>Select your health goals</strong> and <strong>filter results</strong></p>
@@ -134,8 +165,11 @@
           </div>
         </div>
         <div class="card-works">
+          <div class="work-img mobile-img">
+            <%= image_tag("works2.png") %>
+          </div>
           <div class="work-description">
-            <div class="w-100">
+            <div>
               <h3>Choose A Holistic Service</h3>
               <br>
               <p><strong>Review</strong> service descriptions,</p>
@@ -143,7 +177,7 @@
               <p><strong>read</strong> reviews from other wellness seekers</p>
             </div>
           </div>
-          <div class="work-img">
+          <div class="work-img desktop-img">
             <%= image_tag("works2.png") %>
           </div>
         </div>
@@ -152,7 +186,7 @@
             <%= image_tag("works3.png") %>
           </div>
           <div class="work-description">
-            <div class="w-100">
+            <div>
               <h3>Book Your Session</h3>
               <br>
               <p><strong>Submit 3 time requests</strong></p>
@@ -161,15 +195,18 @@
           </div>
         </div>
         <div class="card-works">
+          <div class="work-img mobile-img">
+            <%= image_tag("works4.png") %>
+          </div>
           <div class="work-description">
-            <div class="w-100">
+            <div>
               <h3>Start Your Journey</h3>
               <p><strong>Conduct the session</strong> with your practitioner</p>
               <p>either <strong>virtually</strong> or <strong>in-person</strong>.</p>
               <p>Your wellness journey starts here!</p>
             </div>
           </div>
-          <div class="work-img">
+          <div class="work-img desktop-img">
             <%= image_tag("works4.png") %>
           </div>
         </div>
@@ -179,7 +216,7 @@
 </section>
 <section id="become-practitoner">
   <div class='d-flex justify-content-center my-4 text-center'>
-    <div class="col-10">
+    <div class="container">
       <h2>Have Talents To Share?</h2>
       <h4 class="my-4">Join The Holistic Panda As A Practitioner<br>And Get Connected With Holistic Service Seekers Around The World!</h4>
       <div class="d-flex justify-content-between my-4" style="flex-wrap: wrap;">
@@ -198,13 +235,13 @@
 </section>
 <section id="newsletter">
   <div class='d-flex justify-content-center my-4 text-center'>
-    <div class="col-10">
+    <div class="container">
       <% if !(user_signed_in? && current_user.newsletter) %>
         <h2>Sign up to our newsletter stay updated</h2>
         <p>We respect your privacy.</p>
         <%= simple_form_for([@newsletter], remote: true) do |f| %>
           <div class='d-flex justify-content-center text-center my-5'>
-            <div class="form-group email required newsletter_email" style="width: 50%; margin-bottom: 0;">
+            <div class="form-group email required newsletter_email">
               <input class="form-control string email required input-newsletter" placeholder="someone@example.com" type="email" name="newsletter[email]" id="newsletter_email">
             </div>
             <%= f.button :submit, 'Submit', class: 'btn-flat btn-newsletter' %>
