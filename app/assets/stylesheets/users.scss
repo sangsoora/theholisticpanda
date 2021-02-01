@@ -248,6 +248,105 @@
   align-items: center;
 }
 
+.favorite-practitoners {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+  .favorite-practitioner {
+    position: relative;
+    flex: 0 0 12.5%;
+    text-align: center;
+    .fav-btn {
+      position: absolute;
+      top: 5px;
+      right: 15px;
+    }
+    .fav-btn .btn {
+      padding: 0;
+    }
+  }
+  img {
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+
+.favorite-services {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+  .favorite-service {
+    flex: 0 0 48%;
+    border: 1px $pink solid;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+}
+
+.favorite-service-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  h3 {
+    flex: 0 0 95%;
+    font-size: 1.25rem;
+    margin-bottom: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+  .fav-btn {
+    flex: 0 0 5%;
+    .btn {
+      font-size: 1.25rem;
+      border: none;
+      padding: 0;
+    }
+  }
+}
+
+.favorite-service-goals {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+  min-height: 46px;
+  .service-goal {
+    font-size: 0.75rem;
+    padding: 0 0.5rem;
+    border-radius: 2rem;
+    border: 1px solid $pink;
+    color: $pink;
+    margin-right: 0.5rem;
+    margin-bottom: 0.25rem;
+    height: 20px;
+  }
+  .service-goal.match {
+    background: $pink;
+    color: white;
+  }
+}
+
+.favorite-service-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  .favorite-service-detail {
+    text-align: center;
+    flex: 0 0 25%;
+  }
+  label {
+    font-weight: 700;
+  }
+  .btn-flat {
+    padding: 0.25rem 1.5rem;
+  }
+}
+
+
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
 
@@ -296,6 +395,59 @@
   .session .session-head.session-desktop, .session .session-actions.session-desktop {
     display: none;
   }
+  .favorite-practitoners {
+    margin-top: 1rem;
+    .favorite-practitioner {
+      flex: 0 0 33%;
+    }
+  }
+  .favorite-services {
+    .favorite-service {
+      flex: 0 0 100%;
+    }
+  }
+
+  .favorite-service-title {
+    h3 {
+      flex: 0 0 95%;
+      font-size: 1rem;
+      -webkit-line-clamp: 2;
+    }
+    .fav-btn .btn {
+      font-size: 1rem;
+    }
+  }
+
+  .favorite-service-goals {
+    min-height: 0;
+    .service-goal {
+      font-size: 0.5rem;
+      padding: 0 0.5rem;
+      border-radius: 2rem;
+      border: 1px solid $pink;
+      color: $pink;
+      margin-right: 0.5rem;
+      margin-bottom: 0.25rem;
+      height: auto;
+    }
+    .service-goal.match {
+      background: $pink;
+      color: white;
+    }
+  }
+
+  .favorite-service-details {
+    .favorite-service-detail {
+      flex: 0 0 25%;
+    }
+    a, p, label {
+      font-size: 0.75rem;
+    }
+    .btn-flat {
+      padding: 0.25rem 1rem;
+    }
+  }
+
 }
 
 

@@ -8,7 +8,7 @@
     <ul class="navbar-nav mr-auto">
       <% if user_signed_in? %>
         <li class="nav-item">
-          <%= link_to 'Find holistic services', services_path, class: "nav-link", style: "font-weight: 600;" %>
+          <%= link_to 'Find Holistic Services', services_path, class: "nav-link", style: "font-weight: 600;" %>
         </li>
         <li class="nav-item btn-group">
           <a class="dropdown-toggle nav-link" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -27,10 +27,10 @@
           </div>
         </li>
         <li class="nav-item">
-          <%= link_to 'My sessions', user_sessions_path(current_user), class: 'nav-link' %>
+          <%= link_to 'My Sessions', user_sessions_path(current_user), class: 'nav-link' %>
         </li>
         <li class="nav-item">
-          <%= link_to 'My favorites', user_favorites_path(current_user), class: 'nav-link' %>
+          <%= link_to 'My Favorites', user_favorites_path(current_user), class: 'nav-link' %>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome, <%= current_user.first_name %></a>
@@ -39,18 +39,18 @@
               <%= link_to 'Messages', conversation_path(current_user.last_conversation), class: "dropdown-item" %>
             <% end %>
             <% if current_user.practitioner %>
-              <%= link_to 'View my page', practitioner_path(current_user.practitioner), class: "dropdown-item" %>
-              <%= link_to 'My profile', practitioner_profile_path(current_user.practitioner), class: "dropdown-item" %>
-              <%= link_to 'My services', practitioner_services_path(current_user.practitioner), class: 'dropdown-item' %>
+              <%= link_to 'View My Page', practitioner_path(current_user.practitioner), class: "dropdown-item" %>
+              <%= link_to 'My Profile', practitioner_profile_path(current_user.practitioner), class: "dropdown-item" %>
+              <%= link_to 'My Services', practitioner_services_path(current_user.practitioner), class: 'dropdown-item' %>
             <% else %>
-              <%= link_to 'My profile', user_path(current_user), class: "dropdown-item" %>
+              <%= link_to 'My Profile', user_path(current_user), class: "dropdown-item" %>
             <% end %>
-            <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+            <%= link_to 'Log Out', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
           </div>
         </li>
       <% else %>
         <li class="nav-item">
-          <%= link_to 'Find holistic services', services_path, class: "nav-link", style: "font-weight: 600;" %>
+          <%= link_to 'Find Holistic Services', services_path, class: "nav-link", style: "font-weight: 600;" %>
         </li>
         <li class="nav-item">
           <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>

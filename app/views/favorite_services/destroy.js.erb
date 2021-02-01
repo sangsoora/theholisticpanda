@@ -2,4 +2,6 @@ if (document.getElementById('service-btn')) {
   document.getElementById('service-btn').innerHTML = '<%= j render "favorite_services/service_btn", service: @service %>';
 } else if (document.getElementById('fav-btn-<%= @service.id %>')) {
   document.getElementById('fav-btn-<%= @service.id %>').innerHTML ='<%= j render "favorite_services/service_btn", service: @service %>';
+} else if (document.getElementsByClassName('favorite-services')) {
+  $(".favorite-services").html('<%= j render "favorite_services/favorite_services_list", favorite_services: @favorite_services %>');
 }

@@ -1,1 +1,5 @@
-$("#practitioner-btn").html('<%= j render "favorite_practitioners/practitioner_btn", practitioner: @practitioner %>');
+if (document.getElementById('practitioner-btn')) {
+  $("#practitioner-btn").html('<%= j render "favorite_practitioners/practitioner_btn", practitioner: @practitioner %>');
+} else if (document.getElementsByClassName('favorite-practitoners')) {
+  $(".favorite-practitoners").html('<%= j render "favorite_practitioners/favorite_practitioners_list", favorite_practitioners: @favorite_practitioners %>');
+}

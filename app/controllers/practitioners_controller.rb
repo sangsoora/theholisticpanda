@@ -116,7 +116,7 @@ class PractitionersController < ApplicationController
     if @practitioner.save
       languages.each { |language| PractitionerLanguage.create!(practitioner: @practitioner, language: Language.find(language)) }
       specialties.each { |specialty| PractitionerSpecialty.create!(practitioner: @practitioner, specialty: Specialty.find(specialty)) }
-      (0..6).each { |day| WrokingHour.create!(day: day, practitioner: @practitioner, opens: '', closes: '') }
+      (0..6).each { |day| WorkingHour.create!(day: day, practitioner: @practitioner, opens: '', closes: '') }
       respond_to do |format|
         format.html { redirect_to root_path }
         format.js
@@ -198,6 +198,6 @@ class PractitionersController < ApplicationController
   end
 
   def practitioner_params
-    params.require(:practitioner).permit(:title, :location, :address, :bio, :approach, :video, :latitude, :longitude, :experience, :timezone, :country_code, :background_check_status, :background_check_consent, :background_check_id, :insurance, :banner_image)
+    params.require(:practitioner).permit(:title, :location, :address, :bio, :approach, :video, :latitude, :longitude, :experience, :timezone, :country_code, :background_check_status, :background_check_consent, :background_check_id, :insurance, :banner_image, :specialty_ids, :language_ids)
   end
 end
