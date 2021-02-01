@@ -28,14 +28,21 @@
 }
 
 .session .session-head {
- display: flex;
- align-items: center;
- flex: 0 0 80%;
-}
-
-.session .session-content {
-  flex-grow: 1;
-  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  flex: 0 0 80%;
+  img {
+    border-radius: 50%;
+    width: 100%;
+  }
+  .session-practitioner {
+    text-align: center;
+    flex: 0 0 25%;
+  }
+  .session-content {
+    flex: 0 0 75%;
+    padding: 0 1rem;
+  }
 }
 
 .session p {
@@ -81,7 +88,7 @@
   display: none;
 }
 
-.pending, .confirmed {
+.pending, .confirmed, .cancelled {
   color: $emerald;
   cursor: default !important;
   border: none;
@@ -96,6 +103,10 @@
 
 .confirmed {
   background-image: linear-gradient(to bottom right, #25aae1, #40e495, #30dd8a, #2bb673);
+}
+
+.cancelled {
+  background: red;
 }
 
 .notifications-container {
@@ -368,6 +379,7 @@
     flex: 0 0 100%;
     box-shadow: none;
     border: 1px $pink solid;
+    align-items: start;
   }
   .session .session-head.session-mobile, .session .session-actions.session-mobile {
     display: block;
@@ -375,12 +387,11 @@
   .session .session-head.session-mobile {
     flex: 0 0 30%;
     text-align: center;
-    .avatar {
-      width: 100%;
-      margin-bottom: 1rem;
-    }
     .btn-flat {
       padding: 0.25rem 1rem;
+    }
+    a {
+      font-size: 0.875rem;
     }
   }
   .session .session-actions.session-mobile {
@@ -447,7 +458,9 @@
       padding: 0.25rem 1rem;
     }
   }
-
+  .sessions h1 {
+    font-size: 1.5rem;
+  }
 }
 
 

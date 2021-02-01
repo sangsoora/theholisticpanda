@@ -209,6 +209,8 @@ ActiveRecord::Schema.define(version: 2021_01_04_130550) do
     t.boolean "paid"
     t.string "link"
     t.string "status"
+    t.text "cancel_reason"
+    t.integer "cancelled_user_id"
     t.bigint "user_id"
     t.bigint "service_id"
     t.datetime "created_at", null: false

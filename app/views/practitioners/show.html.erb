@@ -9,9 +9,9 @@
       <div class="practitioner-info">
         <div class="practitioner-img">
           <% if @practitioner.user.photo.attached? %>
-            <%= cl_image_tag @practitioner.user.photo.key, class: 'avatar-full' %>
+            <%= cl_image_tag @practitioner.user.photo.key %>
           <% else %>
-            <img src='https://kitt.lewagon.com/placeholder/users/random' class='avatar-full' />
+            <img src='https://kitt.lewagon.com/placeholder/users/random' />
           <% end %>
           <p class="practitioner-rating">
             <% if @practitioner.reviews.count > 0 %>
@@ -49,18 +49,18 @@
       </div>
       <div class="practitioner-bio">
         <h4><i class="fas fa-info-circle"></i> About Me</h4>
-        <p style="margin-bottom: 2rem;"><%= @practitioner.bio.gsub(/\n/, '<br/>').html_safe %></p>
+        <p><%= @practitioner.bio.gsub(/\n/, '<br/>').html_safe %></p>
         <h4><i class="far fa-question-circle"></i> Healing Approach</h4>
-        <p style="margin-bottom: 2rem;"><%= @practitioner.approach.gsub(/\n/, '<br/>').html_safe %></p>
+        <p><%= @practitioner.approach.gsub(/\n/, '<br/>').html_safe %></p>
         <h4><i class="fas fa-award"></i> Education & Certification</h4>
         <% if @practitioner.practitioner_certifications.where(certification_type: 'Education').count > 0 %>
-          <p style="margin-bottom: 2rem;"><strong>Education</strong>: <%= @practitioner.practitioner_certifications.where(certification_type: 'Education').pluck(:name).join(', ') %></p>
+          <p><strong>Education</strong>: <%= @practitioner.practitioner_certifications.where(certification_type: 'Education').pluck(:name).join(', ') %></p>
         <% end %>
         <% if @practitioner.practitioner_certifications.where(certification_type: 'Certification').count > 0 %>
-          <p style="margin-bottom: 2rem;"><strong>Certification</strong>: <%= @practitioner.practitioner_certifications.where(certification_type: 'Certification').pluck(:name).join(', ') %></p>
+          <p><strong>Certification</strong>: <%= @practitioner.practitioner_certifications.where(certification_type: 'Certification').pluck(:name).join(', ') %></p>
         <% end %>
         <h4><i class="fas fa-users"></i> Professional Membership</h4>
-        <p style="margin-bottom: 2rem;"><%= @practitioner.practitioner_memberships.pluck(:name).join(', ') %></p>
+        <p><%= @practitioner.practitioner_memberships.pluck(:name).join(', ') %></p>
       </div>
       <div class="practitioner-services">
         <h4><i class="fas fa-shopping-cart"></i> Services</h4>
@@ -68,12 +68,12 @@
           <div class="practitioner-service">
             <div class="practitioner-service-info">
               <div class="practitioner-service-summary">
-                <div style="flex: 0 0 70%;">
+                <div class="practitioner-service-summary-left">
                   <h4><%= service.name %></h4>
                   <p><%= service.duration %>m</p>
                   <p><%= service.service_type.capitalize %></p>
                 </div>
-                <div class="text-center" style="flex: 0 0 25%;">
+                <div class="practitioner-service-summary-right">
                   <% if service.reviews.count > 0 %>
                     <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
                   <% else %>
@@ -81,7 +81,7 @@
                   <% end %>
                   <p>CA<%= humanized_money_with_symbol(service.price) %></p>
                   <% if current_user != @practitioner.user %>
-                    <%= link_to 'Book now', service_path(service), class: 'btn btn-flat' %>
+                    <%= link_to 'Book', service_path(service), class: 'btn btn-flat' %>
                   <% end %>
                 </div>
               </div>

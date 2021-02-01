@@ -5,6 +5,11 @@ class SessionsController < ApplicationController
     @review = Review.new
     @notifications = Notification.includes(:actor).where(recipient: current_user).order("created_at DESC").unread
     @conversation = Conversation.new
+    if @session.start_time
+      session_time = @session.start_time.in_time_zone(current_user.timezone)
+      current_time = Time.current.in_time_zone(current_user.timezone)
+      @time_diff = ((session_time - current_time)/ 1.hour).round
+    end
   end
 
   def create
@@ -51,21 +56,21 @@ class SessionsController < ApplicationController
         redirect_to user_sessions_path(current_user), notice: 'Session request accepted'
         SessionMailer.with(session: @session).confirm_practitioner.deliver_now
         SessionMailer.with(session: @session).confirm_user.deliver_now
-      else
-
       end
     elsif params[:commit] == 'Decline'
       @session.update!(status: 'declined')
       Notification.create(recipient: @session.user, actor: current_user, action: 'has declined your session', notifiable: @session)
-      redirect_to user_sessions_path(current_user), notice: 'Session request declined'
-    elsif params[:commit] == 'Cancel this session'
+      redirect_to user_sessions_path(current_user), notice: 'Session Request Declined'
+    elsif params[:commit] == 'Confirm Cancellation'
       @session.update(status: 'cancelled')
       if @session.user == current_user
-        Notification.create(recipient: @session.practitoner.user, actor: current_user, action: 'has cancelled your session', notifiable: @session)
+        @session.update(cancelled_user: current_user)
+        Notification.create(recipient: @session.practitioner.user, actor: current_user, action: 'has cancelled your session', notifiable: @session)
       else
+        @session.update(cancelled_user: @session.practitioner.user)
         Notification.create(recipient: @session.user, actor: current_user, action: 'has cancelled your session', notifiable: @session)
       end
-      redirect_to user_sessions_path(current_user), notice: 'Session cancelled'
+      redirect_to user_sessions_path(current_user), notice: 'Session Cancelled'
     end
   end
 
@@ -80,6 +85,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:start_time, :duration, :primary_time, :secondary_time, :tertiary_time, :message, :amount, :paid, :link, :status)
+    params.require(:session).permit(:start_time, :duration, :primary_time, :secondary_time, :tertiary_time, :message, :amount, :paid, :link, :status, :cancel_reason, :cancelled_user)
   end
 end

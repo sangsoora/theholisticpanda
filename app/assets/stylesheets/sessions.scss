@@ -8,6 +8,9 @@
 .session-btns {
   display: flex;
   margin: 1rem 0;
+  .btn-flat {
+    margin-right: 1rem;
+  }
 }
 
 .time-choices {
@@ -47,12 +50,12 @@
 }
 
 .session-summary {
-  width: 40%;
+  flex: 0 0 40%;
   padding: 2rem;
 }
 
 .session-location {
-  width: 60%;
+  flex: 0 0 60%;
   img {
     width: 70%;
   }
@@ -62,4 +65,66 @@
   height: 100%;
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
+}
+
+.session-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  .btn-flat {
+    margin-left: 1.5rem;
+  }
+}
+
+// X-Small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) {
+  .session-page {
+    .btn-flat, .btn-ghost {
+      padding: 0.25rem 1rem;
+      font-size: 0.875rem;
+    }
+  }
+  .session-title {
+    display: block;
+    .btn-flat {
+      margin-left: 0;
+      margin-top: 1rem;
+    }
+  }
+  .session-detail {
+    display: block;
+    box-shadow: none;
+  }
+  .session-summary {
+    padding: 1rem 0;
+  }
+  .session-location > img {
+    display: none;
+  }
+  #session-map {
+    border-radius: 0;
+    height: 50vh;
+  }
+}
+
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 767.98px) {
+  .time-choices {
+    display: block;
+  }
+}
+
+// Medium devices (tablets, less than 992px)
+@media (max-width: 991.98px) {
+
+}
+
+// Large devices (desktops, less than 1200px)
+@media (max-width: 1199.98px) {
+
+}
+
+// X-Large devices (large desktops, less than 1400px)
+@media (max-width: 1399.98px) {
+
 }

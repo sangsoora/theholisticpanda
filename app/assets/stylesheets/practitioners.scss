@@ -36,6 +36,10 @@
   .practitioner-detail {
     flex: 0 0 60%;
   }
+  img {
+    width: 100%;
+    border-radius: 50%;
+  }
 }
 
 .practitioner-sidebar {
@@ -105,6 +109,9 @@
   h4 {
     margin-bottom: 1.5rem;
   }
+  p {
+    margin-bottom: 2rem;
+  }
 }
 
 .practitioner-timetable {
@@ -150,6 +157,13 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 1rem;
+    .practitioner-service-summary-left {
+      flex: 0 0 70%;
+    }
+    .practitioner-service-summary-right {
+      flex: 0 0 25%;
+      text-align: center;
+    }
     p {
       margin-bottom: 0.5rem;
     }
@@ -346,7 +360,7 @@
 .application-box {
   background: white;
   box-shadow: 0 7px 25px 0 rgba(0,0,0,.1);
-  padding: 1rem;
+  padding: 1rem 5rem;
   border-radius: 0.5rem;
   width: 70%;
   margin: 1rem auto;
@@ -358,7 +372,55 @@
 
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
-
+  .practitioner-overview .practitioner-main {
+    overflow: hidden;
+    padding: 0;
+  }
+  .practitioner-overview {
+    display: block;
+    height: auto;
+  }
+  .practitioner-main .banner {
+    height: auto;
+  }
+  .practitioner-info, .practitioner-bio, .practitioner-services, .practitioner-review, .practitioner-timetable {
+    box-shadow: none;
+  }
+  .practitioner-info {
+    display: block;
+    margin: 0 auto;
+  }
+  .practitioner-bio, .practitioner-services {
+    margin-bottom: 0;
+  }
+  .practitioner-img {
+    text-align: center;
+    img {
+      width: 50%;
+    }
+  }
+  .practitioner-detail {
+    h3 {
+      font-size: 1.25rem;
+    }
+    .verified {
+      font-size: 0.75rem;
+      height: 1.25rem;
+    }
+  }
+  .practitioner-btn .btn {
+    font-size: 1.25rem;
+  }
+  .practitioner-info, .practitioner-bio, .practitioner-services, .practitioner-review, .practitioner-timetable {
+    h4, p {
+      margin-bottom: 1rem;
+    }
+  }
+  .practitioner-service-info {
+    .practitioner-service-summary {
+      display: block;
+    }
+  }
 }
 
 // Small devices (landscape phones, less than 768px)
@@ -368,6 +430,7 @@
     padding: 0;
     width: 100%;
   }
+
 }
 
 // Medium devices (tablets, less than 992px)
