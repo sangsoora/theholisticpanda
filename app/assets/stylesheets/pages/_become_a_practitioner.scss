@@ -1,6 +1,7 @@
 .work, .help, .register {
   padding: 3rem 0;
 }
+
 .work h2, .help h2 {
   margin-bottom: 2rem;
 }
@@ -9,10 +10,11 @@
   display: flex;
   justify-content: space-between;
   margin: 2rem 0;
+  flex-wrap: wrap;
 }
 
 .work-step, .help-card, .register-step {
-  width: 20%;
+  flex: 0 0 20%;
   i {
     font-size: 5rem;
     margin-bottom: 1rem;
@@ -24,4 +26,47 @@
 
 .register-step {
   width: 30%;
+}
+
+// X-Small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) {
+
+}
+
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 767.98px) {
+  .work, .help, .register {
+    padding: 2rem 0 1rem;
+  }
+  .work h2, .help h2, .register h2 {
+    margin-bottom: 1.5rem;
+  }
+  .work-steps, .help-cards, .register-steps {
+    margin: 1rem 0;
+  }
+  .work-step, .help-card, .register-step {
+    flex: 0 0 45%;
+    i {
+      font-size: 3rem;
+    }
+    h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+// Medium devices (tablets, less than 992px)
+@media (max-width: 991.98px) {
+
+}
+
+// Large devices (desktops, less than 1200px)
+@media (max-width: 1199.98px) {
+
+}
+
+// X-Large devices (large desktops, less than 1400px)
+@media (max-width: 1399.98px) {
+
 }

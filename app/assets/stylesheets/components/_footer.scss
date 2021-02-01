@@ -1,6 +1,6 @@
 .footer {
   background: white;
-  padding: 0px 3rem;
+  padding: 0 3rem;
   color: rgba(0,0,0,0.3);
   h3 {
     font-size: 1.25rem;
@@ -22,12 +22,14 @@
 }
 
 .footer-columns {
+  text-align: center;
   flex: 0 0 20%;
 }
 
 .footer-links {
   display: flex;
   align-items: center;
+  justify-content: space-around;
 }
 
 .footer-links a {
@@ -54,9 +56,13 @@
 
 // Small devices (landscape phones, less than 768px)
 @media (max-width: 767.98px) {
-  // .footer {
-  //   background: #e8e8e8;
-  // }
+  .footer {
+    padding: 0 1.5rem;
+    // background: #e8e8e8;
+    p {
+      font-size: 0.875rem;
+    }
+  }
   .footer-copyright {
     font-size: 0.75rem;
   }

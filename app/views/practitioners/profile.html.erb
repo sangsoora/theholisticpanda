@@ -120,14 +120,14 @@
                 <h5>Tell us about yourself.</h5>
                 <div id="practitioner-bio">
                   <div class="div">
-                    <p id="bio"><%= @practitioner.bio.gsub(/\n/, '<br/>').html_safe %></p>
+                    <p id="bio"><% if @practitioner.bio %><%= @practitioner.bio.gsub(/\n/, '<br/>').html_safe %><% end %></p>
                   </div>
                   <button id='bio-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
                 </div>
                 <%= simple_form_for([@practitioner], remote: true, html: { id: :bio_form, style: 'display: none; align-items: center;' }) do |f| %>
                   <div>
                     <%= f.input :bio, require: true, label: false, input_html: { cols: 60, rows: 10, maxlength: 1000 } %>
-                    <p id="bio-counter" <% if @practitioner.bio.gsub(/\n/, '<br/>').html_safe.length == 1000 %>style="color: red;"<% end %>><%= @practitioner.bio.gsub(/\n/, '<br/>').html_safe.length %>/1000</p>
+                    <p id="bio-counter" <% if @practitioner.bio %><% if @practitioner.bio.gsub(/\n/, '<br/>').html_safe.length == 1000 %>style="color: red;"<% end %>><%= @practitioner.bio.gsub(/\n/, '<br/>').html_safe.length %><% end %>/1000</p>
                   </div>
                   <button type="submit"><i class='fas fa-check'></i></button>
                   <button id='bio-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
@@ -136,13 +136,13 @@
               <div class="biography-list">
                 <h5>Tell us about your healing approach.</h5>
                 <div id="practitioner-approach">
-                  <p id="approach"><%= @practitioner.approach.gsub(/\n/, '<br/>').html_safe %></p>
+                  <p id="approach"><% if @practitioner.approach %><%= @practitioner.approach.gsub(/\n/, '<br/>').html_safe %><% end %></p>
                   <button id='approach-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
                 </div>
                 <%= simple_form_for([@practitioner], remote: true, html: { id: :approach_form, style: 'display: none; align-items: center;' }) do |f| %>
                   <div>
                     <%= f.input :approach, require: true, label: false, input_html: { cols: 60, rows: 10, maxlength: 1000 } %>
-                    <p id="approach-counter" <% if @practitioner.approach.gsub(/\n/, '<br/>').html_safe.length == 1000 %>style="color: red;"<% end %>><%= @practitioner.approach.gsub(/\n/, '<br/>').html_safe.length %>/1000</p>
+                    <p id="approach-counter"<% if @practitioner.approach %><% if @practitioner.approach.gsub(/\n/, '<br/>').html_safe.length == 1000 %>style="color: red;"<% end %>><%= @practitioner.approach.gsub(/\n/, '<br/>').html_safe.length %><% end %>/1000</p>
                   </div>
                   <button type="submit"><i class='fas fa-check'></i></button>
                   <button id='approach-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>

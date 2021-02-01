@@ -17,6 +17,7 @@ class FavoritePractitionersController < ApplicationController
   def destroy
     @favorite_practitioner.destroy
     @practitioner = @favorite_practitioner.practitioner
+    @favorite_practitioners = current_user.favorite_practitioners.includes(practitioner: :user)
     respond_to do |format|
       format.html { redirect_to practitioner_path(@practitioner) }
       format.js

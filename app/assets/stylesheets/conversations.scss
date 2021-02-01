@@ -2,6 +2,11 @@
   padding: 6rem 0 2rem;
 }
 
+.conversation-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
 .conversation-list {
   flex: 0 0 30%;
   margin-top: 1rem;
@@ -113,7 +118,6 @@ table {
 th {
   background: $emerald;
   color: $gold;
-  opacity: 0.7;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   text-align: center;
@@ -150,6 +154,12 @@ tr .active {
   resize: none;
 }
 
+.current-opponent {
+  padding-left: 1rem;
+  display: flex;
+  align-items: center;
+}
+
 .conversation-date p {
   opacity: .5;
   font-style: italic;
@@ -165,7 +175,15 @@ tr .active {
 
 // Small devices (landscape phones, less than 768px)
 @media (max-width: 767.98px) {
-
+  .conversation-list, .current-conversation {
+    flex: 0 0 100%;
+  }
+  .current-opponent {
+    padding-left: 0;
+  }
+  .messages {
+    padding: 1rem 0;
+  }
 }
 
 // Medium devices (tablets, less than 992px)

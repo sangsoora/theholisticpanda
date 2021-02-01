@@ -1,21 +1,21 @@
 <div class="container practitioner-application">
   <div class="application-box">
-    <h1>Apply to be a practitioner</h1>
+    <h1>Apply To Be A Practitioner</h1>
     <p>Apply today to get connected with holistic service seekers worldwide</p>
     <%= simple_form_for([current_user, @practitioner], remote: true) do |f| %>
       <div class="form-group select required practitioner_country_code">
-        <label class="select required" for="practitioner_country_code">Country of residence</label>
+        <label class="select required" for="practitioner_country_code">Country Of Residence</label>
         <%= f.country_select :country_code, { priority_countries: ["CA", "US"] }, { class: 'form-control select optional' } %>
         <small class="form-text text-muted">Please provide the right infomation for background check</small>
       </div>
       <div class="d-flex justify-content-between">
         <%= f.input :experience, collection: ['Less than 1 year', '2-5 years', '5-10 years', 'More than 10 years'], as: :select, require: true %>
       </div>
-      <%= f.input :timezone, label: 'Time zone (where you will be conducting your service)', as: :select do %>
+      <%= f.input :timezone, label: 'Time Zone (where you will be conducting your service)', as: :select do %>
         <%= f.select :timezone, @practitioner.timezone_choice.map { |zone| [zone[1], zone[0]] },  {include_blank: 'Select a time zone'}, {class: 'form-control select optional' } %>
       <% end %>
       <div class="form-group">
-        <label class="control-label check_boxes required">Your specialties</label>
+        <label class="control-label check_boxes required">Your Specialities</label>
         <input type="hidden" name="practitioner[specialty_ids][]" value="">
         <div class="specialty-choices">
           <% Specialty.all.each do |specialty| %>
@@ -27,7 +27,7 @@
          </div>
       </div>
       <div class="form-group">
-        <label class="control-label check_boxes required">Your languages</label>
+        <label class="control-label check_boxes required">Your Languages</label>
         <input type="hidden" name="practitioner[language_ids][]" value="">
         <div class="language-choices">
           <% Language.all.each do |language| %>

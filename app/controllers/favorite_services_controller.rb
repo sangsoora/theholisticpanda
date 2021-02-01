@@ -17,6 +17,7 @@ class FavoriteServicesController < ApplicationController
   def destroy
     @favorite_service.destroy
     @service = @favorite_service.service
+    @favorite_services = current_user.favorite_services.includes(:service)
     respond_to do |format|
       format.html { redirect_to service_path(@service) }
       format.js
