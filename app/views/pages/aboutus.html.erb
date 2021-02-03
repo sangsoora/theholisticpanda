@@ -1,17 +1,19 @@
 <% content_for :home_navbar do %>
   <%= render 'shared/home_navbar' %>
 <% end %>
-<div class="aboutus-img">
+<div class="page-img">
   <%= image_tag('aboutus.png') %>
 </div>
 <div class="aboutus-container">
-  <div class="logo">
+  <div class="page-title">
     <h1>About Us</h1>
   </div>
   <div>
     <p> The Holistic Panda was founded in 2020 when the world was smacked in the face by an unprecedented global pandemic that completely turned our lives upside down. During this time, the importance of all aspects of health - physical, mental, emotional - became undeniable. Three founders came together with the shared mission to create an online marketplace platform that would make it easy and seamless for anyone anywhere to find alternative healing therapies that can help them achieve their health goals so they can thrive in their lives.</p>
     <p>Hence The Holistic Panda was born. Our marketplace platform allows users to easily and quickly discover different holistic therapies provided by trusted practitioners. We also advocate for a diverse representation of practitioners on our platform because we understand that there could be cultural differences in health needs and goals. Having a practitioner who understands those cultural nuances can be critical.</p>
-    <%= image_tag('logo.png', class: 'w-100') %>
+    <div class="middle-logo">
+      <%= image_tag('logo.png') %>
+    </div>
     <h3>How did you get your name?</h3>
     <p>Panda is a powerful symbol of species conservation and has long been an emblem of diplomatic goodwill. To us, it represents a symbol of diversity due to its Eastern origin and its bi-colored body markings - it’s White, it’s Black, it’s Asian. <strong>We believe diversity is essential in healthcare and advocate for diverse representation</strong> and cross-cultural understanding of holistic healing on our platform.</p>
   </div>

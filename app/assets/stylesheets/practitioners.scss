@@ -2,7 +2,7 @@
   padding: 6rem 0 2rem;
 }
 
-.practitioner-overview, .practitioner-info, .practitioner-name, .practitioner-service, .practitioner-profile-table, .practitioner-profile-info, .practitioner-profile-info-body, #practitioner-title, #practitioner-city, #practitioner-country, #practitioner-experience, #practitioner-certification, #practitioner-membership, #practitioner-bio, #practitioner-approach, #practitioner-timezone, .practitioner-workinghours, #practitioner-video, #practitioner-address, #practitioner-name, #practitioner-phone {
+.practitioner-overview, .practitioner-info, .practitioner-name, .practitioner-service, .practitioner-profile-title, .practitioner-profile-table, .practitioner-profile-info, .practitioner-profile-info-body, #practitioner-title, #practitioner-city, #practitioner-country, #practitioner-experience, #practitioner-certification, #practitioner-membership, #practitioner-bio, #practitioner-approach, #practitioner-timezone, .practitioner-workinghours, #practitioner-video, #practitioner-address, #practitioner-name, #practitioner-phone {
   display: flex;
 }
 
@@ -222,6 +222,13 @@
   width: 4rem;
 }
 
+.practitioner-profile-title {
+  align-items: center;
+  .practitioner-profile-btn {
+    margin-left: 1.5rem;
+  }
+}
+
 .practitioner-profile-table {
   p, .form-group {
     margin-bottom: 0;
@@ -370,6 +377,10 @@
   margin-bottom: 0;
 }
 
+#basic-info-wrapper, #biography-wrapper, #credentials-wrapper, #operation-wrapper, #personal-basic-wrapper, #personal-additional-wrapper {
+  width: 100%;
+}
+
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
   .practitioner-overview .practitioner-main {
@@ -420,6 +431,50 @@
     .practitioner-service-summary {
       display: block;
     }
+  }
+  .practitioner-profile-title {
+    display: block;
+    .practitioner-profile-btn {
+      margin-left: 0;
+      display: flex;
+      margin-bottom: 1rem;
+    }
+    .btn-flat, .btn-ghost {
+      padding: 0.25rem 1rem;
+      font-size: 0.875rem;
+    }
+  }
+  .practitioner-profile-table {
+    display: block;
+    box-shadow: none;
+    padding: 0;
+    border-radius: 0.5rem;
+    .practitioner-profile-img {
+      padding: 0.5rem 0;
+      text-align: center;
+      .btn-ghost {
+        padding: 0.25rem 1rem;
+        font-size: 0.875rem;
+      }
+    }
+    .avatar-full {
+      width: 50%;
+    }
+    .practitioner-profile-infos {
+      padding: 0.5rem 0;
+      h5 {
+        font-size: 1rem;
+      }
+    }
+  }
+  .practitioner-profile-info {
+    padding: 0.5rem;
+  }
+  #video a {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
   }
 }
 

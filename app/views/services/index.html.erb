@@ -16,7 +16,7 @@
           <input type="hidden" name="search[health_goal][]" value="">
         </fieldset>
         <fieldset class="form-group check_boxes required filter_specialty">
-          <legend class="btn btn-ghost <% if params[:filter] && params[:filter][:specialty] && params[:filter][:specialty].length > 1 %>active-filter<% end %>" id="specialty-pop">Specialties <% if params[:filter] && params[:filter][:specialty] && params[:filter][:specialty].length > 1 %>(<%= params[:filter][:specialty].reject(&:blank?).count %>)<% end %></legend>
+          <legend class="btn btn-ghost <% if params[:filter] && params[:filter][:specialty] && params[:filter][:specialty].length > 1 %>active-filter<% end %>" id="specialty-pop">Specialities <% if params[:filter] && params[:filter][:specialty] && params[:filter][:specialty].length > 1 %>(<%= params[:filter][:specialty].reject(&:blank?).count %>)<% end %></legend>
           <div class="specialty-select-box" id="specialty-select-box">
             <div class="specialty-choices">
               <% @filtered_services_specialties.sort_by(&:name).each do |specialty| %>
@@ -91,7 +91,7 @@
           <div id="practitioner-choices-list"></div>
         </div>
         <div id="specialty-choices">
-          <h4>By Specialties</h4>
+          <h4>By Specialities</h4>
           <div id="specialty-choices-list"></div>
         </div>
       </div>
@@ -205,7 +205,7 @@
                     </div>
                     <div class="general-info">
                       <h4><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h4>
-                      <!-- <label>Specialties</label> -->
+                      <!-- <label>Specialities</label> -->
                       <div class="practitioner-specialties">
                         <% service.practitioner.specialties.order(:name).each do |specialty| %>
                           <% if params[:search][:specialty] && params[:search][:specialty].include?((specialty.id).to_s) %>
@@ -360,7 +360,7 @@
                   </div>
                   <div class="general-info">
                     <h4><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h4>
-                    <!-- <label>Specialties</label> -->
+                    <!-- <label>Specialities</label> -->
                     <!-- <p>
                       <%# if service.practitioner.specialties.length <= 2 %>
                         <%#= service.practitioner.specialties.pluck(:name).join(', ') %>

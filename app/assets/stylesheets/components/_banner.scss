@@ -10,6 +10,7 @@
     font-size: 1.25rem;
     font-weight: 600;
     background: $pink;
+    margin-top: 2rem;
   }
   .btn-flat:hover {
     background: $pink;
@@ -82,6 +83,10 @@
     font-weight: 600;
     background: $pink;
     margin-bottom: 5rem;
+  }
+  .btn-flat:hover {
+    background: $pink;
+    opacity: 0.8;
   }
 }
 

@@ -20,7 +20,7 @@
       <% else %>
         <p>No reviews!</p>
       <% end %>
-      <p>Specialty: <%= service.specialty.name %></p>
+      <p>Speciality: <%= service.specialty.name %></p>
       <p>Related Health Goal(s): <%= service.health_goals.pluck(:name).join(', ') %></p>
       <p>Service Type: <%= service.service_type.capitalize %></p>
       <p>Duration: <%= service.duration %>m</p>

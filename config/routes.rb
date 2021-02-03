@@ -10,6 +10,12 @@ Rails.application.routes.draw do
 
   get '/faq', to: 'pages#faq', as: :faq
 
+  get '/terms', to: 'pages#terms', as: :terms
+
+  get '/privacy', to: 'pages#privacy', as: :privacy
+
+  get '/cookie', to: 'pages#cookie', as: :cookie
+
   get '/practitioners/filter', to: 'practitioners#filter', as: :practitioner_filter
 
   get '/specialties/filter', to: 'specialties#filter', as: :specialty_filter

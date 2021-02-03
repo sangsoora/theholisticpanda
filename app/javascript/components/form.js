@@ -55,13 +55,13 @@ const initUpdateForm = () => {
     $(".specialty-choice").click(function(){
       if ($(this).hasClass("active")) {
         $(this).removeClass("active");
-        document.getElementById('specialty-pop').innerText = 'Specialties (' + $('.specialty-choice.active').length + ')'
+        document.getElementById('specialty-pop').innerText = 'Specialities (' + $('.specialty-choice.active').length + ')'
         if ( $('.specialty-choice.active').length === 0 ) {
-          document.getElementById('specialty-pop').innerText = 'Specialties'
+          document.getElementById('specialty-pop').innerText = 'Specialities'
         }
       } else {
         $(this).addClass("active");
-        document.getElementById('specialty-pop').innerText = 'Specialties (' + $('.specialty-choice.active').length + ')'
+        document.getElementById('specialty-pop').innerText = 'Specialities (' + $('.specialty-choice.active').length + ')'
 
       }
     });

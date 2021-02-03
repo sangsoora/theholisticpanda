@@ -14,7 +14,7 @@
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  padding: 1rem 0;
+  padding: 2rem 0;
 }
 
 .footer-top h3 {
@@ -26,13 +26,13 @@
   flex: 0 0 20%;
 }
 
-.footer-links {
+.footer-socials {
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
 
-.footer-links a {
+.footer-socials a {
   color: black;
   opacity: 0.4;
   text-decoration: none;
@@ -40,13 +40,15 @@
   padding: 0 0.75rem;
 }
 
-.footer-links a:hover {
+.footer-socials a:hover {
   opacity: 1;
 }
 
-.footer-newsletter, .footer-copyright {
-  text-align: center;
-  padding-bottom: 1rem;
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  padding-bottom: 1.5rem;
 }
 
 // X-Small devices (portrait phones, less than 576px)
@@ -58,7 +60,7 @@
 @media (max-width: 767.98px) {
   .footer {
     padding: 0 1.5rem;
-    // background: #e8e8e8;
+    background: #f2f2f2;
     p {
       font-size: 0.875rem;
     }
