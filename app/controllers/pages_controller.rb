@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:home, :become_a_practitioner, :aboutus]
-  before_action :set_notifications, only: [:home, :become_a_practitioner, :aboutus]
+  skip_before_action :authenticate_user!, only: [:home, :become_a_practitioner, :aboutus, :faq, :terms, :privacy, :cookie]
+  before_action :set_notifications, only: [:home, :become_a_practitioner, :aboutus, :faq, :terms, :privacy, :cookie]
 
   def home
     @practitioners = Practitioner.includes(user: [:photo_attachment])
@@ -11,6 +11,18 @@ class PagesController < ApplicationController
   end
 
   def aboutus
+  end
+
+  def faq
+  end
+
+  def terms
+  end
+
+  def privacy
+  end
+
+  def cookie
   end
 
   private

@@ -22,7 +22,7 @@ if ('<%= @param.keys.first %>' == "country_code") {
   video.style.display = 'flex';
   videoForm.style.display = 'none';
   videoEdit.style.display = 'block';
-  document.getElementById('video').innerHTML = '<a href="<%= @practitioner.video %>" target="_blank"><%= @practitioner.video %></a>'
+  document.getElementById('video').innerHTML = '<iframe class="embed-responsive-item" src="<%= @practitioner.video %>" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
 } else if ('<%= @param.keys.first %>' == "address") {
   address.style.display = 'flex';
   addressForm.style.display = 'none';

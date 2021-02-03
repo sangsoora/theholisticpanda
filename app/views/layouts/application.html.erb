@@ -13,6 +13,7 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload', defer: true  %> <!-- from app/assets/javascripts/application.js -->
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
     <%= yield(:head_tags) %>
+    <link rel="stylesheet" type="text/css" href="https://cdn.wpcc.io/lib/1.0.2/cookieconsent.min.css"/><script src="https://cdn.wpcc.io/lib/1.0.2/cookieconsent.min.js" defer></script><script>window.addEventListener("load", function(){window.wpcc.init({"corners":"small","colors":{"popup":{"background":"#ffe4e1","text":"#000000","border":"#c25e5e"},"button":{"background":"#c25e5e","text":"#ffffff"}},"position":"bottom","transparency":"10","content":{"href":"https://www.theholisticpanda.com/cookie"},"padding":"small","margin":"small"})});</script>
   </head>
   <body>
     <% if content_for?(:navbar) %>

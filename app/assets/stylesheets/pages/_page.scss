@@ -1,17 +1,18 @@
-.aboutus-img {
+.page-img {
   margin-top: 68px;
   img {
     width: 100%;
   }
 }
 
+.page-title {
+  text-align: center;
+  margin: 0 auto 2rem;
+}
+
 .aboutus-container {
   width: 80%;
   margin: 1rem auto;
-  .logo {
-    text-align: center;
-    margin: 0 auto 2rem;
-  }
   img {
     width: 100%;
   }
@@ -24,6 +25,11 @@
   }
 }
 
+.middle-logo {
+  width: 60%;
+  margin: 0 auto;
+}
+
 .our-team {
   display: flex;
   justify-content: space-between;
@@ -32,6 +38,26 @@
   .team-member {
     flex: 0 0 25%;
   }
+}
+
+.faq-container {
+  width: 80%;
+  margin: 1rem auto;
+}
+
+.terms-container {
+  width: 80%;
+  margin: 1rem auto;
+}
+
+.privacy-container {
+  width: 80%;
+  margin: 1rem auto;
+}
+
+.cookie-container {
+  width: 80%;
+  margin: 1rem auto;
 }
 
 // X-Small devices (portrait phones, less than 576px)
@@ -49,13 +75,16 @@
     h3 {
       font-size: 1.25rem;
     }
-    img {
-      width: 60%;
+    .middle-logo {
+      width: 100%;
     }
   }
   .our-team {
     .team-member {
       flex: 0 0 100%;
+    }
+    img {
+      width: 60%;
     }
   }
 }

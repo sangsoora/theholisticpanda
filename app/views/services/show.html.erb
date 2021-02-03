@@ -31,7 +31,7 @@
         <p><%= @service.description.gsub(/\n/, '<br/>').html_safe %></p>
         <div class="d-flex">
           <div style="flex: 0 0 50%;">
-            <p><strong>Specialty</strong></p>
+            <p><strong>Speciality</strong></p>
             <div class="d-flex">
               <div class="service-specialty"><%= link_to @service.specialty.name, specialty_path(@service.specialty) %></div>
             </div>

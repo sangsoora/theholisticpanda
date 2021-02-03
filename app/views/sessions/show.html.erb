@@ -99,7 +99,7 @@
         <p>Session Location: <%= @session.service.practitioner.location %></p>
         <p>Address: <%= @session.service.practitioner.address %></p>
       <% end %>
-      <p>Total Price: CA$ <%= (@session.service.price * 1.03).round(2) %></p>
+      <p>Total Price: CA$ <%= @session.amount.round(2) %></p>
       <% if @session.user == current_user %>
         <p>Cancellation Policy: Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
       <% end %>
@@ -123,7 +123,7 @@
           <p>Session Location: <%= @session.service.practitioner.location %></p>
           <p>Address: <%= @session.service.practitioner.address %></p>
         <% end %>
-        <p>Total Price: CA$ <%= (@session.service.price * 1.03).round(2) %></p>
+        <p>Total Price: CA$ <%= @session.amount.round(2) %></p>
         <% if @session.service.service_type == 'virtual' %>
           <p>Virtual Session Link: <%= @session.link %></p>
         <% end %>

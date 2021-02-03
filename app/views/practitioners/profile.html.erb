@@ -7,10 +7,12 @@
   </script>
 <% end %>
 <div class="container practitioner-profile">
-  <div class="d-flex align-items-center">
+  <div class="practitioner-profile-title">
     <h1>Welcome, <%= @practitioner.user.first_name %></h1>
-    <%= link_to 'Reset password', '', data: { toggle: "modal", target: "#passwordModal" }, class: 'btn btn-ghost ml-3' %>
-    <%= link_to 'Go to my page', practitioner_path(@practitioner), class: 'btn btn-flat ml-3' %>
+    <div class="practitioner-profile-btn">
+      <%= link_to 'Reset password', '', data: { toggle: "modal", target: "#passwordModal" }, class: 'btn btn-ghost mr-3' %>
+      <%= link_to 'Go to my page', practitioner_path(@practitioner), class: 'btn btn-flat' %>
+    </div>
   </div>
   <div class="practitioner-profile-table">
     <div class="practitioner-profile-img">
@@ -47,9 +49,9 @@
               <p class="biography-tab">My Healing Approach</p>
               <p class="biography-tab">Video Link</p>
             </div>
-            <h5 class="infos-tab" id="credentials">Credentials & Specialties</h5>
+            <h5 class="infos-tab" id="credentials">Credentials & Specialities</h5>
             <div class="infos-list">
-              <p class="credentials-tab credentials-active-tab">Specialties</p>
+              <p class="credentials-tab credentials-active-tab">Specialities</p>
               <p class="credentials-tab">Experience</p>
               <p class="credentials-tab">Education & Certification</p>
               <p class="credentials-tab">Professional Membership</p>
@@ -151,7 +153,9 @@
               <div class="biography-list">
                 <h5>Share your video link.</h5>
                 <div id="practitioner-video">
-                  <p id="video"><a href="<%= @practitioner.video %>" target="_blank"><%= @practitioner.video %></a></p>
+                  <div class="embed-responsive embed-responsive-16by9" id="video">
+                    <iframe class="embed-responsive-item" src="<%= @practitioner.video %>" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                  </div>
                   <button id='video-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
                 </div>
                 <%= simple_form_for([@practitioner], remote: true, html: { id: :video_form, style: 'display: none; align-items: center;' }) do |f| %>
@@ -163,7 +167,7 @@
             </div>
             <div id="credentials-wrapper" class="hidden">
               <div class="credentials-list">
-                <h5>Choose all the specialties for your services.</h5>
+                <h5>Choose all the specialities for your services.</h5>
                 <div id="practitioner-specialties">
                   <div id="specialties-list">
                     <%= render "practitioner_specialties/practitioner_specialties_list", practitioner: @practitioner %>
