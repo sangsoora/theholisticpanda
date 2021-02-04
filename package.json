@@ -6,6 +6,7 @@
     "bootstrap": "^4.5.0",
     "cropperjs": "^1.5.7",
     "flatpickr": "^4.6.3",
+    "intl-tel-input": "^17.0.8",
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",
     "swiper": "^6.4.8"

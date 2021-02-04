@@ -1,6 +1,13 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  PASSWORD_FORMAT = /\A
+    (?=.{8,})          # Must contain 8 or more characters
+    (?=.*\d)           # Must contain a digit
+    (?=.*[a-z])        # Must contain a lower case character
+    (?=.*[A-Z])        # Must contain an upper case character
+    (?=.*[[:^alnum:]]) # Must contain a symbol
+  /x
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
@@ -19,6 +26,19 @@ class User < ApplicationRecord
   validates :email, presence: true, format: { with: /.+@.+\..+/ }
   validates :first_name, presence: true, length: { minimum: 2, maximum: 20 }
   validates :last_name, presence: true, length: { minimum: 2, maximum: 20 }
+  validates :password,
+    presence: true,
+    length: { in: Devise.password_length },
+    format: { with: PASSWORD_FORMAT },
+    confirmation: true,
+    on: :create
+
+  validates :password,
+    allow_nil: true,
+    length: { in: Devise.password_length },
+    format: { with: PASSWORD_FORMAT },
+    confirmation: true,
+    on: :update
 
   after_create :subscribe_newsletter
 
