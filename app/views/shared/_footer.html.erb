@@ -3,21 +3,25 @@
     <div class="footer-columns">
       <h3>About</h3>
       <p><%= link_to 'About Us', aboutus_path %></a></p>
-      <p><a href="#">How It Works</a></p>
+      <!-- <p><a href="#">How It Works</a></p> -->
       <p><%= link_to 'FAQ', faq_path %></p>
       <!-- <p><a href="#">Help</a></p> -->
     </div>
     <div class="footer-columns">
       <h3>Community</h3>
-      <p><a href="#">Events</a></p>
+      <!-- <p><a href="#">Events</a></p> -->
       <!-- <p><a href="#">Article</a></p> -->
       <p><a href="#">Refer A Friend</a></p>
       <p><a href="#">Refer A Practitioner</a></p>
     </div>
     <div class="footer-columns">
       <h3>Practitioner</h3>
-      <p><a href="">List Your Practice</a></p>
-      <p><a href="#">Get Verified Now</a></p>
+      <% if user_signed_in? && current_user.practitioner %>
+        <p><%= link_to 'List Your Practice', practitioner_services_path %></p>
+      <% else %>
+        <p><%= link_to 'List Your Practice', become_a_practitioner_path %></p></p>
+      <% end %>
+      <p><%= link_to 'Get Verified Now', become_a_practitioner_path %></p></p>
       <!-- <p><a href="#">Contribute Article</a></p> -->
     </div>
     <div class="footer-columns">

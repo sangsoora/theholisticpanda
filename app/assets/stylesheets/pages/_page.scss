@@ -45,6 +45,16 @@
   margin: 1rem auto;
 }
 
+.faq-sort {
+  display: flex;
+  justify-content: space-around;
+  margin: 2rem auto;
+  .btn-ghost.pink {
+    font-size: 1rem;
+    width: 200px;
+  }
+}
+
 .terms-container {
   width: 80%;
   margin: 1rem auto;
