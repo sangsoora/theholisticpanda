@@ -38,6 +38,16 @@
     color: black;
     opacity: 1;
   }
+  &.find-service {
+    color: $pink;
+    background: white;
+    padding: 0.3rem 1rem;
+    border-radius: 2rem;
+    border: 1px solid $pink;
+    text-align: center;
+    font-weight: 600;
+    opacity: 1;
+  }
 }
 
 .dropdown-menu {
@@ -52,7 +62,7 @@
   &:hover {
     color: $emerald;
     opacity: 1;
-    background: $gold;
+    background-color: rgba(229, 121, 80, 0.5);
   }
   &.all {
     background: white;
@@ -115,6 +125,14 @@
     font-size: 36px;
     margin-left: 50px;
   }
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+  background-color: rgba(229, 121, 80, 0.5);
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  background-color: $pink;
 }
 
 // X-Small devices (portrait phones, less than 576px)

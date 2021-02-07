@@ -22,10 +22,11 @@ class SessionsController < ApplicationController
     @session.update(duration: service.duration, status: 'pending', paid: false, service: service, amount: service.price * 1.03, user: current_user)
     if @session.save
       payment_session = Stripe::Checkout::Session.create(
+        billing_address_collection: 'required',
         payment_method_types: ['card'],
         line_items: [{
           name: service.name,
-          amount: (service.price_cents * 1.03).to_i,
+          amount: service.price_cents.to_i,
           currency: 'cad',
           quantity: 1
         }],

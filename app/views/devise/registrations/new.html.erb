@@ -19,12 +19,18 @@
                     input_html: { autocomplete: "last-name" }%>
         <%= f.input :password,
                     required: true,
-                    hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                    input_html: { autocomplete: "new-password" } %>
+                    hint: ("Password should have more than 8 characters including 1 lowercase letter, 1 uppercase letter, 1 number and 1 special character"),
+                    input_html: { autocomplete: "new-password", id: "password1" }  %>
         <%= f.input :password_confirmation,
-                    required: true,
-                    input_html: { autocomplete: "new-password" } %>
-        <%= f.input :phone_number %>
+                    hint: (""),
+                    input_html: { autocomplete: "new-password", id: "password2" } %>
+        <div class="form-group tel optional user_phone_number">
+          <label class="tel optional" for="user_phone_number">Phone number</label>
+          <input class="form-control string tel optional" type="tel" id="user_phone_number">
+          <input type="hidden" id="validated_number" name="user[phone_number]">
+          <span id="tel-valid-msg" class="hidden">✓ Valid</span>
+          <span id="tel-error-msg" class="hidden"></span>
+        </div>
         <%= f.input :timezone, as: :hidden, input_html: { id: :timezone } %>
       </div>
 

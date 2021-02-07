@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show booking favorite notification]
+  before_action :set_user, only: [:show]
   before_action :set_notifications, only: %i[show booking favorite notification]
   helper_method :resource_name, :resource, :devise_mapping, :resource_class
 
@@ -26,6 +26,8 @@ class UsersController < ApplicationController
   end
 
   def booking
+    @user = current_user
+    authorize @user
     if current_user.practitioner
       @confirmed_sessions = current_user.practitioner.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'confirmed'])
       @pending_sessions = current_user.practitioner.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['paid = ? AND status= ?', true, 'pending'])
@@ -39,11 +41,15 @@ class UsersController < ApplicationController
   end
 
   def favorite
+    @user = current_user
+    authorize @user
     @favorite_practitioners = current_user.favorite_practitioners.includes(practitioner: :user)
     @favorite_services = current_user.favorite_services.includes(:service)
   end
 
   def notification
+    @user = current_user
+    authorize @user
     @my_notifications = Notification.includes(actor: [practitioner: [{user: :photo_attachment}]]).where(recipient: current_user).order('created_at DESC')
   end
 

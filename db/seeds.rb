@@ -1,7 +1,7 @@
 users_data = [
   {
     email: 'admin@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Holistic',
     last_name: 'Panda',
     phone_number: '000 000 001',
@@ -12,7 +12,7 @@ users_data = [
   },
   {
     email: 'diana@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Diana',
     last_name: 'Choi',
     phone_number: '000 000 002',
@@ -23,7 +23,7 @@ users_data = [
   },
   {
     email: 'testuser@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Janet',
     last_name: 'Lam',
     phone_number: '000 000 003',
@@ -34,7 +34,7 @@ users_data = [
   },
   {
     email: 'sangsoo@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Sangsoo',
     last_name: 'Ra',
     phone_number: '000 000 004',
@@ -45,7 +45,7 @@ users_data = [
   },
   {
     email: 'testpractitioner@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Peter',
     last_name: 'Parker',
     phone_number: '000 000 005',
@@ -56,7 +56,7 @@ users_data = [
   },
   {
     email: 'blackwidow@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Natasha',
     last_name: 'Romanoff',
     phone_number: '000 000 006',
@@ -67,7 +67,7 @@ users_data = [
   },
   {
     email: 'captainamerica@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Steve',
     last_name: 'Rogers',
     phone_number: '000 000 007',
@@ -78,7 +78,7 @@ users_data = [
   },
   {
     email: 'ironman@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Tony',
     last_name: 'Stark',
     phone_number: '000 000 008',
@@ -89,7 +89,7 @@ users_data = [
   },
   {
     email: 'hulk@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Bruce',
     last_name: 'Banner',
     phone_number: '000 000 009',
@@ -100,7 +100,7 @@ users_data = [
   },
   {
     email: 'hawkeye@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Clint',
     last_name: 'Barton',
     phone_number: '000 000 010',
@@ -111,7 +111,7 @@ users_data = [
   },
   {
     email: 'thor@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Thor',
     last_name: 'Odinson',
     phone_number: '000 000 011',
@@ -122,7 +122,7 @@ users_data = [
   },
   {
     email: 'scarletwitch@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Wanda',
     last_name: 'Maximoff',
     phone_number: '000 000 012',
@@ -133,7 +133,7 @@ users_data = [
   },
   {
     email: 'antman@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Scott',
     last_name: 'Lang',
     phone_number: '000 000 013',
@@ -144,7 +144,7 @@ users_data = [
   },
   {
     email: 'quake@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Daisy',
     last_name: 'Johnson',
     phone_number: '000 000 014',
@@ -155,7 +155,7 @@ users_data = [
   },
   {
     email: 'jessicajones@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Jessica',
     last_name: 'Jones',
     phone_number: '000 000 015',
@@ -166,7 +166,7 @@ users_data = [
   },
   {
     email: 'psylocke@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Elizabeth',
     last_name: 'Braddock',
     phone_number: '000 000 016',
@@ -177,7 +177,7 @@ users_data = [
   },
   {
     email: 'nickfury@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Nick',
     last_name: 'Fury',
     phone_number: '000 000 017',
@@ -188,7 +188,7 @@ users_data = [
   },
   {
     email: 'beast@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Hank',
     last_name: 'McCoy',
     phone_number: '000 000 018',
@@ -199,7 +199,7 @@ users_data = [
   },
   {
     email: 'cyclops@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Scott',
     last_name: 'Summers',
     phone_number: '000 000 019',
@@ -210,7 +210,7 @@ users_data = [
   },
   {
     email: 'daredevil@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Matt',
     last_name: 'Murdock',
     phone_number: '000 000 020',
@@ -221,7 +221,7 @@ users_data = [
   },
   {
     email: 'deadpool@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Wade',
     last_name: 'Wilson',
     phone_number: '000 000 021',
@@ -232,7 +232,7 @@ users_data = [
   },
   {
     email: 'doctorstrange@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Stephen',
     last_name: 'Strange',
     phone_number: '000 000 022',
@@ -243,7 +243,7 @@ users_data = [
   },
   {
     email: 'falcon@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Sam',
     last_name: 'Wilson',
     phone_number: '000 000 023',
@@ -254,7 +254,7 @@ users_data = [
   },
   {
     email: 'invisiblewoman@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Susan',
     last_name: 'Storm',
     phone_number: '000 000 024',
@@ -265,7 +265,7 @@ users_data = [
   },
   {
     email: 'lukecage@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Luke',
     last_name: 'Cage',
     phone_number: '000 000 025',
@@ -276,7 +276,7 @@ users_data = [
   },
   {
     email: 'magneto@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Erik',
     last_name: 'Lensherr',
     phone_number: '000 000 026',
@@ -287,7 +287,7 @@ users_data = [
   },
   {
     email: 'punisher@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Frank',
     last_name: 'Castle',
     phone_number: '000 000 027',
@@ -298,7 +298,7 @@ users_data = [
   },
   {
     email: 'starlord@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Peter',
     last_name: 'Quill',
     phone_number: '000 000 028',
@@ -309,7 +309,7 @@ users_data = [
   },
   {
     email: 'storm@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'Ororo',
     last_name: 'Munroe',
     phone_number: '000 000 029',
@@ -320,7 +320,7 @@ users_data = [
   },
   {
     email: 'wolverine@theholisticpanda.com',
-    password: '123456',
+    password: 'Holistic1!',
     first_name: 'James',
     last_name: 'Howlett',
     phone_number: '000 000 030',

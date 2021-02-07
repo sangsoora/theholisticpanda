@@ -86,7 +86,9 @@
                   <%= simple_form_for([session, @review]) do |f| %>
                     <%= f.input :rating, collection: [5, 4, 3, 2, 1]  %>
                     <%= f.input :comment %>
-                    <%= f.submit :Submit, class: 'btn btn-flat' %>
+                    <div class="modal-btns">
+                      <%= f.submit :Submit, class: 'btn btn-flat' %>
+                    </div>
                   <% end %>
                 </div>
               </div>

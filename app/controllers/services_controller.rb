@@ -4,7 +4,11 @@ class ServicesController < ApplicationController
   before_action :set_service, only: %i[show update destroy]
 
   def index
-    @all_services = policy_scope(Service).where(active: true).includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}])
+    if params[:commit] == 'Explore All Virtual Services'
+      @all_services = policy_scope(Service).where(active: true, service_type: 'Virtual').includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}])
+    else
+      @all_services = policy_scope(Service).where(active: true).includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}])
+    end
     @services = policy_scope(Service).where(active: true).includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}]).group_by { |service| service.specialty }
     @services = @services.sort_by { |k, _v| k[:name] }.to_h
     if params[:search] && params[:search][:health_goal]
