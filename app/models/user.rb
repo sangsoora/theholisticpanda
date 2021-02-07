@@ -10,7 +10,6 @@ class User < ApplicationRecord
   /x
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-         # , :confirmable
 
   has_one :practitioner, dependent: :destroy
   has_many :user_health_goals, dependent: :destroy

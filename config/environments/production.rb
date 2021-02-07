@@ -3,9 +3,10 @@ Rails.application.configure do
 
   # Code is not reloaded between requests.
   config.cache_classes = true
-  config.web_socket_server_url = "wss://theholisticpanda.herokuapp.com/cable"
-  config.action_cable.allowed_request_origins = ['https://theholisticpanda.herokuapp.com', 'http://theholisticpanda.herokuapp.com']
-
+  config.web_socket_server_url = "wss://theholisticpanda.com/cable"
+  config.action_cable.allowed_request_origins = ['https://theholisticpanda.com', 'http://theholisticpanda.com']
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host: "www.theholisticpanda.com" }
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
   # and those relying on copy on write to perform better.

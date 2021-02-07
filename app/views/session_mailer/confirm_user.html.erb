@@ -7,9 +7,10 @@
 <h3>Summary of your session with <%= @session.practitioner.user.full_name %></h3>
 <br>
 <p>Service: <%= @session.service.name %></p>
-<p>Starting time: <%= @session.start_time %> %></p>
+<p>Starting time: <%= @session.start_time %></p>
 <br>
 <%= link_to 'Check your session detail', session_url(@session), target: "_blank" %>
 <br>
 <p>Yours,</p>
 <p>The Holistic Panda</p>
+<%= image_tag image_url('logo.png') %>
