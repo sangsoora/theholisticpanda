@@ -2,11 +2,49 @@
   <%= render 'shared/home_navbar' %>
 <% end %>
 <div class="page-img">
-  <%= image_tag('faq.png') %>
+  <%= image_tag('faqs') %>
 </div>
 <div class="faq-container">
   <div class="page-title">
     <h1>Frequently Asked Questions</h1>
   </div>
-
+  <div class="faq-sort">
+    <div class="btn btn-ghost pink active-sort" id="sort-users">Users</div>
+    <div class="btn btn-ghost pink" id="sort-practitioners">Practitioner</div>
+  </div>
+  <div class="faq-lists" id="users-faq">
+    <% Faq.where(audience: 'users').each do |faq| %>
+      <h3><%= faq.question %></h3>
+      <p><%= faq.answer %></p>
+    <% end %>
+  </div>
+  <div class="faq-lists" id="practitioners-faq">
+    <% Faq.where(audience: 'practitioners').each do |faq| %>
+      <h3><%= faq.question %></h3>
+      <p><%= faq.answer %></p>
+    <% end %>
+  </div>
 </div>
+<script>
+  const users = document.getElementById('sort-users');
+  const practitioners = document.getElementById('sort-practitioners');
+  if (users) {
+    users.addEventListener('click', (event) =>{
+      const active = document.querySelector('.active-sort');
+      active.classList.remove('active-sort');
+      event.currentTarget.classList.add('active-sort');
+      document.getElementById('users-faq').classList.remove('hidden');
+      document.getElementById('practitioners-faq').classList.add('hidden');
+    })
+  }
+  if (practitioners) {
+    practitioners.addEventListener('click', (event) =>{
+      console.log('fuck');
+      const active = document.querySelector('.active-sort');
+      active.classList.remove('active-sort');
+      event.currentTarget.classList.add('active-sort');
+      document.getElementById('practitioners-faq').classList.remove('hidden');
+      document.getElementById('users-faq').classList.add('hidden');
+    })
+  }
+</script>

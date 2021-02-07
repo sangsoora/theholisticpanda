@@ -1,6 +1,6 @@
 .practitioner-page, .practitioners-page, .practitioner-profile, .practitioner-my-services {
   padding: 6rem 0 2rem;
-  min-height: calc(100vh - 243px);
+  min-height: calc(100vh - 211px);
 }
 
 .practitioner-overview, .practitioner-info, .practitioner-name, .practitioner-service, .practitioner-profile-title, .practitioner-profile-table, .practitioner-profile-info, .practitioner-profile-info-body, #practitioner-title, #practitioner-city, #practitioner-country, #practitioner-experience, #practitioner-certification, #practitioner-membership, #practitioner-bio, #practitioner-approach, #practitioner-timezone, .practitioner-workinghours, #practitioner-video, #practitioner-address, #practitioner-name, #practitioner-phone {
@@ -330,13 +330,19 @@
   width: 100% !important;
 }
 
+.my-services-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .my-services {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   margin-top: 2rem;
   .practitioner-service {
-    width: 48%;
+    flex: 0 0 48%;
     box-shadow: 0 7px 25px 0 rgba(0,0,0,.1);
     background: white;
   }
@@ -480,6 +486,29 @@
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
+  }
+  .my-services-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    p {
+      font-size: 0.875rem;
+    }
+    .btn-flat {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
+    }
+  }
+  .my-services {
+    .practitioner-service {
+      flex: 0 0 100%;
+      box-shadow: none;
+      background: white;
+    }
+    .btn-flat {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
+    }
   }
 }
 
