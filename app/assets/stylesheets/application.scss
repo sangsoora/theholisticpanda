@@ -75,10 +75,6 @@ button:focus {
   color: $pink
 }
 
-.modal-photo {
-  max-width: 80%;
-}
-
 .input-newsletter {
   border-radius: 0;
   &:focus {
@@ -89,6 +85,37 @@ button:focus {
 
 .navbar-light .navbar-toggler {
   border: none;
+}
+
+.iti__flag {background-image: url("intl-tel-input/build/img .png");}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .iti__flag {background-image: url("intl-tel-input/build/img /flags@2x.png");}
+}
+
+.iti {
+  display: block !important;
+}
+
+.iti__selected-flag:focus {
+  outline: none;
+}
+
+.tel.error {
+  border: 1px #FD1015 solid;
+}
+
+#tel-valid-msg, #tel-error-msg {
+  margin-top: 0.25rem;
+  font-size: 80%;
+}
+
+#tel-valid-msg {
+  color: green;
+}
+
+#tel-error-msg {
+  color: #FD1015;
 }
 
 // X-Small devices (portrait phones, less than 576px)

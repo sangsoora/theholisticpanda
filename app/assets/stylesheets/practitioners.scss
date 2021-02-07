@@ -1,5 +1,6 @@
 .practitioner-page, .practitioners-page, .practitioner-profile, .practitioner-my-services {
   padding: 6rem 0 2rem;
+  min-height: calc(100vh - 243px);
 }
 
 .practitioner-overview, .practitioner-info, .practitioner-name, .practitioner-service, .practitioner-profile-title, .practitioner-profile-table, .practitioner-profile-info, .practitioner-profile-info-body, #practitioner-title, #practitioner-city, #practitioner-country, #practitioner-experience, #practitioner-certification, #practitioner-membership, #practitioner-bio, #practitioner-approach, #practitioner-timezone, .practitioner-workinghours, #practitioner-video, #practitioner-address, #practitioner-name, #practitioner-phone {
@@ -379,6 +380,10 @@
 
 #basic-info-wrapper, #biography-wrapper, #credentials-wrapper, #operation-wrapper, #personal-basic-wrapper, #personal-additional-wrapper {
   width: 100%;
+}
+
+.upload-photo {
+  cursor: pointer;
 }
 
 // X-Small devices (portrait phones, less than 576px)

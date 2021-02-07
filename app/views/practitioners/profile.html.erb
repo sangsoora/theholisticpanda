@@ -501,7 +501,7 @@
         <%= simple_form_for(current_user, url: registration_path(current_user)) do |f| %>
           <div class="row">
             <div class="col-10 offset-1 p-0">
-              <%= f.input :photo, as: :file, input_html: { class: 'd-none', id: 'photo-input' }, label_html: { class: 'upload-photo'}, label: '📷 Upload a profile photo' %>
+              <%= f.input :photo, as: :file, input_html: { class: 'hidden', id: 'photo-input' }, label_html: { class: 'upload-photo'}, label: '📷 Upload A Profile Photo' %>
             </div>
           </div>
           <div class="row">
@@ -538,7 +538,7 @@
         <%= simple_form_for([@practitioner]) do |f| %>
           <div class="row">
             <div class="col-10 offset-1 p-0">
-              <%= f.input :banner_image, as: :file, input_html: { class: 'd-none', id: 'banner-input' }, label_html: { class: 'upload-photo'}, label: '📷 Upload a banner photo' %>
+              <%= f.input :banner_image, as: :file, input_html: { class: 'hidden', id: 'banner-input' }, label_html: { class: 'upload-photo'}, label: '📷 Upload A Banner Photo' %>
             </div>
           </div>
           <div class="row">

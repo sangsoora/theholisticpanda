@@ -18,6 +18,7 @@ import 'bootstrap';
 import '../plugins/flatpickr';
 import "cropperjs/dist/cropper.css";
 import '../plugins/swiper';
+import '../plugins/tel';
 
 import { initOpenSideNavbar } from '../components/navbar';
 import { initSwiper } from '../plugins/swiper';
@@ -25,6 +26,8 @@ import { initUpdateForm } from '../components/form';
 import { previewImageOnFileSelect } from '../components/image_cropper';
 import { initConversationScroll } from '../components/conversation_scroll';
 import { previewBannerOnFileSelect } from '../components/banner_upload';
+import { initIntlTelInput } from '../plugins/tel';
+import { initValidation } from '../components/validation';
 // document.addEventListener("scroll", () => {
 //   // Call your JS functions here
 // });
@@ -36,6 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initConversationScroll();
   previewBannerOnFileSelect();
   initSwiper();
+  initIntlTelInput();
+  initValidation();
 });
 
 // document.addEventListener('turbolinks:load', () => {

@@ -5,7 +5,7 @@
     <ul class="navbar-nav mr-auto">
       <% if user_signed_in? %>
         <li class="nav-item">
-          <%= link_to 'Find Holistic Services', services_path, class: "nav-link", style: "font-weight: 600;" %>
+          <%= link_to 'Find Holistic Services', services_path, class: "nav-link find-service" %>
         </li>
         <li class="nav-item btn-group">
           <a class="dropdown-toggle nav-link" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -20,14 +20,14 @@
                 <%= link_to notification.actor.full_name + " " + notification.action, notification_path(notification), method: :patch || :put, class: 'dropdown-item' %>
               <% end %>
             <% end %>
-            <%= link_to 'See All', user_notifications_path(current_user), class: 'dropdown-item text-center all' %>
+            <%= link_to 'See All', user_notifications_path, class: 'dropdown-item text-center all' %>
           </div>
         </li>
         <li class="nav-item">
-          <%= link_to 'My Sessions', user_sessions_path(current_user), class: 'nav-link' %>
+          <%= link_to 'My Sessions', user_sessions_path, class: 'nav-link' %>
         </li>
         <li class="nav-item">
-          <%= link_to 'My Favorites', user_favorites_path(current_user), class: 'nav-link' %>
+          <%= link_to 'My Favorites', user_favorites_path, class: 'nav-link' %>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome, <%= current_user.first_name %></a>
@@ -37,8 +37,8 @@
             <% end %>
             <% if current_user.practitioner %>
               <%= link_to 'View My Page', practitioner_path(current_user.practitioner), class: "dropdown-item" %>
-              <%= link_to 'My Profile', practitioner_profile_path(current_user.practitioner), class: "dropdown-item" %>
-              <%= link_to 'My Services', practitioner_services_path(current_user.practitioner), class: 'dropdown-item' %>
+              <%= link_to 'My Profile', practitioner_profile_path, class: "dropdown-item" %>
+              <%= link_to 'My Services', practitioner_services_path, class: 'dropdown-item' %>
             <% else %>
               <%= link_to 'My Profile', user_path(current_user), class: "dropdown-item" %>
             <% end %>
@@ -47,7 +47,7 @@
         </li>
       <% else %>
         <li class="nav-item">
-          <%= link_to 'Find Holistic Services', services_path, class: "nav-link", style: "font-weight: 600;" %>
+          <%= link_to 'Find Holistic Services', services_path, class: "nav-link find-service" %>
         </li>
         <li class="nav-item">
           <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>
@@ -64,21 +64,21 @@
   <a href="/"><%= image_tag('logo', alt: 'The Holistic Panda') %></a>
   <% if user_signed_in? %>
     <div class="nav-item">
-      <%= link_to 'Find Holistic Services', services_path, class: "nav-link", style: "font-weight: 600;" %>
+      <%= link_to 'Find Holistic Services', services_path, class: "nav-link find-service" %>
     </div>
     <div class="nav-item">
       <div class="d-flex align-items-center">
-        <%= link_to 'Notifications', user_notifications_path(current_user), class: 'nav-link' %>
+        <%= link_to 'Notifications', user_notifications_path, class: 'nav-link' %>
         <span class="unread-count" id="unread-count" style="font-size: 1.2rem; margin-left: -1rem;">
           <%= @notifications.length if @notifications.present? %>
         </span>
       </div>
     </div>
     <div class="nav-item">
-      <%= link_to 'My Sessions', user_sessions_path(current_user), class: 'nav-link' %>
+      <%= link_to 'My Sessions', user_sessions_path, class: 'nav-link' %>
     </div>
     <div class="nav-item">
-      <%= link_to 'My Favorites', user_favorites_path(current_user), class: 'nav-link' %>
+      <%= link_to 'My Favorites', user_favorites_path, class: 'nav-link' %>
     </div>
     <% if current_user.conversations.present? %>
       <div class="nav-item">
@@ -90,10 +90,10 @@
         <%= link_to 'View My Page', practitioner_path(current_user.practitioner), class: "nav-link" %>
       </div>
       <div class="nav-item">
-        <%= link_to 'My Profile', practitioner_profile_path(current_user.practitioner), class: "nav-link" %>
+        <%= link_to 'My Profile', practitioner_profile_path, class: "nav-link" %>
       </div>
       <div class="nav-item">
-        <%= link_to 'My Services', practitioner_services_path(current_user.practitioner), class: 'nav-link' %>
+        <%= link_to 'My Services', practitioner_services_path, class: 'nav-link' %>
       </div>
     <% else %>
       <div class="nav-item">
@@ -105,7 +105,7 @@
       </div>
   <% else %>
     <div class="nav-item">
-      <%= link_to 'Find Holistic Services', services_path, class: "nav-link", style: "font-weight: 600;" %>
+      <%= link_to 'Find Holistic Services', services_path, class: "nav-link find-service" %>
     </div>
     <div class="nav-item">
       <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>
@@ -115,4 +115,3 @@
     </div>
   <% end %>
 </div>
-

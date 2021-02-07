@@ -1,9 +1,11 @@
 .services-page {
   padding: 8rem 0 2rem;
+  min-height: calc(100vh - 243px);
 }
 
 .service-page {
   padding: 7rem 0 2rem;
+  min-height: calc(100vh - 243px);
 }
 
 .filter-bar {
@@ -404,10 +406,17 @@
 
 .circles {
   display: flex;
-  margin: 0 1rem;
+  margin: 1rem;
   p {
     margin-right: 2rem;
     margin-bottom: 0;
+  }
+}
+
+#timeslotModal {
+  .modal-body {
+    background: white;
+    padding: 1rem;
   }
 }
 
