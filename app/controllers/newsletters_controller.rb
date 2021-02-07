@@ -11,6 +11,9 @@ class NewslettersController < ApplicationController
         @practitioner = Practitioner.find_by(user: @user)
         @user.update(newsletter: true)
       end
+      if params[:commit] == 'Submit'
+        @practitioner = ''
+      end
       respond_to do |format|
         format.html { redirect_to root_path }
         format.js

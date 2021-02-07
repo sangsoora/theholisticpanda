@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  devise_for :users, :controllers => { registrations: "registrations" }
+  devise_for :users, controllers: { registrations: "registrations" }
+  devise_scope :user do
+    match '/sessions/user', to: 'devise/sessions#create', via: :post
+  end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'pages#home'
 
@@ -20,9 +23,7 @@ Rails.application.routes.draw do
 
   get '/specialties/filter', to: 'specialties#filter', as: :specialty_filter
 
-  devise_scope :user do
-    match '/sessions/user', to: 'devise/sessions#create', via: :post
-  end
+  # get '/auth/:provider/callback' => 'sessions#omniauth'
 
   resources :users, only: [:show] do
     resources :practitioners, only: %i[new create]
@@ -30,9 +31,9 @@ Rails.application.routes.draw do
     resources :user_health_goals, only: [:create]
   end
 
-  get 'users/:id/sessions', to: 'users#booking', as: :user_sessions
-  get 'users/:id/favorites', to: 'users#favorite', as: :user_favorites
-  get 'users/:id/notifications', to: 'users#notification', as: :user_notifications
+  get '/sessions', to: 'users#booking', as: :user_sessions
+  get '/favorites', to: 'users#favorite', as: :user_favorites
+  get '/notifications', to: 'users#notification', as: :user_notifications
 
   resources :practitioners, only: %i[index show update destroy] do
     resources :practitioner_specialties, only: [:create]
@@ -44,8 +45,8 @@ Rails.application.routes.draw do
     resources :working_hours, only: [:create]
   end
 
-  get 'practitioners/:id/profile', to: 'practitioners#profile', as: :practitioner_profile
-  get 'practitioners/:id/services', to: 'practitioners#service', as: :practitioner_services
+  get '/profile', to: 'practitioners#profile', as: :practitioner_profile
+  get '/my_services', to: 'practitioners#service', as: :practitioner_services
 
   resources :practitioner_specialties, only: [:destroy]
 

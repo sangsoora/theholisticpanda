@@ -22,16 +22,35 @@ class SessionsController < ApplicationController
     @session.update(duration: service.duration, status: 'pending', paid: false, service: service, amount: service.price * 1.03, user: current_user)
     if @session.save
       payment_session = Stripe::Checkout::Session.create(
+        billing_address_collection: 'required',
         payment_method_types: ['card'],
-        line_items: [{
-          name: service.name,
-          amount: (service.price_cents * 1.03).to_i,
-          currency: 'cad',
-          quantity: 1
-        }],
+        mode: 'setup',
         success_url: session_url(@session),
         cancel_url: session_url(@session)
       )
+      # customer = Stripe::Customer.create
+      # current_user.update(stripe_id: customer['id'])
+      # customer_id = current_user.stripe_id
+      # payment_intent = Stripe::PaymentIntent.create({
+      #   amount: service.price_cents.to_i,
+      #   currency: 'cad',
+      #   customer: customer['id'],
+      #   setup_future_usage: 'off_session',
+      #   capture_method: 'manual',
+      # })
+      # payment_session = Stripe::Checkout::Session.create(
+      #   billing_address_collection: 'required',
+      #   payment_method_types: ['card'],
+      #   line_items: [{
+      #     name: service.name,
+      #     amount: service.price_cents.to_i,
+      #     currency: 'cad',
+      #     quantity: 1,
+      #   }],
+      #   customer: customer_id,
+      #   success_url: session_url(@session),
+      #   cancel_url: session_url(@session)
+      # )
       @session.update(checkout_session_id: payment_session.id)
       redirect_to new_session_payment_path(@session)
     else

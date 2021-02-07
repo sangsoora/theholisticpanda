@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # :lockable, :timeoutable, :trackable and :omniauthable
   PASSWORD_FORMAT = /\A
     (?=.{8,})          # Must contain 8 or more characters
     (?=.*\d)           # Must contain a digit
@@ -10,6 +10,7 @@ class User < ApplicationRecord
   /x
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+         # , :confirmable
 
   has_one :practitioner, dependent: :destroy
   has_many :user_health_goals, dependent: :destroy

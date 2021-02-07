@@ -1,9 +1,14 @@
 <a data-toggle="modal" data-target="#newsletterModal" id='open-newsletter-modal' style='display: none;'></a>
 <div class="modal fade" id="newsletterModal" tabindex="-1" role="dialog" aria-labelledby="newsletterModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog" id="newsletterModal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body text-center">
-        <h3>Thank you for subscribing to our newsletter!</h3>
+        <%= image_tag('newsletter', class: 'w-100') %>
+        <h3>Thank You For Subscribing To Our Newsletter!</h3>
+        <p>Start Exploring The Holistic Panda<br>Get Free 15 Min Discovery Call And CAD $10 Off On Your First Session</p>
+        <div class="modal-btns">
+          <%= link_to 'Sign Up Now', new_user_registration_path, class: 'btn btn-flat mb-4' %>
+        </div>
       </div>
     </div>
   </div>

@@ -1,10 +1,7 @@
 if (document.getElementById('open-newsletter-modal')) {
   document.getElementById('open-newsletter-modal').click();
-  if (document.getElementById('newsletter_email_footer')) {
-    document.getElementById('newsletter_email_footer').value = '';
-  }
   if (document.getElementById('newsletter_email')) {
-    document.getElementById('newsletter_email').value = '';
+    document.getElementById('newsletter_email')['value'] = '';
   }
 }
 if (document.getElementById('practitioner-newsletter')) {

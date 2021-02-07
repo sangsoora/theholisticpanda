@@ -54,6 +54,7 @@
           </div>
         </div>
         <% if @service.active %>
+          <p><strong>Please select 3 time slots you prefer and the practitioner will confirm it.</strong></p>
           <%= link_to 'See Availability', '', data: { toggle: "modal", target: "#timeslotModal" }, class: 'btn btn-ghost', id: 'modal-launch' %>
         <% end %>
       </div>
@@ -68,7 +69,6 @@
     </div>
     <% if @service.active %>
       <div class="service-session-form">
-        <!-- <p class="mb-0">Please select 3 time slots you prefer and the practitioner will confirm it.</p> -->
         <%= simple_form_for [@service, @session] do |f| %>
           <%= f.input :primary_time, as: :string, as: :hidden %>
           <%= f.input :secondary_time, as: :string, as: :hidden %>
