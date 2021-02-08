@@ -10,7 +10,6 @@ class User < ApplicationRecord
   /x
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-         # , :confirmable
 
   has_one :practitioner, dependent: :destroy
   has_many :user_health_goals, dependent: :destroy
@@ -40,7 +39,7 @@ class User < ApplicationRecord
     confirmation: true,
     on: :update
 
-  after_create :subscribe_newsletter
+  after_create :send_welcome_email
 
   def full_name
     "#{first_name} #{last_name}"

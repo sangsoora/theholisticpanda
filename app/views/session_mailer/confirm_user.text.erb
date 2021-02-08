@@ -1,4 +1,4 @@
-Dear <%= @session.user.full_name %>,
+Dear <%= @session.user.first_name %>,
 
 Summary of your session with <%= @session.practitioner.user.full_name %>
 
@@ -6,4 +6,4 @@ Service: <%= @session.service.name %>
 Starting time: <%= @session.start_time %>
 
 Yours,
-The Holistic Panda
+The Holistic Panda Team

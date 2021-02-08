@@ -2,11 +2,24 @@
 
 </style>
 
-<h2>Dear <%= @user.full_name %>,</h2>
-<br>
-<h3>Welcome to The Holistic Panda</h3>
-<br>
-<p>Connect with holistic practitioners today to achieve your health goals!</p>
-<br>
-<p>Yours,</p>
-<p>The Holistic Panda</p>
+<div style='background-color: #e9cd88; padding: 30px;'>
+  <div style='background-color: #faf2f2; padding: 20px; max-width: 600px; margin: 0 auto; border-radius: 6px;'>
+    <div style='max-width: 300px; margin: 0 auto;'>
+      <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><%= image_tag(attachments['logo.png'].url, style: 'max-width: 300px;') %></a>
+    </div>
+    <h3>Dear <%= @user.first_name %>,</h3>
+    <h4>Welcome to The Holistic Panda</h4>
+    <p>Connect with holistic practitioners today to achieve your health goals!</p>
+    <br>
+    <%= link_to 'Start Exploring', root_url, target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
+    <br>
+    <br>
+    <p>Yours,</p>
+    <p>The Holistic Panda Team</p>
+  </div>
+  <div style='margin: 16px auto; text-align: center;'>
+    <p>© <%= Time.now.year %> HolisticPanda, Inc. All rights reserved</p>
+    <a href="https://www.theholisticpanda.com/terms" target="_blank" style='text-decoration: none; color: #366735; margin-right: 16px;'>Terms of use</a>
+    <a href="https://www.theholisticpanda.com/privacy" target="_blank" style="text-decoration: none; color: #366735;">Privacy policy</a>
+  </div>
+</div>

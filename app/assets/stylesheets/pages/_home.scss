@@ -37,6 +37,39 @@
   margin-bottom: 0;
 }
 
+#mc_embed_signup {
+  width: 50%;
+  margin: 0 auto;
+  input {
+    margin-bottom: 0.5rem;
+  }
+  input.mce_inline_error {
+    border-color: red !important
+  }
+  ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+  }
+  p {
+    margin: 1rem auto;
+  }
+  div.mce_inline_error {
+    background-color: transparent !important;
+    color: red !important;
+    margin: 0 auto !important;
+  }
+  li input {
+    margin-right: 1rem;
+  }
+  #mce-error-response {
+    color: red;
+  }
+  #mce-success-response {
+    color: $emerald;
+  }
+}
+
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
 
@@ -61,6 +94,16 @@
   }
   .btn-newsletter {
     padding: 0.25rem 0.5rem !important;
+  }
+  #mc_embed_signup {
+    width: 100%;
+    ul {
+      display: block;
+      text-align: left;
+    }
+    p {
+      margin: 1rem auto;
+    }
   }
 }
 

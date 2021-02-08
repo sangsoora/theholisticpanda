@@ -2,15 +2,27 @@
 
 </style>
 
-<h2>Dear <%= @practitioner.user.full_name %>,</h2>
-<br>
-<h3>Thank you for applying to be a practitioner on The Holistic Panda</h3>
-<br>
-<p><%= @practitioner.user.full_name %>, we have recieved your application to become a practitioner on The Holistic Panda.</p>
-<br>
-<p>Shortly, you will receive an email from our background check partner. </p>
-<br>
-<p>Meanwhile, if you have any question about the application process, please write to us <a mailto="hello@theholisticpanda.com">here</a>.</p>
-<br>
-<p>Yours,</p>
-<p>The Holistic Panda</p>
+<div style='background-color: #e9cd88; padding: 30px;'>
+  <div style='background-color: #faf2f2; padding: 20px;'>
+    <div style='max-width: 300px; margin: 0 auto;'>
+      <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;><%= image_tag(attachments['logo.png'].url, style: 'max-width: 300px;') %></a>
+    </div>
+    <h3>Dear <%= @practitioner.user.full_name %>,</h3>
+
+    <h4>Thank you for applying to be a practitioner on The Holistic Panda</h4>
+
+    <p><%= @practitioner.user.full_name %>, we have recieved your application to become a practitioner on The Holistic Panda.</p>
+
+    <p>Shortly, you will receive an email from our background check partner.</p>
+
+    <p>Meanwhile, if you have any question about the application process, please write to us <a mailto="hello@theholisticpanda.com" style="text-decoration: none; color: #366735;">here</a>.</p>
+    <br>
+    <p>Yours,</p>
+    <p>The Holistic Panda Team</p>
+  </div>
+  <div style='margin: 16px auto; text-align: center;'>
+    <p>© <%= Time.now.year %> HolisticPanda, Inc. All rights reserved</p>
+    <a href="https://www.theholisticpanda.com/terms" target="_blank" style='text-decoration: none; color: #366735; margin-right: 16px;'>Terms of use</a>
+    <a href="https://www.theholisticpanda.com/privacy" target="_blank"  style="text-decoration: none; color: #366735;">Privacy policy</a>
+  </div>
+</div>

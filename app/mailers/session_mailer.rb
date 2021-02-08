@@ -1,11 +1,11 @@
 class SessionMailer < ApplicationMailer
-
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
   #   en.session_mailer.confirm_practitioner.subject
   #
   def confirm_practitioner
+    attachments.inline["logo.png"] = File.read("#{Rails.root}/app/assets/images/logo.png")
     @session = params[:session]
 
     mail(to: @session.practitioner.user.email, subject: "Your session with #{@session.user.full_name} has been confirmed.")
@@ -17,6 +17,7 @@ class SessionMailer < ApplicationMailer
   #   en.session_mailer.confirm_user.subject
   #
   def confirm_user
+    attachments.inline["logo.png"] = File.read("#{Rails.root}/app/assets/images/logo.png")
     @session = params[:session]
 
     mail(to: @session.user.email, subject: "Your session with #{@session.practitioner.user.full_name} has been confirmed.")

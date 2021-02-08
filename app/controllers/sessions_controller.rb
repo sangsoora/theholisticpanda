@@ -54,14 +54,14 @@ class SessionsController < ApplicationController
       end
       if @session.update(start_time: @start_time, status: 'confirmed')
         Notification.create(recipient: @session.user, actor: current_user, action: 'has confirmed your session', notifiable: @session)
-        redirect_to user_sessions_path(current_user), notice: 'Session request accepted'
-        SessionMailer.with(session: @session).confirm_practitioner.deliver_now
-        SessionMailer.with(session: @session).confirm_user.deliver_now
+        redirect_to user_sessions_path, notice: 'Session request accepted'
+        SessionMailer.with(session: @session).confirm_practitioner.deliver_later
+        SessionMailer.with(session: @session).confirm_user.deliver_later
       end
     elsif params[:commit] == 'Decline'
       @session.update!(status: 'declined')
       Notification.create(recipient: @session.user, actor: current_user, action: 'has declined your session', notifiable: @session)
-      redirect_to user_sessions_path(current_user), notice: 'Session Request Declined'
+      redirect_to user_sessions_path, notice: 'Session Request Declined'
     elsif params[:commit] == 'Confirm Cancellation'
       @session.update(status: 'cancelled')
       if @session.user == current_user
@@ -71,7 +71,7 @@ class SessionsController < ApplicationController
         @session.update(cancelled_user: @session.practitioner.user)
         Notification.create(recipient: @session.user, actor: current_user, action: 'has cancelled your session', notifiable: @session)
       end
-      redirect_to user_sessions_path(current_user), notice: 'Session Cancelled'
+      redirect_to user_sessions_path, notice: 'Session Cancelled'
     end
   end
 

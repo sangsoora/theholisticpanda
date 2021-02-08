@@ -2,14 +2,25 @@
 
 </style>
 
-<h2>Dear <%= @session.user.full_name %>,</h2>
-<br>
-<h3>Summary of your session with <%= @session.practitioner.user.full_name %></h3>
-<br>
-<p>Service: <%= @session.service.name %></p>
-<p>Starting time: <%= @session.start_time %> %></p>
-<br>
-<%= link_to 'Check your session detail', session_url(@session), target: "_blank" %>
-<br>
-<p>Yours,</p>
-<p>The Holistic Panda</p>
+<div style='background-color: #e9cd88; padding: 30px;'>
+  <div style='background-color: #faf2f2; padding: 20px;'>
+    <div style='max-width: 300px; margin: 0 auto;'>
+      <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><%= image_tag(attachments['logo.png'].url) %></a>
+    </div>
+    <h3>Dear <%= @session.user.first_name %>,</h3>
+    <h4>Summary of your session with <%= @session.practitioner.user.full_name %></h4>
+    <p>Service: <%= @session.service.name %></p>
+    <p>Starting time: <%= @session.start_time %></p>
+    <br>
+    <%= link_to 'Check your session detail', session_url(@session), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
+    <br>
+    <br>
+    <p>Yours,</p>
+    <p>The Holistic Panda Team</p>
+  </div>
+  <div style='margin: 16px auto; text-align: center;'>
+    <p>© <%= Time.now.year %> HolisticPanda, Inc. All rights reserved</p>
+    <a href="https://www.theholisticpanda.com/terms" target="_blank" style='margin-right: 16px;'>Terms of use</a>
+    <a href="https://www.theholisticpanda.com/privacy" target="_blank">Privacy policy</a>
+  </div>
+</div>
