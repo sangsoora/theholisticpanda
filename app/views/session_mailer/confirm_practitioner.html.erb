@@ -2,9 +2,9 @@
 
 </style>
 
-<h2>Dear <%= @session.practitioner.user.full_name %>,</h2>
+<h3>Dear <%= @session.practitioner.user.full_name %>,</h3>
 <br>
-<h3>Summary of your session with <%= @session.user.full_name %></h3>
+<h4>Summary of your session with <%= @session.user.full_name %></h4>
 <br>
 <p>Service: <%= @session.service.name %></p>
 <p>Starting time: <%= @session.start_time %></p>

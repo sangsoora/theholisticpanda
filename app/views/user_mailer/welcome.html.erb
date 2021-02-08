@@ -1,7 +1,10 @@
 <style type="text/css">
-
+  img {
+    width: 200px;
+  }
 </style>
 
+<%= image_tag(attachments['logo.png'].url) %>
 <h2>Dear <%= @user.full_name %>,</h2>
 <br>
 <h3>Welcome to The Holistic Panda</h3>
