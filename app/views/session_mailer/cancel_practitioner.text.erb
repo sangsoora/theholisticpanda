@@ -1,0 +1,20 @@
+Dear <%= @session.practitioner.user.first_name %>,
+
+This is a notice to let you know that the following session has been cancelled.
+
+Service: <%= @session.service.name %>
+
+Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
+
+<% if @session.session_type == 'Virtual' %>
+  Link for the session: @session.link
+<% else %>
+  Session location: <%= @session.practitioner.address %>
+<% end %>
+
+<% if @session.cancelled_user != @session.practitioner.user %>
+  Cancel reason from your client: <%= @session.cancel_reason %>
+<% end %>
+
+Yours,
+The Holistic Panda Team

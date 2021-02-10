@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
     if @session.start_time
       session_time = @session.start_time.in_time_zone(current_user.timezone)
       current_time = Time.current.in_time_zone(current_user.timezone)
-      @time_diff = ((session_time - current_time)/ 1.hour).round
+      @time_diff = ((session_time - current_time) / 1.hour).round
     end
   end
 
@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
     @session.primary_time = @session.primary_time - @session.primary_time.in_time_zone(current_user.timezone).utc_offset
     @session.secondary_time = @session.secondary_time - @session.secondary_time.in_time_zone(current_user.timezone).utc_offset
     @session.tertiary_time = @session.tertiary_time - @session.tertiary_time.in_time_zone(current_user.timezone).utc_offset
-    @session.update(duration: service.duration, status: 'pending', paid: false, service: service, amount: service.price * 1.03, user: current_user)
+    @session.update(duration: service.duration, session_type: service_type, status: 'pending', paid: false, service: service, amount: service.price, user: current_user)
     if @session.save
       payment_session = Stripe::Checkout::Session.create(
         billing_address_collection: 'required',
@@ -71,6 +71,8 @@ class SessionsController < ApplicationController
         @session.update(cancelled_user: @session.practitioner.user)
         Notification.create(recipient: @session.user, actor: current_user, action: 'has cancelled your session', notifiable: @session)
       end
+      SessionMailer.with(session: @session).cancel_practitioner.deliver_later
+      SessionMailer.with(session: @session).cancel_user.deliver_later
       redirect_to user_sessions_path, notice: 'Session Cancelled'
     end
   end
@@ -86,6 +88,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:start_time, :duration, :primary_time, :secondary_time, :tertiary_time, :message, :amount, :paid, :link, :status, :cancel_reason, :cancelled_user)
+    params.require(:session).permit(:start_time, :duration, :session_type, :primary_time, :secondary_time, :tertiary_time, :message, :amount, :paid, :link, :status, :cancel_reason, :cancelled_user)
   end
 end

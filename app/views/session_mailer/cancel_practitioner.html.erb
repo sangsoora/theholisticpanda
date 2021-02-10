@@ -5,11 +5,10 @@
 <div style='background-color: #e9cd88; padding: 30px;'>
   <div style='background-color: #faf2f2; padding: 20px;'>
     <div style='max-width: 300px; margin: 0 auto;'>
-      <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><%= image_tag(attachments['email-logo.png'].url, style: 'max-width: 300px;') %></a>
+      <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><%= image_tag(attachments['email-logo.png'].url) %></a>
     </div>
-    <h3>Dear <%= @session.user.first_name %>,</h3>
-    <h4>Thank you for booking a session with <%= @session.practitioner.user.full_name %></h4>
-    <p>Here is a summary of your session:</p>
+    <h3>Dear <%= @session.practitioner.user.first_name %>,</h3>
+    <h4>This is a notice to let you know that the following session has been cancelled.</h4>
     <p>Service: <%= @session.service.name %></p>
     <p>Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
     <% if @session.session_type == 'Virtual' %>
@@ -17,12 +16,12 @@
     <% else %>
       <p>Session location: <%= @session.practitioner.address %></p>
     <% end %>
+    <% if @session.cancelled_user != @session.practitioner.user %>
+      <p>Cancel reason from your client: <%= @session.cancel_reason %></p>
+    <% end %>
     <br>
     <%= link_to 'Review your session detail', session_url(@session), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
     <br>
-    <br>
-    <p>If you are no longer able to make this appointment, please go to session detail to cancel. Please note that <strong>24 hours notice</strong> is required for the cancellation of a session. Missed session or cancellation within 24 hours <strong>will be charged</strong> as if attended.</p>
-    <p>If you are satisfied with your session, please do not forget to leave your practitioner a review and help others in our community find the right therapy for their needs.</p>
     <br>
     <p>Yours,</p>
     <p>The Holistic Panda Team</p>

@@ -39,7 +39,7 @@ class User < ApplicationRecord
     confirmation: true,
     on: :update
 
-  after_create :send_welcome_email
+  # after_create :send_welcome_email
 
   def full_name
     "#{first_name} #{last_name}"
@@ -71,7 +71,7 @@ class User < ApplicationRecord
   private
 
   def send_welcome_email
-    UserMailer.with(user: self).welcome.deliver_now
+    UserMailer.with(user: self).welcome.deliver_later
   end
 
   def subscribe_newsletter

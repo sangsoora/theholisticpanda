@@ -1,5 +1,5 @@
 <% provide :head_tags do %>
-  <% if @session.service.service_type == 'In-person' %>
+  <% if @session.session_type == 'In-person' %>
     <meta name='turbolinks-visit-control' content='reload'>
     <script>
       document.addEventListener("DOMContentLoaded", function(){
@@ -20,15 +20,15 @@
           <input type="hidden" name="session[time]" value="primary">
           <div class="time-choices">
             <input type="radio" class="hidden" value="primary" name="session[time]" id="session_time_primary">
-            <label class="time-choice active" for="session_time_primary"><%= @session.primary_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p') %></label>
+            <label class="time-choice active" for="session_time_primary"><%= @session.primary_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></label>
             <input type="radio" class="hidden" value="secondary" name="session[time]" id="session_time_secondary">
-            <label class="time-choice" for="session_time_secondary"><%= @session.secondary_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p') %></label>
+            <label class="time-choice" for="session_time_secondary"><%= @session.secondary_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></label>
             <input type="radio" class="hidden" value="tertiary" name="session[time]" id="session_time_tertiary">
-            <label class="time-choice" for="session_time_tertiary"><%= @session.tertiary_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p') %></label>
+            <label class="time-choice" for="session_time_tertiary"><%= @session.tertiary_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></label>
           </div>
         </div>
-        <% if @session.service.service_type == 'Virtual' %>
-          <%= f.input :link, input_html: { class: 'w-50' }, label: 'Please add a link for the virtual session' %>
+        <% if @session.session_type == 'Virtual' %>
+          <%= f.input :link, input_html: { class: 'w-50' }, label: 'Please add a link for the virtual session', require: true %>
         <% end %>
         <div class="session-btns">
           <%= f.submit 'Confirm', class: 'btn btn-flat' %>
@@ -84,25 +84,28 @@
       <h2>This session has been cancelled.</h2>
     <% end %>
   <% end %>
-  <% if @session.user == current_user && @session.service.service_type == 'In-person' %>
+  <% if @session.session_type == 'In-person' %>
     <div class="session-detail">
       <div class="session-summary">
-        <h3>Session Summary</h3>
-      <% if @session.start_time %>
-        <p>Session Time: <span id='session_time'><%= @session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p') %></span></p>
-      <% else %>
-        <p>Session Time: TBD</p>
-      <% end %>
-      <p>Duration: <%= @session.service.duration %>m</p>
-      <p>Session Type: <%= @session.service.service_type.capitalize %></p>
-      <% if @session.service.service_type == 'In-person' %>
+        <h3>Your Session Summary</h3>
+        <% if @session.start_time %>
+          <p>Session Time: <span id='session_time'><%= @session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></span></p>
+        <% else %>
+          <p>Session Time: TBD</p>
+        <% end %>
+        <p>Duration: <%= @session.service.duration %>m</p>
+        <p>Session Type: <%= @session.session_type %></p>
         <p>Session Location: <%= @session.service.practitioner.location %></p>
         <p>Address: <%= @session.service.practitioner.address %></p>
-      <% end %>
-      <p>Total Price: CA$ <%= @session.amount.round(2) %></p>
-      <% if @session.user == current_user %>
-        <p>Cancellation Policy: Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
-      <% end %>
+        <p>Total Price: CA$ <%= @session.amount.round(2) %></p>
+        <% if @session.user == current_user %>
+          <p>Cancellation Policy: Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
+        <% else %>
+          <% if @session.message %>
+            <p>Message From <%= @session.user.full_name %>: <%= @session.message.gsub(/\n/, '<br/>').html_safe %></p>
+          <% end %>
+          <p>Cancellation Policy: Cancel more than 24 hours before your appointment if you need to, unless penalty of 35% this session fee will be issued.</p>
+        <% end %>
       </div>
       <div class="session-location">
         <div id="session-map"></div>
@@ -111,24 +114,23 @@
   <% else %>
     <div class="session-detail">
       <div class="session-summary">
-        <h3>Your session summary</h3>
+        <h3>Your Session Summary</h3>
         <% if @session.start_time %>
-          <p>Session Time: <span id='session_time'><%= @session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p') %></span></p>
+          <p>Session Time: <span id='session_time'><%= @session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></span></p>
         <% else %>
           <p>Session Time: TBD</p>
         <% end %>
         <p>Duration: <%= @session.service.duration %>m</p>
-        <p>Session Type: <%= @session.service.service_type.capitalize %></p>
-        <% if @session.service.service_type == 'In-person' %>
-          <p>Session Location: <%= @session.service.practitioner.location %></p>
-          <p>Address: <%= @session.service.practitioner.address %></p>
-        <% end %>
+        <p>Session Type: <%= @session.session_type %></p>
         <p>Total Price: CA$ <%= @session.amount.round(2) %></p>
-        <% if @session.service.service_type == 'virtual' %>
-          <p>Virtual Session Link: <%= @session.link %></p>
-        <% end %>
+        <p>Virtual Session Link: <%= @session.link %></p>
         <% if @session.user == current_user %>
           <p>Cancellation Policy: Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
+        <% else %>
+          <% if @session.message %>
+            <p>Message From <%= @session.user.full_name %>: <%= @session.message.gsub(/\n/, '<br/>').html_safe %></p>
+          <% end %>
+          <p>Cancellation Policy: Cancel more than 24 hours before your appointment if you need to, unless penalty of 35% this session fee will be issued.</p>
         <% end %>
       </div>
       <div class="session-location" style="display: flex; justify-content: flex-end;">
@@ -176,7 +178,7 @@
           <% else %>
             <p>Please tell your customer why<br>you have to cancel the session.</p>
           <% end %>
-          <%= f.input :cancel_reason, label: false %>
+          <%= f.input :cancel_reason, label: false, require: true %>
           <%= f.submit 'Confirm Cancellation', data: { toggle: "modal", target: "#cancelSessionModal" }, class: 'btn btn-flat' %>
         <% end %>
       </div>

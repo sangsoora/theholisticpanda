@@ -1,5 +1,14 @@
-<p>Welcome <%= @email %>!</p>
+<h4>Welcome <%= @resource.first_name %>!</h4>
 
-<p>You can confirm your account email through the link below:</p>
+<p>Please confirm your account email through the link below:</p>
 
 <p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+
+<p>Yours,</p>
+<p>The Holistic Panda Team</p>
+
+<div style='margin: 16px auto; text-align: center;'>
+  <p>© <%= Time.now.year %> HolisticPanda, Inc. All rights reserved</p>
+  <a href="https://www.theholisticpanda.com/terms" target="_blank" style='margin-right: 16px;'>Terms of use</a>
+  <a href="https://www.theholisticpanda.com/privacy" target="_blank">Privacy policy</a>
+</div>

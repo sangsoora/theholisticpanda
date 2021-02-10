@@ -33,10 +33,10 @@
                 <% if session.practitioner.user == current_user %>
                   <p><small>Client: <%= session.user.full_name %></small></p>
                 <% end %>
-                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p') %></small></p>
+                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
-                <p><small>Session Type: <%= session.service.service_type.capitalize %></small></p>
+                <p><small>Session Type: <%= session.session_type %></small></p>
               </div>
             </div>
             <div class="session-actions session-desktop">
@@ -66,10 +66,10 @@
                 <% if session.practitioner.user == current_user %>
                   <p><small>Client: <%= session.user.full_name %></small></p>
                 <% end %>
-                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p') %></small></p>
+                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
-                <p><small>Session Type: <%= session.service.service_type.capitalize %></small></p>
+                <p><small>Session Type: <%= session.session_type %></small></p>
               </div>
             </div>
           </div>
@@ -126,7 +126,7 @@
                 <p><small>When: TBD</small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
-                <p><small>Session Type: <%= session.service.service_type.capitalize %></small></p>
+                <p><small>Session Type: <%= session.session_type %></small></p>
               </div>
             </div>
             <div class="session-actions session-desktop">
@@ -153,7 +153,7 @@
                 <p><small>When: TBD</small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
-                <p><small>Session Type: <%= session.service.service_type.capitalize %></small></p>
+                <p><small>Session Type: <%= session.session_type %></small></p>
               </div>
             </div>
           </div>
@@ -186,10 +186,10 @@
                 <% if session.practitioner.user == current_user %>
                   <p><small>Client: <%= session.user.full_name %></small></p>
                 <% end %>
-                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p') %></small></p>
+                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
-                <p><small>Session Type: <%= session.service.service_type.capitalize %></small></p>
+                <p><small>Session Type: <%= session.session_type %></small></p>
               </div>
             </div>
             <div class="session-actions session-desktop">
@@ -213,10 +213,10 @@
                 <% if session.practitioner.user == current_user %>
                   <p><small>Client: <%= session.user.full_name %></small></p>
                 <% end %>
-                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p') %></small></p>
+                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
-                <p><small>Session Type: <%= session.service.service_type.capitalize %></small></p>
+                <p><small>Session Type: <%= session.session_type %></small></p>
               </div>
             </div>
           </div>

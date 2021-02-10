@@ -3,6 +3,7 @@ class CreateSessions < ActiveRecord::Migration[5.2]
     create_table :sessions do |t|
       t.datetime :start_time
       t.integer :duration
+      t.string :session_type
       t.datetime :primary_time
       t.datetime :secondary_time
       t.datetime :tertiary_time

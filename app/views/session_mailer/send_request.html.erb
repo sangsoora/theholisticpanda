@@ -1,0 +1,35 @@
+<style type="text/css">
+
+</style>
+
+<div style='background-color: #e9cd88; padding: 30px;'>
+  <div style='background-color: #faf2f2; padding: 20px;'>
+    <div style='max-width: 300px; margin: 0 auto;'>
+      <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><%= image_tag(attachments['email-logo.png'].url, style: 'max-width: 300px;') %></a>
+    </div>
+    <h3>Dear <%= @session.practitioner.user.first_name %>,</h3>
+    <p>You have received a booking request for <%= @session.service.name %> with <%= @session.user.full_name %>.</p>
+    <p>Please click on your session page under “pending” and confirm the booking. If this is a virtual booking, please ensure to include your video conference link when confirming the booking.</p>
+    <p>Service: <%= @session.service.name %></p>
+    <p>Proposed Time 1: <%= @session.primary_time.in_time_zone(@session.practitioner.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+    <p>Proposed Time 2: <%= @session.secondary_time.in_time_zone(@session.practitioner.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+    <p>Proposed Time 3: <%= @session.tertiary_time.in_time_zone(@session.practitioner.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+    <% if @session.message %>
+      <p><%= @session.user.first_name %>’s note on reason for attending the session: <%= @session.message.gsub(/\n/, '<br/>').html_safe %></p>
+    <% end %>
+    <br>
+    <%= link_to 'Review your session request detail', session_url(@session), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
+    <br>
+    <br>
+    <p>If none of the submitted time slots work for you, please cancel the booking request and propose a new time to your client via the chatbox.</p>
+    <p>Please bear in mind that you must give the client at least <strong>24 hours of notice</strong> if you need to cancel a confirmed session. Failure to cancel 24 hours beforehand will result in a late cancellation fee of <strong>35% of the session price</strong>. If you have to late cancel due to extenuating circumstances, please let us know at <a href="mailto:hello@theholisticpanda.com" style="text-decoration: none; color: #366735;">hello@theholisticpanda.com</a>.</p>
+    <br>
+    <p>Yours,</p>
+    <p>The Holistic Panda Team</p>
+  </div>
+  <div style='margin: 16px auto; text-align: center;'>
+    <p>© <%= Time.now.year %> HolisticPanda, Inc. All rights reserved</p>
+    <a href="https://www.theholisticpanda.com/terms" target="_blank" style='margin-right: 16px;'>Terms of use</a>
+    <a href="https://www.theholisticpanda.com/privacy" target="_blank">Privacy policy</a>
+  </div>
+</div>
