@@ -10,9 +10,9 @@
           <div class="notification-head">
             <div class="notification-image">
               <% if notification.actor.is_practitioner? && notification.actor.practitioner.user.photo.attached? %>
-                <%= cl_image_tag notification.actor.photo.key %>
+                <%= image_tag notification.actor.photo %>
               <% else %>
-                <%= image_tag 'panda.png' %>
+                <%= image_tag 'profile.png' %>
               <% end %>
             </div>
             <div class="notification-content">

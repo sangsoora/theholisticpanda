@@ -13,9 +13,9 @@
           <div class='card-featured'>
             <a href="/practitioners/<%= practitioner.id %>">
               <% if practitioner.user.photo.attached? %>
-                <%= cl_image_tag practitioner.user.photo.key %>
+                <%= image_tag practitioner.user.photo %>
               <% else %>
-                <img src='https://kitt.lewagon.com/placeholder/users/random' />
+                <%= image_tag("profile") %>
               <% end %>
             </a>
               <a href="/practitioners/<%= practitioner.id %>">
@@ -44,9 +44,9 @@
             <div class='card-featured'>
               <a href="/practitioners/<%= practitioner.id %>">
                 <% if practitioner.user.photo.attached? %>
-                  <%= cl_image_tag practitioner.user.photo.key %>
+                  <%= image_tag practitioner.user.photo %>
                 <% else %>
-                  <img src='https://kitt.lewagon.com/placeholder/users/random' />
+                  <%= image_tag("profile") %>
                 <% end %>
               </a>
                 <a href="/practitioners/<%= practitioner.id %>">

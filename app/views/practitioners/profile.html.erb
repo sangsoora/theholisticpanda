@@ -17,9 +17,9 @@
   <div class="practitioner-profile-table">
     <div class="practitioner-profile-img">
       <% if @practitioner.user.photo.attached? %>
-        <%= cl_image_tag @practitioner.user.photo.key, class: 'avatar-full' %>
+        <%= image_tag @practitioner.user.photo, class: 'avatar-full' %>
       <% else %>
-        <img src='https://kitt.lewagon.com/placeholder/users/random' class='avatar-full' />
+        <%= image_tag("profile", class: 'avatar-full') %>
       <% end %>
       <%= link_to '📷 Profile photo', '', data: { toggle: "modal", target: "#profilePictureModal" }, class: 'btn btn-ghost mt-4 w-100' %>
       <%= link_to '📷 Banner image', '', data: { toggle: "modal", target: "#bannerImageModal" }, class: 'btn btn-ghost mt-4 w-100' %>

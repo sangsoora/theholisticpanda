@@ -1,9 +1,9 @@
 <% favorite_practitioners.each do |favorite|  %>
   <div class="favorite-practitioner">
     <% if favorite.practitioner.user.photo.attached? %>
-      <%= cl_image_tag favorite.practitioner.user.photo.key %>
+      <%= image_tag favorite.practitioner.user.photo %>
     <% else %>
-      <img src='https://kitt.lewagon.com/placeholder/users/random' />
+      <%= image_tag("profile") %>
     <% end %>
     <div class="fav-btn">
       <a data-confirm="Are you sure?" class="btn" rel="nofollow" data-method="delete" data-remote="true" href="/favorite_practitioners/<%= FavoritePractitioner.find_by(user: current_user, practitioner: favorite.practitioner).id %>"><i class="fas fa-heart pink-icon"></i></a>
