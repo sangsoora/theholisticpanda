@@ -1,7 +1,16 @@
-<p>Hello <%= @email %>!</p>
+<h4>Dear <%= @resource.first_name %>,</h4>
 
 <% if @resource.try(:unconfirmed_email?) %>
   <p>We're contacting you to notify you that your email is being changed to <%= @resource.unconfirmed_email %>.</p>
 <% else %>
   <p>We're contacting you to notify you that your email has been changed to <%= @resource.email %>.</p>
 <% end %>
+
+<p>Yours,</p>
+<p>The Holistic Panda Team</p>
+
+<div style='margin: 16px auto; text-align: center;'>
+  <p>© <%= Time.now.year %> HolisticPanda, Inc. All rights reserved</p>
+  <a href="https://www.theholisticpanda.com/terms" target="_blank" style='margin-right: 16px;'>Terms of use</a>
+  <a href="https://www.theholisticpanda.com/privacy" target="_blank">Privacy policy</a>
+</div>

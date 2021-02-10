@@ -47,7 +47,8 @@ gem 'rails_admin', '~> 2.0'
 gem 'momentjs-rails'
 gem 'moment_timezone-rails'
 gem 'jsTimezoneDetect-rails'
-gem 'postmark-rails'
+gem 'icalendar'
+gem 'aws-sdk', '~> 2'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

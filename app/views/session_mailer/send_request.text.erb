@@ -1,0 +1,22 @@
+Dear <%= @session.practitioner.user.first_name %>,
+
+You have received a booking request for <%= @session.service.name %> with <%= @session.user.full_name %>.
+
+Please click on your session page under “pending” and confirm the booking. If this is a virtual booking, please ensure to include your video conference link when confirming the booking.
+
+Service: <%= @session.service.name %>
+
+Proposed Time 1: <%= @session.primary_time.in_time_zone(@session.practitioner.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
+Proposed Time 2: <%= @session.secondary_time.in_time_zone(@session.practitioner.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
+Proposed Time 3: <%= @session.tertiary_time.in_time_zone(@session.practitioner.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
+
+<% if @session.message %>
+  <%= @session.user.first_name %>’s note on reason for attending the session: <%= @session.message %>
+<% end %>
+
+If none of the submitted time slots work for you, please cancel the booking request and propose a new time to your client via the chatbox.
+
+Please bear in mind that you must give the client at least 24 hours of notice if you need to cancel a confirmed session. Failure to cancel 24 hours beforehand will result in a late cancellation fee of 35% of the session price. If you have to late cancel due to extenuating circumstances, please let us know at hello@theholisticpanda.com.
+
+Yours,
+The Holistic Panda Team

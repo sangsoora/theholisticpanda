@@ -5,7 +5,7 @@ class UserMailer < ApplicationMailer
   #   en.user_mailer.welcome.subject
   #
   def welcome
-    attachments.inline["logo.png"] = File.read("#{Rails.root}/app/assets/images/logo.png")
+    attachments.inline["email-logo.png"] = File.read("#{Rails.root}/app/assets/images/email-logo.png")
     @user = params[:user]
 
     mail(to: @user.email, subject: 'Welcome to The Holistic Panda')

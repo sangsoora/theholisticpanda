@@ -210,6 +210,7 @@ ActiveRecord::Schema.define(version: 2021_02_07_161407) do
   create_table "sessions", force: :cascade do |t|
     t.datetime "start_time"
     t.integer "duration"
+    t.string "session_type"
     t.datetime "primary_time"
     t.datetime "secondary_time"
     t.datetime "tertiary_time"

@@ -5,11 +5,12 @@
 <div style='background-color: #e9cd88; padding: 30px;'>
   <div style='background-color: #faf2f2; padding: 20px; max-width: 600px; margin: 0 auto; border-radius: 6px;'>
     <div style='max-width: 300px; margin: 0 auto;'>
-      <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><%= image_tag(attachments['logo.png'].url, style: 'max-width: 300px;') %></a>
+      <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><%= image_tag(attachments['email-logo.png'].url, style: 'max-width: 300px;') %></a>
     </div>
     <h3>Dear <%= @user.first_name %>,</h3>
-    <h4>Welcome to The Holistic Panda</h4>
-    <p>Connect with holistic practitioners today to achieve your health goals!</p>
+    <h4>Kick-start your self-care routine today</h4>
+    <p>We know how difficult and time consuming it can be to find the right holistic treatment and therapy that can help achieve your health goals, especially when you’re bombarded with so many choices, and terms like Reiki and Biotherapy might be entirely new for you.</p>
+    <p>Our mission is to help you quickly and effectively find the holistic service that best fits your needs. Our practitioners offer a diverse range of wellness services and represent multiple cultural backgrounds. If you’re not finding what you’re looking for, please send us an email <a href="mailto:hello@theholisticpanda.com" style="text-decoration: none; color: #366735;">here</a>.</p>
     <br>
     <%= link_to 'Start Exploring', root_url, target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
     <br>
