@@ -60,9 +60,9 @@
       </div>
       <div class="service-practitioner">
         <% if @service.practitioner.user.photo.attached? %>
-          <%= cl_image_tag @service.practitioner.user.photo.key, class: 'avatar-full mb-4' %>
+          <%= image_tag @service.practitioner.user.photo, class: 'avatar-full mb-4' %>
         <% else %>
-          <%= image_tag("profile", class: "avatar-full mb-4" %>
+          <%= image_tag("profile", class: "avatar-full mb-4") %>
         <% end %>
         <%= link_to @service.practitioner.user.full_name, practitioner_path(@service.practitioner), class: 'service-practitioner-name' %>
       </div>

@@ -20,7 +20,7 @@
               <% if session.practitioner.user != current_user %>
                 <div class="session-practitioner">
                   <% if session.practitioner.user.photo.attached? %>
-                    <%= cl_image_tag session.practitioner.user.photo.key %>
+                    <%= image_tag session.practitioner.user.photo %>
                   <% else %>
                     <%= image_tag("profile") %>
                   <% end %>
@@ -47,7 +47,7 @@
             <% if session.practitioner.user != current_user %>
               <div class="session-head session-mobile">
                 <% if session.practitioner.user.photo.attached? %>
-                  <%= cl_image_tag session.practitioner.user.photo.key %>
+                  <%= image_tag session.practitioner.user.photo %>
                 <% else %>
                   <%= image_tag("profile") %>
                 <% end %>
@@ -110,7 +110,7 @@
               <% if session.practitioner.user != current_user %>
                 <div class="session-practitioner">
                   <% if session.practitioner.user.photo.attached? %>
-                    <%= cl_image_tag session.practitioner.user.photo.key %>
+                    <%= image_tag session.practitioner.user.photo %>
                   <% else %>
                     <%= image_tag("profile") %>
                   <% end %>
@@ -134,7 +134,7 @@
             <% if session.practitioner.user != current_user %>
               <div class="session-head session-mobile">
                 <% if session.practitioner.user.photo.attached? %>
-                  <%= cl_image_tag session.practitioner.user.photo.key %>
+                  <%= image_tag session.practitioner.user.photo %>
                 <% else %>
                   <%= image_tag("profile") %>
                 <% end %>
@@ -173,7 +173,7 @@
               <% if session.practitioner.user != current_user %>
                 <div class="session-practitioner">
                   <% if session.practitioner.user.photo.attached? %>
-                    <%= cl_image_tag session.practitioner.user.photo.key %>
+                    <%= image_tag session.practitioner.user.photo %>
                   <% else %>
                     <%= image_tag("profile") %>
                   <% end %>
@@ -197,7 +197,7 @@
             <% if session.practitioner.user != current_user %>
               <div class="session-head session-mobile">
                 <% if session.practitioner.user.photo.attached? %>
-                  <%= cl_image_tag session.practitioner.user.photo.key %>
+                  <%= image_tag session.practitioner.user.photo %>
                 <% else %>
                   <%= image_tag("profile") %>
                 <% end %>

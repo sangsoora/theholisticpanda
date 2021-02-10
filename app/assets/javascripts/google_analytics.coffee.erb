@@ -1,0 +1,7 @@
+@dataLayer = @dataLayer || []
+@gtag = () => dataLayer.push arguments
+@gtag 'js', new Date()
+document.addEventListener 'turbolinks:load', (event) =>
+  @gtag 'config', '<%= GoogleAnalytics::TRACKING_ID %>',
+    anonymize_ip: true,
+    page_location: event.data.url

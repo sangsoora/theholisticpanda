@@ -39,7 +39,7 @@ gem 'dotenv-rails'
 gem 'money-rails'
 gem 'stripe'
 gem 'stripe_event'
-gem 'cloudinary', '~> 1.12.0'
+# gem 'cloudinary', '~> 1.12.0'
 gem 'country_select', '~> 4.0'
 gem 'google-api-client', '~> 0.34'
 gem 'letter_opener', group: :development
@@ -48,7 +48,7 @@ gem 'momentjs-rails'
 gem 'moment_timezone-rails'
 gem 'jsTimezoneDetect-rails'
 gem 'icalendar'
-gem 'aws-sdk', '~> 2'
+gem 'aws-sdk-s3', require: false
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

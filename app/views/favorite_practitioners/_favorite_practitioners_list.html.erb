@@ -1,7 +1,7 @@
 <% favorite_practitioners.each do |favorite|  %>
   <div class="favorite-practitioner">
     <% if favorite.practitioner.user.photo.attached? %>
-      <%= cl_image_tag favorite.practitioner.user.photo.key %>
+      <%= image_tag favorite.practitioner.user.photo %>
     <% else %>
       <%= image_tag("profile") %>
     <% end %>

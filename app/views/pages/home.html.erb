@@ -13,7 +13,7 @@
           <div class='card-featured'>
             <a href="/practitioners/<%= practitioner.id %>">
               <% if practitioner.user.photo.attached? %>
-                <%= cl_image_tag practitioner.user.photo.key %>
+                <%= image_tag practitioner.user.photo %>
               <% else %>
                 <%= image_tag("profile") %>
               <% end %>
@@ -44,7 +44,7 @@
             <div class='card-featured'>
               <a href="/practitioners/<%= practitioner.id %>">
                 <% if practitioner.user.photo.attached? %>
-                  <%= cl_image_tag practitioner.user.photo.key %>
+                  <%= image_tag practitioner.user.photo %>
                 <% else %>
                   <%= image_tag("profile") %>
                 <% end %>

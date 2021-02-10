@@ -11,7 +11,7 @@
     <div class="current-conversation">
       <div class="current-opponent">
         <% if @conversation.opposed_user(current_user).is_practitioner? && @conversation.opposed_user(current_user).photo.attached? %>
-          <%= cl_image_tag @chat.opposed_user(current_user).photo.key, class: "avatar" %>
+          <%= image_tag @conversation.opposed_user(current_user).photo, class: "avatar" %>
         <% else %>
           <%= image_tag 'profile.png', class: "avatar" %>
         <% end %>
