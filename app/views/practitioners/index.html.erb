@@ -52,7 +52,7 @@
                 <%#if practitioner.user.photo.attached? %>
                   <%# cl_image_tag practitioner.user.photo.key %>
                 <%#else %>
-                  <img src='https://kitt.lewagon.com/placeholder/users/random' />
+                  <%#= image_tag("profile") %>
                 <%#end %>
                 <div class='card-featured-infos'>
                   <h2><%# practitioner.user.full_name %></h2>
@@ -71,7 +71,7 @@
               <%#if practitioner.user.photo.attached? %>
                 <%# cl_image_tag practitioner.user.photo.key %>
               <%#else %>
-                <img src='https://kitt.lewagon.com/placeholder/users/random' />
+                <%#= image_tag("profile") %>
               <%#end %>
               <div class='card-featured-infos'>
                 <h2><%# practitioner.user.full_name %></h2>

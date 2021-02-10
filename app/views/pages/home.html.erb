@@ -15,7 +15,7 @@
               <% if practitioner.user.photo.attached? %>
                 <%= cl_image_tag practitioner.user.photo.key %>
               <% else %>
-                <img src='https://kitt.lewagon.com/placeholder/users/random' />
+                <%= image_tag("profile") %>
               <% end %>
             </a>
               <a href="/practitioners/<%= practitioner.id %>">
@@ -46,7 +46,7 @@
                 <% if practitioner.user.photo.attached? %>
                   <%= cl_image_tag practitioner.user.photo.key %>
                 <% else %>
-                  <img src='https://kitt.lewagon.com/placeholder/users/random' />
+                  <%= image_tag("profile") %>
                 <% end %>
               </a>
                 <a href="/practitioners/<%= practitioner.id %>">

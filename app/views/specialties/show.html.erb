@@ -77,7 +77,7 @@
                   <% if service.practitioner.user.photo.attached? %>
                     <a href="/practitioners/1"><%= cl_image_tag service.practitioner.user.photo.key, class: 'service-list-item-user avatar-bordered' %></a>
                   <% else %>
-                    <img src='https://kitt.lewagon.com/placeholder/users/random' class="service-list-item-user avatar-bordered"/>
+                    <%= image_tag("profile", class: "service-list-item-user avatar-bordered" %>
                   <% end %>
                 </a>
                 <p><%= service.practitioner.location %></p>
