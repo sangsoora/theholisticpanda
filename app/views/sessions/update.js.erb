@@ -1,0 +1,4 @@
+document.getElementById('link').style.display = 'inline';
+document.getElementById('link_form').style.display = 'none';
+document.getElementById('link-edit').style.display = 'block';
+document.getElementById('link').innerHTML = '<a href="<%= @session.link %>" target="_blank"><%= @session.link %></a>';

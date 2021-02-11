@@ -94,4 +94,16 @@ class SessionMailer < ApplicationMailer
     @session = params[:session]
     mail(to: @session.practitioner.user.email, subject: "You have a session request!")
   end
+
+  def decline_request
+    attachments.inline["email-logo.png"] = File.read("#{Rails.root}/app/assets/images/email-logo.png")
+    @session = params[:session]
+    mail(to: @session.user.email, subject: "You have a session request!")
+  end
+
+  def change_link
+    attachments.inline["email-logo.png"] = File.read("#{Rails.root}/app/assets/images/email-logo.png")
+    @session = params[:session]
+    mail(to: @session.user.email, subject: "You have a session request!")
+  end
 end

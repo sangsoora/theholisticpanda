@@ -124,7 +124,15 @@
         <p>Duration: <%= @session.service.duration %>m</p>
         <p>Session Type: <%= @session.session_type %></p>
         <p>Total Price: CA$ <%= @session.amount.round(2) %></p>
-        <p>Virtual Session Link: <%= @session.link %> <span class="ml-2"><% if @session.practitioner.user == current_user %><%= link_to 'Change', '', id: 'change-link' %><% end %></span></p>
+        <div class="d-flex">
+          <p class="mr-2">Virtual Session Link: <span id="link"><a href="<%= @session.link %>" target="_blank"><%= @session.link %></a></span></p>
+          <%= link_to '', '', class: 'fas fa-pen', id: 'link-edit', style: 'margin-top: 0.25rem;' %>
+          <%= simple_form_for([@session], remote: true, html: { id: :link_form, style: 'display: none; align-items: center;' }) do |f| %>
+            <%= f.input :link, label: false, requred: true %>
+            <button type="submit" id="link-submit"><i class='fas fa-check'></i></button>
+            <button id='link-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+          <% end %>
+        </div>
         <% if @session.user == current_user %>
           <p class="mb-0"><strong>Cancellation Policy</strong></p>
           <p>Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
@@ -147,7 +155,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-         <h5 class="modal-title" id="newReviewwModalLabel">Write review</h5>
+         <h5 class="modal-title" id="newReviewModalLabel">Write review</h5>
          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -199,4 +207,29 @@
       }
     })
   );
+  if (document.getElementById('link_form')) {
+    const link = document.getElementById('link');
+    const linkForm = document.getElementById('link_form');
+    const linkEdit = document.getElementById('link-edit');
+    const linkCancel = document.getElementById('link-cancel');
+    document.getElementById('session_link').addEventListener('keyup', (e) => {
+      if (document.getElementById('session_link').value == '') {
+        document.getElementById('link-submit').disabled = true;
+      } else {
+        document.getElementById('link-submit').disabled = false;
+      }
+    })
+    linkEdit.addEventListener('click', (e) => {
+      e.preventDefault();
+      link.style.display = 'none';
+      linkForm.style.display = 'flex';
+      linkEdit.style.display = 'none';
+    })
+    linkCancel.addEventListener('click', (e) => {
+      e.preventDefault();
+      link.style.display = 'inline';
+      linkForm.style.display = 'none';
+      linkEdit.style.display = 'block';
+    })
+  }
 </script>
