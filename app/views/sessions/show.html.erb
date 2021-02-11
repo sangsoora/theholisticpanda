@@ -35,7 +35,7 @@
           <%= f.submit 'Decline',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost' %>
         </div>
       <% end %>
-    <% elsif @session.status == 'confirmed' %>
+    <% elsif @session.status == 'confirmed' && @session.paid %>
       <p class="mt-3">Your session has been confirmed.</p>
       <div class="session-btns">
         <%= simple_form_for [@session.user, @conversation] do |f| %>
@@ -115,6 +115,7 @@
     <div class="session-detail">
       <div class="session-summary">
         <h3>Your Session Summary</h3>
+        <br>
         <% if @session.start_time %>
           <p>Session Time: <span id='session_time'><%= @session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></span></p>
         <% else %>
@@ -123,14 +124,16 @@
         <p>Duration: <%= @session.service.duration %>m</p>
         <p>Session Type: <%= @session.session_type %></p>
         <p>Total Price: CA$ <%= @session.amount.round(2) %></p>
-        <p>Virtual Session Link: <%= @session.link %></p>
+        <p>Virtual Session Link: <%= @session.link %> <span class="ml-2"><% if @session.practitioner.user == current_user %><%= link_to 'Change', '', id: 'change-link' %><% end %></span></p>
         <% if @session.user == current_user %>
-          <p>Cancellation Policy: Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
+          <p class="mb-0"><strong>Cancellation Policy</strong></p>
+          <p>Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
         <% else %>
           <% if @session.message %>
             <p>Message From <%= @session.user.full_name %>: <%= @session.message.gsub(/\n/, '<br/>').html_safe %></p>
           <% end %>
-          <p>Cancellation Policy: Cancel more than 24 hours before your appointment if you need to, unless penalty of 35% this session fee will be issued.</p>
+          <p class="mb-0"><strong>Cancellation Policy</strong></p>
+          <p>Cancel more than 24 hours before your appointment if you need to, unless penalty of 35% this session fee will be issued.</p>
         <% end %>
       </div>
       <div class="session-location" style="display: flex; justify-content: flex-end;">
