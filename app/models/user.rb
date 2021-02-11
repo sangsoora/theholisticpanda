@@ -39,7 +39,7 @@ class User < ApplicationRecord
     confirmation: true,
     on: :update
 
-  after_create :send_welcome_email
+  # after_create :send_welcome_email
 
   def full_name
     "#{first_name} #{last_name}"
