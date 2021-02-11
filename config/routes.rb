@@ -4,6 +4,11 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'pages#home'
 
+  require "sidekiq/web"
+  authenticate :user, ->(user) { user.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
   get '/become-a-practitioner', to: 'pages#become_a_practitioner', as: :become_a_practitioner
 
   get '/aboutus', to: 'pages#aboutus', as: :aboutus
