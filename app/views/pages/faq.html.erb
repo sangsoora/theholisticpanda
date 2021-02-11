@@ -18,7 +18,7 @@
       <p><%= faq.answer %></p>
     <% end %>
   </div>
-  <div class="faq-lists" id="practitioners-faq">
+  <div class="faq-lists hidden" id="practitioners-faq">
     <% Faq.where(audience: 'practitioners').each do |faq| %>
       <h3><%= faq.question %></h3>
       <p><%= faq.answer %></p>

@@ -128,6 +128,7 @@ GEM
     ffi (1.13.0)
     font-awesome-sass (5.12.0)
       sassc (>= 1.11)
+    gemoji (3.0.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     google-api-client (0.42.2)
@@ -396,6 +397,7 @@ DEPENDENCIES
   dotenv-rails
   faker
   font-awesome-sass (~> 5.12.0)
+  gemoji
   google-api-client (~> 0.34)
   icalendar
   jbuilder (~> 2.5)

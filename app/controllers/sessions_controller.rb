@@ -53,6 +53,9 @@ class SessionsController < ApplicationController
         @start_time = @session.tertiary_time
       end
       if @session.update(start_time: @start_time, status: 'confirmed')
+        if @session.link && !@session.link.start_with?('http://', 'https://')
+          @session.update(link: 'http://' + @session.link)
+        end
         Notification.create(recipient: @session.user, actor: current_user, action: 'has confirmed your session', notifiable: @session)
         redirect_to user_sessions_path, notice: 'Session request accepted'
         SessionMailer.with(session: @session).confirm_practitioner.deliver_later
@@ -61,6 +64,7 @@ class SessionsController < ApplicationController
     elsif params[:commit] == 'Decline'
       @session.update!(status: 'declined')
       Notification.create(recipient: @session.user, actor: current_user, action: 'has declined your session', notifiable: @session)
+      SessionMailer.with(session: @session).decline_request.deliver_later
       redirect_to user_sessions_path, notice: 'Session Request Declined'
     elsif params[:commit] == 'Confirm Cancellation'
       @session.update(status: 'cancelled')
@@ -74,6 +78,18 @@ class SessionsController < ApplicationController
       SessionMailer.with(session: @session).cancel_practitioner.deliver_later
       SessionMailer.with(session: @session).cancel_user.deliver_later
       redirect_to user_sessions_path, notice: 'Session Cancelled'
+    elsif (params[:session].keys.length == 1) && (params[:session][:link]) && (params[:session][:link] != '')
+      if params[:session][:link].start_with?('http://', 'https://')
+        @session.update(link: params[:session][:link])
+      else
+        @session.update(link: 'http://' + params[:session][:link])
+      end
+      Notification.create(recipient: @session.user, actor: current_user, action: 'has updated virtual session link', notifiable: @session)
+      SessionMailer.with(session: @session).change_link.deliver_later
+      respond_to do |format|
+        format.html { redirect_to session_path(@session) }
+        format.js
+      end
     end
   end
 

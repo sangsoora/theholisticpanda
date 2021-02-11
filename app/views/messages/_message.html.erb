@@ -1,8 +1,8 @@
 <p data-senderId="<%= current_user.id %>">
   <% if message.content.include?("\n") %>
-    <%= safe_join(message.content.split("\n"), tag(:br)) %>
+    <%= safe_join(emojify message.content.split("\n"), tag(:br)) %>
   <% else %>
-    <%= message.content.gsub(/\n/, '<br/>').html_safe %>
+    <%= emojify message.content.gsub(/\n/, '<br/>').html_safe %>
   <% end %>
   <i>
     <%= message.created_at.in_time_zone(current_user.timezone).strftime("%k:%M") %>
