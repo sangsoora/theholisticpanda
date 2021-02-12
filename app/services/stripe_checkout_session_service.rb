@@ -2,7 +2,7 @@ class StripeCheckoutSessionService
   def call(event)
     if Practitioner.find_by(checkout_session_id: event.data.object.id)
       practitioner = Practitioner.find_by(checkout_session_id: event.data.object.id)
-      practitioner.update!(paymnet_status: 'paid')
+      practitioner.update!(payment_status: 'paid')
     elsif Session.find_by(checkout_session_id: event.data.object.id)
       session = Session.find_by(checkout_session_id: event.data.object.id)
       session.update!(status: 'pending', paid: true)
