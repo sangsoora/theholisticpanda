@@ -183,7 +183,7 @@ class PractitionersController < ApplicationController
       end
     elsif params[:commit] == 'Proceed to background check'
       @practitioner.update(background_check_status: 'pending', background_check_consent: true)
-      PractitionerMailer.with(practitioner: @practitioner).welcome.deliver_later
+      PractitionerMailer.with(practitioner: @practitioner).welcome.deliver_now
       redirect_to practitioner_profile_path, notice: 'Thank you for your application'
     else
       if @practitioner.update(practitioner_params)
