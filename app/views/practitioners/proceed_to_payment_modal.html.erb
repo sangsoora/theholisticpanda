@@ -1,0 +1,47 @@
+<div class="modal fade" id="paymentStartModal" tabindex="-1" role="dialog" aria-labelledby="paymentStartModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h5 class="modal-title" id="paymentStartModalLabel">Thank You For Applying As A Practitioner!</h5>
+      </div>
+      <div class="modal-body text-center">
+        <% if practitioner.country_code == 'CA' %>
+          <p>For security of our customers, we are running the background check for all the practitioners on The Holistic Panda.</p>
+          <p>Before we proceed to background check, you must complete the one-time onboarding payment of CA$ 35 in order to start the process.</p>
+          <p>And please note that, you will have to sign a practitioner's agreement after you clear the background check to finalize the onboarding process.</p>
+          <p>You can take a preview of our practitioner's agreement template <strong><a href="s3://theholisticpanda-prod/THP_Practitioner Agreement_Template_Watermark.pdf" target="_blank"></a> here</strong> and once you carry out the payment, there will be no refund due to the disagreement on our practitioner's agreement.</p>
+          <%= simple_form_for [practitioner] do |f| %>
+            <fieldset class="form-group check_boxes required practitioner_background_check_consent">
+              <legend class="col-form-label pt-0">Background check consent</legend>
+              <input type="hidden" name="practitioner[background_check_consent][]" value="">
+              <div class="form-check">
+                <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="practitioner[background_check_consent][]" id="practitioner_background_check_consent_true">
+                <label class="form-check-label collection_check_boxes" for="practitioner_background_check_consent_true">I agree</label>
+              </div>
+            </fieldset>
+            <div class="modal-btns">
+              <%= f.submit 'Proceed to background check', class: 'btn btn-flat', id: 'consent-btn', disabled: true %>
+            </div>
+          <% end %>
+        <% else %>
+          <p>We are sorry to inform you that background check for your country of residence is not available yet.</p><p>For security of our customers, we are running the background check for all the practitioners on The Holistic Panda.</p><p>We will inform you as soon as possible when our background check is ready to welcome you onboard.</p>
+        <% end %>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" data-dismiss="modal">Close</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+<script>
+  const checkbox = document.getElementById('practitioner_background_check_consent_true');
+  if (checkbox) {
+    checkbox.addEventListener( 'change', function() {
+      if(checkbox.checked === true) {
+        document.getElementById("consent-btn").disabled = false;
+      } else {
+        document.getElementById("consent-btn").disabled = true;
+      }
+    });
+  }
+</script>

@@ -11,6 +11,11 @@ class CreatePractitioners < ActiveRecord::Migration[5.2]
       t.string :video
       t.string :timezone
       t.boolean :insurance
+      t.string :checkout_session_id
+      t.monetize :amount, currency: { present: false }
+      t.string :payment_status
+      t.string :agreement_status
+      t.string :status
       t.float :latitude
       t.float :longitude
       t.string :background_check_status
