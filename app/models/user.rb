@@ -9,7 +9,7 @@ class User < ApplicationRecord
     (?=.*[[:^alnum:]]) # Must contain a symbol
   /x
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable, :confirmable
 
   has_one :practitioner, dependent: :destroy
   has_many :user_health_goals, dependent: :destroy
