@@ -1,0 +1,44 @@
+<div class="modal fade" id="paymentStartModal" tabindex="-1" role="dialog" aria-labelledby="paymentStartModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h5 class="modal-title" id="paymentStartModalLabel">Thank You For Applying As A Practitioner!</h5>
+      </div>
+      <div class="modal-body">
+        <% if (practitioner.country_code == 'CA') || practitioner.country_code == 'US' %>
+          <p>For security of our customers, we are running the background check for all the practitioners on The Holistic Panda.</p>
+          <p>Before we proceed to background check, you must complete the one-time onboarding payment of CA$ 35 in order to start the process.</p>
+          <p>And please note that, you will have to sign a practitioner's agreement after you clear the background check to finalize the onboarding process.</p>
+          <p>You can take a preview of our practitioner's agreement template <strong><a href="https://theholisticpanda-prod.s3.ca-central-1.amazonaws.com/THP_Practitioner+Agreement_Template_Watermark.pdf" target="_blank">here</a></strong> and once you carry out the payment, there will be no refund due to the disagreement on our practitioner's agreement.</p>
+          <%= simple_form_for [practitioner] do |f| %>
+            <fieldset class="form-group check_boxes required practitioner_background_check_consent">
+              <legend class="col-form-label pt-0">I've checked practitioner's agreement and agree to proceed to payment.</legend>
+              <input type="hidden" name="practitioner[agreement_consent][]" value="">
+              <div class="form-check">
+                <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="practitioner[agreement_consent][]" id="agreement_consent_true">
+                <label class="form-check-label collection_check_boxes" for="agreement_consent_true">I agree</label>
+              </div>
+            </fieldset>
+            <div class="modal-btns">
+              <%= f.submit 'Proceed To Payment', class: 'btn btn-flat', id: 'proceed', disabled: true %>
+            </div>
+          <% end %>
+        <% else %>
+          <p>We are sorry to inform you that background check for your country of residence is not available yet.</p><p>For security of our customers, we are running the background check for all the practitioners on The Holistic Panda.</p><p>We will inform you as soon as possible when our background check is ready to welcome you onboard.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const checkbox = document.getElementById('agreement_consent_true');
+  if (checkbox) {
+    checkbox.addEventListener( 'change', function() {
+      if(checkbox.checked === true) {
+        document.getElementById("proceed").disabled = false;
+      } else {
+        document.getElementById("proceed").disabled = true;
+      }
+    });
+  }
+</script>

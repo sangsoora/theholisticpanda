@@ -1,755 +1,829 @@
-<% provide :head_tags do %>
-  <meta name='turbolinks-visit-control' content='reload'>
-  <script>
-    document.addEventListener("DOMContentLoaded", function(){
-      initAutocomplete()
-    });
-  </script>
-<% end %>
-<div class="container practitioner-profile">
-  <div class="practitioner-profile-title">
-    <h1>Welcome, <%= @practitioner.user.first_name %></h1>
-    <div class="practitioner-profile-btn">
-      <%= link_to 'Reset password', '', data: { toggle: "modal", target: "#passwordModal" }, class: 'btn btn-ghost mr-3' %>
-      <%= link_to 'Go to my page', practitioner_path(@practitioner), class: 'btn btn-flat' %>
-    </div>
-  </div>
-  <div class="practitioner-profile-table">
-    <div class="practitioner-profile-img">
-      <% if @practitioner.user.photo.attached? %>
-        <%= image_tag @practitioner.user.photo, class: 'avatar-full' %>
-      <% else %>
-        <%= image_tag("profile", class: 'avatar-full') %>
-      <% end %>
-      <%= link_to '📷 Profile photo', '', data: { toggle: "modal", target: "#profilePictureModal" }, class: 'btn btn-ghost mt-4 w-100' %>
-      <%= link_to '📷 Banner image', '', data: { toggle: "modal", target: "#bannerImageModal" }, class: 'btn btn-ghost mt-4 w-100' %>
-    </div>
-    <div class="practitioner-profile-infos">
-      <ul class="list-inline tabs-underlined">
-        <li>
-          <p class="tab-underlined active-tab">Practitioner Profile</p>
-        </li>
-        <li>
-          <p class="tab-underlined">Personal Profile</p>
-        </li>
-      </ul>
-      <div class="lists">
-        <div class="practitioner-profile-info">
-          <div class="practitioner-profile-info-title">
-            <h5 class="infos-tab infos-active-tab" id="basic-info">Basic Info</h5>
-            <div class="infos-list">
-              <p class="basic-info-tab basic-info-active-tab">My Title</p>
-              <p class="basic-info-tab">Country of Residence</p>
-              <p class="basic-info-tab">Location</p>
-              <p class="basic-info-tab">Time Zone</p>
-            </div>
-            <h5 class="infos-tab" id="biography">Biography</h5>
-            <div class="infos-list">
-              <p class="biography-tab biography-active-tab">About Me</p>
-              <p class="biography-tab">My Healing Approach</p>
-              <p class="biography-tab">Video Link</p>
-            </div>
-            <h5 class="infos-tab" id="credentials">Credentials & Specialities</h5>
-            <div class="infos-list">
-              <p class="credentials-tab credentials-active-tab">Specialities</p>
-              <p class="credentials-tab">Experience</p>
-              <p class="credentials-tab">Education & Certification</p>
-              <p class="credentials-tab">Professional Membership</p>
-            </div>
-            <h5 class="infos-tab" id="operation">Operation</h5>
-            <div class="infos-list">
-              <p class="operation-tab operation-active-tab">Working Hours</p>
-              <p class="operation-tab">Languages</p>
-              <p class="operation-tab">Insurance Acceptance</p>
-              <p class="operation-tab">Physical Address</p>
-            </div>
-          </div>
-          <div class="practitioner-profile-info-body">
-            <div id="basic-info-wrapper">
-              <div class="basic-info-list">
-                <h5>Create a unique title which explains your profession.</h5>
-                <div id="practitioner-title">
-                  <p id="title"><%= @practitioner.title %></p>
-                  <button id='title-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
-                </div>
-                <%= simple_form_for([@practitioner], remote: true, html: { id: :title_form, style: 'display: none; align-items: center;' }) do |f| %>
-                  <%= f.input :title, label: false %>
-                  <button type="submit"><i class='fas fa-check'></i></button>
-                  <button id='title-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                <% end %>
-              </div>
-              <div class="basic-info-list">
-                <h5>Choose a country where you reside and conduct services.</h5>
-                <div id="practitioner-country">
-                  <p id="country"><%= @practitioner.country_name %></p>
-                  <button id='country-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
-                </div>
-                <%= simple_form_for([@practitioner], remote: true, html: { id: :country_form, style: 'display: none; align-items: center;' }) do |f| %>
-                  <%= f.country_select :country_code, { priority_countries: ["CA", "US"] }, { class: 'form-control select required w-50  is-valid' } %>
-                  <button type="submit"><i class='fas fa-check'></i></button>
-                  <button id='country-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                <% end %>
-              </div>
-              <div class="basic-info-list">
-                <h5>Please specify a city/town where you reside and conduct services.</h5>
-                <div id="practitioner-city">
-                  <p id="city"><%= @practitioner.location %></p>
-                  <button id='city-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
-                </div>
-                <%= simple_form_for([@practitioner], remote: true, html: { id: :city_form, style: 'display: none; align-items: center;' }) do |f| %>
-                  <%= f.input :location, require: true, label: false %>
-                  <button type="submit"><i class='fas fa-check'></i></button>
-                  <button id='city-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                <% end %>
-              </div>
-              <div class="basic-info-list">
-                <h5>Choose a time zone where you conduct services.</h5>
-                <div id="practitioner-timezone">
-                  <p id="timezone"><%= @practitioner.timezone %></p>
-                  <button id='timezone-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
-                </div>
-                <%= simple_form_for([@practitioner], remote: true, html: { id: :timezone_form, style: 'display: none; align-items: center;' }) do |f| %>
-                  <%= f.input :timezone, label: false, as: :select do %>
-                    <%= f.select :timezone, @practitioner.timezone_choice.map { |zone| [zone[1], zone[0]] },  {include_blank: 'Select a time zone'}, {class: 'form-control select optional' } %>
-                  <% end %>
-                  <button type="submit"><i class='fas fa-check'></i></button>
-                  <button id='timezone-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                <% end %>
-              </div>
-            </div>
-            <div id="biography-wrapper" class="hidden">
-              <div class="biography-list">
-                <h5>Tell us about yourself.</h5>
-                <div id="practitioner-bio">
-                  <div class="div">
-                    <p id="bio"><% if @practitioner.bio %><%= @practitioner.bio.gsub(/\n/, '<br/>').html_safe %><% end %></p>
-                  </div>
-                  <button id='bio-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
-                </div>
-                <%= simple_form_for([@practitioner], remote: true, html: { id: :bio_form, style: 'display: none; align-items: center;' }) do |f| %>
-                  <div>
-                    <%= f.input :bio, require: true, label: false, input_html: { cols: 60, rows: 10, maxlength: 1000 } %>
-                    <p id="bio-counter" <% if @practitioner.bio %><% if @practitioner.bio.gsub(/\n/, '<br/>').html_safe.length == 1000 %>style="color: red;"<% end %>><%= @practitioner.bio.gsub(/\n/, '<br/>').html_safe.length %><% end %>/1000</p>
-                  </div>
-                  <button type="submit"><i class='fas fa-check'></i></button>
-                  <button id='bio-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                <% end %>
-              </div>
-              <div class="biography-list">
-                <h5>Tell us about your healing approach.</h5>
-                <div id="practitioner-approach">
-                  <p id="approach"><% if @practitioner.approach %><%= @practitioner.approach.gsub(/\n/, '<br/>').html_safe %><% end %></p>
-                  <button id='approach-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
-                </div>
-                <%= simple_form_for([@practitioner], remote: true, html: { id: :approach_form, style: 'display: none; align-items: center;' }) do |f| %>
-                  <div>
-                    <%= f.input :approach, require: true, label: false, input_html: { cols: 60, rows: 10, maxlength: 1000 } %>
-                    <p id="approach-counter"<% if @practitioner.approach %><% if @practitioner.approach.gsub(/\n/, '<br/>').html_safe.length == 1000 %>style="color: red;"<% end %>><%= @practitioner.approach.gsub(/\n/, '<br/>').html_safe.length %><% end %>/1000</p>
-                  </div>
-                  <button type="submit"><i class='fas fa-check'></i></button>
-                  <button id='approach-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                <% end %>
-              </div>
-              <div class="biography-list">
-                <h5>Share your video link.</h5>
-                <div id="practitioner-video">
-                  <div class="embed-responsive embed-responsive-16by9" id="video">
-                    <iframe class="embed-responsive-item" src="<%= @practitioner.video %>" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                  </div>
-                  <button id='video-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
-                </div>
-                <%= simple_form_for([@practitioner], remote: true, html: { id: :video_form, style: 'display: none; align-items: center;' }) do |f| %>
-                  <%= f.input :video, require: true, label: false %>
-                  <button type="submit"><i class='fas fa-check'></i></button>
-                  <button id='video-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                <% end %>
-              </div>
-            </div>
-            <div id="credentials-wrapper" class="hidden">
-              <div class="credentials-list">
-                <h5>Choose all the specialities for your services.</h5>
-                <div id="practitioner-specialties">
-                  <div id="specialties-list">
-                    <%= render "practitioner_specialties/practitioner_specialties_list", practitioner: @practitioner %>
-                  </div>
-                  <% if @practitioner.specialties.count < Specialty.count %>
-                    <button id='specialties-edit' class='ml-0'><p><%= link_to '+ Add', '' %></p></button>
-                  <% end %>
-                </div>
-                <%= simple_form_for([@practitioner, @practitioner_specialty], remote: true, html: { id: :specialties_form, style: 'display: none;' }) do |f| %>
-                  <%= render "practitioner_specialties/update_form", practitioner: @practitioner, specialties: @specialties %>
-                <% end %>
-              </div>
-              <div class="credentials-list">
-                <h5>Choose your years of experience as a practitioner.</h5>
-                <div id="practitioner-experience">
-                  <p id="experience"><%= @practitioner.experience %></p>
-                  <button id='experience-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
-                </div>
-                <%= simple_form_for([@practitioner], remote: true, html: { id: :experience_form, style: 'display: none; align-items: center;' }) do |f| %>
-                  <%= f.input :experience, collection: ['Less than 1 year', '2-5 years', '5-10 years', 'More than 10 years'], as: :select, require: true, label: false %>
-                  <button type="submit"><i class='fas fa-check'></i></button>
-                  <button id='experience-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                <% end %>
-              </div>
-              <div class="credentials-list">
-                <h5>Specify All Your Education & Certification.</h5>
-                <button id='certifications-edit' class='ml-0 mb-3'><p><%= link_to '+ Add', '' %></p></button>
-                <%= simple_form_for([@practitioner, @practitioner_certification], remote: true, html: { id: :certifications_form, style: 'display: none; align-items: center;' }) do |f| %>
-                  <%= f.input :certification_type, label: false, collection: $certification_types, as: :select %>
-                  <%= f.input :name, label: false %>
-                  <button type="submit"><i class='fas fa-check'></i></button>
-                  <button id='certifications-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                <% end %>
-                <div id="practitioner-certifications">
-                  <div id="certifications-list">
-                    <%= render "practitioner_certifications/practitioner_certifications_list", practitioner: @practitioner %>
-                  </div>
-                </div>
-              </div>
-              <div class="credentials-list">
-                <h5>Specify All Your Professional Membership.</h5>
-                <button id='memberships-edit' class='ml-0 mb-3'><p><%= link_to '+ Add', '' %></p></button>
-                <%= simple_form_for([@practitioner, @practitioner_membership], remote: true, html: { id: :memberships_form, style: 'display: none; align-items: center;' }) do |f| %>
-                  <%= f.input :name, label: false %>
-                  <button type="submit"><i class='fas fa-check'></i></button>
-                  <button id='memberships-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                <% end %>
-                <div id="practitioner-memberships">
-                  <div id="memberships-list">
-                    <%= render "practitioner_memberships/practitioner_memberships_list", practitioner: @practitioner %>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div id="operation-wrapper" class="hidden">
-              <div class="operation-list">
-                <h5>Specify your working hour for each day.</h5>
-                <div>
-                  <div class="practitioner-workinghours mb-2 mb-2" id="practitioner-day1">
-                    <p id="day1" class="mr-3" style="width: 40px;">Mon: </p><p id="workinghour1"><% if @practitioner.working_hours.find_by(day: 1).opens %><%= @practitioner.working_hours.find_by(day: 1).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 1).closes.strftime('%H:%M') %><% end %></p>
-                    <button id='day1-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
-                    <button id='day1-block' class="ml-2">
-                      <% if @practitioner.working_hours.find_by(day: 1).opens %>
-                        <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 1)), remote: true, method: :delete, data: { confirm: "Are you sure to block Monday?"}, class: 'fas fa-ban' %>
-                      <% end %>
-                    </button>
-                    <%= simple_form_for([@practitioner.working_hours.find_by(day: 1)], remote: true, label: 'Mon', html: { id: :day1_form, style: 'display: none;' }) do |f| %>
-                      <p class="mb-3">Mon</p>
-                      <div class="d-flex align-items-center mb-3">
-                        <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day1_opens} %> ~
-                        <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day1_closes} %>
-                        <%= f.input :day, as: :hidden %>
-                        <button type="submit"><i class='fas fa-check'></i></button>
-                        <button id='day1-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                      </div>
-                    <% end %>
-                  </div>
-                  <div class="practitioner-workinghours mb-2" id="practitioner-day2">
-                    <p id="day2" class="mr-3" style="width: 40px;">Tue: </p><p id="workinghour2"><% if @practitioner.working_hours.find_by(day: 2).opens %><%= @practitioner.working_hours.find_by(day: 2).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 2).closes.strftime('%H:%M') %><% end %></p>
-                    <button id='day2-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
-                    <button id='day2-block' class="ml-2">
-                      <% if @practitioner.working_hours.find_by(day: 2).opens %>
-                        <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 2)), remote: true, method: :delete, data: { confirm: "Are you sure to block Tuesday?"}, class: 'fas fa-ban' %>
-                      <% end %>
-                    </button>
-                    <%= simple_form_for([@practitioner.working_hours.find_by(day: 2)], remote: true, html: { id: :day2_form, style: 'display: none;' }) do |f| %>
-                      <p class="mb-3">Tue</p>
-                      <div class="d-flex align-items-center mb-3">
-                        <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day2_opens} %> ~
-                        <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day2_closes} %>
-                        <%= f.input :day, as: :hidden %>
-                        <button type="submit"><i class='fas fa-check'></i></button>
-                        <button id='day2-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                      </div>
-                    <% end %>
-                  </div>
-                  <div class="practitioner-workinghours mb-2" id="practitioner-day3">
-                    <p id="day3" class="mr-3" style="width: 40px;">Wed: </p><p id="workinghour3"><% if @practitioner.working_hours.find_by(day: 3).opens %><%= @practitioner.working_hours.find_by(day: 3).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 3).closes.strftime('%H:%M') %><% end %></p>
-                    <button id='day3-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
-                    <button id='day3-block' class="ml-2">
-                      <% if @practitioner.working_hours.find_by(day: 3).opens %>
-                        <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 3)), remote: true, method: :delete, data: { confirm: "Are you sure to block Wednesday?"}, class: 'fas fa-ban' %>
-                      <% end %>
-                    </button>
-                    <%= simple_form_for([@practitioner.working_hours.find_by(day: 3)], remote: true, html: { id: :day3_form, style: 'display: none;' }) do |f| %>
-                      <p class="mb-3">Wed</p>
-                      <div class="d-flex align-items-center mb-3">
-                        <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day3_opens} %> ~
-                        <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day3_closes} %>
-                        <%= f.input :day, as: :hidden %>
-                        <button type="submit"><i class='fas fa-check'></i></button>
-                        <button id='day3-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                      </div>
-                    <% end %>
-                  </div>
-                  <div class="practitioner-workinghours mb-2" id="practitioner-day4">
-                    <p id="day4" class="mr-3" style="width: 40px;">Thu: </p><p id="workinghour4"><% if @practitioner.working_hours.find_by(day: 4).opens %><%= @practitioner.working_hours.find_by(day: 4).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 4).closes.strftime('%H:%M') %><% end %></p>
-                    <button id='day4-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
-                    <button id='day4-block' class="ml-2">
-                      <% if @practitioner.working_hours.find_by(day: 4).opens %>
-                        <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 4)), remote: true, method: :delete, data: { confirm: "Are you sure to block Thursday?"}, class: 'fas fa-ban' %>
-                      <% end %>
-                    </button>
-                    <%= simple_form_for([@practitioner.working_hours.find_by(day: 4)], remote: true, html: { id: :day4_form, style: 'display: none;' }) do |f| %>
-                      <p class="mb-3">Thu</p>
-                      <div class="d-flex align-items-center mb-3">
-                        <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day4_opens} %> ~
-                        <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day4_closes} %>
-                        <%= f.input :day, as: :hidden %>
-                        <button type="submit"><i class='fas fa-check'></i></button>
-                        <button id='day4-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                      </div>
-                    <% end %>
-                  </div>
-                  <div class="practitioner-workinghours mb-2" id="practitioner-day5">
-                    <p id="day5" class="mr-3" style="width: 40px;">Fri: </p><p id="workinghour5"><% if @practitioner.working_hours.find_by(day: 5).opens %><%= @practitioner.working_hours.find_by(day: 5).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 5).closes.strftime('%H:%M') %><% end %></p>
-                    <button id='day5-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
-                    <button id='day5-block' class="ml-2">
-                      <% if @practitioner.working_hours.find_by(day: 5).opens %>
-                        <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 5)), remote: true, method: :delete, data: { confirm: "Are you sure to block Friday?"}, class: 'fas fa-ban' %>
-                      <% end %>
-                    </button>
-                    <%= simple_form_for([@practitioner.working_hours.find_by(day: 5)], remote: true, html: { id: :day5_form, style: 'display: none;' }) do |f| %>
-                      <p class="mb-3">Fri</p>
-                      <div class="d-flex align-items-center mb-3">
-                        <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day5_opens} %> ~
-                        <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day5_closes} %>
-                        <%= f.input :day, as: :hidden %>
-                        <button type="submit"><i class='fas fa-check'></i></button>
-                        <button id='day5-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                      </div>
-                    <% end %>
-                  </div>
-                  <div class="practitioner-workinghours mb-2" id="practitioner-day6">
-                    <p id="day6" class="mr-3" style="width: 40px;">Sat: </p><% if @practitioner.working_hours.find_by(day: 6).opens %><p id="workinghour6"><%= @practitioner.working_hours.find_by(day: 6).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 6).closes.strftime('%H:%M') %></p><% end %></p>
-                    <button id='day6-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
-                    <button id='day6-block' class="ml-2">
-                      <% if @practitioner.working_hours.find_by(day: 6).opens %>
-                        <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 6)), remote: true, method: :delete, data: { confirm: "Are you sure to block Saturday?"}, class: 'fas fa-ban' %>
-                      <% end %>
-                    </button>
-                    <%= simple_form_for([@practitioner.working_hours.find_by(day: 6)], remote: true, html: { id: :day6_form, style: 'display: none;' }) do |f| %>
-                      <p class="mb-3">Sat</p>
-                      <div class="d-flex align-items-center mb-3">
-                        <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day6_opens} %> ~
-                        <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day6_closes} %>
-                        <%= f.input :day, as: :hidden %>
-                        <button type="submit"><i class='fas fa-check'></i></button>
-                        <button id='day6-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                      </div>
-                    <% end %>
-                  </div>
-                  <div class="practitioner-workinghours mb-2" id="practitioner-day0">
-                    <p id="day0" class="mr-3" style="width: 40px;">Sun: </p><p id="workinghour0"><% if @practitioner.working_hours.find_by(day: 0).opens %><%= @practitioner.working_hours.find_by(day: 0).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 0).closes.strftime('%H:%M') %><% end %></p>
-                    <button id='day0-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
-                    <button id='day0-block' class="ml-2">
-                      <% if @practitioner.working_hours.find_by(day: 0).opens %>
-                        <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 0)), remote: true, method: :delete, data: { confirm: "Are you sure to block Sunday?"}, class: 'fas fa-ban' %>
-                      <% end %>
-                    </button>
-                    <%= simple_form_for([@practitioner.working_hours.find_by(day: 0)], remote: true, html: { id: :day0_form, style: 'display: none;' }) do |f| %>
-                      <p class="mb-3">Sun</p>
-                      <div class="d-flex align-items-center mb-3">
-                        <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day0_opens} %> ~
-                        <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day0_closes} %>
-                        <%= f.input :day, as: :hidden %>
-                        <button type="submit"><i class='fas fa-check'></i></button>
-                        <button id='day0-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                      </div>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
-              <div class="operation-list">
-                <h5>Choose all the languages you can coduct your services.</h5>
-                <div id="practitioner-languages">
-                  <div id="languages-list">
-                    <%= render "practitioner_languages/practitioner_languages_list", practitioner: @practitioner %>
-                  </div>
-                  <% if @practitioner.languages.count < Language.count %>
-                    <button id='languages-edit' class='ml-0'><p><%= link_to '+ Add', '' %></p></button>
-                  <% end %>
-                </div>
-                <%= simple_form_for([@practitioner, @practitioner_language], remote: true, html: { id: :languages_form, style: 'display: none;' }) do |f| %>
-                  <%= render "practitioner_languages/update_form", practitioner: @practitioner, languages: @languages %>
-                <% end %>
-              </div>
-              <div class="operation-list">
-                <h5>Specify if your service accept insurance.</h5>
-                <div id="practitioner-insurance">
-                  <div class="custom-control custom-switch">
-                    <%= simple_form_for([@practitioner], remote: true, html: { id: :insurance_form, style: 'align-items: center;' }) do |f| %>
-                      <%= f.input :insurance, as: :boolean, input_html: { class: 'custom-control-input', id: 'insurance' },label: '&nbsp;'.html_safe, label_html: { class: 'custom-control-label' } %>
-                      <button type="submit" class="hidden" id="insurance-submit"></button>
-                    <% end %>
-                  </div>
-                </div>
-                <%= simple_form_for([@practitioner], remote: true, html: { id: :title_form, style: 'display: none; align-items: center;' }) do |f| %>
-                  <%= f.input :title, label: false %>
-                  <button type="submit"><i class='fas fa-check'></i></button>
-                  <button id='title-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                <% end %>
-              </div>
-              <div class="operation-list">
-                <h5>In order to perform in-person service, specify the address of location.</h5>
-                <div id="practitioner-address">
-                  <p id="address"><%= @practitioner.address %></p>
-                  <button id='address-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
-                </div>
-                <%= simple_form_for([@practitioner], remote: true, html: { id: :address_form, style: 'display: none; align-items: center;' }) do |f| %>
-                  <%= f.input :address, require: true, label: false %>
-                  <%= f.input :latitude, as: :hidden %>
-                  <%= f.input :longitude, as: :hidden %>
-                  <button type="submit"><i class='fas fa-check'></i></button>
-                  <button id='address-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                <% end %>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- <div class="practitioner-profile-info">
-          <div class="practitioner-profile-info-title">
-            <p>Social Media Links</p>
-          </div>
-          <div class="practitioner-profile-info-body" style="flex-wrap: wrap;">
-            <div id="practitioner-sociallinks">
-              <div id="sociallinks-list" class="mb-2">
-                <%#= render "practitioner_social_links/practitioner_social_links_list", practitioner: @practitioner %>
-              </div>
-              <button id='sociallinks-edit' class='ml-0'><p><%#= link_to '+ Add', '' %></p></button>
-            </div>
-            <%#= simple_form_for([@practitioner, @practitioner_social_link], remote: true, html: { id: :sociallinks_form, style: 'display: none; align-items: center;' }) do |f| %>
-              <%#= f.input :media_type, label: false, collection: $media_types, as: :select %>
-              <%#= f.input :url, label: false %>
-              <button type="submit"><i class='fas fa-check'></i></button>
-              <button id='sociallinks-cancel'><%#= link_to '', '', class: 'fas fa-times' %></button>
-            <%# end %>
-          </div>
-        </div> -->
-      </div>
-      <div class="lists">
-        <div class="practitioner-profile-info">
-          <div class="practitioner-profile-info-title">
-            <h5 class="personal-tab personal-active-tab" id="personal-basic">Basic Info</h5>
-            <div class="personal-list">
-              <p class="personal-basic-tab personal-basic-active-tab">Name</p>
-              <p class="personal-basic-tab">Phone number</p>
-            </div>
-            <h5 class="personal-tab" id="personal-additional">Additional Info</h5>
-            <div class="personal-list">
-              <p class="personal-additional-tab personal-additional-active-tab">Health Goals</p>
-              <!-- <p class="personal-additional-tab">Newsletter</p> -->
-            </div>
-          </div>
-          <div class="practitioner-profile-info-body">
-            <div id="personal-basic-wrapper">
-              <div class="personal-basic-list">
-                <h5>Edit your name.</h5>
-                <div id="practitioner-name">
-                  <p id="name"><%= current_user.full_name %></p>
-                  <button id='name-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
-                </div>
-                <%= render 'devise/registrations/name_form', resource: current_user %>
-              </div>
-              <div class="personal-basic-list">
-                <h5>Edit your phone number.</h5>
-                <div id="practitioner-phone">
-                  <p id="phone"><%= current_user.phone_number %></p>
-                  <button id='phone-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
-                </div>
-                <%= render 'devise/registrations/phone_form', resource: current_user %>
-              </div>
-            </div>
-            <div id="personal-additional-wrapper" class="hidden">
-              <div class="personal-additional-list">
-                <h5>Add health goals you are interested as service user.</h5>
-                <div id="practitioner-healthgoals">
-                  <div id="health-goals-list">
-                    <%= render "user_health_goals/user_health_goals_list", user: @user %>
-                  </div>
-                  <% if @user.health_goals.count < HealthGoal.count %>
-                    <button id='healthgoals-edit' class='ml-0'><p><%= link_to '+ Add', '' %></p></button>
-                  <% end %>
-                </div>
-                <%= simple_form_for([@user, @health_goal], remote: true, html: { id: :healthgoals_form, style: 'display: none;' }) do |f| %>
-                  <%= render "user_health_goals/update_form", user: @user, health_goals: @health_goals %>
-                <% end %>
-              </div>
-              <!-- <div class="personal-additional-list">
-                <h5>Subsribe to our newsletter for more info.</h5>
-                <div id="practitioner-newsletter">
-                  <%#= render "newsletters/newsletter_form", user: @user, practitioner: @practitioner, newsletter: @newsletter %>
-                </div>
-              </div> -->
-            </div>
-          </div>
-        </div>
+<% if (@practitioner.payment_status == 'paid') && (@practitioner.background_check_consent) && (@practitioner.background_check_status == "completed") && (@practitioner.agreement_status == "completed") %>
+  <% provide :head_tags do %>
+    <meta name='turbolinks-visit-control' content='reload'>
+    <script>
+      document.addEventListener("DOMContentLoaded", function(){
+        initAutocomplete()
+      });
+    </script>
+  <% end %>
+  <div class="container practitioner-profile">
+    <div class="practitioner-profile-title">
+      <h1>Welcome, <%= @practitioner.user.first_name %></h1>
+      <div class="practitioner-profile-btn">
+        <%= link_to 'Reset password', '', data: { toggle: "modal", target: "#passwordModal" }, class: 'btn btn-ghost mr-3' %>
+        <%= link_to 'Go to my page', practitioner_path(@practitioner), class: 'btn btn-flat' %>
       </div>
     </div>
-  </div>
-</div>
-<div class="modal fade" id="profilePictureModal" tabindex="-1" role="dialog" aria-labelledby="profilePictureModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-photo" role="document">
-    <div class="modal-content">
-      <div class="modal-header justify-content-center">
-        <h5 class="modal-title" id="profilePictureModalLabel">Crop profile photo</h5>
-        <button data-dismiss="modal" aria-label="Close" style="display: none;" id="close-modal">
-        </button>
-      </div>
-      <div class="modal-body text-center">
-        <%= simple_form_for(current_user, url: registration_path(current_user)) do |f| %>
-          <div class="row">
-            <div class="col-10 offset-1 p-0">
-              <%= f.input :photo, as: :file, input_html: { class: 'hidden', id: 'photo-input' }, label_html: { class: 'upload-photo'}, label: '📷 Upload A Profile Photo' %>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-5 offset-1 p-0">
-              <canvas id="canvas" style="width: 100%; height: 55vh;"></canvas>
-            </div>
-            <div class="col-4 offset-1 p-0">
-              <div id="photo-preview"></div>
-            </div>
-          </div>
-          <div class="d-flex justify-content-around mt-4">
-            <%= link_to 'Reset', '', class: 'btn btn-ghost', id: 'btnReset'  %>
-            <%= link_to 'Crop', '', class: 'btn btn-ghost', id: 'btnCrop' %>
-            <%= f.button :submit, "Upload", class: 'btn-flat', id: 'btnUpload', disabled: true %>
-          </div>
+    <div class="practitioner-profile-table">
+      <div class="practitioner-profile-img">
+        <% if @practitioner.user.photo.attached? %>
+          <%= image_tag @practitioner.user.photo, class: 'avatar-full' %>
+        <% else %>
+          <%= image_tag("profile", class: 'avatar-full') %>
         <% end %>
+        <%= link_to '📷 Profile photo', '', data: { toggle: "modal", target: "#profilePictureModal" }, class: 'btn btn-ghost mt-4 w-100' %>
+        <%= link_to '📷 Banner image', '', data: { toggle: "modal", target: "#bannerImageModal" }, class: 'btn btn-ghost mt-4 w-100' %>
+      </div>
+      <div class="practitioner-profile-infos">
+        <ul class="list-inline tabs-underlined">
+          <li>
+            <p class="tab-underlined active-tab">Practitioner Profile</p>
+          </li>
+          <li>
+            <p class="tab-underlined">Personal Profile</p>
+          </li>
+        </ul>
+        <div class="lists">
+          <div class="practitioner-profile-info">
+            <div class="practitioner-profile-info-title">
+              <h5 class="infos-tab infos-active-tab" id="basic-info">Basic Info</h5>
+              <div class="infos-list">
+                <p class="basic-info-tab basic-info-active-tab">My Title</p>
+                <p class="basic-info-tab">Country of Residence</p>
+                <p class="basic-info-tab">Location</p>
+                <p class="basic-info-tab">Time Zone</p>
+              </div>
+              <h5 class="infos-tab" id="biography">Biography</h5>
+              <div class="infos-list">
+                <p class="biography-tab biography-active-tab">About Me</p>
+                <p class="biography-tab">My Healing Approach</p>
+                <p class="biography-tab">Video Link</p>
+              </div>
+              <h5 class="infos-tab" id="credentials">Credentials & Specialities</h5>
+              <div class="infos-list">
+                <p class="credentials-tab credentials-active-tab">Specialities</p>
+                <p class="credentials-tab">Experience</p>
+                <p class="credentials-tab">Education & Certification</p>
+                <p class="credentials-tab">Professional Membership</p>
+              </div>
+              <h5 class="infos-tab" id="operation">Operation</h5>
+              <div class="infos-list">
+                <p class="operation-tab operation-active-tab">Working Hours</p>
+                <p class="operation-tab">Languages</p>
+                <p class="operation-tab">Insurance Acceptance</p>
+                <p class="operation-tab">Physical Address</p>
+              </div>
+            </div>
+            <div class="practitioner-profile-info-body">
+              <div id="basic-info-wrapper">
+                <div class="basic-info-list">
+                  <h5>Create a unique title which explains your profession.</h5>
+                  <div id="practitioner-title">
+                    <p id="title"><%= @practitioner.title %></p>
+                    <button id='title-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+                  </div>
+                  <%= simple_form_for([@practitioner], remote: true, html: { id: :title_form, style: 'display: none; align-items: center;' }) do |f| %>
+                    <%= f.input :title, label: false %>
+                    <button type="submit"><i class='fas fa-check'></i></button>
+                    <button id='title-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                  <% end %>
+                </div>
+                <div class="basic-info-list">
+                  <h5>Choose a country where you reside and conduct services.</h5>
+                  <div id="practitioner-country">
+                    <p id="country"><%= @practitioner.country_name %></p>
+                    <button id='country-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+                  </div>
+                  <%= simple_form_for([@practitioner], remote: true, html: { id: :country_form, style: 'display: none; align-items: center;' }) do |f| %>
+                    <%= f.country_select :country_code, { priority_countries: ["CA", "US"] }, { class: 'form-control select required w-50  is-valid' } %>
+                    <button type="submit"><i class='fas fa-check'></i></button>
+                    <button id='country-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                  <% end %>
+                </div>
+                <div class="basic-info-list">
+                  <h5>Please specify a city/town where you reside and conduct services.</h5>
+                  <div id="practitioner-city">
+                    <p id="city"><%= @practitioner.location %></p>
+                    <button id='city-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+                  </div>
+                  <%= simple_form_for([@practitioner], remote: true, html: { id: :city_form, style: 'display: none; align-items: center;' }) do |f| %>
+                    <%= f.input :location, require: true, label: false %>
+                    <button type="submit"><i class='fas fa-check'></i></button>
+                    <button id='city-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                  <% end %>
+                </div>
+                <div class="basic-info-list">
+                  <h5>Choose a time zone where you conduct services.</h5>
+                  <div id="practitioner-timezone">
+                    <p id="timezone"><%= @practitioner.timezone %></p>
+                    <button id='timezone-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+                  </div>
+                  <%= simple_form_for([@practitioner], remote: true, html: { id: :timezone_form, style: 'display: none; align-items: center;' }) do |f| %>
+                    <%= f.input :timezone, label: false, as: :select do %>
+                      <%= f.select :timezone, @practitioner.timezone_choice.map { |zone| [zone[1], zone[0]] },  {include_blank: 'Select a time zone'}, {class: 'form-control select optional' } %>
+                    <% end %>
+                    <button type="submit"><i class='fas fa-check'></i></button>
+                    <button id='timezone-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                  <% end %>
+                </div>
+              </div>
+              <div id="biography-wrapper" class="hidden">
+                <div class="biography-list">
+                  <h5>Tell us about yourself.</h5>
+                  <div id="practitioner-bio">
+                    <div class="div">
+                      <p id="bio"><% if @practitioner.bio %><%= @practitioner.bio.gsub(/\n/, '<br/>').html_safe %><% end %></p>
+                    </div>
+                    <button id='bio-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+                  </div>
+                  <%= simple_form_for([@practitioner], remote: true, html: { id: :bio_form, style: 'display: none; align-items: center;' }) do |f| %>
+                    <div>
+                      <%= f.input :bio, require: true, label: false, input_html: { cols: 60, rows: 10, maxlength: 1000 } %>
+                      <p id="bio-counter" <% if @practitioner.bio %><% if @practitioner.bio.gsub(/\n/, '<br/>').html_safe.length == 1000 %>style="color: red;"<% end %>><%= @practitioner.bio.gsub(/\n/, '<br/>').html_safe.length %><% end %>/1000</p>
+                    </div>
+                    <button type="submit"><i class='fas fa-check'></i></button>
+                    <button id='bio-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                  <% end %>
+                </div>
+                <div class="biography-list">
+                  <h5>Tell us about your healing approach.</h5>
+                  <div id="practitioner-approach">
+                    <p id="approach"><% if @practitioner.approach %><%= @practitioner.approach.gsub(/\n/, '<br/>').html_safe %><% end %></p>
+                    <button id='approach-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+                  </div>
+                  <%= simple_form_for([@practitioner], remote: true, html: { id: :approach_form, style: 'display: none; align-items: center;' }) do |f| %>
+                    <div>
+                      <%= f.input :approach, require: true, label: false, input_html: { cols: 60, rows: 10, maxlength: 1000 } %>
+                      <p id="approach-counter"<% if @practitioner.approach %><% if @practitioner.approach.gsub(/\n/, '<br/>').html_safe.length == 1000 %>style="color: red;"<% end %>><%= @practitioner.approach.gsub(/\n/, '<br/>').html_safe.length %><% end %>/1000</p>
+                    </div>
+                    <button type="submit"><i class='fas fa-check'></i></button>
+                    <button id='approach-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                  <% end %>
+                </div>
+                <div class="biography-list">
+                  <h5>Share your video link.</h5>
+                  <div id="practitioner-video">
+                    <div class="embed-responsive embed-responsive-16by9" id="video">
+                      <iframe class="embed-responsive-item" src="<%= @practitioner.video %>" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <button id='video-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+                  </div>
+                  <%= simple_form_for([@practitioner], remote: true, html: { id: :video_form, style: 'display: none; align-items: center;' }) do |f| %>
+                    <%= f.input :video, require: true, label: false %>
+                    <button type="submit"><i class='fas fa-check'></i></button>
+                    <button id='video-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                  <% end %>
+                </div>
+              </div>
+              <div id="credentials-wrapper" class="hidden">
+                <div class="credentials-list">
+                  <h5>Choose all the specialities for your services.</h5>
+                  <div id="practitioner-specialties">
+                    <div id="specialties-list">
+                      <%= render "practitioner_specialties/practitioner_specialties_list", practitioner: @practitioner %>
+                    </div>
+                    <% if @practitioner.specialties.count < Specialty.count %>
+                      <button id='specialties-edit' class='ml-0'><p><%= link_to '+ Add', '' %></p></button>
+                    <% end %>
+                  </div>
+                  <%= simple_form_for([@practitioner, @practitioner_specialty], remote: true, html: { id: :specialties_form, style: 'display: none;' }) do |f| %>
+                    <%= render "practitioner_specialties/update_form", practitioner: @practitioner, specialties: @specialties %>
+                  <% end %>
+                </div>
+                <div class="credentials-list">
+                  <h5>Choose your years of experience as a practitioner.</h5>
+                  <div id="practitioner-experience">
+                    <p id="experience"><%= @practitioner.experience %></p>
+                    <button id='experience-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+                  </div>
+                  <%= simple_form_for([@practitioner], remote: true, html: { id: :experience_form, style: 'display: none; align-items: center;' }) do |f| %>
+                    <%= f.input :experience, collection: ['Less than 1 year', '2-5 years', '5-10 years', 'More than 10 years'], as: :select, require: true, label: false %>
+                    <button type="submit"><i class='fas fa-check'></i></button>
+                    <button id='experience-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                  <% end %>
+                </div>
+                <div class="credentials-list">
+                  <h5>Specify All Your Education & Certification.</h5>
+                  <button id='certifications-edit' class='ml-0 mb-3'><p><%= link_to '+ Add', '' %></p></button>
+                  <%= simple_form_for([@practitioner, @practitioner_certification], remote: true, html: { id: :certifications_form, style: 'display: none; align-items: center;' }) do |f| %>
+                    <%= f.input :certification_type, label: false, collection: $certification_types, as: :select %>
+                    <%= f.input :name, label: false %>
+                    <button type="submit"><i class='fas fa-check'></i></button>
+                    <button id='certifications-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                  <% end %>
+                  <div id="practitioner-certifications">
+                    <div id="certifications-list">
+                      <%= render "practitioner_certifications/practitioner_certifications_list", practitioner: @practitioner %>
+                    </div>
+                  </div>
+                </div>
+                <div class="credentials-list">
+                  <h5>Specify All Your Professional Membership.</h5>
+                  <button id='memberships-edit' class='ml-0 mb-3'><p><%= link_to '+ Add', '' %></p></button>
+                  <%= simple_form_for([@practitioner, @practitioner_membership], remote: true, html: { id: :memberships_form, style: 'display: none; align-items: center;' }) do |f| %>
+                    <%= f.input :name, label: false %>
+                    <button type="submit"><i class='fas fa-check'></i></button>
+                    <button id='memberships-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                  <% end %>
+                  <div id="practitioner-memberships">
+                    <div id="memberships-list">
+                      <%= render "practitioner_memberships/practitioner_memberships_list", practitioner: @practitioner %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="operation-wrapper" class="hidden">
+                <div class="operation-list">
+                  <h5>Specify your working hour for each day.</h5>
+                  <div>
+                    <div class="practitioner-workinghours mb-2 mb-2" id="practitioner-day1">
+                      <p id="day1" class="mr-3" style="width: 40px;">Mon: </p><p id="workinghour1"><% if @practitioner.working_hours.find_by(day: 1).opens %><%= @practitioner.working_hours.find_by(day: 1).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 1).closes.strftime('%H:%M') %><% end %></p>
+                      <button id='day1-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
+                      <button id='day1-block' class="ml-2">
+                        <% if @practitioner.working_hours.find_by(day: 1).opens %>
+                          <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 1)), remote: true, method: :delete, data: { confirm: "Are you sure to block Monday?"}, class: 'fas fa-ban' %>
+                        <% end %>
+                      </button>
+                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 1)], remote: true, label: 'Mon', html: { id: :day1_form, style: 'display: none;' }) do |f| %>
+                        <p class="mb-3">Mon</p>
+                        <div class="d-flex align-items-center mb-3">
+                          <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day1_opens} %> ~
+                          <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day1_closes} %>
+                          <%= f.input :day, as: :hidden %>
+                          <button type="submit"><i class='fas fa-check'></i></button>
+                          <button id='day1-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                        </div>
+                      <% end %>
+                    </div>
+                    <div class="practitioner-workinghours mb-2" id="practitioner-day2">
+                      <p id="day2" class="mr-3" style="width: 40px;">Tue: </p><p id="workinghour2"><% if @practitioner.working_hours.find_by(day: 2).opens %><%= @practitioner.working_hours.find_by(day: 2).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 2).closes.strftime('%H:%M') %><% end %></p>
+                      <button id='day2-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
+                      <button id='day2-block' class="ml-2">
+                        <% if @practitioner.working_hours.find_by(day: 2).opens %>
+                          <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 2)), remote: true, method: :delete, data: { confirm: "Are you sure to block Tuesday?"}, class: 'fas fa-ban' %>
+                        <% end %>
+                      </button>
+                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 2)], remote: true, html: { id: :day2_form, style: 'display: none;' }) do |f| %>
+                        <p class="mb-3">Tue</p>
+                        <div class="d-flex align-items-center mb-3">
+                          <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day2_opens} %> ~
+                          <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day2_closes} %>
+                          <%= f.input :day, as: :hidden %>
+                          <button type="submit"><i class='fas fa-check'></i></button>
+                          <button id='day2-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                        </div>
+                      <% end %>
+                    </div>
+                    <div class="practitioner-workinghours mb-2" id="practitioner-day3">
+                      <p id="day3" class="mr-3" style="width: 40px;">Wed: </p><p id="workinghour3"><% if @practitioner.working_hours.find_by(day: 3).opens %><%= @practitioner.working_hours.find_by(day: 3).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 3).closes.strftime('%H:%M') %><% end %></p>
+                      <button id='day3-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
+                      <button id='day3-block' class="ml-2">
+                        <% if @practitioner.working_hours.find_by(day: 3).opens %>
+                          <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 3)), remote: true, method: :delete, data: { confirm: "Are you sure to block Wednesday?"}, class: 'fas fa-ban' %>
+                        <% end %>
+                      </button>
+                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 3)], remote: true, html: { id: :day3_form, style: 'display: none;' }) do |f| %>
+                        <p class="mb-3">Wed</p>
+                        <div class="d-flex align-items-center mb-3">
+                          <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day3_opens} %> ~
+                          <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day3_closes} %>
+                          <%= f.input :day, as: :hidden %>
+                          <button type="submit"><i class='fas fa-check'></i></button>
+                          <button id='day3-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                        </div>
+                      <% end %>
+                    </div>
+                    <div class="practitioner-workinghours mb-2" id="practitioner-day4">
+                      <p id="day4" class="mr-3" style="width: 40px;">Thu: </p><p id="workinghour4"><% if @practitioner.working_hours.find_by(day: 4).opens %><%= @practitioner.working_hours.find_by(day: 4).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 4).closes.strftime('%H:%M') %><% end %></p>
+                      <button id='day4-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
+                      <button id='day4-block' class="ml-2">
+                        <% if @practitioner.working_hours.find_by(day: 4).opens %>
+                          <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 4)), remote: true, method: :delete, data: { confirm: "Are you sure to block Thursday?"}, class: 'fas fa-ban' %>
+                        <% end %>
+                      </button>
+                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 4)], remote: true, html: { id: :day4_form, style: 'display: none;' }) do |f| %>
+                        <p class="mb-3">Thu</p>
+                        <div class="d-flex align-items-center mb-3">
+                          <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day4_opens} %> ~
+                          <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day4_closes} %>
+                          <%= f.input :day, as: :hidden %>
+                          <button type="submit"><i class='fas fa-check'></i></button>
+                          <button id='day4-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                        </div>
+                      <% end %>
+                    </div>
+                    <div class="practitioner-workinghours mb-2" id="practitioner-day5">
+                      <p id="day5" class="mr-3" style="width: 40px;">Fri: </p><p id="workinghour5"><% if @practitioner.working_hours.find_by(day: 5).opens %><%= @practitioner.working_hours.find_by(day: 5).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 5).closes.strftime('%H:%M') %><% end %></p>
+                      <button id='day5-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
+                      <button id='day5-block' class="ml-2">
+                        <% if @practitioner.working_hours.find_by(day: 5).opens %>
+                          <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 5)), remote: true, method: :delete, data: { confirm: "Are you sure to block Friday?"}, class: 'fas fa-ban' %>
+                        <% end %>
+                      </button>
+                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 5)], remote: true, html: { id: :day5_form, style: 'display: none;' }) do |f| %>
+                        <p class="mb-3">Fri</p>
+                        <div class="d-flex align-items-center mb-3">
+                          <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day5_opens} %> ~
+                          <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day5_closes} %>
+                          <%= f.input :day, as: :hidden %>
+                          <button type="submit"><i class='fas fa-check'></i></button>
+                          <button id='day5-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                        </div>
+                      <% end %>
+                    </div>
+                    <div class="practitioner-workinghours mb-2" id="practitioner-day6">
+                      <p id="day6" class="mr-3" style="width: 40px;">Sat: </p><% if @practitioner.working_hours.find_by(day: 6).opens %><p id="workinghour6"><%= @practitioner.working_hours.find_by(day: 6).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 6).closes.strftime('%H:%M') %></p><% end %></p>
+                      <button id='day6-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
+                      <button id='day6-block' class="ml-2">
+                        <% if @practitioner.working_hours.find_by(day: 6).opens %>
+                          <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 6)), remote: true, method: :delete, data: { confirm: "Are you sure to block Saturday?"}, class: 'fas fa-ban' %>
+                        <% end %>
+                      </button>
+                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 6)], remote: true, html: { id: :day6_form, style: 'display: none;' }) do |f| %>
+                        <p class="mb-3">Sat</p>
+                        <div class="d-flex align-items-center mb-3">
+                          <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day6_opens} %> ~
+                          <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day6_closes} %>
+                          <%= f.input :day, as: :hidden %>
+                          <button type="submit"><i class='fas fa-check'></i></button>
+                          <button id='day6-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                        </div>
+                      <% end %>
+                    </div>
+                    <div class="practitioner-workinghours mb-2" id="practitioner-day0">
+                      <p id="day0" class="mr-3" style="width: 40px;">Sun: </p><p id="workinghour0"><% if @practitioner.working_hours.find_by(day: 0).opens %><%= @practitioner.working_hours.find_by(day: 0).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 0).closes.strftime('%H:%M') %><% end %></p>
+                      <button id='day0-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
+                      <button id='day0-block' class="ml-2">
+                        <% if @practitioner.working_hours.find_by(day: 0).opens %>
+                          <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 0)), remote: true, method: :delete, data: { confirm: "Are you sure to block Sunday?"}, class: 'fas fa-ban' %>
+                        <% end %>
+                      </button>
+                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 0)], remote: true, html: { id: :day0_form, style: 'display: none;' }) do |f| %>
+                        <p class="mb-3">Sun</p>
+                        <div class="d-flex align-items-center mb-3">
+                          <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day0_opens} %> ~
+                          <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day0_closes} %>
+                          <%= f.input :day, as: :hidden %>
+                          <button type="submit"><i class='fas fa-check'></i></button>
+                          <button id='day0-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+                <div class="operation-list">
+                  <h5>Choose all the languages you can coduct your services.</h5>
+                  <div id="practitioner-languages">
+                    <div id="languages-list">
+                      <%= render "practitioner_languages/practitioner_languages_list", practitioner: @practitioner %>
+                    </div>
+                    <% if @practitioner.languages.count < Language.count %>
+                      <button id='languages-edit' class='ml-0'><p><%= link_to '+ Add', '' %></p></button>
+                    <% end %>
+                  </div>
+                  <%= simple_form_for([@practitioner, @practitioner_language], remote: true, html: { id: :languages_form, style: 'display: none;' }) do |f| %>
+                    <%= render "practitioner_languages/update_form", practitioner: @practitioner, languages: @languages %>
+                  <% end %>
+                </div>
+                <div class="operation-list">
+                  <h5>Specify if your service accept insurance.</h5>
+                  <div id="practitioner-insurance">
+                    <div class="custom-control custom-switch">
+                      <%= simple_form_for([@practitioner], remote: true, html: { id: :insurance_form, style: 'align-items: center;' }) do |f| %>
+                        <%= f.input :insurance, as: :boolean, input_html: { class: 'custom-control-input', id: 'insurance' },label: '&nbsp;'.html_safe, label_html: { class: 'custom-control-label' } %>
+                        <button type="submit" class="hidden" id="insurance-submit"></button>
+                      <% end %>
+                    </div>
+                  </div>
+                  <%= simple_form_for([@practitioner], remote: true, html: { id: :title_form, style: 'display: none; align-items: center;' }) do |f| %>
+                    <%= f.input :title, label: false %>
+                    <button type="submit"><i class='fas fa-check'></i></button>
+                    <button id='title-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                  <% end %>
+                </div>
+                <div class="operation-list">
+                  <h5>In order to perform in-person service, specify the address of location.</h5>
+                  <div id="practitioner-address">
+                    <p id="address"><%= @practitioner.address %></p>
+                    <button id='address-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+                  </div>
+                  <%= simple_form_for([@practitioner], remote: true, html: { id: :address_form, style: 'display: none; align-items: center;' }) do |f| %>
+                    <%= f.input :address, require: true, label: false %>
+                    <%= f.input :latitude, as: :hidden %>
+                    <%= f.input :longitude, as: :hidden %>
+                    <button type="submit"><i class='fas fa-check'></i></button>
+                    <button id='address-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="practitioner-profile-info">
+            <div class="practitioner-profile-info-title">
+              <p>Social Media Links</p>
+            </div>
+            <div class="practitioner-profile-info-body" style="flex-wrap: wrap;">
+              <div id="practitioner-sociallinks">
+                <div id="sociallinks-list" class="mb-2">
+                  <%#= render "practitioner_social_links/practitioner_social_links_list", practitioner: @practitioner %>
+                </div>
+                <button id='sociallinks-edit' class='ml-0'><p><%#= link_to '+ Add', '' %></p></button>
+              </div>
+              <%#= simple_form_for([@practitioner, @practitioner_social_link], remote: true, html: { id: :sociallinks_form, style: 'display: none; align-items: center;' }) do |f| %>
+                <%#= f.input :media_type, label: false, collection: $media_types, as: :select %>
+                <%#= f.input :url, label: false %>
+                <button type="submit"><i class='fas fa-check'></i></button>
+                <button id='sociallinks-cancel'><%#= link_to '', '', class: 'fas fa-times' %></button>
+              <%# end %>
+            </div>
+          </div> -->
+        </div>
+        <div class="lists">
+          <div class="practitioner-profile-info">
+            <div class="practitioner-profile-info-title">
+              <h5 class="personal-tab personal-active-tab" id="personal-basic">Basic Info</h5>
+              <div class="personal-list">
+                <p class="personal-basic-tab personal-basic-active-tab">Name</p>
+                <p class="personal-basic-tab">Phone number</p>
+              </div>
+              <h5 class="personal-tab" id="personal-additional">Additional Info</h5>
+              <div class="personal-list">
+                <p class="personal-additional-tab personal-additional-active-tab">Health Goals</p>
+                <!-- <p class="personal-additional-tab">Newsletter</p> -->
+              </div>
+            </div>
+            <div class="practitioner-profile-info-body">
+              <div id="personal-basic-wrapper">
+                <div class="personal-basic-list">
+                  <h5>Edit your name.</h5>
+                  <div id="practitioner-name">
+                    <p id="name"><%= current_user.full_name %></p>
+                    <button id='name-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+                  </div>
+                  <%= render 'devise/registrations/name_form', resource: current_user %>
+                </div>
+                <div class="personal-basic-list">
+                  <h5>Edit your phone number.</h5>
+                  <div id="practitioner-phone">
+                    <p id="phone"><%= current_user.phone_number %></p>
+                    <button id='phone-edit'><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+                  </div>
+                  <%= render 'devise/registrations/phone_form', resource: current_user %>
+                </div>
+              </div>
+              <div id="personal-additional-wrapper" class="hidden">
+                <div class="personal-additional-list">
+                  <h5>Add health goals you are interested as service user.</h5>
+                  <div id="practitioner-healthgoals">
+                    <div id="health-goals-list">
+                      <%= render "user_health_goals/user_health_goals_list", user: @user %>
+                    </div>
+                    <% if @user.health_goals.count < HealthGoal.count %>
+                      <button id='healthgoals-edit' class='ml-0'><p><%= link_to '+ Add', '' %></p></button>
+                    <% end %>
+                  </div>
+                  <%= simple_form_for([@user, @health_goal], remote: true, html: { id: :healthgoals_form, style: 'display: none;' }) do |f| %>
+                    <%= render "user_health_goals/update_form", user: @user, health_goals: @health_goals %>
+                  <% end %>
+                </div>
+                <!-- <div class="personal-additional-list">
+                  <h5>Subsribe to our newsletter for more info.</h5>
+                  <div id="practitioner-newsletter">
+                    <%#= render "newsletters/newsletter_form", user: @user, practitioner: @practitioner, newsletter: @newsletter %>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
-  <%= render 'devise/registrations/password_form', resource: current_user %>
-</div>
-<div class="modal fade" id="bannerImageModal" tabindex="-1" role="dialog" aria-labelledby="bannerImageModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-photo" role="document">
-    <div class="modal-content">
-      <div class="modal-header justify-content-center">
-        <h5 class="modal-title" id="bannerImageModalLabel">Upload banner image</h5>
-        <button data-dismiss="modal" aria-label="Close" style="display: none;" id="close-modal">
-        </button>
+  <div class="modal fade" id="profilePictureModal" tabindex="-1" role="dialog" aria-labelledby="profilePictureModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-photo" role="document">
+      <div class="modal-content">
+        <div class="modal-header justify-content-center">
+          <h5 class="modal-title" id="profilePictureModalLabel">Crop profile photo</h5>
+          <button data-dismiss="modal" aria-label="Close" style="display: none;" id="close-modal">
+          </button>
+        </div>
+        <div class="modal-body text-center">
+          <%= simple_form_for(current_user, url: registration_path(current_user)) do |f| %>
+            <div class="row">
+              <div class="col-10 offset-1 p-0">
+                <%= f.input :photo, as: :file, input_html: { class: 'hidden', id: 'photo-input' }, label_html: { class: 'upload-photo'}, label: '📷 Upload A Profile Photo' %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-5 offset-1 p-0">
+                <canvas id="canvas" style="width: 100%; height: 55vh;"></canvas>
+              </div>
+              <div class="col-4 offset-1 p-0">
+                <div id="photo-preview"></div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-around mt-4">
+              <%= link_to 'Reset', '', class: 'btn btn-ghost', id: 'btnReset'  %>
+              <%= link_to 'Crop', '', class: 'btn btn-ghost', id: 'btnCrop' %>
+              <%= f.button :submit, "Upload", class: 'btn-flat', id: 'btnUpload', disabled: true %>
+            </div>
+          <% end %>
+        </div>
       </div>
-      <div class="modal-body text-center">
+    </div>
+  </div>
+  <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
+    <%= render 'devise/registrations/password_form', resource: current_user %>
+  </div>
+  <div class="modal fade" id="bannerImageModal" tabindex="-1" role="dialog" aria-labelledby="bannerImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-photo" role="document">
+      <div class="modal-content">
+        <div class="modal-header justify-content-center">
+          <h5 class="modal-title" id="bannerImageModalLabel">Upload banner image</h5>
+          <button data-dismiss="modal" aria-label="Close" style="display: none;" id="close-modal">
+          </button>
+        </div>
+        <div class="modal-body text-center">
 
-        <%= simple_form_for([@practitioner]) do |f| %>
-          <div class="row">
-            <div class="col-10 offset-1 p-0">
-              <%= f.input :banner_image, as: :file, input_html: { class: 'hidden', id: 'banner-input' }, label_html: { class: 'upload-photo'}, label: '📷 Upload A Banner Photo' %>
+          <%= simple_form_for([@practitioner]) do |f| %>
+            <div class="row">
+              <div class="col-10 offset-1 p-0">
+                <%= f.input :banner_image, as: :file, input_html: { class: 'hidden', id: 'banner-input' }, label_html: { class: 'upload-photo'}, label: '📷 Upload A Banner Photo' %>
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-8 offset-2 p-0">
-              <canvas id="banner-canvas" style="width: 675px; height: 232px;"></canvas>
+            <div class="row">
+              <div class="col-8 offset-2 p-0">
+                <canvas id="banner-canvas" style="width: 675px; height: 232px;"></canvas>
+              </div>
             </div>
-          </div>
-          <div class="d-flex justify-content-around mt-4">
-            <%= f.button :submit, "Upload", class: 'btn-flat', id: 'btnBannerUpload', disabled: true %>
-          </div>
-        <% end %>
+            <div class="d-flex justify-content-around mt-4">
+              <%= f.button :submit, "Upload", class: 'btn-flat', id: 'btnBannerUpload', disabled: true %>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<script>
-  <% @columns.each do |column| %>
-    const <%= column %> = document.getElementById('practitioner-<%= column %>');
-    const <%= column %>Form = document.getElementById('<%= column %>_form');
-    const <%= column %>Edit = document.getElementById('<%= column %>-edit');
-    const <%= column %>Cancel = document.getElementById('<%= column %>-cancel');
-    <%= column %>Edit.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (<%= column %> !== document.getElementById('practitioner-certifications') && <%= column %> !== document.getElementById('practitioner-memberships')) {
-        <%= column %>.style.display = 'none';
-      }
-      <%= column %>Form.style.display = 'flex';
-      <%= column %>Edit.style.display = 'none';
-    })
-    <%= column %>Cancel.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (<%= column %> === document.getElementById('practitioner-certifications') || <%= column %> === document.getElementById('practitioner-memberships') || <%= column %> === document.getElementById('practitioner-languages') || <%= column %> === document.getElementById('practitioner-specialties') || <%= column %> === document.getElementById('practitioner-healthgoals')) {
-        <%= column %>.style.display = 'block';
-      } else {
-        <%= column %>.style.display = 'flex';
-      }
-      <%= column %>Form.style.display = 'none';
-      <%= column %>Edit.style.display = 'block';
-    })
-  <% end %>
-  const insurance = document.getElementById('insurance');
-  const insuranceSubmit = document.getElementById('insurance-submit');
-  insurance.addEventListener('click', (e) => {
-    insuranceSubmit.click();
-  })
-  <% (0..6).each do |num| %>
-    const day<%= num %> = document.getElementById('day<%= num %>');
-    const day<%= num %>Form = document.getElementById('day<%= num %>_form');
-    const day<%= num %>Edit = document.getElementById('day<%= num %>-edit');
-    const day<%= num %>Cancel = document.getElementById('day<%= num %>-cancel');
-    const workinghour<%= num %> = document.getElementById('workinghour<%= num %>');
-    const day<%= num %>Block = document.getElementById('day<%= num %>-block');
-    day<%= num %>Edit.addEventListener('click', (e) => {
-      e.preventDefault();
-      day<%= num %>.style.display = 'none';
-      day<%= num %>Form.style.display = 'block';
-      day<%= num %>Edit.style.display = 'none';
-      workinghour<%= num %>.style.display = 'none';
-      day<%= num %>Block.style.display = 'none';
-    })
-    day<%= num %>Cancel.addEventListener('click', (e) => {
-      e.preventDefault();
-      day<%= num %>.style.display = 'flex';
-      day<%= num %>Form.style.display = 'none';
-      day<%= num %>Edit.style.display = 'block';
-      workinghour<%= num %>.style.display = 'block';
-      day<%= num %>Block.style.display = 'block';
-    })
-  <% end %>
-  function initAutocomplete() {
-    var input = document.getElementById('practitioner_address');
-    var input1 = document.getElementById('practitioner_location')
-    var options = {
-      types:  ['address'],
-      componentRestrictions: { country: '<%= @practitioner.country_code %>' }
-    };
-    var options1 = {
-      types: ['(cities)'],
-      componentRestrictions: { country: '<%= @practitioner.country_code %>' }
-    }
-    var autocomplete = new google.maps.places.Autocomplete(input, options);
-    var autocomplete1 = new google.maps.places.Autocomplete(input1, options1);
-    autocomplete.setFields(['geometry', 'name']);
-    autocomplete1.setFields(['geometry', 'name']);
-    function fillInForm() {
-      var place = autocomplete.getPlace();
-      if (!place.geometry) {
-        // User entered the name of a Place that was not suggested and
-        // pressed the Enter key, or the Place Details request failed.
-        window.alert("No details available for input: '" + place.name + "'");
-        return;
-      }
-      document.getElementById('practitioner_latitude').value = place.geometry.location.lat()
-      document.getElementById('practitioner_longitude').value = place.geometry.location.lng()
-    }
-    function fillInForm1() {
-      var place1 = autocomplete1.getPlace();
-      if (!place1.geometry) {
-        // User entered the name of a Place that was not suggested and
-        // pressed the Enter key, or the Place Details request failed.
-        window.alert("No details available for input: '" + place1.name + "'");
-        return;
-      }
-    }
-    autocomplete.addListener('place_changed', fillInForm);
-    autocomplete1.addListener('place_changed', fillInForm1);
-  }
-  const toggleTabs = (tabs, lists, query) => {
-    const entries = function*(iterable) {
-      let i = 0;
-      for (item of iterable) {
-        yield [i++, item]
-      }
-    }
-    const showBlock = index => {
-      for (const [blockIndex, block] of entries(lists)) {
-        block.style.display = blockIndex === index ? 'block' : 'none'
-      }
-    }
-    showBlock(0)
-    for (const [tabIndex, tab] of entries(tabs)) {
-      tab.addEventListener('click', e => {
+  <script>
+    <% @columns.each do |column| %>
+      const <%= column %> = document.getElementById('practitioner-<%= column %>');
+      const <%= column %>Form = document.getElementById('<%= column %>_form');
+      const <%= column %>Edit = document.getElementById('<%= column %>-edit');
+      const <%= column %>Cancel = document.getElementById('<%= column %>-cancel');
+      <%= column %>Edit.addEventListener('click', (e) => {
         e.preventDefault();
-        showBlock(tabIndex);
-        const activeTab = document.querySelector('.' + query);
-        if (!e.currentTarget.classList.contains(query)) {
-          if (activeTab !== null) {
-            activeTab.classList.remove(query);
-          }
-          e.currentTarget.classList.toggle(query);
+        if (<%= column %> !== document.getElementById('practitioner-certifications') && <%= column %> !== document.getElementById('practitioner-memberships')) {
+          <%= column %>.style.display = 'none';
         }
-        if (e.currentTarget.id == 'basic-info') {
-          document.getElementById('basic-info-wrapper').classList.remove('hidden');
-          document.getElementById('biography-wrapper').classList.add('hidden');
-          document.getElementById('credentials-wrapper').classList.add('hidden');
-          document.getElementById('operation-wrapper').classList.add('hidden');
-        } else if (e.currentTarget.id == 'biography') {
-          document.getElementById('basic-info-wrapper').classList.add('hidden');
-          document.getElementById('biography-wrapper').classList.remove('hidden');
-          document.getElementById('credentials-wrapper').classList.add('hidden');
-          document.getElementById('operation-wrapper').classList.add('hidden');
-        } else if (e.currentTarget.id == 'credentials') {
-          document.getElementById('basic-info-wrapper').classList.add('hidden');
-          document.getElementById('biography-wrapper').classList.add('hidden');
-          document.getElementById('credentials-wrapper').classList.remove('hidden');
-          document.getElementById('operation-wrapper').classList.add('hidden');
-        } else if (e.currentTarget.id == 'operation') {
-          document.getElementById('basic-info-wrapper').classList.add('hidden');
-          document.getElementById('biography-wrapper').classList.add('hidden');
-          document.getElementById('credentials-wrapper').classList.add('hidden');
-          document.getElementById('operation-wrapper').classList.remove('hidden');
-        }
-        if (e.currentTarget.id == 'personal-basic') {
-          document.getElementById('personal-basic-wrapper').classList.remove('hidden');
-          document.getElementById('personal-additional-wrapper').classList.add('hidden');
-        } else if (e.currentTarget.id == 'personal-additional') {
-          document.getElementById('personal-basic-wrapper').classList.add('hidden');
-          document.getElementById('personal-additional-wrapper').classList.remove('hidden');
-        }
+        <%= column %>Form.style.display = 'flex';
+        <%= column %>Edit.style.display = 'none';
       })
+      <%= column %>Cancel.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (<%= column %> === document.getElementById('practitioner-certifications') || <%= column %> === document.getElementById('practitioner-memberships') || <%= column %> === document.getElementById('practitioner-languages') || <%= column %> === document.getElementById('practitioner-specialties') || <%= column %> === document.getElementById('practitioner-healthgoals')) {
+          <%= column %>.style.display = 'block';
+        } else {
+          <%= column %>.style.display = 'flex';
+        }
+        <%= column %>Form.style.display = 'none';
+        <%= column %>Edit.style.display = 'block';
+      })
+    <% end %>
+    const insurance = document.getElementById('insurance');
+    const insuranceSubmit = document.getElementById('insurance-submit');
+    insurance.addEventListener('click', (e) => {
+      insuranceSubmit.click();
+    })
+    <% (0..6).each do |num| %>
+      const day<%= num %> = document.getElementById('day<%= num %>');
+      const day<%= num %>Form = document.getElementById('day<%= num %>_form');
+      const day<%= num %>Edit = document.getElementById('day<%= num %>-edit');
+      const day<%= num %>Cancel = document.getElementById('day<%= num %>-cancel');
+      const workinghour<%= num %> = document.getElementById('workinghour<%= num %>');
+      const day<%= num %>Block = document.getElementById('day<%= num %>-block');
+      day<%= num %>Edit.addEventListener('click', (e) => {
+        e.preventDefault();
+        day<%= num %>.style.display = 'none';
+        day<%= num %>Form.style.display = 'block';
+        day<%= num %>Edit.style.display = 'none';
+        workinghour<%= num %>.style.display = 'none';
+        day<%= num %>Block.style.display = 'none';
+      })
+      day<%= num %>Cancel.addEventListener('click', (e) => {
+        e.preventDefault();
+        day<%= num %>.style.display = 'flex';
+        day<%= num %>Form.style.display = 'none';
+        day<%= num %>Edit.style.display = 'block';
+        workinghour<%= num %>.style.display = 'block';
+        day<%= num %>Block.style.display = 'block';
+      })
+    <% end %>
+    function initAutocomplete() {
+      var input = document.getElementById('practitioner_address');
+      var input1 = document.getElementById('practitioner_location')
+      var options = {
+        types:  ['address'],
+        componentRestrictions: { country: '<%= @practitioner.country_code %>' }
+      };
+      var options1 = {
+        types: ['(cities)'],
+        componentRestrictions: { country: '<%= @practitioner.country_code %>' }
+      }
+      var autocomplete = new google.maps.places.Autocomplete(input, options);
+      var autocomplete1 = new google.maps.places.Autocomplete(input1, options1);
+      autocomplete.setFields(['geometry', 'name']);
+      autocomplete1.setFields(['geometry', 'name']);
+      function fillInForm() {
+        var place = autocomplete.getPlace();
+        if (!place.geometry) {
+          // User entered the name of a Place that was not suggested and
+          // pressed the Enter key, or the Place Details request failed.
+          window.alert("No details available for input: '" + place.name + "'");
+          return;
+        }
+        document.getElementById('practitioner_latitude').value = place.geometry.location.lat()
+        document.getElementById('practitioner_longitude').value = place.geometry.location.lng()
+      }
+      function fillInForm1() {
+        var place1 = autocomplete1.getPlace();
+        if (!place1.geometry) {
+          // User entered the name of a Place that was not suggested and
+          // pressed the Enter key, or the Place Details request failed.
+          window.alert("No details available for input: '" + place1.name + "'");
+          return;
+        }
+      }
+      autocomplete.addListener('place_changed', fillInForm);
+      autocomplete1.addListener('place_changed', fillInForm1);
     }
-  }
-  const tabs = document.querySelectorAll('.tab-underlined');
-  const lists = document.querySelectorAll('.lists');
-  const infoTabs = document.querySelectorAll('.infos-tab');
-  const infoLists = document.querySelectorAll('.infos-list');
-  const basicTabs = document.querySelectorAll('.basic-info-tab');
-  const basicLists = document.querySelectorAll('.basic-info-list');
-  const biographyTabs = document.querySelectorAll('.biography-tab');
-  const biographyLists = document.querySelectorAll('.biography-list');
-  const credentialsTabs = document.querySelectorAll('.credentials-tab');
-  const credentialsLists = document.querySelectorAll('.credentials-list');
-  const operationTabs = document.querySelectorAll('.operation-tab');
-  const operationLists = document.querySelectorAll('.operation-list');
-  const personalTabs = document.querySelectorAll('.personal-tab');
-  const personalLists = document.querySelectorAll('.personal-list');
-  const personalBasicTabs = document.querySelectorAll('.personal-basic-tab');
-  const personalBasicLists = document.querySelectorAll('.personal-basic-list');
-  const personalAdditionalTabs = document.querySelectorAll('.personal-additional-tab');
-  const personalAdditionalLists = document.querySelectorAll('.personal-additional-list');
-  toggleTabs(tabs, lists, 'active-tab');
-  toggleTabs(infoTabs, infoLists, 'infos-active-tab');
-  toggleTabs(basicTabs, basicLists, 'basic-info-active-tab');
-  toggleTabs(biographyTabs, biographyLists, 'biography-active-tab');
-  toggleTabs(credentialsTabs, credentialsLists, 'credentials-active-tab');
-  toggleTabs(operationTabs, operationLists, 'operation-active-tab');
-  toggleTabs(personalTabs, personalLists, 'personal-active-tab');
-  toggleTabs(personalBasicTabs, personalBasicLists, 'personal-basic-active-tab');
-  toggleTabs(personalAdditionalTabs, personalAdditionalLists, 'personal-additional-active-tab');
-  document.getElementById('practitioner_bio').addEventListener('keyup', (e) => {
-    const bio_count = document.getElementById('practitioner_bio').value.length;
-    const bio_max = document.getElementById('practitioner_bio').maxLength;
-    const bio_counter = document.getElementById('bio-counter');
-    if (bio_count == 1000) {
-      bio_counter.innerText = '1000/1000';
-      bio_counter.style.color = 'red';
-    } else {
-      bio_counter.innerText = bio_count + '/1000';
-      bio_counter.style.color = 'black';
+    const toggleTabs = (tabs, lists, query) => {
+      const entries = function*(iterable) {
+        let i = 0;
+        for (item of iterable) {
+          yield [i++, item]
+        }
+      }
+      const showBlock = index => {
+        for (const [blockIndex, block] of entries(lists)) {
+          block.style.display = blockIndex === index ? 'block' : 'none'
+        }
+      }
+      showBlock(0)
+      for (const [tabIndex, tab] of entries(tabs)) {
+        tab.addEventListener('click', e => {
+          e.preventDefault();
+          showBlock(tabIndex);
+          const activeTab = document.querySelector('.' + query);
+          if (!e.currentTarget.classList.contains(query)) {
+            if (activeTab !== null) {
+              activeTab.classList.remove(query);
+            }
+            e.currentTarget.classList.toggle(query);
+          }
+          if (e.currentTarget.id == 'basic-info') {
+            document.getElementById('basic-info-wrapper').classList.remove('hidden');
+            document.getElementById('biography-wrapper').classList.add('hidden');
+            document.getElementById('credentials-wrapper').classList.add('hidden');
+            document.getElementById('operation-wrapper').classList.add('hidden');
+          } else if (e.currentTarget.id == 'biography') {
+            document.getElementById('basic-info-wrapper').classList.add('hidden');
+            document.getElementById('biography-wrapper').classList.remove('hidden');
+            document.getElementById('credentials-wrapper').classList.add('hidden');
+            document.getElementById('operation-wrapper').classList.add('hidden');
+          } else if (e.currentTarget.id == 'credentials') {
+            document.getElementById('basic-info-wrapper').classList.add('hidden');
+            document.getElementById('biography-wrapper').classList.add('hidden');
+            document.getElementById('credentials-wrapper').classList.remove('hidden');
+            document.getElementById('operation-wrapper').classList.add('hidden');
+          } else if (e.currentTarget.id == 'operation') {
+            document.getElementById('basic-info-wrapper').classList.add('hidden');
+            document.getElementById('biography-wrapper').classList.add('hidden');
+            document.getElementById('credentials-wrapper').classList.add('hidden');
+            document.getElementById('operation-wrapper').classList.remove('hidden');
+          }
+          if (e.currentTarget.id == 'personal-basic') {
+            document.getElementById('personal-basic-wrapper').classList.remove('hidden');
+            document.getElementById('personal-additional-wrapper').classList.add('hidden');
+          } else if (e.currentTarget.id == 'personal-additional') {
+            document.getElementById('personal-basic-wrapper').classList.add('hidden');
+            document.getElementById('personal-additional-wrapper').classList.remove('hidden');
+          }
+        })
+      }
     }
-  })
-  document.getElementById('practitioner_approach').addEventListener('keyup', (e) => {
-    const approach_count = document.getElementById('practitioner_approach').value.length;
-    const approach_max = document.getElementById('practitioner_approach').maxLength;
-    const approach_counter = document.getElementById('approach-counter');
-    if (approach_count == 1000) {
-      approach_counter.innerText = '1000/1000';
-      approach_counter.style.color = 'red';
-    } else {
-      approach_counter.innerText = approach_count + '/1000';
-      approach_counter.style.color = 'black';
-    }
-  })
-</script>
+    const tabs = document.querySelectorAll('.tab-underlined');
+    const lists = document.querySelectorAll('.lists');
+    const infoTabs = document.querySelectorAll('.infos-tab');
+    const infoLists = document.querySelectorAll('.infos-list');
+    const basicTabs = document.querySelectorAll('.basic-info-tab');
+    const basicLists = document.querySelectorAll('.basic-info-list');
+    const biographyTabs = document.querySelectorAll('.biography-tab');
+    const biographyLists = document.querySelectorAll('.biography-list');
+    const credentialsTabs = document.querySelectorAll('.credentials-tab');
+    const credentialsLists = document.querySelectorAll('.credentials-list');
+    const operationTabs = document.querySelectorAll('.operation-tab');
+    const operationLists = document.querySelectorAll('.operation-list');
+    const personalTabs = document.querySelectorAll('.personal-tab');
+    const personalLists = document.querySelectorAll('.personal-list');
+    const personalBasicTabs = document.querySelectorAll('.personal-basic-tab');
+    const personalBasicLists = document.querySelectorAll('.personal-basic-list');
+    const personalAdditionalTabs = document.querySelectorAll('.personal-additional-tab');
+    const personalAdditionalLists = document.querySelectorAll('.personal-additional-list');
+    toggleTabs(tabs, lists, 'active-tab');
+    toggleTabs(infoTabs, infoLists, 'infos-active-tab');
+    toggleTabs(basicTabs, basicLists, 'basic-info-active-tab');
+    toggleTabs(biographyTabs, biographyLists, 'biography-active-tab');
+    toggleTabs(credentialsTabs, credentialsLists, 'credentials-active-tab');
+    toggleTabs(operationTabs, operationLists, 'operation-active-tab');
+    toggleTabs(personalTabs, personalLists, 'personal-active-tab');
+    toggleTabs(personalBasicTabs, personalBasicLists, 'personal-basic-active-tab');
+    toggleTabs(personalAdditionalTabs, personalAdditionalLists, 'personal-additional-active-tab');
+    document.getElementById('practitioner_bio').addEventListener('keyup', (e) => {
+      const bio_count = document.getElementById('practitioner_bio').value.length;
+      const bio_max = document.getElementById('practitioner_bio').maxLength;
+      const bio_counter = document.getElementById('bio-counter');
+      if (bio_count == 1000) {
+        bio_counter.innerText = '1000/1000';
+        bio_counter.style.color = 'red';
+      } else {
+        bio_counter.innerText = bio_count + '/1000';
+        bio_counter.style.color = 'black';
+      }
+    })
+    document.getElementById('practitioner_approach').addEventListener('keyup', (e) => {
+      const approach_count = document.getElementById('practitioner_approach').value.length;
+      const approach_max = document.getElementById('practitioner_approach').maxLength;
+      const approach_counter = document.getElementById('approach-counter');
+      if (approach_count == 1000) {
+        approach_counter.innerText = '1000/1000';
+        approach_counter.style.color = 'red';
+      } else {
+        approach_counter.innerText = approach_count + '/1000';
+        approach_counter.style.color = 'black';
+      }
+    })
+  </script>
+
+<% else %>
+  <div class="container practitioner-profile">
+    <div class="practitioner-profile-title">
+      <h1>Welcome, <%= @practitioner.user.first_name %></h1>
+    </div>
+    <% if @practitioner.payment_status != 'paid' %>
+      <h2>You haven't completed the onboarding fee payment yet!</h2>
+      <p>For security of our customers, we are running the background check for all the practitioners on The Holistic Panda.</p>
+      <p>Before we proceed to background check, you must complete the one-time onboarding payment of CA$ 35 in order to start the process.</p>
+      <p>And please note that, you will have to sign a practitioner's agreement after you clear the background check to finalize the onboarding process.</p>
+      <p>You can take a preview of our practitioner's agreement template <strong><a href="https://theholisticpanda-prod.s3.ca-central-1.amazonaws.com/THP_Practitioner+Agreement_Template_Watermark.pdf" target="_blank">here</a></strong> and once you carry out the payment, there will be no refund due to the disagreement on our practitioner's agreement.</p>
+      <%= simple_form_for [@practitioner] do |f| %>
+        <fieldset class="form-group check_boxes required practitioner_background_check_consent">
+          <legend class="col-form-label pt-0">I've checked practitioner's agreement and agree to proceed to payment.</legend>
+          <input type="hidden" name="practitioner[agreement_consent][]" value="">
+          <div class="form-check">
+            <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="practitioner[agreement_consent][]" id="agreement_consent_true">
+            <label class="form-check-label collection_check_boxes" for="agreement_consent_true">I agree</label>
+          </div>
+        </fieldset>
+        <%= f.submit 'Proceed To Payment', class: 'btn btn-flat', id: 'proceed', disabled: true %>
+      <% end %>
+      <br>
+      <p>If you are seeing this message after successfully completing the onboarding fee payment, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
+      <script>
+        const checkbox = document.getElementById('agreement_consent_true');
+        if (checkbox) {
+          checkbox.addEventListener( 'change', function() {
+            if(checkbox.checked === true) {
+              document.getElementById("proceed").disabled = false;
+            } else {
+              document.getElementById("proceed").disabled = true;
+            }
+          });
+        }
+      </script>
+    <% elsif !@practitioner.background_check_consent %>
+      <p>For security of our customers, we are running the background check for all the practitioners on The Holistic Panda.</p><p>If you agree to proceed, we will share your first name, last name, email address and country of residence with ModoHR, our background check partner.</p><p>You will receive an email from ModoHR shortly after and once your background check is done (up to 4 to 6 hours), we will start the onboarding process for The Holistic Panda.</p>
+      <%= simple_form_for [@practitioner] do |f| %>
+        <fieldset class="form-group check_boxes required practitioner_background_check_consent">
+          <legend class="col-form-label pt-0">Background check consent</legend>
+          <input type="hidden" name="practitioner[background_check_consent][]" value="">
+          <div class="form-check">
+            <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="practitioner[background_check_consent][]" id="practitioner_background_check_consent_true">
+            <label class="form-check-label collection_check_boxes" for="practitioner_background_check_consent_true">I agree</label>
+          </div>
+        </fieldset>
+        <%= f.submit 'Proceed to background check', class: 'btn btn-flat', id: 'consent-btn', disabled: true %>
+      <% end %>
+      <script>
+        const checkbox = document.getElementById('practitioner_background_check_consent_true');
+        if (checkbox) {
+          checkbox.addEventListener( 'change', function() {
+            if(checkbox.checked === true) {
+              document.getElementById("consent-btn").disabled = false;
+            } else {
+              document.getElementById("consent-btn").disabled = true;
+            }
+          });
+        }
+      </script>
+    <% elsif @practitioner.background_check_status != "completed" %>
+      <h2>Your background check is still pending!</h2>
+      <p>If you haven't received the instruction email from ModoHR, our background check partner, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
+      <p>If you have received the instruction email, please follow the insturctions to fill all the required field and it will take upto 6 hours for the result.</p>
+    <% elsif @practitioner.agreement_status != "completed" %>
+      <h2>You haven't completed the practitioner's agreement yet!</h2>
+      <p>If you haven't received the practitioner's agreement in your mailbox you registered with us, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
+      <p>If you already sent us the signed practitioner's agreement, we will get back to you as soon as we finish revising the agreement.</p>
+    <% end %>
+  </div>
+<% end %>

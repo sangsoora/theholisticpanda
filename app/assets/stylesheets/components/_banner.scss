@@ -1,5 +1,5 @@
 .top-banner {
-  background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('group.png');
+  background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('group-min.png');
   background-size: cover;
   height: calc(100vh - 4.25rem);
   margin-top: 4.25rem;
@@ -65,7 +65,7 @@
 }
 
 .virtual-banner {
-  background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url('virtual.png');
+  background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url('virtual-min.png');
   background-size: cover;
   text-align: center;
   h2 {
@@ -241,7 +241,7 @@
     display: block;
   }
   .specialty-banner {
-    background-image: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ), url('specialty-mobile.png');
+    background-image: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ), url('specialty-mobile-min.png');
     padding-top: 0;
     h2 {
       font-size: 1.5rem;
@@ -250,7 +250,7 @@
     }
   }
   .virtual-banner {
-    background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url('virtual-mobile.png');
+    background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url('virtual-mobile-min.png');
     h2 {
       font-size: 1.5rem;
       margin: 1.5rem auto 0;
@@ -264,7 +264,7 @@
     }
   }
   .apply-banner {
-    background-image: image-url("instructor-mobile.png");
+    background-image: image-url("instructor-mobile-min.png");
     padding-top: 20vh;
     h1 {
       font-size: 2rem;

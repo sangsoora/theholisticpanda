@@ -47,6 +47,7 @@ Rails.application.routes.draw do
     resources :practitioner_memberships, only: [:create]
     resources :favorite_practitioners, only: [:create]
     resources :working_hours, only: [:create]
+    resources :practitioner_payments, only: [:new]
   end
 
   get '/profile', to: 'practitioners#profile', as: :practitioner_profile
