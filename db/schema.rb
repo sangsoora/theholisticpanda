@@ -168,6 +168,7 @@ ActiveRecord::Schema.define(version: 2021_02_07_161407) do
     t.string "checkout_session_id"
     t.integer "amount_cents", default: 0, null: false
     t.string "payment_status"
+    t.boolean "agreement_consent"
     t.string "agreement_status"
     t.string "status"
     t.float "latitude"

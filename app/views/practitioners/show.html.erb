@@ -49,9 +49,13 @@
       </div>
       <div class="practitioner-bio">
         <h4><i class="fas fa-info-circle"></i> About Me</h4>
-        <p><%= @practitioner.bio.gsub(/\n/, '<br/>').html_safe %></p>
+        <% if @practitioner.bio %>
+          <p><%= @practitioner.bio.gsub(/\n/, '<br/>').html_safe %></p>
+        <% end %>
         <h4><i class="far fa-question-circle"></i> Healing Approach</h4>
-        <p><%= @practitioner.approach.gsub(/\n/, '<br/>').html_safe %></p>
+        <% if @practitioner.approach %>
+          <p><%= @practitioner.approach.gsub(/\n/, '<br/>').html_safe %></p>
+        <% end %>
         <h4><i class="fas fa-award"></i> Education & Certification</h4>
         <% if @practitioner.practitioner_certifications.where(certification_type: 'Education').count > 0 %>
           <p><strong>Education</strong>: <%= @practitioner.practitioner_certifications.where(certification_type: 'Education').pluck(:name).join(', ') %></p>

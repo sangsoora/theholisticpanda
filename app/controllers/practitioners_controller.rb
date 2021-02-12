@@ -162,15 +162,29 @@ class PractitionersController < ApplicationController
   end
 
   def update
-    if params[:commit] == 'Proceed to background check'
-      @practitioner.update(background_check_status: 'pending', background_check_consent: true)
-      (0..6).to_a.each { |num| WorkingHour.create(day: num, opens: '', closes: '', practitioner: @practitioner) }
-      redirect_to root_path, notice: 'Thank you for your application'
+    if params[:commit] == 'Proceed To Payment'
+      if @practitioner.update(agreement_consent: true, amount_cents: 3500)
+        payment_session = Stripe::Checkout::Session.create(
+          billing_address_collection: 'required',
+          payment_method_types: ['card'],
+          line_items: [{
+            name: 'Practitioner Onboarding Fee',
+            amount: 3500,
+            currency: 'cad',
+            quantity: 1
+          }],
+          success_url: practitioner_profile_url,
+          cancel_url: practitioner_profile_url
+        )
+        @practitioner.update(checkout_session_id: payment_session.id)
+        redirect_to new_practitioner_practitioner_payment_path(@practitioner)
+      else
+        render :new
+      end
     elsif params[:commit] == 'Proceed to background check'
       @practitioner.update(background_check_status: 'pending', background_check_consent: true)
-      (0..6).to_a.each { |num| WorkingHour.create(day: num, opens: '', closes: '', practitioner: @practitioner) }
-      redirect_to root_path, notice: 'Thank you for your application'
-
+      PractitionerMailer.with(practitioner: @practitioner).welcome.deliver_later
+      redirect_to practitioner_profile_path, notice: 'Thank you for your application'
     else
       if @practitioner.update(practitioner_params)
         if @practitioner.video && !@practitioner.video.start_with?( 'http://', 'https://')
@@ -207,6 +221,6 @@ class PractitionersController < ApplicationController
   end
 
   def practitioner_params
-    params.require(:practitioner).permit(:title, :location, :address, :bio, :approach, :video, :latitude, :longitude, :experience, :timezone, :country_code, :background_check_status, :background_check_consent, :background_check_id, :insurance, :banner_image, :specialty_ids, :language_ids)
+    params.require(:practitioner).permit(:title, :location, :address, :bio, :approach, :video, :latitude, :longitude, :experience, :timezone, :country_code, :checkout_session_id, :amount, :payment_status, :agreement_consent, :agreement_status, :status, :background_check_status, :background_check_consent, :background_check_id, :insurance, :banner_image, :specialty_ids, :language_ids)
   end
 end

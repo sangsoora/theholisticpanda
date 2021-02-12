@@ -22,6 +22,7 @@ class Practitioner < ApplicationRecord
   scope :filter_by_health_goal, ->(health_goals) { joins(:health_goals).where(health_goals: { id: health_goals }) }
   scope :filter_by_language, ->(languages) { joins(:languages).where(languages: { id: languages }) }
   scope :filter_by_service_type, ->(service_type) { where service_type: service_type }
+  monetize :amount_cents, allow_nil: true
 
   $specialties = Specialty.all.sort_by(&:name)
   $health_goals = HealthGoal.all.sort_by(&:name)
