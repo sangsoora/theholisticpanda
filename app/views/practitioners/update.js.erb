@@ -17,7 +17,8 @@ if ('<%= @param.keys.first %>' == "country_code") {
   bio.style.display = 'flex';
   bioForm.style.display = 'none';
   bioEdit.style.display = 'block';
-  document.getElementById('bio').innerHTML = '<%= @practitioner.bio.gsub(/\n/, "<br/>").html_safe %>';
+  pe
+  document.getElementById('bio').innerHTML = '<% if @practitioner.bio %><%= @practitioner.bio.gsub(/\n/, "<br/>").html_safe %><% end %>';
 } else if ('<%= @param.keys.first %>' == "video") {
   video.style.display = 'flex';
   videoForm.style.display = 'none';
@@ -42,7 +43,7 @@ if ('<%= @param.keys.first %>' == "country_code") {
   approach.style.display = 'flex';
   approachForm.style.display = 'none';
   approachEdit.style.display = 'block';
-  document.getElementById('approach').innerHTML = '<%= @practitioner.approach.gsub(/\n/, "<br/>").html_safe %>'
+  document.getElementById('approach').innerHTML = '<% if @practitioner.approach %><%= @practitioner.approach.gsub(/\n/, "<br/>").html_safe %><% end %>'
 } else if ('<%= @param.keys.first %>' == "insurance") {
   if (<%= @practitioner.insurance %>) {
     insurance.checked = true;
