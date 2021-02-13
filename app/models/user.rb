@@ -9,8 +9,7 @@ class User < ApplicationRecord
     (?=.*[[:^alnum:]]) # Must contain a symbol
   /x
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
-         # , :confirmable
+         :recoverable, :rememberable, :validatable, :confirmable
 
   has_one :practitioner, dependent: :destroy
   has_many :user_health_goals, dependent: :destroy
@@ -40,7 +39,16 @@ class User < ApplicationRecord
     confirmation: true,
     on: :update
 
+  before_create :confirm_admin_without_confirmation_email
   # after_create :send_welcome_email
+
+  def confirm_admin_without_confirmation_email
+    skip_confirmation! if admin
+  end
+
+  def after_confirmation
+    UserMailer.with(user: self).welcome.deliver_now
+  end
 
   def full_name
     "#{first_name} #{last_name}"
@@ -75,9 +83,9 @@ class User < ApplicationRecord
 
   private
 
-  def send_welcome_email
-    UserMailer.with(user: self).welcome.deliver_now
-  end
+  # def send_welcome_email
+  #   UserMailer.with(user: self).welcome.deliver_now
+  # end
 
   def subscribe_newsletter
     Newsletter.create(email: email) if newsletter && !Newsletter.find_by(email: email)

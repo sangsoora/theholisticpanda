@@ -604,23 +604,6 @@
         workinghour<%= num %>.style.display = 'block';
         day<%= num %>Block.style.display = 'block';
       })
-      // day<%= num %>Open.addEventListener('blur', (e) => {
-      //   if ((day<%= num %>Close.value != "") && (day<%= num %>Close.value <= day<%= num %>Open.value)) {
-      //     if (day<%= num %>Open.value == '00:00') {
-      //       day<%= num %>Submit.disabled = false;
-      //       day<%= num %>Error.innerText = '';
-      //     } else {
-      //       day<%= num %>Submit.disabled = true;
-      //       day<%= num %>Error.innerText = 'Ending hours have to be later than starting hour.';
-      //     }
-      //   } else if ((day<%= num %>Close.value != "") && (day<%= num %>Close.value > day<%= num %>Open.value)) {
-      //     day<%= num %>Submit.disabled = false;
-      //     day<%= num %>Error.innerText = '';
-      //   } else if ((day<%= num %>Close.value != "")) {
-      //     day<%= num %>Submit.disabled = true;
-      //     day<%= num %>Error.innerText = 'Please specify ending hour.';
-      //   }
-      // })
 
       day<%= num %>Submit.addEventListener('click', (e) => {
         if ((day<%= num %>Open.value != "") && (day<%= num %>Open.value >= day<%= num %>Close.value)) {
