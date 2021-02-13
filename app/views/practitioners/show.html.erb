@@ -20,9 +20,9 @@
               No reviews!
             <% end %>
           </p>
-          <div class="text-center">
+          <!-- <div class="text-center">
             <p>Response Rate: 100%</p>
-          </div>
+          </div> -->
         </div>
         <div class="practitioner-detail">
           <div class="practitioner-name">
@@ -68,6 +68,26 @@
       </div>
       <div class="practitioner-services">
         <h4><i class="fas fa-shopping-cart"></i> Services</h4>
+        <div class="practitioner-service">
+          <div class="practitioner-service-info">
+            <div class="practitioner-service-summary">
+              <div class="practitioner-service-summary-left">
+                <h4><%= Service.first.name %></h4>
+                <p><%= Service.first.duration %>m</p>
+                <p><%= Service.first.service_type.capitalize %></p>
+              </div>
+              <div class="practitioner-service-summary-right">
+                <p>Free</p>
+                <% if current_user != @practitioner.user %>
+                  <%= link_to 'Book', service_path(service), class: 'btn btn-flat' %>
+                <% end %>
+              </div>
+            </div>
+            <div class="practitioner-service-description">
+              <p>Take 15 minutes session to find out more about <%= @practitioner.user.first_name %> and <%= @practitioner.user.first_name %>'s services. Only offered once!</p>
+            </div>
+          </div>
+        </div>
         <% @practitioner.services.where(active: true).each do |service| %>
           <div class="practitioner-service">
             <div class="practitioner-service-info">

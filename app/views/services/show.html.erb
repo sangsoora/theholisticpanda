@@ -237,7 +237,7 @@
     <% end %>
     <div class="related-services">
       <h4>Related Services</h4>
-      <% Service.where(active: true).joins(:practitioner_specialty).joins(:specialty).where(specialties: {id: @service.specialty.id}).each do |service| %>
+      <% Service.active_services.joins(:practitioner_specialty).joins(:specialty).where(specialties: {id: @service.specialty.id}).each do |service| %>
         <% if service.id != @service.id %>
           <div class="review-box">
             <p><%= link_to service.name, service_path(service) %></p>

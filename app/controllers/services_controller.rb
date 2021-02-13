@@ -5,14 +5,14 @@ class ServicesController < ApplicationController
 
   def index
     if params[:commit] == 'Explore All Virtual Services'
-      @all_services = policy_scope(Service).where(active: true, service_type: 'Virtual').includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}])
+      @all_services = policy_scope(Service).active_services.where(service_type: 'Virtual').includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}])
     else
-      @all_services = policy_scope(Service).where(active: true).includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}])
+      @all_services = policy_scope(Service).active_services.includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}])
     end
-    @services = policy_scope(Service).where(active: true).includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}]).group_by { |service| service.specialty }
-    @services = @services.sort_by { |k, _v| k[:name] }.to_h
+    # @services = policy_scope(Service).where(active: true).includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}]).group_by { |service| service.specialty }
+    # @services = @services.sort_by { |k, _v| k[:name] }.to_h
     if params[:search] && params[:search][:health_goal]
-      @primary_filtered_services = Service.where(active: true).filter_by_health_goal(params[:search][:health_goal].reject(&:blank?))
+      @primary_filtered_services = Service.active_services.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?))
       @filtered_services_specialties = @primary_filtered_services.uniq.compact.map { |service| service.specialty }.uniq
       @filtered_services_languages = @primary_filtered_services.uniq.compact.map { |service| service.languages }.flatten.uniq
       if params[:filter]

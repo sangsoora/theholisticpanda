@@ -206,6 +206,7 @@ ActiveRecord::Schema.define(version: 2021_02_07_161407) do
     t.string "service_type"
     t.integer "duration"
     t.boolean "active"
+    t.boolean "default_service"
     t.bigint "practitioner_specialty_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -227,6 +228,7 @@ ActiveRecord::Schema.define(version: 2021_02_07_161407) do
     t.string "status"
     t.text "cancel_reason"
     t.integer "cancelled_user_id"
+    t.integer "free_practitioner_id"
     t.bigint "user_id"
     t.bigint "service_id"
     t.datetime "created_at", null: false

@@ -12,6 +12,20 @@
   </div>
   <div class="lists">
     <div class="my-services" id="active-list">
+      <div class="practitioner-service">
+        <div class="practitioner-service-info">
+          <div class="d-flex justify-content-between">
+            <h4><%= Service.first.name %></h4>
+            <div>
+            </div>
+          </div>
+          <p>Service Type: <%= Service.first.service_type.capitalize %></p>
+          <p>Duration: <%= Service.first.duration %>m</p>
+          <div class="practitioner-service-description">
+            <p>Take 15 minutes session to find out more about <%= @practitioner.user.first_name %> and <%= @practitioner.user.first_name %>'s services. Only offered once!</p>
+          </div>
+        </div>
+      </div>
       <%= render 'services/active_services_list', active_serivces: @active_serivces %>
     </div>
   </div>

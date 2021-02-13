@@ -228,7 +228,7 @@
                   <h5>Specify your working hour for each day.</h5>
                   <div>
                     <div class="practitioner-workinghours mb-2 mb-2" id="practitioner-day1">
-                      <p id="day1" class="mr-3" style="width: 40px;">Mon: </p><p id="workinghour1"><% if @practitioner.working_hours.find_by(day: 1).opens %><%= @practitioner.working_hours.find_by(day: 1).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 1).closes.strftime('%H:%M') %><% end %></p>
+                      <p class="mr-3" style="width: 40px;">Mon: </p><p id="workinghour1"><% if @practitioner.working_hours.find_by(day: 1).opens %><%= @practitioner.working_hours.find_by(day: 1).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 1).closes.strftime('%H:%M') %><% end %></p>
                       <button id='day1-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
                       <button id='day1-block' class="ml-2">
                         <% if @practitioner.working_hours.find_by(day: 1).opens %>
@@ -236,18 +236,18 @@
                         <% end %>
                       </button>
                       <%= simple_form_for([@practitioner.working_hours.find_by(day: 1)], remote: true, label: 'Mon', html: { id: :day1_form, style: 'display: none;' }) do |f| %>
-                        <p class="mb-3">Mon</p>
                         <div class="d-flex align-items-center mb-3">
-                          <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day1_opens} %> ~
-                          <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day1_closes} %>
-                          <%= f.input :day, as: :hidden %>
-                          <button type="submit"><i class='fas fa-check'></i></button>
+                          <%= f.input :opens, as: :string, label: false, input_html: {class: "timepicker", id: "day1_opens"} %> ~
+                          <%= f.input :closes, as: :string, label: false, input_html: {class: "timepicker", id: "day1_closes"} %>
+                          <%= f.input :day, as: :hidden, input_html: {id: "day1_input"} %>
+                          <button type="submit" id="day1-submit"><i class='fas fa-check'></i></button>
                           <button id='day1-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
                         </div>
+                        <p id="day1-error" style="color: red; font-style: italic; font-size: 12px;"></p>
                       <% end %>
                     </div>
                     <div class="practitioner-workinghours mb-2" id="practitioner-day2">
-                      <p id="day2" class="mr-3" style="width: 40px;">Tue: </p><p id="workinghour2"><% if @practitioner.working_hours.find_by(day: 2).opens %><%= @practitioner.working_hours.find_by(day: 2).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 2).closes.strftime('%H:%M') %><% end %></p>
+                      <p class="mr-3" style="width: 40px;">Tue: </p><p id="workinghour2"><% if @practitioner.working_hours.find_by(day: 2).opens %><%= @practitioner.working_hours.find_by(day: 2).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 2).closes.strftime('%H:%M') %><% end %></p>
                       <button id='day2-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
                       <button id='day2-block' class="ml-2">
                         <% if @practitioner.working_hours.find_by(day: 2).opens %>
@@ -255,14 +255,14 @@
                         <% end %>
                       </button>
                       <%= simple_form_for([@practitioner.working_hours.find_by(day: 2)], remote: true, html: { id: :day2_form, style: 'display: none;' }) do |f| %>
-                        <p class="mb-3">Tue</p>
                         <div class="d-flex align-items-center mb-3">
-                          <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day2_opens} %> ~
-                          <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day2_closes} %>
-                          <%= f.input :day, as: :hidden %>
-                          <button type="submit"><i class='fas fa-check'></i></button>
+                          <%= f.input :opens, as: :string, label: false, input_html: {class: "timepicker", id: "day2_opens"} %> ~
+                          <%= f.input :closes, as: :string, label: false, input_html: {class: "timepicker", id: "day2_closes"} %>
+                          <%= f.input :day, as: :hidden, input_html: {id: "day2_input"} %>
+                          <button type="submit" id="day2-submit"><i class='fas fa-check'></i></button>
                           <button id='day2-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
                         </div>
+                        <p id="day2-error" style="color: red; font-style: italic; font-size: 12px;"></p>
                       <% end %>
                     </div>
                     <div class="practitioner-workinghours mb-2" id="practitioner-day3">
@@ -274,14 +274,14 @@
                         <% end %>
                       </button>
                       <%= simple_form_for([@practitioner.working_hours.find_by(day: 3)], remote: true, html: { id: :day3_form, style: 'display: none;' }) do |f| %>
-                        <p class="mb-3">Wed</p>
                         <div class="d-flex align-items-center mb-3">
-                          <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day3_opens} %> ~
-                          <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day3_closes} %>
-                          <%= f.input :day, as: :hidden %>
-                          <button type="submit"><i class='fas fa-check'></i></button>
+                          <%= f.input :opens, as: :string, label: false, input_html: {class: "timepicker", id: "day3_opens"} %> ~
+                          <%= f.input :closes, as: :string, label: false, input_html: {class: "timepicker", id: "day3_closes"} %>
+                          <%= f.input :day, as: :hidden, input_html: {id: "day3_input"} %>
+                          <button type="submit" id="day3-submit"><i class='fas fa-check'></i></button>
                           <button id='day3-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
                         </div>
+                        <p id="day3-error" style="color: red; font-style: italic; font-size: 12px;"></p>
                       <% end %>
                     </div>
                     <div class="practitioner-workinghours mb-2" id="practitioner-day4">
@@ -293,14 +293,14 @@
                         <% end %>
                       </button>
                       <%= simple_form_for([@practitioner.working_hours.find_by(day: 4)], remote: true, html: { id: :day4_form, style: 'display: none;' }) do |f| %>
-                        <p class="mb-3">Thu</p>
                         <div class="d-flex align-items-center mb-3">
-                          <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day4_opens} %> ~
-                          <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day4_closes} %>
-                          <%= f.input :day, as: :hidden %>
-                          <button type="submit"><i class='fas fa-check'></i></button>
+                          <%= f.input :opens, as: :string, label: false, input_html: {class: "timepicker", id: "day4_opens"} %> ~
+                          <%= f.input :closes, as: :string, label: false, input_html: {class: "timepicker", id: "day4_closes"} %>
+                          <%= f.input :day, as: :hidden, input_html: {id: "day4_input"} %>
+                          <button type="submit" id="day4-submit"><i class='fas fa-check'></i></button>
                           <button id='day4-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
                         </div>
+                        <p id="day4-error" style="color: red; font-style: italic; font-size: 12px;"></p>
                       <% end %>
                     </div>
                     <div class="practitioner-workinghours mb-2" id="practitioner-day5">
@@ -312,14 +312,14 @@
                         <% end %>
                       </button>
                       <%= simple_form_for([@practitioner.working_hours.find_by(day: 5)], remote: true, html: { id: :day5_form, style: 'display: none;' }) do |f| %>
-                        <p class="mb-3">Fri</p>
                         <div class="d-flex align-items-center mb-3">
-                          <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day5_opens} %> ~
-                          <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day5_closes} %>
-                          <%= f.input :day, as: :hidden %>
-                          <button type="submit"><i class='fas fa-check'></i></button>
+                          <%= f.input :opens, as: :string, label: false, input_html: {class: "timepicker", id: "day5_opens"} %> ~
+                          <%= f.input :closes, as: :string, label: false, input_html: {class: "timepicker", id: "day5_closes"} %>
+                          <%= f.input :day, as: :hidden, input_html: {id: "day5_input"} %>
+                          <button type="submit" id="day5-submit"><i class='fas fa-check'></i></button>
                           <button id='day5-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
                         </div>
+                        <p id="day5-error" style="color: red; font-style: italic; font-size: 12px;"></p>
                       <% end %>
                     </div>
                     <div class="practitioner-workinghours mb-2" id="practitioner-day6">
@@ -331,14 +331,14 @@
                         <% end %>
                       </button>
                       <%= simple_form_for([@practitioner.working_hours.find_by(day: 6)], remote: true, html: { id: :day6_form, style: 'display: none;' }) do |f| %>
-                        <p class="mb-3">Sat</p>
                         <div class="d-flex align-items-center mb-3">
-                          <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day6_opens} %> ~
-                          <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day6_closes} %>
-                          <%= f.input :day, as: :hidden %>
-                          <button type="submit"><i class='fas fa-check'></i></button>
+                          <%= f.input :opens, as: :string, label: false, input_html: {class: "timepicker", id: "day6_opens"} %> ~
+                          <%= f.input :closes, as: :string, label: false, input_html: {class: "timepicker", id: "day6_closes"} %>
+                          <%= f.input :day, as: :hidden, input_html: {id: "day6_input"} %>
+                          <button type="submit" id="day6-submit"><i class='fas fa-check'></i></button>
                           <button id='day6-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
                         </div>
+                        <p id="day6-error" style="color: red; font-style: italic; font-size: 12px;"></p>
                       <% end %>
                     </div>
                     <div class="practitioner-workinghours mb-2" id="practitioner-day0">
@@ -350,14 +350,14 @@
                         <% end %>
                       </button>
                       <%= simple_form_for([@practitioner.working_hours.find_by(day: 0)], remote: true, html: { id: :day0_form, style: 'display: none;' }) do |f| %>
-                        <p class="mb-3">Sun</p>
                         <div class="d-flex align-items-center mb-3">
-                          <%= f.input :opens, require: true, label: false, minute_step: 30, input_html: {id: :day0_opens} %> ~
-                          <%= f.input :closes, require: true, label: false, minute_step: 30, input_html: {id: :day0_closes} %>
-                          <%= f.input :day, as: :hidden %>
-                          <button type="submit"><i class='fas fa-check'></i></button>
+                          <%= f.input :opens, as: :string, label: false, input_html: {class: "timepicker", id: "day0_opens"} %> ~
+                          <%= f.input :closes, as: :string, label: false, input_html: {class: "timepicker", id: "day0_closes"} %>
+                          <%= f.input :day, as: :hidden, input_html: {id: "day0_input"} %>
+                          <button type="submit" id="day0-submit"><i class='fas fa-check'></i></button>
                           <button id='day0-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
                         </div>
+                        <p id="day0-error" style="color: red; font-style: italic; font-size: 12px;"></p>
                       <% end %>
                     </div>
                   </div>
@@ -386,11 +386,6 @@
                       <% end %>
                     </div>
                   </div>
-                  <%= simple_form_for([@practitioner], remote: true, html: { id: :title_form, style: 'display: none; align-items: center;' }) do |f| %>
-                    <%= f.input :title, label: false %>
-                    <button type="submit"><i class='fas fa-check'></i></button>
-                    <button id='title-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-                  <% end %>
                 </div>
                 <div class="operation-list">
                   <h5>In order to perform in-person service, specify the address of location.</h5>
@@ -586,15 +581,17 @@
       insuranceSubmit.click();
     })
     <% (0..6).each do |num| %>
-      const day<%= num %> = document.getElementById('day<%= num %>');
       const day<%= num %>Form = document.getElementById('day<%= num %>_form');
       const day<%= num %>Edit = document.getElementById('day<%= num %>-edit');
       const day<%= num %>Cancel = document.getElementById('day<%= num %>-cancel');
       const workinghour<%= num %> = document.getElementById('workinghour<%= num %>');
       const day<%= num %>Block = document.getElementById('day<%= num %>-block');
+      const day<%= num %>Open = document.getElementById('day<%= num %>_opens');
+      const day<%= num %>Close = document.getElementById('day<%= num %>_closes');
+      const day<%= num %>Submit = document.getElementById('day<%= num %>-submit');
+      const day<%= num %>Error = document.getElementById('day<%= num %>-error');
       day<%= num %>Edit.addEventListener('click', (e) => {
         e.preventDefault();
-        day<%= num %>.style.display = 'none';
         day<%= num %>Form.style.display = 'block';
         day<%= num %>Edit.style.display = 'none';
         workinghour<%= num %>.style.display = 'none';
@@ -602,11 +599,42 @@
       })
       day<%= num %>Cancel.addEventListener('click', (e) => {
         e.preventDefault();
-        day<%= num %>.style.display = 'flex';
         day<%= num %>Form.style.display = 'none';
         day<%= num %>Edit.style.display = 'block';
         workinghour<%= num %>.style.display = 'block';
         day<%= num %>Block.style.display = 'block';
+      })
+      // day<%= num %>Open.addEventListener('blur', (e) => {
+      //   if ((day<%= num %>Close.value != "") && (day<%= num %>Close.value <= day<%= num %>Open.value)) {
+      //     if (day<%= num %>Open.value == '00:00') {
+      //       day<%= num %>Submit.disabled = false;
+      //       day<%= num %>Error.innerText = '';
+      //     } else {
+      //       day<%= num %>Submit.disabled = true;
+      //       day<%= num %>Error.innerText = 'Ending hours have to be later than starting hour.';
+      //     }
+      //   } else if ((day<%= num %>Close.value != "") && (day<%= num %>Close.value > day<%= num %>Open.value)) {
+      //     day<%= num %>Submit.disabled = false;
+      //     day<%= num %>Error.innerText = '';
+      //   } else if ((day<%= num %>Close.value != "")) {
+      //     day<%= num %>Submit.disabled = true;
+      //     day<%= num %>Error.innerText = 'Please specify ending hour.';
+      //   }
+      // })
+
+      day<%= num %>Submit.addEventListener('click', (e) => {
+        if ((day<%= num %>Open.value != "") && (day<%= num %>Open.value >= day<%= num %>Close.value)) {
+          if (day<%= num %>Close.value != '00:00') {
+            day<%= num %>Error.innerText = 'Ending hours have to be later than starting hour.';
+            e.preventDefault();
+          }
+        } else if ((day<%= num %>Open.value == "")) {
+          day<%= num %>Error.innerText = 'Please specify starting hour.';
+          e.preventDefault();
+        } else if ((day<%= num %>Close.value == "")) {
+          day<%= num %>Error.innerText = 'Please specify ending hour.';
+          e.preventDefault();
+        }
       })
     <% end %>
     function initAutocomplete() {

@@ -1,5 +1,5 @@
 class Service < ApplicationRecord
-  belongs_to :practitioner_specialty
+  belongs_to :practitioner_specialty, optional: true
   has_many :sessions
   has_one :practitioner, through: :practitioner_specialty
   has_one :specialty, through: :practitioner_specialty
@@ -13,7 +13,7 @@ class Service < ApplicationRecord
   validates :name, presence: true
   validates :duration, presence: true
   validates :price, presence: true
-  validates :description, presence: true, length: {minimum: 5, maximum: 1000}
+  validates :description, presence: true, length: { minimum: 5, maximum: 1000 }
   validates :service_type, presence: true
   monetize :price_cents
   scope :filter_by_specialty, ->(specialty) { joins(:specialty).where(specialties: { id: specialty }) }
@@ -27,6 +27,10 @@ class Service < ApplicationRecord
   $types = ['Virtual', 'In-person']
 
   def rating_avg
-    (self.reviews.sum(:rating).to_f / self.reviews.size).round(2)
+    (reviews.sum(:rating).to_f / reviews.size).round(2)
+  end
+
+  def self.active_services
+    where(active: true, default_service: nil).joins(:practitioner).where(practitioners: { payment_status: 'paid', background_check_status: 'completed', agreement_status: 'completed' })
   end
 end

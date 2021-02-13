@@ -191,4 +191,8 @@ class Practitioner < ApplicationRecord
     ]
     timezone
   end
+
+  def checked?
+    (payment_status == 'paid') && (background_check_status == 'completed') && (agreement_status == 'completed') && agreement_consent && background_check_consent
+  end
 end

@@ -7,7 +7,7 @@
     <p><%= @specialty.description.gsub(/\n/, '<br/>').html_safe %></p>
 
   <div class="service-lists">
-    <% @specialty.services.where(active: true).each do |service| %>
+    <% @specialty_services.each do |service| %>
       <div class="service-list-item" data-price="<%= service.price.to_i %>" data-duration="<%= service.duration %>">
         <div class="service-left-column">
           <div class="service-list-item-title">

@@ -54,6 +54,14 @@ const initValidation = () => {
           inputMsg.setAttribute('style', 'color: red !important');
         } else if (new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/).test(input.value)) {
           inputMsg.innerText = '';
+          if (confirm.value != '') {
+            if (input.value != confirm.value) {
+              confirmMsg.innerText = 'Passwords don\'t match.';
+              confirmMsg.setAttribute('style', 'color: red !important');
+            } else {
+              confirmMsg.innerText = '';
+            }
+          }
         }
       })
       confirm.addEventListener('blur', (e) => {
@@ -120,6 +128,14 @@ const initValidation = () => {
           inputMsg.setAttribute('style', 'color: red !important');
         } else if (new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/).test(input.value)) {
           inputMsg.innerText = '';
+          if (confirm.value != '') {
+            if (input.value != confirm.value) {
+              confirmMsg.innerText = 'Passwords don\'t match.';
+              confirmMsg.setAttribute('style', 'color: red !important');
+            } else {
+              confirmMsg.innerText = '';
+            }
+          }
         }
       })
       confirm.addEventListener('blur', (e) => {

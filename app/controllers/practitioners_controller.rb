@@ -187,7 +187,7 @@ class PractitionersController < ApplicationController
       redirect_to practitioner_profile_path, notice: 'Thank you for your application'
     else
       if @practitioner.update(practitioner_params)
-        if @practitioner.video && !@practitioner.video.start_with?( 'http://', 'https://')
+        if @practitioner.video && !@practitioner.video.start_with?('http://', 'https://')
           @practitioner.update(video: 'http://' + @practitioner.video)
         end
         @param = practitioner_params
