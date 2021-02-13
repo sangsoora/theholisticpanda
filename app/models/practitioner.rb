@@ -192,6 +192,10 @@ class Practitioner < ApplicationRecord
     timezone
   end
 
+  def self.checked_practitioners
+    where(payment_status: 'paid', background_check_status: 'completed', agreement_status: 'completed', agreement_consent: true, background_check_consent: true)
+  end
+
   def checked?
     (payment_status == 'paid') && (background_check_status == 'completed') && (agreement_status == 'completed') && agreement_consent && background_check_consent
   end
