@@ -836,20 +836,20 @@
           <script>
             const agreement = document.getElementById('agreement_consent_true');
             const background = document.getElementById('background_check_consent_true');
-            document.getElementById("proceed").disabled = true;
+            document.getElementById('proceed').disabled = true;
             if (agreement) {
               agreement.addEventListener( 'change', function() {
                 if(agreement.checked === true && background.checked) {
-                  document.getElementById("proceed").disabled = false;
+                  document.getElementById('proceed').disabled = false;
                 } else {
-                  document.getElementById("proceed").disabled = true;
+                  document.getElementById('proceed').disabled = true;
                 }
               });
               background.addEventListener( 'change', function() {
                 if(agreement.checked === true && background.checked) {
-                  document.getElementById("proceed").disabled = false;
+                  document.getElementById('proceed').disabled = false;
                 } else {
-                  document.getElementById("proceed").disabled = true;
+                  document.getElementById('proceed').disabled = true;
                 }
               });
             }
