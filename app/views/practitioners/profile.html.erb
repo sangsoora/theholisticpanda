@@ -856,11 +856,11 @@
           </script>
         <% else %>
           <p>We require a background check for all of our practitioners to ensure the safety of our clients and build trust with our community.</p>
-            <p>We regret to inform you that a background check for your country of residence is not available yet, but please email us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a> if you’re still interested in being a practitioner. We will let you know when we expand searches to your country and look forward to welcoming you to our community!</p>
+          <p>We regret to inform you that a background check for your country of residence is not available yet, but please email us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a> if you’re still interested in being a practitioner. We will let you know when we expand searches to your country and look forward to welcoming you to our community!</p>
         <% end %>
       <% elsif @practitioner.background_check_status != "completed" %>
-        <h2>Your background check is still pending!</h2>
-        <p>If you haven't received the instruction email from ModoHR Technologies Inc., our background check partner, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
+        <h2>Thank you for your payment and you will receive instruction email shortly for background check!</h2>
+        <p>If you don't receive the instruction email in next few hours from ModoHR Technologies Inc., our background check partner, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
         <p>If you have received the instruction email, please follow the steps to complete your background check. Please ensure all of your information is correct and self-declare any offences. Otherwise, you will have to resubmit your application and pay for a new background check. The review process takes approximately 4-6 hours. If your application is still pending after 24 hours, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
       <% elsif @practitioner.agreement_status != "completed" %>
         <h2>You haven't signed the practitioner's agreement yet!</h2>
