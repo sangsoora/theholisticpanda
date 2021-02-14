@@ -30,6 +30,7 @@ const displayPreview = (input) => {
           aspectRatio: 1 / 1,
           viewMode: 1
         });
+        document.getElementById('crop-notify').style.display = 'block';
         document.getElementById('btnCrop').addEventListener('click', (event) => {
           event.preventDefault();
           // Get a string base 64 data url
@@ -54,6 +55,7 @@ const displayPreview = (input) => {
           let myFileList = list.files;
           // Replace input files with files containing the cropped image file
           input.files = myFileList;
+          document.getElementById('crop-notify').style.display = 'none';
           document.getElementById("btnUpload").disabled = false;
         });
         document.getElementById('btnReset').addEventListener('click', (event) => {
@@ -64,6 +66,7 @@ const displayPreview = (input) => {
             preview.removeChild(child);
           }
           input.files.value = "";
+          document.getElementById('crop-notify').style.display = 'block';
           document.getElementById("btnUpload").disabled = true;
         });
       };

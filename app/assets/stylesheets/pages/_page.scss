@@ -43,6 +43,10 @@
 .faq-container {
   width: 80%;
   margin: 1rem auto;
+  p {
+    font-size: 1.125rem;
+    line-height: 2;
+  }
 }
 
 .faq-sort {
@@ -55,19 +59,13 @@
   }
 }
 
-.terms-container {
+.terms-container, .privacy-container, .cookie-container {
   width: 80%;
   margin: 1rem auto;
-}
-
-.privacy-container {
-  width: 80%;
-  margin: 1rem auto;
-}
-
-.cookie-container {
-  width: 80%;
-  margin: 1rem auto;
+  p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+  }
 }
 
 // X-Small devices (portrait phones, less than 576px)
@@ -95,6 +93,12 @@
     }
     img {
       width: 60%;
+    }
+  }
+  .terms-container, .privacy-container, .cookie-container {
+    p {
+      font-size: 1rem;
+      line-height: 1.6;
     }
   }
 }

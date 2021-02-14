@@ -6,35 +6,51 @@
       </div>
       <div class="modal-body">
         <% if (practitioner.country_code == 'CA') || practitioner.country_code == 'US' %>
-          <p>For security of our customers, we are running the background check for all the practitioners on The Holistic Panda.</p>
-          <p>Before we proceed to background check, you must complete the one-time onboarding payment of CA$ 35 in order to start the process.</p>
-          <p>And please note that, you will have to sign a practitioner's agreement after you clear the background check to finalize the onboarding process.</p>
-          <p>You can take a preview of our practitioner's agreement template <strong><a href="https://theholisticpanda-prod.s3.ca-central-1.amazonaws.com/THP_Practitioner+Agreement_Template_Watermark.pdf" target="_blank">here</a></strong> and once you carry out the payment, there will be no refund due to the disagreement on our practitioner's agreement.</p>
+          <p>We require a background check for all of our practitioners to ensure the safety of our clients and build trust with our community.</p>
+          <p>A one-time non-refundable onboarding payment of CA$ 35 is required to initiate the background check process. Upon receipt of payment, you will receive an email from ModoHR Technologies Inc. with instructions on how to complete the background check. The process takes about 5-10 minutes, and the review takes approximately 4-6 hours, depending on your country.</p>
+          <p>Once your background check is cleared, you’ll be sent the practitioner’s agreement to sign to complete the onboarding process. You can preview the agreement template <strong><a href="https://theholisticpanda-prod.s3.ca-central-1.amazonaws.com/THP_Practitioner+Agreement_Template_Watermark.pdf" target="_blank">here</a></strong>.</p>
           <%= simple_form_for [practitioner] do |f| %>
-            <fieldset class="form-group check_boxes required practitioner_background_check_consent">
-              <legend class="col-form-label pt-0">I've checked practitioner's agreement and agree to proceed to payment.</legend>
+            <fieldset class="form-group check_boxes required practitioner_agreement_consent">
+              <legend class="col-form-label pt-0">I've read the terms in the practitioner's agreement and agree to proceed to payment.</legend>
               <input type="hidden" name="practitioner[agreement_consent][]" value="">
               <div class="form-check">
                 <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="practitioner[agreement_consent][]" id="agreement_consent_true">
                 <label class="form-check-label collection_check_boxes" for="agreement_consent_true">I agree</label>
               </div>
             </fieldset>
+            <fieldset class="form-group check_boxes required practitioner_background_check_consent">
+              <legend class="col-form-label pt-0">I agree to THP sharing my first name, last name, email address, and country of residence with their background check partner, ModoHR Technologies Inc. I understand that all personal information requested will be protected and maintained in confidentiality and will only be disclosed to The Holistic Panda for the purposes of discharging the practitioner’s obligations under the practitioner agreement.</legend>
+              <input type="hidden" name="practitioner[background_check_consent][]" value="">
+              <div class="form-check">
+                <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="practitioner[background_check_consent][]" id="background_check_consent_true">
+                <label class="form-check-label collection_check_boxes" for="background_check_consent_true">I agree</label>
+              </div>
+            </fieldset>
             <div class="modal-btns">
-              <%= f.submit 'Proceed To Payment', class: 'btn btn-flat', id: 'proceed', disabled: true %>
+              <%= f.submit 'Proceed To Payment', class: 'btn btn-flat', id: 'proceed' %>
             </div>
           <% end %>
         <% else %>
-          <p>We are sorry to inform you that background check for your country of residence is not available yet.</p><p>For security of our customers, we are running the background check for all the practitioners on The Holistic Panda.</p><p>We will inform you as soon as possible when our background check is ready to welcome you onboard.</p>
+          <p>We require a background check for all of our practitioners to ensure the safety of our clients and build trust with our community.</p>
+          <p>We regret to inform you that a background check for your country of residence is not available yet, but please email us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a> if you’re still interested in being a practitioner. We will let you know when we expand searches to your country and look forward to welcoming you to our community!</p>
         <% end %>
       </div>
     </div>
   </div>
 </div>
 <script>
-  const checkbox = document.getElementById('agreement_consent_true');
-  if (checkbox) {
-    checkbox.addEventListener( 'change', function() {
-      if(checkbox.checked === true) {
+  const agreement = document.getElementById('agreement_consent_true');
+  const background = document.getElementById('background_check_consent_true');
+  if (agreement) {
+    agreement.addEventListener( 'change', function() {
+      if(agreement.checked === true && background.checked) {
+        document.getElementById("proceed").disabled = false;
+      } else {
+        document.getElementById("proceed").disabled = true;
+      }
+    });
+    background.addEventListener( 'change', function() {
+      if(agreement.checked === true && background.checked) {
         document.getElementById("proceed").disabled = false;
       } else {
         document.getElementById("proceed").disabled = true;

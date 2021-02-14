@@ -163,7 +163,7 @@ class PractitionersController < ApplicationController
 
   def update
     if params[:commit] == 'Proceed To Payment'
-      if @practitioner.update(agreement_consent: true, amount_cents: 3500)
+      if (params[:practitioner][:agreement_consent][1]) && (params[:practitioner][:background_check_consent][1]) && @practitioner.update(background_check_consent: true, agreement_consent: true, amount_cents: 3500)
         payment_session = Stripe::Checkout::Session.create(
           billing_address_collection: 'required',
           payment_method_types: ['card'],
@@ -179,7 +179,7 @@ class PractitionersController < ApplicationController
         @practitioner.update(checkout_session_id: payment_session.id)
         redirect_to new_practitioner_practitioner_payment_path(@practitioner)
       else
-        render :new
+        redirect_to practitioner_profile_path
       end
     elsif params[:commit] == 'Proceed to background check'
       @practitioner.update(background_check_status: 'pending', background_check_consent: true)

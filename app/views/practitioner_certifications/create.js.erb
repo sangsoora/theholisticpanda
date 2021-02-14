@@ -1,4 +1,5 @@
 $("#certifications-list").html('<%= j render "practitioner_certifications_list", practitioner: @practitioner %>');
+$("#progress").html('<%= j render  "practitioners/profile_progress_bar", practitioner: @practitioner %>');
 certificationsForm.style.display = 'none';
 certificationsForm.reset();
 certificationsEdit.style.display = 'block';

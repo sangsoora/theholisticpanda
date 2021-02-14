@@ -4,3 +4,4 @@ workinghour<%= @param[:day] %>.style.display = 'block';
 day<%= @param[:day] %>Block.innerHTML = `<%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: @param[:day])), remote: true, method: :delete, data: { confirm: "Are you sure to block Sunday?"}, class: 'fas fa-ban' %>`;
 day<%= @param[:day] %>Block.style.display = 'block';
 document.getElementById("workinghour<%= @param[:day] %>").innerHTML = `<%= @working_hour.opens.strftime('%H:%M') %> ~ <%= @working_hour.closes.strftime('%H:%M') %>`;
+$("#progress").html('<%= j render  "practitioners/profile_progress_bar", practitioner: @practitioner %>');

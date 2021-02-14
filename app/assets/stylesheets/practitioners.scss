@@ -401,6 +401,13 @@
   margin: 0 0.5rem;
 }
 
+.progress {
+  margin-bottom: 0.5rem;
+  .progress-bar {
+    background-color: $pink;
+  }
+}
+
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
   .practitioner-overview .practitioner-main {

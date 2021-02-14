@@ -199,4 +199,28 @@ class Practitioner < ApplicationRecord
   def checked?
     (payment_status == 'paid') && (background_check_status == 'completed') && (agreement_status == 'completed') && agreement_consent && background_check_consent
   end
+
+  def profile_progress
+    check_working_hours = false
+    working_hours.each do |hour|
+      check_working_hours = true if hour.opens && hour.closes
+    end
+    completed = 0
+    completed += 1 if title?
+    completed += 1 if country_code?
+    completed += 1 if location?
+    completed += 1 if timezone?
+    completed += 1 if bio?
+    completed += 1 if approach?
+    completed += 1 if video?
+    completed += 1 if experience?
+    completed += 1 if specialties.length.positive?
+    completed += 1 if languages.length.positive?
+    completed += 1 if practitioner_certifications.length.positive?
+    completed += 1 if practitioner_memberships.length.positive?
+    completed += 1 if practitioner_memberships.length.positive?
+    completed += 1 if check_working_hours
+    percentage = ((completed / 13.to_f) * 100).round(0)
+    percentage
+  end
 end

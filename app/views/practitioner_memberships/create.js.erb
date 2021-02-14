@@ -1,4 +1,5 @@
 $("#memberships-list").html('<%= j render "practitioner_memberships_list", practitioner: @practitioner %>');
+$("#progress").html('<%= j render  "practitioners/profile_progress_bar", practitioner: @practitioner %>');
 membershipsForm.style.display = 'none';
 membershipsForm.reset();
 membershipsEdit.style.display = 'block';

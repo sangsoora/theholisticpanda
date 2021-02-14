@@ -17,7 +17,6 @@ if ('<%= @param.keys.first %>' == "country_code") {
   bio.style.display = 'flex';
   bioForm.style.display = 'none';
   bioEdit.style.display = 'block';
-  pe
   document.getElementById('bio').innerHTML = '<% if @practitioner.bio %><%= @practitioner.bio.gsub(/\n/, "<br/>").html_safe %><% end %>';
 } else if ('<%= @param.keys.first %>' == "video") {
   video.style.display = 'flex';
@@ -53,3 +52,4 @@ if ('<%= @param.keys.first %>' == "country_code") {
     }
   <% end %>
 }
+$("#progress").html('<%= j render  "practitioners/profile_progress_bar", practitioner: @practitioner %>');
