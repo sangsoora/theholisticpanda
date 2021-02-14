@@ -39,8 +39,8 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-       <h5 class="modal-title" id="newServiceModalLabel">New service</h5>
-       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="newServiceModalLabel">New service</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -48,9 +48,6 @@
         <%= simple_form_for([@service]) do |f| %>
           <%= f.input :name, label: 'Name of the Service' %>
           <div class="form-group select required service_service_type">
-            <% if !@practitioner.address %>
-              <p>Please add physical address where you will be conducting In-person service in <%= link_to 'Profile Page', practitioner_profile_path %> if you want to conduct In-person service.</p>
-            <% end %>
             <label class="select required" for="service_service_type">Service type</label>
             <select class="form-control select require" name="service[service_type]" id="service_service_type" required>
               <option value=""></option>
@@ -59,6 +56,9 @@
                 <option value="In-person">In-person</option>
               <% end %>
             </select>
+            <% if !@practitioner.address %>
+              <p><small><em>Please add physical address where you will be conducting In-person service in <%= link_to 'Profile Page', practitioner_profile_path %> if you want to conduct In-person service.</em></small></p>
+            <% end %>
           </div>
           <%= f.input :specialty, as: :select, collection: @practitioner.specialties, require: true %>
           <%= render "service_health_goals/create_form", service: @service %>

@@ -5,9 +5,15 @@
     <ul class="navbar-nav mr-auto">
       <% if user_signed_in? %>
         <% if !current_user.practitioner %>
-          <li class="nav-item">
-            <%= link_to 'Become A Practitioner', become_a_practitioner_path, class: "nav-link find-service" %>
-          </li>
+          <% if current_user.signup_path == '/become-a-practitioner' %>
+            <li class="nav-item">
+              <%= link_to 'Complete Practitioner Application', new_user_practitioner_path(current_user), class: "nav-link find-service" %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to 'Become A Practitioner', become_a_practitioner_path, class: "nav-link find-service" %>
+            </li>
+          <% end %>
         <% end %>
         <li class="nav-item btn-group">
           <a class="dropdown-toggle nav-link" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -67,9 +73,15 @@
   <a class="close-side" id="close-side">&times;</a>
   <a href="/"><%= image_tag('logo', alt: 'The Holistic Panda') %></a>
   <% if user_signed_in? %>
-    <div class="nav-item">
-      <%= link_to 'Become A Practitioner', become_a_practitioner_path, class: "nav-link find-service" %>
-    </div>
+    <% if current_user.signup_path == '/become-a-practitioner' %>
+      <div class="nav-item">
+        <%= link_to 'Complete Practitioner Application', new_user_practitioner_path(current_user), class: "nav-link find-service" %>
+      </div>
+    <% else %>
+      <div class="nav-item">
+        <%= link_to 'Become A Practitioner', become_a_practitioner_path, class: "nav-link find-service" %>
+      </div>
+    <% end %>
     <div class="nav-item">
       <div class="d-flex align-items-center">
         <%= link_to 'Notifications', user_notifications_path, class: 'nav-link' %>

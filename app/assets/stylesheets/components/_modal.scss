@@ -9,6 +9,11 @@
 .modal-header {
   border-bottom: none;
   background: rgba(229, 121, 80, 1);
+  position: relative;
+  .close {
+    position: absolute;
+    right: 1.125rem;
+  }
 }
 
 .modal-title {
