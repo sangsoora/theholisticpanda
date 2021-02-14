@@ -10,28 +10,28 @@ users_data = [
     newsletter: false,
     timezone: 'Europe/Madrid'
   },
-  # {
-  #   email: 'diana@theholisticpanda.com',
-  #   password: 'Holistic1!',
-  #   first_name: 'Diana',
-  #   last_name: 'Choi',
-  #   phone_number: '',
-  #   admin: true,
-  #   terms: true,
-  #   newsletter: false,
-  #   timezone: 'America/Vancouver'
-  # },
-  # {
-  #   email: 'testuser@theholisticpanda.com',
-  #   password: 'Holistic1!',
-  #   first_name: 'Janet',
-  #   last_name: 'Lam',
-  #   phone_number: '',
-  #   admin: true,
-  #   terms: true,
-  #   newsletter: false,
-  #   timezone: 'America/Vancouver'
-  # }
+  {
+    email: 'diana@theholisticpanda.com',
+    password: 'Holistic1!',
+    first_name: 'Diana',
+    last_name: 'Choi',
+    phone_number: '',
+    admin: true,
+    terms: true,
+    newsletter: false,
+    timezone: 'America/Vancouver'
+  },
+  {
+    email: 'testuser@theholisticpanda.com',
+    password: 'Holistic1!',
+    first_name: 'Janet',
+    last_name: 'Lam',
+    phone_number: '',
+    admin: true,
+    terms: true,
+    newsletter: false,
+    timezone: 'America/Vancouver'
+  }
   # ,
   # {
   #   email: 'sangsoo@theholisticpanda.com',
