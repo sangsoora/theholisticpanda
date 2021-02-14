@@ -1,7 +1,7 @@
 <div class="container payment-page">
   <div class="payment-box">
     <h1>Checkout summary</h1>
-    <p><%= @practitioner.user.full_name %>'s Onboarding Fee for <strong>$CA<%= humanized_money_with_symbol @practitioner.amount %></strong></p>
+    <p><%= @practitioner.user.full_name %>'s Onboarding Fee for <strong>CA <%= humanized_money_with_symbol @practitioner.amount %>.</strong></p>
     <button id="pay" class="btn btn-flat">Pay</button>
     <script src="https://js.stripe.com/v3/"></script>
     <script>

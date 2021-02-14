@@ -48,8 +48,8 @@
         <%= simple_form_for([@service]) do |f| %>
           <%= f.input :name, label: 'Name of the Service' %>
           <div class="form-group select required service_service_type">
-            <% if @practitioner.address %>
-              <p>If you want to conduct In-person service, please add physical address where you will be conducting In-person service in <%= link_to 'Profile Page', practitioner_profile_path %>.</p>
+            <% if !@practitioner.address %>
+              <p>Please add physical address where you will be conducting In-person service in <%= link_to 'Profile Page', practitioner_profile_path %> if you want to conduct In-person service.</p>
             <% end %>
             <label class="select required" for="service_service_type">Service type</label>
             <select class="form-control select require" name="service[service_type]" id="service_service_type" required>
