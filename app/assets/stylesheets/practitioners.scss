@@ -408,6 +408,14 @@
   }
 }
 
+.process-status-box {
+  background-color: white;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 2rem;
+  box-shadow: 0 7px 25px 0 rgba(0,0,0,.1);
+}
+
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
   .practitioner-overview .practitioner-main {

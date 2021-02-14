@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: %i[first_name last_name phone_number terms newsletter timezone photo])
 
-    devise_parameter_sanitizer.permit(:account_update, keys: %i[first_name last_name phone_number terms newsletter timezone photo])
+    devise_parameter_sanitizer.permit(:account_update, keys: %i[first_name last_name phone_number terms newsletter timezone photo stripe_id])
   end
 
   def store_location

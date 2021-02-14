@@ -802,66 +802,68 @@
     <div class="practitioner-profile-title">
       <h1>Welcome, <%= @practitioner.user.first_name %></h1>
     </div>
-    <% if @practitioner.payment_status != 'paid' %>
-      <% if (@practitioner.country_code == 'CA') || @practitioner.country_code == 'US' %>
-        <h2>You haven't submitted the onboarding fee yet!</h2>
-        <p>We require a background check for all of our practitioners to ensure the safety of our clients and build trust with our community.</p>
-        <p>A one-time non-refundable onboarding payment of CA$ 35 is required to initiate the background check process. Upon receipt of payment, you will receive an email from ModoHR Technologies Inc. with instructions on how to complete the background check. The process takes about 5-10 minutes, and the review takes approximately 4-6 hours, depending on your country.</p>
-        <p>Once your background check is cleared, you’ll be sent the practitioner’s agreement to sign to complete the onboarding process. You can preview the agreement template <strong><a href="https://theholisticpanda-prod.s3.ca-central-1.amazonaws.com/THP_Practitioner+Agreement_Template_Watermark.pdf" target="_blank">here</a></strong>.</p>
-        <%= simple_form_for [@practitioner] do |f| %>
-          <fieldset class="form-group check_boxes required practitioner_agreement_consent">
-            <legend class="col-form-label pt-0">I've read the terms in the practitioner's agreement and agree to proceed to payment.</legend>
-            <input type="hidden" name="practitioner[agreement_consent][]" value="">
-            <div class="form-check">
-              <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="practitioner[agreement_consent][]" id="agreement_consent_true">
-              <label class="form-check-label collection_check_boxes" for="agreement_consent_true">I agree</label>
-            </div>
-          </fieldset>
-          <fieldset class="form-group check_boxes required practitioner_background_check_consent">
-            <legend class="col-form-label pt-0">I agree to THP sharing my first name, last name, email address, and country of residence with their background check partner, ModoHR Technologies Inc. I understand that all personal information requested will be protected and maintained in confidentiality and will only be disclosed to The Holistic Panda for the purposes of discharging the practitioner’s obligations under the practitioner agreement.</legend>
-            <input type="hidden" name="practitioner[background_check_consent][]" value="">
-            <div class="form-check">
-              <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="practitioner[background_check_consent][]" id="background_check_consent_true">
-              <label class="form-check-label collection_check_boxes" for="background_check_consent_true">I agree</label>
-            </div>
-          </fieldset>
-          <%= f.submit 'Proceed To Payment', class: 'btn btn-flat', id: 'proceed', disabled: true %>
+    <div class="process-status-box">
+      <% if @practitioner.payment_status != 'paid' %>
+        <% if (@practitioner.country_code == 'CA') || @practitioner.country_code == 'US' %>
+          <h2>You haven't submitted the onboarding fee yet!</h2>
+          <p>We require a background check for all of our practitioners to ensure the safety of our clients and build trust with our community.</p>
+          <p>A one-time non-refundable onboarding payment of CA$ 35 is required to initiate the background check process. Upon receipt of payment, you will receive an email from ModoHR Technologies Inc. with instructions on how to complete the background check. The process takes about 5-10 minutes, and the review takes approximately 4-6 hours, depending on your country.</p>
+          <p>Once your background check is cleared, you’ll be sent the practitioner’s agreement to sign to complete the onboarding process. You can preview the agreement template <strong><a href="https://theholisticpanda-prod.s3.ca-central-1.amazonaws.com/THP_Practitioner+Agreement_Template_Watermark.pdf" target="_blank">here</a></strong>.</p>
+          <%= simple_form_for [@practitioner] do |f| %>
+            <fieldset class="form-group check_boxes required practitioner_agreement_consent">
+              <legend class="col-form-label pt-0"></legend>
+              <input type="hidden" name="practitioner[agreement_consent][]" value="">
+              <div class="form-check">
+                <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="practitioner[agreement_consent][]" id="agreement_consent_true">
+                <label class="form-check-label collection_check_boxes" for="agreement_consent_true">I've read the terms in the practitioner's agreement and agree to proceed to payment.</label>
+              </div>
+            </fieldset>
+            <fieldset class="form-group check_boxes required practitioner_background_check_consent">
+              <legend class="col-form-label pt-0"></legend>
+              <input type="hidden" name="practitioner[background_check_consent][]" value="">
+              <div class="form-check">
+                <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="practitioner[background_check_consent][]" id="background_check_consent_true">
+                <label class="form-check-label collection_check_boxes" for="background_check_consent_true">I agree to THP sharing my first name, last name, email address, and country of residence with their background check partner, ModoHR Technologies Inc. I understand that all personal information requested will be protected and maintained in confidentiality and will only be disclosed to The Holistic Panda for the purposes of discharging the practitioner’s obligations under the practitioner agreement.</label>
+              </div>
+            </fieldset>
+            <%= f.submit 'Proceed To Payment', class: 'btn btn-flat', id: 'proceed', disabled: true %>
+          <% end %>
+          <br>
+          <p>If you see this message after completing the onboarding fee payment, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
+          <script>
+            const agreement = document.getElementById('agreement_consent_true');
+            const background = document.getElementById('background_check_consent_true');
+            document.getElementById("proceed").disabled = true;
+            if (agreement) {
+              agreement.addEventListener( 'change', function() {
+                if(agreement.checked === true && background.checked) {
+                  document.getElementById("proceed").disabled = false;
+                } else {
+                  document.getElementById("proceed").disabled = true;
+                }
+              });
+              background.addEventListener( 'change', function() {
+                if(agreement.checked === true && background.checked) {
+                  document.getElementById("proceed").disabled = false;
+                } else {
+                  document.getElementById("proceed").disabled = true;
+                }
+              });
+            }
+          </script>
+        <% else %>
+          <p>We require a background check for all of our practitioners to ensure the safety of our clients and build trust with our community.</p>
+            <p>We regret to inform you that a background check for your country of residence is not available yet, but please email us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a> if you’re still interested in being a practitioner. We will let you know when we expand searches to your country and look forward to welcoming you to our community!</p>
         <% end %>
-        <br>
-        <p>If you see this message after completing the onboarding fee payment, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
-        <script>
-          const agreement = document.getElementById('agreement_consent_true');
-          const background = document.getElementById('background_check_consent_true');
-          document.getElementById("proceed").disabled = true;
-          if (agreement) {
-            agreement.addEventListener( 'change', function() {
-              if(agreement.checked === true && background.checked) {
-                document.getElementById("proceed").disabled = false;
-              } else {
-                document.getElementById("proceed").disabled = true;
-              }
-            });
-            background.addEventListener( 'change', function() {
-              if(agreement.checked === true && background.checked) {
-                document.getElementById("proceed").disabled = false;
-              } else {
-                document.getElementById("proceed").disabled = true;
-              }
-            });
-          }
-        </script>
-      <% else %>
-        <p>We require a background check for all of our practitioners to ensure the safety of our clients and build trust with our community.</p>
-          <p>We regret to inform you that a background check for your country of residence is not available yet, but please email us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a> if you’re still interested in being a practitioner. We will let you know when we expand searches to your country and look forward to welcoming you to our community!</p>
+      <% elsif @practitioner.background_check_status != "completed" %>
+        <h2>Your background check is still pending!</h2>
+        <p>If you haven't received the instruction email from ModoHR Technologies Inc., our background check partner, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
+        <p>If you have received the instruction email, please follow the steps to complete your background check. Please ensure all of your information is correct and self-declare any offences. Otherwise, you will have to resubmit your application and pay for a new background check. The review process takes approximately 4-6 hours. If your application is still pending after 24 hours, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
+      <% elsif @practitioner.agreement_status != "completed" %>
+        <h2>You haven't signed the practitioner's agreement yet!</h2>
+        <p>Please check your inbox for the practitioner’s agreement. If you haven't received it, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
+        <p>If you have already sent us the signed practitioner's agreement, we will get back to you shortly to activate your status so you can be on your way to creating your public profile!</p>
       <% end %>
-    <% elsif @practitioner.background_check_status != "completed" %>
-      <h2>Your background check is still pending!</h2>
-      <p>If you haven't received the instruction email from ModoHR Technologies Inc., our background check partner, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
-      <p>If you have received the instruction email, please follow the steps to complete your background check. Please ensure all of your information is correct and self-declare any offences. Otherwise, you will have to resubmit your application and pay for a new background check. The review process takes approximately 4-6 hours. If your application is still pending after 24 hours, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
-    <% elsif @practitioner.agreement_status != "completed" %>
-      <h2>You haven't signed the practitioner's agreement yet!</h2>
-      <p>Please check your inbox for the practitioner’s agreement. If you haven't received it, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
-      <p>If you have already sent us the signed practitioner's agreement, we will get back to you shortly to activate your status so you can be on your way to creating your public profile!</p>
-    <% end %>
+    </div>
   </div>
 <% end %>

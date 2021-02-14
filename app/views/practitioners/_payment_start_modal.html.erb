@@ -11,19 +11,19 @@
           <p>Once your background check is cleared, you’ll be sent the practitioner’s agreement to sign to complete the onboarding process. You can preview the agreement template <strong><a href="https://theholisticpanda-prod.s3.ca-central-1.amazonaws.com/THP_Practitioner+Agreement_Template_Watermark.pdf" target="_blank">here</a></strong>.</p>
           <%= simple_form_for [practitioner] do |f| %>
             <fieldset class="form-group check_boxes required practitioner_agreement_consent">
-              <legend class="col-form-label pt-0">I've read the terms in the practitioner's agreement and agree to proceed to payment.</legend>
+              <legend class="col-form-label pt-0"></legend>
               <input type="hidden" name="practitioner[agreement_consent][]" value="">
               <div class="form-check">
                 <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="practitioner[agreement_consent][]" id="agreement_consent_true">
-                <label class="form-check-label collection_check_boxes" for="agreement_consent_true">I agree</label>
+                <label class="form-check-label collection_check_boxes" for="agreement_consent_true">I've read the terms in the practitioner's agreement and agree to proceed to payment.</label>
               </div>
             </fieldset>
             <fieldset class="form-group check_boxes required practitioner_background_check_consent">
-              <legend class="col-form-label pt-0">I agree to THP sharing my first name, last name, email address, and country of residence with their background check partner, ModoHR Technologies Inc. I understand that all personal information requested will be protected and maintained in confidentiality and will only be disclosed to The Holistic Panda for the purposes of discharging the practitioner’s obligations under the practitioner agreement.</legend>
+              <legend class="col-form-label pt-0"></legend>
               <input type="hidden" name="practitioner[background_check_consent][]" value="">
               <div class="form-check">
                 <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="practitioner[background_check_consent][]" id="background_check_consent_true">
-                <label class="form-check-label collection_check_boxes" for="background_check_consent_true">I agree</label>
+                <label class="form-check-label collection_check_boxes" for="background_check_consent_true">I agree to THP sharing my first name, last name, email address, and country of residence with their background check partner, ModoHR Technologies Inc. I understand that all personal information requested will be protected and maintained in confidentiality and will only be disclosed to The Holistic Panda for the purposes of discharging the practitioner’s obligations under the practitioner agreement.</label>
               </div>
             </fieldset>
             <div class="modal-btns">

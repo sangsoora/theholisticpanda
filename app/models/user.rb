@@ -49,6 +49,7 @@ class User < ApplicationRecord
 
   def after_confirmation
     UserMailer.with(user: self).welcome.deliver_now
+    # redirect_to new_user_practitioner_path(self) if login_path == '/become-a-practitioner'
   end
 
   def full_name
