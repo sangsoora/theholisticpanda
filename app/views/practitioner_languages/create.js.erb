@@ -1,5 +1,6 @@
 $("#languages-list").html('<%= j render "practitioner_languages_list", practitioner: @practitioner %>');
 $("#languages_form").html('<%= j render "update_form", practitioner: @practitioner, languages: @languages %>');
+$("#progress").html('<%= j render  "practitioners/profile_progress_bar", practitioner: @practitioner %>');
 document.getElementById('practitioner-languages').style.display = 'block';
 document.getElementById('languages_form').style.display = 'none';
 document.getElementById('languages-edit').style.display = 'block';

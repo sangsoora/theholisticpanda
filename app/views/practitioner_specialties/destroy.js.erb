@@ -1,5 +1,6 @@
 $("#specialties-list").html('<%= j render "practitioner_specialties_list", practitioner: @practitioner %>');
 $("#specialties_form").html('<%= j render "update_form", practitioner: @practitioner, specialties: @specialties %>');
+$("#progress").html('<%= j render  "practitioners/profile_progress_bar", practitioner: @practitioner %>');
 document.getElementById('specialties-edit').addEventListener('click', (e) => {
   e.preventDefault();
   document.getElementById('practitioner-specialties').style.display = 'none';

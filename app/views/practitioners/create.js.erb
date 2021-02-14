@@ -1,2 +1,4 @@
 $("#payment-start").html('<%= j render "practitioners/payment_start_modal", practitioner: @practitioner %>');
 document.getElementById('open-btn').click();
+document.getElementById("proceed")['disabled'] = true;
+
