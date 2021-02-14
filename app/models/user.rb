@@ -24,8 +24,9 @@ class User < ApplicationRecord
   has_one_attached :photo
 
   validates :email, presence: true, format: { with: /.+@.+\..+/ }
-  validates :first_name, presence: true, length: { minimum: 2, maximum: 20 }
-  validates :last_name, presence: true, length: { minimum: 2, maximum: 20 }
+  validates :first_name, presence: true, length: { minimum: 2, maximum: 50 }
+  validates :last_name, presence: true, length: { minimum: 2, maximum: 50 }
+  validates :terms, presence: true, allow_nil: false
   validates :password,
     presence: true,
     length: { in: Devise.password_length },

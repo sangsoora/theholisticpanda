@@ -50,7 +50,7 @@
       </div>
 
       <div class="form-actions">
-        <%= f.button :submit, "Sign Up", class: "btn-flat w-100", id: 'submit-btn', disabled: true %>
+        <%= f.button :submit, "Sign Up", class: "btn-flat w-100", id: 'submit-btn' %>
       </div>
     <% end %>
 
@@ -59,6 +59,7 @@
 </div>
 
 <script>
+  document.getElementById("submit-btn").disabled = true;
   const checkbox = document.getElementById('user_terms');
   if (checkbox) {
     checkbox.addEventListener( 'change', function() {
