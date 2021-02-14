@@ -38,9 +38,11 @@
               <%= link_to 'Messages', conversation_path(current_user.last_conversation), class: "dropdown-item" %>
             <% end %>
             <% if current_user.practitioner %>
-              <%= link_to 'View My Page', practitioner_path(current_user.practitioner), class: "dropdown-item" %>
               <%= link_to 'My Profile', practitioner_profile_path, class: "dropdown-item" %>
-              <%= link_to 'My Services', practitioner_services_path, class: 'dropdown-item' %>
+              <% if current_user.practitioner.checked? %>
+                <%= link_to 'My Services', practitioner_services_path, class: 'dropdown-item' %>
+                <%= link_to 'View My Page', practitioner_path(current_user.practitioner), class: "dropdown-item" %>
+              <% end %>
             <% else %>
               <%= link_to 'My Profile', user_path(current_user), class: "dropdown-item" %>
             <% end %>
@@ -89,14 +91,16 @@
     <% end %>
     <% if current_user.practitioner %>
       <div class="nav-item">
-        <%= link_to 'View My Page', practitioner_path(current_user.practitioner), class: "nav-link" %>
-      </div>
-      <div class="nav-item">
         <%= link_to 'My Profile', practitioner_profile_path, class: "nav-link" %>
       </div>
-      <div class="nav-item">
-        <%= link_to 'My Services', practitioner_services_path, class: 'nav-link' %>
-      </div>
+      <% if current_user.practitioner.checked? %>
+        <div class="nav-item">
+          <%= link_to 'View My Page', practitioner_path(current_user.practitioner), class: "nav-link" %>
+        </div>
+        <div class="nav-item">
+          <%= link_to 'My Services', practitioner_services_path, class: 'nav-link' %>
+        </div>
+      <% end %>
     <% else %>
       <div class="nav-item">
         <%= link_to 'My Profile', user_path(current_user), class: "nav-link" %>

@@ -128,7 +128,7 @@ class PractitionersController < ApplicationController
   end
 
   def filter
-    @practitioners = Practitioner.left_outer_joins(:user).where("(first_name ILIKE :search) or (last_name ILIKE :search) or (first_name || ' ' || last_name ILIKE :search)", :search => "%#{params[:query]}%")
+    @practitioners = Practitioner.checked_practitioners.left_outer_joins(:user).where("(first_name ILIKE :search) or (last_name ILIKE :search) or (first_name || ' ' || last_name ILIKE :search)", :search => "%#{params[:query]}%")
     authorize @practitioners
     respond_to :js
   end
@@ -183,11 +183,11 @@ class PractitionersController < ApplicationController
       end
     elsif params[:commit] == 'Proceed to background check'
       @practitioner.update(background_check_status: 'pending', background_check_consent: true)
-      PractitionerMailer.with(practitioner: @practitioner).welcome.deliver_later
+      PractitionerMailer.with(practitioner: @practitioner).welcome.deliver_now
       redirect_to practitioner_profile_path, notice: 'Thank you for your application'
     else
       if @practitioner.update(practitioner_params)
-        if @practitioner.video && !@practitioner.video.start_with?( 'http://', 'https://')
+        if @practitioner.video && !@practitioner.video.start_with?('http://', 'https://')
           @practitioner.update(video: 'http://' + @practitioner.video)
         end
         @param = practitioner_params

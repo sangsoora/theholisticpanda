@@ -14,6 +14,7 @@ class CreateSessions < ActiveRecord::Migration[5.2]
       t.string :status
       t.text :cancel_reason
       t.integer :cancelled_user_id
+      t.integer :free_practitioner_id
       t.references :user, foreign_key: true
       t.references :service, foreign_key: true
       t.timestamps

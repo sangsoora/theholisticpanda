@@ -3,6 +3,7 @@ class SpecialtiesController < ApplicationController
   before_action :set_specialty, only: %i[show destroy]
 
   def show
+    @specialty_services = @specialty.services.active_services
   end
 
   def create

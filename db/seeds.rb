@@ -1,335 +1,336 @@
-# users_data = [
-#   {
-#     email: 'admin@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Holistic',
-#     last_name: 'Panda',
-#     phone_number: '000 000 001',
-#     admin: true,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'diana@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Diana',
-#     last_name: 'Choi',
-#     phone_number: '000 000 002',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'America/Vancouver'
-#   },
-#   {
-#     email: 'testuser@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Janet',
-#     last_name: 'Lam',
-#     phone_number: '000 000 003',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'America/Vancouver'
-#   },
-#   {
-#     email: 'sangsoo@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Sangsoo',
-#     last_name: 'Ra',
-#     phone_number: '000 000 004',
-#     admin: false,
-#     terms: true,
-#     newsletter: true,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'testpractitioner@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Peter',
-#     last_name: 'Parker',
-#     phone_number: '000 000 005',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'America/Vancouver'
-#   },
-#   {
-#     email: 'blackwidow@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Natasha',
-#     last_name: 'Romanoff',
-#     phone_number: '000 000 006',
-#     admin: false,
-#     terms: true,
-#     newsletter: true,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'captainamerica@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Steve',
-#     last_name: 'Rogers',
-#     phone_number: '000 000 007',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'America/Vancouver'
-#   },
-#   {
-#     email: 'ironman@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Tony',
-#     last_name: 'Stark',
-#     phone_number: '000 000 008',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Asia/Seoul'
-#   },
-#   {
-#     email: 'hulk@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Bruce',
-#     last_name: 'Banner',
-#     phone_number: '000 000 009',
-#     admin: false,
-#     terms: true,
-#     newsletter: true,
-#     timezone: 'Asia/Kolkata'
-#   },
-#   {
-#     email: 'hawkeye@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Clint',
-#     last_name: 'Barton',
-#     phone_number: '000 000 010',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'America/New_York'
-#   },
-#   {
-#     email: 'thor@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Thor',
-#     last_name: 'Odinson',
-#     phone_number: '000 000 011',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'scarletwitch@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Wanda',
-#     last_name: 'Maximoff',
-#     phone_number: '000 000 012',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'antman@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Scott',
-#     last_name: 'Lang',
-#     phone_number: '000 000 013',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'quake@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Daisy',
-#     last_name: 'Johnson',
-#     phone_number: '000 000 014',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'jessicajones@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Jessica',
-#     last_name: 'Jones',
-#     phone_number: '000 000 015',
-#     admin: false,
-#     terms: true,
-#     newsletter: true,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'psylocke@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Elizabeth',
-#     last_name: 'Braddock',
-#     phone_number: '000 000 016',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'nickfury@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Nick',
-#     last_name: 'Fury',
-#     phone_number: '000 000 017',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'beast@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Hank',
-#     last_name: 'McCoy',
-#     phone_number: '000 000 018',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'cyclops@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Scott',
-#     last_name: 'Summers',
-#     phone_number: '000 000 019',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'daredevil@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Matt',
-#     last_name: 'Murdock',
-#     phone_number: '000 000 020',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'deadpool@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Wade',
-#     last_name: 'Wilson',
-#     phone_number: '000 000 021',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'doctorstrange@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Stephen',
-#     last_name: 'Strange',
-#     phone_number: '000 000 022',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'falcon@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Sam',
-#     last_name: 'Wilson',
-#     phone_number: '000 000 023',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'invisiblewoman@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Susan',
-#     last_name: 'Storm',
-#     phone_number: '000 000 024',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'lukecage@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Luke',
-#     last_name: 'Cage',
-#     phone_number: '000 000 025',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'magneto@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Erik',
-#     last_name: 'Lensherr',
-#     phone_number: '000 000 026',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'punisher@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Frank',
-#     last_name: 'Castle',
-#     phone_number: '000 000 027',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'starlord@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Peter',
-#     last_name: 'Quill',
-#     phone_number: '000 000 028',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'storm@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'Ororo',
-#     last_name: 'Munroe',
-#     phone_number: '000 000 029',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   },
-#   {
-#     email: 'wolverine@theholisticpanda.com',
-#     password: 'Holistic1!',
-#     first_name: 'James',
-#     last_name: 'Howlett',
-#     phone_number: '000 000 030',
-#     admin: false,
-#     terms: true,
-#     newsletter: false,
-#     timezone: 'Europe/Madrid'
-#   }
-# ]
+users_data = [
+  {
+    email: 'sangsoo@theholisticpanda.com',
+    password: 'Holistic1!',
+    first_name: 'Sangsoo',
+    last_name: 'Ra',
+    phone_number: '',
+    admin: true,
+    terms: true,
+    newsletter: false,
+    timezone: 'Europe/Madrid'
+  },
+  {
+    email: 'diana@theholisticpanda.com',
+    password: 'Holistic1!',
+    first_name: 'Diana',
+    last_name: 'Choi',
+    phone_number: '',
+    admin: true,
+    terms: true,
+    newsletter: false,
+    timezone: 'America/Vancouver'
+  },
+  {
+    email: 'testuser@theholisticpanda.com',
+    password: 'Holistic1!',
+    first_name: 'Janet',
+    last_name: 'Lam',
+    phone_number: '',
+    admin: true,
+    terms: true,
+    newsletter: false,
+    timezone: 'America/Vancouver'
+  }
+  # ,
+  # {
+  #   email: 'sangsoo@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Sangsoo',
+  #   last_name: 'Ra',
+  #   phone_number: '000 000 004',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: true,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'testpractitioner@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Peter',
+  #   last_name: 'Parker',
+  #   phone_number: '000 000 005',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'America/Vancouver'
+  # },
+  # {
+  #   email: 'blackwidow@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Natasha',
+  #   last_name: 'Romanoff',
+  #   phone_number: '000 000 006',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: true,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'captainamerica@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Steve',
+  #   last_name: 'Rogers',
+  #   phone_number: '000 000 007',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'America/Vancouver'
+  # },
+  # {
+  #   email: 'ironman@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Tony',
+  #   last_name: 'Stark',
+  #   phone_number: '000 000 008',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Asia/Seoul'
+  # },
+  # {
+  #   email: 'hulk@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Bruce',
+  #   last_name: 'Banner',
+  #   phone_number: '000 000 009',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: true,
+  #   timezone: 'Asia/Kolkata'
+  # },
+  # {
+  #   email: 'hawkeye@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Clint',
+  #   last_name: 'Barton',
+  #   phone_number: '000 000 010',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'America/New_York'
+  # },
+  # {
+  #   email: 'thor@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Thor',
+  #   last_name: 'Odinson',
+  #   phone_number: '000 000 011',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'scarletwitch@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Wanda',
+  #   last_name: 'Maximoff',
+  #   phone_number: '000 000 012',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'antman@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Scott',
+  #   last_name: 'Lang',
+  #   phone_number: '000 000 013',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'quake@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Daisy',
+  #   last_name: 'Johnson',
+  #   phone_number: '000 000 014',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'jessicajones@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Jessica',
+  #   last_name: 'Jones',
+  #   phone_number: '000 000 015',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: true,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'psylocke@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Elizabeth',
+  #   last_name: 'Braddock',
+  #   phone_number: '000 000 016',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'nickfury@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Nick',
+  #   last_name: 'Fury',
+  #   phone_number: '000 000 017',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'beast@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Hank',
+  #   last_name: 'McCoy',
+  #   phone_number: '000 000 018',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'cyclops@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Scott',
+  #   last_name: 'Summers',
+  #   phone_number: '000 000 019',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'daredevil@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Matt',
+  #   last_name: 'Murdock',
+  #   phone_number: '000 000 020',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'deadpool@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Wade',
+  #   last_name: 'Wilson',
+  #   phone_number: '000 000 021',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'doctorstrange@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Stephen',
+  #   last_name: 'Strange',
+  #   phone_number: '000 000 022',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'falcon@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Sam',
+  #   last_name: 'Wilson',
+  #   phone_number: '000 000 023',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'invisiblewoman@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Susan',
+  #   last_name: 'Storm',
+  #   phone_number: '000 000 024',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'lukecage@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Luke',
+  #   last_name: 'Cage',
+  #   phone_number: '000 000 025',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'magneto@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Erik',
+  #   last_name: 'Lensherr',
+  #   phone_number: '000 000 026',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'punisher@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Frank',
+  #   last_name: 'Castle',
+  #   phone_number: '000 000 027',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'starlord@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Peter',
+  #   last_name: 'Quill',
+  #   phone_number: '000 000 028',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'storm@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'Ororo',
+  #   last_name: 'Munroe',
+  #   phone_number: '000 000 029',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # },
+  # {
+  #   email: 'wolverine@theholisticpanda.com',
+  #   password: 'Holistic1!',
+  #   first_name: 'James',
+  #   last_name: 'Howlett',
+  #   phone_number: '000 000 030',
+  #   admin: false,
+  #   terms: true,
+  #   newsletter: false,
+  #   timezone: 'Europe/Madrid'
+  # }
+]
 
 puts '*' * 60
 puts 'Seeding started'
@@ -343,19 +344,19 @@ puts 'Destroyed all data'
 puts '-' * 60
 puts '=' * 60
 puts '-' * 60
-# puts 'Creating users'
-# puts '-' * 60
+puts 'Creating users'
+puts '-' * 60
 
-# users_data.each do |user_data|
-#   User.create!(user_data)
-# end
+users_data.each do |user_data|
+  User.create!(user_data)
+end
 
-# puts '-' * 60
-# puts 'Users created'
-# puts '-' * 60
+puts '-' * 60
+puts 'Users created'
+puts '-' * 60
 
-# puts '-' * 60
-# puts 'Users created'
+puts '-' * 60
+puts 'Users created'
 puts '-' * 60
 puts '=' * 60
 puts '-' * 60
@@ -375,13 +376,13 @@ puts '-' * 60
 # Practitioner.create!(title: 'Beauty Advisor', insurance: true,location: 'Calgary, Canada', address: '101 9 Ave SW, Calgary, AB T2P 1J9, Canada', bio: 'Jessica Jones is a private investigator from New York City. After becoming orphaned at a young age Jones was taken in by Dorothy Walker, and developed a deep friendship bond with her adoptive sister, Trish Walker. Shortly after being adopted, Jones discovered she possessed superhuman abilities due to the fatal car crash that took the lives of her parents and eventually decided to pursue a career as a superhero. However, a fateful encounter with Kilgrave, a vicious man with mind controlling powers, derailed her superhero career and she spent a torturous tenure as Kilgrave\'s sex slave before finally breaking free of his control. The experience left Jones suffering from post-traumatic stress disorder, prompting her to hang up her secret identity and open her own detective agency.', experience: 'More than 10 years', video: 'https://www.youtube.com/embed/nWHUjuJ8zxE', country_code: 'CA', user_id: 15, latitude: 51.044463, longitude: -114.063113, timezone: 'America/Vancouver', approach: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lectus velit, ultricies vehicula neque et, lobortis euismod tellus. Aenean purus augue, mollis ut egestas at, fermentum et augue. Ut dignissim cursus vehicula. Duis sed ex nulla. Morbi fermentum est sit amet vulputate ultrices. Suspendisse quis tempor leo. Donec ullamcorper risus eget nibh sollicitudin sollicitudin. Integer sed ex metus. Phasellus faucibus maximus ultricies. Curabitur pretium, nisi vitae fermentum ullamcorper, est leo porta eros, non egestas quam leo eu sapien. Sed eget dolor et elit ullamcorper varius. Sed nec laoreet augue. Curabitur ipsum enim, bibendum vel efficitur et, viverra sed diam.')
 # Practitioner.create!(title: 'Sound Healer', insurance: true,location: 'Calgary, Canada', address: '75, E Hills Blvd SE, Calgary, AB T2A 4Y7, Canada', bio: 'Elizabeth Braddock, also known as Psylocke, was initially a supporting character in the adventures of her twin brother, Captain Britain, even briefly substituting for him in the role, before becoming the mutant superheroine and X-Men member Psylocke in 1986. Originally presented as a precognitive in the pages of Captain Britain and then as a telepath, the character eventually had her mind placed in the body of the Japanese female ninja Kwannon, gaining many of Kwannon\'s martial arts skills and elements of her personality. Psylocke\'s codename, coined by the X-Men villains Mojo and Spiral, debuted during her introduction to the X-Men stories post–Captain Britain. Later, Psylocke acquired the power of telekinesis.', experience: '2-5 years', video: 'https://www.youtube.com/embed/-q8Sc4aldnk', country_code: 'CA', user_id: 16, latitude: 51.039782, longitude: -113.912314, timezone: 'America/Vancouver', approach: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lectus velit, ultricies vehicula neque et, lobortis euismod tellus. Aenean purus augue, mollis ut egestas at, fermentum et augue. Ut dignissim cursus vehicula. Duis sed ex nulla. Morbi fermentum est sit amet vulputate ultrices. Suspendisse quis tempor leo. Donec ullamcorper risus eget nibh sollicitudin sollicitudin. Integer sed ex metus. Phasellus faucibus maximus ultricies. Curabitur pretium, nisi vitae fermentum ullamcorper, est leo porta eros, non egestas quam leo eu sapien. Sed eget dolor et elit ullamcorper varius. Sed nec laoreet augue. Curabitur ipsum enim, bibendum vel efficitur et, viverra sed diam.')
 
-puts '-' * 60
-puts 'Practitioners created'
-puts '-' * 60
-puts '=' * 60
-puts '-' * 60
-puts 'Creating working hours'
-puts '-' * 60
+# puts '-' * 60
+# puts 'Practitioners created'
+# puts '-' * 60
+# puts '=' * 60
+# puts '-' * 60
+# puts 'Creating working hours'
+# puts '-' * 60
 
 # WorkingHour.create!(day: 1, opens: '2000-01-01 09:00:00', closes: '2000-01-01 18:00:00', practitioner_id: 1)
 # WorkingHour.create!(day: 2, opens: '', closes: '', practitioner_id: 1)
@@ -468,13 +469,13 @@ puts '-' * 60
 # WorkingHour.create!(day: 6, opens: '', closes: '', practitioner_id: 12)
 # WorkingHour.create!(day: 0, opens: '', closes: '', practitioner_id: 12)
 
-puts '-' * 60
-puts 'Working hours created'
-puts '-' * 60
-puts '=' * 60
-puts '-' * 60
-puts 'Creating practitioner certifications'
-puts '-' * 60
+# puts '-' * 60
+# puts 'Working hours created'
+# puts '-' * 60
+# puts '=' * 60
+# puts '-' * 60
+# puts 'Creating practitioner certifications'
+# puts '-' * 60
 
 # PractitionerCertification.create!(certification_type: 'Education', name: 'ESADE', practitioner_id: 1)
 # PractitionerCertification.create!(certification_type: 'Certification', name: 'Yoga Master', practitioner_id: 1)
@@ -501,13 +502,13 @@ puts '-' * 60
 # PractitionerCertification.create!(certification_type: 'Education', name: 'Cambridge', practitioner_id: 12)
 # PractitionerCertification.create!(certification_type: 'Certification', name: 'Beauty Master', practitioner_id: 12)
 
-puts '-' * 60
-puts 'Practitioner certifications created'
-puts '-' * 60
-puts '=' * 60
-puts '-' * 60
-puts 'Creating practitioner memberships'
-puts '-' * 60
+# puts '-' * 60
+# puts 'Practitioner certifications created'
+# puts '-' * 60
+# puts '=' * 60
+# puts '-' * 60
+# puts 'Creating practitioner memberships'
+# puts '-' * 60
 
 # PractitionerMembership.create!(name: 'International Yoga Association', practitioner_id: 1)
 # PractitionerMembership.create!(name: 'International Chi Association', practitioner_id: 2)
@@ -522,13 +523,13 @@ puts '-' * 60
 # PractitionerMembership.create!(name: 'International Sound Association', practitioner_id: 11)
 # PractitionerMembership.create!(name: 'International Beauty Association', practitioner_id: 12)
 
-puts '-' * 60
-puts 'Practitioner memberships created'
-puts '-' * 60
-puts '=' * 60
-puts '-' * 60
-puts 'Creating languages'
-puts '-' * 60
+# puts '-' * 60
+# puts 'Practitioner memberships created'
+# puts '-' * 60
+# puts '=' * 60
+# puts '-' * 60
+# puts 'Creating languages'
+# puts '-' * 60
 
 Language.create!(name: 'Arabic')
 Language.create!(name: 'Bengali')
@@ -603,12 +604,12 @@ puts '-' * 60
 # PractitionerLanguage.create!(practitioner_id: 12, language_id: 14)
 # PractitionerLanguage.create!(practitioner_id: 12, language_id: 21)
 
-puts '-' * 60
-puts 'Practitioner languages created'
-puts '-' * 60
-puts '=' * 60
-puts '-' * 60
-puts 'Creating specialty categories'
+# puts '-' * 60
+# puts 'Practitioner languages created'
+# puts '-' * 60
+# puts '=' * 60
+# puts '-' * 60
+# puts 'Creating specialty categories'
 puts '-' * 60
 
 SpecialtyCategory.create!(name: 'Body Movement Therapy')
@@ -685,12 +686,12 @@ puts '-' * 60
 # PractitionerSpecialty.create!(practitioner_id: 12, specialty_id: 19)
 # PractitionerSpecialty.create!(practitioner_id: 12, specialty_id: 20)
 
-puts '-' * 60
-puts 'Practitioner specialties created'
-puts '-' * 60
-puts '=' * 60
-puts '-' * 60
-puts 'Creating health goals'
+# puts '-' * 60
+# puts 'Practitioner specialties created'
+# puts '-' * 60
+# puts '=' * 60
+# puts '-' * 60
+# puts 'Creating health goals'
 puts '-' * 60
 
 HealthGoal.create!(name: 'Life Changes Discovery')
@@ -763,14 +764,15 @@ puts '-' * 60
 # UserHealthGoal.create!(user_id: 29, health_goal_id: 7)
 # UserHealthGoal.create!(user_id: 30, health_goal_id: 19)
 
-puts '-' * 60
-puts 'User health goals created'
-puts '-' * 60
-puts '=' * 60
-puts '-' * 60
-puts 'Creating services'
-puts '-' * 60
+# puts '-' * 60
+# puts 'User health goals created'
+# puts '-' * 60
+# puts '=' * 60
+# puts '-' * 60
+# puts 'Creating services'
+# puts '-' * 60
 
+# Service.create!(name: '15 Minutes Free Discovery Session', description: 'Free Session', default_service: true, service_type: 'Virtual', duration: 15, active: true)
 # Service.create!(name: 'Sound Healing based on Traditional Chinese Medicine', description: 'In this virtual session, I can offer a Functional medicine consultation tailored to your specific needs. Helping you to unravel your complicated health issue. Before the first visit, it is very helpful to receive a Health Assessment Questionnaire and any blood/lab work you have received in the past, so that I may be ready to discuss what your concerns are.', service_type: 'Virtual', price: 20, duration: 60, active: true, practitioner_specialty_id: 1)
 # Service.create!(name: 'Crystal Light Therapy', description: 'I can offer a Functional medicine consultation tailored to your specific needs. Helping you to unravel your complicated health issue. Before the first visit, it is very helpful to receive a Health Assessment Questionnaire and any blood/lab work you have received in the past, so that I may be ready to discuss what your concerns are. This could be for you or your pet. ', service_type: 'In-person', price: 30, duration: 60, active: true, practitioner_specialty_id: 1)
 # Service.create!(name: 'Energy Healing', description: 'In this virtual session, I can offer a Functional medicine consultation tailored to your specific needs. Helping you to unravel your complicated health issue. Before the first visit, it is very helpful to receive a Health Assessment Questionnaire and any blood/lab work you have received in the past, so that I may be ready to discuss what your concerns are.', service_type: 'Virtual', price: 20, duration: 60, active: false, practitioner_specialty_id: 1)
@@ -832,13 +834,13 @@ puts '-' * 60
 # Service.create!(name: 'New Medicine to blow your mind away', description: 'Express Coaching for Key Roadblocks is a solution-focused method, for quickly and easily getting you to the heart of your process, condition, or challenge. Sessions focus on a key situation or roadblock to help expand your choices. You naturally engage inner wisdom and apply your strengths allowing you to apply clarity, energy, and action when you need it most.', service_type: 'In-person', price: 55, duration: 75, active: true, practitioner_specialty_id: 26)
 # Service.create!(name: 'Cupping & Herbal Medicine', description: 'Express Coaching for Key Roadblocks is a solution-focused method, for quickly and easily getting you to the heart of your process, condition, or challenge. Sessions focus on a key situation or roadblock to help expand your choices. You naturally engage inner wisdom and apply your strengths allowing you to apply clarity, energy, and action when you need it most.', service_type: 'Virtual', price: 65, duration: 75, active: false, practitioner_specialty_id: 26)
 
-puts '-' * 60
-puts 'Services created'
-puts '-' * 60
-puts '=' * 60
-puts '-' * 60
-puts 'Creating Service Health Goals'
-puts '-' * 60
+# puts '-' * 60
+# puts 'Services created'
+# puts '-' * 60
+# puts '=' * 60
+# puts '-' * 60
+# puts 'Creating Service Health Goals'
+# puts '-' * 60
 
 # ServiceHealthGoal.create!(service_id: 1, health_goal_id: 21)
 # ServiceHealthGoal.create!(service_id: 1, health_goal_id: 19)
@@ -1083,13 +1085,13 @@ puts '-' * 60
 # ServiceHealthGoal.create!(service_id: 60, health_goal_id: 10)
 # ServiceHealthGoal.create!(service_id: 60, health_goal_id: 16)
 
-puts '-' * 60
-puts 'Service Health Goals created'
-puts '-' * 60
-puts '=' * 60
-puts '-' * 60
-puts 'Creating sessions'
-puts '-' * 60
+# puts '-' * 60
+# puts 'Service Health Goals created'
+# puts '-' * 60
+# puts '=' * 60
+# puts '-' * 60
+# puts 'Creating sessions'
+# puts '-' * 60
 
 # Session.create!(start_time: DateTime.new(2020, 3, 4, 18, 00, 0), duration: 60, amount: 20, paid: true, status: 'confirmed', user_id: 2, session_type: Service.find(1).service_type, service_id: 1)
 # Session.create!(start_time: DateTime.new(2020, 8, 14, 8, 00, 0), duration: 45, amount: 30, paid: true, status: 'confirmed', user_id: 2, session_type: Service.find(7).service_type, service_id: 7)
@@ -1173,13 +1175,13 @@ puts '-' * 60
 # Session.create!(start_time: DateTime.new(2020, 12, 4, 02, 00, 0), duration: 60, amount: 20, paid: true, status: 'confirmed', user_id: 3, session_type: Service.find(1).service_type, service_id: 1)
 # Session.create!(start_time: DateTime.new(2020, 12, 4, 20, 30, 0), duration: 60, amount: 20, paid: true, status: 'confirmed', user_id: 3, session_type: Service.find(1).service_type, service_id: 1)
 
-puts '-' * 60
-puts 'Sessions created'
-puts '-' * 60
-puts '=' * 60
-puts '-' * 60
-puts 'Creating reviews'
-puts '-' * 60
+# puts '-' * 60
+# puts 'Sessions created'
+# puts '-' * 60
+# puts '=' * 60
+# puts '-' * 60
+# puts 'Creating reviews'
+# puts '-' * 60
 
 # Review.create!(rating: 3, comment: 'Hmmm', session_id: 13)
 # Review.create!(rating: 4, comment: 'Good', session_id: 14)
@@ -1236,13 +1238,13 @@ puts '-' * 60
 # Review.create!(rating: 5, comment: 'Best', session_id: 65)
 # Review.create!(rating: 3, comment: 'Okish', session_id: 66)
 
-puts '-' * 60
-puts 'Reviews created'
-puts '-' * 60
-puts '=' * 60
-puts '-' * 60
-puts 'Creating favorite practitioners'
-puts '-' * 60
+# puts '-' * 60
+# puts 'Reviews created'
+# puts '-' * 60
+# puts '=' * 60
+# puts '-' * 60
+# puts 'Creating favorite practitioners'
+# puts '-' * 60
 
 # FavoritePractitioner.create!(user_id: 2, practitioner_id: 1)
 # FavoritePractitioner.create!(user_id: 2, practitioner_id: 5)
@@ -1251,13 +1253,13 @@ puts '-' * 60
 # FavoritePractitioner.create!(user_id: 4, practitioner_id: 1)
 # FavoritePractitioner.create!(user_id: 4, practitioner_id: 2)
 
-puts '-' * 60
-puts 'Favorite practitioners created'
-puts '-' * 60
-puts '=' * 60
-puts '-' * 60
-puts 'Creating favorite services'
-puts '-' * 60
+# puts '-' * 60
+# puts 'Favorite practitioners created'
+# puts '-' * 60
+# puts '=' * 60
+# puts '-' * 60
+# puts 'Creating favorite services'
+# puts '-' * 60
 
 # FavoriteService.create!(user_id: 2, service_id: 2)
 # FavoriteService.create!(user_id: 2, service_id: 10)
@@ -1266,13 +1268,13 @@ puts '-' * 60
 # FavoriteService.create!(user_id: 4, service_id: 1)
 # FavoriteService.create!(user_id: 4, service_id: 2)
 
-puts '-' * 60
-puts 'Favorite services created'
-puts '-' * 60
-puts '=' * 60
-puts '-' * 60
-puts 'Creating conversations'
-puts '-' * 60
+# puts '-' * 60
+# puts 'Favorite services created'
+# puts '-' * 60
+# puts '=' * 60
+# puts '-' * 60
+# puts 'Creating conversations'
+# puts '-' * 60
 
 # Conversation.create(recipient_id: Practitioner.find(1).user.id, sender_id: 2)
 # Conversation.create(recipient_id: Practitioner.find(5).user.id, sender_id: 2)
@@ -1281,13 +1283,13 @@ puts '-' * 60
 # Conversation.create(recipient_id: Practitioner.find(1).user.id, sender_id: 4)
 # Conversation.create(recipient_id: Practitioner.find(2).user.id, sender_id: 4)
 
-puts '-' * 60
-puts 'Conversations created'
-puts '-' * 60
-puts '=' * 60
-puts '-' * 60
-puts 'Creating messages'
-puts '-' * 60
+# puts '-' * 60
+# puts 'Conversations created'
+# puts '-' * 60
+# puts '=' * 60
+# puts '-' * 60
+# puts 'Creating messages'
+# puts '-' * 60
 
 # Message.create(content: 'Hi Peter! Good morning!', conversation_id: 1, user_id: 2)
 # Message.create(content: 'Hi Diana! How are you? How can I help you?', conversation_id: 1, user_id: Practitioner.find(1).user.id)
@@ -1302,13 +1304,13 @@ puts '-' * 60
 # Message.create(content: 'Hi Natasha! Nice to meet you!', conversation_id: 6, user_id: 4)
 # Message.create(content: 'Hi Sangsoo! Great to meet you too! What service are you interested?', conversation_id: 6, user_id: Practitioner.find(2).user.id)
 
-puts '-' * 60
-puts 'Messages created'
-puts '-' * 60
-puts '=' * 60
-puts '-' * 60
-puts 'Creating notifications'
-puts '-' * 60
+# puts '-' * 60
+# puts 'Messages created'
+# puts '-' * 60
+# puts '=' * 60
+# puts '-' * 60
+# puts 'Creating notifications'
+# puts '-' * 60
 
 # Notification.create(recipient_id: Session.find(1).practitioner.user.id, actor_id: Session.find(1).user.id, action: "sent you a session request", notifiable_type: 'Session', notifiable_id: Session.find(1).id, read_at: Time.now)
 # Notification.create(recipient_id: Session.find(1).user.id, actor_id: Session.find(1).practitioner.user.id, action: "has confirmed your session", notifiable_type: 'Session', notifiable_id: Session.find(1).id)
@@ -1341,13 +1343,13 @@ puts '-' * 60
 # Notification.create(recipient_id: Practitioner.find(2).user.id, actor_id: 4, action: "sent you a new message", notifiable_type: 'Conversation', notifiable_id: 6, read_at: Time.now)
 # Notification.create(recipient_id: 4, actor_id: Practitioner.find(2).user.id, action: "sent you a new message", notifiable_type: 'Conversation', notifiable_id: 6)
 
-puts '-' * 60
-puts 'Notifications created'
-puts '-' * 60
-puts '=' * 60
-puts '-' * 60
-puts 'Creating faqs'
-puts '-' * 60
+# puts '-' * 60
+# puts 'Notifications created'
+# puts '-' * 60
+# puts '=' * 60
+# puts '-' * 60
+# puts 'Creating faqs'
+# puts '-' * 60
 
 Faq.create(question: 'What is The Holistic Panda, and how are you different from other search platforms? ', answer: 'The Holistic Panda is an online discovery marketplace that enables you to find and book a diverse range of holistic services provided by trusted practitioners. We are different from other marketplaces as our search focuses on matching you with the holistic services that best suit your health goals. We want to make your quest to improve your health and well-being as easy and straightforward as possible, so let us help you navigate this process and find the right service.', audience: 'users')
 Faq.create(question: 'What is a speciality?', answer: 'A speciality is a specific area where the practitioner has devoted much time to practicing and excelling. Some examples of specialities include naturopathy, functional medicine, Traditional Chinese Medicine, nutritional coaching, and counselling.', audience: 'users')

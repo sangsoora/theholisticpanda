@@ -45,9 +45,11 @@ if ('<%= @param.keys.first %>' == "country_code") {
   approachEdit.style.display = 'block';
   document.getElementById('approach').innerHTML = '<% if @practitioner.approach %><%= @practitioner.approach.gsub(/\n/, "<br/>").html_safe %><% end %>'
 } else if ('<%= @param.keys.first %>' == "insurance") {
-  if (<%= @practitioner.insurance %>) {
-    insurance.checked = true;
-  } else {
-    insurance.checked = false;
-  }
+  <% if @practitioner.insurance %>
+    if (<%= @practitioner.insurance %>) {
+      insurance.checked = true;
+    } else {
+      insurance.checked = false;
+    }
+  <% end %>
 }

@@ -392,6 +392,15 @@
   cursor: pointer;
 }
 
+.noCalendar {
+  margin-top: 0.25rem;
+}
+
+.working_hour_opens, .working_hour_closes {
+  width: 25%;
+  margin: 0 0.5rem;
+}
+
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
   .practitioner-overview .practitioner-main {

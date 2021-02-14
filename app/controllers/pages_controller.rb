@@ -3,7 +3,7 @@ class PagesController < ApplicationController
   before_action :set_notifications, only: [:home, :become_a_practitioner, :aboutus, :faq, :terms, :privacy, :cookie]
 
   def home
-    @practitioners = Practitioner.includes(user: [:photo_attachment])
+    @practitioners = Practitioner.checked_practitioners.includes(user: [:photo_attachment])
     @newsletter = Newsletter.new
   end
 

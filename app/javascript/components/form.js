@@ -30,12 +30,8 @@ const initUpdateForm = () => {
   }
   const healthgoalsForm = document.getElementById('healthgoals_form');
   if (healthgoalsForm) {
-    $('.health-goal-choice').on("click", function (e){
-      const active = document.querySelector('.active');
-      e.currentTarget.classList.toggle('active');
-      if (active !== null) {
-        active.classList.remove('active');
-      }
+    $(".health-goal-choice").click(function(){
+      $(this).toggleClass("active");
     });
   }
   const filterForm = document.getElementById('filter-form');

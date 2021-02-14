@@ -1,25 +1,27 @@
 class UserHealthGoalsController < ApplicationController
-    before_action :set_user_health_goal, only: [:destroy]
+  before_action :set_user_health_goal, only: [:destroy]
 
   def create
-    @user_health_goal = UserHealthGoal.new
-    authorize @user_health_goal
     @user = User.find(params[:user_id])
+    new_health_goals = params[:user][:health_goal_ids].reject(&:blank?)
+    new_health_goals.each do |goal|
+      @user_health_goal = UserHealthGoal.new
+      authorize @user_health_goal
+      @user_health_goal.user = @user
+      @user_health_goal.health_goal = HealthGoal.find(goal)
+      @user_health_goal.save!
+    end
     @user_health_goals = HealthGoal.all.sort_by(&:name)
-    @user_health_goal.user = @user
-    @user_health_goal.health_goal = HealthGoal.find(params[:user][:health_goal_id])
     @health_goals = HealthGoal.all.sort_by(&:name)
-    if @user_health_goal.save!
-      respond_to do |format|
-        format.html {
-          if @user.practitioner
-            redirect_to practitioner_profile_path(@user.practitioner)
-          else
-            redirect_to user_path(@user)
-          end
-        }
-        format.js
-      end
+    respond_to do |format|
+      format.html {
+        if @user.practitioner
+          redirect_to practitioner_profile_path(@user.practitioner)
+        else
+          redirect_to user_path(@user)
+        end
+      }
+      format.js
     end
   end
 
