@@ -2,8 +2,9 @@
   "name": "holistick",
   "private": true,
   "dependencies": {
-    "@rails/webpacker": "5.1.1",
+    "@rails/webpacker": "^5.2.1",
     "bootstrap": "^4.5.0",
+    "caniuse-lite": "^1.0.30001187",
     "cropperjs": "^1.5.7",
     "flatpickr": "^4.6.3",
     "intl-tel-input": "^17.0.10",
