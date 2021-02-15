@@ -48,8 +48,8 @@ class User < ApplicationRecord
   end
 
   def after_confirmation
-    UserMailer.with(user: self).welcome.deliver_now
-    AdminMailer.with(user: self).new_user.deliver_now
+    UserMailer.with(user: self).welcome.deliver_later
+    AdminMailer.with(user: self).new_user.deliver_later
   end
 
   def full_name
