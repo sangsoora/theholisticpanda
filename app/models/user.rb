@@ -49,7 +49,7 @@ class User < ApplicationRecord
 
   def after_confirmation
     UserMailer.with(user: self).welcome.deliver_now
-    AdminMail.with(user: self).new_user.deliver_now
+    AdminMailer.with(user: self).new_user.deliver_now
   end
 
   def full_name
