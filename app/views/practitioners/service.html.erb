@@ -79,7 +79,7 @@
 </div>
 <script>
   document.getElementById('create-service').addEventListener('click', (e) => {
-    if ((document.getElementById('service_name').value == '') || (document.getElementById('service_name').value == '') || (document.getElementById('service_name').value.length < 6)) {
+    if ((document.getElementById('service_name').value == '') || (document.getElementById('service_description').value == '') || (document.getElementById('service_description').value.length < 6)) {
       e.preventDefault();
     }
   })
