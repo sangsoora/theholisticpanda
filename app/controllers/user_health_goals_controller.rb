@@ -16,7 +16,7 @@ class UserHealthGoalsController < ApplicationController
     respond_to do |format|
       format.html {
         if @user.practitioner
-          redirect_to practitioner_profile_path(@user.practitioner)
+          redirect_to practitioner_profile_path
         else
           redirect_to user_path(@user)
         end
@@ -33,7 +33,7 @@ class UserHealthGoalsController < ApplicationController
     respond_to do |format|
       format.html {
         if @user.practitioner
-          redirect_to practitioner_profile_path(@user.practitioner)
+          redirect_to practitioner_profile_path
         else
           redirect_to user_path(@user)
         end

@@ -21,7 +21,7 @@ class RegistrationsController < Devise::RegistrationsController
     unless account_update_params[:password]
       respond_to do |format|
         if resource.practitioner
-          format.html { redirect_to practitioner_profile_path(@practitioner) }
+          format.html { redirect_to practitioner_profile_path }
         else
           format.html { redirect_to user_path(resource) }
         end

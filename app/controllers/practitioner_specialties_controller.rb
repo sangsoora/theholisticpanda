@@ -10,7 +10,7 @@ class PractitionerSpecialtiesController < ApplicationController
     @practitioner_specialty.specialty = Specialty.find(params[:practitioner][:specialty_id])
     if @practitioner_specialty.save!
       respond_to do |format|
-        format.html { redirect_to practitioner_profile_path(@practitioner) }
+        format.html { redirect_to practitioner_profile_path }
         format.js
       end
     end
@@ -22,7 +22,7 @@ class PractitionerSpecialtiesController < ApplicationController
     @specialty = @practitioner_specialty.specialty
     @specialties = Specialty.all.sort_by(&:name)
     respond_to do |format|
-      format.html { redirect_to practitioner_profile_path(@practitioner) }
+      format.html { redirect_to practitioner_profile_path }
       format.js
     end
   end

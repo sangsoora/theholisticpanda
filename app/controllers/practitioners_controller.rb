@@ -191,7 +191,7 @@ class PractitionersController < ApplicationController
         end
         @param = practitioner_params
         respond_to do |format|
-          format.html { redirect_to practitioner_profile_path(@practitioner) }
+          format.html { redirect_to practitioner_profile_path }
           format.js
         end
       end

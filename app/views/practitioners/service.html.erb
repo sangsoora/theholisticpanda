@@ -46,21 +46,22 @@
       </div>
       <div class="modal-body">
         <%= simple_form_for([@service]) do |f| %>
-          <%= f.input :name, label: 'Name of the Service' %>
+          <%= f.input :name, label: 'Name of the Service', require: true %>
           <div class="form-group select required service_service_type">
             <label class="select required" for="service_service_type">Service type</label>
             <select class="form-control select require" name="service[service_type]" id="service_service_type" required>
-              <option value=""></option>
-              <option value="Virtual">Virtual</option>
               <% if @practitioner.address %>
-                <option value="In-person">In-person</option>
+                <option value="In-person" selected>In-person</option>
+                <option value="Virtual">Virtual</option>
+              <% else %>
+                <option value="Virtual" selected>Virtual</option>
               <% end %>
             </select>
             <% if !@practitioner.address %>
               <p><small><em>Please add physical address where you will be conducting In-person service in <%= link_to 'Profile Page', practitioner_profile_path %> if you want to conduct In-person service.</em></small></p>
             <% end %>
           </div>
-          <%= f.input :specialty, as: :select, collection: @practitioner.specialties, require: true %>
+          <%= f.input :specialty, as: :select, collection: @practitioner.specialties, include_blank: false, include_hidden: false, require: true %>
           <%= render "service_health_goals/create_form", service: @service %>
           <%= f.input :duration, input_html: { value: 15, min: 15, step: 15 }, require: true %>
           <div class="form-group string required service_price">

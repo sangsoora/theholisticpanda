@@ -10,7 +10,7 @@ class PractitionerLanguagesController < ApplicationController
     @practitioner_language.language = Language.find(params[:practitioner][:language_id])
     if @practitioner_language.save!
       respond_to do |format|
-        format.html { redirect_to practitioner_profile_path(@practitioner) }
+        format.html { redirect_to practitioner_profile_path }
         format.js
       end
     end
@@ -22,7 +22,7 @@ class PractitionerLanguagesController < ApplicationController
     @language = @practitioner_language.language
     @languages = Language.all.sort_by(&:name)
     respond_to do |format|
-      format.html { redirect_to practitioner_profile_path(@practitioner_language.practitioner) }
+      format.html { redirect_to practitioner_profile_path }
       format.js
     end
   end

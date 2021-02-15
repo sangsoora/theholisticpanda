@@ -14,7 +14,7 @@ class WorkingHoursController < ApplicationController
       @param = working_hour_params
       @practitioner = @working_hour.practitioner
       respond_to do |format|
-        format.html { redirect_to practitioner_profile_path(@practitioner) }
+        format.html { redirect_to practitioner_profile_path }
         format.js
       end
     end
@@ -25,7 +25,7 @@ class WorkingHoursController < ApplicationController
     @num = @working_hour.day
     @working_hour.update(opens: nil, closes: nil)
     respond_to do |format|
-      format.html { redirect_to practitioner_profile_path(@practitioner) }
+      format.html { redirect_to practitioner_profile_path }
       format.js
     end
   end

@@ -11,7 +11,7 @@ class PractitionerSocialLinksController < ApplicationController
   #   end
   #   if @practitioner_social_link.save!
   #     respond_to do |format|
-  #       format.html { redirect_to practitioner_profile_path(@practitioner) }
+  #       format.html { redirect_to practitioner_profile_path }
   #       format.js
   #     end
   #   end
@@ -21,7 +21,7 @@ class PractitionerSocialLinksController < ApplicationController
   #   @practitioner = @practitioner_social_link.practitioner
   #   @practitioner_social_link.destroy
   #   respond_to do |format|
-  #     format.html { redirect_to practitioner_profile_path(@practitioner) }
+  #     format.html { redirect_to practitioner_profile_path }
   #     format.js
   #   end
   # end

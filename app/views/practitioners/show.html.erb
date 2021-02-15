@@ -240,7 +240,7 @@
         </table>
       </div>
       <% if current_user == @practitioner.user %>
-        <%= link_to 'Edit', practitioner_profile_path(@practitioner), class: 'btn btn-flat w-100 mt-3' %>
+        <%= link_to 'Edit', practitioner_profile_path, class: 'btn btn-flat w-100 mt-3' %>
       <% else %>
         <%= simple_form_for [@practitioner.user, @conversation], html: {class: "w-100"} do |f| %>
           <%= f.submit 'Send message', class: 'btn btn-flat w-100 mt-3' %>

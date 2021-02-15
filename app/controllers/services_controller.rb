@@ -76,10 +76,8 @@ class ServicesController < ApplicationController
       @service_health_goals.each do |goal|
         ServiceHealthGoal.create(service: @service, health_goal: HealthGoal.find(goal))
       end
-      redirect_to practitioner_services_path(current_user.practitioner)
-    else
-      render :new
     end
+    redirect_to practitioner_services_path
   end
 
   def update
@@ -97,21 +95,21 @@ class ServicesController < ApplicationController
       end
     end
     if @service.price.to_f == service_params[:price].to_f
-      redirect_to practitioner_services_path(current_user.practitioner) if @service.update(service_params)
+      redirect_to practitioner_services_path if @service.update(service_params)
     else
       if @service.update(service_params)
         favorite_users = @service.favorite_users
         favorite_users.each do |user|
           Notification.create(recipient: user, actor: current_user, action: 'updated the price of service', notifiable: @service)
         end
-        redirect_to practitioner_services_path(current_user.practitioner)
+        redirect_to practitioner_services_path
       end
     end
   end
 
   def destroy
     @service.destroy
-    redirect_to practitioner_services_path(current_user.practitioner)
+    redirect_to practitioner_services_path
   end
 
   private

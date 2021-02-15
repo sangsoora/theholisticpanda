@@ -8,7 +8,7 @@ class PractitionerMembershipsController < ApplicationController
     @practitioner_membership.practitioner = @practitioner
     if @practitioner_membership.save!
       respond_to do |format|
-        format.html { redirect_to practitioner_profile_path(@practitioner) }
+        format.html { redirect_to practitioner_profile_path }
         format.js
       end
     end
@@ -18,7 +18,7 @@ class PractitionerMembershipsController < ApplicationController
     @practitioner = @practitioner_membership.practitioner
     @practitioner_membership.destroy
     respond_to do |format|
-      format.html { redirect_to practitioner_profile_path(@practitioner) }
+      format.html { redirect_to practitioner_profile_path }
       format.js
     end
   end
