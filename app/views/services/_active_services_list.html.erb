@@ -30,24 +30,32 @@
       </div>
     </div>
     <%= simple_form_for([service], html: { class: 'w-100', style: 'display: none;' }) do |f| %>
-      <%= f.input :name, label: 'Name of the Service' %>
+      <%= f.input :name, label: 'Name of the Service', input_html: { id: "service_name_#{service.id}" } %>
       <div class="form-group select require service_service_type form-group-valid">
         <label class="select require" for="service_service_type">Service type</label>
-        <select class="form-control is-valid select require" name="service[service_type]" id="service_service_type">
-          <option value=""></option>
-          <option value="Virtual" <%= 'selected' if service.service_type == "Virtual" %>>Virtual</option>
-          <% if service.practitioner.address %>
-            <option value="In-person" <%= 'selected' if service.service_type == "In-person" %>>In-person</option>
+        <select class="form-control is-valid select require" name="service[service_type]" id="service_service_type_<%= service.id %>">
+          <% if @practitioner.address %>
+            <option value="In-person" selected>In-person</option>
+            <option value="Virtual">Virtual</option>
+          <% else %>
+            <option value="Virtual" selected>Virtual</option>
           <% end %>
         </select>
       </div>
       <%= render "service_health_goals/update_form", service: service %>
-      <%= f.input :duration, input_html: { min: 15, step: 15 } %>
+      <%= f.input :duration, input_html: { min: 15, step: 15, id: "service_duration_#{service.id}" } %>
       <%= f.input :price %>
       <%= f.input :description, input_html: { id: "service_description_#{service.id}", rows: 5, maxlength: 1000 } %>
       <p id="description-counter-<%= service.id %>" <% if service.description.gsub(/\n/, '<br/>').html_safe.length == 1000 %>style="color: red;"<% end %>><%= service.description.gsub(/\n/, '<br/>').html_safe.length %>/1000</p>
-      <%= f.submit :Update, class: 'btn btn-flat' %>
+      <%= f.submit :Update, class: 'btn btn-flat', id: "update-service-#{service.id}" %>
       <%= link_to 'Cancel', '', class: 'btn btn-ghost ml-3' %>
     <% end %>
   </div>
+  <script>
+    document.getElementById('update-service-<%= service.id %>').addEventListener('click', (e) => {
+      if ((document.getElementById('service_name_<%= service.id %>').value == '') || (document.getElementById('service_description_<%= service.id %>').value == '') || (document.getElementById('service_description_<%= service.id %>').value.length < 6)) {
+        e.preventDefault();
+      }
+    })
+  </script>
 <% end %>
