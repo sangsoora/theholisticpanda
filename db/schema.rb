@@ -279,6 +279,7 @@ ActiveRecord::Schema.define(version: 2021_02_07_161407) do
     t.string "last_name"
     t.string "phone_number"
     t.string "stripe_id"
+    t.string "signup_path"
     t.boolean "admin", default: false
     t.boolean "terms", default: false
     t.boolean "newsletter", default: false

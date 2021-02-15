@@ -1,9 +1,9 @@
 class RegistrationsController < Devise::RegistrationsController
   def create
     super
-    # if session[:previous_url] == '/become-a-practitioner'
-    #   @user.update(login_path: session[:previous_url])
-    # end
+    if session[:previous_url] == '/become-a-practitioner'
+      @user.update(signup_path: session[:previous_url])
+    end
   end
 
   def edit

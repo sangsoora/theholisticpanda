@@ -22,7 +22,7 @@ users_data = [
     timezone: 'America/Vancouver'
   },
   {
-    email: 'testuser@theholisticpanda.com',
+    email: 'janet@theholisticpanda.com',
     password: 'Success888!',
     first_name: 'Janet',
     last_name: 'Lam',

@@ -79,7 +79,7 @@
               <div class="practitioner-service-summary-right">
                 <p>Free</p>
                 <% if current_user != @practitioner.user %>
-                  <%= link_to 'Book', service_path(service), class: 'btn btn-flat' %>
+                  <%= link_to 'Book', service_path(Service.first), class: 'btn btn-flat' %>
                 <% end %>
               </div>
             </div>

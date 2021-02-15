@@ -181,10 +181,9 @@ class PractitionersController < ApplicationController
       else
         redirect_to practitioner_profile_path
       end
-    elsif params[:commit] == 'Proceed to background check'
-      @practitioner.update(background_check_status: 'pending', background_check_consent: true)
-      PractitionerMailer.with(practitioner: @practitioner).welcome.deliver_now
-      redirect_to practitioner_profile_path, notice: 'Thank you for your application'
+    # elsif params[:commit] == 'Proceed to background check'
+    #   @practitioner.update(background_check_status: 'pending', background_check_consent: true)
+    #   redirect_to practitioner_profile_path, notice: 'Thank you for your application'
     else
       if @practitioner.update(practitioner_params)
         if @practitioner.video && !@practitioner.video.start_with?('http://', 'https://')

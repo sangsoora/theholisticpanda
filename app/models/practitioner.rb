@@ -218,9 +218,10 @@ class Practitioner < ApplicationRecord
     completed += 1 if languages.length.positive?
     completed += 1 if practitioner_certifications.length.positive?
     completed += 1 if practitioner_memberships.length.positive?
-    completed += 1 if practitioner_memberships.length.positive?
     completed += 1 if check_working_hours
-    percentage = ((completed / 13.to_f) * 100).round(0)
+    completed += 1 if user.photo.attached?
+    completed += 1 if banner_image.attached?
+    percentage = ((completed / 15.to_f) * 100).round(0)
     percentage
   end
 end

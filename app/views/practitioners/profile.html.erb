@@ -434,7 +434,7 @@
               <h5 class="personal-tab personal-active-tab" id="personal-basic">Basic Info</h5>
               <div class="personal-list">
                 <p class="personal-basic-tab personal-basic-active-tab">Name</p>
-                <p class="personal-basic-tab">Phone number</p>
+                <p class="personal-basic-tab">Phone Number</p>
               </div>
               <h5 class="personal-tab" id="personal-additional">Additional Info</h5>
               <div class="personal-list">
@@ -493,8 +493,9 @@
     <div class="modal-dialog modal-photo" role="document">
       <div class="modal-content">
         <div class="modal-header justify-content-center">
-          <h5 class="modal-title" id="profilePictureModalLabel">Crop profile photo</h5>
-          <button data-dismiss="modal" aria-label="Close" style="display: none;" id="close-modal">
+          <h5 class="modal-title" id="profilePictureModalLabel">Crop Profile Photo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body text-center">
@@ -530,8 +531,9 @@
     <div class="modal-dialog modal-photo" role="document">
       <div class="modal-content">
         <div class="modal-header justify-content-center">
-          <h5 class="modal-title" id="bannerImageModalLabel">Upload banner image</h5>
-          <button data-dismiss="modal" aria-label="Close" style="display: none;" id="close-modal">
+          <h5 class="modal-title" id="bannerImageModalLabel">Upload Banner Image</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body text-center">
@@ -560,7 +562,8 @@
       <div class="modal-content">
         <div class="modal-header justify-content-center">
           <h5 class="modal-title" id="videoInstructionModalLabel">Linking YouTube Video Instruction</h5>
-          <button data-dismiss="modal" aria-label="Close" style="display: none;" id="close-modal">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body text-center">
@@ -833,32 +836,33 @@
           <script>
             const agreement = document.getElementById('agreement_consent_true');
             const background = document.getElementById('background_check_consent_true');
-            document.getElementById("proceed").disabled = true;
+            document.getElementById('proceed').disabled = true;
             if (agreement) {
               agreement.addEventListener( 'change', function() {
                 if(agreement.checked === true && background.checked) {
-                  document.getElementById("proceed").disabled = false;
+                  document.getElementById('proceed').disabled = false;
                 } else {
-                  document.getElementById("proceed").disabled = true;
+                  document.getElementById('proceed').disabled = true;
                 }
               });
               background.addEventListener( 'change', function() {
                 if(agreement.checked === true && background.checked) {
-                  document.getElementById("proceed").disabled = false;
+                  document.getElementById('proceed').disabled = false;
                 } else {
-                  document.getElementById("proceed").disabled = true;
+                  document.getElementById('proceed').disabled = true;
                 }
               });
             }
           </script>
         <% else %>
           <p>We require a background check for all of our practitioners to ensure the safety of our clients and build trust with our community.</p>
-            <p>We regret to inform you that a background check for your country of residence is not available yet, but please email us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a> if you’re still interested in being a practitioner. We will let you know when we expand searches to your country and look forward to welcoming you to our community!</p>
+          <p>We regret to inform you that a background check for your country of residence is not available yet, but please email us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a> if you’re still interested in being a practitioner. We will let you know when we expand searches to your country and look forward to welcoming you to our community!</p>
         <% end %>
       <% elsif @practitioner.background_check_status != "completed" %>
-        <h2>Your background check is still pending!</h2>
-        <p>If you haven't received the instruction email from ModoHR Technologies Inc., our background check partner, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
-        <p>If you have received the instruction email, please follow the steps to complete your background check. Please ensure all of your information is correct and self-declare any offences. Otherwise, you will have to resubmit your application and pay for a new background check. The review process takes approximately 4-6 hours. If your application is still pending after 24 hours, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
+        <h2>Thank you for your payment. You're on your way to getting verified!</h2>
+        <p>You will receive an instruction email shortly from ModoHR Technologies Inc. on how to complete your background check, and if not please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
+        <p>If you have received the instruction email, please follow the required steps. Please ensure all of your information is correct and self-declare any offences. Otherwise, you will have to resubmit your application and pay for a new background check. The review process takes approximately 4-6 hours.</p>
+        <p>If your application is still pending after 24 hours, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
       <% elsif @practitioner.agreement_status != "completed" %>
         <h2>You haven't signed the practitioner's agreement yet!</h2>
         <p>Please check your inbox for the practitioner’s agreement. If you haven't received it, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>

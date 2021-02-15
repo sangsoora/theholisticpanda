@@ -1,0 +1,6 @@
+New user <%= @user.full_name %> has joined
+
+First name: <%= @user.first_name %>
+Last name: <%= @user.last_name %>
+Email: <%= @user.email %>
+Newsletter: <% if @user.newsletter %>Yes<% else %>No<% end %>

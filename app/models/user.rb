@@ -49,7 +49,7 @@ class User < ApplicationRecord
 
   def after_confirmation
     UserMailer.with(user: self).welcome.deliver_now
-    # redirect_to new_user_practitioner_path(self) if login_path == '/become-a-practitioner'
+    AdminMailer.with(user: self).new_user.deliver_now
   end
 
   def full_name
@@ -89,7 +89,7 @@ class User < ApplicationRecord
   #   UserMailer.with(user: self).welcome.deliver_now
   # end
 
-  def subscribe_newsletter
-    Newsletter.create(email: email) if newsletter && !Newsletter.find_by(email: email)
-  end
+  # def subscribe_newsletter
+  #   Newsletter.create(email: email) if newsletter && !Newsletter.find_by(email: email)
+  # end
 end

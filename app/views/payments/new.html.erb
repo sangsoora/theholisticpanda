@@ -1,7 +1,7 @@
 <div class="container payment-page">
   <div class="payment-box">
     <h1>Checkout summary</h1>
-    <p>Purchase of <strong><%= @session.service.name %></strong> for <strong>CAD<%= humanized_money_with_symbol @session.amount %></strong></p>
+    <p>Purchase of <strong><%= @session.service.name %></strong> for <strong>CA <%= humanized_money_with_symbol @session.amount %></strong>.</p>
     <button id="pay" class="btn btn-flat">Pay</button>
     <script src="https://js.stripe.com/v3/"></script>
     <script>
