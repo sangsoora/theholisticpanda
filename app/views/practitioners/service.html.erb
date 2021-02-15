@@ -48,7 +48,7 @@
         <%= simple_form_for([@service]) do |f| %>
           <%= f.input :name, label: 'Name of the Service', require: true %>
           <div class="form-group select required service_service_type">
-            <label class="select required" for="service_service_type">Service type</label>
+            <label class="select required" for="service_service_type">Service type<abbr title="required">*</abbr></label>
             <select class="form-control select require" name="service[service_type]" id="service_service_type" required>
               <% if @practitioner.address %>
                 <option value="In-person" selected>In-person</option>
@@ -66,11 +66,11 @@
           <%= f.input :duration, input_html: { value: 15, min: 15, step: 15 }, require: true %>
           <div class="form-group string required service_price">
             <label class="string required" for="service_price">Price <abbr title="required">*</abbr></label>
-            <input class="form-control string required" type="text" name="service[price]" id="service_price">
+            <input class="form-control string required" type="text" name="service[price]" id="service_price" value="10.00">
           </div>
           <%= f.input :description, input_html: { rows: 5, maxlength: 1000 } %>
           <p id="description-counter">0/1000</p>
-          <%= f.submit :Create, class: 'btn btn-flat' %>
+          <%= f.submit :Create, class: 'btn btn-flat', id: 'create-service' %>
           <%= link_to 'Cancel', '', class: 'btn btn-ghost ml-3' %>
         <% end %>
       </div>
@@ -78,6 +78,11 @@
   </div>
 </div>
 <script>
+  document.getElementById('create-service').addEventListener('click', (e) => {
+    if ((document.getElementById('service_name').value == '') || (document.getElementById('service_name').value == '') || (document.getElementById('service_name').value.length < 6)) {
+      e.preventDefault();
+    }
+  })
   document.getElementById('service_description').addEventListener('keyup', (e) => {
     const description_count = document.getElementById('service_description').value.length;
     const description_max = document.getElementById('service_description').maxLength;
