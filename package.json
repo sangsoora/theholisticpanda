@@ -3,14 +3,14 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "^5.2.1",
-    "bootstrap": "^4.5.0",
+    "bootstrap": "^4.6.0",
     "caniuse-lite": "^1.0.30001187",
-    "cropperjs": "^1.5.7",
-    "flatpickr": "^4.6.3",
-    "intl-tel-input": "^17.0.10",
+    "cropperjs": "^1.5.10",
+    "flatpickr": "^4.6.9",
+    "intl-tel-input": "^17.0.12",
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",
-    "swiper": "^6.4.8"
+    "swiper": "^6.4.11"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.11.0"
