@@ -832,7 +832,7 @@
             <%= f.submit 'Proceed To Payment', class: 'btn btn-flat', id: 'proceed', disabled: true %>
           <% end %>
           <br>
-          <p>If you see this message after completing the onboarding fee payment, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
+          <p>If you see this message after completing the onboarding fee payment, please contact us at <a href="mailto:practitioner@theholisticpanda.com">practitioner@theholisticpanda.com</a>.</p>
           <script>
             const agreement = document.getElementById('agreement_consent_true');
             const background = document.getElementById('background_check_consent_true');
@@ -856,16 +856,16 @@
           </script>
         <% else %>
           <p>We require a background check for all of our practitioners to ensure the safety of our clients and build trust with our community.</p>
-          <p>We regret to inform you that a background check for your country of residence is not available yet, but please email us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a> if you’re still interested in being a practitioner. We will let you know when we expand searches to your country and look forward to welcoming you to our community!</p>
+          <p>We regret to inform you that a background check for your country of residence is not available yet, but please email us at <a href="mailto:practitioner@theholisticpanda.com">practitioner@theholisticpanda.com</a> if you’re still interested in being a practitioner. We will let you know when we expand searches to your country and look forward to welcoming you to our community!</p>
         <% end %>
       <% elsif @practitioner.background_check_status != "completed" %>
         <h2>Thank you for your payment. You're on your way to getting verified!</h2>
-        <p>You will receive an instruction email shortly from ModoHR Technologies Inc. on how to complete your background check, and if not please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
+        <p>You will receive an instruction email shortly from ModoHR Technologies Inc. on how to complete your background check, and if not please contact us at <a href="mailto:practitioner@theholisticpanda.com">practitioner@theholisticpanda.com</a>.</p>
         <p>If you have received the instruction email, please follow the required steps. Please ensure all of your information is correct and self-declare any offences. Otherwise, you will have to resubmit your application and pay for a new background check. The review process takes approximately 4-6 hours.</p>
-        <p>If your application is still pending after 24 hours, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
+        <p>If your application is still pending after 24 hours, please contact us at <a href="mailto:practitioner@theholisticpanda.com">practitioner@theholisticpanda.com</a>.</p>
       <% elsif @practitioner.agreement_status != "completed" %>
         <h2>You haven't signed the practitioner's agreement yet!</h2>
-        <p>Please check your inbox for the practitioner’s agreement. If you haven't received it, please contact us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
+        <p>Please check your inbox for the practitioner’s agreement. If you haven't received it, please contact us at <a href="mailto:practitioner@theholisticpanda.com">practitioner@theholisticpanda.com</a>.</p>
         <p>If you have already sent us the signed practitioner's agreement, we will get back to you shortly to activate your status so you can be on your way to creating your public profile!</p>
       <% end %>
     </div>
