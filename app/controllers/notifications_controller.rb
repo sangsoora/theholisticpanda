@@ -1,10 +1,6 @@
 class NotificationsController < ApplicationController
   before_action :set_notification, only: [:update, :destroy]
 
-  # def index
-  #   @notifications = policy_scope(Notification).order(created_at: :desc)
-  # end
-
   def update
     if @notification.read_at.nil?
       @notification.update!(read_at: Time.zone.now)
@@ -15,7 +11,7 @@ class NotificationsController < ApplicationController
       redirect_to service_path(@notification.notifiable_id)
     elsif @notification.notifiable_type == "Conversation"
       redirect_to conversation_path(@notification.notifiable_id)
-    #    # redirect_to user_notifications_path(@notification.recipient)
+      # redirect_to user_notifications_path(@notification.recipient)
     end
   end
 

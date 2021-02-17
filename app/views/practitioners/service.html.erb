@@ -8,7 +8,7 @@
         <p class="tab-underlined">Deactivated <% if @deactivated_serivces.count > 0 %> (<%= @deactivated_serivces.count%>) <% end %> </p>
       </li>
     </ul>
-    <%= link_to 'Add new service', '', data: { toggle: "modal", target: "#newServiceModal" }, class: 'btn btn-flat' %>
+    <%= link_to 'Add New Service', '', data: { toggle: "modal", target: "#newServiceModal" }, class: 'btn btn-flat' %>
   </div>
   <div class="lists">
     <div class="my-services" id="active-list">
@@ -48,7 +48,7 @@
         <%= simple_form_for([@service]) do |f| %>
           <%= f.input :name, label: 'Name of the Service', require: true %>
           <div class="form-group select required service_service_type">
-            <label class="select required" for="service_service_type">Service type<abbr title="required">*</abbr></label>
+            <label class="select required" for="service_service_type">Service Type<abbr title="required">*</abbr></label>
             <select class="form-control select require" name="service[service_type]" id="service_service_type" required>
               <% if @practitioner.address %>
                 <option value="In-person" selected>In-person</option>

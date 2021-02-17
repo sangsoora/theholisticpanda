@@ -1,7 +1,7 @@
 <%= simple_form_for([service]) do |f| %>
   <%= f.input :name, label: 'Name of the Service' %>
   <div class="form-group select require service_service_type form-group-valid">
-    <label class="select require" for="service_service_type">Service type</label>
+    <label class="select require" for="service_service_type">Service Type</label>
     <select class="form-control is-valid select require" name="service[service_type]" id="service_service_type">
       <option value=""></option>
       <option value="Virtual" <%= 'selected' if service.service_type == "Virtual" %>>Virtual</option>

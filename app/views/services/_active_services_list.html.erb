@@ -32,7 +32,7 @@
     <%= simple_form_for([service], html: { class: 'w-100', style: 'display: none;' }) do |f| %>
       <%= f.input :name, label: 'Name of the Service', input_html: { id: "service_name_#{service.id}" } %>
       <div class="form-group select require service_service_type form-group-valid">
-        <label class="select require" for="service_service_type">Service type</label>
+        <label class="select require" for="service_service_type">Service Type</label>
         <select class="form-control is-valid select require" name="service[service_type]" id="service_service_type_<%= service.id %>">
           <% if @practitioner.address %>
             <option value="In-person" selected>In-person</option>
