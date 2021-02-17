@@ -41,6 +41,7 @@ class User < ApplicationRecord
     on: :update
 
   before_create :confirm_admin_without_confirmation_email
+  after_create :subscribe_to_newsletter
   # after_create :send_welcome_email
 
   def confirm_admin_without_confirmation_email
@@ -54,10 +55,6 @@ class User < ApplicationRecord
 
   def full_name
     "#{first_name} #{last_name}"
-  end
-
-  def is_practitioner?
-    practitioner
   end
 
   def conversations
@@ -85,6 +82,9 @@ class User < ApplicationRecord
 
   private
 
+  def subscribe_to_newsletter
+    SubscribeToNewsletterService.new(self).call if newsletter
+  end
   # def send_welcome_email
   #   UserMailer.with(user: self).welcome.deliver_now
   # end

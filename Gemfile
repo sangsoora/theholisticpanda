@@ -52,6 +52,7 @@ gem 'aws-sdk-s3', require: false
 gem 'sidekiq'
 gem 'sidekiq-failures', '~> 1.0'
 gem 'gemoji'
+gem 'gibbon'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

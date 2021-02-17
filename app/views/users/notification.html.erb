@@ -9,7 +9,7 @@
         <% end %>
           <div class="notification-head">
             <div class="notification-image">
-              <% if notification.actor.is_practitioner? && notification.actor.practitioner.user.photo.attached? %>
+              <% if notification.actor.practitioner && notification.actor.practitioner.user.photo.attached? %>
                 <%= image_tag notification.actor.photo %>
               <% else %>
                 <%= image_tag 'profile.png' %>
