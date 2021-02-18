@@ -23,12 +23,15 @@
 }
 
 .specilaty-definition {
+  width: 60%;
+  margin: 0 auto;
   img {
     width: 20%;
     margin: 0 auto;
   }
   h5 {
-    margin: 2rem auto;
+    margin: 1rem auto;
+    line-height: 1.6;
   }
 }
 
@@ -80,7 +83,6 @@
 @media (max-width: 767.98px) {
   .specilaty-definition {
     width: 90%;
-    margin: 0 auto;
     img {
       width: 50%;
       margin: 0 auto;
