@@ -104,6 +104,10 @@ class Practitioner < ApplicationRecord
     converted_working_hours
   end
 
+  def us_states_choice
+    states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
+  end
+
   def timezone_choice
     timezone = [
       ['Etc/GMT+12', '(GMT-12:00) International Date Line West'],
@@ -193,7 +197,7 @@ class Practitioner < ApplicationRecord
   end
 
   def self.checked_practitioners
-    where(payment_status: 'paid', background_check_status: 'completed', agreement_status: 'completed', agreement_consent: true, background_check_consent: true)
+    where(payment_status: 'paid', background_check_status: 'completed', agreement_status: 'completed', agreement_consent: true, background_check_consent: true, status: 'active')
   end
 
   def checked?

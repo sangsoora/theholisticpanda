@@ -1,4 +1,7 @@
 <div class="container sessions">
+  <% if current_user.practitioner %>
+    <h1>My Sessions As Client</h1>
+  <% end %>
   <ul class="list-inline tabs-underlined">
     <li>
       <p class="tab-underlined active-tab">Confirmed <% if @confirmed_sessions.count > 0 %> (<%= @confirmed_sessions.count %>) <% end %></p>
