@@ -29,6 +29,10 @@ class PractitionerPolicy < ApplicationPolicy
     user_is_practitioner?
   end
 
+  def booking?
+    user_is_practitioner?
+  end
+
   def filter?
     true
   end

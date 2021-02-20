@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   end
 
   get '/sessions', to: 'users#booking', as: :user_sessions
+  get '/practitioner_sessions', to: 'practitioner#booking', as: :practitioner_sessions
   get '/favorites', to: 'users#favorite', as: :user_favorites
   get '/notifications', to: 'users#notification', as: :user_notifications
 
@@ -100,9 +101,7 @@ Rails.application.routes.draw do
     resources :messages, only: [:create]
   end
 
-  resources :newsletters, only: %i[create destroy]
-
-  get 'newsletters/:id/unsubscribe', to: 'newsletters#unsubscribe', as: :newsletter_unsubscribe
-
   mount StripeEvent::Engine, at: '/stripe-webhooks'
+
+  post '/background_check/modo_webhooks', to: 'background_check#modo_webhooks'
 end

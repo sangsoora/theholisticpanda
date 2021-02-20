@@ -23,12 +23,6 @@
             <%= link_to 'See All', user_notifications_path, class: 'dropdown-item text-center all' %>
           </div>
         </li>
-        <li class="nav-item">
-          <%= link_to 'My Sessions', user_sessions_path, class: 'nav-link' %>
-        </li>
-        <li class="nav-item">
-          <%= link_to 'My Favourites', user_favorites_path, class: 'nav-link' %>
-        </li>
         <li class="nav-item dropdown">
           <a class="nav-link" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome, <%= current_user.first_name %></a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -36,13 +30,21 @@
               <%= link_to 'Messages', conversation_path(current_user.last_conversation), class: "dropdown-item" %>
             <% end %>
             <% if current_user.practitioner %>
-              <%= link_to 'My Profile', practitioner_profile_path, class: "dropdown-item" %>
+              <%= link_to 'Sessions As Client', user_sessions_path, class: 'dropdown-item' %>
+            <% else %>
+              <%= link_to 'Sessions', user_sessions_path, class: 'dropdown-item' %>
+            <% end %>
+            <%= link_to 'Favourites', user_favorites_path, class: 'dropdown-item' %>
+            <hr>
+            <% if current_user.practitioner %>
+              <%= link_to 'Profile', practitioner_profile_path, class: "dropdown-item" %>
               <% if current_user.practitioner.checked? %>
-                <%= link_to 'My Services', practitioner_services_path, class: 'dropdown-item' %>
+                <%= link_to 'Sessions As Practitioner', practitioner_sessions_path, class: 'dropdown-item' %>
+                <%= link_to 'Services', practitioner_services_path, class: 'dropdown-item' %>
                 <%= link_to 'View My Page', practitioner_path(current_user.practitioner), class: "dropdown-item" %>
               <% end %>
             <% else %>
-              <%= link_to 'My Profile', user_path(current_user), class: "dropdown-item" %>
+              <%= link_to 'Profile', user_path(current_user), class: "dropdown-item" %>
             <% end %>
             <%= link_to 'Log Out', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
           </div>

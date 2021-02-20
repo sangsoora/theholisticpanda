@@ -1,4 +1,5 @@
 <div class="container sessions">
+  <h1>My Sessions As Practitioner</h1>
   <ul class="list-inline tabs-underlined">
     <li>
       <p class="tab-underlined active-tab">Confirmed <% if @confirmed_sessions.count > 0 %> (<%= @confirmed_sessions.count %>) <% end %></p>
@@ -17,17 +18,10 @@
         <% @confirmed_sessions.each do |session| %>
           <div class="session">
             <div class="session-head session-desktop">
-              <div class="session-practitioner">
-                <% if session.practitioner.user.photo.attached? %>
-                  <%= image_tag session.practitioner.user.photo %>
-                <% else %>
-                  <%= image_tag("profile") %>
-                <% end %>
-                <%= link_to session.practitioner.user.full_name, practitioner_path(session.practitioner) %>
-              </div>
               <div class="session-content">
                 <button class="<%= session.status %>"><%= session.status %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
+                <p><small>Client: <%= session.user.full_name %></small></p>
                 <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
@@ -35,57 +29,25 @@
               </div>
             </div>
             <div class="session-actions session-desktop">
-              <% if session.start_time < Time.current && current_user == session.user && session.review == nil %>
-                <%= link_to 'Rate', '', data: { toggle: "modal", target: "#newReviewModal#{session.id}" }, class: 'btn btn-flat' %>
-              <% end %>
+              <%= link_to 'Check Details', session_path(session), class: 'btn btn-flat' %>
             </div>
-            <div class="session-head session-mobile">
-              <% if session.practitioner.user.photo.attached? %>
-                <%= image_tag session.practitioner.user.photo %>
-              <% else %>
-                <%= image_tag("profile") %>
-              <% end %>
-              <%= link_to session.practitioner.user.full_name, practitioner_path(session.practitioner) %>
-              <% if session.start_time < Time.current && current_user == session.user && session.review == nil %>
-                <%= link_to 'Rate', '', data: { toggle: "modal", target: "#newReviewModal#{session.id}" }, class: 'btn btn-flat' %>
-              <% end %>
-            </div>
-            <div class="session-actions session-mobile">
+            <div class="session-actions session-mobile" style="flex: 0 0 100%">
               <div class="session-content">
                 <button class="<%= session.status %>"><%= session.status %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
+                <p><small>Client: <%= session.user.full_name %></small></p>
                 <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
                 <p><small>Session Type: <%= session.session_type %></small></p>
-              </div>
-            </div>
-          </div>
-          <div class="modal fade" id="newReviewModal<%= session.id %>" tabindex="-1" role="dialog" aria-labelledby="newReviewModalLabel<%= session.id %>" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="newReviewwModalLabel<%= session.id %>">Write review</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <%= simple_form_for([session, @review]) do |f| %>
-                    <%= f.input :rating, collection: [5, 4, 3, 2, 1]  %>
-                    <%= f.input :comment %>
-                    <div class="modal-btns">
-                      <%= f.submit :Submit, class: 'btn btn-flat' %>
-                    </div>
-                  <% end %>
-                </div>
+                <%= link_to 'Check Details', session_path(session), class: 'btn btn-flat' %>
               </div>
             </div>
           </div>
         <% end %>
       </div>
     <% else %>
-      <%= link_to 'Find Holistic Services', services_path, class: 'btn btn-flat' %>
+      <p>No confirmed session.</p>
     <% end %>
   </div>
   <div class="lists">
@@ -95,17 +57,10 @@
         <% @pending_sessions.each do |session| %>
           <div class="session">
             <div class="session-head session-desktop">
-              <div class="session-practitioner">
-                <% if session.practitioner.user.photo.attached? %>
-                  <%= image_tag session.practitioner.user.photo %>
-                <% else %>
-                  <%= image_tag("profile") %>
-                <% end %>
-                <%= link_to session.practitioner.user.full_name, practitioner_path(session.practitioner) %>
-              </div>
               <div class="session-content">
                 <button class="<%= session.status %>"><%= session.status %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
+                <p><small>Client: <%= session.user.full_name %></small></p>
                 <p><small>When: TBD</small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
@@ -113,32 +68,25 @@
               </div>
             </div>
             <div class="session-actions session-desktop">
-              <%= link_to 'Check Details', session_path(session), class: 'btn btn-flat' %>
+              <%= link_to 'Confirm Session', session_path(session), class: 'btn btn-flat' %>
             </div>
-            <div class="session-head session-mobile">
-              <% if session.practitioner.user.photo.attached? %>
-                <%= image_tag session.practitioner.user.photo %>
-              <% else %>
-                <%= image_tag("profile") %>
-              <% end %>
-              <%= link_to session.practitioner.user.full_name, practitioner_path(session.practitioner) %>
-              <%= link_to 'Check Details', session_path(session), class: 'btn btn-flat' %>
-            </div>
-            <div class="session-actions session-mobile">
+            <div class="session-actions session-mobile" style="flex: 0 0 100%">
               <div class="session-content">
                 <button class="<%= session.status %>"><%= session.status %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
+                <p><small>Client: <%= session.user.full_name %></small></p>
                 <p><small>When: TBD</small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
                 <p><small>Session Type: <%= session.session_type %></small></p>
+                <%= link_to 'Confirm Session', session_path(session), class: 'btn btn-flat' %>
               </div>
             </div>
           </div>
         <% end %>
       </div>
     <% else %>
-      <%= link_to 'Find Holistic Services', services_path, class: 'btn btn-flat' %>
+      <p>No pending session.</p>
     <% end %>
   </div>
   <div class="lists">
@@ -148,17 +96,10 @@
         <% @cancelled_sessions.each do |session| %>
           <div class="session">
             <div class="session-head session-desktop">
-              <div class="session-practitioner">
-                <% if session.practitioner.user.photo.attached? %>
-                  <%= image_tag session.practitioner.user.photo %>
-                <% else %>
-                  <%= image_tag("profile") %>
-                <% end %>
-                <%= link_to session.practitioner.user.full_name, practitioner_path(session.practitioner) %>
-              </div>
               <div class="session-content">
                 <button class="<%= session.status %>"><%= session.status %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
+                <p><small>Client: <%= session.user.full_name %></small></p>
                 <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
@@ -167,21 +108,11 @@
             </div>
             <div class="session-actions session-desktop">
             </div>
-            <div class="session-head session-mobile">
-              <% if session.practitioner.user.photo.attached? %>
-                <%= image_tag session.practitioner.user.photo %>
-              <% else %>
-                <%= image_tag("profile") %>
-              <% end %>
-              <%= link_to session.practitioner.user.full_name, practitioner_path(session.practitioner) %>
-            </div>
-            <div class="session-actions session-mobile">
+            <div class="session-actions session-mobile" style="flex: 0 0 100%">
               <div class="session-content">
                 <button class="<%= session.status %>"><%= session.status %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
-                <% if session.practitioner.user == current_user %>
-                  <p><small>Client: <%= session.user.full_name %></small></p>
-                <% end %>
+                <p><small>Client: <%= session.user.full_name %></small></p>
                 <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>

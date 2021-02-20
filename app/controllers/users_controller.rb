@@ -28,15 +28,9 @@ class UsersController < ApplicationController
   def booking
     @user = current_user
     authorize @user
-    if current_user.practitioner
-      @confirmed_sessions = current_user.practitioner.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'confirmed'])
-      @pending_sessions = current_user.practitioner.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['paid = ? AND status= ?', true, 'pending'])
-      @cancelled_sessions = current_user.practitioner.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'cancelled'])
-    else
-      @confirmed_sessions = current_user.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'confirmed'])
-      @pending_sessions = current_user.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'pending'])
-      @cancelled_sessions = current_user.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'cancelled'])
-    end
+    @confirmed_sessions = current_user.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'confirmed'])
+    @pending_sessions = current_user.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'pending'])
+    @cancelled_sessions = current_user.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'cancelled'])
     @review = Review.new
   end
 
