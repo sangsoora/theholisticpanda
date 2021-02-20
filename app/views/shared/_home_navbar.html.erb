@@ -37,7 +37,7 @@
             <% if current_user.conversations.present? %>
               <%= link_to 'Messages', conversation_path(current_user.last_conversation), class: "dropdown-item" %>
             <% end %>
-            <% if current_user.practitioner %>
+            <% if current_user.practitioner && current_user.practitioner.checked? %>
               <%= link_to 'Sessions As Client', user_sessions_path, class: 'dropdown-item' %>
             <% else %>
               <%= link_to 'Sessions', user_sessions_path, class: 'dropdown-item' %>
