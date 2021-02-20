@@ -1,5 +1,5 @@
 <div class="container sessions">
-  <h1>My Sessions As Practitioner</h1>
+  <h2>My Sessions As Practitioner</h2>
   <ul class="list-inline tabs-underlined">
     <li>
       <p class="tab-underlined active-tab">Confirmed <% if @confirmed_sessions.count > 0 %> (<%= @confirmed_sessions.count %>) <% end %></p>
@@ -12,7 +12,6 @@
     </li>
   </ul>
   <div class="lists">
-    <h2>Confirmed Sessions</h2>
     <% if @confirmed_sessions.count > 0 %>
       <div class="session-container">
         <% @confirmed_sessions.each do |session| %>
@@ -51,7 +50,6 @@
     <% end %>
   </div>
   <div class="lists">
-    <h2>Pending Sessions</h2>
     <% if @pending_sessions.count > 0 %>
       <div class="session-container">
         <% @pending_sessions.each do |session| %>
@@ -90,7 +88,6 @@
     <% end %>
   </div>
   <div class="lists">
-    <h2>Cancelled Sessions</h2>
     <% if @cancelled_sessions.count > 0 %>
       <div class="session-container">
         <% @cancelled_sessions.each do |session| %>

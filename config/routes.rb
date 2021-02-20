@@ -36,7 +36,7 @@ Rails.application.routes.draw do
   end
 
   get '/sessions', to: 'users#booking', as: :user_sessions
-  get '/practitioner_sessions', to: 'practitioner#booking', as: :practitioner_sessions
+  get '/practitioner_sessions', to: 'practitioners#booking', as: :practitioner_sessions
   get '/favorites', to: 'users#favorite', as: :user_favorites
   get '/notifications', to: 'users#notification', as: :user_notifications
 

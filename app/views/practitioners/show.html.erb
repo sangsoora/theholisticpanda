@@ -31,7 +31,7 @@
               <h3><%= @practitioner.user.full_name %></h3>
             </div>
             <div class="practitioner-btn" id="practitioner-btn">
-            <% if user_signed_in %>
+            <% if user_signed_in? && current_user != @practitioner.user %>
               <%= render 'favorite_practitioners/practitioner_btn', practitioner: @practitioner %>
             <% end %>
             </div>
