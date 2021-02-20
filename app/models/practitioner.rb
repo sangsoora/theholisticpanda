@@ -9,7 +9,6 @@ class Practitioner < ApplicationRecord
   has_many :reviews, through: :sessions
   has_many :languages, through: :practitioner_languages
   has_many :specialties, through: :practitioner_specialties
-  has_many :health_goals, through: :specialties
   has_many :practitioner_social_links, dependent: :destroy
   has_many :practitioner_certifications, dependent: :destroy
   has_many :practitioner_memberships, dependent: :destroy
