@@ -8,11 +8,15 @@ class SubscribeToNewsletterService
   def call
     member_id = Digest::MD5.hexdigest(@user.email)
     begin
-      if @gibbon.lists(@audience_id).members(member_id).retrieve.body[:status] != 'subscribed'
+      if (@gibbon.lists(@audience_id).members(member_id).retrieve.body[:status] != 'subscribed') && (@user.newsletter)
         @gibbon.lists(@audience_id).members(member_id).update(body: { status: "subscribed" })
       end
     rescue
-      @gibbon.lists(@audience_id).members.create(body: { email_address: @user.email, status: 'subscribed', merge_fields: { FNAME: @user.first_name, LNAME: @user.last_name } })
+      if @user.newsletter
+        @gibbon.lists(@audience_id).members.create(body: { email_address: @user.email, status: 'subscribed', merge_fields: { FNAME: @user.first_name, LNAME: @user.last_name } })
+      else
+        @gibbon.lists(@audience_id).members.create(body: { email_address: @user.email, status: '', merge_fields: { FNAME: @user.first_name, LNAME: @user.last_name } })
+      end
     end
   end
 end
