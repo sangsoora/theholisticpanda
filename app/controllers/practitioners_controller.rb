@@ -1,7 +1,7 @@
 class PractitionersController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index, :show, :filter]
-  before_action :set_practitioner, only: [:show, :update, :destroy]
-  before_action :set_notifications, only: [:index, :show, :new, :profile, :service]
+  skip_before_action :authenticate_user!, only: %i[index show filter]
+  before_action :set_practitioner, only: %i[show update destroy]
+  before_action :set_notifications, only: %i[index show new profile service booking]
 
   def index
     @practitioners = policy_scope(Practitioner)
@@ -38,7 +38,7 @@ class PractitionersController < ApplicationController
   end
 
   def filter
-    @practitioners = Practitioner.checked_practitioners.left_outer_joins(:user).where("(first_name ILIKE :search) or (last_name ILIKE :search) or (first_name || ' ' || last_name ILIKE :search)", :search => "%#{params[:query]}%")
+    @practitioners = Practitioner.checked_practitioners.left_outer_joins(:user).where("(first_name ILIKE :search) or (last_name ILIKE :search) or (first_name || ' ' || last_name ILIKE :search)", search: "%#{params[:query]}%")
     authorize @practitioners
     respond_to :js
   end
@@ -69,6 +69,14 @@ class PractitionersController < ApplicationController
     @active_serivces = @practitioner.services.where(active: true).includes(:sessions, :specialty, :practitioner)
     @deactivated_serivces = @practitioner.services.where(active: false).includes(:sessions, :specialty, :practitioner)
     @service = Service.new
+  end
+
+  def booking
+    @practitioner = current_user.practitioner
+    authorize @practitioner
+    @confirmed_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(['status= ?', 'confirmed'])
+    @pending_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(['paid = ? AND status= ?', true, 'pending'])
+    @cancelled_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(['status= ?', 'cancelled'])
   end
 
   def update
@@ -122,6 +130,6 @@ class PractitionersController < ApplicationController
   end
 
   def practitioner_params
-    params.require(:practitioner).permit(:title, :location, :address, :bio, :approach, :video, :latitude, :longitude, :experience, :timezone, :country_code, :checkout_session_id, :amount, :payment_status, :agreement_consent, :agreement_status, :status, :background_check_status, :background_check_consent, :background_check_id, :insurance, :banner_image, :specialty_ids, :language_ids)
+    params.require(:practitioner).permit(:title, :location, :address, :bio, :approach, :video, :latitude, :longitude, :experience, :timezone, :country_code, :state, :checkout_session_id, :amount, :payment_status, :agreement_consent, :agreement_status, :status, :background_check_status, :background_check_consent, :background_check_id, :insurance, :banner_image, :specialty_ids, :language_ids)
   end
 end

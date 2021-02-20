@@ -83,7 +83,7 @@ class User < ApplicationRecord
   private
 
   def subscribe_to_newsletter
-    SubscribeToNewsletterService.new(self).call if newsletter
+    SubscribeToNewsletterService.new(self).call
   end
   # def send_welcome_email
   #   UserMailer.with(user: self).welcome.deliver_now

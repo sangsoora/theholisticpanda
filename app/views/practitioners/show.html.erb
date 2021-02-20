@@ -31,7 +31,9 @@
               <h3><%= @practitioner.user.full_name %></h3>
             </div>
             <div class="practitioner-btn" id="practitioner-btn">
+            <% if user_signed_in? && current_user != @practitioner.user %>
               <%= render 'favorite_practitioners/practitioner_btn', practitioner: @practitioner %>
+            <% end %>
             </div>
           </div>
           <h4><em><%= @practitioner.title %></em></h4>
@@ -84,7 +86,7 @@
               </div>
             </div>
             <div class="practitioner-service-description">
-              <p>Take 15 minutes session to find out more about <%= @practitioner.user.first_name %> and <%= @practitioner.user.first_name %>'s services. Only offered once!</p>
+              <p>Book a complimentary discovery call with <%= @practitioner.user.first_name %> to learn more about <%= @practitioner.user.first_name %>'s services.</p>
             </div>
           </div>
         </div>

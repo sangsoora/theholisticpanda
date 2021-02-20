@@ -5,3 +5,6 @@ Last name: <%= @practitioner.user.last_name %>
 Email: <%= @practitioner.user.email %>
 Country code: <%= @practitioner.country_code %>
 Country: <%= @practitioner.country_name %>
+<% if @practitioner.country_code == 'US' %>
+  State: <%= @practitioner.state %>
+<% end %>
