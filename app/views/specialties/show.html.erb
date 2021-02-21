@@ -2,10 +2,8 @@
   <div class="specialty-img">
     <%= image_tag("specialty/#{@specialty.id}") %>
   </div>
-
-    <h2 class="text-center"><%= @specialty.name %></h2>
-    <p><%= @specialty.description.gsub(/\n/, '<br/>').html_safe %></p>
-
+  <h2 class="text-center"><%= @specialty.name %></h2>
+  <p class="specialty-description"><%= @specialty.description.gsub(/\n/, '<br/>').html_safe %></p>
   <div class="service-lists">
     <% @specialty_services.each do |service| %>
       <div class="service-list-item" data-price="<%= service.price.to_i %>" data-duration="<%= service.duration %>">
@@ -54,7 +52,6 @@
                 <% elsif service.languages.length > 2 %>
                   <%= service.languages.first(2).pluck(:name).join(', ') %>, + <%= service.languages.length - 2 %>
                 <% end %>
-
               </p>
               <label>DURATION</label>
               <p><%= service.duration %> mins</p>
@@ -84,7 +81,17 @@
               </div>
               <div class="general-info">
                 <h4><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h4>
-                <p><%= service.practitioner.specialties.pluck(:name).join(', ') %></p>
+                <div class="practitioner-specialties">
+                  <% service.practitioner.specialties.order(:name).each do |specialty| %>
+                    <% if @specialty == specialty %>
+                      <div class="service-goal match"><%= specialty.name %></div>
+                    <% else %>
+                      <div class="service-goal"><%= specialty.name %></div>
+                    <% end %>
+                  <% end %>
+                </div>
+                <label>Experience</label>
+                <p><%= service.practitioner.experience %></p>
               </div>
             </div>
           </div>
