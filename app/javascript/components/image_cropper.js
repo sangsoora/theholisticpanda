@@ -56,6 +56,8 @@ const displayPreview = (input) => {
           // Replace input files with files containing the cropped image file
           input.files = myFileList;
           document.getElementById('crop-notify').style.display = 'none';
+          ddocument.getElementById('btnCrop').classList.add('hidden');
+          document.getElementById("btnUpload").classList.remove('hidden');
           document.getElementById("btnUpload").disabled = false;
         });
         document.getElementById('btnReset').addEventListener('click', (event) => {
@@ -67,6 +69,8 @@ const displayPreview = (input) => {
           }
           input.files.value = "";
           document.getElementById('crop-notify').style.display = 'block';
+          document.getElementById('btnCrop').classList.remove('hidden');
+          document.getElementById("btnUpload").classList.add('hidden');
           document.getElementById("btnUpload").disabled = true;
         });
       };
@@ -90,6 +94,8 @@ const previewImageOnFileSelect = () => {
           preview.removeChild(child);
         }
         input.files.value = "";
+        document.getElementById('btnCrop').classList.remove('hidden');
+        document.getElementById("btnUpload").classList.add('hidden');
         document.getElementById("btnUpload").disabled = true;
       }
       displayPreview(input);

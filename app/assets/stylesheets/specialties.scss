@@ -1,7 +1,7 @@
 .specialty-page {
   padding: 6rem 0 2rem;
   min-height: calc(100vh - 211px);
-  p {
+  p.specialty-description {
     margin: 2rem auto;
     font-size: 1.125rem;
     line-height: 1.8;
@@ -22,11 +22,11 @@
     width: 50%;
   }
   .specialty-page {
-    p {
+    p.specialty-description {
       font-size: 1rem;
       line-height: 1.6;
     }
-}
+  }
 }
 
 // Medium devices (tablets, less than 992px)

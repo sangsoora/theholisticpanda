@@ -1,6 +1,5 @@
 <%= simple_form_for(resource, url: registration_path(resource), remote: true, html: { method: :put, id: :phone_form, style: 'display: none; align-items: center;' }) do |f| %>
   <div class="form-group tel optional user_phone_number">
-    <label class="tel optional" for="user_phone_number">Phone number</label>
     <input class="form-control string tel optional" type="tel" id="user_phone_number">
     <input type="hidden" id="validated_number" name="user[phone_number]">
     <span id="tel-valid-msg" class="hidden">✓ Valid</span>
@@ -8,5 +7,4 @@
   </div>
   <button type="submit"><i class='fas fa-check'></i></button>
   <button id='phone-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
-
 <% end %>
