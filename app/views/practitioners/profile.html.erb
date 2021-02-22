@@ -444,7 +444,7 @@
               </div>
               <div id="personal-additional-wrapper" class="hidden">
                 <div class="personal-additional-list">
-                  <h5>Add health goals you are interested as service user.</h5>
+                  <h5>Add health goals you are interested as service client.</h5>
                   <div id="practitioner-healthgoals">
                     <div id="health-goals-list">
                       <%= render "user_health_goals/user_health_goals_list", user: @user %>
@@ -457,12 +457,6 @@
                     <%= render "user_health_goals/update_form", user: @user, health_goals: @health_goals %>
                   <% end %>
                 </div>
-                <!-- <div class="personal-additional-list">
-                  <h5>Subsribe to our newsletter for more info.</h5>
-                  <div id="practitioner-newsletter">
-                    <%#= render "newsletters/newsletter_form", user: @user, practitioner: @practitioner, newsletter: @newsletter %>
-                  </div>
-                </div> -->
               </div>
             </div>
           </div>

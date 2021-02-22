@@ -9,7 +9,7 @@
     <h1>Frequently Asked Questions</h1>
   </div>
   <div class="faq-sort">
-    <div class="btn btn-ghost pink active-sort" id="sort-users">Users</div>
+    <div class="btn btn-ghost pink active-sort" id="sort-users">Clients</div>
     <div class="btn btn-ghost pink" id="sort-practitioners">Practitioner</div>
   </div>
   <div class="faq-lists" id="users-faq">
@@ -39,7 +39,6 @@
   }
   if (practitioners) {
     practitioners.addEventListener('click', (event) =>{
-      console.log('fuck');
       const active = document.querySelector('.active-sort');
       active.classList.remove('active-sort');
       event.currentTarget.classList.add('active-sort');
