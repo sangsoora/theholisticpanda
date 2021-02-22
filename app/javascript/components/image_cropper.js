@@ -56,7 +56,7 @@ const displayPreview = (input) => {
           // Replace input files with files containing the cropped image file
           input.files = myFileList;
           document.getElementById('crop-notify').style.display = 'none';
-          ddocument.getElementById('btnCrop').classList.add('hidden');
+          document.getElementById('btnCrop').classList.add('hidden');
           document.getElementById("btnUpload").classList.remove('hidden');
           document.getElementById("btnUpload").disabled = false;
         });
