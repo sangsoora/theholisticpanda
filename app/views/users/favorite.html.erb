@@ -1,5 +1,5 @@
 <div class="container favorites">
-  <h2>Favorite Practitioners</h2>
+  <h2>Favourite Practitioners</h2>
   <div class="favorite-practitoners">
     <% if current_user.favorite_practitioners.count > 0 %>
       <%= render 'favorite_practitioners/favorite_practitioners_list', favorite_practitioners: @favorite_practitioners %>
@@ -8,7 +8,7 @@
     <% end %>
   </div>
   <br>
-  <h2>Favorite Services</h2>
+  <h2>Favourite Services</h2>
   <div class="favorite-services">
     <% if current_user.favorite_services.count > 0 %>
       <%= render "favorite_services/favorite_services_list", favorite_services: @favorite_services %>

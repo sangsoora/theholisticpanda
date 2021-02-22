@@ -37,7 +37,7 @@ Rails.application.routes.draw do
 
   get '/sessions', to: 'users#booking', as: :user_sessions
   get '/practitioner_sessions', to: 'practitioners#booking', as: :practitioner_sessions
-  get '/favorites', to: 'users#favorite', as: :user_favorites
+  get '/favourites', to: 'users#favorite', as: :user_favorites
   get '/notifications', to: 'users#notification', as: :user_notifications
 
   resources :practitioners, only: %i[index show update destroy] do

@@ -1,5 +1,4 @@
 RailsAdmin.config do |config|
-
   config.main_app_name = ["The Holistic Panda", ""]
 
   ### Popular gems integration
@@ -46,5 +45,5 @@ RailsAdmin.config do |config|
       redirect_to main_app.root_path
     end
   end
-  config.included_models = ["User", "Specialty", "HealthGoal", "Language", "Practitioner", "Service", "Session"]
+  config.included_models = ["User", "Specialty", "HealthGoal", "Language", "Practitioner", "Service", "Session", "Faq"]
 end
