@@ -1,4 +1,4 @@
-<% if (@practitioner.payment_status == 'paid') && (@practitioner.background_check_consent) && (@practitioner.background_check_status == "completed") && (@practitioner.agreement_status == "completed") %>
+<% if (@practitioner.payment_status == 'paid') && (@practitioner.background_check_consent) && (@practitioner.background_check_status == "completed") && (@practitioner.agreement_consent) && (@practitioner.agreement_status == "completed") %>
   <% provide :head_tags do %>
     <meta name='turbolinks-visit-control' content='reload'>
     <script>
@@ -484,14 +484,14 @@
               <div class="col-5 offset-1 p-0">
                 <canvas id="canvas" style="width: 100%; height: 55vh;"></canvas>
               </div>
-              <div class="col-4 offset-1 p-0">
-                <p id="crop-notify" style="display: none;">Please click crop button below to check the preview and proceed!</p>
+              <div class="col-4 offset-1 p-0 d-flex align-items-center">
+                <h4 id="crop-notify" style="display: none; line-height: 1.4;">Please click preview button below to check the preview of your profile photo and proceed!</h4>
                 <div id="photo-preview"></div>
               </div>
             </div>
             <div class="d-flex justify-content-around mt-4">
               <%= link_to 'Reset', '', class: 'btn btn-ghost', id: 'btnReset'  %>
-              <%= link_to 'Crop', '', class: 'btn btn-flat', id: 'btnCrop' %>
+              <%= link_to 'Preview', '', class: 'btn btn-flat', id: 'btnCrop' %>
               <%= f.button :submit, "Upload", class: 'btn-flat hidden', id: 'btnUpload', disabled: true %>
             </div>
           <% end %>

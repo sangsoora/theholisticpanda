@@ -31,6 +31,6 @@ class Service < ApplicationRecord
   end
 
   def self.active_services
-    where(active: true, default_service: nil).joins(:practitioner).where(practitioners: { payment_status: 'paid', background_check_status: 'completed', agreement_status: 'completed' })
+    where(active: true, default_service: nil).joins(:practitioner).where(practitioners: { status: 'active' })
   end
 end
