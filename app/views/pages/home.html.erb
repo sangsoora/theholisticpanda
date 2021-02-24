@@ -23,7 +23,6 @@
               </a>
             <div class='card-featured-infos'>
               <p><%= practitioner.title %></p>
-              <p>Specialized in:</p>
               <div class="d-flex" style="flex-wrap: wrap;">
                 <% practitioner.specialties.first(3).each do |specialty| %>
                   <div class="featured-practitioners-specialty"><%= link_to specialty.name, specialty_path(specialty) %></div>
@@ -39,7 +38,7 @@
       <h2>Our Featured Practitioners</h2>
       <div class="swiper-container" id="practitioners-swiper">
         <div class="swiper-wrapper">
-          <% @practitioners.first(4).each do |practitioner| %>
+          <% @practitioners.shuffle.first(4).each do |practitioner| %>
           <div class="swiper-slide">
             <div class='card-featured'>
               <a href="/practitioners/<%= practitioner.id %>">
@@ -54,7 +53,6 @@
                 </a>
               <div class='card-featured-infos'>
                 <p><%= practitioner.title %></p>
-                <p>Specialized in:</p>
                 <div class="d-flex" style="flex-wrap: wrap;">
                   <% practitioner.specialties.first(3).each do |specialty| %>
                     <div class="featured-practitioners-specialty"><%= link_to specialty.name, specialty_path(specialty) %></div>
