@@ -159,9 +159,9 @@
                   <div class="service-list-item-detail-left">
                     <a href="/practitioners/<%= service.practitioner.id %>">
                       <% if service.practitioner.user.photo.attached? %>
-                        <a href="/practitioners/1"><%= image_tag service.practitioner.user.photo, class: 'service-list-item-user avatar-bordered' %></a>
+                        <a href="/practitioners/<%= service.practitioner.id %>"><%= image_tag service.practitioner.user.photo, class: 'service-list-item-user avatar-bordered' %></a>
                       <% else %>
-                        <a href="/practitioners/1"><%= image_tag("profile", class: "service-list-item-user avatar-bordered") %></a>
+                        <a href="/practitioners/<%= service.practitioner.id %>"><%= image_tag("profile", class: "service-list-item-user avatar-bordered") %></a>
                       <% end %>
                     </a>
                     <p><%= service.practitioner.user.full_name %></p>
@@ -198,7 +198,7 @@
                         <% if service.practitioner.user.photo.attached? %>
                           <%= image_tag service.practitioner.user.photo, class: 'service-list-item-user avatar-bordered' %>
                         <% else %>
-                          <a href="/practitioners/1"><%= image_tag("profile", class: "service-list-item-user avatar-bordered") %></a>
+                          <a href="/practitioners/<%= service.practitioner.id %>"><%= image_tag("profile", class: "service-list-item-user avatar-bordered") %></a>
                         <% end %>
                       </a>
                       <p><%= service.practitioner.location %></p>
@@ -314,9 +314,9 @@
                 <div class="service-list-item-detail-left">
                   <a href="/practitioners/<%= service.practitioner.id %>">
                     <% if service.practitioner.user.photo.attached? %>
-                      <a href="/practitioners/1"><%= image_tag service.practitioner.user.photo, class: 'service-list-item-user avatar-bordered' %></a>
+                      <a href="/practitioners/<%= service.practitioner.id %>"><%= image_tag service.practitioner.user.photo, class: 'service-list-item-user avatar-bordered' %></a>
                     <% else %>
-                      <a href="/practitioners/1"><%= image_tag("profile", class: "service-list-item-user avatar-bordered") %></a>
+                      <a href="/practitioners/<%= service.practitioner.id %>"><%= image_tag("profile", class: "service-list-item-user avatar-bordered") %></a>
                     <% end %>
                   </a>
                   <p><%= service.practitioner.user.full_name %></p>
@@ -351,9 +351,9 @@
                   <div class="profile-photo">
                     <a href="/practitioners/<%= service.practitioner.id %>">
                       <% if service.practitioner.user.photo.attached? %>
-                        <a href="/practitioners/1"><%= image_tag service.practitioner.user.photo, class: 'service-list-item-user avatar-bordered' %></a>
+                        <a href="/practitioners/<%= service.practitioner.id %>"><%= image_tag service.practitioner.user.photo, class: 'service-list-item-user avatar-bordered' %></a>
                       <% else %>
-                        <a href="/practitioners/1"><%= image_tag("profile", class: "service-list-item-user avatar-bordered") %></a>
+                        <a href="/practitioners/<%= service.practitioner.id %>"><%= image_tag("profile", class: "service-list-item-user avatar-bordered") %></a>
                       <% end %>
                     </a>
                     <p><%= service.practitioner.location %></p>
