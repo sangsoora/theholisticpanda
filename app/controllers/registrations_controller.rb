@@ -1,4 +1,5 @@
 class RegistrationsController < Devise::RegistrationsController
+  invisible_captcha only: [:create]
   def create
     super
     if session[:previous_url] == '/become-a-practitioner'
