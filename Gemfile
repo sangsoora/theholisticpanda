@@ -54,6 +54,7 @@ gem 'sidekiq-failures', '~> 1.0'
 gem 'gemoji'
 gem 'gibbon'
 gem 'rest-client', '~> 2.1'
+gem 'invisible_captcha'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
