@@ -17,3 +17,4 @@
 //= require moment
 //= require moment-timezone-with-data
 //= require jstz
+//= require bootstrap/bootstrap-tooltip

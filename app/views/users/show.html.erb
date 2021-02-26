@@ -23,7 +23,7 @@
             <h5>Edit your name.</h5>
             <div id="user-name">
               <p id="name"><%= current_user.full_name %></p>
-              <button id='name-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
+              <button id='name-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><%= link_to '', '', class: 'fas fa-pen' %></button>
             </div>
             <%= render 'devise/registrations/name_form', resource: current_user %>
           </div>
@@ -31,7 +31,7 @@
             <h5>Edit your phone number.</h5>
             <div id="user-phone">
               <p id="phone"><%= current_user.phone_number %></p>
-              <button id='phone-edit'><%= link_to '', '', class: 'fas fa-pen' %></button>
+              <button id='phone-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><%= link_to '', '', class: 'fas fa-pen' %></button>
             </div>
             <%= render 'devise/registrations/phone_form', resource: current_user %>
           </div>

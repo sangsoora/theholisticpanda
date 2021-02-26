@@ -4,7 +4,7 @@
     <div class="practitioner-certification mb-2" data-certification-id="<%= certification.id %>">
       <div class="d-flex align-items-center">
         <p><%= certification.name %></p>
-        <button><p><%= link_to '', practitioner_certification_path(certification), remote: true, method: :delete, data: { confirm: "Are you sure to remove this certification?"}, class: 'fas fa-trash' %></p></button>
+        <button data-toggle="tooltip" data-placement="bottom" data-original-title="Delete"><p><%= link_to '', practitioner_certification_path(certification), remote: true, method: :delete, data: { confirm: "Are you sure to remove this certification?"}, class: 'fas fa-trash' %></p></button>
       </div>
     </div>
   <% end %>
@@ -15,7 +15,7 @@
     <div class="practitioner-certification mb-2" data-certification-id="<%= certification.id %>">
       <div class="d-flex align-items-center">
         <p><%= certification.name %></p>
-        <button><p><%= link_to '', practitioner_certification_path(certification), remote: true, method: :delete, data: { confirm: "Are you sure to remove this certification?"}, class: 'fas fa-trash' %></p></button>
+        <button data-toggle="tooltip" data-placement="bottom" data-original-title="Delete"><p><%= link_to '', practitioner_certification_path(certification), remote: true, method: :delete, data: { confirm: "Are you sure to remove this certification?"}, class: 'fas fa-trash' %></p></button>
       </div>
     </div>
   <% end %>

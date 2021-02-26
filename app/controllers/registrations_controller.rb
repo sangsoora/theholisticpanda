@@ -1,5 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
-  invisible_captcha only: [:create]
+  before_action :find_bot, only: :create
+
   def create
     super
     if session[:previous_url] == '/become-a-practitioner'
@@ -42,6 +43,11 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   protected
+
+  def find_bot
+    return unless params[:hp] == 1
+    head :ok
+  end
 
   def update_resource(resource, params)
     # Require current password if user is trying to change password.
