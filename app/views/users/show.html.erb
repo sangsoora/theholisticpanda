@@ -66,6 +66,9 @@
   </div>
 </div>
 <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
   const healthgoals = document.getElementById('health-goals');
   const healthgoalsForm = document.getElementById('healthgoals_form');
   const healthgoalsEdit = document.getElementById('healthgoals-edit');

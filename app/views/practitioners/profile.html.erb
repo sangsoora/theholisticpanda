@@ -124,7 +124,7 @@
               <div id="biography-wrapper" class="hidden">
                 <div class="biography-list">
                   <h5>Tell us about yourself.</h5>
-                  <div id="practitioner-bio">
+                  <div id="practitioner-bio" style="align-items: center;">
                     <div class="div">
                       <p id="bio"><% if @practitioner.bio %><%= @practitioner.bio.gsub(/\n/, '<br/>').html_safe %><% end %></p>
                     </div>
@@ -141,7 +141,7 @@
                 </div>
                 <div class="biography-list">
                   <h5>Tell us about your healing approach.</h5>
-                  <div id="practitioner-approach">
+                  <div id="practitioner-approach" style="align-items: center;">
                     <p id="approach"><% if @practitioner.approach %><%= @practitioner.approach.gsub(/\n/, '<br/>').html_safe %><% end %></p>
                     <button id='approach-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
                   </div>

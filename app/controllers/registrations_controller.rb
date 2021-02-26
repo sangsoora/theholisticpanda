@@ -1,5 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
   before_action :find_bot, only: :create
+  invisible_captcha only: [:create]
 
   def create
     super
@@ -45,8 +46,7 @@ class RegistrationsController < Devise::RegistrationsController
   protected
 
   def find_bot
-    return unless params[:hp] == 1
-    head :ok
+    redirect_to root_path if params[:hp] == '1'
   end
 
   def update_resource(resource, params)
