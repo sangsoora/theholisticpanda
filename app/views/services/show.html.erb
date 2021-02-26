@@ -12,13 +12,13 @@
   <div class="service-details">
     <div class="service-info">
       <div class="service-description">
-        <div class="d-flex justify-content-between">
+        <div class="service-title">
           <h2><% if !@service.active %><i style="color: #ccc;">(Inactive) </i><% end %><%= @service.name %></h2>
           <div class="service-btn" id="service-btn">
             <%= render 'favorite_services/service_btn', service: @service %>
           </div>
         </div>
-        <div class="d-flex justify-content-between">
+        <div class="service-icons">
           <% if @service.reviews.count > 0 %>
             <p><i class="fas fa-star mr-2 pink-icon"></i><%= @service.rating_avg %> (<%= @service.reviews.count %>)</p>
           <% else %>
@@ -55,7 +55,7 @@
         </div>
         <% if @service.active %>
           <p><strong>Please select 3 time slots you prefer and the practitioner will confirm it.</strong></p>
-          <%= link_to 'See Availability', '', data: { toggle: "modal", target: "#timeslotModal" }, class: 'btn btn-ghost', id: 'modal-launch' %>
+          <%= link_to 'See Availability', '', data: { toggle: "modal", target: "#timeslotModal" }, class: 'btn btn-flat', id: 'modal-launch' %>
         <% end %>
       </div>
       <div class="service-practitioner">
@@ -74,7 +74,7 @@
           <%= f.input :secondary_time, as: :string, as: :hidden %>
           <%= f.input :tertiary_time, as: :string, as: :hidden %>
           <%= f.input :message, as: :hidden %>
-          <%= f.submit 'Send session request', class: 'btn btn-flat hidden', id: 'create_session' %>
+          <%= f.submit 'Send session request', class: 'hidden', id: 'create_session' %>
         <% end %>
         <div class="modal fade" id="timeslotModal" tabindex="-1" role="dialog" aria-labelledby="timeslotModalTitle" aria-hidden="true">
           <div class="modal-dialog modal-photo modal-dialog-scrollable" role="document">

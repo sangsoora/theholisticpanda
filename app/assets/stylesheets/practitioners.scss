@@ -151,27 +151,18 @@
     margin-bottom: 1rem;
     flex: 0 0 75%;
   }
-  p {
-    margin-bottom: 1rem;
-  }
   .practitioner-service-summary {
-    display: flex;
-    justify-content: space-between;
     margin-bottom: 1rem;
-    .practitioner-service-summary-left {
-      flex: 0 0 70%;
-    }
-    .practitioner-service-summary-right {
-      flex: 0 0 25%;
-      text-align: center;
-    }
-    p {
-      margin-bottom: 0.5rem;
-    }
     .btn-flat {
-      padding: 0.5rem 0.75rem;
+      padding: 0.25rem 0.75rem;
     }
   }
+}
+
+.practitioner-service-title, .practitioner-service-icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .practitioner-application {
@@ -533,6 +524,9 @@
       font-size: 0.75rem;
       padding: 0.25rem 0.75rem;
     }
+  }
+  .practitioner-service-icons {
+    display: block;
   }
 }
 

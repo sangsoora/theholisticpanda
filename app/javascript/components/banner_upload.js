@@ -1,4 +1,4 @@
-const bannerCanvas  = document.getElementById("banner-canvas");
+const bannerCanvas  = document.getElementById('banner-canvas');
 const bannerPreview = document.getElementById('banner-preview');
 
 const dataURLtoFile = (dataurl, filename) => {

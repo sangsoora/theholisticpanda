@@ -73,16 +73,16 @@
         <div class="practitioner-service">
           <div class="practitioner-service-info">
             <div class="practitioner-service-summary">
-              <div class="practitioner-service-summary-left">
+              <div class="practitioner-service-title">
                 <h4><%= Service.first.name %></h4>
-                <p><%= Service.first.duration %>m</p>
-                <p><%= Service.first.service_type.capitalize %></p>
-              </div>
-              <div class="practitioner-service-summary-right">
-                <p>Free</p>
                 <% if current_user != @practitioner.user %>
                   <%= link_to 'Book', service_path(Service.first), class: 'btn btn-flat' %>
                 <% end %>
+              </div>
+              <div class="practitioner-service-icons">
+                <p><i class="fas fa-coins mr-2 pink-icon"></i>Free</p>
+                <p><i class="fas fa-location-arrow mr-2 pink-icon"></i> <%= Service.first.service_type %></p>
+                <p><i class="far fa-clock mr-2 pink-icon"></i> <%= Service.first.duration %>m</p>
               </div>
             </div>
             <div class="practitioner-service-description">
@@ -94,21 +94,21 @@
           <div class="practitioner-service">
             <div class="practitioner-service-info">
               <div class="practitioner-service-summary">
-                <div class="practitioner-service-summary-left">
+                <div class="practitioner-service-title">
                   <h4><%= service.name %></h4>
-                  <p><%= service.duration %>m</p>
-                  <p><%= service.service_type.capitalize %></p>
+                  <% if current_user != @practitioner.user %>
+                    <%= link_to 'Book', service_path(service), class: 'btn btn-flat' %>
+                  <% end %>
                 </div>
-                <div class="practitioner-service-summary-right">
+                <div class="practitioner-service-icons">
                   <% if service.reviews.count > 0 %>
                     <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
                   <% else %>
                     <p>No reviews!</p>
                   <% end %>
-                  <p>CA<%= humanized_money_with_symbol(service.price) %></p>
-                  <% if current_user != @practitioner.user %>
-                    <%= link_to 'Book', service_path(service), class: 'btn btn-flat' %>
-                  <% end %>
+                  <p><i class="fas fa-coins mr-2 pink-icon"></i>CA$ <%= service.price.to_f.round(2) %></p>
+                  <p><i class="fas fa-location-arrow mr-2 pink-icon"></i> <%= service.service_type %></p>
+                  <p><i class="far fa-clock mr-2 pink-icon"></i> <%= service.duration %>m</p>
                 </div>
               </div>
               <div class="practitioner-service-description">
