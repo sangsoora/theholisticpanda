@@ -8,6 +8,7 @@
 @import "font-awesome-sprockets";
 @import "font-awesome";
 @import "flatpickr/dist/flatpickr";
+@import "bootstrap/bootstrap-tooltip";
 
 // Your CSS partials
 @import "components/index";
@@ -116,6 +117,19 @@ button:focus {
 
 #tel-error-msg {
   color: #FD1015;
+}
+
+.modal.fade {
+  opacity: 1;
+}
+
+.hp {
+  display: none;
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
 }
 
 // X-Small devices (portrait phones, less than 576px)

@@ -1,0 +1,10 @@
+.tooltip > .tooltip-inner {
+  background-color: $emerald;
+  color: white;
+  font-size: 0.75rem;
+  opacity: 1;
+};
+
+.tooltip.bottom .tooltip-arrow {
+  display: none;
+}

@@ -7,7 +7,10 @@
       <%= f.error_notification %>
 
       <div class="form-inputs">
-        <%= invisible_captcha :subtitle, :resource %>
+        <div class="hp">
+          <input type="checkbox" value="1" name="hp" autocomplete="off" tabindex="-1">
+          <label for="hp">Huemans should NOT click this.</label>
+        </div>
         <%= f.input :email,
                     required: true,
                     autofocus: true,
