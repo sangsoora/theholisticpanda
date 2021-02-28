@@ -19,7 +19,7 @@ const displayBannerPreview = (input) => {
   if (input.files && input.files[0]) {
     const bannerReader = new FileReader();
     bannerReader.onload = (e) => {
-      const context = bannerCanvas.getContext("2d");
+      const context = bannerCanvas.getContext('2d');
       const img = new Image();
       img.onload = () => {
         context.canvas.height = img.height;
@@ -28,7 +28,7 @@ const displayBannerPreview = (input) => {
         if (bannerCurrent) {
           bannerCurrent.style.display = 'none';
         }
-        document.getElementById("btnBannerUpload").disabled = false;
+        document.getElementById('btnBannerUpload').disabled = false;
         document.getElementById('btnBannerReset').addEventListener('click', (event) => {
           event.preventDefault();
           bannerCanvas.src = '';
