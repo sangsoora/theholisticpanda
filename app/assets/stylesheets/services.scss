@@ -299,6 +299,10 @@
 
 .service-description {
   flex: 0 0 70%;
+  .service-title, .service-icons {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 .service-practitioner {
@@ -595,6 +599,12 @@ input[type='radio']:checked:after {
   }
   #search-box {
     font-size: 0.75rem !important;
+  }
+  .service-details {
+    box-shadow: none;
+  }
+  .service-info, .service-icons {
+    display: block !important;
   }
 }
 

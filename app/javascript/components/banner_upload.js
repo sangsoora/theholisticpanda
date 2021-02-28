@@ -1,5 +1,5 @@
-const bannerCanvas  = document.getElementById("banner-canvas");
-const bannerPreview = document.getElementById('banner-preview');
+const bannerCanvas  = document.getElementById('banner-canvas');
+const bannerCurrent = document.getElementById('current-banner-wrapper');
 
 const dataURLtoFile = (dataurl, filename) => {
   let arr = dataurl.split(','),
@@ -25,8 +25,19 @@ const displayBannerPreview = (input) => {
         context.canvas.height = img.height;
         context.canvas.width  = img.width;
         context.drawImage(img, 0, 0);
-
+        if (bannerCurrent) {
+          bannerCurrent.style.display = 'none';
+        }
         document.getElementById("btnBannerUpload").disabled = false;
+        document.getElementById('btnBannerReset').addEventListener('click', (event) => {
+          event.preventDefault();
+          bannerCanvas.src = '';
+          if (bannerCurrent) {
+            bannerCurrent.style.display = 'inline';
+          }
+          input.files.value = '';
+          context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+        });
       };
       img.src = e.currentTarget.result;
     }
