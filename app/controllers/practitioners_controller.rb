@@ -99,6 +99,9 @@ class PractitionersController < ApplicationController
       else
         redirect_to practitioner_profile_path
       end
+    elsif params[:commit] == 'Delete Banner Image'
+      @practitioner.banner_image.purge
+      redirect_to practitioner_profile_path
     else
       if @practitioner.update(practitioner_params)
         if @practitioner.video && !@practitioner.video.start_with?('http://', 'https://')
