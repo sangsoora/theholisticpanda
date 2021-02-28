@@ -476,6 +476,12 @@
           <%= simple_form_for(current_user, url: registration_path(current_user)) do |f| %>
             <div class="row">
               <div class="col-10 offset-1 p-0">
+                <% if current_user.photo.attached? %>
+                   <div id="current-profile-wrapper">
+                      <%= image_tag current_user.photo, id: 'current-profile' %>
+                      <%= f.button :submit, "Delete Profile Photo", class: 'btn-ghost mb-3' %>
+                    </div>
+                <% end %>
                 <%= f.input :photo, as: :file, input_html: { class: 'hidden', id: 'photo-input' }, label_html: { class: 'upload-photo'}, label: '📷 Upload New Profile Photo' %>
               </div>
             </div>
@@ -484,13 +490,13 @@
                 <canvas id="canvas" style="width: 100%; height: 55vh;"></canvas>
               </div>
               <div class="col-4 offset-1 p-0 d-flex justify-content-center align-items-center">
-                <h4 id="crop-notify" style="display: none; line-height: 1.4;">PLEASE CLICK <strong>CROP</strong> BUTTON BELOW TO CHECK THE PREVIEW OF YOUR PROFILE PHOTO AND PROCEED TO UPLOAD!</h4>
+                <h4 id="crop-notify" style="display: none; line-height: 1.4;">Please click crop button below to check the preview of your profile photo and proceed!<br><br><small>If you having trouble uploading profile photo, please use another web browser, such as Chrome or Firefox, other than Safari and IE.</small></h4>
                 <div id="photo-preview"></div>
               </div>
             </div>
             <div class="d-flex justify-content-around mt-4">
               <%= link_to 'Reset', '', class: 'btn btn-ghost', id: 'btnReset'  %>
-              <%= link_to 'Preview', '', class: 'btn btn-flat', id: 'btnCrop' %>
+              <%= link_to 'Crop', '', class: 'btn btn-flat', id: 'btnCrop' %>
               <%= f.button :submit, "Upload", class: 'btn-flat hidden', id: 'btnUpload', disabled: true %>
             </div>
           <% end %>
@@ -514,15 +520,22 @@
           <%= simple_form_for([@practitioner]) do |f| %>
             <div class="row">
               <div class="col-10 offset-1 p-0">
+                <% if @practitioner.banner_image.attached? %>
+                  <div id="current-banner-wrapper">
+                    <%= image_tag @practitioner.banner_image, id: 'current-banner' %>
+                    <%= f.button :submit, "Delete Banner Image", class: 'btn-ghost mb-3' %>
+                  </div>
+                <% end %>
                 <%= f.input :banner_image, as: :file, input_html: { class: 'hidden', id: 'banner-input' }, label_html: { class: 'upload-photo'}, label: '📷 Upload New Banner Image' %>
               </div>
             </div>
             <div class="row">
               <div class="col-8 offset-2 p-0">
-                <canvas id="banner-canvas" style="width: 675px; height: 232px;"></canvas>
+                <canvas id="banner-canvas"></canvas>
               </div>
             </div>
             <div class="d-flex justify-content-around mt-4">
+              <%= link_to 'Reset', '', class: 'btn btn-ghost', id: 'btnBannerReset'  %>
               <%= f.button :submit, "Upload", class: 'btn-flat', id: 'btnBannerUpload', disabled: true %>
             </div>
           <% end %>

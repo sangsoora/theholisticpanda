@@ -11,9 +11,9 @@
   justify-content: space-between;
   height: 100vh;
   .practitioner-main {
-    flex: 0 0 60%;
+    flex: 0 0 62%;
     overflow: auto;
-    padding: 0 1rem;
+    padding: 0 17px;
   }
   .practitioner-sidebar {
     flex: 0 0 35%;
@@ -407,6 +407,25 @@
   box-shadow: 0 7px 25px 0 rgba(0,0,0,.1);
 }
 
+#current-banner {
+  width: 686px;
+  height: 232px;
+  margin-bottom: 0.5rem;
+}
+
+#current-profile {
+  width: 20%;
+  margin: 0 auto;
+  border-radius: 50%;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+#banner-canvas {
+  width: 686px;
+  height: 232px;
+}
+
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
   .practitioner-overview .practitioner-main {
@@ -527,6 +546,17 @@
   }
   .practitioner-service-icons {
     display: block;
+  }
+  .banner-preview {
+    width: 100%;
+    height: auto;
+  }
+  .modal-photo {
+    max-width: 100%;
+  }
+  #banner-canvas, #current-banner, #current-profile {
+    width: 100% !important;
+    height: auto !important;
   }
 }
 

@@ -15,13 +15,25 @@ class RegistrationsController < Devise::RegistrationsController
   def update
     account_update_params = devise_parameter_sanitizer.sanitize(:account_update)
     @user = User.find(resource.id)
-
     @update = update_resource(@user, account_update_params)
     @param = account_update_params
     if resource.practitioner
       @practitioner = resource.practitioner
     end
-    unless account_update_params[:password]
+    if params[:commit] == 'Delete Profile Photo'
+      current_user.photo.purge
+      redirect_to practitioner_profile_path
+    elsif account_update_params[:password]
+      if @update
+        # Sign in the user bypassing validation in case their password changed
+        sign_in @user, :bypass => true
+      end
+      if resource.practitioner
+        redirect_to practitioner_profile_path
+      else
+        redirect_to user_path(resource)
+      end
+    else
       respond_to do |format|
         if resource.practitioner
           format.html { redirect_to practitioner_profile_path }
@@ -29,16 +41,6 @@ class RegistrationsController < Devise::RegistrationsController
           format.html { redirect_to user_path(resource) }
         end
         format.js
-      end
-    else
-      if @update
-        # Sign in the user bypassing validation in case their password changed
-        sign_in @user, :bypass => true
-      end
-      if resource.practitioner
-        redirect_to practitioner_profile_path(@practitioner)
-      else
-        redirect_to user_path(resource)
       end
     end
   end

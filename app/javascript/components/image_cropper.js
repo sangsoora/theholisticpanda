@@ -1,6 +1,7 @@
 import Cropper from 'cropperjs';
-const canvas  = document.getElementById("canvas");
+const canvas  = document.getElementById('canvas');
 const preview = document.getElementById('photo-preview');
+const profileCurrent = document.getElementById('current-profile-wrapper');
 
 const dataURLtoFile = (dataurl, filename) => {
   let arr = dataurl.split(','),
@@ -20,7 +21,7 @@ const displayPreview = (input) => {
   if (input.files && input.files[0]) {
     const reader = new FileReader();
     reader.onload = (event) => {
-      const context = canvas.getContext("2d");
+      const context = canvas.getContext('2d');
       const img = new Image();
       img.onload = () => {
         context.canvas.height = img.height;
@@ -30,15 +31,18 @@ const displayPreview = (input) => {
           aspectRatio: 1 / 1,
           viewMode: 1
         });
+        if (profileCurrent) {
+          profileCurrent.style.display = 'none';
+        }
         document.getElementById('crop-notify').style.display = 'block';
         document.getElementById('btnCrop').addEventListener('click', (event) => {
           event.preventDefault();
           // Get a string base 64 data url
-          const croppedImageDataURL = cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096}).toDataURL("image/png");
+          const croppedImageDataURL = cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096}).toDataURL('image/png');
           // Create a img tag with base 64 data url
-          const croppedImage = document.createElement("IMG");
+          const croppedImage = document.createElement('IMG');
           croppedImage.classList.add('w-100');
-          croppedImage.style.borderRadius = "50%";
+          croppedImage.style.borderRadius = '50%';
           croppedImage.src = croppedImageDataURL;
           // Get rid of existing cropped image preview if there is any
           const child = preview.lastElementChild;
@@ -57,8 +61,8 @@ const displayPreview = (input) => {
           input.files = myFileList;
           document.getElementById('crop-notify').style.display = 'none';
           document.getElementById('btnCrop').classList.add('hidden');
-          document.getElementById("btnUpload").classList.remove('hidden');
-          document.getElementById("btnUpload").disabled = false;
+          document.getElementById('btnUpload').classList.remove('hidden');
+          document.getElementById('btnUpload').disabled = false;
         });
         document.getElementById('btnReset').addEventListener('click', (event) => {
           event.preventDefault();
@@ -67,11 +71,11 @@ const displayPreview = (input) => {
           if (child) {
             preview.removeChild(child);
           }
-          input.files.value = "";
+          input.files.value = '';
           document.getElementById('crop-notify').style.display = 'block';
           document.getElementById('btnCrop').classList.remove('hidden');
-          document.getElementById("btnUpload").classList.add('hidden');
-          document.getElementById("btnUpload").disabled = true;
+          document.getElementById('btnUpload').classList.add('hidden');
+          document.getElementById('btnUpload').disabled = true;
         });
       };
       img.src = event.currentTarget.result;
@@ -86,17 +90,17 @@ const previewImageOnFileSelect = () => {
     // add a listener to know when a new picture is uploaded
     input.addEventListener('change', () => {
       // we call the displayPreview function (which retrieves the image url and displays it)
-      if (document.getElementById('canvas').classList.contains("cropper-hidden")) {
-        document.getElementById('canvas').src= "";
+      if (document.getElementById('canvas').classList.contains('cropper-hidden')) {
+        document.getElementById('canvas').src= '';
         document.getElementById('canvas').cropper.destroy();
         const child = preview.lastElementChild;
         if (child) {
           preview.removeChild(child);
         }
-        input.files.value = "";
+        input.files.value = '';
         document.getElementById('btnCrop').classList.remove('hidden');
-        document.getElementById("btnUpload").classList.add('hidden');
-        document.getElementById("btnUpload").disabled = true;
+        document.getElementById('btnUpload').classList.add('hidden');
+        document.getElementById('btnUpload').disabled = true;
       }
       displayPreview(input);
     })
