@@ -202,23 +202,27 @@
     margin-top: 4.25rem;
     text-align: center;
     padding-top: 10vh;
+    h1 {
+      font-size: 2rem;
+      width: 80%;
+      margin: 3rem auto 1.5rem;
+    }
+    h4 {
+      font-size: 1.25rem;
+      width: 80%;
+      margin: 5rem auto 0;
+    }
+    .btn-flat {
+      padding: 0.5rem 2rem;
+      font-size: 1rem;
+      margin-top: 5rem;
+    }
   }
-  .top-banner h1 {
-    font-size: 2rem;
-    width: 80%;
-    margin: 3rem auto 1.5rem;
-  }
-  .top-banner h4 {
-    font-size: 1.25rem;
-    width: 80%;
-    margin: 5rem auto 0;
-  }
-  .top-banner .btn-flat {
-    padding: 0.5rem 2rem;
-    font-size: 1rem;
-    margin-top: 5rem;
+  #explore-specialties-desktop {
+    display: none;
   }
   #explore-specialties-mobile {
+    display: block;
     width: 80%;
     margin: 1rem auto;
   }
@@ -233,12 +237,6 @@
   }
   .swiper-slide p {
     font-size: 0.625rem;
-  }
-  #explore-specialties-desktop {
-    display: none;
-  }
-  #explore-specialties-mobile {
-    display: block;
   }
   .specialty-banner {
     background-image: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ), url('specialty-mobile-min.png');
@@ -266,12 +264,120 @@
   .apply-banner {
     background-image: image-url("instructor-mobile-min.png");
     padding-top: 20vh;
+    background-position: top;
     h1 {
       font-size: 2rem;
       padding: 0 2rem;
     }
     .btn-wide {
       width: auto !important;
+    }
+  }
+}
+
+// Mobile landscape
+@media only screen and (max-width:991.98px) and (orientation: landscape) {
+  .top-banner {
+    h1 {
+      font-size: 2rem;
+      width: 80%;
+      margin: 1.5rem auto;
+    }
+    h4 {
+      font-size: 1.25rem;
+      width: 80%;
+      margin: 0 auto;
+    }
+    .btn-flat {
+      padding: 0.5rem 2rem;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+  }
+  .virtual-banner {
+    background-position: center;
+    h2 {
+      font-size: 1.5rem;
+      margin: 1.5rem auto 0;
+      padding-top: 4rem;
+      padding-bottom: 5rem;
+    }
+    .btn-flat {
+      padding: 0.5rem 2rem;
+      font-size: 1rem;
+      margin-bottom: 3rem;
+    }
+  }
+  .apply-banner {
+    background-image: image-url("instructor-mobile-min.png");
+    padding-top: 20vh;
+    background-position: top;
+    h1 {
+      font-size: 2rem;
+      padding: 0 2rem;
+    }
+    .btn-wide {
+      width: auto !important;
+    }
+  }
+}
+
+// iPad Portrait
+@media only screen and (min-width:768px) and (max-width:991.98px) and (orientation: portrait) {
+  .top-banner {
+    h1 {
+      margin: 1.5rem auto 8rem;
+    }
+    h4 {
+      margin: 0 auto;
+    }
+    .btn-flat {
+      margin-top: 5rem;
+    }
+  }
+  .specialty-banner {
+    background-position: center;
+  }
+}
+
+// iPad Landscape
+@media only screen and (min-width:992px) and (max-width:1024px) and (orientation: landscape) {
+  .top-banner {
+    h1 {
+      margin: 1.5rem auto 5rem;
+    }
+    h4 {
+      margin: 0 auto;
+    }
+    .btn-flat {
+      margin-top: 5rem;
+    }
+  }
+}
+
+// iPadPro Portrait
+@media only screen and (min-width:992px) and (max-width:1024px) and (orientation: portrait) {
+  .top-banner {
+    h1 {
+      margin: 10rem auto 1.5rem;
+    }
+    h4 {
+      margin: 10rem auto;
+    }
+  }
+}
+
+// iPadPro Landscape
+@media only screen and (min-width:1024px) and (max-width:1366px) and (orientation: landscape) {
+  .top-banner {
+    h1 {
+      margin: 1.5rem auto 5rem;
+    }
+    h4 {
+      margin: 3rem auto;
+    }
+    .btn-flat {
+      margin-top: 5rem;
     }
   }
 }

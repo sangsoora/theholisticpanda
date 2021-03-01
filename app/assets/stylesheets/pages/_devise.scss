@@ -1,5 +1,6 @@
 .devise {
   padding: 6rem 0 2rem;
+  min-height: calc(100vh - 211px);
 }
 
 .signup, .login {
@@ -17,6 +18,32 @@
 
 // Small devices (landscape phones, less than 768px)
 @media (max-width: 767.98px) {
+  .signup, .login {
+    width: 100%;
+  }
+}
+
+// Mobile landscape
+@media only screen and (max-width:991.98px) and (orientation: landscape) {
+
+}
+
+// iPad Portrait
+@media only screen and (min-width:768px) and (max-width:991.98px) and (orientation: portrait) {
+  .signup, .login {
+    width: 100%;
+  }
+}
+
+// iPad Landscape
+@media only screen and (min-width:992px) and (max-width:1024px) and (orientation: landscape) {
+  .signup, .login {
+    width: 80%;
+  }
+}
+
+// iPadPro Portrait
+@media only screen and (min-width:992px) and (max-width:1024px) and (orientation: portrait) {
   .signup, .login {
     width: 100%;
   }
