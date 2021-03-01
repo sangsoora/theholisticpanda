@@ -149,7 +149,6 @@
   }
 }
 
-
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
   #top-filter-mobile {
@@ -169,6 +168,33 @@
   .navbar-holistic {
     padding: 0 1rem;
   }
+}
+
+// Mobile landscape
+@media only screen and (max-width:991.98px) and (orientation: landscape) {
+  .navbar-light .navbar-nav .nav-link.find-service {
+    display: none;
+  }
+}
+
+// iPad Portrait
+@media only screen and (min-width:768px) and (max-width:991.98px) and (orientation: portrait) {
+
+}
+
+// iPad Landscape
+@media only screen and (min-width:992px) and (max-width:1024px) and (orientation: landscape) {
+
+}
+
+// iPadPro Portrait
+@media only screen and (min-width:992px) and (max-width:1024px) and (orientation: portrait) {
+
+}
+
+// iPadPro Landscape
+@media only screen and (min-width:1024px) and (max-width:1366px) and (orientation: landscape) {
+
 }
 
 // Medium devices (tablets, less than 992px)

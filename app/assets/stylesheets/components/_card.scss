@@ -132,9 +132,6 @@
     text-align: left;
     margin-bottom: 0;
   }
-  p {
-    font-size: 0.875rem;
-  }
 }
 
 .cards-works {
@@ -188,9 +185,6 @@
     margin: 1rem auto;
     box-shadow: none;
   }
-  .card-why {
-    flex: 0 0 100%;
-  }
   #featured-practitioners-desktop {
     display: none;
   }
@@ -204,14 +198,15 @@
     margin: 2rem auto;
   }
   .card-why {
+    flex: 0 0 100%;
     margin-bottom: 1.5rem;
     box-shadow: none;
-  }
-  .card-why img {
-    width: 40%;
-  }
-  .card-why h4 {
-    font-weight: 600;
+    img {
+      width: 40%;
+    }
+    h4 {
+      font-weight: 600;
+    }
   }
   .cards-works {
     margin: 1rem auto;
@@ -235,6 +230,107 @@
   .mobile-img {
     display: block;
   }
+}
+
+/// Mobile landscape
+@media only screen and (max-width:991.98px) and (orientation: landscape) {
+  .card-featured img {
+    width: 20%;
+  }
+  .card-featured {
+    width: 90%;
+    margin: 1rem auto;
+    box-shadow: none;
+  }
+  #featured-practitioners-desktop {
+    display: none;
+  }
+  #featured-practitioners-mobile {
+    display: block;
+    .swiper-container {
+      width: 100%;
+    }
+  }
+  .cards-why {
+    margin: 2rem auto;
+  }
+  .card-why {
+    flex: 0 0 100%;
+    margin-bottom: 1.5rem;
+    box-shadow: none;
+    img {
+      width: 40%;
+    }
+    h4 {
+      font-weight: 600;
+    }
+  }
+  .cards-works {
+    margin: 1rem auto;
+  }
+  .card-works {
+    display: block;
+    margin-bottom: 1rem;
+    box-shadow: none;
+    h3 {
+      color: $pink;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      font-size: 0.875rem;
+    }
+  }
+  .desktop-img {
+    display: none;
+  }
+  .mobile-img {
+    display: block;
+  }
+  .card-works .work-img img {
+    width: 50%;
+  }
+}
+
+// iPad Portrait
+@media only screen and (min-width:768px) and (max-width:991.98px) and (orientation: portrait) {
+  .card-why {
+    flex: 0 0 100%;
+    margin-bottom: 1.5rem;
+    box-shadow: none;
+    img {
+      width: 40%;
+    }
+    h4 {
+      font-weight: 600;
+    }
+  }
+  .card-works {
+    display: block;
+    margin-bottom: 1rem;
+    box-shadow: none;
+  }
+  .desktop-img {
+    display: none;
+  }
+  .mobile-img {
+    display: block;
+  }
+}
+
+// iPad Landscape
+@media only screen and (min-width:992px) and (max-width:1024px) and (orientation: landscape) {
+
+}
+
+// iPadPro Portrait
+@media only screen and (min-width:992px) and (max-width:1024px) and (orientation: portrait) {
+
+}
+
+// iPadPro Landscape
+@media only screen and (min-width:1024px) and (max-width:1366px) and (orientation: landscape) {
+
 }
 
 // Medium devices (tablets, less than 992px)
