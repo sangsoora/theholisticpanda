@@ -53,6 +53,7 @@ Rails.application.routes.draw do
 
   get '/profile', to: 'practitioners#profile', as: :practitioner_profile
   get '/my_services', to: 'practitioners#service', as: :practitioner_services
+  get '/discovery_call/:id', to: 'practitioners#discovery_call', as: :practitioner_discovery_call
 
   resources :practitioner_specialties, only: [:destroy]
 

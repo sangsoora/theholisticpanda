@@ -24,7 +24,11 @@ class SessionPolicy < ApplicationPolicy
   private
 
   def user_is_practitioner?
-    record.practitioner.user == user
+    if record.service.default_service
+      Practitioner.find(record.free_practitioner_id).user == user
+    else
+      record.practitioner.user == user
+    end
   end
 
   def user_is_customer?

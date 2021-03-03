@@ -74,7 +74,7 @@
           <%= f.input :secondary_time, as: :string, as: :hidden %>
           <%= f.input :tertiary_time, as: :string, as: :hidden %>
           <%= f.input :message, as: :hidden %>
-          <%= f.submit 'Send session request', class: 'hidden', id: 'create_session' %>
+          <%= f.submit 'Send Session Request', class: 'hidden', id: 'create_session' %>
         <% end %>
         <div class="modal fade" id="timeslotModal" tabindex="-1" role="dialog" aria-labelledby="timeslotModalTitle" aria-hidden="true">
           <div class="modal-dialog modal-photo modal-dialog-scrollable" role="document">
@@ -206,7 +206,7 @@
               </div>
               <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-ghost" id="back-tertiary">Back</button>
-                <button type="button" class="btn btn-flat" id="send-request">Send session request</button>
+                <button type="button" class="btn btn-flat" id="send-request">Send Session Request</button>
               </div>
             </div>
           </div>
@@ -398,7 +398,7 @@
           <% end %>
         <% end %>
         let sessions = [];
-        <% @service.sessions.where("status = ? AND start_time > ?", 'confirmed', 1.days.ago).order(start_time: :asc).select(:start_time, :duration).each do |session| %>
+        <% @service.practitioner.sessions.where("status = ? AND start_time > ?", 'confirmed', 1.days.ago).order(start_time: :asc).select(:start_time, :duration).each do |session| %>
           sessions.push(<%= session.to_json.html_safe %>);
         <% end %>
         const time_zone = moment.tz.guess();

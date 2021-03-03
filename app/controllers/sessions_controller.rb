@@ -5,6 +5,11 @@ class SessionsController < ApplicationController
     @review = Review.new
     @notifications = Notification.includes(:actor).where(recipient: current_user).order("created_at DESC").unread
     @conversation = Conversation.new
+    if @session.service.default_service
+      @practitioner = Practitioner.find(@session.free_practitioner_id)
+    else
+      @practitioner = @session.practitioner
+    end
     if @session.start_time
       session_time = @session.start_time.in_time_zone(current_user.timezone)
       current_time = Time.current.in_time_zone(current_user.timezone)
@@ -19,24 +24,36 @@ class SessionsController < ApplicationController
     @session.primary_time = @session.primary_time - @session.primary_time.in_time_zone(current_user.timezone).utc_offset
     @session.secondary_time = @session.secondary_time - @session.secondary_time.in_time_zone(current_user.timezone).utc_offset
     @session.tertiary_time = @session.tertiary_time - @session.tertiary_time.in_time_zone(current_user.timezone).utc_offset
-    @session.update(duration: service.duration, session_type: service_type, status: 'pending', paid: false, service: service, amount: service.price, user: current_user)
-    if @session.save
-      payment_session = Stripe::Checkout::Session.create(
-        billing_address_collection: 'required',
-        payment_method_types: ['card'],
-        line_items: [{
-          name: service.name,
-          amount: service.price_cents.to_i,
-          currency: 'cad',
-          quantity: 1
-        }],
-        success_url: session_url(@session),
-        cancel_url: session_url(@session)
-      )
-      @session.update(checkout_session_id: payment_session.id)
-      redirect_to new_session_payment_path(@session)
+    if params[:commit] == 'Send Discovery Call Request'
+      @session.update(duration: service.duration, session_type: service.service_type, status: 'pending', paid: false, service: service, amount: service.price, user: current_user, free_practitioner_id: params[:session][:practitioner])
+      if @session.save
+        @practitioner = Practitioner.find(params[:session][:practitioner])
+        SessionMailer.with(session: @session).send_request.deliver_now
+        Notification.create(recipient: @practitioner.user, actor: current_user, action: 'sent you a discovery call request', notifiable: @session)
+        redirect_to practitioner_path(@practitioner), notice: 'Your request has been sent'
+      else
+        render :new
+      end
     else
-      render :new
+      @session.update(duration: service.duration, session_type: service_type, status: 'pending', paid: false, service: service, amount: service.price, user: current_user)
+      if @session.save
+        payment_session = Stripe::Checkout::Session.create(
+          billing_address_collection: 'required',
+          payment_method_types: ['card'],
+          line_items: [{
+            name: service.name,
+            amount: service.price_cents.to_i,
+            currency: 'cad',
+            quantity: 1
+          }],
+          success_url: session_url(@session),
+          cancel_url: session_url(@session)
+        )
+        @session.update(checkout_session_id: payment_session.id)
+        redirect_to new_session_payment_path(@session)
+      else
+        render :new
+      end
     end
   end
 

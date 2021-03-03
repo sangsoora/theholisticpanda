@@ -14,7 +14,7 @@
     <% if @session.session_type == 'Virtual' %>
       <p>Link for the session: <a href="<%= @session.link %>" target="_blank">@session.link</a></p>
     <% else %>
-      <p>Session location: <%= @session.practitioner.address %></p>
+      <p>Session location: <%= @practitioner.address %></p>
     <% end %>
     <% if @session.cancelled_user != @session.user %>
       <p>Cancel reason from your practitioner: <%= @session.cancel_reason %></p>
