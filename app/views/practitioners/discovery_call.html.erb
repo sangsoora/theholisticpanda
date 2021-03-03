@@ -1,0 +1,501 @@
+<div class="container service-page">
+  <div class="service-details">
+    <div class="service-info">
+      <div class="service-description">
+        <div class="service-title">
+          <h2><%= @service.name %></h2>
+        </div>
+        <div class="service-icons">
+          <p><i class="fas fa-coins mr-2 pink-icon"></i> Free</p>
+          <p><i class="fas fa-location-arrow mr-2 pink-icon"></i> <%= @service.service_type %></p>
+          <p><i class="far fa-clock mr-2 pink-icon"></i> <%= @service.duration %>m</p>
+        </div>
+        <p>Book a complimentary discovery call with <%= @practitioner.user.first_name %> to learn more about <%= @practitioner.user.first_name %>'s services.</p>
+        <br>
+        <p>You can only book one discovery call with <%= @practitioner.user.first_name %>.</p>
+        <p><strong>Please select 3 time slots you prefer and the practitioner will confirm it.</strong></p>
+        <%= link_to 'See Availability', '', data: { toggle: "modal", target: "#timeslotModal" }, class: 'btn btn-flat', id: 'modal-launch' %>
+      </div>
+      <div class="service-practitioner">
+        <% if @practitioner.user.photo.attached? %>
+          <%= image_tag @practitioner.user.photo, class: 'avatar-full mb-4' %>
+        <% else %>
+          <%= image_tag("profile", class: "avatar-full mb-4") %>
+        <% end %>
+        <%= link_to @practitioner.user.full_name, practitioner_path(@practitioner), class: 'service-practitioner-name' %>
+      </div>
+    </div>
+    <div class="service-session-form">
+      <%= simple_form_for [@service, @session] do |f| %>
+        <%= f.input :primary_time, as: :string, as: :hidden %>
+        <%= f.input :secondary_time, as: :string, as: :hidden %>
+        <%= f.input :tertiary_time, as: :string, as: :hidden %>
+        <%= f.input :message, as: :hidden %>
+        <%= f.input :practitioner, as: :hidden, input_html: { value: @practitioner.id } %>
+        <%= f.submit 'Send Discovery Call Request', class: 'hidden', id: 'create_session' %>
+      <% end %>
+      <div class="modal fade" id="timeslotModal" tabindex="-1" role="dialog" aria-labelledby="timeslotModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-photo modal-dialog-scrollable" role="document">
+          <div class="modal-content" id="primary-time-modal">
+            <div class="modal-header">
+              <h5 class="modal-title" id="timeslotModalTitle1">Please select 3 proposed time slots for your discovery call request (1/3)</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body-header">
+              <%= link_to 'Previous', '', id: 'previous-btn-primary' %>
+              <p id="calendar-days-primary"></p>
+              <%= link_to 'Next', '', id: 'next-btn-primary' %>
+            </div>
+            <div class="circles">
+              <p><i class="fas fa-circle available"></i> Available</p>
+              <p><i class="fas fa-circle booked"></i> Booked</p>
+              <p><i class="fas fa-circle blocked"></i> Not Available</p>
+              <p><i class="fas fa-circle chosen"></i> Selected</p>
+            </div>
+            <div class="modal-body">
+              <table class='booking-calendar' id='primary-calendar'>
+                <tr>
+                  <th></th>
+                  <% (0..6).to_a.each do |num| %>
+                    <% num = num + Time.now.wday - 7 %>
+                    <th><%= Date::ABBR_DAYNAMES[num] %></th>
+                  <% end %>
+                </tr>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <p id='primary' class="mr-3"></p>
+              <button type="button" class="btn btn-flat" id="primary-launch" disabled="">Next</button>
+            </div>
+          </div>
+          <div class="modal-content hidden" id="secondary-time-modal">
+            <div class="modal-header">
+              <h5 class="modal-title" id="timeslotModalTitle2">Please select 3 proposed time slots for your discovery call request (2/3)</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body-header">
+              <%= link_to 'Previous', '', id: 'previous-btn-secondary' %>
+              <p id="calendar-days-secondary"></p>
+              <%= link_to 'Next', '', id: 'next-btn-secondary' %>
+            </div>
+            <div class="circles">
+              <p><i class="fas fa-circle available"></i> Available</p>
+              <p><i class="fas fa-circle booked"></i> Booked</p>
+              <p><i class="fas fa-circle blocked"></i> Not Available</p>
+              <p><i class="fas fa-circle chosen"></i> Selected</p>
+            </div>
+            <div class="modal-body">
+              <table class='booking-calendar' id='secondary-calendar'>
+                <tr>
+                  <th></th>
+                  <% (0..6).to_a.each do |num| %>
+                    <% num = num + Time.now.wday - 7 %>
+                    <th><%= Date::ABBR_DAYNAMES[num] %></th>
+                  <% end %>
+                </tr>
+              </table>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-ghost" id="back-primary">Back</button>
+              <div class="d-flex">
+                <p id='secondary' class="mr-3"></p>
+                <button type="button" class="btn btn-flat" id="secondary-launch" disabled="">Next</button>
+              </div>
+            </div>
+          </div>
+          <div class="modal-content hidden" id="tertiary-time-modal">
+            <div class="modal-header">
+              <h5 class="modal-title" id="timeslotModalTitle3">Please select 3 proposed time slots for your discovery call request (3/3)</h5>
+              <button type="button" class="close" id="close-tertiary" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body-header">
+              <%= link_to 'Previous', '', id: 'previous-btn-tertiary' %>
+              <p id="calendar-days-tertiary"></p>
+              <%= link_to 'Next', '', id: 'next-btn-tertiary' %>
+            </div>
+            <div class="circles">
+              <p><i class="fas fa-circle available"></i> Available</p>
+              <p><i class="fas fa-circle booked"></i> Booked</p>
+              <p><i class="fas fa-circle blocked"></i> Not Available</p>
+              <p><i class="fas fa-circle chosen"></i> Selected</p>
+            </div>
+            <div class="modal-body">
+              <table class='booking-calendar' id='tertiary-calendar'>
+                <tr>
+                  <th></th>
+                  <% (0..6).to_a.each do |num| %>
+                    <% num = num + Time.now.wday - 7 %>
+                    <th><%= Date::ABBR_DAYNAMES[num] %></th>
+                  <% end %>
+                </tr>
+              </table>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-ghost" id="back-secondary">Back</button>
+              <div class="d-flex">
+                <p id='tertiary' class="mr-3"></p>
+                <button type="button" class="btn btn-flat" id="tertiary-launch" disabled="">Next</button>
+              </div>
+            </div>
+          </div>
+          <div class="modal-content hidden" id="message-modal">
+            <div class="modal-header">
+              <h5 class="modal-title" id="timeslotModalTitle4">Message for <%= @service.name %></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <label for="session-message">Let your practitioner know what is your goal or objective for this session.</label>
+              <textarea id="session-message" class="form-control text"></textarea>
+              <div class="my-4">
+                <p>Your Chosen Time Slots. Practitioner will choose one of the time slot and confirm it.</p>
+                <p>Your Choice 1: <span id='primary-final'></span></p>
+                <p>Your Choice 2: <span id='secondary-final'></span></p>
+                <p>Your Choice 3: <span id='tertiary-final'></span></p>
+              </div>
+              <p>By sending discovery call request, you agree to the Terms of Service.</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-ghost" id="back-tertiary">Back</button>
+              <button type="button" class="btn btn-flat" id="send-request">Send Discovery Call Request</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="other-services">
+      <h4>Other Services By This Pracitioner</h4>
+      <% @practitioner.services.where(active: true).each do |service| %>
+        <% if service.id != @service.id %>
+          <div class="review-box">
+            <p><%= link_to service.name, service_path(service) %></p>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('modal-launch').addEventListener('click', (e) => {
+      if (!document.getElementById('primary-time-modal').classList.contains('hidden')) {
+        setCalendar(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        movePrevious(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        moveNext(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+      } else if (!document.getElementById('secondary-time-modal').classList.contains('hidden')) {
+        setCalendar(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        movePrevious(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        moveNext(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+      } else if (!document.getElementById('tertiary-time-modal').classList.contains('hidden')) {
+        setCalendar(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        movePrevious(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        moveNext(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+      }
+    })
+    document.getElementById('primary-launch').addEventListener('click', (e) => {
+      document.getElementById('primary-time-modal').classList.add('hidden');
+      setTimeout(function(){
+        setCalendar(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        movePrevious(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        moveNext(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        document.getElementById('secondary-time-modal').classList.remove('hidden');
+      }, 50);
+    })
+    document.getElementById('secondary-launch').addEventListener('click', (e) => {
+      document.getElementById('secondary-time-modal').classList.add('hidden');
+      setTimeout(function(){
+        setCalendar(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        movePrevious(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        moveNext(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        document.getElementById('tertiary-time-modal').classList.remove('hidden');
+      }, 50);
+    })
+    document.getElementById('tertiary-launch').addEventListener('click', (e) => {
+      document.getElementById('tertiary-time-modal').classList.add('hidden');
+      setTimeout(function(){
+        document.getElementById('message-modal').classList.remove('hidden');
+      }, 50);
+    })
+    document.getElementById('send-request').addEventListener('click', (e) => {
+      document.getElementById('session_message').value = document.getElementById('session-message').value
+      document.getElementById('create_session').click();
+    })
+    let start = new Date();
+    const setCalendar = (start, calendar, dt1, dt2, dt3) => {
+      const day = start.getDay();
+      setCalendarDays(start, calendar);
+      setTimeTable(day, calendar);
+      getAvaialbleHours(start, calendar, dt1, dt2, dt3);
+      if (start <= new Date()) {
+        document.getElementById('previous-btn-' + calendar).setAttribute('style', 'pointer-events: none');
+      }
+    }
+    document.getElementById('back-primary').addEventListener('click', (e) => {
+      start = new Date();
+      document.getElementById('secondary-time-modal').classList.add('hidden');
+      setTimeout(function(){
+        setCalendar(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        movePrevious(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        moveNext(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        document.getElementById('primary-time-modal').classList.remove('hidden');
+      }, 50);
+    })
+    document.getElementById('back-secondary').addEventListener('click', (e) => {
+      start = new Date();
+      document.getElementById('tertiary-time-modal').classList.add('hidden');
+      setTimeout(function(){
+        setCalendar(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        movePrevious(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        moveNext(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        document.getElementById('secondary-time-modal').classList.remove('hidden');
+      }, 50);
+    })
+    document.getElementById('back-tertiary').addEventListener('click', (e) => {
+      start = new Date();
+      document.getElementById('message-modal').classList.add('hidden');
+      setTimeout(function(){
+        setCalendar(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        movePrevious(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        moveNext(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        document.getElementById('tertiary-time-modal').classList.remove('hidden');
+      }, 50);
+    })
+    const setCalendarDays = (start, calendar) => {
+      let html = '';
+      let end = new Date(start);
+      end.setDate(start.getDate() + 6);
+      const startDay = start.getDay();
+      const startDate = start.getDate();
+      const startYear = start.getFullYear();
+      const startMonth = start.toLocaleString('default', { month: 'short' });
+      const endDay = end.getDay();
+      const endDate = end.getDate();
+      const endYear = end.getFullYear();
+      const endMonth = end.toLocaleString('default', { month: 'short' });
+      if (startYear !== endYear) {
+        html = startMonth + ' ' + startDate + ', ' + startYear + '-' + endMonth + ' ' + endDate + ', ' + endYear
+      } else if (startMonth !== endMonth) {
+        html = startMonth + ' ' + startDate + '-' + endMonth + ' ' + endDate + ', ' + startYear
+      } else {
+        html = startMonth + ' ' + startDate + '-' + endDate + ', ' + startYear
+      }
+      document.getElementById('calendar-days-' + calendar).innerHTML = html;
+    }
+    const setTimeTable = (day, calendar) => {
+      $('.added-time').remove();
+      let html = '';
+      const times = ['00:00', '00:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30', '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30'];
+      const day1 = (day + 1) > 6 ? (day + 1) - 7 : (day + 1);
+      const day2 = (day + 2) > 6 ? (day + 2) - 7 : (day + 2);
+      const day3 = (day + 3) > 6 ? (day + 3) - 7 : (day + 3);
+      const day4 = (day + 4) > 6 ? (day + 4) - 7 : (day + 4);
+      const day5 = (day + 5) > 6 ? (day + 5) - 7 : (day + 5);
+      const day6 = (day + 6) > 6 ? (day + 6) - 7 : (day + 6);
+      times.forEach((time) => {
+        html += `<tr class="added-time"><td>` + time + `</td><td data-day="` + day + `" id="` + day + `-` + time + `"></td><td data-day="` + day1 + `" id="` + day1 + `-` + time + `"></td><td data-day="` + day2 + `" id="` + day2 + `-` + time + `"></td><td data-day="` + day3 + `" id="` + day3 + `-` + time + `"></td><td data-day="` + day4 + `" id="` + day4 + `-` + time + `"></td><td data-day="` + day5 + `" id="` + day5 + `-` + time + `"></td><td data-day="` + day6 + `" id="` + day6 + `-` + time + `"></td></tr>`;
+      })
+      document.getElementById(calendar + '-calendar').insertAdjacentHTML('beforeend', html);
+    }
+    const getAvaialbleHours = (start, calendar, dt1, dt2, dt3) => {
+      let end = new Date(start);
+      end.setDate(start.getDate() + 6);
+      const startDate = start.getDate();
+      const startMonth = start.getMonth();
+      const startYear = start.getFullYear();
+      const endDate = end.getDate();
+      const endMonth = end.getMonth();
+      const endYear = end.getFullYear();
+      <% @practitioner.converted_working_hours(current_user).delete_if { |key, value| value.blank? }.each do |k, v| %>
+        <% v.each do |hour| %>
+          <% @times.each do |time| %>
+            <% if (hour[:starts]...hour[:ends]).include?(time) %>
+              document.getElementById('<%= k %>-<%= time %>').innerHTML = '<div class="available-cell"></div>';
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+      let sessions = [];
+      <% @practitioner.sessions.where("status = ? AND start_time > ?", 'confirmed', 1.days.ago).order(start_time: :asc).select(:start_time, :duration).each do |session| %>
+        sessions.push(<%= session.to_json.html_safe %>);
+      <% end %>
+      const time_zone = moment.tz.guess();
+      let dates = [];
+      for (var i = 0; i < 7; i++) {
+        let addingDate = new Date(start);
+        addingDate.setDate(start.getDate() + i);
+        dates.push(formatDate(addingDate));
+      }
+      dates.forEach((date) => {
+        const selected_day = new Date(date).getDay();
+        const time_slots = document.querySelectorAll(`[data-day='` + selected_day + `']`);
+        time_slots.forEach((slot) => {
+          const slot_time = moment(date).format('YYYY-MM-DD') + ' ' + slot.id.split('-')[1];
+          const el = document.getElementById(moment(slot_time).format('d') + '-' + slot_time.split(' ')[1]);
+          if (slot_time <= moment().format('YYYY-MM-DD HH:mm')) {
+            if (el.childNodes.length > 0) {
+              el.childNodes[0].classList.remove('available-cell');
+              el.childNodes[0].classList.add('blocked-cell');
+            } else {
+              el.insertAdjacentHTML('beforeend', '<div class="blocked-cell"></div>');
+            }
+          }
+          sessions.forEach((session) => {
+            const start_time = moment(session['start_time']).tz(time_zone).format('YYYY-MM-DD HH:mm');
+            const end_time = moment(session['start_time']).tz(time_zone).add(session['duration'], 'minutes').format('YYYY-MM-DD HH:mm');
+            if (slot_time <= moment().format('YYYY-MM-DD HH:mm')) {
+              if (el.childNodes.length > 0) {
+                el.childNodes[0].classList.remove('available-cell');
+                el.childNodes[0].classList.add('blocked-cell');
+              } else {
+                el.insertAdjacentHTML('beforeend', '<div class="blocked-cell"></div>');
+              }
+            } else if (slot_time >= start_time && slot_time < end_time) {
+              if (el.childNodes.length > 0) {
+                el.childNodes[0].classList.remove('available-cell');
+                el.childNodes[0].classList.add('booked-cell');
+              }
+            }
+          })
+        })
+      })
+      if (dt1 != '' ) {
+        if ((new Date(dt1) >= start) && (new Date(dt1) <= new Date(moment(new Date(start)).add(7, 'd').toISOString()))) {
+          const el = document.getElementById(moment(dt1).format('d') + '-' + moment(dt1).format('HH:mm'));
+          el.childNodes[0].classList.remove('available-cell');
+          el.childNodes[0].classList.add('blocked-cell');
+        }
+      }
+      if (dt2 != '') {
+        if ((new Date(dt2) >= start) && (new Date(dt2) <= new Date(moment(new Date(start)).add(7, 'd').toISOString()))) {
+          const el = document.getElementById(moment(dt2).format('d') + '-' + moment(dt2).format('HH:mm'));
+          el.childNodes[0].classList.remove('available-cell');
+          el.childNodes[0].classList.add('blocked-cell');
+        }
+      }
+      if (dt3 != '') {
+        if ((new Date(dt3) >= start) && (new Date(dt3) <= new Date(moment(new Date(start)).add(7, 'd').toISOString()))) {
+          const el = document.getElementById(moment(dt3).format('d') + '-' + moment(dt3).format('HH:mm'));
+          el.childNodes[0].classList.remove('available-cell');
+          el.childNodes[0].classList.add('blocked-cell');
+        }
+      }
+      const availables = document.getElementsByClassName('available-cell');
+      const working_hours = <%= @practitioner.converted_working_hours(current_user).to_json.html_safe %>;
+      let ending_hours = [];
+      var keys = Object.keys(working_hours);
+      for(key in keys){
+        const ending_date = dates.find(el =>  new Date(el).getDay() == parseInt(key));
+        if (working_hours[key].length > 0) {
+          working_hours[key].forEach((hour) => {
+            const nextDay = (parseInt(key) + 1) > 6 ? (parseInt(key) + 1) - 7 : (parseInt(key) + 1);
+            if (!(hour['ends'] == '24:00' && working_hours[nextDay].length > 0 && working_hours[nextDay][0]['starts'] == '00:00')) {
+              ending_hours.push(moment(ending_date + ' ' + hour['ends']).format());
+            }
+          })
+        }
+      }
+      for (let item of availables) {
+        const slot = item.parentNode;
+        const slot_date = dates.find(element =>  new Date(element).getDay() == parseInt(slot.dataset.day));
+        const slot_time = item.parentNode.id.split('-')[1];
+        const pointed_time = moment(slot_date + ' ' + slot_time);
+        const futureSessions = sessions.filter(it => moment(it.start_time).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'));
+        let endTime = '';
+        if (moment(ending_hours.sort().filter(it => moment(it).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm')))['_i']) {
+          endTime = moment(ending_hours.sort().filter(it => moment(it).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'))[0]);
+        }
+        if (endTime != '') {
+          endTimeDiff = endTime.diff(pointed_time, 'minutes');
+        }
+        if (futureSessions.length > 0) {
+          let nextTime = '';
+          let timeDiff = 0;
+          nextTime = moment(sessions.filter(it => moment(it.start_time).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'))[0]['start_time']);
+          nextTimeDiff = nextTime.diff(pointed_time, 'minutes');
+          if ((nextTimeDiff >= <%= @service.duration %>) && (endTimeDiff >= <%= @service.duration %>)) {
+            slot.style.cursor = "pointer";
+            const ending_time = moment(pointed_time).add(<%= @service.duration %>, 'minutes').format('LT');
+            const html = `<div class="available-hours"><p>` + pointed_time.format('ll') + ` ` + pointed_time.format('LT') + ` ~ ` + ending_time + `</p></div>`;
+            item.insertAdjacentHTML('beforeend', html);
+            slot.addEventListener('click', (e) => {
+              e.currentTarget.childNodes[0].classList.remove('available-cell');
+              if (document.getElementsByClassName('chosen-cell')[0]) {
+                document.getElementsByClassName('chosen-cell')[0].classList.add('available-cell');
+                document.getElementsByClassName('chosen-cell')[0].classList.remove('chosen-cell');
+              }
+              e.currentTarget.childNodes[0].classList.add('chosen-cell');
+              document.getElementsByClassName('chosen-cell')
+              document.getElementById('session_' + calendar + '_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
+              document.getElementById(calendar).innerHTML = pointed_time.format('ddd, lll');
+              document.getElementById(calendar + '-launch').disabled = false;
+              document.getElementById(calendar + '-launch').setAttribute('data-first-time', pointed_time);
+              document.getElementById(calendar + '-final').innerHTML = pointed_time.format('ddd, lll');
+            })
+          }
+        } else {
+          if (endTimeDiff >= <%= @service.duration %>) {
+            slot.style.cursor = "pointer";
+            const ending_time = moment(pointed_time).add(<%= @service.duration %>, 'minutes').format('LT');
+            const html = `<div class="available-hours"><p>` + pointed_time.format('ll') + ` ` + pointed_time.format('LT') + ` ~ ` + ending_time + `</p></div>`;
+            item.insertAdjacentHTML('beforeend', html);
+            slot.addEventListener('click', (e) => {
+              e.currentTarget.childNodes[0].classList.remove('available-cell');
+              if (document.getElementsByClassName('chosen-cell')[0]) {
+                document.getElementsByClassName('chosen-cell')[0].classList.add('available-cell');
+                document.getElementsByClassName('chosen-cell')[0].classList.remove('chosen-cell');
+              }
+              e.currentTarget.childNodes[0].classList.add('chosen-cell');
+              document.getElementById('session_' + calendar + '_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
+              document.getElementById(calendar).innerHTML = pointed_time.format('ddd, lll');
+              document.getElementById(calendar + '-launch').disabled = false;
+              document.getElementById(calendar + '-launch').setAttribute('data-first-time', pointed_time);
+              document.getElementById(calendar + '-final').innerHTML = pointed_time.format('ddd, lll');
+            })
+          }
+        }
+      }
+    }
+    const formatDate = (date) => {
+      let d = new Date(date),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
+      if (month.length < 2)
+          month = '0' + month;
+      if (day.length < 2)
+          day = '0' + day;
+      return [year, month, day].join('-');
+    }
+    const movePrevious = (start, calendar, dt1, dt2, dt3) => {
+      document.getElementById('previous-btn-' + calendar).addEventListener('click', (e) => {
+        e.preventDefault();
+        start.setDate(start.getDate() - 7);
+        if (start <= new Date()) {
+          document.getElementById('previous-btn-' + calendar).setAttribute('style', 'pointer-events: none');
+        } else {
+          document.getElementById('previous-btn-' + calendar).setAttribute('style', 'pointer-events: auto');
+        }
+        setCalendar(start, calendar, dt1, dt2, dt3);
+      })
+    }
+    const moveNext = (start, calendar, dt1, dt2, dt3) => {
+      document.getElementById('next-btn-' + calendar).addEventListener('click', (e) => {
+        e.preventDefault();
+        start.setDate(start.getDate() + 7);
+        if (start <= new Date()) {
+          document.getElementById('previous-btn-' + calendar).setAttribute('style', 'pointer-events: none');
+        } else {
+          document.getElementById('previous-btn-' + calendar).setAttribute('style', 'pointer-events: auto');
+        }
+        setCalendar(start, calendar, dt1, dt2, dt3);
+      })
+    }
+  });
+</script>
