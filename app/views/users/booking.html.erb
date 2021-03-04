@@ -212,11 +212,13 @@
               <div class="session-content">
                 <button class="<%= call.status %>"><%= call.status.capitalize %></button>
                 <p><%= link_to call.service.name, session_path(call) %></p>
-                <% if call.start_time %>
-                  <%= call.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
-                <% else %>
-                  TBD
-                <% end %>
+                <p><small>When:
+                  <% if call.start_time %>
+                    <%= call.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
+                  <% else %>
+                    TBD
+                  <% end %>
+                </small></p>
                 <p><small>Duration: 15m</small></p>
                 <p><small>Price: Free</small></p>
                 <p><small>Session Type: Virtual</small></p>
@@ -236,11 +238,13 @@
               <div class="session-content">
                 <button class="<%= call.status %>"><%= call.status.capitalize %></button>
                 <p><%= link_to call.service.name, session_path(call) %></p>
-                <% if call.start_time %>
-                  <%= call.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
-                <% else %>
-                  TBD
-                <% end %>
+                <p><small>When:
+                  <% if call.start_time %>
+                    <%= call.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
+                  <% else %>
+                    TBD
+                  <% end %>
+                </small></p>
                 <p><small>Duration: 15m</small></p>
                 <p><small>Price: Free</small></p>
                 <p><small>Session Type: Virtual</small></p>
