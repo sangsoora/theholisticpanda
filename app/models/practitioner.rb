@@ -207,6 +207,14 @@ class Practitioner < ApplicationRecord
     Session.where(user: user, free_practitioner_id: id).where.not(status: 'cancelled').exists?
   end
 
+  def working_hours?
+    check_working_hours = false
+    working_hours.each do |hour|
+      check_working_hours = true if hour.opens && hour.closes
+    end
+    check_working_hours
+  end
+
   def profile_progress
     check_working_hours = false
     working_hours.each do |hour|
