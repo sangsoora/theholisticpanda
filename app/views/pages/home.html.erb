@@ -29,6 +29,9 @@
                 <% end %>
                 <a href="/practitioners/<%= practitioner.id %>" style="margin: 0 auto;"><p>and more</p></a>
               </div>
+              <% if !user_signed_in? || (user_signed_in? && !practitioner.had_free_session?(current_user)) %>
+                <%= link_to 'Book Free 15 Min Call', practitioner_discovery_call_path(practitioner), class: 'btn btn-flat my-2' %>
+              <% end %>
             </div>
           </div>
         <% end %>
@@ -59,6 +62,9 @@
                   <% end %>
                   <a href="/practitioners/<%= practitioner.id %>" style="margin: 0 auto;"><p>and more</p></a>
                 </div>
+                <% if !user_signed_in? || (user_signed_in? && !practitioner.had_free_session?(current_user)) %>
+                  <%= link_to 'Book Free 15 Min Call', practitioner_discovery_call_path(practitioner), class: 'btn btn-flat my-2' %>
+                <% end %>
               </div>
             </div>
           </div>

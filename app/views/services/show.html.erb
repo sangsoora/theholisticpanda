@@ -264,7 +264,6 @@
       start.setDate(start.getDate() + 1);
       const setCalendar = (start, calendar, dt1, dt2, dt3) => {
         const day = start.getDay();
-        console.log(day);
         setCalendarDays(start, calendar);
         setTimeTable(day, calendar);
         getAvaialbleHours(start, calendar, dt1, dt2, dt3);

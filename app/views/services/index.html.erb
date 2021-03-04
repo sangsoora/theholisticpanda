@@ -205,9 +205,6 @@
                     </div>
                     <div class="general-info">
                       <h4><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h4>
-                      <% if !user_signed_in? || (user_signed_in? && !service.practitioner.had_free_session?(current_user)) %>
-                        <%= link_to 'Book Free 15 Min Call', practitioner_discovery_call_path(service.practitioner), class: 'btn btn-flat mb-3', style: 'padding: 0.25rem 1rem;' %>
-                      <% end %>
                       <div class="practitioner-specialties">
                         <% service.practitioner.specialties.order(:name).each do |specialty| %>
                           <% if params[:search][:specialty] && params[:search][:specialty].include?((specialty.id).to_s) %>
@@ -355,9 +352,6 @@
                   </div>
                   <div class="general-info">
                     <h4><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h4>
-                    <% if !user_signed_in? || (user_signed_in? && !service.practitioner.had_free_session?(current_user)) %>
-                      <%= link_to 'Book Free 15 Min Call', practitioner_discovery_call_path(service.practitioner), class: 'btn btn-flat mb-3', style: 'padding: 0.25rem 1rem;' %>
-                    <% end %>
                     <div class="practitioner-specialties">
                       <% service.practitioner.specialties.order(:name).each do |specialty| %>
                         <div class="service-goal"><%= specialty.name %></div>
