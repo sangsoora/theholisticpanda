@@ -85,11 +85,16 @@ class SessionsController < ApplicationController
       redirect_to user_sessions_path, notice: 'Session Request Declined'
     elsif params[:commit] == 'Confirm Cancellation'
       @session.update(status: 'cancelled')
+      if @session.service.default_service
+        @practitioner = Practitioner.find(@session.free_practitioner_id)
+      else
+        @practitioner = @session.practitioner
+      end
       if @session.user == current_user
         @session.update(cancelled_user: current_user)
-        Notification.create(recipient: @session.practitioner.user, actor: current_user, action: 'has cancelled your session', notifiable: @session)
+        Notification.create(recipient: @practitioner.user, actor: current_user, action: 'has cancelled your session', notifiable: @session)
       else
-        @session.update(cancelled_user: @session.practitioner.user)
+        @session.update(cancelled_user: @practitioner.user)
         Notification.create(recipient: @session.user, actor: current_user, action: 'has cancelled your session', notifiable: @session)
       end
       SessionMailer.with(session: @session).cancel_practitioner.deliver_now

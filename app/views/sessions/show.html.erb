@@ -46,7 +46,7 @@
         <% end %>
       </div>
     <% elsif @session.status == 'cancelled' %>
-      <h2>This session has been cancelled.</h2>
+      <h4 class="my-2" style="opacity: 0.7;"><em>This session has been cancelled.</em></h4>
     <% end %>
   <% elsif @session.user == current_user %>
     <div class="session-title">
@@ -83,7 +83,7 @@
         <% end %>
       </div>
     <% elsif @session.status == 'cancelled' %>
-      <h2>This session has been cancelled.</h2>
+      <h4 class="my-2" style="opacity: 0.7;"><em>This session has been cancelled.</em></h4>
     <% end %>
   <% end %>
   <% if @session.session_type == 'In-person' %>
@@ -100,13 +100,17 @@
         <p>Session Location: <%= @session.service.practitioner.location %></p>
         <p>Address: <%= @session.service.practitioner.address %></p>
         <p>Total Price: CA$ <%= @session.amount.round(2) %></p>
-        <% if @session.user == current_user %>
-          <p>Cancellation Policy: Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
+        <% if @session.user == current_user && !@session.service.default_service %>
+          <p class="mb-0"><strong>Cancellation Policy</strong></p>
+          <p>Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
         <% else %>
-          <% if @session.message %>
+          <% if @session.message && @session.message != '' %>
             <p>Message From <%= @session.user.full_name %>: <%= @session.message.gsub(/\n/, '<br/>').html_safe %></p>
           <% end %>
-          <p>Cancellation Policy: Cancel more than 24 hours before your appointment if you need to, unless penalty of 35% this session fee will be issued.</p>
+          <% if !@session.service.default_service %>
+            <p class="mb-0"><strong>Cancellation Policy</strong></p>
+            <p>Cancel more than 24 hours before your appointment if you need to, unless penalty of 35% this session fee will be issued.</p>
+          <% end %>
         <% end %>
       </div>
       <div class="session-location">
@@ -135,15 +139,17 @@
             <button id='link-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
           <% end %>
         </div>
-        <% if @session.user == current_user %>
+        <% if @session.user == current_user && !@session.service.default_service %>
           <p class="mb-0"><strong>Cancellation Policy</strong></p>
           <p>Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
         <% else %>
-          <% if @session.message %>
+          <% if @session.message && @session.message != '' %>
             <p>Message From <%= @session.user.full_name %>: <%= @session.message.gsub(/\n/, '<br/>').html_safe %></p>
           <% end %>
-          <p class="mb-0"><strong>Cancellation Policy</strong></p>
-          <p>Cancel more than 24 hours before your appointment if you need to, unless penalty of 35% this session fee will be issued.</p>
+          <% if !@session.service.default_service %>
+            <p class="mb-0"><strong>Cancellation Policy</strong></p>
+            <p>Cancel more than 24 hours before your appointment if you need to, unless penalty of 35% this session fee will be issued.</p>
+          <% end %>
         <% end %>
       </div>
       <div class="session-location" style="display: flex; justify-content: flex-end;">

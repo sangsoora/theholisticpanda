@@ -21,8 +21,8 @@ class SessionMailer < ApplicationMailer
     end
     @cal = Icalendar::Calendar.new
     @cal.event do |e|
-      e.dtstart     = @session.start_time
-      e.dtend       = @session.start_time + @session.duration.minutes
+      e.dtstart     = @session.start_time.in_time_zone(@practitioner.timezone)
+      e.dtend       = @session.start_time.in_time_zone(@practitioner.timezone) + @session.duration.minutes
       e.summary     = @session.service.name
       e.description = "#{@session.service.name} with #{@session.user.full_name} booked through The Holistic Panda."
       e.ip_class    = "PRIVATE"
@@ -64,8 +64,8 @@ class SessionMailer < ApplicationMailer
     end
     @cal = Icalendar::Calendar.new
     @cal.event do |e|
-      e.dtstart     = @session.start_time
-      e.dtend       = @session.start_time + @session.duration.minutes
+      e.dtstart     = @session.start_time.in_time_zone(@session.user.timezone)
+      e.dtend       = @session.start_time.in_time_zone(@session.user.timezone) + @session.duration.minutes
       e.summary     = @session.service.name
       e.description = "#{@session.service.name} with #{@practitioner.user.full_name} booked through The Holistic Panda."
       e.ip_class    = "PRIVATE"
@@ -106,7 +106,7 @@ class SessionMailer < ApplicationMailer
     else
       @practitioner = @session.practitioner
     end
-    mail(to: @session.user.eamil, subject: "Your session has been cancelled.")
+    mail(to: @session.user.email, subject: "Your session has been cancelled.")
   end
 
   def send_request

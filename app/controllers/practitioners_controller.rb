@@ -77,6 +77,7 @@ class PractitionersController < ApplicationController
     @confirmed_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(['status= ?', 'confirmed'])
     @pending_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(['paid = ? AND status= ?', true, 'pending'])
     @cancelled_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(['status= ?', 'cancelled'])
+    @discovery_calls = Session.where(free_practitioner_id: @practitioner).includes(:review, :service)
   end
 
   def discovery_call
