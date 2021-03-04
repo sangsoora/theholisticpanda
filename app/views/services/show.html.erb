@@ -74,7 +74,7 @@
           <%= f.input :secondary_time, as: :string, as: :hidden %>
           <%= f.input :tertiary_time, as: :string, as: :hidden %>
           <%= f.input :message, as: :hidden %>
-          <%= f.submit 'Send session request', class: 'hidden', id: 'create_session' %>
+          <%= f.submit 'Send Session Request', class: 'hidden', id: 'create_session' %>
         <% end %>
         <div class="modal fade" id="timeslotModal" tabindex="-1" role="dialog" aria-labelledby="timeslotModalTitle" aria-hidden="true">
           <div class="modal-dialog modal-photo modal-dialog-scrollable" role="document">
@@ -101,7 +101,7 @@
                   <tr>
                     <th></th>
                     <% (0..6).to_a.each do |num| %>
-                      <% num = num + Time.now.wday - 7 %>
+                      <% num = num + 1 + Time.now.wday - 7 %>
                       <th><%= Date::ABBR_DAYNAMES[num] %></th>
                     <% end %>
                   </tr>
@@ -135,7 +135,7 @@
                   <tr>
                     <th></th>
                     <% (0..6).to_a.each do |num| %>
-                      <% num = num + Time.now.wday - 7 %>
+                      <% num = num + 1 + Time.now.wday - 7 %>
                       <th><%= Date::ABBR_DAYNAMES[num] %></th>
                     <% end %>
                   </tr>
@@ -172,7 +172,7 @@
                   <tr>
                     <th></th>
                     <% (0..6).to_a.each do |num| %>
-                      <% num = num + Time.now.wday - 7 %>
+                      <% num = num + 1 + Time.now.wday - 7 %>
                       <th><%= Date::ABBR_DAYNAMES[num] %></th>
                     <% end %>
                   </tr>
@@ -206,7 +206,7 @@
               </div>
               <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-ghost" id="back-tertiary">Back</button>
-                <button type="button" class="btn btn-flat" id="send-request">Send session request</button>
+                <button type="button" class="btn btn-flat" id="send-request">Send Session Request</button>
               </div>
             </div>
           </div>
@@ -260,89 +260,17 @@
 <script>
   <% if @service.active %>
     document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('modal-launch').addEventListener('click', (e) => {
-        if (!document.getElementById('primary-time-modal').classList.contains('hidden')) {
-          setCalendar(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          movePrevious(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          moveNext(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-        } else if (!document.getElementById('secondary-time-modal').classList.contains('hidden')) {
-          setCalendar(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          movePrevious(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          moveNext(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-        } else if (!document.getElementById('tertiary-time-modal').classList.contains('hidden')) {
-          setCalendar(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          movePrevious(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          moveNext(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-        }
-      })
-      document.getElementById('primary-launch').addEventListener('click', (e) => {
-        document.getElementById('primary-time-modal').classList.add('hidden');
-        setTimeout(function(){
-          setCalendar(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          movePrevious(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          moveNext(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          document.getElementById('secondary-time-modal').classList.remove('hidden');
-        }, 50);
-      })
-      document.getElementById('secondary-launch').addEventListener('click', (e) => {
-        document.getElementById('secondary-time-modal').classList.add('hidden');
-        setTimeout(function(){
-          setCalendar(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          movePrevious(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          moveNext(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          document.getElementById('tertiary-time-modal').classList.remove('hidden');
-        }, 50);
-      })
-      document.getElementById('tertiary-launch').addEventListener('click', (e) => {
-        document.getElementById('tertiary-time-modal').classList.add('hidden');
-        setTimeout(function(){
-          document.getElementById('message-modal').classList.remove('hidden');
-        }, 50);
-      })
-      document.getElementById('send-request').addEventListener('click', (e) => {
-        document.getElementById('session_message').value = document.getElementById('session-message').value
-        document.getElementById('create_session').click();
-      })
       let start = new Date();
+      start.setDate(start.getDate() + 1);
       const setCalendar = (start, calendar, dt1, dt2, dt3) => {
         const day = start.getDay();
         setCalendarDays(start, calendar);
         setTimeTable(day, calendar);
         getAvaialbleHours(start, calendar, dt1, dt2, dt3);
-        if (start <= new Date()) {
+        if (start <= new Date().setDate(new Date().getDate() + 1)) {
           document.getElementById('previous-btn-' + calendar).setAttribute('style', 'pointer-events: none');
         }
       }
-      document.getElementById('back-primary').addEventListener('click', (e) => {
-        start = new Date();
-        document.getElementById('secondary-time-modal').classList.add('hidden');
-        setTimeout(function(){
-          setCalendar(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          movePrevious(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          moveNext(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          document.getElementById('primary-time-modal').classList.remove('hidden');
-        }, 50);
-      })
-      document.getElementById('back-secondary').addEventListener('click', (e) => {
-        start = new Date();
-        document.getElementById('tertiary-time-modal').classList.add('hidden');
-        setTimeout(function(){
-          setCalendar(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          movePrevious(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          moveNext(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          document.getElementById('secondary-time-modal').classList.remove('hidden');
-        }, 50);
-      })
-      document.getElementById('back-tertiary').addEventListener('click', (e) => {
-        start = new Date();
-        document.getElementById('message-modal').classList.add('hidden');
-        setTimeout(function(){
-          setCalendar(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          movePrevious(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          moveNext(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          document.getElementById('tertiary-time-modal').classList.remove('hidden');
-        }, 50);
-      })
       const setCalendarDays = (start, calendar) => {
         let html = '';
         let end = new Date(start);
@@ -398,7 +326,7 @@
           <% end %>
         <% end %>
         let sessions = [];
-        <% @service.sessions.where("status = ? AND start_time > ?", 'confirmed', 1.days.ago).order(start_time: :asc).select(:start_time, :duration).each do |session| %>
+        <% @service.practitioner.sessions.where("status = ? AND start_time > ?", 'confirmed', 1.days.ago).order(start_time: :asc).select(:start_time, :duration).each do |session| %>
           sessions.push(<%= session.to_json.html_safe %>);
         <% end %>
         const time_zone = moment.tz.guess();
@@ -414,7 +342,7 @@
           time_slots.forEach((slot) => {
             const slot_time = moment(date).format('YYYY-MM-DD') + ' ' + slot.id.split('-')[1];
             const el = document.getElementById(moment(slot_time).format('d') + '-' + slot_time.split(' ')[1]);
-            if (slot_time <= moment().format('YYYY-MM-DD HH:mm')) {
+            if (slot_time <= moment().add(1, 'd').format('YYYY-MM-DD HH:mm')) {
               if (el.childNodes.length > 0) {
                 el.childNodes[0].classList.remove('available-cell');
                 el.childNodes[0].classList.add('blocked-cell');
@@ -425,7 +353,7 @@
             sessions.forEach((session) => {
               const start_time = moment(session['start_time']).tz(time_zone).format('YYYY-MM-DD HH:mm');
               const end_time = moment(session['start_time']).tz(time_zone).add(session['duration'], 'minutes').format('YYYY-MM-DD HH:mm');
-              if (slot_time <= moment().format('YYYY-MM-DD HH:mm')) {
+              if (slot_time <= moment().add(1, 'd').format('YYYY-MM-DD HH:mm')) {
                 if (el.childNodes.length > 0) {
                   el.childNodes[0].classList.remove('available-cell');
                   el.childNodes[0].classList.add('blocked-cell');
@@ -573,6 +501,82 @@
           setCalendar(start, calendar, dt1, dt2, dt3);
         })
       }
+      document.getElementById('modal-launch').addEventListener('click', (e) => {
+        if (!document.getElementById('primary-time-modal').classList.contains('hidden')) {
+          setCalendar(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          movePrevious(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          moveNext(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        } else if (!document.getElementById('secondary-time-modal').classList.contains('hidden')) {
+          setCalendar(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          movePrevious(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          moveNext(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        } else if (!document.getElementById('tertiary-time-modal').classList.contains('hidden')) {
+          setCalendar(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          movePrevious(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          moveNext(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        }
+      })
+      document.getElementById('primary-launch').addEventListener('click', (e) => {
+        document.getElementById('primary-time-modal').classList.add('hidden');
+        setTimeout(function(){
+          setCalendar(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          movePrevious(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          moveNext(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          document.getElementById('secondary-time-modal').classList.remove('hidden');
+        }, 50);
+      })
+      document.getElementById('secondary-launch').addEventListener('click', (e) => {
+        document.getElementById('secondary-time-modal').classList.add('hidden');
+        setTimeout(function(){
+          setCalendar(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          movePrevious(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          moveNext(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          document.getElementById('tertiary-time-modal').classList.remove('hidden');
+        }, 50);
+      })
+      document.getElementById('tertiary-launch').addEventListener('click', (e) => {
+        document.getElementById('tertiary-time-modal').classList.add('hidden');
+        setTimeout(function(){
+          document.getElementById('message-modal').classList.remove('hidden');
+        }, 50);
+      })
+      document.getElementById('send-request').addEventListener('click', (e) => {
+        document.getElementById('session_message').value = document.getElementById('session-message').value
+        document.getElementById('create_session').click();
+      })
+      document.getElementById('back-primary').addEventListener('click', (e) => {
+        start = new Date();
+        start.setDate(start.getDate() + 1);
+        document.getElementById('secondary-time-modal').classList.add('hidden');
+        setTimeout(function(){
+          setCalendar(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          movePrevious(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          moveNext(start, 'primary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          document.getElementById('primary-time-modal').classList.remove('hidden');
+        }, 50);
+      })
+      document.getElementById('back-secondary').addEventListener('click', (e) => {
+        start = new Date();
+        start.setDate(start.getDate() + 1);
+        document.getElementById('tertiary-time-modal').classList.add('hidden');
+        setTimeout(function(){
+          setCalendar(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          movePrevious(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          moveNext(start, 'secondary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          document.getElementById('secondary-time-modal').classList.remove('hidden');
+        }, 50);
+      })
+      document.getElementById('back-tertiary').addEventListener('click', (e) => {
+        start = new Date();
+        start.setDate(start.getDate() + 1);
+        document.getElementById('message-modal').classList.add('hidden');
+        setTimeout(function(){
+          setCalendar(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          movePrevious(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          moveNext(start, 'tertiary', document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          document.getElementById('tertiary-time-modal').classList.remove('hidden');
+        }, 50);
+      })
     });
   <% end %>
 </script>

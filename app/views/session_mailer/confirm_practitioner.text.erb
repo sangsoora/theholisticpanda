@@ -1,4 +1,4 @@
-Dear <%= @session.practitioner.user.first_name %>,
+Dear <%= @practitioner.user.first_name %>,
 
 Your session with <%= @session.user.full_name %> is confirmed.
 
@@ -6,17 +6,21 @@ Here is a summary of your session:
 
 Service: <%= @session.service.name %>
 
-Starting time: <%= @session.start_time.in_time_zone(@session.practitioner.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
+Starting time: <%= @session.start_time.in_time_zone(@practitioner.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
 
 <% if @session.session_type == 'Virtual' %>
-  Link for the session: @session.link
+Link for the session: <%= @session.link %>
 <% end %>
 
-<% if @session.message %>
-  <%= @session.user.first_name %>’s note on reason for attending the session: <%= @session.message %>
+<% if @session.message && (@session.message != '') %>
+<%= @session.user.first_name %>’s note on reason for attending the session: <%= @session.message %>
 <% end %>
 
+<% if @session.service.default_service %>
+If you are no longer able to make this session, please cancel it at least 24 hours before the session and send a courtesy message to your client via the chatbox.
+<% else %>
 If you are no longer able to make this session, please cancel it at least 24 hours before the session and send a courtesy message to your client via the chatbox. Failure to do so will result in a late cancellation fee of 35% of the session price. If you have to late cancel due to extenuating circumstances, please do let us know at hello@theholisticpanda.com.
+<% end %>
 
 If your client loved the session, please encourage them to leave you a review and rating so others in the community can learn more about your services!
 

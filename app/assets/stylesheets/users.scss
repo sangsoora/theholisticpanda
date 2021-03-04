@@ -13,7 +13,6 @@
 .session {
   flex: 0 0 48%;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   margin-bottom: 2rem;
   color: $emerald;
@@ -27,7 +26,7 @@
 .session .session-head {
   display: flex;
   align-items: center;
-  flex: 0 0 80%;
+  flex: 0 0 75%;
   img {
     border-radius: 50%;
     width: 100%;
@@ -39,6 +38,9 @@
   .session-content {
     flex: 0 0 75%;
     padding: 0 1rem;
+  }
+  .session-content.practitioner {
+    flex: 0 0 100% !important;
   }
 }
 
@@ -55,7 +57,7 @@
 .session .session-actions {
   display: flex;
   transition: ease .3s;
-  flex: 0 0 20%;
+  flex: 0 0 25%;
 }
 
 .session .session-actions a {
@@ -86,7 +88,8 @@
 }
 
 .pending, .confirmed, .cancelled {
-  color: $emerald;
+  color: white;
+  font-weight: 600;
   cursor: default !important;
   border: none;
   border-radius: 3rem;
@@ -103,7 +106,7 @@
 }
 
 .cancelled {
-  background: red;
+  background-image: linear-gradient(to bottom right, #ff0000, #ff007b, #ff00fa, #e50000);
 }
 
 .notifications-container {

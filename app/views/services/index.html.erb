@@ -205,7 +205,6 @@
                     </div>
                     <div class="general-info">
                       <h4><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h4>
-                      <!-- <label>Specialities</label> -->
                       <div class="practitioner-specialties">
                         <% service.practitioner.specialties.order(:name).each do |specialty| %>
                           <% if params[:search][:specialty] && params[:search][:specialty].include?((specialty.id).to_s) %>
@@ -215,13 +214,6 @@
                           <% end %>
                         <% end %>
                       </div>
-                      <!-- <p>
-                        <%# if service.practitioner.specialties.length <= 2 %>
-                          <%#= service.practitioner.specialties.pluck(:name).join(', ') %>
-                        <%# elsif service.practitioner.specialties.length > 2 %>
-                          <%#= service.practitioner.specialties.first(2).pluck(:name).join(', ') %>, + <%= service.practitioner.specialties.length - 2 %>
-                        <%# end %>
-                      </p> -->
                       <label>Experience</label>
                       <p><%= service.practitioner.experience %></p>
                     </div>
@@ -360,14 +352,6 @@
                   </div>
                   <div class="general-info">
                     <h4><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h4>
-                    <!-- <label>Specialities</label> -->
-                    <!-- <p>
-                      <%# if service.practitioner.specialties.length <= 2 %>
-                        <%#= service.practitioner.specialties.pluck(:name).join(', ') %>
-                      <%# elsif service.practitioner.specialties.length > 2 %>
-                        <%#= service.practitioner.specialties.first(2).pluck(:name).join(', ') %>, + <%= service.practitioner.specialties.length - 2 %>
-                      <%# end %>
-                    </p> -->
                     <div class="practitioner-specialties">
                       <% service.practitioner.specialties.order(:name).each do |specialty| %>
                         <div class="service-goal"><%= specialty.name %></div>

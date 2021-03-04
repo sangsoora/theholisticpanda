@@ -12,6 +12,9 @@
     <li>
       <p class="tab-underlined">Cancelled <% if @cancelled_sessions.count > 0 %> (<%= @cancelled_sessions.count %>) <% end %></p>
     </li>
+    <li>
+      <p class="tab-underlined">Discovery Call <% if @discovery_calls.count > 0 %> (<%= @discovery_calls.count %>) <% end %></p>
+    </li>
   </ul>
   <div class="lists">
     <% if @confirmed_sessions.count > 0 %>
@@ -28,7 +31,7 @@
                 <%= link_to session.practitioner.user.full_name, practitioner_path(session.practitioner) %>
               </div>
               <div class="session-content">
-                <button class="<%= session.status %>"><%= session.status %></button>
+                <button class="<%= session.status %>"><%= session.status.capitalize %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
                 <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
@@ -54,7 +57,7 @@
             </div>
             <div class="session-actions session-mobile">
               <div class="session-content">
-                <button class="<%= session.status %>"><%= session.status %></button>
+                <button class="<%= session.status %>"><%= session.status.capitalize %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
                 <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
@@ -105,7 +108,7 @@
                 <%= link_to session.practitioner.user.full_name, practitioner_path(session.practitioner) %>
               </div>
               <div class="session-content">
-                <button class="<%= session.status %>"><%= session.status %></button>
+                <button class="<%= session.status %>"><%= session.status.capitalize %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
                 <p><small>When: TBD</small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
@@ -127,7 +130,7 @@
             </div>
             <div class="session-actions session-mobile">
               <div class="session-content">
-                <button class="<%= session.status %>"><%= session.status %></button>
+                <button class="<%= session.status %>"><%= session.status.capitalize %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
                 <p><small>When: TBD</small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
@@ -157,7 +160,7 @@
                 <%= link_to session.practitioner.user.full_name, practitioner_path(session.practitioner) %>
               </div>
               <div class="session-content">
-                <button class="<%= session.status %>"><%= session.status %></button>
+                <button class="<%= session.status %>"><%= session.status.capitalize %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
                 <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
@@ -177,11 +180,8 @@
             </div>
             <div class="session-actions session-mobile">
               <div class="session-content">
-                <button class="<%= session.status %>"><%= session.status %></button>
+                <button class="<%= session.status %>"><%= session.status.capitalize %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
-                <% if session.practitioner.user == current_user %>
-                  <p><small>Client: <%= session.user.full_name %></small></p>
-                <% end %>
                 <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
@@ -193,6 +193,56 @@
       </div>
     <% else %>
       <p>No cancelled session.</p>
+    <% end %>
+  </div>
+  <div class="lists">
+    <% if @discovery_calls.count > 0 %>
+      <div class="session-container">
+        <% @discovery_calls.each do |call| %>
+          <div class="session">
+            <div class="session-head session-desktop">
+              <div class="session-practitioner">
+                <% if Practitioner.find(call.free_practitioner_id).user.photo.attached? %>
+                  <%= image_tag Practitioner.find(call.free_practitioner_id).user.photo %>
+                <% else %>
+                  <%= image_tag("profile") %>
+                <% end %>
+                <%= link_to Practitioner.find(call.free_practitioner_id).user.full_name, practitioner_path(Practitioner.find(call.free_practitioner_id)) %>
+              </div>
+              <div class="session-content">
+                <button class="<%= call.status %>"><%= call.status.capitalize %></button>
+                <p><%= link_to call.service.name, session_path(call) %></p>
+                <p><small>When: <%= call.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
+                <p><small>Duration: 15m</small></p>
+                <p><small>Price: Free</small></p>
+                <p><small>Session Type: Virtual</small></p>
+              </div>
+            </div>
+            <div class="session-actions session-desktop">
+            </div>
+            <div class="session-head session-mobile">
+              <% if Practitioner.find(call.free_practitioner_id).user.photo.attached? %>
+                <%= image_tag Practitioner.find(call.free_practitioner_id).user.photo %>
+              <% else %>
+                <%= image_tag("profile") %>
+              <% end %>
+              <%= link_to Practitioner.find(call.free_practitioner_id).user.full_name, practitioner_path(Practitioner.find(call.free_practitioner_id)) %>
+            </div>
+            <div class="session-actions session-mobile">
+              <div class="session-content">
+                <button class="<%= call.status %>"><%= call.status.capitalize %></button>
+                <p><%= link_to call.service.name, session_path(call) %></p>
+                <p><small>When: <%= call.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
+                <p><small>Duration: 15m</small></p>
+                <p><small>Price: Free</small></p>
+                <p><small>Session Type: Virtual</small></p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <%= link_to 'Find Holistic Services', services_path, class: 'btn btn-flat' %>
     <% end %>
   </div>
 </div>

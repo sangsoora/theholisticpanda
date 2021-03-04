@@ -149,6 +149,11 @@
   }
 }
 
+.notification-drop {
+  left: -178px;
+  min-width: 356px;
+}
+
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
   #top-filter-mobile {

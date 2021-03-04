@@ -7,16 +7,16 @@
     <div style='max-width: 300px; margin: 0 auto;'>
       <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><%= image_tag(attachments['email-logo.png'].url) %></a>
     </div>
-    <h3>Dear <%= @session.practitioner.user.first_name %>,</h3>
+    <h3>Dear <%= @practitioner.user.first_name %>,</h3>
     <h4>This is a notice to let you know that the following session has been cancelled.</h4>
     <p>Service: <%= @session.service.name %></p>
     <p>Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
     <% if @session.session_type == 'Virtual' %>
-      <p>Link for the session: <a href="<%= @session.link %>" target="_blank">@session.link</a></p>
+      <p>Link for the session: <a href="<%= @session.link %>" target="_blank"><%= @session.link %></a></p>
     <% else %>
-      <p>Session location: <%= @session.practitioner.address %></p>
+      <p>Session location: <%= @practitioner.address %></p>
     <% end %>
-    <% if @session.cancelled_user != @session.practitioner.user %>
+    <% if @session.cancelled_user != @practitioner.user %>
       <p>Cancel reason from your client: <%= @session.cancel_reason %></p>
     <% end %>
     <br>

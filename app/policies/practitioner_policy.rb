@@ -37,6 +37,10 @@ class PractitionerPolicy < ApplicationPolicy
     true
   end
 
+  def discovery_call?
+    true
+  end
+
   private
 
   def user_is_practitioner?

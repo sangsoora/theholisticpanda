@@ -203,6 +203,10 @@ class Practitioner < ApplicationRecord
     (payment_status == 'paid') && (background_check_status == 'completed') && (agreement_status == 'completed') && agreement_consent && background_check_consent
   end
 
+  def had_free_session?(user)
+    Session.where(user: user, free_practitioner_id: id).where.not(status: 'cancelled').exists?
+  end
+
   def profile_progress
     check_working_hours = false
     working_hours.each do |hour|

@@ -10,6 +10,9 @@
     <li>
       <p class="tab-underlined">Cancelled <% if @cancelled_sessions.count > 0 %> (<%= @cancelled_sessions.count %>) <% end %></p>
     </li>
+    <li>
+      <p class="tab-underlined">Discovery Call <% if @discovery_calls.count > 0 %> (<%= @discovery_calls.count %>) <% end %></p>
+    </li>
   </ul>
   <div class="lists">
     <% if @confirmed_sessions.count > 0 %>
@@ -17,8 +20,8 @@
         <% @confirmed_sessions.each do |session| %>
           <div class="session">
             <div class="session-head session-desktop">
-              <div class="session-content">
-                <button class="<%= session.status %>"><%= session.status %></button>
+              <div class="session-content practitioner">
+                <button class="<%= session.status %>"><%= session.status.capitalize %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
                 <p><small>Client: <%= session.user.full_name %></small></p>
                 <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
@@ -28,18 +31,18 @@
               </div>
             </div>
             <div class="session-actions session-desktop">
-              <%= link_to 'Check Details', session_path(session), class: 'btn btn-flat' %>
+              <%= link_to 'Details', session_path(session), class: 'btn btn-flat' %>
             </div>
             <div class="session-actions session-mobile" style="flex: 0 0 100%">
               <div class="session-content">
-                <button class="<%= session.status %>"><%= session.status %></button>
+                <button class="<%= session.status %>"><%= session.status.capitalize %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
                 <p><small>Client: <%= session.user.full_name %></small></p>
                 <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
                 <p><small>Session Type: <%= session.session_type %></small></p>
-                <%= link_to 'Check Details', session_path(session), class: 'btn btn-flat' %>
+                <%= link_to 'Details', session_path(session), class: 'btn btn-flat' %>
               </div>
             </div>
           </div>
@@ -55,8 +58,8 @@
         <% @pending_sessions.each do |session| %>
           <div class="session">
             <div class="session-head session-desktop">
-              <div class="session-content">
-                <button class="<%= session.status %>"><%= session.status %></button>
+              <div class="session-content practitioner">
+                <button class="<%= session.status %>"><%= session.status.capitalize %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
                 <p><small>Client: <%= session.user.full_name %></small></p>
                 <p><small>When: TBD</small></p>
@@ -66,18 +69,18 @@
               </div>
             </div>
             <div class="session-actions session-desktop">
-              <%= link_to 'Confirm Session', session_path(session), class: 'btn btn-flat' %>
+              <%= link_to 'Respond', session_path(session), class: 'btn btn-flat' %>
             </div>
             <div class="session-actions session-mobile" style="flex: 0 0 100%">
               <div class="session-content">
-                <button class="<%= session.status %>"><%= session.status %></button>
+                <button class="<%= session.status %>"><%= session.status.capitalize %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
                 <p><small>Client: <%= session.user.full_name %></small></p>
                 <p><small>When: TBD</small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
                 <p><small>Session Type: <%= session.session_type %></small></p>
-                <%= link_to 'Confirm Session', session_path(session), class: 'btn btn-flat' %>
+                <%= link_to 'Respond', session_path(session), class: 'btn btn-flat' %>
               </div>
             </div>
           </div>
@@ -93,8 +96,8 @@
         <% @cancelled_sessions.each do |session| %>
           <div class="session">
             <div class="session-head session-desktop">
-              <div class="session-content">
-                <button class="<%= session.status %>"><%= session.status %></button>
+              <div class="session-content practitioner">
+                <button class="<%= session.status %>"><%= session.status.capitalize %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
                 <p><small>Client: <%= session.user.full_name %></small></p>
                 <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
@@ -107,7 +110,7 @@
             </div>
             <div class="session-actions session-mobile" style="flex: 0 0 100%">
               <div class="session-content">
-                <button class="<%= session.status %>"><%= session.status %></button>
+                <button class="<%= session.status %>"><%= session.status.capitalize %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
                 <p><small>Client: <%= session.user.full_name %></small></p>
                 <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
@@ -121,6 +124,42 @@
       </div>
     <% else %>
       <p>No cancelled session.</p>
+    <% end %>
+  </div>
+  <div class="lists">
+    <% if @discovery_calls.count > 0 %>
+      <div class="session-container">
+        <% @discovery_calls.each do |call| %>
+          <div class="session">
+            <div class="session-head session-desktop">
+              <div class="session-content practitioner">
+                <button class="<%= call.status %>"><%= call.status.capitalize %></button>
+                <p><%= link_to call.service.name, session_path(call) %></p>
+                <p><small>Client: <%= call.user.full_name %></small></p>
+                <p><small>When: <%= call.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
+                <p><small>Duration: 15m</small></p>
+                <p><small>Price: Free</small></p>
+                <p><small>Session Type: Virtual</small></p>
+              </div>
+            </div>
+            <div class="session-actions session-desktop">
+            </div>
+            <div class="session-actions session-mobile" style="flex: 0 0 100%">
+              <div class="session-content">
+                <button class="<%= call.status %>"><%= call.status.capitalize %></button>
+                <p><%= link_to call.service.name, session_path(call) %></p>
+                <p><small>Client: <%= call.user.full_name %></small></p>
+                <p><small>When: <%= call.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
+                <p><small>Duration: 15m</small></p>
+                <p><small>Price: Free</small></p>
+                <p><small>Session Type: Virtual</small></p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p>No discover call.</p>
     <% end %>
   </div>
 </div>

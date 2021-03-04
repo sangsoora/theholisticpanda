@@ -70,26 +70,28 @@
       </div>
       <div class="practitioner-services">
         <h4><i class="fas fa-shopping-cart"></i> Services</h4>
-        <div class="practitioner-service">
-          <div class="practitioner-service-info">
-            <div class="practitioner-service-summary">
-              <div class="practitioner-service-title">
-                <h4><%= Service.first.name %></h4>
-                <% if current_user != @practitioner.user %>
-                  <%= link_to 'Book', service_path(Service.first), class: 'btn btn-flat' %>
-                <% end %>
+        <% if !@practitioner.had_free_session?(current_user) %>
+          <div class="practitioner-service">
+            <div class="practitioner-service-info">
+              <div class="practitioner-service-summary">
+                <div class="practitioner-service-title">
+                  <h4><%= Service.first.name %></h4>
+                  <% if current_user != @practitioner.user %>
+                    <%= link_to 'Book', practitioner_discovery_call_path(@practitioner), class: 'btn btn-flat' %>
+                  <% end %>
+                </div>
+                <div class="practitioner-service-icons">
+                  <p><i class="fas fa-coins mr-2 pink-icon"></i>Free</p>
+                  <p><i class="fas fa-location-arrow mr-2 pink-icon"></i> <%= Service.first.service_type %></p>
+                  <p><i class="far fa-clock mr-2 pink-icon"></i> <%= Service.first.duration %>m</p>
+                </div>
               </div>
-              <div class="practitioner-service-icons">
-                <p><i class="fas fa-coins mr-2 pink-icon"></i>Free</p>
-                <p><i class="fas fa-location-arrow mr-2 pink-icon"></i> <%= Service.first.service_type %></p>
-                <p><i class="far fa-clock mr-2 pink-icon"></i> <%= Service.first.duration %>m</p>
+              <div class="practitioner-service-description">
+                <p>Book a complimentary discovery call with <%= @practitioner.user.first_name %> to learn more about <%= @practitioner.user.first_name %>'s services.</p>
               </div>
-            </div>
-            <div class="practitioner-service-description">
-              <p>Book a complimentary discovery call with <%= @practitioner.user.first_name %> to learn more about <%= @practitioner.user.first_name %>'s services.</p>
             </div>
           </div>
-        </div>
+        <% end %>
         <% @practitioner.services.where(active: true).each do |service| %>
           <div class="practitioner-service">
             <div class="practitioner-service-info">

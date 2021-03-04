@@ -3,17 +3,17 @@
     <meta name='turbolinks-visit-control' content='reload'>
     <script>
       document.addEventListener("DOMContentLoaded", function(){
-        initMap(<%=@session.practitioner.latitude%>, <%=@session.practitioner.longitude%>, 'session-map')
+        initMap(<%=@practitioner.latitude%>, <%=@practitioner.longitude%>, 'session-map')
       });
     </script>
   <% end %>
 <% end %>
 <div class="container session-page">
-  <% if @session.practitioner.user == current_user %>
+  <% if @practitioner.user == current_user %>
     <div class="session-title">
       <h2><%= @session.service.name %> with <%= @session.user.full_name %></h2>
     </div>
-    <% if @session.status == 'pending' && @session.paid %>
+    <% if (@session.status == 'pending' && @session.paid) || (@session.status == 'pending' && @session.service.default_service) %>
       <p class="mt-3"><%= @session.user.first_name %> has chose 3 time slots for the requested session. Please choose one to confirm the session.</p>
       <%= simple_form_for @session do |f| %>
         <div class="form-group">
@@ -35,7 +35,7 @@
           <%= f.submit 'Decline',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost' %>
         </div>
       <% end %>
-    <% elsif @session.status == 'confirmed' && @session.paid %>
+    <% elsif @session.status == 'confirmed' %>
       <p class="mt-3">Your session has been confirmed.</p>
       <div class="session-btns">
         <%= simple_form_for [@session.user, @conversation] do |f| %>
@@ -45,16 +45,18 @@
           <button data-toggle="modal" data-target="#cancelSessionModal" data-disable-with="Cancel This Session" class="btn btn-ghost">Cancel This Session</button>
         <% end %>
       </div>
+    <% elsif @session.status == 'cancelled' %>
+      <h4 class="my-2" style="opacity: 0.7;"><em>This session has been cancelled.</em></h4>
     <% end %>
   <% elsif @session.user == current_user %>
     <div class="session-title">
-      <h2><%= link_to @session.service.name, service_path(@session.service) %> with <%= link_to @session.practitioner.user.full_name, practitioner_path(@session.practitioner) %></h2>
+      <h2><%= link_to @session.service.name, service_path(@session.service) %> with <%= link_to @practitioner.user.full_name, practitioner_path(@practitioner) %></h2>
       <% if @session.status == 'confirmed' && @session.start_time < Time.current && @session.review == nil %>
         <%= link_to 'Rate', '', data: { toggle: "modal", target: "#newReviewModal" }, class: 'btn btn-flat' %>
       <% end %>
     </div>
-    <% if @session.status == 'pending' && !@session.paid %>
-      <p class="mt-3">Thank you for requesting a session with <%= link_to @session.practitioner.user.first_name, practitioner_path(@session.practitioner) %> for <%= link_to @session.service.name, service_path(@session.service) %></p>
+    <% if @session.status == 'pending' && !@session.paid && !@session.service.default_service %>
+      <p class="mt-3">Thank you for requesting a session with <%= link_to @practitioner.user.first_name, practitioner_path(@practitioner) %> for <%= link_to @session.service.name, service_path(@session.service) %></p>
       <p><strong>Please complete your checkout to proceed.</strong></p>
       <div class="session-btns">
         <%= link_to 'Go to checkout', new_session_payment_path(@session), class: 'btn btn-flat' %>
@@ -62,8 +64,8 @@
           <%= f.submit 'Cancel This Request',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost' %>
         <% end %>
       </div>
-    <% elsif @session.status == 'pending' && @session.paid %>
-      <p class="mt-3">Thank you for requesting a session with <%= link_to @session.practitioner.user.first_name, practitioner_path(@session.practitioner) %> for <%= link_to @session.service.name, service_path(@session.service) %></p>
+    <% elsif (@session.status == 'pending' && @session.paid) || (@session.status == 'pending' && @session.service.default_service) %>
+      <p class="mt-3">Thank you for requesting a session with <%= link_to @practitioner.user.first_name, practitioner_path(@practitioner) %> for <%= link_to @session.service.name, service_path(@session.service) %></p>
       <p><strong><%= @session.service.practitioner.user.first_name %> will confirm this session shortly.</strong></p>
       <div class="session-btns">
         <%= simple_form_for [@session] do |f| %>
@@ -71,9 +73,9 @@
         <% end %>
       </div>
     <% elsif @session.status == 'confirmed' %>
-      <p class="mt-3">Thank you for booking a session with <%= link_to @session.practitioner.user.first_name, practitioner_path(@session.practitioner) %> for <%= link_to @session.service.name, service_path(@session.service) %></p>
+      <p class="mt-3">Thank you for booking a session with <%= link_to @practitioner.user.first_name, practitioner_path(@practitioner) %> for <%= link_to @session.service.name, service_path(@session.service) %></p>
       <div class="session-btns">
-        <%= simple_form_for [@session.practitioner.user, @conversation] do |f| %>
+        <%= simple_form_for [@practitioner.user, @conversation] do |f| %>
           <%= f.submit 'Send Message', class: 'btn btn-flat' %>
         <% end %>
         <% if @session.start_time >= Time.current %>
@@ -81,7 +83,7 @@
         <% end %>
       </div>
     <% elsif @session.status == 'cancelled' %>
-      <h2>This session has been cancelled.</h2>
+      <h4 class="my-2" style="opacity: 0.7;"><em>This session has been cancelled.</em></h4>
     <% end %>
   <% end %>
   <% if @session.session_type == 'In-person' %>
@@ -98,13 +100,17 @@
         <p>Session Location: <%= @session.service.practitioner.location %></p>
         <p>Address: <%= @session.service.practitioner.address %></p>
         <p>Total Price: CA$ <%= @session.amount.round(2) %></p>
-        <% if @session.user == current_user %>
-          <p>Cancellation Policy: Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
+        <% if @session.user == current_user && !@session.service.default_service %>
+          <p class="mb-0"><strong>Cancellation Policy</strong></p>
+          <p>Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
         <% else %>
-          <% if @session.message %>
+          <% if @session.message && @session.message != '' %>
             <p>Message From <%= @session.user.full_name %>: <%= @session.message.gsub(/\n/, '<br/>').html_safe %></p>
           <% end %>
-          <p>Cancellation Policy: Cancel more than 24 hours before your appointment if you need to, unless penalty of 35% this session fee will be issued.</p>
+          <% if !@session.service.default_service %>
+            <p class="mb-0"><strong>Cancellation Policy</strong></p>
+            <p>Cancel more than 24 hours before your appointment if you need to, unless penalty of 35% this session fee will be issued.</p>
+          <% end %>
         <% end %>
       </div>
       <div class="session-location">
@@ -133,15 +139,17 @@
             <button id='link-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
           <% end %>
         </div>
-        <% if @session.user == current_user %>
+        <% if @session.user == current_user && !@session.service.default_service %>
           <p class="mb-0"><strong>Cancellation Policy</strong></p>
           <p>Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
         <% else %>
-          <% if @session.message %>
+          <% if @session.message && @session.message != '' %>
             <p>Message From <%= @session.user.full_name %>: <%= @session.message.gsub(/\n/, '<br/>').html_safe %></p>
           <% end %>
-          <p class="mb-0"><strong>Cancellation Policy</strong></p>
-          <p>Cancel more than 24 hours before your appointment if you need to, unless penalty of 35% this session fee will be issued.</p>
+          <% if !@session.service.default_service %>
+            <p class="mb-0"><strong>Cancellation Policy</strong></p>
+            <p>Cancel more than 24 hours before your appointment if you need to, unless penalty of 35% this session fee will be issued.</p>
+          <% end %>
         <% end %>
       </div>
       <div class="session-location" style="display: flex; justify-content: flex-end;">

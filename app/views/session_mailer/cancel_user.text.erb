@@ -7,13 +7,13 @@ Service: <%= @session.service.name %>
 Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %> <%= @session.user.timezone %>
 
 <% if @session.session_type == 'Virtual' %>
-  Link for the session: @session.link
+Link for the session: <%= @session.link %>
 <% else %>
-  Session location: <%= @session.practitioner.address %>
+Session location: <%= @practitioner.address %>
 <% end %>
 
 <% if @session.cancelled_user != @session.user %>
-  Cancel reason from your practitioner: <%= @session.cancel_reason %>
+Cancel reason from your practitioner: <%= @session.cancel_reason %>
 <% end %>
 
 Yours,
