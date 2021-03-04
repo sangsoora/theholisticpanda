@@ -9,14 +9,10 @@
     <div class='container' id='featured-practitioners-desktop'>
       <h2>Our Featured Practitioners</h2>
       <div class='cards-featured'>
-        <% @practitioners.shuffle.first(4).each do |practitioner| %>
+        <% @featured_practitioners.shuffle.first(4).each do |practitioner| %>
           <div class='card-featured'>
             <a href="/practitioners/<%= practitioner.id %>">
-              <% if practitioner.user.photo.attached? %>
-                <%= image_tag practitioner.user.photo %>
-              <% else %>
-                <%= image_tag("profile") %>
-              <% end %>
+              <%= image_tag practitioner.user.photo %>
             </a>
               <a href="/practitioners/<%= practitioner.id %>">
                 <h2><%= practitioner.user.full_name %></h2>
@@ -41,15 +37,11 @@
       <h2>Our Featured Practitioners</h2>
       <div class="swiper-container" id="practitioners-swiper">
         <div class="swiper-wrapper">
-          <% @practitioners.shuffle.first(4).each do |practitioner| %>
+          <% @featured_practitioners.shuffle.first(4).each do |practitioner| %>
           <div class="swiper-slide">
             <div class='card-featured'>
               <a href="/practitioners/<%= practitioner.id %>">
-                <% if practitioner.user.photo.attached? %>
-                  <%= image_tag practitioner.user.photo %>
-                <% else %>
-                  <%= image_tag("profile") %>
-                <% end %>
+                <%= image_tag practitioner.user.photo %>
               </a>
                 <a href="/practitioners/<%= practitioner.id %>">
                   <h2><%= practitioner.user.full_name %></h2>

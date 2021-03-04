@@ -40,7 +40,6 @@ class PractitionersController < ApplicationController
   def filter
     @practitioners = Practitioner.checked_practitioners.left_outer_joins(:user).where("(first_name ILIKE :search) or (last_name ILIKE :search) or (first_name || ' ' || last_name ILIKE :search)", search: "%#{params[:query]}%")
     authorize @practitioners
-    respond_to :js
   end
 
   def profile
