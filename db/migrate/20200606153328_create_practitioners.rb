@@ -17,6 +17,7 @@ class CreatePractitioners < ActiveRecord::Migration[5.2]
       t.boolean :agreement_consent
       t.string :agreement_status
       t.string :status
+      t.string :state
       t.float :latitude
       t.float :longitude
       t.string :background_check_status
