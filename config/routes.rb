@@ -102,6 +102,12 @@ Rails.application.routes.draw do
     resources :messages, only: [:create]
   end
 
+  resources :events, only: %i[index create show update destroy] do
+    resources :event_attendees, only: [:create]
+  end
+
+  resources :event_attendees, only: [:destroy]
+
   mount StripeEvent::Engine, at: '/stripe-webhooks'
 
   post '/background_check/modo_webhooks', to: 'background_check#modo_webhooks'

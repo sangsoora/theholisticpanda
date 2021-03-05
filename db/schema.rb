@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_20_162828) do
+ActiveRecord::Schema.define(version: 2021_03_05_152102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,32 @@ ActiveRecord::Schema.define(version: 2021_02_20_162828) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["recipient_id", "sender_id"], name: "index_conversations_on_recipient_id_and_sender_id", unique: true
+  end
+
+  create_table "event_attendees", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.boolean "event_consent"
+    t.boolean "newsletter"
+    t.bigint "user_id"
+    t.bigint "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_attendees_on_event_id"
+    t.index ["user_id"], name: "index_event_attendees_on_user_id"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "start_time"
+    t.integer "duration"
+    t.string "link"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_events_on_user_id"
   end
 
   create_table "faqs", force: :cascade do |t|
@@ -171,6 +197,7 @@ ActiveRecord::Schema.define(version: 2021_02_20_162828) do
     t.boolean "agreement_consent"
     t.string "agreement_status"
     t.string "status"
+    t.string "state"
     t.float "latitude"
     t.float "longitude"
     t.string "background_check_status"
@@ -179,7 +206,6 @@ ActiveRecord::Schema.define(version: 2021_02_20_162828) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "state"
     t.index ["user_id"], name: "index_practitioners_on_user_id"
   end
 
@@ -301,6 +327,9 @@ ActiveRecord::Schema.define(version: 2021_02_20_162828) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "event_attendees", "events"
+  add_foreign_key "event_attendees", "users"
+  add_foreign_key "events", "users"
   add_foreign_key "favorite_practitioners", "practitioners"
   add_foreign_key "favorite_practitioners", "users"
   add_foreign_key "favorite_services", "services"
