@@ -1,29 +1,35 @@
 <% content_for :home_navbar do %>
   <%= render 'shared/home_navbar' %>
 <% end %>
-<section id='top-banner'>
+<section id="top-banner">
   <%= render 'top_banner' %>
 </section>
-<section id='featured-practitioners'>
-  <div class='d-flex justify-content-center my-4 text-center'>
-    <div class='container' id='featured-practitioners-desktop'>
+<section id="featured-practitioners">
+  <div class="d-flex justify-content-center my-4 text-center">
+    <div class="container" id="featured-practitioners-desktop">
       <h2>Our Featured Practitioners</h2>
-      <div class='cards-featured'>
+      <div class="cards-featured">
         <% @featured_practitioners.shuffle.first(4).each do |practitioner| %>
-          <div class='card-featured'>
+          <div class="card-featured">
             <a href="/practitioners/<%= practitioner.id %>">
               <%= image_tag practitioner.user.photo %>
             </a>
               <a href="/practitioners/<%= practitioner.id %>">
                 <h2><%= practitioner.user.full_name %></h2>
               </a>
-            <div class='card-featured-infos'>
-              <p><%= practitioner.title %></p>
-              <div class="d-flex" style="flex-wrap: wrap;">
-                <% practitioner.specialties.first(3).each do |specialty| %>
-                  <div class="featured-practitioners-specialty"><%= link_to specialty.name, specialty_path(specialty) %></div>
+            <div class="card-featured-infos">
+              <p class="featured-title"><%= practitioner.title %></p>
+              <div class="featured-spcialties">
+                <% if practitioner.specialties.count > 3 %>
+                  <% practitioner.specialties.shuffle.first(2).each do |specialty| %>
+                    <div class="featured-practitioners-specialty"><%= link_to specialty.name, specialty_path(specialty) %></div>
+                  <% end %>
+                  <a href="/practitioners/<%= practitioner.id %>"><p>and more</p></a>
+                <% elsif practitioner.specialties.count <= 3 %>
+                  <% practitioner.specialties.shuffle.each do |specialty| %>
+                    <div class="featured-practitioners-specialty"><%= link_to specialty.name, specialty_path(specialty) %></div>
+                  <% end %>
                 <% end %>
-                <a href="/practitioners/<%= practitioner.id %>" style="margin: 0 auto;"><p>and more</p></a>
               </div>
               <% if !user_signed_in? || (user_signed_in? && !practitioner.had_free_session?(current_user)) %>
                 <%= link_to 'Book Free 15 Min Call', practitioner_discovery_call_path(practitioner), class: 'btn btn-flat my-2' %>
@@ -39,20 +45,26 @@
         <div class="swiper-wrapper">
           <% @featured_practitioners.shuffle.first(4).each do |practitioner| %>
           <div class="swiper-slide">
-            <div class='card-featured'>
+            <div class="card-featured">
               <a href="/practitioners/<%= practitioner.id %>">
                 <%= image_tag practitioner.user.photo %>
               </a>
                 <a href="/practitioners/<%= practitioner.id %>">
                   <h2><%= practitioner.user.full_name %></h2>
                 </a>
-              <div class='card-featured-infos'>
-                <p><%= practitioner.title %></p>
-                <div class="d-flex" style="flex-wrap: wrap;">
-                  <% practitioner.specialties.first(3).each do |specialty| %>
-                    <div class="featured-practitioners-specialty"><%= link_to specialty.name, specialty_path(specialty) %></div>
+              <div class="card-featured-infos">
+                <p class="featured-title"><%= practitioner.title %></p>
+                <div class="featured-spcialties">
+                  <% if practitioner.specialties.count > 3 %>
+                    <% practitioner.specialties.shuffle.first(2).each do |specialty| %>
+                      <div class="featured-practitioners-specialty"><%= link_to specialty.name, specialty_path(specialty) %></div>
+                    <% end %>
+                    <a href="/practitioners/<%= practitioner.id %>"><p>and more</p></a>
+                  <% elsif practitioner.specialties.count <= 3 %>
+                    <% practitioner.specialties.shuffle.each do |specialty| %>
+                      <div class="featured-practitioners-specialty"><%= link_to specialty.name, specialty_path(specialty) %></div>
+                    <% end %>
                   <% end %>
-                  <a href="/practitioners/<%= practitioner.id %>" style="margin: 0 auto;"><p>and more</p></a>
                 </div>
                 <% if !user_signed_in? || (user_signed_in? && !practitioner.had_free_session?(current_user)) %>
                   <%= link_to 'Book Free 15 Min Call', practitioner_discovery_call_path(practitioner), class: 'btn btn-flat my-2' %>
