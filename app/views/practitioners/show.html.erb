@@ -2,14 +2,14 @@
   <div class="practitioner-overview">
     <div class="practitioner-main">
       <% if @practitioner.banner_image.attached? %>
-        <img class="banner" src="<%= rails_public_blob(@practitioner.banner_image) %>" alt="">
+        <img class="banner" src="<%= rails_public_blob_url(@practitioner.banner_image) %>" alt="">
       <% else %>
         <%= image_tag('practitioner-bio', alt: 'Holistic Service', class: 'banner') %>
       <% end %>
       <div class="practitioner-info">
         <div class="practitioner-img">
           <% if @practitioner.user.photo.attached? %>
-            <img src="<%= rails_public_blob(@practitioner.user.photo) %>" alt="">
+            <img src="<%= rails_public_blob_url(@practitioner.user.photo) %>" alt="">
           <% else %>
             <%= image_tag("profile") %>
           <% end %>

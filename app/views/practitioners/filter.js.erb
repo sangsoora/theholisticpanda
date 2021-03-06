@@ -2,7 +2,7 @@ let html = '';
 <% if @practitioners.length > 0 %>
   <% @practitioners.each do |practitioner| %>
     <% if practitioner.user.photo.attached? %>
-       html += '<p><img class="service-list-item-user avatar-bordered" src="<%= rails_public_blob(practitioner.user.photo) %>" alt=""><%= link_to practitioner.user.full_name, practitioner_path(practitioner) %></p>';
+       html += '<p><img class="service-list-item-user avatar-bordered" src="<%= rails_public_blob_url(practitioner.user.photo) %>" alt=""><%= link_to practitioner.user.full_name, practitioner_path(practitioner) %></p>';
     <% else %>
       html += '<p><%= image_tag("profile", class: "service-list-item-user avatar-bordered") %><%= link_to practitioner.user.full_name, practitioner_path(practitioner) %></p>';
     <% end %>

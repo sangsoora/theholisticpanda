@@ -18,7 +18,7 @@
       </div>
       <div class="service-practitioner">
         <% if @practitioner.user.photo.attached? %>
-          <img class="avatar-full mb-4" src="<%= rails_public_blob(@practitioner.user.photo) %>" alt="">
+          <img class="avatar-full mb-4" src="<%= rails_public_blob_url(@practitioner.user.photo) %>" alt="">
         <% else %>
           <%= image_tag("profile", class: "avatar-full mb-4") %>
         <% end %>

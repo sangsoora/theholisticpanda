@@ -1,7 +1,7 @@
 <% favorite_practitioners.each do |favorite|  %>
   <div class="favorite-practitioner">
     <% if favorite.practitioner.user.photo.attached? %>
-      <img src="<%= rails_public_blob(favorite.practitioner.user.photo) %>" alt="">
+      <img src="<%= rails_public_blob_url(favorite.practitioner.user.photo) %>" alt="">
     <% else %>
       <%= image_tag("profile") %>
     <% end %>
