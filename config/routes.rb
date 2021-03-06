@@ -111,4 +111,8 @@ Rails.application.routes.draw do
   mount StripeEvent::Engine, at: '/stripe-webhooks'
 
   post '/background_check/modo_webhooks', to: 'background_check#modo_webhooks'
+
+  direct :rails_plublic_blob do |blob|
+    File.join(ENV['CDN_URL'], blob.key)
+  end
 end
