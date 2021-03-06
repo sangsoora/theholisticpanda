@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   after_action :store_location
   before_action do
-    ActiveStorage::Current.host = ENV['CDN_URL']
+    ActiveStorage::Current.host = 'd18nbo28z6p9m6.cloudfront.net'
   end
 
   include Pundit
