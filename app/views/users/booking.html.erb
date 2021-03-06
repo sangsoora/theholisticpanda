@@ -24,7 +24,7 @@
             <div class="session-head session-desktop">
               <div class="session-practitioner">
                 <% if session.practitioner.user.photo.attached? %>
-                  <img src="<%= rails_public_blob_url(session.practitioner.user.photo) %>" alt="">
+                  <%= image_tag session.practitioner.user.photo %>
                 <% else %>
                   <%= image_tag("profile") %>
                 <% end %>
@@ -46,7 +46,7 @@
             </div>
             <div class="session-head session-mobile">
               <% if session.practitioner.user.photo.attached? %>
-                <img src="<%= rails_public_blob_url(session.practitioner.user.photo) %>" alt="">
+                <%= image_tag session.practitioner.user.photo %>
               <% else %>
                 <%= image_tag("profile") %>
               <% end %>
@@ -101,7 +101,7 @@
             <div class="session-head session-desktop">
               <div class="session-practitioner">
                 <% if session.practitioner.user.photo.attached? %>
-                  <img src="<%= rails_public_blob_url(session.practitioner.user.photo) %>" alt="">
+                  <%= image_tag session.practitioner.user.photo %>
                 <% else %>
                   <%= image_tag("profile") %>
                 <% end %>
@@ -121,7 +121,7 @@
             </div>
             <div class="session-head session-mobile">
               <% if session.practitioner.user.photo.attached? %>
-                <img src="<%= rails_public_blob_url(session.practitioner.user.photo) %>" alt="">
+                <%= image_tag session.practitioner.user.photo %>
               <% else %>
                 <%= image_tag("profile") %>
               <% end %>
@@ -153,7 +153,7 @@
             <div class="session-head session-desktop">
               <div class="session-practitioner">
                 <% if session.practitioner.user.photo.attached? %>
-                  <img src="<%= rails_public_blob_url(session.practitioner.user.photo) %>" alt="">
+                  <%= image_tag session.practitioner.user.photo %>
                 <% else %>
                   <%= image_tag("profile") %>
                 <% end %>
@@ -172,7 +172,7 @@
             </div>
             <div class="session-head session-mobile">
               <% if session.practitioner.user.photo.attached? %>
-                <img src="<%= rails_public_blob_url(session.practitioner.user.photo) %>" alt="">
+                <%= image_tag session.practitioner.user.photo %>
               <% else %>
                 <%= image_tag("profile") %>
               <% end %>
@@ -203,7 +203,7 @@
             <div class="session-head session-desktop">
               <div class="session-practitioner">
                 <% if Practitioner.find(call.free_practitioner_id).user.photo.attached? %>
-                  <img src="<%= rails_public_blob_url(Practitioner.find(call.free_practitioner_id).user.photo) %>" alt="">
+                  <%= image_tag Practitioner.find(call.free_practitioner_id).user.photo %>
                 <% else %>
                   <%= image_tag("profile") %>
                 <% end %>
@@ -228,7 +228,7 @@
             </div>
             <div class="session-head session-mobile">
               <% if Practitioner.find(call.free_practitioner_id).user.photo.attached? %>
-                <%= image_tag rails_public_blob_url(Practitioner.find(call.free_practitioner_id).user.photo) %>
+                <%= image_tag Practitioner.find(call.free_practitioner_id).user.photo %>
               <% else %>
                 <%= image_tag("profile") %>
               <% end %>
