@@ -1,6 +1,6 @@
 module ApplicationHelper
   def cdn_for(file)
-    file.key
+    "https://#{ENV['CDN_URL']}/#{file.key}"
   end
   # active_storage_item could be a blob or variant object
   # def proxy_url(active_storage_item, options = {})
