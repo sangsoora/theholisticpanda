@@ -12,7 +12,7 @@
         <% @featured_practitioners.shuffle.first(4).each do |practitioner| %>
           <div class="card-featured">
             <a href="/practitioners/<%= practitioner.id %>">
-              <img src="<%= proxy_url(practitioner.user.photo) %>" alt="">
+              <img src="<%= cdn_for(practitioner.user.photo) %>" alt="">
             </a>
             <a href="/practitioners/<%= practitioner.id %>">
               <h2><%= practitioner.user.full_name %></h2>
@@ -47,7 +47,7 @@
           <div class="swiper-slide">
             <div class="card-featured">
               <a href="/practitioners/<%= practitioner.id %>">
-                <img src="<%= proxy_url(practitioner.user.photo) %>" alt="">
+                <img src="<%= cdn_for(practitioner.user.photo) %>" alt="">
               </a>
               <a href="/practitioners/<%= practitioner.id %>">
                 <h2><%= practitioner.user.full_name %></h2>

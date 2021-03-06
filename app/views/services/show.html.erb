@@ -60,7 +60,7 @@
       </div>
       <div class="service-practitioner">
         <% if @service.practitioner.user.photo.attached? %>
-          <img src="<%= proxy_url(service.practitioner.user.photo) %>" class="avatar-full mb-4" alt="">
+          <img src="<%= cdn_for(service.practitioner.user.photo) %>" class="avatar-full mb-4" alt="">
         <% else %>
           <%= image_tag("profile", class: "avatar-full mb-4") %>
         <% end %>

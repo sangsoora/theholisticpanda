@@ -2,6 +2,9 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
   after_action :store_location
+  before_action do
+    ActiveStorage::Current.host = ENV['CDN_URL']
+  end
 
   include Pundit
 
