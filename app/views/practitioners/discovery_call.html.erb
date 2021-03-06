@@ -18,7 +18,7 @@
       </div>
       <div class="service-practitioner">
         <% if @practitioner.user.photo.attached? %>
-          <%= image_tag cdn_for(@practitioner.user.photo), class: 'avatar-full mb-4' %>
+          <img class="avatar-full mb-4" src="<%= cdn_for(@practitioner.user.photo) %>" alt="">
         <% else %>
           <%= image_tag("profile", class: "avatar-full mb-4") %>
         <% end %>
