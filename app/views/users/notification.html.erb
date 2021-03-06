@@ -10,7 +10,7 @@
           <div class="notification-head">
             <div class="notification-image">
               <% if notification.actor.practitioner && notification.actor.practitioner.user.photo.attached? %>
-                <%= image_tag notification.actor.photo %>
+                <img src="<%= rails_plublic_blob(notification.actor.photo) %>" alt="">
               <% else %>
                 <%= image_tag 'profile.png' %>
               <% end %>

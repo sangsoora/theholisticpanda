@@ -18,7 +18,7 @@
     <div class="practitioner-profile-table">
       <div class="practitioner-profile-img">
         <% if @practitioner.user.photo.attached? %>
-          <%= image_tag @practitioner.user.photo, class: 'avatar-full' %>
+          <img class="avatar-full" src="<%= rails_plublic_blob(@practitioner.user.photo) %>" alt="">
         <% else %>
           <%= image_tag("profile", class: 'avatar-full') %>
         <% end %>
@@ -478,7 +478,7 @@
               <div class="col-10 offset-1 p-0">
                 <% if current_user.photo.attached? %>
                    <div id="current-profile-wrapper">
-                      <%= image_tag current_user.photo, id: 'current-profile' %>
+                      <img id="current-profile" src="<%= rails_plublic_blob(current_user.photo) %>" alt="">
                       <%= f.button :submit, "Delete Profile Photo", class: 'btn-ghost mb-3' %>
                     </div>
                 <% end %>
@@ -522,7 +522,7 @@
               <div class="col-10 offset-1 p-0">
                 <% if @practitioner.banner_image.attached? %>
                   <div id="current-banner-wrapper">
-                    <%= image_tag @practitioner.banner_image, id: 'current-banner' %>
+                    <img id="current-banner" src="<%= rails_plublic_blob(@practitioner.banner_image) %>" alt="">
                     <%= f.button :submit, "Delete Banner Image", class: 'btn-ghost mb-3' %>
                   </div>
                 <% end %>

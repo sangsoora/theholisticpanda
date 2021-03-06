@@ -72,7 +72,7 @@
               <div class="profile-photo">
                 <a href="/practitioners/<%= service.practitioner.id %>">
                   <% if service.practitioner.user.photo.attached? %>
-                    <%= image_tag service.practitioner.user.photo, class: 'service-list-item-user avatar-bordered' %></a>
+                    <img class="service-list-item-user avatar-bordered" src="<%= rails_plublic_blob(service.practitioner.user.photo) %>" alt="">
                   <% else %>
                     <%= image_tag("profile", class: "service-list-item-user avatar-bordered") %>
                   <% end %>
