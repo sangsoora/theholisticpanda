@@ -12,11 +12,11 @@
         <% @featured_practitioners.shuffle.first(4).each do |practitioner| %>
           <div class="card-featured">
             <a href="/practitioners/<%= practitioner.id %>">
-              <img src="<%= cdn_for(practitioner.user.photo) %>" alt="">
+              <%= image_tag practitioner.user.photo %>
             </a>
-              <a href="/practitioners/<%= practitioner.id %>">
-                <h2><%= practitioner.user.full_name %></h2>
-              </a>
+            <a href="/practitioners/<%= practitioner.id %>">
+              <h2><%= practitioner.user.full_name %></h2>
+            </a>
             <div class="card-featured-infos">
               <p class="featured-title"><%= practitioner.title %></p>
               <div class="featured-spcialties">
@@ -47,11 +47,11 @@
           <div class="swiper-slide">
             <div class="card-featured">
               <a href="/practitioners/<%= practitioner.id %>">
-                <img src="<%= cdn_for(practitioner.user.photo) %>" alt="">
+                <%= image_tag practitioner.user.photo %>
               </a>
-                <a href="/practitioners/<%= practitioner.id %>">
-                  <h2><%= practitioner.user.full_name %></h2>
-                </a>
+              <a href="/practitioners/<%= practitioner.id %>">
+                <h2><%= practitioner.user.full_name %></h2>
+              </a>
               <div class="card-featured-infos">
                 <p class="featured-title"><%= practitioner.title %></p>
                 <div class="featured-spcialties">

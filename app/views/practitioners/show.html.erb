@@ -2,14 +2,14 @@
   <div class="practitioner-overview">
     <div class="practitioner-main">
       <% if @practitioner.banner_image.attached? %>
-        <img class="banner" src="<%= cdn_for(@practitioner.banner_image) %>" alt="">
+        <%= image_tag @practitioner.banner_image, class: 'banner' %>
       <% else %>
         <%= image_tag('practitioner-bio', alt: 'Holistic Service', class: 'banner') %>
       <% end %>
       <div class="practitioner-info">
         <div class="practitioner-img">
           <% if @practitioner.user.photo.attached? %>
-            <img src="<%= cdn_for(@practitioner.user.photo) %>" alt="">
+            <%= image_tag @practitioner.user.photo %>
           <% else %>
             <%= image_tag("profile") %>
           <% end %>
