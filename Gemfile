@@ -56,6 +56,7 @@ gem 'gibbon'
 gem 'rest-client', '~> 2.1'
 gem 'bootstrap-tooltip-rails'
 gem 'invisible_captcha'
+gem 'rack-cors', require: 'rack/cors'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
