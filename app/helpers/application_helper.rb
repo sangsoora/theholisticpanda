@@ -15,6 +15,6 @@ module ApplicationHelper
     # caching it with cloudfront.
     # See lib/core_extensions/active_storage/blob/downloader and
     # lib/core_extensions/active_storage/representation/downloader
-    polymorphic_url(active_storage_item, options.merge(proxy: 'true'))
+    polymorphic_url(active_storage_item.key, options.merge(proxy: 'true'))
   end
 end
