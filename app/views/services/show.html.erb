@@ -60,7 +60,7 @@
       </div>
       <div class="service-practitioner">
         <% if @service.practitioner.user.photo.attached? %>
-          <%= image_tag @service.practitioner.user.photo, class: 'avatar-full mb-4' %>
+          <%= image_tag cdn_for(@service.practitioner.user.photo), class: 'avatar-full mb-4' %>
         <% else %>
           <%= image_tag("profile", class: "avatar-full mb-4") %>
         <% end %>
