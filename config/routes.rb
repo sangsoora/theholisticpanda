@@ -112,7 +112,7 @@ Rails.application.routes.draw do
 
   post '/background_check/modo_webhooks', to: 'background_check#modo_webhooks'
 
-  direct :rails_plublic_blob do |blob|
+  direct :rails_public_blob do |blob|
     File.join(ENV['CDN_URL'], blob.key)
   end
 end
