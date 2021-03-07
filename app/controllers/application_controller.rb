@@ -2,9 +2,6 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
   after_action :store_location
-  before_action do
-    ActiveStorage::Current.host = 'd18nbo28z6p9m6.cloudfront.net'
-  end
 
   include Pundit
 
@@ -37,7 +34,7 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(_resource)
     current_user.update!(timezone: params[:timezone]) if params[:timezone] != ''
-    current_user.admin ? root_path : session[:previous_url] || root_path
+    current_user.admin ? rails_admin_path : session[:previous_url] || root_path
   end
 
   def after_sign_up_path_for(_resource)

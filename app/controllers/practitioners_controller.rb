@@ -113,6 +113,7 @@ class PractitionersController < ApplicationController
         if @practitioner.video && !@practitioner.video.start_with?('http://', 'https://')
           @practitioner.update(video: 'http://' + @practitioner.video)
         end
+        @practitioner.update(latitude: '', longitude: '') unless @practitioner.address?
         @param = practitioner_params
         respond_to do |format|
           format.html { redirect_to practitioner_profile_path }
