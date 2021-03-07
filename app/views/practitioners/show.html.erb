@@ -144,7 +144,7 @@
           <tr>
             <th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th><th></th>
           </tr>
-          <% if user_signed_in? %>
+          <% if user_signed_in? && current_user.timezone? %>
             <tr>
               <% (0..6).to_a.each do |num| %>
                 <% if @practitioner.converted_working_hours(current_user)[num] != [] %>
@@ -257,7 +257,7 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('time-zone').innerHTML = moment.tz.guess();
-    <% unless user_signed_in? %>
+    <% if !user_signed_in? || (user_signed_in? && !current_user.timezone?) %>
       const user_time_offset = moment.tz.zone(moment.tz.guess()).utcOffset(Date.now());
       const practitioner_time_offset = moment.tz.zone('<%= @practitioner.timezone %>').utcOffset(Date.now());
       const time_diff = user_time_offset - practitioner_time_offset;

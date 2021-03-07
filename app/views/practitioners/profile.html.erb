@@ -232,14 +232,14 @@
                   <h5>Specify your working hour for each day.</h5>
                   <div>
                     <div class="practitioner-workinghours mb-2 mb-2" id="practitioner-day1">
-                      <p class="mr-3" style="width: 40px;">Mon: </p><p id="workinghour1"><% if @practitioner.working_hours.find_by(day: 1).opens %><%= @practitioner.working_hours.find_by(day: 1).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 1).closes.strftime('%H:%M') %><% end %></p>
+                      <p class="mr-3" style="width: 40px;">Mon: </p><p id="workinghour1"><% if @practitioner.working_hours.find_by(day: 1).opens? %><%= @practitioner.working_hours.find_by(day: 1).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 1).closes.strftime('%H:%M') %><% end %></p>
                       <button id='day1-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><%= link_to '', '', class: 'fas fa-pen' %></button>
-                      <% if @practitioner.working_hours.find_by(day: 1).opens %>
-                        <button id='day1-block' class="ml-2"  data-toggle="tooltip" data-placement="bottom" data-original-title="Block">
+                      <button id='day1-block' class="ml-2<% if !@practitioner.working_hours.find_by(day: 1).opens? %> hidden<% end %>" data-toggle="tooltip" data-placement="bottom" data-original-title="Block">
+                        <% if @practitioner.working_hours.find_by(day: 1).opens? %>
                           <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 1)), remote: true, method: :delete, data: { confirm: "Are you sure to block Monday?"}, class: 'fas fa-ban' %>
-                        </button>
-                      <% end %>
-                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 1)], remote: true, label: 'Mon', html: { id: :day1_form, style: 'display: none; align-tiems: center;' }) do |f| %>
+                        <% end %>
+                      </button>
+                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 1)], remote: true, label: 'Mon', html: { id: :day1_form, style: 'display: none; align-items: center;' }) do |f| %>
                         <div class="d-flex align-items-center mb-3">
                           <%= f.input :opens, as: :string, label: false, input_html: {class: "timepicker", id: "day1_opens"} %> ~
                           <%= f.input :closes, as: :string, label: false, input_html: {class: "timepicker", id: "day1_closes"} %>
@@ -251,14 +251,14 @@
                       <% end %>
                     </div>
                     <div class="practitioner-workinghours mb-2" id="practitioner-day2">
-                      <p class="mr-3" style="width: 40px;">Tue: </p><p id="workinghour2"><% if @practitioner.working_hours.find_by(day: 2).opens %><%= @practitioner.working_hours.find_by(day: 2).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 2).closes.strftime('%H:%M') %><% end %></p>
+                      <p class="mr-3" style="width: 40px;">Tue: </p><p id="workinghour2"><% if @practitioner.working_hours.find_by(day: 2).opens? %><%= @practitioner.working_hours.find_by(day: 2).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 2).closes.strftime('%H:%M') %><% end %></p>
                       <button id='day2-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><%= link_to '', '', class: 'fas fa-pen' %></button>
-                      <% if @practitioner.working_hours.find_by(day: 2).opens %>
-                        <button id='day2-block' class="ml-2"  data-toggle="tooltip" data-placement="bottom" data-original-title="Block">
+                      <button id='day2-block' class="ml-2<% if !@practitioner.working_hours.find_by(day: 2).opens? %> hidden<% end %>" data-toggle="tooltip" data-placement="bottom" data-original-title="Block">
+                        <% if @practitioner.working_hours.find_by(day: 2).opens? %>
                           <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 2)), remote: true, method: :delete, data: { confirm: "Are you sure to block Tuesday?"}, class: 'fas fa-ban' %>
-                        </button>
-                      <% end %>
-                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 2)], remote: true, html: { id: :day2_form, style: 'display: none; align-tiems: center;' }) do |f| %>
+                        <% end %>
+                      </button>
+                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 2)], remote: true, html: { id: :day2_form, style: 'display: none; align-items: center;' }) do |f| %>
                         <div class="d-flex align-items-center mb-3">
                           <%= f.input :opens, as: :string, label: false, input_html: {class: "timepicker", id: "day2_opens"} %> ~
                           <%= f.input :closes, as: :string, label: false, input_html: {class: "timepicker", id: "day2_closes"} %>
@@ -270,14 +270,14 @@
                       <% end %>
                     </div>
                     <div class="practitioner-workinghours mb-2" id="practitioner-day3">
-                      <p id="day3" class="mr-3" style="width: 40px;">Wed: </p><p id="workinghour3"><% if @practitioner.working_hours.find_by(day: 3).opens %><%= @practitioner.working_hours.find_by(day: 3).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 3).closes.strftime('%H:%M') %><% end %></p>
+                      <p id="day3" class="mr-3" style="width: 40px;">Wed: </p><p id="workinghour3"><% if @practitioner.working_hours.find_by(day: 3).opens? %><%= @practitioner.working_hours.find_by(day: 3).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 3).closes.strftime('%H:%M') %><% end %></p>
                       <button id='day3-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><%= link_to '', '', class: 'fas fa-pen' %></button>
-                      <% if @practitioner.working_hours.find_by(day: 3).opens %>
-                        <button id='day3-block' class="ml-2"  data-toggle="tooltip" data-placement="bottom" data-original-title="Block">
+                      <button id='day3-block' class="ml-2<% if !@practitioner.working_hours.find_by(day: 3).opens? %> hidden<% end %>" data-toggle="tooltip" data-placement="bottom" data-original-title="Block">
+                        <% if @practitioner.working_hours.find_by(day: 3).opens? %>
                           <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 3)), remote: true, method: :delete, data: { confirm: "Are you sure to block Wednesday?"}, class: 'fas fa-ban' %>
-                        </button>
-                      <% end %>
-                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 3)], remote: true, html: { id: :day3_form, style: 'display: none; align-tiems: center;' }) do |f| %>
+                        <% end %>
+                      </button>
+                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 3)], remote: true, html: { id: :day3_form, style: 'display: none; align-items: center;' }) do |f| %>
                         <div class="d-flex align-items-center mb-3">
                           <%= f.input :opens, as: :string, label: false, input_html: {class: "timepicker", id: "day3_opens"} %> ~
                           <%= f.input :closes, as: :string, label: false, input_html: {class: "timepicker", id: "day3_closes"} %>
@@ -289,14 +289,14 @@
                       <% end %>
                     </div>
                     <div class="practitioner-workinghours mb-2" id="practitioner-day4">
-                      <p id="day4" class="mr-3" style="width: 40px;">Thu: </p><p id="workinghour4"><% if @practitioner.working_hours.find_by(day: 4).opens %><%= @practitioner.working_hours.find_by(day: 4).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 4).closes.strftime('%H:%M') %><% end %></p>
+                      <p id="day4" class="mr-3" style="width: 40px;">Thu: </p><p id="workinghour4"><% if @practitioner.working_hours.find_by(day: 4).opens? %><%= @practitioner.working_hours.find_by(day: 4).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 4).closes.strftime('%H:%M') %><% end %></p>
                       <button id='day4-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><%= link_to '', '', class: 'fas fa-pen' %></button>
-                      <% if @practitioner.working_hours.find_by(day: 4).opens %>
-                        <button id='day4-block' class="ml-2"  data-toggle="tooltip" data-placement="bottom" data-original-title="Block">
+                      <button id='day4-block' class="ml-2<% if !@practitioner.working_hours.find_by(day: 4).opens? %> hidden<% end %>" data-toggle="tooltip" data-placement="bottom" data-original-title="Block">
+                        <% if @practitioner.working_hours.find_by(day: 4).opens? %>
                           <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 4)), remote: true, method: :delete, data: { confirm: "Are you sure to block Thursday?"}, class: 'fas fa-ban' %>
-                        </button>
-                      <% end %>
-                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 4)], remote: true, html: { id: :day4_form, style: 'display: none; align-tiems: center;' }) do |f| %>
+                        <% end %>
+                      </button>
+                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 4)], remote: true, html: { id: :day4_form, style: 'display: none; align-items: center;' }) do |f| %>
                         <div class="d-flex align-items-center mb-3">
                           <%= f.input :opens, as: :string, label: false, input_html: {class: "timepicker", id: "day4_opens"} %> ~
                           <%= f.input :closes, as: :string, label: false, input_html: {class: "timepicker", id: "day4_closes"} %>
@@ -308,14 +308,14 @@
                       <% end %>
                     </div>
                     <div class="practitioner-workinghours mb-2" id="practitioner-day5">
-                      <p id="day5" class="mr-3" style="width: 40px;">Fri: </p><p id="workinghour5"><% if @practitioner.working_hours.find_by(day: 5).opens %><%= @practitioner.working_hours.find_by(day: 5).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 5).closes.strftime('%H:%M') %><% end %></p>
+                      <p id="day5" class="mr-3" style="width: 40px;">Fri: </p><p id="workinghour5"><% if @practitioner.working_hours.find_by(day: 5).opens? %><%= @practitioner.working_hours.find_by(day: 5).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 5).closes.strftime('%H:%M') %><% end %></p>
                       <button id='day5-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><%= link_to '', '', class: 'fas fa-pen' %></button>
-                      <% if @practitioner.working_hours.find_by(day: 5).opens %>
-                        <button id='day5-block' class="ml-2"  data-toggle="tooltip" data-placement="bottom" data-original-title="Block">
+                      <button id='day5-block' class="ml-2<% if !@practitioner.working_hours.find_by(day: 5).opens? %> hidden<% end %>" data-toggle="tooltip" data-placement="bottom" data-original-title="Block">
+                        <% if @practitioner.working_hours.find_by(day: 5).opens? %>
                           <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 5)), remote: true, method: :delete, data: { confirm: "Are you sure to block Friday?"}, class: 'fas fa-ban' %>
-                        </button>
-                      <% end %>
-                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 5)], remote: true, html: { id: :day5_form, style: 'display: none; align-tiems: center;' }) do |f| %>
+                        <% end %>
+                      </button>
+                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 5)], remote: true, html: { id: :day5_form, style: 'display: none; align-items: center;' }) do |f| %>
                         <div class="d-flex align-items-center mb-3">
                           <%= f.input :opens, as: :string, label: false, input_html: {class: "timepicker", id: "day5_opens"} %> ~
                           <%= f.input :closes, as: :string, label: false, input_html: {class: "timepicker", id: "day5_closes"} %>
@@ -327,14 +327,14 @@
                       <% end %>
                     </div>
                     <div class="practitioner-workinghours mb-2" id="practitioner-day6">
-                      <p id="day6" class="mr-3" style="width: 40px;">Sat: </p><% if @practitioner.working_hours.find_by(day: 6).opens %><p id="workinghour6"><%= @practitioner.working_hours.find_by(day: 6).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 6).closes.strftime('%H:%M') %></p><% end %></p>
+                      <p id="day6" class="mr-3" style="width: 40px;">Sat: </p><p id="workinghour6"><% if @practitioner.working_hours.find_by(day: 6).opens? %><%= @practitioner.working_hours.find_by(day: 6).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 6).closes.strftime('%H:%M') %></p><% end %></p>
                       <button id='day6-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><%= link_to '', '', class: 'fas fa-pen' %></button>
-                      <% if @practitioner.working_hours.find_by(day: 6).opens %>
-                        <button id='day6-block' class="ml-2"  data-toggle="tooltip" data-placement="bottom" data-original-title="Block">
+                      <button id='day6-block' class="ml-2<% if !@practitioner.working_hours.find_by(day: 6).opens? %> hidden<% end %>" data-toggle="tooltip" data-placement="bottom" data-original-title="Block">
+                        <% if @practitioner.working_hours.find_by(day: 6).opens? %>
                           <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 6)), remote: true, method: :delete, data: { confirm: "Are you sure to block Saturday?"}, class: 'fas fa-ban' %>
-                        </button>
-                      <% end %>
-                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 6)], remote: true, html: { id: :day6_form, style: 'display: none; align-tiems: center;' }) do |f| %>
+                        <% end %>
+                      </button>
+                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 6)], remote: true, html: { id: :day6_form, style: 'display: none; align-items: center;' }) do |f| %>
                         <div class="d-flex align-items-center mb-3">
                           <%= f.input :opens, as: :string, label: false, input_html: {class: "timepicker", id: "day6_opens"} %> ~
                           <%= f.input :closes, as: :string, label: false, input_html: {class: "timepicker", id: "day6_closes"} %>
@@ -346,14 +346,14 @@
                       <% end %>
                     </div>
                     <div class="practitioner-workinghours mb-2" id="practitioner-day0">
-                      <p id="day0" class="mr-3" style="width: 40px;">Sun: </p><p id="workinghour0"><% if @practitioner.working_hours.find_by(day: 0).opens %><%= @practitioner.working_hours.find_by(day: 0).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 0).closes.strftime('%H:%M') %><% end %></p>
+                      <p id="day0" class="mr-3" style="width: 40px;">Sun: </p><p id="workinghour0"><% if @practitioner.working_hours.find_by(day: 0).opens? %><%= @practitioner.working_hours.find_by(day: 0).opens.strftime('%H:%M') %> ~ <%= @practitioner.working_hours.find_by(day: 0).closes.strftime('%H:%M') %><% end %></p>
                       <button id='day0-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><%= link_to '', '', class: 'fas fa-pen' %></button>
-                      <% if @practitioner.working_hours.find_by(day: 0).opens %>
-                        <button id='day0-block' class="ml-2"  data-toggle="tooltip" data-placement="bottom" data-original-title="Block">
+                      <button id='day0-block' class="ml-2<% if !@practitioner.working_hours.find_by(day: 0).opens? %> hidden<% end %>" data-toggle="tooltip" data-placement="bottom" data-original-title="Block">
+                        <% if @practitioner.working_hours.find_by(day: 0).opens? %>
                           <%= link_to '', working_hour_path(WorkingHour.find_by(practitioner: current_user.practitioner, day: 0)), remote: true, method: :delete, data: { confirm: "Are you sure to block Sunday?"}, class: 'fas fa-ban' %>
-                        </button>
-                      <% end %>
-                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 0)], remote: true, html: { id: :day0_form, style: 'display: none; align-tiems: center;' }) do |f| %>
+                        <% end %>
+                      </button>
+                      <%= simple_form_for([@practitioner.working_hours.find_by(day: 0)], remote: true, html: { id: :day0_form, style: 'display: none; align-items: center;' }) do |f| %>
                         <div class="d-flex align-items-center mb-3">
                           <%= f.input :opens, as: :string, label: false, input_html: {class: "timepicker", id: "day0_opens"} %> ~
                           <%= f.input :closes, as: :string, label: false, input_html: {class: "timepicker", id: "day0_closes"} %>
@@ -619,8 +619,8 @@
         day<%= num %>Form.style.display = 'block';
         day<%= num %>Edit.style.display = 'none';
         workinghour<%= num %>.style.display = 'none';
-        if (day<%= num %>Block) {
-          day<%= num %>Block.style.display = 'none';
+        if (!day<%= num %>Block.classList.contains('hidden')) {
+          day<%= num %>Block.classList.add('hidden')
         }
       })
       day<%= num %>Cancel.addEventListener('click', (e) => {
@@ -628,11 +628,10 @@
         day<%= num %>Form.style.display = 'none';
         day<%= num %>Edit.style.display = 'block';
         workinghour<%= num %>.style.display = 'block';
-        if (day<%= num %>Block) {
-          day<%= num %>Block.style.display = 'block';
+        if (day<%= num %>Block.classList.contains('hidden') && (workinghour<%= num %>.innerText != '')) {
+          day<%= num %>Block.classList.remove('hidden')
         }
       })
-
       day<%= num %>Submit.addEventListener('click', (e) => {
         if ((day<%= num %>Open.value != "") && (day<%= num %>Open.value >= day<%= num %>Close.value)) {
           if (day<%= num %>Close.value != '00:00') {

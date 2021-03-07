@@ -42,7 +42,6 @@ class User < ApplicationRecord
 
   before_create :confirm_admin_without_confirmation_email
   after_create :subscribe_to_newsletter
-  # after_create :send_welcome_email
 
   def confirm_admin_without_confirmation_email
     skip_confirmation! if admin
@@ -85,11 +84,4 @@ class User < ApplicationRecord
   def subscribe_to_newsletter
     SubscribeToNewsletterService.new(self).call
   end
-  # def send_welcome_email
-  #   UserMailer.with(user: self).welcome.deliver_now
-  # end
-
-  # def subscribe_newsletter
-  #   Newsletter.create(email: email) if newsletter && !Newsletter.find_by(email: email)
-  # end
 end

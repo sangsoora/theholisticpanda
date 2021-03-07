@@ -1,0 +1,81 @@
+<% content_for :home_navbar do %>
+  <%= render 'shared/home_navbar' %>
+<% end %>
+<div class="container event-page">
+  <div class="page-title">
+    <h1>Events</h1>
+  </div>
+  <ul class="list-inline tabs-underlined">
+    <li>
+      <p class="tab-underlined active-tab">Upcoming Events <% if @upcoming_events.count > 0 %> (<%= @upcoming_events.count %>) <% end %></p>
+    </li>
+    <li>
+      <p class="tab-underlined">Past Events <% if @past_events.count > 0 %> (<%= @past_events.count%>) <% end %> </p>
+    </li>
+  </ul>
+  <div class="lists">
+    <div class="events">
+      <% @upcoming_events.each do |event| %>
+        <div class="event">
+          <%= image_tag('event') %>
+          <div class="event-detail">
+            <h4><%= link_to event.name, event_path(event) %></h4>
+            <p>With <%= link_to event.user.full_name, practitioner_path(event.user.practitioner) %></p>
+            <% if user_signed_in? %>
+              <p><%= event.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+            <% else %>
+              <p><%= event.start_time.in_time_zone(event.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="lists">
+    <div class="events">
+      <% @past_events.each do |event| %>
+        <div class="event">
+          <%= image_tag('event') %>
+          <div class="event-detail">
+            <h4><%= event.name %> </h4>
+            <p>With <%= link_to event.user.full_name, practitioner_path(event.user.practitioner) %></p>
+            <% if user_signed_in? %>
+              <p><%= event.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+            <% else %>
+              <p><%= event.start_time.in_time_zone(event.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<script>
+  const tabs = document.querySelectorAll('.tab-underlined')
+  const lists = document.querySelectorAll('.lists')
+  const entries = function*(iterable) {
+    let i = 0;
+    for (item of iterable) {
+      yield [i++, item]
+    }
+  }
+  const showBlock = index => {
+    for (const [blockIndex, block] of entries(lists)) {
+      block.style.display = blockIndex === index ? 'block' : 'none'
+    }
+  }
+  showBlock(0)
+  for (const [tabIndex, tab] of entries(tabs)) {
+    tab.addEventListener('click', e => {
+      e.preventDefault();
+      showBlock(tabIndex);
+      const activeTab = document.querySelector('.active-tab');
+      if (!e.currentTarget.classList.contains('active-tab')) {
+        if (activeTab !== null) {
+          activeTab.classList.remove('active-tab');
+        }
+        e.currentTarget.classList.toggle('active-tab');
+      }
+    })
+  }
+</script>

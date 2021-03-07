@@ -15,6 +15,7 @@
 @import "pages/index";
 
 @import "conversations";
+@import "events";
 @import "newsletters";
 @import "payments";
 @import "practitioners";
@@ -69,7 +70,7 @@ button:focus {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .pink-icon {
