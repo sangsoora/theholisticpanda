@@ -14,3 +14,12 @@ if (<%= current_user.practitioner.working_hours.find_by(day: @param[:day]).opens
 }
 document.getElementById("workinghour<%= @param[:day] %>").innerHTML = `<%= @working_hour.opens.strftime('%H:%M') %> ~ <%= @working_hour.closes.strftime('%H:%M') %>`;
 $("#progress").html('<%= j render  "practitioners/profile_progress_bar", practitioner: @practitioner %>');
+<% if @working_hour.errors.empty? %>
+  <% flash[:notice] = "#{Date::DAYNAMES[@param[:day].to_i]} working hour has been updated." %>
+  $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+<% else %>
+  $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
+<% end %>
+if (document.querySelector('.tooltip')) {
+  document.querySelector('.tooltip').remove();
+}

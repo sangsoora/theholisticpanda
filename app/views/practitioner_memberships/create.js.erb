@@ -3,3 +3,12 @@ $("#progress").html('<%= j render  "practitioners/profile_progress_bar", practit
 membershipsForm.style.display = 'none';
 membershipsForm.reset();
 membershipsEdit.style.display = 'block';
+<% if @practitioner_certification.errors.empty? %>
+  <% flash[:notice] = "Membership has been added." %>
+  $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+<% else %>
+  $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
+<% end %>
+if (document.querySelector('.tooltip')) {
+  document.querySelector('.tooltip').remove();
+}

@@ -2,48 +2,108 @@ if ('<%= @param.keys.first %>' == "country_code") {
   country.style.display = 'flex';
   countryForm.style.display = 'none';
   countryEdit.style.display = 'block';
+  <% if @practitioner.errors.empty? %>
+    <% flash[:notice] = 'Country of Residence has been updated.' %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+  <% else %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
+  <% end %>
   document.getElementById('country').innerHTML = '<%= @practitioner.country_name %>'
 } else if ('<%= @param.keys.first %>' == "title") {
   title.style.display = 'flex';
   titleForm.style.display = 'none';
   titleEdit.style.display = 'block';
+  <% if @practitioner.errors.empty? %>
+    <% flash[:notice] = 'Title has been updated.' %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+  <% else %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
+  <% end %>
   document.getElementById('title').innerHTML = '<%= @practitioner.title %>'
 } else if ('<%= @param.keys.first %>' == "experience") {
   experience.style.display = 'flex';
   experienceForm.style.display = 'none';
   experienceEdit.style.display = 'block';
+  <% if @practitioner.errors.empty? %>
+    <% flash[:notice] = 'Experience has been updated.' %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+  <% else %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
+  <% end %>
   document.getElementById('experience').innerHTML = '<%= @practitioner.experience %>'
 } else if ('<%= @param.keys.first %>' == "bio") {
   bio.style.display = 'flex';
   bioForm.style.display = 'none';
   bioEdit.style.display = 'block';
+  <% if @practitioner.errors.empty? %>
+    <% flash[:notice] = 'About Me has been updated.' %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+  <% else %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
+  <% end %>
   document.getElementById('bio').innerHTML = '<% if @practitioner.bio %><%= @practitioner.bio.gsub(/\n/, "<br/>").html_safe %><% end %>';
 } else if ('<%= @param.keys.first %>' == "video") {
   video.style.display = 'flex';
   videoForm.style.display = 'none';
   videoEdit.style.display = 'block';
+  <% if @practitioner.errors.empty? %>
+    <% flash[:notice] = 'Video Link has been updated.' %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+  <% else %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
+  <% end %>
   document.getElementById('video').innerHTML = '<iframe class="embed-responsive-item" src="<%= @practitioner.video %>" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
 } else if ('<%= @param.keys.first %>' == "address") {
   address.style.display = 'flex';
   addressForm.style.display = 'none';
   addressEdit.style.display = 'block';
+  <% if @practitioner.errors.empty? %>
+    <% flash[:notice] = 'Physical Address has been updated.' %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+  <% else %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
+  <% end %>
   document.getElementById('address').innerHTML = '<%= @practitioner.address %>'
 } else if ('<%= @param.keys.first %>' == "timezone") {
   timezone.style.display = 'flex';
   timezoneForm.style.display = 'none';
   timezoneEdit.style.display = 'block';
+  <% if @practitioner.errors.empty? %>
+    <% flash[:notice] = 'Time Zone has been updated.' %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+  <% else %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
+  <% end %>
   document.getElementById('timezone').innerHTML = '<%= @practitioner.timezone %>'
 } else if ('<%= @param.keys.first %>' == "location") {
   city.style.display = 'flex';
   cityForm.style.display = 'none';
   cityEdit.style.display = 'block';
+  <% if @practitioner.errors.empty? %>
+    <% flash[:notice] = 'Location has been updated.' %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+  <% else %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
+  <% end %>
   document.getElementById('city').innerHTML = '<%= @practitioner.location %>'
 } else if ('<%= @param.keys.first %>' == "approach") {
   approach.style.display = 'flex';
   approachForm.style.display = 'none';
   approachEdit.style.display = 'block';
+  <% if @practitioner.errors.empty? %>
+    <% flash[:notice] = 'My Healing Approach has been updated.' %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+  <% else %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
+  <% end %>
   document.getElementById('approach').innerHTML = '<% if @practitioner.approach %><%= @practitioner.approach.gsub(/\n/, "<br/>").html_safe %><% end %>'
 } else if ('<%= @param.keys.first %>' == "insurance") {
+  <% if @practitioner.errors.empty? %>
+    <% flash[:notice] = 'Insurance Acceptance has been updated.' %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+  <% else %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
+  <% end %>
   <% if @practitioner.insurance %>
     if (<%= @practitioner.insurance %>) {
       insurance.checked = true;
