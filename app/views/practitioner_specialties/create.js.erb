@@ -23,3 +23,12 @@ $('.specialty-choice').on("click", function (e){
     active.classList.remove('active');
   }
 });
+<% if @practitioner_specialty.errors.empty? %>
+  <% flash[:notice] = 'Specialty has been added.' %>
+  $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+<% else %>
+  $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
+<% end %>
+if (document.querySelector('.tooltip')) {
+  document.querySelector('.tooltip').remove();
+}

@@ -41,7 +41,9 @@
     <% else %>
       <%= render 'shared/navbar' %>
     <% end %>
-    <%= render 'shared/flashes' %>
+    <div id="flashes">
+      <%= render 'shared/flashes' %>
+    </div>
     <%= yield %>
     <%= render 'shared/footer' %>
     <%= render 'shared/newsletter' %>
