@@ -1,6 +1,6 @@
 $("#memberships-list").html('<%= j render "practitioner_memberships_list", practitioner: @practitioner %>');
 $("#progress").html('<%= j render  "practitioners/profile_progress_bar", practitioner: @practitioner %>');
-<% if @practitioner_certification.errors.empty? %>
+<% if @practitioner_membership.errors.empty? %>
   <% flash[:notice] = "Membership has been deleted." %>
   $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
 <% else %>

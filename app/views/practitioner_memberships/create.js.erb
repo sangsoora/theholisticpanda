@@ -3,7 +3,7 @@ $("#progress").html('<%= j render  "practitioners/profile_progress_bar", practit
 membershipsForm.style.display = 'none';
 membershipsForm.reset();
 membershipsEdit.style.display = 'block';
-<% if @practitioner_certification.errors.empty? %>
+<% if @practitioner_membership.errors.empty? %>
   <% flash[:notice] = "Membership has been added." %>
   $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
 <% else %>
