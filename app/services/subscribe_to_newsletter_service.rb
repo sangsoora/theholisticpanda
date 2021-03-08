@@ -15,7 +15,7 @@ class SubscribeToNewsletterService
       if @user.newsletter
         @gibbon.lists(@audience_id).members.create(body: { email_address: @user.email, status: 'subscribed', merge_fields: { FNAME: @user.first_name, LNAME: @user.last_name } })
       else
-        @gibbon.lists(@audience_id).members.create(body: { email_address: @user.email, status: '', merge_fields: { FNAME: @user.first_name, LNAME: @user.last_name } })
+        @gibbon.lists(@audience_id).members.create(body: { email_address: @user.email, status: 'unsubscribed', merge_fields: { FNAME: @user.first_name, LNAME: @user.last_name } })
       end
     end
   end
