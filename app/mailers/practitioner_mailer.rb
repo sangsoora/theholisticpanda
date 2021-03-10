@@ -5,7 +5,6 @@ class PractitionerMailer < ApplicationMailer
   #   en.practitioner_mailer.welcome.subject
   #
   def welcome
-    attachments.inline["email-logo.png"] = File.read("#{Rails.root}/app/assets/images/email-logo.png")
     @practitioner = params[:practitioner]
 
     mail(to: @practitioner.user.email, subject: 'Your practitioner application has been submitted.')

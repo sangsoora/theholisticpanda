@@ -4,6 +4,7 @@ workinghour<%= @num %>.style.display = 'block';
 day<%= @num %>Block.innerHTML = '';
 day<%= @num %>Block.style.display = 'block';
 document.getElementById("workinghour<%= @num %>").innerHTML = ``;
+document.getElementById('progress-text').innerHTML = '<%= j render "practitioners/profile_progress_text", practitioner: @practitioner %>';
 $("#progress").html('<%= j render  "practitioners/profile_progress_bar", practitioner: @practitioner %>');
 <% if @working_hour.errors.empty? %>
   <% flash[:notice] = "#{Date::DAYNAMES[@num.to_i]} has been blocked." %>

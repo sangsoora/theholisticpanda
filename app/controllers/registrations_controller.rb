@@ -22,6 +22,10 @@ class RegistrationsController < Devise::RegistrationsController
     end
     if params[:commit] == 'Delete Profile Photo'
       current_user.photo.purge
+      flash[:notice] = 'Your profile photo has been deleted.'
+      redirect_to practitioner_profile_path
+    elsif params[:commit] == 'Upload' && params[:user][:photo]
+      flash[:notice] = 'Your profile photo has been uploaded.'
       redirect_to practitioner_profile_path
     elsif account_update_params[:password]
       if @update

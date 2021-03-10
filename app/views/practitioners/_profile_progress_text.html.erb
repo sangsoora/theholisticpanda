@@ -1,0 +1,59 @@
+<% if !@practitioner.minimum_profile? %>
+  <% if @practitioner.working_hours? %>
+    <% if @practitioner.bio? %>
+      <p>Please <a href="" id="need-profile">upload your profile photo</a><br>to make your profile public and start creating services.</p>
+    <% elsif @practitioner.user.photo.attached? %>
+      <p>Please <a href="" id="need-bio">complete About Me</a><br>to make your profile public and start creating services.</p>
+    <% else %>
+      <p>Please <a href="" id="need-profile">upload your profile photo</a> and <a href="" id="need-bio">complete About Me</a><br>to make your profile public and start creating services.</p>
+    <% end %>
+  <% else %>
+    <% if @practitioner.bio? %>
+      <% if @practitioner.user.photo.attached? %>
+        <p>Please <a href="" id="need-hours">set your Working Hours</a><br>to make your profile public and start creating services.</p>
+      <% else %>
+        <p>Please <a href="" id="need-hours">set your Working Hours</a> and <a href="" id="need-profile">upload your profile photo</a><br>to make your profile public and start creating services.</p>
+      <% end %>
+    <% else %>
+      <% if @practitioner.user.photo.attached? %>
+        <p>Please <a href="" id="need-hours">set your Working Hours</a> and <a href="" id="need-bio">complete About Me</a><br>to make your profile public and start creating services.</p>
+      <% else %>
+        <p>Please <a href="" id="need-hours">set your Working Hours</a>, <a href="" id="need-profile">upload your profile photo</a> and <a href="" id="need-bio">complete About Me</a><br>to make your profile public and start creating services.</p>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+<script>
+  if (document.getElementById('need-profile')) {
+    document.getElementById('need-profile').addEventListener('click', (e)=> {
+      e.preventDefault();
+      document.getElementById('open-profile').click();
+    })
+  }
+  if (document.getElementById('need-bio')) {
+    document.getElementById('need-bio').addEventListener('click', (e)=> {
+      e.preventDefault();
+      document.getElementById('basic-info-wrapper').classList.add('hidden');
+      document.getElementById('biography-wrapper').classList.remove('hidden');
+      document.getElementById('credentials-wrapper').classList.add('hidden');
+      document.getElementById('operation-wrapper').classList.add('hidden');
+      document.querySelector('.infos-active-tab').classList.remove('infos-active-tab');
+      document.getElementById('biography').classList.add('infos-active-tab');
+      $('.infos-list').css("display", "none");
+      $('.infos-list')[1].style.display = 'block';
+    })
+  }
+  if (document.getElementById('need-hours')) {
+    document.getElementById('need-hours').addEventListener('click', (e)=> {
+      e.preventDefault();
+      document.getElementById('basic-info-wrapper').classList.add('hidden');
+      document.getElementById('biography-wrapper').classList.add('hidden');
+      document.getElementById('credentials-wrapper').classList.add('hidden');
+      document.getElementById('operation-wrapper').classList.remove('hidden');
+      document.querySelector('.infos-active-tab').classList.remove('infos-active-tab');
+      document.getElementById('operation').classList.add('infos-active-tab');
+      $('.infos-list').css("display", "none");
+      $('.infos-list')[3].style.display = 'block';
+    })
+  }
+</script>

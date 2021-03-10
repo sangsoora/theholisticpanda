@@ -21,10 +21,12 @@
           <div class="event-detail">
             <h4><%= link_to event.name, event_path(event) %></h4>
             <p>With <%= link_to event.user.full_name, practitioner_path(event.user.practitioner) %></p>
-            <% if user_signed_in? %>
+            <% if user_signed_in? && current_user.timezone != '' %>
               <p><%= event.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
-            <% else %>
+            <% elsif event.user.timezone != '' %>
               <p><%= event.start_time.in_time_zone(event.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+            <% else %>
+              <p><%= event.start_time.strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
             <% end %>
           </div>
         </div>
@@ -39,10 +41,12 @@
           <div class="event-detail">
             <h4><%= event.name %> </h4>
             <p>With <%= link_to event.user.full_name, practitioner_path(event.user.practitioner) %></p>
-            <% if user_signed_in? %>
+            <% if user_signed_in? && current_user.timezone != '' %>
               <p><%= event.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
-            <% else %>
+            <% elsif event.user.timezone != '' %>
               <p><%= event.start_time.in_time_zone(event.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+            <% else %>
+              <p><%= event.start_time.strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
             <% end %>
           </div>
         </div>

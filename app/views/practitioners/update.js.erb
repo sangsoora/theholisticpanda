@@ -42,6 +42,7 @@ if ('<%= @param.keys.first %>' == "country_code") {
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
   document.getElementById('bio').innerHTML = '<% if @practitioner.bio %><%= @practitioner.bio.gsub(/\n/, "<br/>").html_safe %><% end %>';
+  document.getElementById('progress-text').innerHTML = '<%= j render "practitioners/profile_progress_text", practitioner: @practitioner %>';
 } else if ('<%= @param.keys.first %>' == "video") {
   video.style.display = 'flex';
   videoForm.style.display = 'none';
@@ -111,5 +112,7 @@ if ('<%= @param.keys.first %>' == "country_code") {
       insurance.checked = false;
     }
   <% end %>
+} else {
+  <% flash[:notice] = 'Profile has been updated.' %>
 }
 $("#progress").html('<%= j render  "practitioners/profile_progress_bar", practitioner: @practitioner %>');
