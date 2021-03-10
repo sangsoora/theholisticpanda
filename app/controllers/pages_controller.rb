@@ -6,9 +6,8 @@ class PagesController < ApplicationController
     practitioners = Practitioner.checked_practitioners.includes(user: [:photo_attachment])
     @featured_practitioners = []
     practitioners.each do |practitioner|
-      @featured_practitioners << practitioner if practitioner.working_hours? && practitioner.bio && practitioner.bio != '' && practitioner.user.photo.attached?
+      @featured_practitioners << practitioner if practitioner.minimum_profile?
     end
-    @newsletter = Newsletter.new
   end
 
   def become_a_practitioner

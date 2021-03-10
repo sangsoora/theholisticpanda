@@ -2,29 +2,27 @@
 
 </style>
 
-<div style='background-color: #e9cd88; padding: 30px;'>
-  <div style='background-color: #faf2f2; padding: 20px;'>
-    <div style='max-width: 300px; margin: 0 auto;'>
-      <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><%= image_tag(attachments['email-logo.png'].url, style: 'max-width: 300px;') %></a>
-    </div>
-    <h3>Dear <%= @practitioner.user.full_name %>,</h3>
-
-    <h4>Thank you for applying to be a practitioner on The Holistic Panda. We have received your application and payment. To help you better understand the onboarding process, here’s a quick overview of the next steps.</h4>
-
-    <ul>
-      <li><p><strong>Step 1)</strong> Undergo Background Check - You’ll soon receive an email from our background check partner, ModoHR Technologies Inc., with instructions on completing your background check. Background checks usually take about 4-6 hours. Please ensure all of your information is correct and self-declare any offences. Otherwise, you will have to resubmit your application and pay for a new background check.</p></li>
-      <li><p><strong>Step 2)</strong> Sign Practitioner Agreement - Once your background check has been cleared, you’ll receive the practitioner agreement to sign. </p></li>
-      <li><p><strong>Step 3)</strong> Build Your Public Profile: The final step entails setting up your online profile, and you’re on your way to getting discovered and booked!</p></li>
-    </ul>
-
-    <p>We want to thank you for being a part of The Holistic Panda community and contributing to our mission of making it easy and seamless for anyone anywhere to access healing modalities to help them achieve their health goals. Self-care should be a priority, not an after-thought.</p>
-
-    <p>If you have any questions about the application process, please write to us  <a href="mailto:practitioner@theholisticpanda.com" style="text-decoration: none; color: #366735;">here</a>.</p>
-    <br>
-    <p>Yours,</p>
-    <p>The Holistic Panda Team</p>
+<div style='background-color: #faf2f2; padding: 20px;'>
+  <div style='max-width: 300px; margin: 0 auto;'>
+    <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><img src="https://<%= ENV['CDN_URL'] %>/logo.png" alt="TheHolisticPanda" style="width: 300px;"></a>
   </div>
-  <div style='margin: 16px auto; text-align: center;'>
+  <h3>Dear <%= @practitioner.user.full_name %>,</h3>
+
+  <h4>Thank you for applying to be a practitioner on The Holistic Panda. We have received your application and payment. To help you better understand the onboarding process, here’s a quick overview of the next steps.</h4>
+
+  <ul>
+    <li><p><strong>Step 1)</strong> Undergo Background Check - You’ll soon receive an email from our background check partner, ModoHR Technologies Inc., with instructions on completing your background check. Background checks usually take about 4-6 hours. Please ensure all of your information is correct and self-declare any offences. Otherwise, you will have to resubmit your application and pay for a new background check.</p></li>
+    <li><p><strong>Step 2)</strong> Sign Practitioner Agreement - Once your background check has been cleared, you’ll receive the practitioner agreement to sign. </p></li>
+    <li><p><strong>Step 3)</strong> Build Your Public Profile: The final step entails setting up your online profile, and you’re on your way to getting discovered and booked!</p></li>
+  </ul>
+
+  <p>We want to thank you for being a part of The Holistic Panda community and contributing to our mission of making it easy and seamless for anyone anywhere to access healing modalities to help them achieve their health goals. Self-care should be a priority, not an after-thought.</p>
+
+  <p>If you have any questions about the application process, please write to us  <a href="mailto:practitioner@theholisticpanda.com" style="text-decoration: none; color: #366735;">here</a>.</p>
+  <br>
+  <p>Yours,</p>
+  <p>The Holistic Panda Team</p>
+  <div style='margin: 32px auto 16px; text-align: center;'>
     <p>© <%= Time.now.year %> HolisticPanda, Inc. All rights reserved</p>
     <a href="https://www.theholisticpanda.com/terms" target="_blank" style='text-decoration: none; color: #366735; margin-right: 16px;'>Terms of use</a>
     <a href="https://www.theholisticpanda.com/privacy" target="_blank"  style="text-decoration: none; color: #366735;">Privacy policy</a>

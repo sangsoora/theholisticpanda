@@ -7,7 +7,6 @@ class SessionMailer < ApplicationMailer
   #   en.session_mailer.confirm_practitioner.subject
   #
   def confirm_practitioner
-    attachments.inline["email-logo.png"] = File.read("#{Rails.root}/app/assets/images/email-logo.png")
     @session = params[:session]
     if @session.service.default_service
       @practitioner = Practitioner.find(@session.free_practitioner_id)
@@ -50,7 +49,6 @@ class SessionMailer < ApplicationMailer
   #   en.session_mailer.confirm_user.subject
   #
   def confirm_user
-    attachments.inline["email-logo.png"] = File.read("#{Rails.root}/app/assets/images/email-logo.png")
     @session = params[:session]
     if @session.service.default_service
       @practitioner = Practitioner.find(@session.free_practitioner_id)
@@ -88,7 +86,6 @@ class SessionMailer < ApplicationMailer
   end
 
   def cancel_practitioner
-    attachments.inline["email-logo.png"] = File.read("#{Rails.root}/app/assets/images/email-logo.png")
     @session = params[:session]
     if @session.service.default_service
       @practitioner = Practitioner.find(@session.free_practitioner_id)
@@ -99,7 +96,6 @@ class SessionMailer < ApplicationMailer
   end
 
   def cancel_user
-    attachments.inline["email-logo.png"] = File.read("#{Rails.root}/app/assets/images/email-logo.png")
     @session = params[:session]
     if @session.service.default_service
       @practitioner = Practitioner.find(@session.free_practitioner_id)
@@ -110,7 +106,6 @@ class SessionMailer < ApplicationMailer
   end
 
   def send_request
-    attachments.inline["email-logo.png"] = File.read("#{Rails.root}/app/assets/images/email-logo.png")
     @session = params[:session]
     if @session.service.default_service
       @practitioner = Practitioner.find(@session.free_practitioner_id)
@@ -121,24 +116,22 @@ class SessionMailer < ApplicationMailer
   end
 
   def decline_request
-    attachments.inline["email-logo.png"] = File.read("#{Rails.root}/app/assets/images/email-logo.png")
     @session = params[:session]
     if @session.service.default_service
       @practitioner = Practitioner.find(@session.free_practitioner_id)
     else
       @practitioner = @session.practitioner
     end
-    mail(to: @session.user.email, subject: "You have a session request!")
+    mail(to: @session.user.email, subject: "Your session request has been declined!")
   end
 
   def change_link
-    attachments.inline["email-logo.png"] = File.read("#{Rails.root}/app/assets/images/email-logo.png")
     @session = params[:session]
     if @session.service.default_service
       @practitioner = Practitioner.find(@session.free_practitioner_id)
     else
       @practitioner = @session.practitioner
     end
-    mail(to: @session.user.email, subject: "You have a session request!")
+    mail(to: @session.user.email, subject: "Virtual link for your session has been changed!")
   end
 end

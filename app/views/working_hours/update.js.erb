@@ -13,6 +13,7 @@ if (<%= current_user.practitioner.working_hours.find_by(day: @param[:day]).opens
   day<%= @param[:day] %>Block.innerHTML = ``;
 }
 document.getElementById("workinghour<%= @param[:day] %>").innerHTML = `<%= @working_hour.opens.strftime('%H:%M') %> ~ <%= @working_hour.closes.strftime('%H:%M') %>`;
+document.getElementById('progress-text').innerHTML = '<%= j render "practitioners/profile_progress_text", practitioner: @practitioner %>';
 $("#progress").html('<%= j render  "practitioners/profile_progress_bar", practitioner: @practitioner %>');
 <% if @working_hour.errors.empty? %>
   <% flash[:notice] = "#{Date::DAYNAMES[@param[:day].to_i]} working hour has been updated." %>

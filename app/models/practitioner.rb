@@ -215,6 +215,10 @@ class Practitioner < ApplicationRecord
     check_working_hours
   end
 
+  def minimum_profile?
+    return true if working_hours? && bio? && user.photo.attached?
+  end
+
   def profile_progress
     check_working_hours = false
     working_hours.each do |hour|

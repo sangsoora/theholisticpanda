@@ -11,8 +11,8 @@
     <div class="practitioner-profile-title">
       <h1>Welcome, <%= @practitioner.user.first_name %></h1>
       <div class="practitioner-profile-btn">
-        <%= link_to 'Reset Password', '', data: { toggle: "modal", target: "#passwordModal" }, class: 'btn btn-ghost mr-3' %>
-        <%= link_to 'Go To My Page', practitioner_path(@practitioner), class: 'btn btn-flat' %>
+        <%= link_to 'My Page', practitioner_path(@practitioner), class: 'btn btn-flat mr-3' %>
+        <%= link_to 'My Services', practitioner_services_path, class: 'btn btn-flat' %>
       </div>
     </div>
     <div class="practitioner-profile-table">
@@ -22,8 +22,9 @@
         <% else %>
           <%= image_tag("profile", class: 'avatar-full') %>
         <% end %>
-        <%= link_to '📷 Profile Photo', '', data: { toggle: "modal", target: "#profilePictureModal" }, class: 'btn btn-ghost mt-4 w-100' %>
+        <%= link_to '📷 Profile Photo', '', data: { toggle: "modal", target: "#profilePictureModal" }, class: 'btn btn-ghost mt-4 w-100', id: 'open-profile' %>
         <%= link_to '📷 Banner Image', '', data: { toggle: "modal", target: "#bannerImageModal" }, class: 'btn btn-ghost mt-4 w-100' %>
+        <%= link_to 'Reset Password', '', data: { toggle: "modal", target: "#passwordModal" }, class: 'btn btn-ghost mt-4 w-100' %>
       </div>
       <div class="practitioner-profile-infos">
         <ul class="list-inline tabs-underlined">
@@ -35,6 +36,9 @@
           </li>
         </ul>
         <div class="lists">
+          <div id="progress-text" class="mb-2">
+            <%= render "practitioners/profile_progress_text", practitioner: @practitioner %>
+          </div>
           <div class="progress" id="progress">
             <%= render "practitioners/profile_progress_bar", practitioner: @practitioner %>
           </div>
@@ -155,7 +159,7 @@
                   <% end %>
                 </div>
                 <div class="biography-list">
-                  <h5>Share your video link.</h5>
+                  <h5>Share your video link to briefly explain about yourself and your service.</h5>
                   <%= link_to 'How To Link My YouTube Video', '', data: { toggle: "modal", target: "#videoInstructionModal" } %>
                   <div id="practitioner-video" class="mt-2">
                     <div class="embed-responsive embed-responsive-16by9" id="video">

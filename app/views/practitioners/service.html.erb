@@ -8,7 +8,9 @@
         <p class="tab-underlined">Deactivated <% if @deactivated_serivces.count > 0 %> (<%= @deactivated_serivces.count%>) <% end %> </p>
       </li>
     </ul>
-    <%= link_to 'Add New Service', '', data: { toggle: "modal", target: "#newServiceModal" }, class: 'btn btn-flat' %>
+    <% if current_user.practitioner.minimum_profile? %>
+      <%= link_to 'Add New Service', '', data: { toggle: "modal", target: "#newServiceModal" }, class: 'btn btn-flat' %>
+    <% end %>
   </div>
   <div class="lists">
     <div class="my-services" id="active-list">

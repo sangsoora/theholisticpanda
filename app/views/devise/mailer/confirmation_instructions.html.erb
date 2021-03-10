@@ -1,16 +1,16 @@
-<div style='background-color: #e9cd88; padding: 30px;'>
-  <div style='background-color: #faf2f2; padding: 20px; max-width: 600px; margin: 0 auto; border-radius: 6px;'>
-
-    <h4>Welcome <%= @resource.first_name %>!</h4>
-
-    <p>Please confirm your account email through the link below:</p>
-
-    <p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
-
-    <p>Yours,</p>
-    <p>The Holistic Panda Team</p>
+<div style='background-color: #faf2f2; padding: 20px; max-width: 600px; margin: 0 auto; border-radius: 6px;'>
+  <div style='max-width: 300px; margin: 0 auto;'>
+    <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><img src="https://<%= ENV['CDN_URL'] %>/logo.png" alt="TheHolisticPanda" style="width: 300px;"></a>
   </div>
-  <div style='margin: 16px auto; text-align: center;'>
+  <h3>Welcome <%= @resource.first_name %>!</h3>
+
+  <p>Please confirm your account email through the link below:</p>
+
+  <p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+
+  <p>Yours,</p>
+  <p>The Holistic Panda Team</p>
+  <div style='margin: 32px auto 16px; text-align: center;'>
     <p>© <%= Time.now.year %> HolisticPanda, Inc. All rights reserved</p>
     <a href="https://www.theholisticpanda.com/terms" target="_blank" style='text-decoration: none; color: #366735; margin-right: 16px;'>Terms of use</a>
     <a href="https://www.theholisticpanda.com/privacy" target="_blank"  style="text-decoration: none; color: #366735;">Privacy policy</a>

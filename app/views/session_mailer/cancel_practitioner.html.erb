@@ -2,33 +2,32 @@
 
 </style>
 
-<div style='background-color: #e9cd88; padding: 30px;'>
-  <div style='background-color: #faf2f2; padding: 20px;'>
-    <div style='max-width: 300px; margin: 0 auto;'>
-      <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><%= image_tag(attachments['email-logo.png'].url) %></a>
-    </div>
-    <h3>Dear <%= @practitioner.user.first_name %>,</h3>
-    <h4>This is a notice to let you know that the following session has been cancelled.</h4>
-    <p>Service: <%= @session.service.name %></p>
-    <p>Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
-    <% if @session.session_type == 'Virtual' %>
-      <p>Link for the session: <a href="<%= @session.link %>" target="_blank"><%= @session.link %></a></p>
-    <% else %>
-      <p>Session location: <%= @practitioner.address %></p>
-    <% end %>
-    <% if @session.cancelled_user != @practitioner.user %>
-      <p>Cancel reason from your client: <%= @session.cancel_reason %></p>
-    <% end %>
-    <br>
-    <%= link_to 'Review your session detail', session_url(@session), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
-    <br>
-    <br>
-    <p>Yours,</p>
-    <p>The Holistic Panda Team</p>
+<div style='background-color: #faf2f2; padding: 20px;'>
+  <div style='max-width: 300px; margin: 0 auto;'>
+    <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><img src="https://<%= ENV['CDN_URL'] %>/logo.png" alt="TheHolisticPanda" style="width: 300px;"></a>
   </div>
-  <div style='margin: 16px auto; text-align: center;'>
+  <h3>Dear <%= @practitioner.user.first_name %>,</h3>
+  <h4>This is a notice to let you know that the following session has been cancelled.</h4>
+  <p>Service: <%= @session.service.name %></p>
+  <p>Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+  <% if @session.session_type == 'Virtual' %>
+    <p>Link for the session: <a href="<%= @session.link %>" target="_blank"><%= @session.link %></a></p>
+  <% else %>
+    <p>Session location: <%= @practitioner.address %></p>
+  <% end %>
+  <% if @session.cancelled_user != @practitioner.user %>
+    <p>Cancel reason from your client: <%= @session.cancel_reason %></p>
+  <% end %>
+  <br>
+  <%= link_to 'Review your session detail', session_url(@session), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
+  <br>
+  <br>
+  <p>Yours,</p>
+  <p>The Holistic Panda Team</p>
+  <div style='margin: 32px auto 16px; text-align: center;'>
     <p>© <%= Time.now.year %> HolisticPanda, Inc. All rights reserved</p>
     <a href="https://www.theholisticpanda.com/terms" target="_blank" style='margin-right: 16px;'>Terms of use</a>
     <a href="https://www.theholisticpanda.com/privacy" target="_blank">Privacy policy</a>
   </div>
 </div>
+
