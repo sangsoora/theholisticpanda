@@ -74,7 +74,7 @@
                 <div class="practitioner-service-title">
                   <h4><%= Service.first.name %></h4>
                   <% if current_user != @practitioner.user %>
-                    <%= link_to 'Book', practitioner_discovery_call_path(@practitioner), class: 'btn btn-flat' %>
+                    <%= link_to 'Detail', practitioner_discovery_call_path(@practitioner), class: 'btn btn-flat' %>
                   <% end %>
                 </div>
                 <div class="practitioner-service-icons">
@@ -96,7 +96,7 @@
                 <div class="practitioner-service-title">
                   <h4><%= service.name %></h4>
                   <% if current_user != @practitioner.user %>
-                    <%= link_to 'Book', service_path(service), class: 'btn btn-flat' %>
+                    <%= link_to 'Detail', service_path(service), class: 'btn btn-flat' %>
                   <% end %>
                 </div>
                 <div class="practitioner-service-icons">
