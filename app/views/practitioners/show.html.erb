@@ -9,7 +9,7 @@
       <div class="practitioner-info">
         <div class="practitioner-img">
           <% if @practitioner.user.photo.attached? %>
-            <img src="<%= cdn_for(@practitioner.user.photo) %>" alt="">
+            <img src="<%= cdn_for(@practitioner.user.cropped_image) %>" alt="">
           <% else %>
             <%= image_tag("profile") %>
           <% end %>

@@ -38,6 +38,7 @@ const displayPreview = (input) => {
         document.getElementById('btnCrop').addEventListener('click', (event) => {
           event.preventDefault();
           // Get a string base 64 data url
+          const cropData = cropper.getData(true);
           const croppedImageDataURL = cropper.getCroppedCanvas({ maxWidth: 4096, maxHeight: 4096}).toDataURL('image/png');
           // Create a img tag with base 64 data url
           const croppedImage = document.createElement('IMG');
@@ -51,14 +52,10 @@ const displayPreview = (input) => {
           }
           // Append cropped image to preview
           preview.appendChild(croppedImage);
-          // Convert base 64 data url to a file
-          var file = dataURLtoFile(croppedImageDataURL,'profile.png');
-          // Create a FileList and and the created file
-          let list = new DataTransfer();
-          list.items.add(file);
-          let myFileList = list.files;
-          // Replace input files with files containing the cropped image file
-          input.files = myFileList;
+          document.getElementById('crop_x').value = cropData.x;
+          document.getElementById('crop_y').value = cropData.y;
+          document.getElementById('crop_h').value = cropData.height;
+          document.getElementById('crop_w').value = cropData.width;
           document.getElementById('crop-notify').style.display = 'none';
           document.getElementById('btnCrop').classList.add('hidden');
           document.getElementById('btnUpload').classList.remove('hidden');
@@ -71,7 +68,10 @@ const displayPreview = (input) => {
           if (child) {
             preview.removeChild(child);
           }
-          input.files.value = '';
+          document.getElementById('crop_x').value = '';
+          document.getElementById('crop_y').value = '';
+          document.getElementById('crop_h').value = '';
+          document.getElementById('crop_w').value = '';
           document.getElementById('crop-notify').style.display = 'block';
           document.getElementById('btnCrop').classList.remove('hidden');
           document.getElementById('btnUpload').classList.add('hidden');
@@ -97,7 +97,10 @@ const previewImageOnFileSelect = () => {
         if (child) {
           preview.removeChild(child);
         }
-        input.files.value = '';
+        document.getElementById('crop_x').value = '';
+        document.getElementById('crop_y').value = '';
+        document.getElementById('crop_h').value = '';
+        document.getElementById('crop_w').value = '';
         document.getElementById('btnCrop').classList.remove('hidden');
         document.getElementById('btnUpload').classList.add('hidden');
         document.getElementById('btnUpload').disabled = true;

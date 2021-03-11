@@ -10,7 +10,7 @@
           <div class="notification-head">
             <div class="notification-image">
               <% if notification.actor.practitioner && notification.actor.practitioner.user.photo.attached? %>
-              <img src="<%= cdn_for(notification.actor.photo) %>" alt="">
+                <img src="<%= cdn_for(notification.actor.cropped_image) %>" alt="">
               <% else %>
                 <%= image_tag 'profile.png' %>
               <% end %>

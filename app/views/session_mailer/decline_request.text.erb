@@ -1,0 +1,10 @@
+Dear <%= @session.user.first_name %>,
+
+This is a notice to let you know that the following session with <%= @practitioner.user.full_name %> request has been declined.
+
+Service: <%= @session.service.name %> with <%= @practitioner.user.full_name %>
+
+Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
+
+Yours,
+The Holistic Panda Team

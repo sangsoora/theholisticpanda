@@ -22,6 +22,7 @@ class User < ApplicationRecord
   has_many :conversations_as_sender, foreign_key: :sender_id, class_name: :Conversation, dependent: :destroy
   has_many :health_goals, through: :user_health_goals
   has_one_attached :photo
+  serialize :crop_setting
 
   validates :email, presence: true, format: { with: /.+@.+\..+/ }
   validates :first_name, presence: true, length: { minimum: 2, maximum: 50 }
@@ -54,6 +55,20 @@ class User < ApplicationRecord
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  def cropped_image
+    if photo.attached?
+      if crop_setting?
+        dimensions = "#{crop_setting[:w]}x#{crop_setting[:h]}"
+        coord = "#{crop_setting[:x]}+#{crop_setting[:y]}"
+        photo.variant(
+          crop: "#{dimensions}+#{coord}"
+        ).processed
+      else
+        photo
+      end
+    end
   end
 
   def conversations
