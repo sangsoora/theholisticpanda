@@ -1,7 +1,7 @@
 <% favorite_practitioners.each do |favorite|  %>
   <div class="favorite-practitioner">
     <% if favorite.practitioner.user.photo.attached? %>
-      <img src="<%= cdn_for(favorite.practitioner.user.photo) %>" alt="">
+      <img src="<%= cdn_for(favorite.practitioner.user.cropped_image) %>" alt="">
     <% else %>
       <%= image_tag("profile") %>
     <% end %>

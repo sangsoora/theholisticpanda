@@ -11,7 +11,7 @@
     <div class="current-conversation">
       <div class="current-opponent">
         <% if @conversation.opposed_user(current_user).practitioner && @conversation.opposed_user(current_user).photo.attached? %>
-          <%= image_tag @conversation.opposed_user(current_user).photo, class: "avatar" %>
+          <%= image_tag cdn_for(@conversation.opposed_user(current_user).cropped_image), class: "avatar" %>
         <% else %>
           <%= image_tag 'profile.png', class: "avatar" %>
         <% end %>

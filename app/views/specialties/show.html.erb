@@ -72,7 +72,7 @@
               <div class="profile-photo">
                 <a href="/practitioners/<%= service.practitioner.id %>">
                   <% if service.practitioner.user.photo.attached? %>
-                    <img src="<%= cdn_for(service.practitioner.user.photo) %>" class="service-list-item-user avatar-bordered" alt="">
+                    <img src="<%= cdn_for(service.practitioner.user.cropped_image) %>" class="service-list-item-user avatar-bordered" alt="">
                   <% else %>
                     <%= image_tag("profile", class: "service-list-item-user avatar-bordered") %>
                   <% end %>

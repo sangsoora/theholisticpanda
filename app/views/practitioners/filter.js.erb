@@ -1,10 +1,12 @@
 let html = '';
 <% if @practitioners.length > 0 %>
   <% @practitioners.each do |practitioner| %>
-    <% if practitioner.user.photo.attached? %>
-       html += '<p><img src="<%= cdn_for(practitioner.user.photo) %>" class="service-list-item-user avatar-bordered" alt=""><%= link_to practitioner.user.full_name, practitioner_path(practitioner) %></p>';
-    <% else %>
-      html += '<p><%= image_tag("profile", class: "service-list-item-user avatar-bordered") %><%= link_to practitioner.user.full_name, practitioner_path(practitioner) %></p>';
+    <% if practitioner.minimum_profile? %>
+      <% if practitioner.user.photo.attached? %>
+         html += '<p><img src="<%= cdn_for(practitioner.user.cropped_image) %>" class="service-list-item-user avatar-bordered" alt=""><%= link_to practitioner.user.full_name, practitioner_path(practitioner) %></p>';
+      <% else %>
+        html += '<p><%= image_tag("profile", class: "service-list-item-user avatar-bordered") %><%= link_to practitioner.user.full_name, practitioner_path(practitioner) %></p>';
+      <% end %>
     <% end %>
   <% end %>
 <% else %>
