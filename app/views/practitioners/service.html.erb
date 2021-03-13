@@ -65,9 +65,9 @@
           </div>
           <%= f.input :specialty, as: :select, collection: @practitioner.specialties, include_blank: false, include_hidden: false, require: true %>
           <%= render "service_health_goals/create_form", service: @service %>
-          <%= f.input :duration, input_html: { value: 15, min: 15, step: 15 }, require: true %>
+          <%= f.input :duration, label: 'Duration (in minutes)', input_html: { value: 15, min: 15, step: 15 }, require: true %>
           <div class="form-group string required service_price">
-            <label class="string required" for="service_price">Price <abbr title="required">*</abbr></label>
+            <label class="string required" for="service_price">Price (in CA$) <abbr title="required">*</abbr></label>
             <input class="form-control string required" type="text" name="service[price]" id="service_price" value="10.00">
           </div>
           <%= f.input :description, input_html: { rows: 5, maxlength: 1000 } %>

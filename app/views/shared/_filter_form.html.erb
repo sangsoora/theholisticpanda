@@ -2,9 +2,9 @@
   <div class="d-flex align-items-center">
     <fieldset class="form-group check_boxes required search_health_goal">
       <% if params[:search] && params[:search][:health_goal] && params[:search][:health_goal].length > 1 %>
-        <legend class="btn btn-ghost btn-filter" id="health-goal-pop">Health Goals (<%= params[:search][:health_goal].reject(&:blank?).count %>)&nbsp;&nbsp;<i class="fas fa-chevron-down"></i></legend>
+        <legend class="btn" id="health-goal-pop">Health Goals (<%= params[:search][:health_goal].reject(&:blank?).count %>)&nbsp;&nbsp;<i class="fas fa-chevron-down"></i></legend>
       <% else %>
-        <legend class="btn btn-ghost btn-filter" id="health-goal-pop">Select Health Goals&nbsp;&nbsp;<i class="fas fa-chevron-down"></i></legend>
+        <legend class="btn" id="health-goal-pop">Select Health Goals&nbsp;&nbsp;<i class="fas fa-chevron-down"></i></legend>
       <% end %>
       <div class="health-goal-select-box" id="health-goal-select-box">
         <div class="health-goal-choices">

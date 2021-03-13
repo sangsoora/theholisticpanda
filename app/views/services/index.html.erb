@@ -101,8 +101,8 @@
 <div class="container services-page">
   <div>
     <div class="sort-btns">
-      <div class="btn btn-ghost pink mr-4 mb-3 active-sort" id="sortPrice">Lower Price</div>
-      <div class="btn btn-ghost pink mr-4 mb-3" id="sortDuration">Shorter Duration</div>
+      <div class="btn btn-ghost yellow mr-4 mb-3 active-sort" id="sortPrice">Lower Price</div>
+      <div class="btn btn-ghost yellow mr-4 mb-3" id="sortDuration">Shorter Duration</div>
     </div>
     <% if @filtered_services %>
       <% if @filtered_services != [] %>
@@ -131,8 +131,6 @@
                   <div class="service-list-item-detail-left">
                     <% if service.reviews.count > 0 %>
                       <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
-                    <% else %>
-                      <p>No reviews!</p>
                     <% end %>
                     <a class="btn btn-flat" href="/services/<%= service.id %>">Detail</a>
                   </div>
@@ -171,8 +169,6 @@
                     <p><%= service.service_type.capitalize %></p>
                     <% if service.reviews.count > 0 %>
                       <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
-                    <% else %>
-                      <p>No reviews!</p>
                     <% end %>
                   </div>
                   <div class="service-list-item-detail-right">
@@ -278,8 +274,6 @@
                 <div class="service-list-item-detail-left">
                   <% if service.reviews.count > 0 %>
                     <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
-                  <% else %>
-                    <p>No reviews!</p>
                   <% end %>
                   <a class="btn btn-flat" href="/services/<%= service.id %>">Detail</a>
                 </div>
@@ -318,8 +312,6 @@
                   <p><%= service.service_type.capitalize %></p>
                   <% if service.reviews.count > 0 %>
                     <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
-                  <% else %>
-                    <p>No reviews!</p>
                   <% end %>
                 </div>
                 <div class="service-list-item-detail-right">

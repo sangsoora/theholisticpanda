@@ -17,8 +17,6 @@
       <p>Booked <%= service.sessions.where(status: "confirmed").count %> times</p>
       <% if service.reviews.count > 0 %>
         <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
-      <% else %>
-        <p>No reviews!</p>
       <% end %>
       <p>Speciality: <%= service.specialty.name %></p>
       <p>Related Health Goal(s): <%= service.health_goals.pluck(:name).join(', ') %></p>

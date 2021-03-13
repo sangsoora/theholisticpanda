@@ -19,8 +19,6 @@
       <div class="favorite-service-detail">
         <% if favorite.service.reviews.count > 0 %>
           <p class="mb-1"><i class="fas fa-star mr-2 pink-icon"></i><%= favorite.service.rating_avg %> (<%= favorite.service.reviews.count %>)</p>
-        <% else %>
-          <p>No Reviews!</p>
         <% end %>
         <a class="btn btn-flat" href="/services/<%= favorite.service.id %>">Book</a>
       </div>

@@ -16,8 +16,6 @@
           <p class="practitioner-rating">
             <% if @practitioner.reviews.count > 0 %>
               <i class="fas fa-star mr-2 pink-icon"></i><%= @practitioner.rating_avg %> (<%= @practitioner.reviews.count %>)
-            <% else %>
-              No reviews!
             <% end %>
           </p>
         </div>
@@ -102,8 +100,6 @@
                 <div class="practitioner-service-icons">
                   <% if service.reviews.count > 0 %>
                     <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
-                  <% else %>
-                    <p>No reviews!</p>
                   <% end %>
                   <p><i class="fas fa-coins mr-2 pink-icon"></i>CA$ <%= service.price.to_f.round(2) %></p>
                   <p><i class="fas fa-location-arrow mr-2 pink-icon"></i> <%= service.service_type %></p>
