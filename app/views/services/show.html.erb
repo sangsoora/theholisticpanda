@@ -21,8 +21,6 @@
         <div class="service-icons">
           <% if @service.reviews.count > 0 %>
             <p><i class="fas fa-star mr-2 pink-icon"></i><%= @service.rating_avg %> (<%= @service.reviews.count %>)</p>
-          <% else %>
-            <p>No reviews!</p>
           <% end %>
           <p><i class="fas fa-coins mr-2 pink-icon"></i>CA$ <%= @service.price.to_f.round(2) %></p>
           <p><i class="fas fa-location-arrow mr-2 pink-icon"></i> <%= @service.service_type %></p>
@@ -216,16 +214,16 @@
     <div class="service-review">
       <% if @service.reviews.count > 0 %>
         <h4><i class="fas fa-star mr-2 pink-icon"></i><%= @service.rating_avg %> (<%= @service.reviews.count %> Reviews)</h4>
-        <% @service.reviews.includes(session: :user).each do |review| %>
-          <div class="review-box">
-            <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %></p>
-            <p><%= review.comment.gsub(/\n/, '<br/>').html_safe %></p>
-            <p><small><i><%= review.session.user.full_name %></i></small></p>
-            <p><small><i><%= review.created_at.strftime('%b %d, %Y') %></i></small></p>
-          </div>
-        <% end %>
-      <% else %>
-        <h4>No reviews!</h4>
+        <div class="review-container">
+          <% @service.reviews.includes(session: :user).each do |review| %>
+            <div class="review-box">
+              <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %></p>
+              <p><%= review.comment.gsub(/\n/, '<br/>').html_safe %></p>
+              <p><small><i><%= review.session.user.full_name %></i></small></p>
+              <p><small><i><%= review.created_at.strftime('%b %d, %Y') %></i></small></p>
+            </div>
+          <% end %>
+        </div>
       <% end %>
     </div>
     <% if @service.service_type == 'In-person' %>

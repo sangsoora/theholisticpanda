@@ -24,6 +24,16 @@
       color: $pink;
     }
   }
+  &.yellow {
+    color: $gold;
+    border: 1px solid $gold;
+    opacity: 1;
+    font-size: 0.75rem;
+    &:hover {
+      font-weight: 600;
+      color: $gold;
+    }
+  }
 }
 
 .btn-newsletter {
@@ -32,14 +42,13 @@
 }
 
 .active-sort, .active-specialty {
-  background-color: $pink;
+  background-color: $gold;
   color: white !important;
   &:hover {
-      font-weight: 600;
-      color: white !important;
-    }
+    font-weight: 600;
+    color: white !important;
+  }
 }
-
 
 .btn-ghost:hover {
   color: $emerald;
@@ -50,12 +59,12 @@
   color: white;
   padding: 0.5rem 1.5rem;
   border-radius: 4px;
-  background: $gold;
+  background: $pink;
   transition: background 0.3s ease;
 }
 
 .btn-flat:hover {
-  background: #EFBB62;
+  background: #d86941;
   color: white;
 }
 
@@ -76,8 +85,4 @@
 
 .btn-wide {
   width: 20%;
-}
-
-.btn-filter {
-  border: none;
 }
