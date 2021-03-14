@@ -6,8 +6,8 @@ const initSwiper = () => {
   if (document.getElementById('explore-specialties-desktop')) {
     var mySwiper = new Swiper('#explore-specialties-desktop', {
     // Optional parameters
-      slidesPerView: 7,
-      slidesPerGroup: 7,
+      slidesPerView: 6,
+      slidesPerGroup: 6,
       loop: true,
       loopFillGroupWithBlank: false,
 
