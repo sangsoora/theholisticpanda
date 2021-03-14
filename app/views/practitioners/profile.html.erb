@@ -11,8 +11,8 @@
     <div class="practitioner-profile-title">
       <h1>Welcome, <%= @practitioner.user.first_name %></h1>
       <div class="practitioner-profile-btn">
-        <%= link_to 'My Page', practitioner_path(@practitioner), class: 'btn btn-flat mr-3' %>
-        <%= link_to 'My Services', practitioner_services_path, class: 'btn btn-flat' %>
+        <%= link_to 'View My Public Profile', practitioner_path(@practitioner), class: 'btn btn-flat mr-3' %>
+        <%= link_to 'Manage My Services', practitioner_services_path, class: 'btn btn-flat' %>
       </div>
     </div>
     <div class="practitioner-profile-table">
@@ -447,7 +447,7 @@
               </div>
               <div id="personal-additional-wrapper" class="hidden">
                 <div class="personal-additional-list">
-                  <h5>Add health goals you are interested as service client.</h5>
+                  <h5>Add your personal health goals.</h5>
                   <div id="practitioner-healthgoals">
                     <div id="health-goals-list">
                       <%= render "user_health_goals/user_health_goals_list", user: @user %>
@@ -535,6 +535,7 @@
                   </div>
                 <% end %>
                 <%= f.input :banner_image, as: :file, input_html: { class: 'hidden', id: 'banner-input' }, label_html: { class: 'upload-photo'}, label: '📷 Upload New Banner Image' %>
+                <p>Banner image will appear on your public profile page and the recommened size is 1200x400.<br>You can check the preview of your banner image below when you choose a image to upload.</p>
               </div>
             </div>
             <div class="row">

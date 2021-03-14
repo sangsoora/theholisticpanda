@@ -10,20 +10,20 @@
 .practitioner-overview {
   justify-content: space-between;
   height: 100vh;
-  .practitioner-main {
-    flex: 0 0 62%;
-    overflow: auto;
-    padding: 0 17px;
-  }
   .practitioner-sidebar {
     flex: 0 0 35%;
   }
 }
 
 .practitioner-main {
+  flex: 0 0 62%;
+  overflow: auto;
+  padding: 0 17px;
   .banner {
+    background: white;
     width: 100%;
     height: 232px;
+    box-shadow: 0 7px 25px 0 rgba(0,0,0,.1);
   }
 }
 
@@ -438,6 +438,7 @@
   }
   .practitioner-main .banner {
     height: auto;
+    box-shadow: none;
   }
   .practitioner-info, .practitioner-bio, .practitioner-services, .practitioner-review, .practitioner-timetable {
     box-shadow: none;
