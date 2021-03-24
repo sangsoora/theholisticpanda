@@ -15,8 +15,8 @@ class Practitioner < ApplicationRecord
   has_many :favorite_practitioners, dependent: :destroy
   has_many :favorite_users, through: :favorite_practitioners, source: :user
   validates_uniqueness_of :user
-  validates :bio, length: {maximum: 1000}
-  validates :approach, length: {maximum: 1000}
+  validates :bio, length: { maximum: 2000 }
+  validates :approach, length: { maximum: 2000 }
   scope :filter_by_specialty, ->(specialties) { joins(:specialties).where(specialties: { id: specialties }) }
   scope :filter_by_health_goal, ->(health_goals) { joins(:health_goals).where(health_goals: { id: health_goals }) }
   scope :filter_by_language, ->(languages) { joins(:languages).where(languages: { id: languages }) }
@@ -27,6 +27,10 @@ class Practitioner < ApplicationRecord
   $health_goals = HealthGoal.all.sort_by(&:name)
   $languages = Language.includes(:practitioner_languages).where.not(practitioner_languages: { id: nil }).sort_by(&:name)
   $service_types = ['Virtual only', 'In-person only', 'Both available']
+
+  def to_param
+    user.first_name.gsub(/\s+/, "") + user.last_name.gsub(/\s+/, "") + '_' + id.to_s
+  end
 
   def country_name
     country = ISO3166::Country[country_code]

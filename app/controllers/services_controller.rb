@@ -61,11 +61,18 @@ class ServicesController < ApplicationController
   def create
     @service = Service.new(service_params)
     authorize @service
-    @practitioner_specialty = PractitionerSpecialty.find_by(practitioner: current_user.practitioner, specialty: Specialty.find(params[:service][:specialty]))
-    @service.practitioner = current_user.practitioner
+    @practitioner = current_user.practitioner
+    @practitioner_specialty = PractitionerSpecialty.find_by(practitioner: @practitioner, specialty: Specialty.find(params[:service][:specialty]))
+    @service.practitioner = @practitioner
     @service.practitioner_specialty = @practitioner_specialty
     @service.active = true
-    if @service.save!
+    if @service.invalid?
+      respond_to do |format|
+        format.html { render 'practitioners/service' }
+        format.json { render json: @service.errors, status: :unprocessable_entity }
+        format.js   { render layout: false, content_type: 'text/javascript' }
+      end
+    elsif @service.save!
       favorite_users = @service.practitioner.favorite_users
       favorite_users.each do |user|
         Notification.create(recipient: user, actor: current_user, action: 'created new service', notifiable: @service)
@@ -74,11 +81,21 @@ class ServicesController < ApplicationController
       @service_health_goals.each do |goal|
         ServiceHealthGoal.create(service: @service, health_goal: HealthGoal.find(goal))
       end
+      @active_serivces = @practitioner.services.where(active: true).includes(:sessions, :specialty, :practitioner)
+      respond_to do |format|
+        format.html { redirect_to practitioner_services_path }
+        format.js
+      end
+    else
+      respond_to do |format|
+        format.html { render 'practitioners/service' }
+        format.js
+      end
     end
-    redirect_to practitioner_services_path
   end
 
   def update
+    @params = params
     if params[:service][:health_goal]
       @service_health_goals = params[:service][:health_goal].reject(&:blank?).map(&:to_i)
       @service_health_goals.each do |goal|
@@ -92,21 +109,39 @@ class ServicesController < ApplicationController
         end
       end
     end
-    if @service.price.to_f == service_params[:price].to_f
-      redirect_to practitioner_services_path if @service.update(service_params)
-    else
-      if @service.update(service_params)
+    @practitioner = @service.practitioner
+    @services = @practitioner.services.includes(:sessions, :specialty, :practitioner)
+    @active_serivces = @practitioner.services.where(active: true).includes(:sessions, :specialty, :practitioner)
+    @deactivated_serivces = @practitioner.services.where(active: false).includes(:sessions, :specialty, :practitioner)
+    if @service.invalid?
+      respond_to do |format|
+        format.html { render 'practitioners/service' }
+        format.json { render json: @service.errors, status: :unprocessable_entity }
+        format.js   { render layout: false, content_type: 'text/javascript' }
+      end
+    elsif @service.update(service_params)
+      if @service.price.to_f != service_params[:price].to_f
         favorite_users = @service.favorite_users
         favorite_users.each do |user|
           Notification.create(recipient: user, actor: current_user, action: 'updated the price of service', notifiable: @service)
         end
-        redirect_to practitioner_services_path
+        flash[:notice] = "Service has been successfully updated!"
+      end
+      respond_to do |format|
+        format.html { redirect_to practitioner_services_path }
+        format.js
+      end
+    else
+      respond_to do |format|
+        format.html { render 'practitioners/service' }
+        format.js
       end
     end
   end
 
   def destroy
     @service.destroy
+    flash[:notice] = 'Service has been deleted.'
     redirect_to practitioner_services_path
   end
 

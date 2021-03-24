@@ -4,7 +4,7 @@ class PractitionerMembershipsController < ApplicationController
   def create
     @practitioner_membership = PractitionerMembership.new(practitioner_membership_params)
     authorize @practitioner_membership
-    @practitioner = Practitioner.find(params[:practitioner_id])
+    @practitioner = Practitioner.find(params[:practitioner_id].split('_').last.to_i)
     @practitioner_membership.practitioner = @practitioner
     if @practitioner_membership.save!
       respond_to do |format|

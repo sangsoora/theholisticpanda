@@ -4,7 +4,7 @@ class PractitionerSpecialtiesController < ApplicationController
   def create
     @practitioner_specialty = PractitionerSpecialty.new
     authorize @practitioner_specialty
-    @practitioner = Practitioner.find(params[:practitioner_id])
+    @practitioner = Practitioner.find(params[:practitioner_id].split('_').last.to_i)
     @specialties = Specialty.all.sort_by(&:name)
     @practitioner_specialty.practitioner = @practitioner
     @practitioner_specialty.specialty = Specialty.find(params[:practitioner][:specialty_id])

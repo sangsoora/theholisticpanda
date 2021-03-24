@@ -1,0 +1,25 @@
+<div class="d-flex justify-content-between">
+  <h4><%= service.name %></h4>
+  <div>
+    <a class="fas fa-pen" href="" id="service-btn-<%= service.id %>"></a>
+    <% if service.sessions == [] %>
+      <%= link_to '', service_path(service), method: :delete, data: { confirm: "Are you sure to remove this service?"}, class: 'fas fa-trash ml-3' %>
+    <% end %>
+  </div>
+</div>
+<%= simple_form_for([service], remote: true, html: { id: "edit_active_#{service.id}" }) do |f| %>
+  <%= f.input :active, as: :hidden, input_html: { value: :true }%>
+  <%= f.submit :Activate, class: 'btn btn-flat mb-3', style: 'background: #366735' %>
+<% end %>
+<p>Booked <%= service.sessions.where(status: "confirmed").count %> times</p>
+<% if service.reviews.count > 0 %>
+  <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+<% end %>
+<p>Speciality: <%= service.specialty.name %></p>
+<p>Related Health Goal(s): <%= service.health_goals.pluck(:name).join(', ') %></p>
+<p>Service Type: <%= service.service_type.capitalize %></p>
+<p>Duration: <%= service.duration %>m</p>
+<p>Service Price: CA<%= humanized_money_with_symbol(service.price) %></p>
+<div class="practitioner-service-description">
+  <p><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
+</div>

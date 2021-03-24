@@ -1,8 +1,128 @@
-<% @practitioner.services.each do |service| %>
-  const serviceBtn<%= service.id %> = document.getElementById('service-btn-<%= service.id %>');
-  serviceBtn<%= service.id %>.addEventListener('click', (e) => {
-    e.preventDefault();
-    document.getElementById('service-<%= service.id %>').style.display = 'none';
-    document.getElementById('edit_service_<%= service.id %>').style.display = 'block';
+<% if @service.errors.any? %>
+  document.getElementById('service-edit-container-<%= @service.id %>').innerHTML = '<%= j render "services/service_update_form", practitioner: @practitioner, service: @service %>'
+  document.getElementById('edit_service_<%= @service.id %>').style.display = 'block';
+  var checks<%= @service.id %> = document.querySelectorAll(".check-<%= @service.id %>");
+  for (var i = 0; i < checks<%= @service.id %>.length; i++) {
+    checks<%= @service.id %>[i].onclick = selectiveCheck<%= @service.id %>;
+  }
+  function selectiveCheck<%= @service.id %> (e) {
+    var checkedChecks<%= @service.id %> = document.querySelectorAll(".check-<%= @service.id %>:checked");
+    if (checkedChecks<%= @service.id %>.length >= max + 1) {
+      return false;
+    } else {
+      document.getElementById('<%= @service.id %>_label_' + e.currentTarget.value).classList.toggle('active');
+    }
+  }
+  document.getElementById('service_description_<%= @service.id %>').addEventListener('keyup', (e) => {
+    const description_count_<%= @service.id %> = document.getElementById('service_description_<%= @service.id %>').value.length;
+    const description_max_<%= @service.id %> = document.getElementById('service_description_<%= @service.id %>').maxLength;
+    const description_counter_<%= @service.id %> = document.getElementById('description-counter-<%= @service.id %>');
+    if (description_count_<%= @service.id %> == 1000) {
+      description_counter_<%= @service.id %>.innerText = '1000/1000';
+      description_counter_<%= @service.id %>.style.color = 'red';
+    } else {
+      description_counter_<%= @service.id %>.innerText = description_count_<%= @service.id %> + '/1000';
+      description_counter_<%= @service.id %>.style.color = 'black';
+    }
   })
+<% else %>
+  if (('<%= @params[:commit] %>' == "Deactivate") || ('<%= @params[:commit] %>' == "Activate")) {
+    document.getElementById('active-list').innerHTML = '<%= j render "services/active_services_list", active_serivces: @active_serivces %>';
+    document.getElementById('deactivated-list').innerHTML = '<%= j render "services/deactivated_services_list", deactivated_serivces: @deactivated_serivces %>';
+    if ('<%= @params[:commit] %>' == "Deactivate") {
+      <% flash[:notice] = 'Service has been deactivated.' %>
+      $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+      document.getElementById('active-services-num').innerHTML = '(<%= @active_serivces.count %>)';
+      document.getElementById('deactivated-services-num').innerHTML = '(<%= @deactivated_serivces.count %>)';
+    } else {
+      <% flash[:notice] = 'Service has been activated.' %>
+      $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+      document.getElementById('active-services-num').innerHTML = '(<%= @active_serivces.count %>)';
+      document.getElementById('deactivated-services-num').innerHTML = '(<%= @deactivated_serivces.count %>)';
+    }
+    <% @practitioner.services.each do |service| %>
+      const serviceBtn<%= service.id %> = document.getElementById('service-btn-<%= service.id %>');
+      const cancelServiceBtn<%= service.id %> = document.getElementById('cancel-service-<%= service.id %>');
+      serviceBtn<%= service.id %>.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('service-<%= service.id %>').style.display = 'none';
+        document.getElementById('edit_service_<%= service.id %>').style.display = 'block';
+      })
+      cancelServiceBtn<%= service.id %>.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('service-<%= service.id %>').style.display = 'block';
+        document.getElementById('edit_service_<%= service.id %>').style.display = 'none';
+      })
+      var checks<%= service.id %> = document.querySelectorAll(".check-<%= service.id %>");
+      for (var i = 0; i < checks<%= service.id %>.length; i++) {
+        checks<%= service.id %>[i].onclick = selectiveCheck<%= service.id %>;
+      }
+      function selectiveCheck<%= service.id %> (e) {
+        var checkedChecks<%= service.id %> = document.querySelectorAll(".check-<%= service.id %>:checked");
+        if (checkedChecks<%= service.id %>.length >= max + 1) {
+          return false;
+        } else {
+          document.getElementById('<%= service.id %>_label_' + e.currentTarget.value).classList.toggle('active');
+        }
+      }
+      document.getElementById('service_description_<%= service.id %>').addEventListener('keyup', (e) => {
+        const description_count_<%= service.id %> = document.getElementById('service_description_<%= service.id %>').value.length;
+        const description_max_<%= service.id %> = document.getElementById('service_description_<%= service.id %>').maxLength;
+        const description_counter_<%= service.id %> = document.getElementById('description-counter-<%= service.id %>');
+        if (description_count_<%= service.id %> == 1000) {
+          description_counter_<%= service.id %>.innerText = '1000/1000';
+          description_counter_<%= service.id %>.style.color = 'red';
+        } else {
+          description_counter_<%= service.id %>.innerText = description_count_<%= service.id %> + '/1000';
+          description_counter_<%= service.id %>.style.color = 'black';
+        }
+      })
+    <% end %>
+  } else if ('<%= @params[:commit] %>' == "Update") {
+    <% if @service.active? %>
+      document.getElementById('service-<%= @service.id %>').innerHTML = '<%= j render "services/active_service_detail", service: @service %>';
+    <% else %>
+      document.getElementById('service-<%= @service.id %>').innerHTML = '<%= j render "services/deactivated_service_detail", service: @service %>';
+    <% end %>
+    <% flash[:notice] = 'Service has been updated.' %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+    const serviceBtn<%= @service.id %> = document.getElementById('service-btn-<%= @service.id %>');
+    const cancelServiceBtn<%= @service.id %> = document.getElementById('cancel-service-<%= @service.id %>');
+    serviceBtn<%= @service.id %>.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('service-<%= @service.id %>').style.display = 'none';
+      document.getElementById('edit_service_<%= @service.id %>').style.display = 'block';
+    })
+    cancelServiceBtn<%= @service.id %>.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('service-<%= @service.id %>').style.display = 'block';
+      document.getElementById('edit_service_<%= @service.id %>').style.display = 'none';
+    })
+    var checks<%= @service.id %> = document.querySelectorAll(".check-<%= @service.id %>");
+    for (var i = 0; i < checks<%= @service.id %>.length; i++) {
+      checks<%= @service.id %>[i].onclick = selectiveCheck<%= @service.id %>;
+    }
+    function selectiveCheck<%= @service.id %> (e) {
+      var checkedChecks<%= @service.id %> = document.querySelectorAll(".check-<%= @service.id %>:checked");
+      if (checkedChecks<%= @service.id %>.length >= max + 1) {
+        return false;
+      } else {
+        document.getElementById('<%= @service.id %>_label_' + e.currentTarget.value).classList.toggle('active');
+      }
+    }
+    document.getElementById('service_description_<%= @service.id %>').addEventListener('keyup', (e) => {
+      const description_count_<%= @service.id %> = document.getElementById('service_description_<%= @service.id %>').value.length;
+      const description_max_<%= @service.id %> = document.getElementById('service_description_<%= @service.id %>').maxLength;
+      const description_counter_<%= @service.id %> = document.getElementById('description-counter-<%= @service.id %>');
+      if (description_count_<%= @service.id %> == 1000) {
+        description_counter_<%= @service.id %>.innerText = '1000/1000';
+        description_counter_<%= @service.id %>.style.color = 'red';
+      } else {
+        description_counter_<%= @service.id %>.innerText = description_count_<%= @service.id %> + '/1000';
+        description_counter_<%= @service.id %>.style.color = 'black';
+      }
+    })
+    document.getElementById('service-<%= @service.id %>').style.display = 'block';
+    document.getElementById('edit_service_<%= @service.id %>').style.display = 'none';
+  }
 <% end %>

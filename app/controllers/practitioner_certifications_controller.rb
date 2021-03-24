@@ -4,7 +4,7 @@ class PractitionerCertificationsController < ApplicationController
   def create
     @practitioner_certification = PractitionerCertification.new(practitioner_certification_params)
     authorize @practitioner_certification
-    @practitioner = Practitioner.find(params[:practitioner_id])
+    @practitioner = Practitioner.find(params[:practitioner_id].split('_').last.to_i)
     @practitioner_certification.practitioner = @practitioner
     if @practitioner_certification.save!
       respond_to do |format|

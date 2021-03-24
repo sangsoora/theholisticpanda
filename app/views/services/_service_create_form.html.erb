@@ -1,0 +1,40 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="newServiceModalLabel">New service</h5>
+      <button type="button" class="close" id="newServiceClose" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <%= simple_form_for([service], remote: true) do |f| %>
+        <%= f.input :name, label: 'Name of the Service', require: true %>
+        <div class="form-group select required service_service_type">
+          <label class="select required" for="service_service_type">Service Type<abbr title="required">*</abbr></label>
+          <select class="form-control select require" name="service[service_type]" id="service_service_type" required>
+            <% if practitioner.address? %>
+              <option value="In-person">In-person</option>
+              <option value="Virtual">Virtual</option>
+            <% else %>
+              <option value="Virtual">Virtual</option>
+            <% end %>
+          </select>
+          <% if !practitioner.address? %>
+            <p><small><em>Please add physical address where you will be conducting In-person service in <%= link_to 'Profile Page', practitioner_profile_path %> if you want to conduct In-person service.</em></small></p>
+          <% end %>
+        </div>
+        <%= f.input :specialty, label: 'Speciality', as: :select, collection: practitioner.specialties, include_blank: false, include_hidden: false, require: true %>
+        <%= render "service_health_goals/create_form", service: service %>
+        <%= f.input :duration, label: 'Duration (in minutes)', input_html: { value: 15, min: 15, step: 15 }, require: true %>
+        <div class="form-group string required service_price">
+          <label class="string required" for="service_price">Price (in CA$) <abbr title="required">*</abbr></label>
+          <input class="form-control string required" type="text" name="service[price]" id="service_price" value="10.00">
+        </div>
+        <%= f.input :description, input_html: { rows: 5, maxlength: 1000 } %>
+        <p id="description-counter">0/1000</p>
+        <%= f.submit :Create, class: 'btn btn-flat', id: 'create-service' %>
+        <%= link_to 'Cancel', '', class: 'btn btn-ghost ml-3' %>
+      <% end %>
+    </div>
+  </div>
+</div>

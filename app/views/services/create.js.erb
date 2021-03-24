@@ -1,0 +1,80 @@
+function refreshForm(innerHTML) {
+  const form = document.getElementById('newServiceModal');
+  form.innerHTML = innerHTML;
+}
+
+function closeModal() {
+  const closeBtn = document.getElementById('newServiceClose');
+  closeBtn.click();
+}
+
+<% if @service.errors.any? %>
+  refreshForm('<%= j render "services/service_create_form", practitioner: @practitioner, service: @service %>');
+<% else %>
+  closeModal();
+  refreshForm('<%= j render "services/service_create_form", practitioner: @practitioner, service: Service.new %>');
+  document.getElementById('active-list').innerHTML = '<%= j render "services/active_services_list", active_serivces: @active_serivces %>';
+  <% flash[:notice] = 'Service has been successfully created.' %>
+  $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+<% end %>
+document.getElementById('service_description').addEventListener('keyup', (e) => {
+  const description_count = document.getElementById('service_description').value.length;
+  const description_max = document.getElementById('service_description').maxLength;
+  const description_counter = document.getElementById('description-counter');
+  if (description_count == 1000) {
+    description_counter.innerText = '1000/1000';
+    description_counter.style.color = 'red';
+  } else {
+    description_counter.innerText = description_count + '/1000';
+    description_counter.style.color = 'black';
+  }
+})
+var max = 5;
+var checks = document.querySelectorAll(".check");
+for (var i = 0; i < checks.length; i++) {
+  checks[i].onclick = selectiveCheck;
+}
+function selectiveCheck (e) {
+  var checkedChecks = document.querySelectorAll(".check:checked");
+  if (checkedChecks.length >= max + 1) {
+    return false;
+  } else {
+    document.getElementById('create_label_' + e.currentTarget.value).classList.toggle('active');
+  }
+}
+const serviceBtn<%= @practitioner.services.last.id %> = document.getElementById('service-btn-<%= @practitioner.services.last.id %>');
+const cancelServiceBtn<%= @practitioner.services.last.id %> = document.getElementById('cancel-service-<%= @practitioner.services.last.id %>');
+serviceBtn<%= @practitioner.services.last.id %>.addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('service-<%= @practitioner.services.last.id %>').style.display = 'none';
+  document.getElementById('edit_service_<%= @practitioner.services.last.id %>').style.display = 'block';
+})
+cancelServiceBtn<%= @practitioner.services.last.id %>.addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('service-<%= @practitioner.services.last.id %>').style.display = 'block';
+  document.getElementById('edit_service_<%= @practitioner.services.last.id %>').style.display = 'none';
+})
+var checks<%= @practitioner.services.last.id %> = document.querySelectorAll(".check-<%= @practitioner.services.last.id %>");
+for (var i = 0; i < checks<%= @practitioner.services.last.id %>.length; i++) {
+  checks<%= @practitioner.services.last.id %>[i].onclick = selectiveCheck<%= @practitioner.services.last.id %>;
+}
+function selectiveCheck<%= @practitioner.services.last.id %> (e) {
+  var checkedChecks<%= @practitioner.services.last.id %> = document.querySelectorAll(".check-<%= @practitioner.services.last.id %>:checked");
+  if (checkedChecks<%= @practitioner.services.last.id %>.length >= max + 1) {
+    return false;
+  } else {
+    document.getElementById('<%= @practitioner.services.last.id %>_label_' + e.currentTarget.value).classList.toggle('active');
+  }
+}
+document.getElementById('service_description_<%= @practitioner.services.last.id %>').addEventListener('keyup', (e) => {
+  const description_count_<%= @practitioner.services.last.id %> = document.getElementById('service_description_<%= @practitioner.services.last.id %>').value.length;
+  const description_max_<%= @practitioner.services.last.id %> = document.getElementById('service_description_<%= @practitioner.services.last.id %>').maxLength;
+  const description_counter_<%= @practitioner.services.last.id %> = document.getElementById('description-counter-<%= @practitioner.services.last.id %>');
+  if (description_count_<%= @practitioner.services.last.id %> == 1000) {
+    description_counter_<%= @practitioner.services.last.id %>.innerText = '1000/1000';
+    description_counter_<%= @practitioner.services.last.id %>.style.color = 'red';
+  } else {
+    description_counter_<%= @practitioner.services.last.id %>.innerText = description_count_<%= @practitioner.services.last.id %> + '/1000';
+    description_counter_<%= @practitioner.services.last.id %>.style.color = 'black';
+  }
+})

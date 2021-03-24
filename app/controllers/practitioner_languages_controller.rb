@@ -4,7 +4,7 @@ class PractitionerLanguagesController < ApplicationController
   def create
     @practitioner_language = PractitionerLanguage.new
     authorize @practitioner_language
-    @practitioner = Practitioner.find(params[:practitioner_id])
+    @practitioner = Practitioner.find(params[:practitioner_id].split('_').last.to_i)
     @languages = Language.all.sort_by(&:name)
     @practitioner_language.practitioner = @practitioner
     @practitioner_language.language = Language.find(params[:practitioner][:language_id])
