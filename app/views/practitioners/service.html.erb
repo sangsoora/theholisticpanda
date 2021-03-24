@@ -2,10 +2,10 @@
   <div class="my-services-header">
     <ul class="list-inline tabs-underlined mb-0">
       <li>
-        <p class="tab-underlined active-tab">Active <% if @active_serivces.count > 0 %> <span id="active-services-num">(<%= @active_serivces.count %>)</span> <% end %></p>
+        <p class="tab-underlined active-tab">Active <span id="active-services-num"><% if @active_serivces.count > 0 %> (<%= @active_serivces.count %>) <% end %></span></p>
       </li>
       <li>
-        <p class="tab-underlined">Deactivated <% if @deactivated_serivces.count > 0 %> <span id="deactivated-services-num">(<%= @deactivated_serivces.count%>)</span> <% end %> </p>
+        <p class="tab-underlined">Deactivated <span id="deactivated-services-num"><% if @deactivated_serivces.count > 0 %> (<%= @deactivated_serivces.count%>) <% end %></span></p>
       </li>
       <li>
         <p class="tab-underlined">Discovery Call</p>
