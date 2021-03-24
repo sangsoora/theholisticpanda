@@ -11,12 +11,10 @@
       <div class="cards-featured">
         <% @featured_practitioners.shuffle.first(4).each do |practitioner| %>
           <div class="card-featured">
-            <a href="/practitioners/<%= practitioner.id %>">
+            <%= link_to practitioner_path(practitioner) do %>
               <img src="<%= cdn_for(practitioner.user.cropped_image) %>" alt="">
-            </a>
-            <a href="/practitioners/<%= practitioner.id %>">
-              <h2><%= practitioner.user.full_name %></h2>
-            </a>
+            <% end %>
+            <h2><%= link_to practitioner.user.full_name, practitioner_path(practitioner) %></h2>
             <div class="card-featured-infos">
               <p class="featured-title"><%= practitioner.title %></p>
               <div class="featured-spcialties">
@@ -24,7 +22,7 @@
                   <% practitioner.specialties.shuffle.first(2).each do |specialty| %>
                     <div class="featured-practitioners-specialty"><%= link_to specialty.name, specialty_path(specialty) %></div>
                   <% end %>
-                  <a href="/practitioners/<%= practitioner.id %>"><p>and more</p></a>
+                  <p><%= link_to 'and more', practitioner_path(practitioner) %></p>
                 <% elsif practitioner.specialties.count <= 3 %>
                   <% practitioner.specialties.shuffle.each do |specialty| %>
                     <div class="featured-practitioners-specialty"><%= link_to specialty.name, specialty_path(specialty) %></div>
@@ -46,12 +44,10 @@
           <% @featured_practitioners.shuffle.first(4).each do |practitioner| %>
           <div class="swiper-slide">
             <div class="card-featured">
-              <a href="/practitioners/<%= practitioner.id %>">
+              <%= link_to practitioner_path(practitioner) do %>
                 <img src="<%= cdn_for(practitioner.user.cropped_image) %>" alt="">
-              </a>
-              <a href="/practitioners/<%= practitioner.id %>">
-                <h2><%= practitioner.user.full_name %></h2>
-              </a>
+              <% end %>
+              <h2><%= link_to practitioner.user.full_name, practitioner_path(practitioner) %></h2>
               <div class="card-featured-infos">
                 <p class="featured-title"><%= practitioner.title %></p>
                 <div class="featured-spcialties">
@@ -59,7 +55,7 @@
                     <% practitioner.specialties.shuffle.first(2).each do |specialty| %>
                       <div class="featured-practitioners-specialty"><%= link_to specialty.name, specialty_path(specialty) %></div>
                     <% end %>
-                    <a href="/practitioners/<%= practitioner.id %>"><p>and more</p></a>
+                    <p><%= link_to 'and more', practitioner_path(practitioner) %></p>
                   <% elsif practitioner.specialties.count <= 3 %>
                     <% practitioner.specialties.shuffle.each do |specialty| %>
                       <div class="featured-practitioners-specialty"><%= link_to specialty.name, specialty_path(specialty) %></div>

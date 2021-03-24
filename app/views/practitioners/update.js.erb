@@ -8,7 +8,7 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
-  document.getElementById('country').innerHTML = '<%= @practitioner.country_name %>'
+  document.getElementById('country').innerHTML = "<%= @practitioner.country_name %>";
 } else if ('<%= @param.keys.first %>' == "title") {
   title.style.display = 'flex';
   titleForm.style.display = 'none';
@@ -19,7 +19,7 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
-  document.getElementById('title').innerHTML = '<%= @practitioner.title %>'
+  document.getElementById('title').innerHTML = "<%= @practitioner.title %>";
 } else if ('<%= @param.keys.first %>' == "experience") {
   experience.style.display = 'flex';
   experienceForm.style.display = 'none';
@@ -30,7 +30,7 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
-  document.getElementById('experience').innerHTML = '<%= @practitioner.experience %>'
+  document.getElementById('experience').innerHTML = "<%= @practitioner.experience %>";
 } else if ('<%= @param.keys.first %>' == "bio") {
   bio.style.display = 'flex';
   bioForm.style.display = 'none';
@@ -41,7 +41,7 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
-  document.getElementById('bio').innerHTML = '<% if @practitioner.bio %><%= @practitioner.bio.gsub(/\n/, "<br/>").html_safe %><% end %>';
+  document.getElementById('bio').innerHTML = `<% if @practitioner.bio %><%= @practitioner.bio.gsub(/\n/, "<br/>").html_safe %><% end %>`;
   document.getElementById('progress-text').innerHTML = '<%= j render "practitioners/profile_progress_text", practitioner: @practitioner %>';
 } else if ('<%= @param.keys.first %>' == "video") {
   video.style.display = 'flex';
@@ -53,7 +53,7 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
-  document.getElementById('video').innerHTML = '<iframe class="embed-responsive-item" src="<%= @practitioner.video %>" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+  document.getElementById('video').innerHTML = `<iframe class="embed-responsive-item" src="<%= @practitioner.video %>" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
 } else if ('<%= @param.keys.first %>' == "address") {
   address.style.display = 'flex';
   addressForm.style.display = 'none';
@@ -64,7 +64,7 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
-  document.getElementById('address').innerHTML = '<%= @practitioner.address %>'
+  document.getElementById('address').innerHTML = "<%= @practitioner.address %>";
 } else if ('<%= @param.keys.first %>' == "timezone") {
   timezone.style.display = 'flex';
   timezoneForm.style.display = 'none';
@@ -75,7 +75,7 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
-  document.getElementById('timezone').innerHTML = '<%= @practitioner.timezone %>'
+  document.getElementById('timezone').innerHTML = "<%= @practitioner.timezone %>";
 } else if ('<%= @param.keys.first %>' == "location") {
   city.style.display = 'flex';
   cityForm.style.display = 'none';
@@ -86,7 +86,7 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
-  document.getElementById('city').innerHTML = '<%= @practitioner.location %>'
+  document.getElementById('city').innerHTML = "<%= @practitioner.location %>";
 } else if ('<%= @param.keys.first %>' == "approach") {
   approach.style.display = 'flex';
   approachForm.style.display = 'none';
@@ -97,7 +97,7 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
-  document.getElementById('approach').innerHTML = '<% if @practitioner.approach %><%= @practitioner.approach.gsub(/\n/, "<br/>").html_safe %><% end %>'
+  document.getElementById('approach').innerHTML = `<% if @practitioner.approach %><%= @practitioner.approach.gsub(/\n/, "<br/>").html_safe %><% end %>`;
 } else if ('<%= @param.keys.first %>' == "insurance") {
   <% if @practitioner.errors.empty? %>
     <% flash[:notice] = 'Insurance Acceptance has been updated.' %>

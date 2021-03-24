@@ -3,7 +3,7 @@
     <meta name='turbolinks-visit-control' content='reload'>
     <script>
       document.addEventListener("DOMContentLoaded", function(){
-        initAutocomplete()
+        initAutocomplete();
       });
     </script>
   <% end %>
@@ -402,6 +402,10 @@
                     <button id='address-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
                   </div>
                   <%= simple_form_for([@practitioner], remote: true, html: { id: :address_form, style: 'display: none; align-items: center;' }) do |f| %>
+                    <!-- <input type="radio" id="fixed" name="address_option" checked>
+                    <label for="fixed">You have a fixed address to conduct in-person services. (e.g. clinic or studio)</label>
+                    <input type="radio" id="flexible" name="address_option">
+                    <label for="flexible">You conduct in-person services in several locations depending on services or days.</label> -->
                     <%= f.input :address, require: true, label: false %>
                     <%= f.input :latitude, as: :hidden %>
                     <%= f.input :longitude, as: :hidden %>

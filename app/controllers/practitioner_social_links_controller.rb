@@ -4,7 +4,7 @@ class PractitionerSocialLinksController < ApplicationController
   # def create
   #   @practitioner_social_link = PractitionerSocialLink.new(practitioner_social_link_params)
   #   authorize @practitioner_social_link
-  #   @practitioner = Practitioner.find(params[:practitioner_id])
+  #   @practitioner = Practitioner.find(params[:practitioner_id].split('_').last.to_i)
   #   @practitioner_social_link.practitioner = @practitioner
   #   if !@practitioner_social_link.url.include?('http://' || 'https://')
   #     @practitioner_social_link.url = 'http://' + @practitioner_social_link.url

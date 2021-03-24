@@ -135,7 +135,7 @@ class PractitionersController < ApplicationController
   private
 
   def set_practitioner
-    @practitioner = Practitioner.find(params[:id])
+    @practitioner = Practitioner.find(params[:id].split('_').last.to_i)
     authorize @practitioner
   end
 

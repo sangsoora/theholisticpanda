@@ -4,7 +4,7 @@ class WorkingHoursController < ApplicationController
   def create
     @working_hour = WorkingHour.new(working_hour_params)
     authorize @working_hour
-    @practitioner = Practitioner.find(params[:practitioner_id])
+    @practitioner = Practitioner.find(params[:practitioner_id].split('_').last.to_i)
     @working_hour.practitioner = @practitioner
     @working_hour.save!
   end

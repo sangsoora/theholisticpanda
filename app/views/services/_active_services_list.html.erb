@@ -1,60 +1,10 @@
 <% active_serivces.sort.reverse.each do |service| %>
   <div class="practitioner-service">
     <div class="practitioner-service-info" id="service-<%= service.id %>">
-      <div class="d-flex justify-content-between">
-        <h4><%= service.name %></h4>
-        <div>
-          <a class="fas fa-pen" href="" id="service-btn-<%= service.id %>"></a>
-          <% if service.sessions == [] %>
-            <%= link_to '', service_path(service), method: :delete, data: { confirm: "Are you sure to remove this service?"}, class: 'fas fa-trash ml-3' %>
-          <% end %>
-        </div>
-      </div>
-      <%= simple_form_for([service], html: { id: "edit_active_#{service.id}" }) do |f| %>
-        <%= f.input :active, as: :hidden, input_html: { value: :false }%>
-        <%= f.submit :Deactivate, class: 'btn btn-flat mb-3', style: 'background: #e57850' %>
-      <% end %>
-      <p>Booked <%= service.sessions.where(status: "confirmed").count %> times</p>
-      <% if service.reviews.count > 0 %>
-        <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
-      <% end %>
-      <p>Speciality: <%= service.specialty.name %></p>
-      <p>Related Health Goal(s): <%= service.health_goals.pluck(:name).join(', ') %></p>
-      <p>Service Type: <%= service.service_type.capitalize %></p>
-      <p>Duration: <%= service.duration %>m</p>
-      <p>Service Price: CA<%= humanized_money_with_symbol(service.price) %></p>
-      <div class="practitioner-service-description">
-        <p><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
-      </div>
+      <%= render 'services/active_service_detail', service: service %>
     </div>
-    <%= simple_form_for([service], html: { class: 'w-100', style: 'display: none;' }) do |f| %>
-      <%= f.input :name, label: 'Name of the Service', input_html: { id: "service_name_#{service.id}" } %>
-      <div class="form-group select require service_service_type form-group-valid">
-        <label class="select require" for="service_service_type">Service Type</label>
-        <select class="form-control is-valid select require" name="service[service_type]" id="service_service_type_<%= service.id %>">
-          <% if @practitioner.address %>
-            <option value="In-person" selected>In-person</option>
-            <option value="Virtual">Virtual</option>
-          <% else %>
-            <option value="Virtual" selected>Virtual</option>
-          <% end %>
-        </select>
-      </div>
-      <%= f.input :specialty, label: 'Speciality', as: :select, collection: @practitioner.specialties, include_blank: false, include_hidden: false, require: true %>
-      <%= render "service_health_goals/update_form", service: service %>
-      <%= f.input :duration, label: 'Duration (in minutes)', input_html: { min: 15, step: 15, id: "service_duration_#{service.id}" } %>
-      <%= f.input :price, label: 'Price (in CA$)' %>
-      <%= f.input :description, input_html: { id: "service_description_#{service.id}", rows: 5, maxlength: 1000 } %>
-      <p id="description-counter-<%= service.id %>" <% if service.description.gsub(/\n/, '<br/>').html_safe.length == 1000 %>style="color: red;"<% end %>><%= service.description.gsub(/\n/, '<br/>').html_safe.length %>/1000</p>
-      <%= f.submit :Update, class: 'btn btn-flat', id: "update-service-#{service.id}" %>
-      <%= link_to 'Cancel', '', class: 'btn btn-ghost ml-3' %>
-    <% end %>
+    <div id="service-edit-container-<%= service.id %>">
+      <%= render 'services/service_update_form', practitioner: @practitioner, service: service %>
+    </div>
   </div>
-  <script>
-    document.getElementById('update-service-<%= service.id %>').addEventListener('click', (e) => {
-      if ((document.getElementById('service_name_<%= service.id %>').value == '') || (document.getElementById('service_description_<%= service.id %>').value == '') || (document.getElementById('service_description_<%= service.id %>').value.length < 6)) {
-        e.preventDefault();
-      }
-    })
-  </script>
 <% end %>

@@ -13,7 +13,7 @@ class Service < ApplicationRecord
   validates :name, presence: true
   validates :duration, presence: true
   validates :price, presence: true
-  validates :description, presence: true, length: { minimum: 5, maximum: 1000 }
+  validates :description, presence: true, length: { minimum: 5, maximum: 2000 }
   validates :service_type, presence: true
   monetize :price_cents
   scope :filter_by_specialty, ->(specialty) { joins(:specialty).where(specialties: { id: specialty }) }
