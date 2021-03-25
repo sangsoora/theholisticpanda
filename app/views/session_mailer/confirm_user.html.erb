@@ -11,10 +11,13 @@
   <p>Here is a summary of your session:</p>
   <p>Service: <%= @session.service.name %></p>
   <p>Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+  <p>Duration: <%= @session.service.duration %>m</p>
+  <p>Session Type: <%= @session.session_type %></p>
+  <p>Total Price: CA$ <%= @session.amount.round(2) %></p>
   <% if @session.session_type == 'Virtual' %>
     <p>Link for the session: <a href="<%= @session.link %>" target="_blank"><%= @session.link %></a></p>
   <% else %>
-    <p>Session location: <%= @session.address %></p>
+    <p>Session location: <%= @session.address %> <a href="https://www.google.com/maps/place/<%= @session.address %>" target="_blank">Open on Google Map</a></p>
   <% end %>
   <br>
   <%= link_to 'Review your session detail', session_url(@session), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>

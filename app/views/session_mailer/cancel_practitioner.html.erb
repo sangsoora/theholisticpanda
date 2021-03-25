@@ -10,11 +10,7 @@
   <h4>This is a notice to let you know that the following session has been cancelled.</h4>
   <p>Service: <%= @session.service.name %></p>
   <p>Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
-  <% if @session.session_type == 'Virtual' %>
-    <p>Link for the session: <a href="<%= @session.link %>" target="_blank"><%= @session.link %></a></p>
-  <% else %>
-    <p>Session location: <%= @practitioner.address %></p>
-  <% end %>
+  <p>Total Price: CA$ <%= @session.amount.round(2) %></p>
   <% if @session.cancelled_user != @practitioner.user %>
     <p>Cancel reason from your client: <%= @session.cancel_reason %></p>
   <% end %>

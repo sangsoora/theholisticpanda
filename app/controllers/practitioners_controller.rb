@@ -73,9 +73,9 @@ class PractitionersController < ApplicationController
   def booking
     @practitioner = current_user.practitioner
     authorize @practitioner
-    @confirmed_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(['status= ?', 'confirmed'])
-    @pending_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(['paid = ? AND status= ?', true, 'pending'])
-    @cancelled_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(['status= ?', 'cancelled'])
+    @confirmed_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(['status= ?', 'confirmed']).order('start_time DESC')
+    @pending_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(['paid = ? AND status= ?', true, 'pending']).order('created_at DESC')
+    @cancelled_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(['status= ?', 'cancelled']).order('start_time DESC')
     @discovery_calls = Session.where(free_practitioner_id: @practitioner).includes(:review, :service)
   end
 
@@ -117,7 +117,7 @@ class PractitionersController < ApplicationController
         if @practitioner.video && !@practitioner.video.start_with?('http://', 'https://')
           @practitioner.update(video: 'http://' + @practitioner.video)
         end
-        @practitioner.update(latitude: '', longitude: '') unless @practitioner.address?
+        @practitioner.update(latitude: nil, longitude: nil) unless @practitioner.address?
         @param = practitioner_params
         respond_to do |format|
           format.html { redirect_to practitioner_profile_path }

@@ -8,6 +8,12 @@ Service: <%= @session.service.name %>
 
 Starting time: <%= @session.start_time.in_time_zone(@practitioner.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
 
+Duration: <%= @session.service.duration %>m
+
+Session Type: <%= @session.session_type %>
+
+Total Price: CA$ <%= @session.amount.round(2) %>
+
 <% if @session.session_type == 'Virtual' %>
 Link for the session: <%= @session.link %>
 <% elsif @session.session_type == 'In-person' %>
