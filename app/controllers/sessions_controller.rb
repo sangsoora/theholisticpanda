@@ -111,6 +111,7 @@ class SessionsController < ApplicationController
         Notification.create(recipient: @session.user, actor: current_user, action: 'has updated virtual session link', notifiable: @session)
         SessionMailer.with(session: @session).change_link.deliver_now
       elsif (params[:session].keys.length == 3) && (params[:session][:address]) && (params[:session][:address] != '')
+        @session.update(address: params[:session][:address], latitude: params[:session][:latitude], longitude: params[:session][:longitude])
         Notification.create(recipient: @session.user, actor: current_user, action: 'has updated session location', notifiable: @session)
         SessionMailer.with(session: @session).change_address.deliver_now
       end

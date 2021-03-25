@@ -184,6 +184,6 @@ class SessionMailer < ApplicationMailer
       end
     end
     attachments['session.ics'] = { mime_type: 'text/calendar', content: @cal.to_ical }
-    mail(to: @session.user.email, subject: "Loaction for your session has been changed!")
+    mail(to: @session.user.email, subject: "Location for your session has been changed!")
   end
 end

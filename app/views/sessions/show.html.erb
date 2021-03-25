@@ -3,12 +3,14 @@
     <meta name='turbolinks-visit-control' content='reload'>
     <script>
       document.addEventListener("DOMContentLoaded", function(){
-        <% if @session.address %>
+        <% if @session.address? %>
           initMap(<%=@session.latitude%>, <%=@session.longitude%>, 'session-map');
         <% else %>
           initMap(<%=@practitioner.latitude%>, <%=@practitioner.longitude%>, 'session-map', '<%=@practitioner.address_type%>');
         <% end %>
-        initAutocomplete();
+        <% if @session.start_time > Time.current && @session.practitioner.user == current_user %>
+          initAutocomplete();
+        <% end %>
       });
     </script>
   <% end %>
@@ -110,15 +112,15 @@
         <% if @session.address %>
           <div class="d-flex">
             <p class="mr-2">Session Location: <span id="address"><%= @session.address %></span></p>
-            <% if @session.start_time > Time.current %>
+            <% if @session.start_time > Time.current && @session.practitioner.user == current_user %>
               <%= link_to '', '', class: 'fas fa-pen', id: 'address-edit', style: 'margin-top: 0.25rem;' %>
-            <% end %>
-            <%= simple_form_for([@session], remote: true, html: { id: :address_form, style: 'display: none; align-items: center;' }) do |f| %>
-              <%= f.input :address, label: false, require: true %>
-              <%= f.input :latitude, as: :hidden %>
-              <%= f.input :longitude, as: :hidden %>
-              <button type="submit" id="address-submit" disabled=""><i class='fas fa-check'></i></button>
-              <button id='address-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+              <%= simple_form_for([@session], remote: true, html: { id: :address_form, style: 'display: none; align-items: center;' }) do |f| %>
+                <%= f.input :address, label: false, require: true %>
+                <%= f.input :latitude, as: :hidden %>
+                <%= f.input :longitude, as: :hidden %>
+                <button type="submit" id="address-submit" disabled=""><i class='fas fa-check'></i></button>
+                <button id='address-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+              <% end %>
             <% end %>
           </div>
         <% end %>
