@@ -19,7 +19,7 @@
 <p>Related Health Goal(s): <%= service.health_goals.pluck(:name).join(', ') %></p>
 <p>Service Type: <%= service.service_type.capitalize %></p>
 <p>Duration: <%= service.duration %>m</p>
-<p>Service Price: CA<%= humanized_money_with_symbol(service.price) %></p>
+<p>Service Price: CA$ <%= service.price.to_f.round(2) %></p>
 <div class="practitioner-service-description">
   <p><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
 </div>

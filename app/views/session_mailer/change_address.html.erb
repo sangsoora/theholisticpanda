@@ -7,25 +7,18 @@
     <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><img src="https://<%= ENV['CDN_URL'] %>/logo.png" alt="TheHolisticPanda" style="width: 300px;"></a>
   </div>
   <h3>Dear <%= @session.user.first_name %>,</h3>
-  <h4>Thank you for booking a session with <%= @practitioner.user.full_name %></h4>
-  <p>Here is a summary of your session:</p>
+  <h4>This is a notice to let you know that the location for following session with <%= @practitioner.user.full_name %> has been changed.</h4>
   <p>Service: <%= @session.service.name %></p>
   <p>Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
-  <% if @session.session_type == 'Virtual' %>
-    <p>Link for the session: <a href="<%= @session.link %>" target="_blank"><%= @session.link %></a></p>
-  <% else %>
-    <p>Session location: <%= @session.address %></p>
-  <% end %>
+  <p>New session location: <%= @session.address %></p>
   <br>
   <%= link_to 'Review your session detail', session_url(@session), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
   <br>
   <br>
-  <% if @session.service.default_service %>
-    <p>If you are no longer able to make this appointment, please go to session detail to cancel. Please note that <strong>24 hours notice</strong> is required for the cancellation of a session.</p>
-  <% else %>
-    <p>If you are no longer able to make this appointment, please go to session detail to cancel. Please note that <strong>24 hours notice</strong> is required for the cancellation of a session. Missed session or cancellation within 24 hours <strong>will be charged</strong> as if attended.</p>
-  <% end %>
-  <p>If you are satisfied with your session, please do not forget to leave your practitioner a review and help others in our community find the right therapy for their needs.</p>
+  <p>If you would like to reschedule or book another service, please visit our booking site:</p>
+  <br>
+  <%= link_to 'Book this service again', service_url(@session.service), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
+  <br>
   <br>
   <p>Yours,</p>
   <p>The Holistic Panda Team</p>

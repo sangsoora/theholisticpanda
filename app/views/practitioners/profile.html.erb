@@ -105,8 +105,11 @@
                     <button id='city-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
                   </div>
                   <%= simple_form_for([@practitioner], remote: true, html: { id: :city_form, style: 'display: none; align-items: center;' }) do |f| %>
-                    <%= f.input :location, require: true, label: false %>
-                    <button type="submit" data-toggle="tooltip" data-placement="bottom" data-original-title="Save"><i class='fas fa-check'></i></button>
+                    <div>
+                      <%= f.input :location, require: true, label: false %>
+                      <span id="location-error" style="color: red;"><small><em>Please choose a city/town from dropdown menu.</em></small></span>
+                    </div>
+                    <button id='city-submit' type="submit" data-toggle="tooltip" data-placement="bottom" data-original-title="Save"><i class='fas fa-check'></i></button>
                     <button id='city-cancel' data-toggle="tooltip" data-placement="bottom" data-original-title="Cancel"><%= link_to '', '', class: 'fas fa-times' %></button>
                   <% end %>
                 </div>
@@ -402,15 +405,26 @@
                     <button id='address-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
                   </div>
                   <%= simple_form_for([@practitioner], remote: true, html: { id: :address_form, style: 'display: none; align-items: center;' }) do |f| %>
-                    <!-- <input type="radio" id="fixed" name="address_option" checked>
-                    <label for="fixed">You have a fixed address to conduct in-person services. (e.g. clinic or studio)</label>
-                    <input type="radio" id="flexible" name="address_option">
-                    <label for="flexible">You conduct in-person services in several locations depending on services or days.</label> -->
-                    <%= f.input :address, require: true, label: false %>
-                    <%= f.input :latitude, as: :hidden %>
-                    <%= f.input :longitude, as: :hidden %>
-                    <button type="submit" data-toggle="tooltip" data-placement="bottom" data-original-title="Save"><i class='fas fa-check'></i></button>
-                    <button id='address-cancel' data-toggle="tooltip" data-placement="bottom" data-original-title="Cancel"><%= link_to '', '', class: 'fas fa-times' %></button>
+                    <div class="form-check">
+                      <input class="form-check-input radio_buttons optional" type="radio" value="Private" name="practitioner[address_type]" id="practitioner_address_type_private" <% unless @practitioner.address_type == 'Public' %> checked <% end %>>
+                      <label class="form-check-label collection_radio_buttons" for="practitioner_address_type_private" data-toggle="tooltip" data-placement="bottom" data-original-title="Your address will be hidden and only show approximate location on the map. You should give your exact location for in-person sessions when you confirm booking request.">Set as Private / Flexible</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input radio_buttons optional" type="radio" value="Public" name="practitioner[address_type]" id="practitioner_address_type_public" <% if @practitioner.address_type == 'Public' %> checked <% end %>>
+                      <label class="form-check-label collection_radio_buttons" for="practitioner_address_type_public" data-toggle="tooltip" data-placement="bottom" data-original-title="Your address will be always shown to public. We recomment to set your address only if your fixed location for in-person sessions and it's not you private home.">Set as Public / Fixed</label>
+                    </div>
+                    <p class="mt-3">If you have several flexible addresses for in-person sessions, please put a street address where you usually conduct the in-person sessions.</p>
+                    <div class="d-flex mt-3">
+                      <div class="form-group string optional practitioner_address form-group-valid">
+                        <input class="form-control is-valid string optional pac-target-input" type="text" value="<%= @practitioner.address %>" name="practitioner[address]" id="practitioner_address" placeholder="Enter a location" autocomplete="off">
+                        <span id="address-error" style="color: red;"><small><em>Please put your street address and choose from dropdown menu.</em></small></span>
+                      </div>
+                      <%= f.input :latitude, as: :hidden %>
+                      <%= f.input :longitude, as: :hidden %>
+                      <button id="address-submit" type="submit" data-toggle="tooltip" data-placement="bottom" data-original-title="Save"><i class='fas fa-check'></i></button>
+                      <button id='address-cancel' data-toggle="tooltip" data-placement="bottom" data-original-title="Cancel"><%= link_to '', '', class: 'fas fa-times' %></button>
+                    </div>
+                    <%= link_to '', '', class: 'hidden', id: 'warning-open', data: { toggle: "modal", target: "#publicWarningModal" } %>
                   <% end %>
                 </div>
               </div>
@@ -584,9 +598,30 @@
       </div>
     </div>
   </div>
+  <div class="modal fade" id="publicWarningModal" tabindex="-1" role="dialog" aria-labelledby="publicWarningModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header justify-content-center">
+          <h5 class="modal-title" id="publicWarningModalLabel">Setting Your Address As Public</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-center">
+          <h4>Please note that setting your address as public will expose your address to all the users on this website.</h4>
+          <h4>We strongly adivse you to set it as private if you conduct in-person sessions at a place you consider private for your own privacy.</h4>
+        </div>
+      </div>
+    </div>
+  </div>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       $('[data-toggle="tooltip"]').tooltip();
+    });
+    document.getElementById('practitioner_address_type_public').addEventListener('change', (e) => {
+      if (e.currentTarget.checked) {
+        document.getElementById('warning-open').click();
+      }
     });
     <% @columns.each do |column| %>
       const <%= column %> = document.getElementById('practitioner-<%= column %>');
@@ -598,9 +633,13 @@
         if (<%= column %> !== document.getElementById('practitioner-certifications') && <%= column %> !== document.getElementById('practitioner-memberships')) {
           <%= column %>.style.display = 'none';
         }
-        <%= column %>Form.style.display = 'flex';
+        if (<%= column %> === document.getElementById('practitioner-address')) {
+          <%= column %>Form.style.display = 'block';
+        } else {
+          <%= column %>Form.style.display = 'flex';
+        }
         <%= column %>Edit.style.display = 'none';
-      })
+      });
       <%= column %>Cancel.addEventListener('click', (e) => {
         e.preventDefault();
         if (<%= column %> === document.getElementById('practitioner-certifications') || <%= column %> === document.getElementById('practitioner-memberships') || <%= column %> === document.getElementById('practitioner-languages') || <%= column %> === document.getElementById('practitioner-specialties') || <%= column %> === document.getElementById('practitioner-healthgoals')) {
@@ -610,13 +649,13 @@
         }
         <%= column %>Form.style.display = 'none';
         <%= column %>Edit.style.display = 'block';
-      })
+      });
     <% end %>
     const insurance = document.getElementById('insurance');
     const insuranceSubmit = document.getElementById('insurance-submit');
     insurance.addEventListener('click', (e) => {
       insuranceSubmit.click();
-    })
+    });
     <% (0..6).each do |num| %>
       const day<%= num %>Form = document.getElementById('day<%= num %>_form');
       const day<%= num %>Edit = document.getElementById('day<%= num %>-edit');
@@ -635,7 +674,7 @@
         if (!day<%= num %>Block.classList.contains('hidden')) {
           day<%= num %>Block.classList.add('hidden')
         }
-      })
+      });
       day<%= num %>Cancel.addEventListener('click', (e) => {
         e.preventDefault();
         day<%= num %>Form.style.display = 'none';
@@ -644,7 +683,7 @@
         if (day<%= num %>Block.classList.contains('hidden') && (workinghour<%= num %>.innerText != '')) {
           day<%= num %>Block.classList.remove('hidden')
         }
-      })
+      });
       day<%= num %>Submit.addEventListener('click', (e) => {
         if ((day<%= num %>Open.value != "") && (day<%= num %>Open.value >= day<%= num %>Close.value)) {
           if (day<%= num %>Close.value != '00:00') {
@@ -658,7 +697,7 @@
           day<%= num %>Error.innerText = 'Please specify ending hour.';
           e.preventDefault();
         }
-      })
+      });
     <% end %>
     function initAutocomplete() {
       var input = document.getElementById('practitioner_address');
@@ -676,24 +715,30 @@
       autocomplete.setFields(['geometry', 'name']);
       autocomplete1.setFields(['geometry', 'name']);
       function fillInForm() {
+        document.getElementById('address-submit').disabled = true;
         var place = autocomplete.getPlace();
         if (!place.geometry) {
           // User entered the name of a Place that was not suggested and
           // pressed the Enter key, or the Place Details request failed.
           window.alert("No details available for input: '" + place.name + "'");
           return;
-        }
-        document.getElementById('practitioner_latitude').value = place.geometry.location.lat()
-        document.getElementById('practitioner_longitude').value = place.geometry.location.lng()
+        } else {
+          document.getElementById('practitioner_latitude').value = place.geometry.location.lat()
+          document.getElementById('practitioner_longitude').value = place.geometry.location.lng()
+          document.getElementById('address-submit').disabled = false;
+        }
       }
       function fillInForm1() {
+        document.getElementById('city-submit').disabled = true;
         var place1 = autocomplete1.getPlace();
         if (!place1.geometry) {
           // User entered the name of a Place that was not suggested and
           // pressed the Enter key, or the Place Details request failed.
           window.alert("No details available for input: '" + place1.name + "'");
           return;
-        }
+        } else {
+          document.getElementById('city-submit').disabled = false;
+        }
       }
       autocomplete.addListener('place_changed', fillInForm);
       autocomplete1.addListener('place_changed', fillInForm1);

@@ -69,45 +69,51 @@ class SessionsController < ApplicationController
       elsif params[:session][:time] == 'tertiary'
         @start_time = @session.tertiary_time
       end
-      if @session.update(start_time: @start_time, status: 'confirmed')
+      if @session.update(session_params)
+        @session.update(start_time: @start_time, status: 'confirmed')
         if @session.link && !@session.link.start_with?('http://', 'https://')
           @session.update(link: 'http://' + @session.link)
         end
         Notification.create(recipient: @session.user, actor: current_user, action: 'has confirmed your session', notifiable: @session)
-        redirect_to user_sessions_path, notice: 'Session request accepted'
         SessionMailer.with(session: @session).confirm_practitioner.deliver_now
         SessionMailer.with(session: @session).confirm_user.deliver_now
+        redirect_to practitioner_sessions_path, notice: 'Session request accepted.'
       end
     elsif params[:commit] == 'Decline'
       @session.update!(status: 'declined')
       Notification.create(recipient: @session.user, actor: current_user, action: 'has declined your session', notifiable: @session)
       SessionMailer.with(session: @session).decline_request.deliver_now
-      redirect_to user_sessions_path, notice: 'Session Request Declined'
+      redirect_to practitioner_sessions_path, notice: 'Session request declined.'
     elsif params[:commit] == 'Confirm Cancellation'
-      @session.update(status: 'cancelled')
+      @session.update(status: 'cancelled', cancelled_user: current_user)
       if @session.service.default_service
         @practitioner = Practitioner.find(@session.free_practitioner_id)
       else
         @practitioner = @session.practitioner
       end
-      if @session.user == current_user
-        @session.update(cancelled_user: current_user)
-        Notification.create(recipient: @practitioner.user, actor: current_user, action: 'has cancelled your session', notifiable: @session)
-      else
-        @session.update(cancelled_user: @practitioner.user)
-        Notification.create(recipient: @session.user, actor: current_user, action: 'has cancelled your session', notifiable: @session)
-      end
       SessionMailer.with(session: @session).cancel_practitioner.deliver_now
       SessionMailer.with(session: @session).cancel_user.deliver_now
-      redirect_to user_sessions_path, notice: 'Session Cancelled'
-    elsif (params[:session].keys.length == 1) && (params[:session][:link]) && (params[:session][:link] != '')
-      if params[:session][:link].start_with?('http://', 'https://')
-        @session.update(link: params[:session][:link])
+      if @session.user == current_user
+        Notification.create(recipient: @practitioner.user, actor: current_user, action: 'has cancelled your session', notifiable: @session)
+        redirect_to user_sessions_path, notice: 'Session cancelled.'
       else
-        @session.update(link: 'http://' + params[:session][:link])
+        Notification.create(recipient: @session.user, actor: current_user, action: 'has cancelled your session', notifiable: @session)
+        redirect_to practitioner_sessions_path, notice: 'Session cancelled.'
       end
-      Notification.create(recipient: @session.user, actor: current_user, action: 'has updated virtual session link', notifiable: @session)
-      SessionMailer.with(session: @session).change_link.deliver_now
+    else
+      @param = session_params
+      if (params[:session].keys.length == 1) && (params[:session][:link]) && (params[:session][:link] != '')
+        if params[:session][:link].start_with?('http://', 'https://')
+          @session.update(link: params[:session][:link])
+        else
+          @session.update(link: 'http://' + params[:session][:link])
+        end
+        Notification.create(recipient: @session.user, actor: current_user, action: 'has updated virtual session link', notifiable: @session)
+        SessionMailer.with(session: @session).change_link.deliver_now
+      elsif (params[:session].keys.length == 3) && (params[:session][:address]) && (params[:session][:address] != '')
+        Notification.create(recipient: @session.user, actor: current_user, action: 'has updated session location', notifiable: @session)
+        SessionMailer.with(session: @session).change_address.deliver_now
+      end
       respond_to do |format|
         format.html { redirect_to session_path(@session) }
         format.js
@@ -126,6 +132,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:start_time, :duration, :session_type, :primary_time, :secondary_time, :tertiary_time, :message, :amount, :paid, :link, :status, :cancel_reason, :cancelled_user)
+    params.require(:session).permit(:start_time, :duration, :session_type, :primary_time, :secondary_time, :tertiary_time, :message, :amount, :paid, :link, :status, :cancel_reason, :cancelled_user, :address, :latitude, :longitude)
   end
 end

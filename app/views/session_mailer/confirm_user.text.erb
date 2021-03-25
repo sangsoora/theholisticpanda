@@ -9,7 +9,7 @@ Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strf
 <% if @session.session_type == 'Virtual' %>
 Link for the session: <%= @session.link %>
 <% else %>
-Session location: <%= @practitioner.address %>
+Session location: <%= @session.address %>
 <% end %>
 
 <% if @session.service.default_service %>

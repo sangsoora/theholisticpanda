@@ -13,11 +13,6 @@ class SessionMailer < ApplicationMailer
     else
       @practitioner = @session.practitioner
     end
-    if @session.session_type == "Virtual"
-      url = @session.link
-    else
-      url = ''
-    end
     @cal = Icalendar::Calendar.new
     @cal.event do |e|
       e.dtstart     = @session.start_time.in_time_zone(@practitioner.timezone)
@@ -25,7 +20,11 @@ class SessionMailer < ApplicationMailer
       e.summary     = @session.service.name
       e.description = "#{@session.service.name} with #{@session.user.full_name} booked through The Holistic Panda."
       e.ip_class    = "PRIVATE"
-      e.url = url
+      if @session.session_type == "Virtual"
+        e.url = @session.link
+      else
+        e.location = @session.address
+      end
       e.alarm do |a|
         a.action          = "DISPLAY"
         a.description     = "This is an event reminder for your #{@session.service.name} with #{@session.user.full_name} booked through The Holistic Panda." # email body (required)
@@ -39,7 +38,7 @@ class SessionMailer < ApplicationMailer
         a.trigger = "-PT15M" # 1 day before
       end
     end
-    mail.attachments['calendar.ics'] = { mime_type: 'text/calendar', content: @cal.to_ical }
+    attachments['calendar.ics'] = { mime_type: 'text/calendar', content: @cal.to_ical }
     mail(to: @practitioner.user.email, subject: "You have a confirmed session!")
   end
 
@@ -55,11 +54,6 @@ class SessionMailer < ApplicationMailer
     else
       @practitioner = @session.practitioner
     end
-    if @session.session_type == "Virtual"
-      url = @session.link
-    else
-      url = ''
-    end
     @cal = Icalendar::Calendar.new
     @cal.event do |e|
       e.dtstart     = @session.start_time.in_time_zone(@session.user.timezone)
@@ -67,7 +61,11 @@ class SessionMailer < ApplicationMailer
       e.summary     = @session.service.name
       e.description = "#{@session.service.name} with #{@practitioner.user.full_name} booked through The Holistic Panda."
       e.ip_class    = "PRIVATE"
-      e.url = url
+      if @session.session_type == "Virtual"
+        e.url = @session.link
+      else
+        e.location = @session.address
+      end
       e.alarm do |a|
         a.action          = "DISPLAY"
         a.description     = "This is an event reminder for your #{@session.service.name} with #{@practitioner.user.full_name} booked through The Holistic Panda." # email body (required)
@@ -81,7 +79,7 @@ class SessionMailer < ApplicationMailer
         a.trigger = "-PT15M" # 1 day before
       end
     end
-    mail.attachments['session.ics'] = { mime_type: 'text/calendar', content: @cal.to_ical }
+    attachments['session.ics'] = { mime_type: 'text/calendar', content: @cal.to_ical }
     mail(to: @session.user.email, subject: "Thank you for booking a session.")
   end
 
@@ -132,6 +130,60 @@ class SessionMailer < ApplicationMailer
     else
       @practitioner = @session.practitioner
     end
+    @cal = Icalendar::Calendar.new
+    @cal.event do |e|
+      e.dtstart     = @session.start_time.in_time_zone(@session.user.timezone)
+      e.dtend       = @session.start_time.in_time_zone(@session.user.timezone) + @session.duration.minutes
+      e.summary     = @session.service.name
+      e.description = "#{@session.service.name} with #{@practitioner.user.full_name} booked through The Holistic Panda."
+      e.ip_class    = "PRIVATE"
+      e.url = @session.link
+      e.alarm do |a|
+        a.action          = "DISPLAY"
+        a.description     = "This is an event reminder for your #{@session.service.name} with #{@practitioner.user.full_name} booked through The Holistic Panda." # email body (required)
+        a.summary         = "Your #{@session.service.name} session reminder"     # email subject (required)
+        a.attendee        = "mailto:#{@session.user.email}" # one or more email recipients (required)
+        a.trigger         = "-P1DT0H0M0S" # 15 minutes before
+      end
+      e.alarm do |a|
+        a.action  = "DISPLAY" # This line isn't necessary, it's the default
+        a.summary = "Your #{@session.service.name} session reminder"
+        a.trigger = "-PT15M" # 1 day before
+      end
+    end
+    attachments['session.ics'] = { mime_type: 'text/calendar', content: @cal.to_ical }
     mail(to: @session.user.email, subject: "Virtual link for your session has been changed!")
+  end
+
+  def change_address
+    @session = params[:session]
+    if @session.service.default_service
+      @practitioner = Practitioner.find(@session.free_practitioner_id)
+    else
+      @practitioner = @session.practitioner
+    end
+    @cal = Icalendar::Calendar.new
+    @cal.event do |e|
+      e.dtstart     = @session.start_time.in_time_zone(@session.user.timezone)
+      e.dtend       = @session.start_time.in_time_zone(@session.user.timezone) + @session.duration.minutes
+      e.summary     = @session.service.name
+      e.description = "#{@session.service.name} with #{@practitioner.user.full_name} booked through The Holistic Panda."
+      e.ip_class    = "PRIVATE"
+      e.location = @session.address
+      e.alarm do |a|
+        a.action          = "DISPLAY"
+        a.description     = "This is an event reminder for your #{@session.service.name} with #{@practitioner.user.full_name} booked through The Holistic Panda." # email body (required)
+        a.summary         = "Your #{@session.service.name} session reminder"     # email subject (required)
+        a.attendee        = "mailto:#{@session.user.email}" # one or more email recipients (required)
+        a.trigger         = "-P1DT0H0M0S" # 15 minutes before
+      end
+      e.alarm do |a|
+        a.action  = "DISPLAY" # This line isn't necessary, it's the default
+        a.summary = "Your #{@session.service.name} session reminder"
+        a.trigger = "-PT15M" # 1 day before
+      end
+    end
+    attachments['session.ics'] = { mime_type: 'text/calendar', content: @cal.to_ical }
+    mail(to: @session.user.email, subject: "Loaction for your session has been changed!")
   end
 end

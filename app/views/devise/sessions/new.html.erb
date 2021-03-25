@@ -15,7 +15,7 @@
         </div>
         <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
       </div>
-      <input class='form-control hidden' type='text' name='timezone' id='timezone'>
+      <%= f.input :timezone, as: :hidden, input_html: { id: :timezone } %>
       <div class="form-actions">
         <%= f.button :submit, "Log in", class: "btn-flat w-100" %>
       </div>
