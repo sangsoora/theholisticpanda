@@ -39,7 +39,7 @@
           </p>
           <p><i class="fas fa-stopwatch pink-icon"></i> Experience: <%= @practitioner.experience %></p>
           <p><i class="fas fa-check-circle pink-icon"></i> Accepts Insurance: <%= @practitioner.insurance ? 'Yes' : 'No' %></p>
-          <% if @practitioner.address %>
+          <% if @practitioner.address && @practitioner.address_type == 'Public' %>
             <p><i class="far fa-map pink-icon"></i> Business Address: <%= @practitioner.address %></p>
           <% end %>
         </div>
