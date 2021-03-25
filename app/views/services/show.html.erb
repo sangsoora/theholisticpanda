@@ -3,7 +3,7 @@
     <meta name='turbolinks-visit-control' content='reload'>
     <script>
       document.addEventListener("DOMContentLoaded", function(){
-        initMap(<%=@service.practitioner.latitude%>, <%=@service.practitioner.longitude%>, 'service-map')
+        initMap(<%=@service.practitioner.latitude%>, <%=@service.practitioner.longitude%>, 'service-map', '<%=@service.practitioner.address_type%>')
       });
     </script>
   <% end %>
@@ -229,7 +229,11 @@
     <% if @service.service_type == 'In-person' %>
       <div class="service-location">
         <h4>Practitioner Location</h4>
-        <p><i class="fas fa-map-marker-alt pink-icon"></i> <%= @service.practitioner.address %></p>
+        <% if @service.practitioner.address_type == 'Public' %>
+          <p><i class="fas fa-map-marker-alt pink-icon"></i> <%= @service.practitioner.address %></p>
+        <% else %>
+          <p>This is approximate location of where this practitioner usually conduct in-person session.<br>Exact location will be shown when practitioner confirm your session request.</p>
+        <% end %>
         <div id="service-map"></div>
       </div>
     <% end %>

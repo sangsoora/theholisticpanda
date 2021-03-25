@@ -1,4 +1,12 @@
-document.getElementById('link').style.display = 'inline';
-document.getElementById('link_form').style.display = 'none';
-document.getElementById('link-edit').style.display = 'block';
-document.getElementById('link').innerHTML = '<a href="<%= @session.link %>" target="_blank"><%= @session.link %></a>';
+if ('<%= @param.keys.first %>' == "link") {
+  document.getElementById('link').style.display = 'inline';
+  document.getElementById('link_form').style.display = 'none';
+  document.getElementById('link-edit').style.display = 'block';
+  document.getElementById('link').innerHTML = '<a href="<%= @session.link %>" target="_blank"><%= @session.link %></a>';
+}
+else if ('<%= @param.keys.first %>' == "address") {
+  document.getElementById('address').style.display = 'inline';
+  document.getElementById('address_form').style.display = 'none';
+  document.getElementById('address-edit').style.display = 'block';
+  document.getElementById('address').innerHTML = '<%= @session.address %>';
+}

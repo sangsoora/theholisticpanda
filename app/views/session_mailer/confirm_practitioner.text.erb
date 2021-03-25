@@ -10,6 +10,8 @@ Starting time: <%= @session.start_time.in_time_zone(@practitioner.timezone).strf
 
 <% if @session.session_type == 'Virtual' %>
 Link for the session: <%= @session.link %>
+<% elsif @session.session_type == 'In-person' %>
+Session location: <%= @session.address %>
 <% end %>
 
 <% if @session.message && (@session.message != '') %>

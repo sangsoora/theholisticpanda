@@ -13,6 +13,8 @@
   <p>Starting time: <%= @session.start_time.in_time_zone(@practitioner.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
   <% if @session.session_type == 'Virtual' %>
     <p>Link for the session: <a href="<%= @session.link %>" target="_blank"><%= @session.link %></a></p>
+  <% elsif @session.session_type == 'In-person' %>
+    <p>Session location: <%= @session.address %></p>
   <% end %>
   <% if @session.message && (@session.message != '') %>
     <p><%= @session.user.first_name %>’s note on reason for attending the session: <%= @session.message.gsub(/\n/, '<br/>').html_safe %></p>
