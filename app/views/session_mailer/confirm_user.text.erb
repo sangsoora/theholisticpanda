@@ -5,7 +5,15 @@ Thank you for booking a session with <%= @practitioner.user.full_name %>
 Here is a summary of your session:
 
 Service: <%= @session.service.name %>
+
 Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %> <%= @session.user.timezone %>
+
+Duration: <%= @session.service.duration %>m
+
+Session Type: <%= @session.session_type %>
+
+Total Price: CA$ <%= @session.amount.round(2) %>
+
 <% if @session.session_type == 'Virtual' %>
 Link for the session: <%= @session.link %>
 <% else %>

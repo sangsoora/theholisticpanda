@@ -41,13 +41,24 @@ class RegistrationsController < Devise::RegistrationsController
         redirect_to user_path(resource)
       end
     else
-      respond_to do |format|
-        if resource.practitioner
-          format.html { redirect_to practitioner_profile_path }
-        else
-          format.html { redirect_to user_path(resource) }
+      if update_resource(@user, account_update_params)
+        respond_to do |format|
+          if resource.practitioner
+            format.html { redirect_to practitioner_profile_path }
+          else
+            format.html { redirect_to user_path(resource) }
+          end
+          format.js
         end
-        format.js
+      else
+        respond_to do |format|
+          if resource.practitioner
+            format.html { render 'practitioners/profile' }
+          else
+            format.html { render 'users/show' }
+          end
+          format.js
+        end
       end
     end
   end

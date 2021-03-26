@@ -10,14 +10,9 @@
   <h4>This is a notice to let you know that the location for following session with <%= @practitioner.user.full_name %> has been changed.</h4>
   <p>Service: <%= @session.service.name %></p>
   <p>Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
-  <p>New session location: <%= @session.address %></p>
+  <p>New session location: <%= @session.address %> <a href="https://www.google.com/maps/place/<%= @session.address %>" target="_blank">Open on Google Map</a></p>
   <br>
   <%= link_to 'Review your session detail', session_url(@session), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
-  <br>
-  <br>
-  <p>If you would like to reschedule or book another service, please visit our booking site:</p>
-  <br>
-  <%= link_to 'Book this service again', service_url(@session.service), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
   <br>
   <br>
   <p>Yours,</p>

@@ -28,9 +28,9 @@ class UsersController < ApplicationController
   def booking
     @user = current_user
     authorize @user
-    @confirmed_sessions = current_user.sessions.where(free_practitioner_id: nil).includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'confirmed'])
-    @pending_sessions = current_user.sessions.where(free_practitioner_id: nil).includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'pending'])
-    @cancelled_sessions = current_user.sessions.where(free_practitioner_id: nil).includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'cancelled'])
+    @confirmed_sessions = current_user.sessions.where(free_practitioner_id: nil).includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'confirmed']).order('start_time DESC')
+    @pending_sessions = current_user.sessions.where(free_practitioner_id: nil).includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'pending']).order('created_at DESC')
+    @cancelled_sessions = current_user.sessions.where(free_practitioner_id: nil).includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(['status= ?', 'cancelled']).order('start_time DESC')
     @discovery_calls = current_user.sessions.where.not(free_practitioner_id: nil).includes(:review, :service)
     @review = Review.new
   end

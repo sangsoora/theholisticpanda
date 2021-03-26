@@ -9,7 +9,7 @@ function initMap(lat, lng, element, visible) {
       position: myCoords,
       map: map
   });
-  if (visible == 'Private') {
+  if (visible != 'Public') {
     marker.setVisible(false);
     var circle = new google.maps.Circle({
       map: map,

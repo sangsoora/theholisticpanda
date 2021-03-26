@@ -411,7 +411,7 @@
                     </div>
                     <div class="form-check">
                       <input class="form-check-input radio_buttons optional" type="radio" value="Public" name="practitioner[address_type]" id="practitioner_address_type_public" <% if @practitioner.address_type == 'Public' %> checked <% end %>>
-                      <label class="form-check-label collection_radio_buttons" for="practitioner_address_type_public" data-toggle="tooltip" data-placement="bottom" data-original-title="Your address will be always shown to public. We recomment to set your address only if your fixed location for in-person sessions and it's not you private home.">Set as Public / Fixed</label>
+                      <label class="form-check-label collection_radio_buttons" for="practitioner_address_type_public" data-toggle="tooltip" data-placement="bottom" data-original-title="Your address will be always shown to public. We recomment to set your address only if you have fixed location for in-person sessions and it's not a place you consider private for your own privacy.">Set as Public / Fixed</label>
                     </div>
                     <p class="mt-3">If you have several flexible addresses for in-person sessions, please put a street address where you usually conduct the in-person sessions.</p>
                     <div class="d-flex mt-3">
@@ -553,7 +553,7 @@
                   </div>
                 <% end %>
                 <%= f.input :banner_image, as: :file, input_html: { class: 'hidden', id: 'banner-input' }, label_html: { class: 'upload-photo'}, label: '📷 Upload New Banner Image' %>
-                <p>Banner image will appear on your public profile page and the recommened size is 1200x400.<br>You can check the preview of your banner image below when you choose a image to upload.</p>
+                <p>Banner image will appear on your public profile page and the recommended size is 1200x400.<br>You can check the preview of your banner image below when you choose an image to upload.</p>
               </div>
             </div>
             <div class="row">
@@ -607,9 +607,9 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body text-center">
-          <h4>Please note that setting your address as public will expose your address to all the users on this website.</h4>
-          <h4>We strongly adivse you to set it as private if you conduct in-person sessions at a place you consider private for your own privacy.</h4>
+        <div class="modal-body">
+          <h5>Please note that setting your address as public will expose your address to all the users on this website.</h5>
+          <h5>We strongly adivse you to set it as private if you conduct in-person sessions at a place you consider private for your own privacy.</h5>
         </div>
       </div>
     </div>

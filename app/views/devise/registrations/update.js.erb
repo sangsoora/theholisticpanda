@@ -9,3 +9,10 @@ if ('<%= @param.keys.first %>' == "first_name") {
   phoneEdit.style.display = 'block';
   document.getElementById('phone').innerHTML = '<%= @user.phone_number %>'
 }
+<% if @user.errors.any? %>
+   <% flash[:alert] = 'Something went wrong! Pleas try againg!' %>
+  $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
+<% else %>
+  <% flash[:notice] = 'Your personal profile has been updated!' %>
+  $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+<% end %>
