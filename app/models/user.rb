@@ -88,7 +88,7 @@ class User < ApplicationRecord
 
   def last_conversation
     if conversation_messages == []
-      current_user.conversations.last
+      conversations.last
     else
       conversation_messages.max_by(&:created_at).conversation
     end
