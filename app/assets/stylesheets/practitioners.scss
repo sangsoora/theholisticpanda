@@ -484,6 +484,10 @@
       margin-left: 0;
       display: flex;
       margin-bottom: 1rem;
+      flex-wrap: wrap;
+      a {
+        margin-bottom: 1rem;
+      }
     }
     .btn-flat, .btn-ghost {
       padding: 0.25rem 1rem;
