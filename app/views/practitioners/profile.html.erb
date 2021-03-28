@@ -12,7 +12,10 @@
       <h1>Welcome, <%= @practitioner.user.first_name %></h1>
       <div class="practitioner-profile-btn">
         <%= link_to 'View My Public Profile', practitioner_path(@practitioner), class: 'btn btn-flat mr-3' %>
-        <%= link_to 'Manage My Services', practitioner_services_path, class: 'btn btn-flat' %>
+        <%= link_to 'Manage My Services', practitioner_services_path, class: 'btn btn-flat mr-3' %>
+        <%# if !@practitioner.stripe_account_id? %>
+          <%#= link_to 'Set Up Payout Account', '', data: { toggle: "modal", target: "#stripeAccountModal" }, class: 'btn btn-flat', id: 'setup-open' %>
+        <%# end %>
       </div>
     </div>
     <div class="practitioner-profile-table">
@@ -614,9 +617,36 @@
       </div>
     </div>
   </div>
+  <%# if !@practitioner.stripe_account_id %>
+    <!-- <div class="modal fade" id="stripeAccountModal" tabindex="-1" role="dialog" aria-labelledby="stripeAccountModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header justify-content-center">
+            <h5 class="modal-title" id="stripeAccountModalLabel">Set Up Payout Account</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center">
+              <h4 style="line-height: 2;">Set Up Payouts on The Holistic Panda</h4>
+              <p>The Holistic Panda partners with Stripe to transfer earnings to your bank account.</p>
+              <%#= simple_form_for [@practitioner] do |f| %>
+                <%#= f.button :submit, "Set Up Payouts", class: 'btn-flat my-4' %>
+              <%# end %>
+              <p>You'll be redirected to Stripe to complete the onboarding proces.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  <%# end %>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       $('[data-toggle="tooltip"]').tooltip();
+      <%# unless @practitioner.stripe_account_id? %>
+        // document.getElementById('setup-open').click();
+      <%# end %>
     });
     document.getElementById('practitioner_address_type_public').addEventListener('change', (e) => {
       if (e.currentTarget.checked) {

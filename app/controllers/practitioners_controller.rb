@@ -109,6 +109,22 @@ class PractitionersController < ApplicationController
       @practitioner.banner_image.purge
       flash[:notice] = 'Your banner image has been deleted.'
       redirect_to practitioner_profile_path
+    # elsif params[:commit] == 'Set Up Payouts'
+    #   unless @practitioner.stripe_account_id
+    #     account = Stripe::Account.create({
+    #       email: "#{@practitioner.user.email}",
+    #       country: "#{@practitioner.country_code}",
+    #       type: 'express'
+    #     })
+    #     @practitioner.update(stripe_account_id: account[:id])
+    #     account_links = Stripe::AccountLink.create({
+    #       account: "#{@practitioner.stripe_account_id}",
+    #       refresh_url: 'http://localhost:3000/profile',
+    #       return_url: 'http://localhost:3000/profile',
+    #       type: 'account_onboarding'
+    #     })
+    #     redirect_to "#{account_links[:url]}"
+    #   end
     else
       if @practitioner.update(practitioner_params)
         if params[:commit] == 'Upload' && params[:practitioner][:banner_image]
