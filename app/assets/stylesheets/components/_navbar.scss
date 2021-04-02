@@ -115,12 +115,13 @@
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
-  a {
+  a, input {
     padding: 0.5rem  2rem;
     text-decoration: none;
     font-size: 1.2rem;
     display: block;
     transition: 0.3s;
+    color: $emerald;
   }
   img {
     width: 100%;
