@@ -1,0 +1,40 @@
+<a data-toggle="modal" data-target="#notificationModal" id='open-notification-modal' style='display: none;'></a>
+<div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-photo" id="notificationModal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-notification-modal">
+          <span aria-hidden="true" style="color: red;">&times;</span>
+        </button>
+        <div class="row">
+          <div class="col-12 col-md-5">
+            <%= image_tag('notification', class: 'w-100') %>
+          </div>
+          <div class="col-12 col-md-7 p-4">
+            <h3>Booking Feature Coming Soon</h3>
+            <br>
+            <br>
+            <p>Thank you for visiting us! We're working hard to ensure you can seamlessly book a diverse range of holistic wellness services with trusted practitioners! </p>
+            <br>
+            <p>In the meantime, please take a look around and check out our practitioners' profiles. To get notified of our official launch, please subscribe to our newsletter.</p>
+            <br>
+            <p>We look forward to seeing you soon!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem("_notification") != "true") {
+      document.getElementById('open-notification-modal').click();
+    }
+    document.getElementById('close-notification-modal').addEventListener('click', (e)=> {
+      localStorage.setItem("_notification", "true");
+    });
+    setTimeout(() => {
+      document.getElementById('close-notification-modal').click();
+    }, 5000);
+  });
+</script>
