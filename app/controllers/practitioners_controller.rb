@@ -125,6 +125,9 @@ class PractitionersController < ApplicationController
     #     })
     #     redirect_to "#{account_links[:url]}"
     #   end
+    # elsif params[:commit] == 'Payouts Dashboard'
+    #   link = Stripe::Account.create_login_link(@practitioner.stripe_account_id)
+    #   redirect_to "#{link[:url]}"
     else
       if @practitioner.update(practitioner_params)
         if params[:commit] == 'Upload' && params[:practitioner][:banner_image]

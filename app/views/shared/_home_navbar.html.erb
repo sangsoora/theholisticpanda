@@ -7,11 +7,11 @@
         <% if !current_user.practitioner %>
           <% if current_user.signup_path == '/become-a-practitioner' %>
             <li class="nav-item">
-              <%= link_to 'Complete Practitioner Application', new_user_practitioner_path(current_user), class: "nav-link find-service" %>
+              <%= link_to 'Complete Practitioner Application', new_user_practitioner_path(current_user), class: 'nav-link find-service' %>
             </li>
           <% else %>
             <li class="nav-item">
-              <%= link_to 'Become A Practitioner', become_a_practitioner_path, class: "nav-link find-service" %>
+              <%= link_to 'Become A Practitioner', become_a_practitioner_path, class: 'nav-link find-service' %>
             </li>
           <% end %>
         <% end %>
@@ -35,7 +35,7 @@
           <a class="nav-link" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome, <%= current_user.first_name %> &#9662;</a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
             <% if current_user.conversations.present? %>
-              <%= link_to 'Messages', conversation_path(current_user.last_conversation), class: "dropdown-item" %>
+              <%= link_to 'Messages', conversation_path(current_user.last_conversation), class: 'dropdown-item' %>
             <% end %>
             <% if current_user.practitioner && current_user.practitioner.checked? %>
               <%= link_to 'Sessions As Client', user_sessions_path, class: 'dropdown-item' %>
@@ -45,27 +45,32 @@
             <%= link_to 'Favourites', user_favorites_path, class: 'dropdown-item' %>
             <hr>
             <% if current_user.practitioner %>
-              <%= link_to 'Profile', practitioner_profile_path, class: "dropdown-item" %>
+              <%= link_to 'Profile', practitioner_profile_path, class: 'dropdown-item' %>
               <% if current_user.practitioner.checked? %>
                 <%= link_to 'Sessions As Practitioner', practitioner_sessions_path, class: 'dropdown-item' %>
                 <%= link_to 'Services', practitioner_services_path, class: 'dropdown-item' %>
-                <%= link_to 'View My Page', practitioner_path(current_user.practitioner), class: "dropdown-item" %>
+                <%= link_to 'View My Page', practitioner_path(current_user.practitioner), class: 'dropdown-item' %>
+                <% if current_user.practitioner.stripe_account_id %>
+                  <%= simple_form_for [current_user.practitioner] do |f| %>
+                    <%= f.button :submit, "Payouts Dashboard", class: 'dropdown-item' %>
+                  <% end %>
+                <% end %>
               <% end %>
             <% else %>
-              <%= link_to 'Profile', user_path(current_user), class: "dropdown-item" %>
+              <%= link_to 'Profile', user_path(current_user), class: 'dropdown-item' %>
             <% end %>
-            <%= link_to 'Log Out', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+            <%= link_to 'Log Out', destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
           </div>
         </li>
       <% else %>
         <li class="nav-item">
-          <%= link_to "Become A Practitioner", become_a_practitioner_path, class: "nav-link find-service" %>
+          <%= link_to 'Become A Practitioner', become_a_practitioner_path, class: 'nav-link find-service' %>
         </li>
         <li class="nav-item">
-          <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>
+          <%= link_to 'Sign Up', new_user_registration_path, class: 'nav-link' %>
         </li>
         <li class="nav-item">
-          <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+          <%= link_to 'Login', new_user_session_path, class: 'nav-link' %>
         </li>
       <% end %>
     </ul>
@@ -75,14 +80,16 @@
   <a class="close-side" id="close-side">&times;</a>
   <a href="/"><%= image_tag('logo', alt: 'The Holistic Panda') %></a>
   <% if user_signed_in? %>
-    <% if current_user.signup_path == '/become-a-practitioner' %>
-      <div class="nav-item">
-        <%= link_to 'Complete Practitioner Application', new_user_practitioner_path(current_user), class: "nav-link find-service" %>
-      </div>
-    <% else %>
-      <div class="nav-item">
-        <%= link_to 'Become A Practitioner', become_a_practitioner_path, class: "nav-link find-service" %>
-      </div>
+    <% if !current_user.practitioner %>
+      <% if current_user.signup_path == '/become-a-practitioner' %>
+        <div class="nav-item">
+          <%= link_to 'Complete Practitioner Application', new_user_practitioner_path(current_user), class: 'nav-link find-service' %>
+        </div>
+      <% else %>
+        <div class="nav-item">
+          <%= link_to 'Become A Practitioner', become_a_practitioner_path, class: 'nav-link find-service' %>
+        </div>
+      <% end %>
     <% end %>
     <div class="nav-item">
       <div class="d-flex align-items-center">
@@ -92,46 +99,62 @@
         </span>
       </div>
     </div>
-    <div class="nav-item">
-      <%= link_to 'My Sessions', user_sessions_path, class: 'nav-link' %>
-    </div>
-    <div class="nav-item">
-      <%= link_to 'My Favourites', user_favorites_path, class: 'nav-link' %>
-    </div>
     <% if current_user.conversations.present? %>
       <div class="nav-item">
-        <%= link_to 'Messages', conversation_path(current_user.last_conversation), class: "nav-link" %>
+        <%= link_to 'Messages', conversation_path(current_user.last_conversation), class: 'nav-link' %>
       </div>
     <% end %>
+    <% if current_user.practitioner && current_user.practitioner.checked? %>
+      <div class="nav-item">
+        <%= link_to 'Sessions As Client', user_sessions_path, class: 'nav-link' %>
+      </div>
+    <% else %>
+      <div class="nav-item">
+        <%= link_to 'Sessions', user_sessions_path, class: 'nav-link' %>
+      </div>
+    <% end %>
+    <div class="nav-item">
+      <%= link_to 'Favourites', user_favorites_path, class: 'nav-link' %>
+    </div>
     <% if current_user.practitioner %>
       <div class="nav-item">
-        <%= link_to 'My Profile', practitioner_profile_path, class: "nav-link" %>
+        <%= link_to 'Profile', practitioner_profile_path, class: 'nav-link' %>
       </div>
       <% if current_user.practitioner.checked? %>
         <div class="nav-item">
-          <%= link_to 'View My Page', practitioner_path(current_user.practitioner), class: "nav-link" %>
+          <%= link_to 'Sessions As Practitioner', practitioner_sessions_path, class: 'nav-link' %>
         </div>
         <div class="nav-item">
-          <%= link_to 'My Services', practitioner_services_path, class: 'nav-link' %>
+          <%= link_to 'Services', practitioner_services_path, class: 'nav-link' %>
         </div>
+        <div class="nav-item">
+          <%= link_to 'View My Page', practitioner_path(current_user.practitioner), class: 'nav-link' %>
+        </div>
+        <% if current_user.practitioner.stripe_account_id %>
+          <div class="nav-item">
+            <%= simple_form_for [current_user.practitioner] do |f| %>
+              <%= f.button :submit, "Payouts Dashboard", class: 'nav-link' %>
+            <% end %>
+          </div>
+        <% end %>
       <% end %>
     <% else %>
       <div class="nav-item">
-        <%= link_to 'My Profile', user_path(current_user), class: "nav-link" %>
+        <%= link_to 'Profile', user_path(current_user), class: 'nav-link' %>
       </div>
     <% end %>
-      <div class="nav-item">
-        <%= link_to 'Log Out', destroy_user_session_path, method: :delete, class: "nav-link" %>
-      </div>
+    <div class="nav-item">
+      <%= link_to 'Log Out', destroy_user_session_path, method: :delete, class: 'nav-link' %>
+    </div>
   <% else %>
     <div class="nav-item">
-      <%= link_to 'Become A Practitioner', become_a_practitioner_path, class: "nav-link find-service" %>
+      <%= link_to 'Become A Practitioner', become_a_practitioner_path, class: 'nav-link find-service' %>
     </div>
     <div class="nav-item">
-      <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>
+      <%= link_to 'Sign Up', new_user_registration_path, class: 'nav-link' %>
     </div>
     <div class="nav-item">
-      <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+      <%= link_to 'Login', new_user_session_path, class: 'nav-link' %>
     </div>
   <% end %>
 </div>
