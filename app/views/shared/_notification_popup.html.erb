@@ -27,14 +27,13 @@
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem("_notification") != "true") {
+    setTimeout(() => {
+      if (localStorage.getItem("_notification") != "true") {
       document.getElementById('open-notification-modal').click();
-    }
+      }
+    }, 5000);
     document.getElementById('close-notification-modal').addEventListener('click', (e)=> {
       localStorage.setItem("_notification", "true");
     });
-    setTimeout(() => {
-      document.getElementById('close-notification-modal').click();
-    }, 5000);
   });
 </script>
