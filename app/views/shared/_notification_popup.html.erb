@@ -12,13 +12,14 @@
           </div>
           <div class="col-12 col-md-7 p-4">
             <h3>Booking Feature Coming Soon</h3>
+            <div class="text-left">
+              <br>
+              <p>Thank you for visiting us! We're working hard to ensure you can seamlessly book a diverse range of holistic wellness services with trusted practitioners! </p>
+              <p>In the meantime, please take a look around and check out our practitioners' profiles. To get notified of our official launch, please subscribe to our newsletter.</p>
+              <p>We look forward to seeing you soon!</p>
+            </div>
             <br>
-            <br>
-            <p>Thank you for visiting us! We're working hard to ensure you can seamlessly book a diverse range of holistic wellness services with trusted practitioners! </p>
-            <br>
-            <p>In the meantime, please take a look around and check out our practitioners' profiles. To get notified of our official launch, please subscribe to our newsletter.</p>
-            <br>
-            <p>We look forward to seeing you soon!</p>
+            <button type="button" data-dismiss="modal" aria-label="Close" class="btn btn-flat" id="close-notification-modal1">Close</button>
           </div>
         </div>
       </div>
@@ -31,8 +32,11 @@
       if (localStorage.getItem("_notification") != "true") {
       document.getElementById('open-notification-modal').click();
       }
-    }, 5000);
+    }, 2000);
     document.getElementById('close-notification-modal').addEventListener('click', (e)=> {
+      localStorage.setItem("_notification", "true");
+    });
+    document.getElementById('close-notification-modal1').addEventListener('click', (e)=> {
       localStorage.setItem("_notification", "true");
     });
   });
