@@ -8,4 +8,8 @@ class PaymentPolicy < ApplicationPolicy
   def new?
     true
   end
+
+  def payment?
+    true
+  end
 end

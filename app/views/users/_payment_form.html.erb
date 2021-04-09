@@ -1,0 +1,27 @@
+<% if current_user.payment_methods.count == 0 %>
+  <%= simple_form_for(resource, url: registration_path(resource), html: { method: :put, style: 'align-items: center;' }) do |f| %>
+    <%= f.button :submit, "Save Card for Payment", class: 'btn-flat my-4' %>
+  <% end %>
+<% else %>
+  <p><strong>My Saved Card</strong></p>
+  <br>
+  <div class="d-flex">
+    <p>Card ending with <%= current_user.payment_methods.find_by(default: true).last4 %></p><p class="ml-2"><em>(Default)</em></p>
+  </div>
+  <% if current_user.payment_methods.count > 1 %>
+    <% current_user.payment_methods.where(default: false).each do |card| %>
+      <div class="d-flex">
+        <p>Card ending with <%= card.last4 %></p>
+        <div class="d-flex">
+          <%= simple_form_for([card], remote: true) do |f| %>
+            <%= f.button :submit, "Make it default", class: 'p-0 mx-3' %>
+          <% end %>
+          <%= link_to '', payment_method_path(card), remote: true, method: :delete, data: { confirm: "Are you sure to remove this card?"}, class: 'fas fa-trash' %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+  <%= simple_form_for(resource, url: registration_path(resource), html: { method: :put, style: 'align-items: center;' }) do |f| %>
+    <%= f.button :submit, "Add New Card", class: 'btn-flat my-4' %>
+  <% end %>
+<% end %>

@@ -6,6 +6,8 @@ class RegistrationsController < Devise::RegistrationsController
     super
     if session[:previous_url] == '/become-a-practitioner'
       @user.update(signup_path: session[:previous_url])
+    elsif session[:previous_url].start_with?('/services/')
+      @user.update(signup_path: session[:previous_url])
     end
   end
 
@@ -71,9 +73,9 @@ class RegistrationsController < Devise::RegistrationsController
 
   def update_resource(resource, params)
     # Require current password if user is trying to change password.
-    return super if params["password"]&.present?
+    return super if params['password']&.present?
 
     # Allows user to update registration information without password.
-    resource.update_without_password(params.except("current_password"))
+    resource.update_without_password(params.except('current_password'))
   end
 end

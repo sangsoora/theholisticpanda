@@ -53,7 +53,11 @@
         </div>
         <%# if @service.active %>
           <!-- <p><strong>Please select 3 time slots you prefer and the practitioner will confirm it.</strong></p> -->
-          <%#= link_to 'See Availability', '', data: { toggle: "modal", target: "#timeslotModal" }, class: 'btn btn-flat', id: 'modal-launch' %>
+          <%# if user_signed_in? %>
+            <%#= link_to 'See Availability', '', data: { toggle: "modal", target: "#timeslotModal" }, class: 'btn btn-flat', id: 'modal-launch' %>
+          <%# else %>
+            <%#= link_to 'See Availability', new_user_session_path, class: 'btn btn-flat' %>
+          <%# end %>
         <%# end %>
       </div>
       <div class="service-practitioner">
@@ -65,7 +69,7 @@
         <%= link_to @service.practitioner.user.full_name, practitioner_path(@service.practitioner), class: 'service-practitioner-name' %>
       </div>
     </div>
-    <% if @service.active %>
+    <% if @service.active && user_signed_in? %>
       <div class="service-session-form">
         <%= simple_form_for [@service, @session] do |f| %>
           <%= f.input :primary_time, as: :string, as: :hidden %>
@@ -260,7 +264,7 @@
   </div>
 </div>
 <script>
-  <% if @service.active %>
+  <% if @service.active && user_signed_in? %>
     document.addEventListener('DOMContentLoaded', () => {
       let start = new Date();
       start.setDate(start.getDate() + 1);
