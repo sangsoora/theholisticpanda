@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_26_173732) do
+ActiveRecord::Schema.define(version: 2021_04_09_104707) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,6 +134,18 @@ ActiveRecord::Schema.define(version: 2021_03_26_173732) do
     t.string "notifiable_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "payment_methods", force: :cascade do |t|
+    t.string "payment_method_id"
+    t.string "billing_country"
+    t.string "billing_state"
+    t.integer "last4"
+    t.boolean "default"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_payment_methods_on_user_id"
   end
 
   create_table "practitioner_certifications", force: :cascade do |t|
@@ -262,7 +274,7 @@ ActiveRecord::Schema.define(version: 2021_03_26_173732) do
     t.bigint "service_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "checkout_session_id"
+    t.string "payment_method_id"
     t.string "address"
     t.float "latitude"
     t.float "longitude"
@@ -317,6 +329,8 @@ ActiveRecord::Schema.define(version: 2021_03_26_173732) do
     t.boolean "newsletter", default: false
     t.string "timezone"
     t.text "crop_setting"
+    t.string "setup_session_id"
+    t.string "tax_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -342,6 +356,7 @@ ActiveRecord::Schema.define(version: 2021_03_26_173732) do
   add_foreign_key "favorite_services", "users"
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users"
+  add_foreign_key "payment_methods", "users"
   add_foreign_key "practitioner_certifications", "practitioners"
   add_foreign_key "practitioner_languages", "languages"
   add_foreign_key "practitioner_languages", "practitioners"
