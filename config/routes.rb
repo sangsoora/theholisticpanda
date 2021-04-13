@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  devise_for :users, :controllers => { registrations: "registrations" }
+  devise_for :users, controllers: { registrations: 'registrations', confirmations: 'confirmations' }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'pages#home'
 
@@ -34,6 +34,10 @@ Rails.application.routes.draw do
     resources :conversations, only: [:create]
     resources :user_health_goals, only: [:create]
   end
+
+  resources :payment_methods, only: %i[update destroy]
+
+  get '/payment', to: 'payments#payment', as: :user_payment
 
   get '/sessions', to: 'users#booking', as: :user_sessions
   get '/practitioner_sessions', to: 'practitioners#booking', as: :practitioner_sessions

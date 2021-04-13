@@ -37,20 +37,28 @@ class SessionsController < ApplicationController
     else
       @session.update(duration: service.duration, session_type: service_type, status: 'pending', paid: false, service: service, amount: service.price, user: current_user)
       if @session.save
-        payment_session = Stripe::Checkout::Session.create(
-          billing_address_collection: 'required',
-          payment_method_types: ['card'],
-          line_items: [{
-            name: service.name,
-            amount: service.price_cents.to_i,
-            currency: 'cad',
-            quantity: 1
-          }],
-          success_url: session_url(@session),
-          cancel_url: session_url(@session)
-        )
-        @session.update(checkout_session_id: payment_session.id)
-        redirect_to new_session_payment_path(@session)
+        if current_user.payment_methods.count == 0
+          if !current_user.stripe_id
+            customer = Stripe::Customer.create({
+              email: current_user.email,
+              name: current_user.full_name,
+              phone: current_user.phone_number,
+            })
+            current_user.update(stripe_id: customer.id)
+          end
+          setup_session = Stripe::Checkout::Session.create(
+            payment_method_types: ['card'],
+            mode: 'setup',
+            customer: current_user.stripe_id,
+            billing_address_collection: 'required',
+            success_url: new_session_payment_url(@session),
+            cancel_url: new_session_payment_url(@session),
+          )
+          current_user.update(setup_session_id: setup_session.id)
+          redirect_to user_payment_path
+        else
+          redirect_to new_session_payment_path(@session)
+        end
       else
         render :new
       end
@@ -61,7 +69,16 @@ class SessionsController < ApplicationController
   end
 
   def update
-    if params[:commit] == 'Confirm'
+    if params[:commit].start_with?('Use card ending with')
+      if @session.update(session_params)
+        @session.update!(status: 'pending', paid: true)
+        SessionMailer.with(session: @session).send_request.deliver_now
+        Notification.create(recipient: @session.practitioner.user, actor: current_user, action: 'sent you a session request', notifiable: @session)
+        redirect_to session_path(@session)
+      else
+        redirect_to new_session_payment_path(@session)
+      end
+    elsif params[:commit] == 'Confirm'
       if params[:session][:time] == 'primary'
         @start_time = @session.primary_time
       elsif params[:session][:time] == 'secondary'
@@ -133,6 +150,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:start_time, :duration, :session_type, :primary_time, :secondary_time, :tertiary_time, :message, :amount, :paid, :link, :status, :cancel_reason, :cancelled_user, :address, :latitude, :longitude)
+    params.require(:session).permit(:start_time, :duration, :session_type, :primary_time, :secondary_time, :tertiary_time, :message, :amount, :paid, :link, :status, :cancel_reason, :cancelled_user, :address, :latitude, :longitude, :payment_method_id)
   end
 end

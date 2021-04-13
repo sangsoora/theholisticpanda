@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  payment_method_id: MyString
+  billing_country: MyString
+  billing_state: MyString
+  last4: 1
+  default: false
+  user: one
+
+two:
+  payment_method_id: MyString
+  billing_country: MyString
+  billing_state: MyString
+  last4: 1
+  default: false
+  user: two

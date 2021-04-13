@@ -1,6 +1,6 @@
 <% user.health_goals.sort_by(&:name).each do |goal| %>
   <div class="health-goal" data-goal-id="<%= goal.id %>">
     <p><%= goal.name %></p>
-    <%= link_to '', user_health_goal_path(UserHealthGoal.find_by(user: current_user, health_goal: goal)), remote:true, method: :delete, data: { confirm: "Are you sure to remove this language?"}, class: 'fas fa-times ml-3' %>
+    <%= link_to '', user_health_goal_path(UserHealthGoal.find_by(user: current_user, health_goal: goal)), remote:true, method: :delete, data: { confirm: "Are you sure to remove this health goal?"}, class: 'fas fa-times ml-3' %>
   </div>
 <% end %>

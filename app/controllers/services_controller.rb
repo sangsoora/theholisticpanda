@@ -1,5 +1,5 @@
 class ServicesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index]
+  skip_before_action :authenticate_user!, only: %i[index show]
   before_action :set_notifications, only: %i[index show]
   before_action :set_service, only: %i[show update destroy]
 
@@ -16,7 +16,7 @@ class ServicesController < ApplicationController
       if params[:filter]
         if params[:filter][:specialty].length >= 2
           if params[:filter][:language].length >= 2
-            if params[:filter][:service_type] != ""
+            if params[:filter][:service_type] != ''
               @filtered_with_specialty = @primary_filtered_services.filter_by_specialty(params[:filter][:specialty].reject(&:blank?))
               @filtered_with_language = @primary_filtered_services.filter_by_language(params[:filter][:language].reject(&:blank?))
               @filtered_with_type = @primary_filtered_services.filter_by_service_type(params[:filter][:service_type])
@@ -26,7 +26,7 @@ class ServicesController < ApplicationController
               @filtered_with_language = @primary_filtered_services.filter_by_language(params[:filter][:language].reject(&:blank?))
               @filtered_services = (@filtered_with_specialty & @filtered_with_language)
             end
-          elsif params[:filter][:service_type] != ""
+          elsif params[:filter][:service_type] != ''
             @filtered_with_specialty = @primary_filtered_services.filter_by_specialty(params[:filter][:specialty].reject(&:blank?))
             @filtered_with_type = @primary_filtered_services.filter_by_service_type(params[:filter][:service_type])
             @filtered_services = (@filtered_with_specialty & @filtered_with_type)
@@ -34,14 +34,14 @@ class ServicesController < ApplicationController
             @filtered_services = @primary_filtered_services.filter_by_specialty(params[:filter][:specialty].reject(&:blank?))
           end
         elsif params[:filter][:language].length >= 2
-          if params[:filter][:service_type] != ""
+          if params[:filter][:service_type] != ''
             @filtered_with_language = @primary_filtered_services.filter_by_language(params[:filter][:language].reject(&:blank?))
             @filtered_with_type = @primary_filtered_services.filter_by_service_type(params[:filter][:service_type])
             @filtered_services = (@filtered_with_language & @filtered_with_type)
           else
             @filtered_services = @primary_filtered_services.filter_by_language(params[:filter][:language].reject(&:blank?))
           end
-        elsif params[:filter][:service_type] != ""
+        elsif params[:filter][:service_type] != ''
           @filtered_services = @primary_filtered_services.filter_by_service_type(params[:filter][:service_type])
         elsif params[:filter][:specialty].length == 1 && params[:filter][:language].length == 1 && params[:filter][:service_type] == ""
           @filtered_services = @primary_filtered_services
@@ -125,7 +125,7 @@ class ServicesController < ApplicationController
         favorite_users.each do |user|
           Notification.create(recipient: user, actor: current_user, action: 'updated the price of service', notifiable: @service)
         end
-        flash[:notice] = "Service has been successfully updated!"
+        flash[:notice] = 'Service has been successfully updated!'
       end
       respond_to do |format|
         format.html { redirect_to practitioner_services_path }

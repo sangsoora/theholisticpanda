@@ -1,0 +1,19 @@
+<div class="container payment-page">
+  <div class="payment-box">
+    <h2>Setting Up Payment Method</h2>
+    <br>
+    <p>Save your payment method and we will charge when the session is finished.</p>
+    <br>
+    <button id="pay" class="btn btn-flat">Save Payment Method</button>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+      const paymentButton = document.getElementById('pay');
+      paymentButton.addEventListener('click', () => {
+        const stripe = Stripe('<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>');
+        stripe.redirectToCheckout({
+          sessionId: '<%= current_user.setup_session_id %>'
+        });
+      });
+    </script>
+  </div>
+</div>
