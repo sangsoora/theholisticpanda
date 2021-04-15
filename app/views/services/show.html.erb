@@ -267,7 +267,7 @@
   <% if @service.active && user_signed_in? %>
     document.addEventListener('DOMContentLoaded', () => {
       let start = new Date();
-      start.setDate(start.getDate() + 1);
+      start.setDate(new Date(start.getTime() + 60 * 60 * 24 * 1000).getDate());
       const setCalendar = (start, calendar, dt1, dt2, dt3) => {
         const day = start.getDay();
         setCalendarDays(start, calendar);
@@ -413,7 +413,7 @@
         }
         for (let item of availables) {
           const slot = item.parentNode;
-          const slot_date = dates.find(element =>  new Date(element).getDay() == parseInt(slot.dataset.day));
+          const slot_date = dates.find(element =>  moment(element).day() == parseInt(slot.dataset.day));
           const slot_time = item.parentNode.id.split('-')[1];
           const pointed_time = moment(slot_date + ' ' + slot_time);
           const futureSessions = sessions.filter(it => moment(it.start_time).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'));
