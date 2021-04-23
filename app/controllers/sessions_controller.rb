@@ -42,7 +42,7 @@ class SessionsController < ApplicationController
             customer = Stripe::Customer.create({
               email: current_user.email,
               name: current_user.full_name,
-              phone: current_user.phone_number,
+              phone: current_user.phone_number
             })
             current_user.update(stripe_id: customer.id)
           end
@@ -52,7 +52,7 @@ class SessionsController < ApplicationController
             customer: current_user.stripe_id,
             billing_address_collection: 'required',
             success_url: new_session_payment_url(@session),
-            cancel_url: new_session_payment_url(@session),
+            cancel_url: new_session_payment_url(@session)
           )
           current_user.update(setup_session_id: setup_session.id)
           redirect_to user_payment_path

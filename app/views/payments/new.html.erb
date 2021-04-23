@@ -23,12 +23,12 @@
           <div class="d-flex">
             <%= simple_form_for([@session]) do |f| %>
               <%= f.input :payment_method_id, as: :hidden, input_html: { value: card.payment_method_id } %>
-              <%= f.button :submit, "Use card ending with #{card.last4}", class: 'btn-flat' %>
+              <%= f.button :submit, "Use card ending with #{card.last4}", class: 'btn-flat mb-3' %>
             <% end %>
           </div>
         <% end %>
       <% end %>
-      <%= simple_form_for(current_user, url: registration_path(current_user), html: { method: :put, style: 'align-items: center;' }) do |f| %>
+      <%= simple_form_for(@resource, url: registration_path(@resource), html: { method: :put, style: 'align-items: center;' }) do |f| %>
         <%= f.button :submit, "Add New Card", class: 'btn-ghost my-4' %>
       <% end %>
     <% end %>

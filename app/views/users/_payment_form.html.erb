@@ -5,18 +5,18 @@
 <% else %>
   <p><strong>My Saved Card</strong></p>
   <br>
-  <div class="d-flex">
-    <p>Card ending with <%= current_user.payment_methods.find_by(default: true).last4 %></p><p class="ml-2"><em>(Default)</em></p>
+  <div class="d-flex mb-2">
+    <p>Card ending with <%= current_user.payment_methods.find_by(default: true).last4 %></p><button class="default-card">DEFAULT</button>
   </div>
   <% if current_user.payment_methods.count > 1 %>
     <% current_user.payment_methods.where(default: false).each do |card| %>
-      <div class="d-flex">
+      <div class="d-flex mb-2">
         <p>Card ending with <%= card.last4 %></p>
         <div class="d-flex">
           <%= simple_form_for([card], remote: true) do |f| %>
-            <%= f.button :submit, "Make it default", class: 'p-0 mx-3' %>
+            <%= f.button :submit, "Make it default", class: 'btn-ghost py-0 px-2 mx-3' %>
           <% end %>
-          <%= link_to '', payment_method_path(card), remote: true, method: :delete, data: { confirm: "Are you sure to remove this card?"}, class: 'fas fa-trash' %>
+          <%= link_to '', payment_method_path(card), remote: true, method: :delete, data: { confirm: "Are you sure to remove this card?"}, class: 'fas fa-trash pt-1' %>
         </div>
       </div>
     <% end %>

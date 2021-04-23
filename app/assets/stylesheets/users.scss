@@ -358,6 +358,17 @@
   }
 }
 
+.default-card {
+  color: white !important;
+  font-weight: 600;
+  cursor: default !important;
+  border-radius: 3rem;
+  font-size: 0.75rem;
+  margin-left: 1rem !important;
+  background-image: linear-gradient(to bottom right, #25aae1, #40e495, #30dd8a, #2bb673) !important;
+  opacity: 1 !important;
+}
+
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
 
