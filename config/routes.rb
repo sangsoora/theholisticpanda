@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     resources :practitioners, only: %i[new create]
     resources :conversations, only: [:create]
     resources :user_health_goals, only: [:create]
+    resources :referred_users, only: [:create]
   end
 
   resources :payment_methods, only: %i[update destroy]

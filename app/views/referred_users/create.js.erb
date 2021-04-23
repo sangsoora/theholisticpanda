@@ -1,0 +1,7 @@
+<% if @referred_user.errors.any? %>
+  document.getElementById('referral-error').innerHTML = 'Please try again!';
+  document.getElementById('referral-error').style.color = 'red';
+<% else %>
+  document.getElementById('referral-error').innerHTML = 'Invitation sent successfully!';
+  document.getElementById('referral-error').style.color = 'green';
+<% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_09_104707) do
+ActiveRecord::Schema.define(version: 2021_04_23_181540) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -223,6 +223,16 @@ ActiveRecord::Schema.define(version: 2021_04_09_104707) do
     t.index ["user_id"], name: "index_practitioners_on_user_id"
   end
 
+  create_table "referred_users", force: :cascade do |t|
+    t.string "email"
+    t.string "invite_token"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invite_token"], name: "index_referred_users_on_invite_token", unique: true
+    t.index ["user_id"], name: "index_referred_users_on_user_id"
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.integer "rating"
     t.text "comment"
@@ -365,6 +375,7 @@ ActiveRecord::Schema.define(version: 2021_04_09_104707) do
   add_foreign_key "practitioner_specialties", "practitioners"
   add_foreign_key "practitioner_specialties", "specialties"
   add_foreign_key "practitioners", "users"
+  add_foreign_key "referred_users", "users"
   add_foreign_key "reviews", "sessions"
   add_foreign_key "service_health_goals", "health_goals"
   add_foreign_key "service_health_goals", "services"

@@ -11,7 +11,6 @@ class UserHealthGoalsController < ApplicationController
       @user_health_goal.health_goal = HealthGoal.find(goal)
       @user_health_goal.save!
     end
-    @user_health_goals = HealthGoal.all.sort_by(&:name)
     @health_goals = HealthGoal.all.sort_by(&:name)
     respond_to do |format|
       format.html {
