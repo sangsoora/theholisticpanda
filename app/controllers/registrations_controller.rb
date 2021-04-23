@@ -54,6 +54,18 @@ class RegistrationsController < Devise::RegistrationsController
         )
         @user.update(setup_session_id: setup_session.id)
         redirect_to user_payment_path
+      # Send back to practitioner profile page if adding new card from practitioner profile page
+      elsif session[:previous_url].start_with?('/profile')
+        setup_session = Stripe::Checkout::Session.create(
+          payment_method_types: ['card'],
+          mode: 'setup',
+          customer: @user.stripe_id,
+          billing_address_collection: 'required',
+          success_url: practitioner_profile_url,
+          cancel_url: practitioner_profile_url
+        )
+        @user.update(setup_session_id: setup_session.id)
+        redirect_to user_payment_path
       # Send back to session payment page if adding new card from session payment page
       elsif session[:previous_url].start_with?('/sessions/')
         setup_session = Stripe::Checkout::Session.create(
