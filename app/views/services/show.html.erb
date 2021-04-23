@@ -418,6 +418,7 @@
           const pointed_time = moment(slot_date + ' ' + slot_time);
           const futureSessions = sessions.filter(it => moment(it.start_time).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'));
           let endTime = '';
+          let endTimeDiff = -10;
           if (moment(ending_hours.sort().filter(it => moment(it).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm')))['_i']) {
             endTime = moment(ending_hours.sort().filter(it => moment(it).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'))[0]);
           }
@@ -429,8 +430,7 @@
             let timeDiff = 0;
             nextTime = moment(sessions.filter(it => moment(it.start_time).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'))[0]['start_time']);
             nextTimeDiff = nextTime.diff(pointed_time, 'minutes');
-            if ((nextTimeDiff >= <%= @service.duration %>) && (endTimeDiff >= <%= @service.duration %>)) {
-              slot.style.cursor = "pointer";
+            if ((nextTimeDiff >= <%= @service.duration %>) && ((endTimeDiff >= <%= @service.duration %>) || (endTimeDiff == -10))) {              slot.style.cursor = "pointer";
               const ending_time = moment(pointed_time).add(<%= @service.duration %>, 'minutes').format('LT');
               const html = `<div class="available-hours"><p>` + pointed_time.format('ll') + ` ` + pointed_time.format('LT') + ` ~ ` + ending_time + `</p></div>`;
               item.insertAdjacentHTML('beforeend', html);
