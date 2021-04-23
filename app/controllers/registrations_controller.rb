@@ -32,6 +32,41 @@ class RegistrationsController < Devise::RegistrationsController
       @user.update(crop_setting: nil)
       flash[:notice] = 'Your profile photo has been deleted.'
       redirect_to practitioner_profile_path
+    elsif params[:commit] == 'Save Card for Payment' || params[:commit] == 'Add New Card'
+      # Create customer on Stripe if doesn't exist already
+      unless @user.stripe_id
+        customer = Stripe::Customer.create({
+          email: @user.email,
+          name: @user.full_name,
+          phone: @user.phone_number
+        })
+        @user.update(stripe_id: customer.id)
+      end
+      # Send back to user profile page if adding new card from user profile page
+      if session[:previous_url].start_with?('/users/')
+        setup_session = Stripe::Checkout::Session.create(
+          payment_method_types: ['card'],
+          mode: 'setup',
+          customer: @user.stripe_id,
+          billing_address_collection: 'required',
+          success_url: user_url(resource),
+          cancel_url: user_url(resource)
+        )
+        @user.update(setup_session_id: setup_session.id)
+        redirect_to user_payment_path
+      # Send back to session payment page if adding new card from session payment page
+      elsif session[:previous_url].start_with?('/sessions/')
+        setup_session = Stripe::Checkout::Session.create(
+          payment_method_types: ['card'],
+          mode: 'setup',
+          customer: @user.stripe_id,
+          billing_address_collection: 'required',
+          success_url: new_session_payment_url(Session.find(session[:previous_url].split('/')[2].to_i)),
+          cancel_url: new_session_payment_url(Session.find(session[:previous_url].split('/')[2].to_i))
+        )
+        @user.update(setup_session_id: setup_session.id)
+        redirect_to user_payment_path
+      end
     elsif account_update_params[:password]
       if update_resource(@user, account_update_params)
         # Sign in the user bypassing validation in case their password changed

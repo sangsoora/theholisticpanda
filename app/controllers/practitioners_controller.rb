@@ -119,8 +119,8 @@ class PractitionersController < ApplicationController
     #     @practitioner.update(stripe_account_id: account[:id])
     #     account_links = Stripe::AccountLink.create({
     #       account: "#{@practitioner.stripe_account_id}",
-    #       refresh_url: 'http://localhost:3000/profile',
-    #       return_url: 'http://localhost:3000/profile',
+    #       refresh_url: practitioner_profile_url,
+    #       return_url: practitioner_profile_url,
     #       type: 'account_onboarding'
     #     })
     #     redirect_to "#{account_links[:url]}"

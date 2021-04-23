@@ -72,7 +72,6 @@
                 <input class="form-check-input radio_buttons required" readonly="readonly" type="radio" value="In-person" name="filter[service_type]" id="filter_service_type_person" <%= 'checked' if params[:filter] && params[:filter][:service_type] == "In-person" %>><label class="form-check-label collection_radio_buttons" for="filter_service_type_person">In-person</label>
               </div>
             </fieldset>
-
             <div class="d-flex justify-content-between pt-3">
               <input type="submit" name="commit" value="Clear" class="btn btn-ghost" id="clear-type-filter">
               <%= f.submit "Apply", class: "btn btn-flat" %>

@@ -7,6 +7,7 @@ class PaymentsController < ApplicationController
       @billing_country = @default_payment_method.billing_country
       @billing_state = @default_payment_method.billing_state
     end
+    @resource = current_user
     @notifications = Notification.includes(:actor).where(recipient: current_user).order("created_at DESC").unread
   end
 
