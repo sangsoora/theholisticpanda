@@ -4,7 +4,7 @@
 
 <div style='background-color: #faf2f2; padding: 20px; max-width: 600px; margin: 0 auto; border-radius: 6px;'>
   <div style='max-width: 300px; margin: 0 auto;'>
-    <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><img src="https://<%= ENV['CDN_URL'] %>/logo.png" alt="TheHolisticPanda"></a>
+    <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><img src="https://<%= ENV['CDN_URL'] %>/logo.png" alt="TheHolisticPanda" style="max-width: 300px;"></a>
   </div>
   <h3>Dear <%= @referred_user.user.first_name %>,</h3>
   <p><%= @user.full_name %> has joined The Holistic Panda with your invitation.</p>
