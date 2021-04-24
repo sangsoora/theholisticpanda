@@ -1,0 +1,22 @@
+<% if user_signed_in? %>
+  <div class="modal fade" id="referralModal" tabindex="-1" role="dialog" aria-labelledby="referralModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="referralModal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body text-center">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" style="color: red;">&times;</span>
+          </button>
+          <div class="row">
+            <div class="col-12">
+              <h3>Refer a friend to join and receive CA $10 coupon</h3>
+              <br>
+              <div id="referral-container">
+                <%= render 'referred_users/referral_form', user: current_user, referred_user: ReferredUser.new %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

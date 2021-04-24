@@ -1,0 +1,12 @@
+<% if @referred_user.errors.any? %>
+  document.getElementById('referral-container').innerHTML = '<%= j render "referred_users/referral_form", user: current_user, referred_user: @referred_user %>';
+<% else %>
+  document.getElementById('referral-container').innerHTML = '<%= j render "referred_users/referral_form", user: current_user, referred_user: ReferredUser.new %>';
+  <% if User.find_by(email: @referred_user.email) %>
+    document.getElementById('referral-error').innerHTML = 'This email already joined The Holistic Panda!';
+    document.getElementById('referral-error').style.color = 'red';
+  <% else %>
+    document.getElementById('referral-error').innerHTML = 'Invitation sent successfully!';
+    document.getElementById('referral-error').style.color = '#366735';
+  <% end %>
+<% end %>

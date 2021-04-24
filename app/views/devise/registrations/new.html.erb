@@ -37,6 +37,7 @@
           <span id="tel-error-msg" class="hidden"></span>
         </div>
         <%= f.input :timezone, as: :hidden, input_html: { id: :timezone } %>
+        <input type="hidden" id="invite_token" name="user[invite_token]">
       </div>
 
       <div class="my-3">
@@ -79,4 +80,10 @@
     const tz = moment.tz.guess();
     document.getElementById('timezone').value = tz;
   });
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const it = urlParams.get('it');
+  if (it) {
+    document.getElementById('invite_token').value = it;
+  }
 </script>

@@ -35,6 +35,7 @@
               <%= link_to 'Sessions', user_sessions_path, class: 'dropdown-item' %>
             <% end %>
             <%= link_to 'Favourites', user_favorites_path, class: 'dropdown-item' %>
+            <%= link_to 'Refer A Friend', '', data: { toggle: "modal", target: "#referralModal" }, class: 'dropdown-item' %>
             <hr>
             <% if current_user.practitioner %>
               <%= link_to 'Profile', practitioner_profile_path, class: 'dropdown-item' %>
@@ -94,6 +95,9 @@
     <% end %>
     <div class="nav-item">
       <%= link_to 'Favourites', user_favorites_path, class: 'nav-link' %>
+    </div>
+    <div class="nav-item">
+      <%= link_to 'Refer A Friend', '', data: { toggle: "modal", target: "#referralModal" }, class: 'nav-link' %>
     </div>
     <% if current_user.practitioner %>
       <div class="nav-item">

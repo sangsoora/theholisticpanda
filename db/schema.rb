@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_09_104707) do
+ActiveRecord::Schema.define(version: 2021_04_24_185330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -223,6 +223,18 @@ ActiveRecord::Schema.define(version: 2021_04_09_104707) do
     t.index ["user_id"], name: "index_practitioners_on_user_id"
   end
 
+  create_table "referred_users", force: :cascade do |t|
+    t.string "email"
+    t.string "invite_token"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "registered", default: false
+    t.integer "invited_user_id"
+    t.index ["invite_token"], name: "index_referred_users_on_invite_token", unique: true
+    t.index ["user_id"], name: "index_referred_users_on_user_id"
+  end
+
   create_table "reviews", force: :cascade do |t|
     t.integer "rating"
     t.text "comment"
@@ -278,6 +290,7 @@ ActiveRecord::Schema.define(version: 2021_04_09_104707) do
     t.string "address"
     t.float "latitude"
     t.float "longitude"
+    t.string "promo_id"
     t.index ["service_id"], name: "index_sessions_on_service_id"
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
@@ -305,6 +318,17 @@ ActiveRecord::Schema.define(version: 2021_04_09_104707) do
     t.datetime "updated_at", null: false
     t.index ["health_goal_id"], name: "index_user_health_goals_on_health_goal_id"
     t.index ["user_id"], name: "index_user_health_goals_on_user_id"
+  end
+
+  create_table "user_promos", force: :cascade do |t|
+    t.string "name"
+    t.string "promo_id"
+    t.boolean "active"
+    t.datetime "expires_at"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_promos_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -365,6 +389,7 @@ ActiveRecord::Schema.define(version: 2021_04_09_104707) do
   add_foreign_key "practitioner_specialties", "practitioners"
   add_foreign_key "practitioner_specialties", "specialties"
   add_foreign_key "practitioners", "users"
+  add_foreign_key "referred_users", "users"
   add_foreign_key "reviews", "sessions"
   add_foreign_key "service_health_goals", "health_goals"
   add_foreign_key "service_health_goals", "services"
@@ -374,5 +399,6 @@ ActiveRecord::Schema.define(version: 2021_04_09_104707) do
   add_foreign_key "specialties", "specialty_categories"
   add_foreign_key "user_health_goals", "health_goals"
   add_foreign_key "user_health_goals", "users"
+  add_foreign_key "user_promos", "users"
   add_foreign_key "working_hours", "practitioners"
 end

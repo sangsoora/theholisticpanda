@@ -21,6 +21,8 @@ class User < ApplicationRecord
   has_many :conversations_as_recipient, foreign_key: :recipient_id, class_name: :Conversation, dependent: :destroy
   has_many :conversations_as_sender, foreign_key: :sender_id, class_name: :Conversation, dependent: :destroy
   has_many :health_goals, through: :user_health_goals
+  has_many :payment_methods, dependent: :destroy
+  has_many :user_promos, dependent: :destroy
   has_one_attached :photo
   serialize :crop_setting
 
@@ -51,6 +53,40 @@ class User < ApplicationRecord
   def after_confirmation
     UserMailer.with(user: self).welcome.deliver_now
     AdminMailer.with(user: self).new_user.deliver_now
+    @referred_user = ReferredUser.find_by(invited_user_id: id)
+    if @referred_user
+      welcome_code = Stripe::PromotionCode.create({
+        coupon: 'first_booking_discount_test',
+        expires_at: (Time.now + 3.months).to_i,
+        max_redemptions: 1,
+        metadata: {
+          user_id: id
+        }
+      })
+      UserPromo.create(name: 'WELCOMETOPANDA', user: self, promo_id: welcome_code.id, active: true, expires_at: Time.at(welcome_code.expires_at).to_datetime)
+      new_user_code = Stripe::PromotionCode.create({
+        coupon: 'referral_discount_test',
+        expires_at: (Time.now + 3.months).to_i,
+        max_redemptions: 1,
+        metadata: {
+          user_id: id
+        }
+      })
+      UserPromo.create(name: 'REFERRAL10', user: self, promo_id: new_user_code.id, active: true, expires_at: Time.at(new_user_code.expires_at).to_datetime)
+      customer =  @referred_user.user.stripe_id if @referred_user.user.stripe_id
+      existing_user_code = Stripe::PromotionCode.create({
+        coupon: 'referral_discount_test',
+        expires_at: (Time.now + 3.months).to_i,
+        customer: customer,
+        max_redemptions: 1,
+        metadata: {
+          user_id: @referred_user.user.id
+        }
+      })
+      UserPromo.create(name: 'REFERRAL10', user: self, promo_id: existing_user_code.id, active: true, expires_at: Time.at(existing_user_code.expires_at).to_datetime)
+      ReferralMailer.with(user: self).new_user_coupon.deliver_now
+      ReferralMailer.with(referred_user: @referred_user, user: self).existing_user_coupon.deliver_now
+    end
   end
 
   def full_name

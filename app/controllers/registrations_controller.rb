@@ -9,6 +9,12 @@ class RegistrationsController < Devise::RegistrationsController
     elsif session[:previous_url].start_with?('/services/')
       @user.update(signup_path: session[:previous_url])
     end
+    unless params[:user][:invite_token] == ''
+      @referred_user = ReferredUser.find_by(invite_token: params[:user][:invite_token])
+      unless @referred_user.registered
+        @referred_user.update(registered: true, invited_user_id: @user.id)
+      end
+    end
   end
 
   def edit
