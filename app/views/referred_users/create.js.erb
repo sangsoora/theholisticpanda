@@ -1,7 +1,7 @@
 <% if @referred_user.errors.any? %>
-  document.getElementById('referral-error').innerHTML = 'Please try again!';
-  document.getElementById('referral-error').style.color = 'red';
+  document.getElementById('referral-container').innerHTML = '<%= j render "referred_users/referral_form", user: current_user, referred_user: @referred_user %>';
 <% else %>
+  document.getElementById('referral-container').innerHTML = '<%= j render "referred_users/referral_form", user: current_user, referred_user: ReferredUser.new %>';
   document.getElementById('referral-error').innerHTML = 'Invitation sent successfully!';
-  document.getElementById('referral-error').style.color = 'green';
+  document.getElementById('referral-error').style.color = '#366735';
 <% end %>

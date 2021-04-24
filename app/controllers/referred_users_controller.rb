@@ -1,11 +1,14 @@
 class ReferredUsersController < ApplicationController
-
   def create
     @referred_user = ReferredUser.new(referred_user_params)
     authorize @referred_user
     @referred_user.user = current_user
-    if @referred_user.save!
-      respond_to do |format|
+    respond_to do |format|
+      if @referred_user.invalid?
+        format.html { render root_path }
+        format.json { render json: @referred_user.errors, status: :unprocessable_entity }
+        format.js   { render layout: false, content_type: 'text/javascript' }
+      elsif @referred_user.save!
         format.html { redirect_to root_path }
         format.js
       end
