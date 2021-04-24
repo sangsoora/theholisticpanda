@@ -1,5 +1,5 @@
 <%= simple_form_for [user, referred_user], remote: true do |f| %>
   <%= f.input :email, required: true, autofocus: true, input_html: { autocomplete: "email", placeholder: "Email" }, label: false %>
-  <p id="referral-error"></p>
+  <p id="referral-error" style="font-size: 0.75rem;"></p>
   <%= f.submit 'Send Invite', class: 'btn btn-flat', id: 'invite_user' %>
 <% end %>

@@ -1,5 +1,10 @@
 Dear <%= @referred_user.email %>,
 
+<%= @referred_user.user.full_name %> has invited you to join The Holistic Panda.
+
+You will receive additional CA $10 referral coupon if you sign up with following link.
+
+<%= link_to 'Register and redeem coupon', new_user_registration_url + '?it=' + @referred_user.invite_token, target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
 
 Yours,
 The Holistic Panda Team

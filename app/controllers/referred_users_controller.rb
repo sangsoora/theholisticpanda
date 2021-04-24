@@ -4,13 +4,14 @@ class ReferredUsersController < ApplicationController
     authorize @referred_user
     @referred_user.user = current_user
     respond_to do |format|
-      if @referred_user.invalid?
+      if @referred_user.invalid? || User.find_by(email: @referred_user.email)
         format.html { render root_path }
         format.json { render json: @referred_user.errors, status: :unprocessable_entity }
         format.js   { render layout: false, content_type: 'text/javascript' }
       elsif @referred_user.save!
         format.html { redirect_to root_path }
         format.js
+        ReferralMailer.with(referred_user: @referred_user).new_invite.deliver_now
       end
     end
   end
