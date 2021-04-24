@@ -12,9 +12,7 @@ class RegistrationsController < Devise::RegistrationsController
     unless params[:user][:invite_token] == ''
       @referred_user = ReferredUser.find_by(invite_token: params[:user][:invite_token])
       unless @referred_user.registered
-        @referred_user.update(registered: true)
-        # ReferralMailer.with(user: @user).new_user_coupon.deliver_now
-        # ReferralMailer.with(referred_user: @referred_user).existing_user_coupon.deliver_now
+        @referred_user.update(registered: true, invited_user_id: @user.id)
       end
     end
   end

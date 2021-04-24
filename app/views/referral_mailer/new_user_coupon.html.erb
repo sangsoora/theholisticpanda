@@ -7,7 +7,8 @@
     <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><img src="https://<%= ENV['CDN_URL'] %>/logo.png" alt="TheHolisticPanda"></a>
   </div>
   <h3>Dear <%= @user.first_name %>,</h3>
-
+  <p>We added a referral coupon of CA$10 and you will be able to use this coupon for next booking with us within 3 months.</p>
+  <%= link_to 'Book a service', services_url, target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
   <br>
   <br>
   <p>Yours,</p>

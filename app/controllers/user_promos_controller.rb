@@ -1,0 +1,2 @@
+class UserPromosController < ApplicationController
+end

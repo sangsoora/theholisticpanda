@@ -18,6 +18,7 @@ class ReferralMailer < ApplicationMailer
   #
   def existing_user_coupon
     @referred_user = params[:referred_user]
+    @user = params[:user]
 
     mail(to: @referred_user.user.email, subject: 'Your coupon has been activated.')
   end
