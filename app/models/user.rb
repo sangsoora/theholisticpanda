@@ -43,6 +43,10 @@ class User < ApplicationRecord
     confirmation: true,
     on: :update
 
+  $tax_types_value = ['ca_bn', 'ca_qst', 'ae_trn', 'au_abn', 'br_cnpj', 'br_cpf', 'ch_vat', 'cl_tin', 'es_cif', 'eu_vat', 'gb_vat', 'hk_br', 'id_npwp', 'in_gst', 'jp_cn', 'jp_rn', 'kr_brn', 'li_uid', 'mx_rfc', 'my_frp', 'my_itn', 'my_sst', 'no_vat', 'nz_gst', 'ru_inn', 'ru_kpp', 'sa_vat', 'sg_gst', 'sg_uen', 'th_vat', 'tw_vat', 'us_ein', 'za_vat']
+  $tax_types_name = ['Canadian BN', 'Canadian QST number', 'United Arab Emirates TRN', 'Australian Business Number (AU ABN)', 'Brazilian CNPJ number', 'Brazilian CPF number', 'Switzerland VAT number', 'Chilean TIN', 'Spanish CIF number', 'European VAT number', 'United Kingdom VAT number', 'Hong Kong BR number', 'Indonesian NPWP number', 'Indian GST number', 'Japanese Corporate Number', 'Japanese Foreign Business Registration Number', 'Korean BRN', 'Liechtensteinian UID number', 'Mexican RFC number', 'Malaysian FRP number', 'Malaysian ITN', 'Malaysian SST number', 'Norwegian VAT number', 'New Zealand GST number', 'Russian INN', 'Russian KPP', 'Saudi Arabia VAT', 'Singaporean GST', 'Singaporean UEN', 'Thai VAT', 'Taiwanese VAT', 'United States EIN', 'South African VAT number']
+  $eu_countries = ['Austria', 'Belgium', 'Bulgaria', 'Cyprus', 'Czech Republic', 'Germany', 'Denmark', 'Estonia', 'Spain', 'Finland', 'France', 'Greece', 'Croatia', 'Hungary', 'Ireland', 'Italy', 'Lithuania', 'Luxembourg', 'Latvia', 'Malta', 'Netherlands', 'Poland', 'Portugal', 'Romania', 'Sweden', 'Slovenia', 'Slovakia', 'Northern Ireland']
+
   before_create :confirm_admin_without_confirmation_email
   after_create :subscribe_to_newsletter
 
