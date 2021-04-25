@@ -31,7 +31,6 @@ class PractitionersController < ApplicationController
         format.html { redirect_to root_path }
         format.js
       end
-      # redirect_to root_path, notice: 'Your application has been received'
     else
       render :new
     end
@@ -59,7 +58,7 @@ class PractitionersController < ApplicationController
     @newsletter = Newsletter.find_by(email: @practitioner.user.email) if @practitioner.user.newsletter
     @user = @practitioner.user
     @working_hours = @practitioner.working_hours
-    if @practitioner.user.stripe_id && @practitioner.user.tax_id != ''
+    if @practitioner.user.stripe_id && @practitioner.user.tax_id != '' && @practitioner.user.tax_id != nil
       tax = Stripe::Customer.retrieve_tax_id(
         @practitioner.user.stripe_id, @practitioner.user.tax_id
       )
@@ -95,9 +94,16 @@ class PractitionersController < ApplicationController
   def update
     if params[:commit] == 'Proceed To Payment'
       if (params[:practitioner][:agreement_consent][1]) && (params[:practitioner][:background_check_consent][1]) && @practitioner.update(background_check_consent: true, agreement_consent: true, amount_cents: 3500)
+        customer = Stripe::Customer.create({
+          email: @user.email,
+          name: @user.full_name,
+          phone: @user.phone_number
+        })
+        @practitioner.user.update(stripe_id: customer.id)
         payment_session = Stripe::Checkout::Session.create(
           billing_address_collection: 'required',
           payment_method_types: ['card'],
+          customer: customer.id,
           line_items: [{
             name: 'Practitioner Onboarding Fee',
             amount: 3500,
