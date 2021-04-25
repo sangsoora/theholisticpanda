@@ -96,7 +96,29 @@ class RegistrationsController < Devise::RegistrationsController
         redirect_to user_path(resource)
       end
     else
+      if params[:user][:tax_id] && params[:user][:tax_id] == ''
+        Stripe::Customer.delete_tax_id(
+          @user.stripe_id,
+          @user.tax_id,
+        )
+        @user.update(tax_id: nil)
+      end
       if update_resource(@user, account_update_params)
+        if params[:user][:tax_id_type] && params[:user][:tax_id_type] != '' && params[:user][:tax_id] && params[:user][:tax_id] != ''
+          unless @user.stripe_id
+            customer = Stripe::Customer.create({
+              email: @user.email,
+              name: @user.full_name,
+              phone: @user.phone_number
+            })
+            @user.update(stripe_id: customer.id)
+          end
+          tax = Stripe::Customer.create_tax_id(
+            @user.stripe_id,
+            { type: params[:user][:tax_id_type], value: params[:user][:tax_id] }
+          )
+          @user.update(tax_id: tax.id)
+        end
         respond_to do |format|
           if resource.practitioner
             format.html { redirect_to practitioner_profile_path }

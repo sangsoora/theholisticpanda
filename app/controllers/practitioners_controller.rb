@@ -59,6 +59,13 @@ class PractitionersController < ApplicationController
     @newsletter = Newsletter.find_by(email: @practitioner.user.email) if @practitioner.user.newsletter
     @user = @practitioner.user
     @working_hours = @practitioner.working_hours
+    if @practitioner.user.stripe_id && @practitioner.user.tax_id != ''
+      tax = Stripe::Customer.retrieve_tax_id(
+        @practitioner.user.stripe_id, @practitioner.user.tax_id
+      )
+      @tax_id_type = tax.type
+      @tax_id = tax.value
+    end
   end
 
   def service

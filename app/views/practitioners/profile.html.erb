@@ -73,6 +73,7 @@
                 <p class="operation-tab">Languages</p>
                 <p class="operation-tab">Insurance Acceptance</p>
                 <p class="operation-tab">Physical Address</p>
+                <p class="operation-tab">Tax Id</p>
               </div>
             </div>
             <div class="practitioner-profile-info-body">
@@ -430,6 +431,29 @@
                     <%= link_to '', '', class: 'hidden', id: 'warning-open', data: { toggle: "modal", target: "#publicWarningModal" } %>
                   <% end %>
                 </div>
+                <div class="operation-list">
+                  <h5>Please provide us tax id if you wish to collect tax on behalf of you.</h5>
+                  <div id="practitioner-tax">
+                    <p id="tax"><%= @tax_id_type %> <%= @tax_id %></p>
+                    <% if @practitioner.user.tax_id %>
+                      <button id='tax-delete' data-toggle="tooltip" data-placement="bottom" data-original-title="Delete"><p><%= link_to '', '', class: 'fas fa-trash' %></p></button>
+                    <% else %>
+                      <button id='tax-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+                    <% end %>
+                  </div>
+                  <%= simple_form_for(current_user, url: registration_path(current_user), html: { id: :tax_form, style: 'display: none; align-items: center;' }) do |f| %>
+                    <div class="form-group select optional user_tax_id_type">
+                      <select class="form-control select require" name="user[tax_id_type]" id="user_tax_id_type" style="font-size: 0.875rem;" required>
+                        <%= $tax_types_value.each_with_index do |type, i| %>
+                          <option value="<%= type %>"><%= $tax_types_name[i] %></option>
+                        <% end %>
+                      </select>
+                    </div>
+                    <%= f.input :tax_id, label: false %>
+                    <button type="submit" data-toggle="tooltip" data-placement="bottom" data-original-title="Save"><i class='fas fa-check'></i></button>
+                    <button id='tax-cancel' data-toggle="tooltip" data-placement="bottom" data-original-title="Cancel"><%= link_to '', '', class: 'fas fa-times' %></button>
+                  <% end %>
+                </div>
               </div>
             </div>
           </div>
@@ -688,6 +712,33 @@
         <%= column %>Edit.style.display = 'block';
       });
     <% end %>
+    const tax = document.getElementById('practitioner-tax');
+    const taxForm = document.getElementById('tax_form');
+    const taxEdit = document.getElementById('tax-edit');
+    const taxCancel = document.getElementById('tax-cancel');
+    if (taxEdit) {
+      taxEdit.addEventListener('click', (e) => {
+        e.preventDefault();
+        taxForm.style.display = 'flex';
+        taxEdit.style.display = 'none';
+      });
+    }
+    taxCancel.addEventListener('click', (e) => {
+      e.preventDefault();
+      tax.style.display = 'flex';
+      taxForm.style.display = 'none';
+      if (taxEdit) {
+        taxEdit.style.display = 'block';
+      }
+    });
+    if (document.getElementById('tax-delete')) {
+      document.getElementById('tax-delete').addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('user_tax_id_type').value = '';
+        document.getElementById('user_tax_id').value = '';
+        taxForm.submit();
+      })
+    }
     const insurance = document.getElementById('insurance');
     const insuranceSubmit = document.getElementById('insurance-submit');
     insurance.addEventListener('click', (e) => {
