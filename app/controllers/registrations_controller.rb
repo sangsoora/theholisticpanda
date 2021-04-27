@@ -38,7 +38,7 @@ class RegistrationsController < Devise::RegistrationsController
       @user.update(crop_setting: nil)
       flash[:notice] = 'Your profile photo has been deleted.'
       redirect_to practitioner_profile_path
-    elsif params[:commit] == 'Save Card for Payment' || params[:commit] == 'Add New Card'
+    elsif params[:commit] == 'Set Up Payment Method' || params[:commit] == 'Add New Payment Method' || params[:commit] == 'Save Payment Method for Future Payment'
       # Create customer on Stripe if doesn't exist already
       unless @user.stripe_id
         customer = Stripe::Customer.create({

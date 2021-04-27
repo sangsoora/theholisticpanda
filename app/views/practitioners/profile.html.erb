@@ -49,7 +49,7 @@
             <div class="practitioner-profile-info-title">
               <h5 class="infos-tab infos-active-tab" id="basic-info">Basic Info</h5>
               <div class="infos-list">
-                <p class="basic-info-tab basic-info-active-tab">My Title</p>
+                <p class="basic-info-tab basic-info-active-tab">Professional Headline</p>
                 <p class="basic-info-tab">Country of Residence</p>
                 <p class="basic-info-tab">Location</p>
                 <p class="basic-info-tab">Time Zone</p>
@@ -73,13 +73,13 @@
                 <p class="operation-tab">Languages</p>
                 <p class="operation-tab">Insurance Acceptance</p>
                 <p class="operation-tab">Physical Address</p>
-                <p class="operation-tab">Tax Id</p>
+                <p class="operation-tab">Tax Information</p>
               </div>
             </div>
             <div class="practitioner-profile-info-body">
               <div id="basic-info-wrapper">
                 <div class="basic-info-list">
-                  <h5>Create a unique title which explains your profession.</h5>
+                  <h5>Create a unique headline that describes your profession (i.e. Breathwork Facilitator).</h5>
                   <div id="practitioner-title">
                     <p id="title"><%= @practitioner.title %></p>
                     <button id='title-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
@@ -91,7 +91,7 @@
                   <% end %>
                 </div>
                 <div class="basic-info-list">
-                  <h5>Choose a country where you reside and conduct services.</h5>
+                  <h5>Select your current country of residence.</h5>
                   <div id="practitioner-country">
                     <p id="country"><%= @practitioner.country_name %></p>
                     <button id='country-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
@@ -103,7 +103,7 @@
                   <% end %>
                 </div>
                 <div class="basic-info-list">
-                  <h5>Please specify a city/town where you reside and conduct services.</h5>
+                  <h5>Select your current city/town of residence.</h5>
                   <div id="practitioner-city">
                     <p id="city"><%= @practitioner.location %></p>
                     <button id='city-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
@@ -118,7 +118,7 @@
                   <% end %>
                 </div>
                 <div class="basic-info-list">
-                  <h5>Choose a time zone where you conduct services.</h5>
+                  <h5>Select your current time zone.</h5>
                   <div id="practitioner-timezone">
                     <p id="timezone"><%= @practitioner.timezone %></p>
                     <button id='timezone-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
@@ -166,7 +166,7 @@
                   <% end %>
                 </div>
                 <div class="biography-list">
-                  <h5>Share your video link to briefly explain about yourself and your service.</h5>
+                  <h5>Include a 1-minute self-introduction video to help your potential clients to get to know you better.</h5>
                   <%= link_to 'How To Link My YouTube Video', '', data: { toggle: "modal", target: "#videoInstructionModal" } %>
                   <div id="practitioner-video" class="mt-2">
                     <div class="embed-responsive embed-responsive-16by9" id="video">
@@ -197,7 +197,7 @@
                   <% end %>
                 </div>
                 <div class="credentials-list">
-                  <h5>Choose your years of experience as a practitioner.</h5>
+                  <h5>How many years have you been a practitioner?</h5>
                   <div id="practitioner-experience">
                     <p id="experience"><%= @practitioner.experience %></p>
                     <button id='experience-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
@@ -209,7 +209,7 @@
                   <% end %>
                 </div>
                 <div class="credentials-list">
-                  <h5>Specify All Your Education & Certification.</h5>
+                  <h5>List your relevant education and certifications.</h5>
                   <button id='certifications-edit' class='ml-0 mb-3'><p><%= link_to '+ Add', '' %></p></button>
                   <%= simple_form_for([@practitioner, @practitioner_certification], remote: true, html: { id: :certifications_form, style: 'display: none; align-items: center;' }) do |f| %>
                     <%= f.input :certification_type, label: false, collection: $certification_types,  as: :select, include_blank: 'Select Type' %>
@@ -378,7 +378,7 @@
                   </div>
                 </div>
                 <div class="operation-list">
-                  <h5>Choose all the languages you can coduct your services.</h5>
+                  <h5>Select all the languages in which you can conduct services.</h5>
                   <div id="practitioner-languages">
                     <div id="languages-list">
                       <%= render "practitioner_languages/practitioner_languages_list", practitioner: @practitioner %>
@@ -392,7 +392,7 @@
                   <% end %>
                 </div>
                 <div class="operation-list">
-                  <h5>Specify if your service accept insurance.</h5>
+                  <h5>Specify if you accept insurance.</h5>
                   <div id="practitioner-insurance">
                     <div class="custom-control custom-switch">
                       <%= simple_form_for([@practitioner], remote: true, html: { id: :insurance_form, style: 'align-items: center;' }) do |f| %>
@@ -403,7 +403,7 @@
                   </div>
                 </div>
                 <div class="operation-list">
-                  <h5>In order to perform in-person service, specify the address of location.</h5>
+                  <h5>To perform in person-service, input your address here. If this is a public address, it’ll be shown on your profile page. If this is a private address, we’ll only show the general area within 5km of your location.</h5>
                   <div id="practitioner-address">
                     <p id="address"><%= @practitioner.address %></p>
                     <button id='address-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
@@ -432,10 +432,10 @@
                   <% end %>
                 </div>
                 <div class="operation-list">
-                  <h5>Please provide us tax id if you wish to collect tax on behalf of you.</h5>
+                  <h5>Please provide us tax information if you wish to collect tax on behalf of you.</h5>
                   <div id="practitioner-tax">
                     <p id="tax"><%= @tax_id_type %> <%= @tax_id %></p>
-                    <% if @practitioner.user.tax_id %>
+                    <% if @practitioner.user.tax_id && @practitioner.user.tax_id != '' %>
                       <button id='tax-delete' data-toggle="tooltip" data-placement="bottom" data-original-title="Delete"><p><%= link_to '', '', class: 'fas fa-trash' %></p></button>
                     <% else %>
                       <button id='tax-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
@@ -625,7 +625,11 @@
             </li>
             <%= image_tag('video-3') %>
             <li>
-              <p>Copy the URL from the highlighted part and paste it to the your video link in profile (without out double quotations).</p>
+              <p>Copy the URL from the highlighted part and paste it to the your video link in profile (without double quotations).</p>
+            </li>
+            <%= image_tag('video-placement') %>
+            <li>
+              <p>Video will be shown to user on your public profile page next to banner image.</p>
             </li>
           </ul>
         </div>
@@ -648,36 +652,36 @@
       </div>
     </div>
   </div>
-  <%# if !@practitioner.stripe_account_id %>
-    <!-- <div class="modal fade" id="stripeAccountModal" tabindex="-1" role="dialog" aria-labelledby="stripeAccountModalLabel" aria-hidden="true">
+  <% if !@practitioner.stripe_account_id %>
+    <div class="modal fade" id="stripeAccountModal" tabindex="-1" role="dialog" aria-labelledby="stripeAccountModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header justify-content-center">
-            <h5 class="modal-title" id="stripeAccountModalLabel">Set Up Payout Account</h5>
+            <h5 class="modal-title" id="stripeAccountModalLabel">Set Up Deposit Account</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <div class="text-center">
-              <h4 style="line-height: 2;">Set Up Payouts on The Holistic Panda</h4>
+              <h4 style="line-height: 2;">Set up an account to receive your payouts.</h4>
               <p>The Holistic Panda partners with Stripe to transfer earnings to your bank account.</p>
-              <%#= simple_form_for [@practitioner] do |f| %>
-                <%#= f.button :submit, "Set Up Payouts", class: 'btn-flat my-4' %>
-              <%# end %>
-              <p>You'll be redirected to Stripe to complete the onboarding proces.</p>
+              <%= simple_form_for [@practitioner] do |f| %>
+                <%= f.button :submit, "Set Up Payouts", class: 'btn-flat my-4' %>
+              <% end %>
+              <p>You'll be redirected to Stripe to create your payout account.</p>
             </div>
           </div>
         </div>
       </div>
-    </div> -->
-  <%# end %>
+    </div>
+  <% end %>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       $('[data-toggle="tooltip"]').tooltip();
-      <%# unless @practitioner.stripe_account_id? %>
-        // document.getElementById('setup-open').click();
-      <%# end %>
+      <% unless @practitioner.stripe_account_id? %>
+        document.getElementById('setup-open').click();
+      <% end %>
     });
     document.getElementById('practitioner_address_type_public').addEventListener('change', (e) => {
       if (e.currentTarget.checked) {

@@ -8,7 +8,7 @@ class ReferralMailer < ApplicationMailer
   def new_invite
     @referred_user = params[:referred_user]
 
-    mail(to: @referred_user.email, subject: 'You are invited to join The Holistic Panda.')
+    mail(to: @referred_user.email, subject: 'You have been invited to join The Holistic Panda!')
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml

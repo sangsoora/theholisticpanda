@@ -122,25 +122,25 @@ class PractitionersController < ApplicationController
       @practitioner.banner_image.purge
       flash[:notice] = 'Your banner image has been deleted.'
       redirect_to practitioner_profile_path
-    # elsif params[:commit] == 'Set Up Payouts'
-    #   unless @practitioner.stripe_account_id
-    #     account = Stripe::Account.create({
-    #       email: "#{@practitioner.user.email}",
-    #       country: "#{@practitioner.country_code}",
-    #       type: 'express'
-    #     })
-    #     @practitioner.update(stripe_account_id: account[:id])
-    #     account_links = Stripe::AccountLink.create({
-    #       account: "#{@practitioner.stripe_account_id}",
-    #       refresh_url: practitioner_profile_url,
-    #       return_url: practitioner_profile_url,
-    #       type: 'account_onboarding'
-    #     })
-    #     redirect_to "#{account_links[:url]}"
-    #   end
-    # elsif params[:commit] == 'Payouts Dashboard'
-    #   link = Stripe::Account.create_login_link(@practitioner.stripe_account_id)
-    #   redirect_to "#{link[:url]}"
+    elsif params[:commit] == 'Set Up Payouts'
+      unless @practitioner.stripe_account_id
+        account = Stripe::Account.create({
+          email: "#{@practitioner.user.email}",
+          country: "#{@practitioner.country_code}",
+          type: 'express'
+        })
+        @practitioner.update(stripe_account_id: account[:id])
+        account_links = Stripe::AccountLink.create({
+          account: "#{@practitioner.stripe_account_id}",
+          refresh_url: practitioner_profile_url,
+          return_url: practitioner_profile_url,
+          type: 'account_onboarding'
+        })
+        redirect_to "#{account_links[:url]}"
+      end
+    elsif params[:commit] == 'Payouts Dashboard'
+      link = Stripe::Account.create_login_link(@practitioner.stripe_account_id)
+      redirect_to "#{link[:url]}"
     else
       if @practitioner.update(practitioner_params)
         if params[:commit] == 'Upload' && params[:practitioner][:banner_image]

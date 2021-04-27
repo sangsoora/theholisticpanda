@@ -1,21 +1,21 @@
 <div class="container payment-page">
   <div class="payment-box">
-    <h2>Confirm your card payment</h2>
+    <h2>Confirm your payment method</h2>
     <br>
-    <p>Sessiong request for <strong><%= @session.service.name %></strong>.</p>
+    <p>Session request for <strong><%= @session.service.name %></strong>.</p>
     <p>Estimated Price: CA <%= humanized_money_with_symbol @session.amount %></p>
-    <p>Sales tax might apply depending on your billing address.</p>
-    <p>We will send an invoice and charge your card you choose from below when session is finished.</p>
+    <p>Sales tax might apply depending on your location.</p>
+    <p>You'll receive an invoice and your preferred method of payment will be charged upon the completion of the session.</p>
     <% if current_user.payment_methods.count == 0 %>
       <%= simple_form_for(current_user, url: registration_path(current_user), html: { method: :put, style: 'align-items: center;' }) do |f| %>
-        <%= f.button :submit, "Save Card for Payment", class: 'btn-flat my-4' %>
+        <%= f.button :submit, "Set Up Payment Method", class: 'btn-flat my-4' %>
       <% end %>
     <% else %>
       <p><strong>My Saved Card</strong></p>
       <div class="d-flex">
         <%= simple_form_for([@session]) do |f| %>
           <%= f.input :payment_method_id, as: :hidden, input_html: { value: current_user.payment_methods.find_by(default: true).payment_method_id } %>
-          <%= f.button :submit, "Use card ending with #{current_user.payment_methods.find_by(default: true).last4} (Default)", class: 'btn-flat mb-3' %>
+          <%= f.button :submit, "Use Card Ending With #{current_user.payment_methods.find_by(default: true).last4} (Default)", class: 'btn-flat mb-3' %>
         <% end %>
       </div>
       <% if current_user.payment_methods.count > 1 %>
@@ -23,13 +23,13 @@
           <div class="d-flex">
             <%= simple_form_for([@session]) do |f| %>
               <%= f.input :payment_method_id, as: :hidden, input_html: { value: card.payment_method_id } %>
-              <%= f.button :submit, "Use card ending with #{card.last4}", class: 'btn-flat mb-3' %>
+              <%= f.button :submit, "Use Card Ending With #{card.last4}", class: 'btn-flat mb-3' %>
             <% end %>
           </div>
         <% end %>
       <% end %>
       <%= simple_form_for(@resource, url: registration_path(@resource), html: { method: :put, style: 'align-items: center;' }) do |f| %>
-        <%= f.button :submit, "Add New Card", class: 'btn-ghost my-4' %>
+        <%= f.button :submit, "Add New Payment Method", class: 'btn-ghost my-4' %>
       <% end %>
     <% end %>
   </div>

@@ -126,7 +126,7 @@
         <% end %>
         <% if @session.user == current_user && !@session.service.default_service %>
           <p class="mb-0"><strong>Cancellation Policy</strong></p>
-          <p>Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
+          <p>Out of respect to the practitioners and their time, please note that you are required to cancel your booking at least 24 hours prior to the session start time to prevent being charged the full amount. If you have to late cancel due to extenuating circumstances, please message your practitioner and reach out to us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
         <% else %>
           <% if @session.message && @session.message != '' %>
             <p>Message From <%= @session.user.full_name %>: <%= @session.message.gsub(/\n/, '<br/>').html_safe %></p>
