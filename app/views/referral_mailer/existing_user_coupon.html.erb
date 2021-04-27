@@ -7,9 +7,9 @@
     <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><img src="https://<%= ENV['CDN_URL'] %>/logo.png" alt="TheHolisticPanda" style="max-width: 300px;"></a>
   </div>
   <h3>Dear <%= @referred_user.user.first_name %>,</h3>
-  <p><%= @user.full_name %> has joined The Holistic Panda with your invitation.</p>
-  <p>We added a referral coupon of CA$10 and you will be able to use this coupon for next booking with us within 3 months.</p>
-  <%= link_to 'Book next service', services_url, target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
+  <p><%= @user.full_name %> has accepted your invitation and joined The Holistic Panda.</p>
+  <p>Thank you for referring us! As a token of gratitude, we've added a CA $10 coupon to your account. You'll be able to redeem this coupon for your next booking in the next three months.</p>
+  <%= link_to 'Book your next service', services_url, target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
   <br>
   <br>
   <p>Yours,</p>

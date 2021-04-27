@@ -2,9 +2,13 @@ Dear <%= @referred_user.email %>,
 
 <%= @referred_user.user.full_name %> has invited you to join The Holistic Panda.
 
-You will receive additional CA $10 referral coupon if you sign up with following link.
+Discover and book a diverse range of complementary and alternative health services to achieve your health goals today!
 
-<%= link_to 'Register and redeem coupon', new_user_registration_url + '?it=' + @referred_user.invite_token, target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
+For accepting <%= @referred_user.user.first_name %>'s invitation, we're awarding you a CA $10 coupon that you can apply to any services booked on the platform in the next three months.
+
+<%= link_to 'Register and redeem the coupon now', new_user_registration_url + '?it=' + @referred_user.invite_token, target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
+
+You can earn more credits by inviting friends! When they sign up, you'll both get a CA $10 coupon. Give $10. Get $10.
 
 Yours,
 The Holistic Panda Team
