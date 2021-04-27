@@ -13,9 +13,9 @@
       <div class="practitioner-profile-btn">
         <%= link_to 'View My Public Profile', practitioner_path(@practitioner), class: 'btn btn-flat mr-3' %>
         <%= link_to 'Manage My Services', practitioner_services_path, class: 'btn btn-flat mr-3' %>
-        <%# if !@practitioner.stripe_account_id? %>
-          <%#= link_to 'Set Up Payout Account', '', data: { toggle: "modal", target: "#stripeAccountModal" }, class: 'btn btn-flat', id: 'setup-open' %>
-        <%# end %>
+        <% if !@practitioner.stripe_account_id? %>
+          <%= link_to 'Set Up Payout Account', '', data: { toggle: "modal", target: "#stripeAccountModal" }, class: 'btn btn-flat', id: 'setup-open' %>
+        <% end %>
       </div>
     </div>
     <div class="practitioner-profile-table">
