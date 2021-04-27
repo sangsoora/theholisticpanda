@@ -432,7 +432,7 @@
                   <% end %>
                 </div>
                 <div class="operation-list">
-                  <h5>Please provide us tax information if you wish to collect tax on behalf of you.</h5>
+                  <h5>If you're registered for collecting sales tax, please input your tax number. Sales tax is automatically calculated and applied to orders.</h5>
                   <div id="practitioner-tax">
                     <p id="tax"><%= @tax_id_type %> <%= @tax_id %></p>
                     <% if @practitioner.user.tax_id && @practitioner.user.tax_id != '' %>
