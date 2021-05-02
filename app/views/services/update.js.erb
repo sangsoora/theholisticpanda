@@ -32,11 +32,21 @@
     if ('<%= @params[:commit] %>' == "Deactivate") {
       <% flash[:notice] = 'Service has been deactivated.' %>
       $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+      $(function() {
+        setTimeout(function(){
+          $('.alert').slideUp(500);
+        }, 2000);
+      });
       document.getElementById('active-services-num').innerHTML = '(<%= @active_serivces.count %>)';
       document.getElementById('deactivated-services-num').innerHTML = '(<%= @deactivated_serivces.count %>)';
     } else {
       <% flash[:notice] = 'Service has been activated.' %>
       $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+      $(function() {
+        setTimeout(function(){
+          $('.alert').slideUp(500);
+        }, 2000);
+      });
       document.getElementById('active-services-num').innerHTML = '(<%= @active_serivces.count %>)';
       document.getElementById('deactivated-services-num').innerHTML = '(<%= @deactivated_serivces.count %>)';
     }
@@ -86,6 +96,11 @@
     <% end %>
     <% flash[:notice] = 'Service has been updated.' %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+    $(function() {
+      setTimeout(function(){
+        $('.alert').slideUp(500);
+      }, 2000);
+    });
     const serviceBtn<%= @service.id %> = document.getElementById('service-btn-<%= @service.id %>');
     const cancelServiceBtn<%= @service.id %> = document.getElementById('cancel-service-<%= @service.id %>');
     serviceBtn<%= @service.id %>.addEventListener('click', (e) => {
