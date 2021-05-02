@@ -131,6 +131,8 @@ class SessionsController < ApplicationController
         @session.update(address: params[:session][:address], latitude: params[:session][:latitude], longitude: params[:session][:longitude])
         Notification.create(recipient: @session.user, actor: current_user, action: 'has updated session location', notifiable: @session)
         SessionMailer.with(session: @session).change_address.deliver_now
+      else
+        @session.update(session_params)
       end
       respond_to do |format|
         format.html { redirect_to session_path(@session) }
@@ -140,6 +142,8 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    @session.destroy
+    redirect_to user_sessions_path, notice: 'Session request cancelled.'
   end
 
   private

@@ -79,10 +79,10 @@ class PractitionersController < ApplicationController
   def booking
     @practitioner = current_user.practitioner
     authorize @practitioner
-    @confirmed_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(['status= ?', 'confirmed']).order('start_time DESC')
-    @pending_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(['paid = ? AND status= ?', true, 'pending']).order('created_at DESC')
-    @cancelled_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(['status= ?', 'cancelled']).order('start_time DESC')
-    @discovery_calls = Session.where(free_practitioner_id: @practitioner).includes(:review, :service)
+    @confirmed_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(status: 'confirmed', free_practitioner_id: nil).order('start_time DESC')
+    @pending_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(status: 'pending', free_practitioner_id: nil).where.not(payment_method_id: nil).order('created_at DESC')
+    @cancelled_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(status: 'cancelled', free_practitioner_id: nil).order('start_time DESC')
+    @discovery_calls = Session.where(free_practitioner_id: @practitioner).includes(:review, :service).order('start_time DESC')
   end
 
   def discovery_call

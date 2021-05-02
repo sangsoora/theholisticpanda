@@ -3,10 +3,24 @@ if ('<%= @param.keys.first %>' == "link") {
   document.getElementById('link_form').style.display = 'none';
   document.getElementById('link-edit').style.display = 'block';
   document.getElementById('link').innerHTML = '<a href="<%= @session.link %>" target="_blank"><%= @session.link %></a>';
-}
-else if ('<%= @param.keys.first %>' == "address") {
+} else if ('<%= @param.keys.first %>' == "address") {
   document.getElementById('address').style.display = 'inline';
   document.getElementById('address_form').style.display = 'none';
   document.getElementById('address-edit').style.display = 'block';
   document.getElementById('address').innerHTML = '<%= @session.address %>';
+} else if ('<%= @param.keys.first %>' == "payment_method_id") {
+  $("#payment_method_wrapper").html('<%= j render "payment_method_form", session: @session %>');
+  $("#payment").html('Card ending with <%= current_user.payment_methods.find_by(payment_method_id: @session.payment_method_id).last4 %>')
+  document.getElementById('payment-modal-close').click();
+  <% if @session.errors.empty? %>
+    <% flash[:notice] = 'Payment method updated.' %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+  <% else %>
+    $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
+  <% end %>
+  $(function() {
+    setTimeout(function(){
+      $('.alert').slideUp(500);
+    }, 2000);
+  });
 }
