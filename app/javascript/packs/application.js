@@ -41,6 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initSwiper();
   initIntlTelInput();
   initValidation();
+  $(function() {
+    setTimeout(function(){
+      $('.alert').slideUp(500);
+    }, 2000);
+  });
 });
 
 // document.addEventListener('turbolinks:load', () => {

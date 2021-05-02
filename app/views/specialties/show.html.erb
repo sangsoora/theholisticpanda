@@ -68,7 +68,7 @@
           <div class="lists" id="practitioner-<%= service.id %>">
             <div class="service-list-item-practitioner">
               <div class="profile-photo">
-                <a href="/practitioners/<%= service.practitioner.id %>">
+                <a href="/practitioners/<%= service.practitioner.user.full_name.delete(' ') %>_<%= service.practitioner.id %>">
                   <% if service.practitioner.user.photo.attached? %>
                     <img src="<%= cdn_for(service.practitioner.user.cropped_image) %>" class="service-list-item-user avatar-bordered" alt="">
                   <% else %>

@@ -69,9 +69,9 @@ class SessionsController < ApplicationController
   end
 
   def update
-    if params[:commit].start_with?('Use card ending with')
+    if params[:commit].start_with?('Use Card Ending With')
       if @session.update(session_params)
-        @session.update!(status: 'pending', paid: true)
+        @session.update!(status: 'pending')
         SessionMailer.with(session: @session).send_request.deliver_now
         Notification.create(recipient: @session.practitioner.user, actor: current_user, action: 'sent you a session request', notifiable: @session)
         redirect_to session_path(@session)
@@ -131,6 +131,8 @@ class SessionsController < ApplicationController
         @session.update(address: params[:session][:address], latitude: params[:session][:latitude], longitude: params[:session][:longitude])
         Notification.create(recipient: @session.user, actor: current_user, action: 'has updated session location', notifiable: @session)
         SessionMailer.with(session: @session).change_address.deliver_now
+      else
+        @session.update(session_params)
       end
       respond_to do |format|
         format.html { redirect_to session_path(@session) }
@@ -140,6 +142,8 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    @session.destroy
+    redirect_to user_sessions_path, notice: 'Session request cancelled.'
   end
 
   private

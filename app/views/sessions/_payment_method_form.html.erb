@@ -1,0 +1,13 @@
+<%= simple_form_for([@session], remote: true) do |f| %>
+  <fieldset class="form-group radio_buttons optional session_payment_method_id form-group-valid">
+    <legend class="col-form-label pt-0">My Saved Payment Methods</legend>
+    <input type="hidden" name="session[payment_method_id]" value="">
+    <% current_user.payment_methods.where.not(payment_method_id: @session.payment_method_id).each do |payment| %>
+      <div class="form-check">
+        <input class="form-check-input is-valid radio_buttons optional" type="radio" value="<%= payment.payment_method_id %>" name="session[payment_method_id]" id="session_payment_method_id_<%= payment.id %>">
+        <label class="form-check-label collection_radio_buttons" for="session_payment_method_id_<%= payment.id %>" style="color: #366735 !important;">Card ending with <%= payment.last4 %></label>
+      </div>
+    <% end %>
+  </fieldset>
+  <%= f.button :submit, "Change Payment Method", class: 'btn-flat mb-3' %>
+<% end %>

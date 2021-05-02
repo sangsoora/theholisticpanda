@@ -79,10 +79,10 @@ class PractitionersController < ApplicationController
   def booking
     @practitioner = current_user.practitioner
     authorize @practitioner
-    @confirmed_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(['status= ?', 'confirmed']).order('start_time DESC')
-    @pending_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(['paid = ? AND status= ?', true, 'pending']).order('created_at DESC')
-    @cancelled_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(['status= ?', 'cancelled']).order('start_time DESC')
-    @discovery_calls = Session.where(free_practitioner_id: @practitioner).includes(:review, :service)
+    @confirmed_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(status: 'confirmed', free_practitioner_id: nil).order('start_time DESC')
+    @pending_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(status: 'pending', free_practitioner_id: nil).where.not(payment_method_id: nil).order('created_at DESC')
+    @cancelled_sessions = @practitioner.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(status: 'cancelled', free_practitioner_id: nil).order('start_time DESC')
+    @discovery_calls = Session.where(free_practitioner_id: @practitioner).includes(:review, :service).order('start_time DESC')
   end
 
   def discovery_call
@@ -130,14 +130,14 @@ class PractitionersController < ApplicationController
           type: 'express'
         })
         @practitioner.update(stripe_account_id: account[:id])
-        account_links = Stripe::AccountLink.create({
-          account: "#{@practitioner.stripe_account_id}",
-          refresh_url: practitioner_profile_url,
-          return_url: practitioner_profile_url,
-          type: 'account_onboarding'
-        })
-        redirect_to "#{account_links[:url]}"
       end
+      account_links = Stripe::AccountLink.create({
+        account: "#{@practitioner.stripe_account_id}",
+        refresh_url: practitioner_profile_url,
+        return_url: practitioner_profile_url,
+        type: 'account_onboarding'
+      })
+      redirect_to "#{account_links[:url]}"
     elsif params[:commit] == 'Payouts Dashboard'
       link = Stripe::Account.create_login_link(@practitioner.stripe_account_id)
       redirect_to "#{link[:url]}"

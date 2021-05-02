@@ -16,6 +16,11 @@ function closeModal() {
   document.getElementById('active-list').innerHTML = '<%= j render "services/active_services_list", active_serivces: @active_serivces %>';
   <% flash[:notice] = 'Service has been successfully created.' %>
   $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+  $(function() {
+    setTimeout(function(){
+      $('.alert').slideUp(500);
+    }, 2000);
+  });
 <% end %>
 document.getElementById('service_description').addEventListener('keyup', (e) => {
   const description_count = document.getElementById('service_description').value.length;

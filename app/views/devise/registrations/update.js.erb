@@ -16,3 +16,8 @@ if ('<%= @param.keys.first %>' == "first_name") {
   <% flash[:notice] = 'Your personal profile has been updated!' %>
   $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
 <% end %>
+$(function() {
+  setTimeout(function(){
+    $('.alert').slideUp(500);
+  }, 2000);
+});

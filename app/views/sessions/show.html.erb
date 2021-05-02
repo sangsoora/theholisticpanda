@@ -20,7 +20,7 @@
     <div class="session-title">
       <h2><%= @session.service.name %> with <%= @session.user.full_name %></h2>
     </div>
-    <% if (@session.status == 'pending' && @session.paid) || (@session.status == 'pending' && @session.service.default_service) %>
+    <% if (@session.status == 'pending' && @session.payment_method_id && @session.payment_method_id != '') || (@session.status == 'pending' && @session.service.default_service) %>
       <p class="mt-3"><%= @session.user.first_name %> has chose 3 time slots for the requested session. Please choose one to confirm the session.</p>
       <%= simple_form_for @session do |f| %>
         <div class="form-group">
@@ -66,22 +66,18 @@
         <%= link_to 'Rate', '', data: { toggle: "modal", target: "#newReviewModal" }, class: 'btn btn-flat' %>
       <% end %>
     </div>
-    <% if @session.status == 'pending' && !@session.paid && !@session.service.default_service %>
+    <% if @session.status == 'pending' && !@session.payment_method_id && !@session.service.default_service %>
       <p class="mt-3">Thank you for requesting a session with <%= link_to @practitioner.user.first_name, practitioner_path(@practitioner) %> for <%= link_to @session.service.name, service_path(@session.service) %></p>
       <p><strong>Please complete your checkout to proceed.</strong></p>
       <div class="session-btns">
         <%= link_to 'Go to checkout', new_session_payment_path(@session), class: 'btn btn-flat' %>
-        <%= simple_form_for [@session] do |f| %>
-          <%= f.submit 'Cancel This Request',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost' %>
-        <% end %>
+        <%= link_to 'Cancel This Request', session_path(@session), class: 'btn btn-ghost', method: :delete, data: {confirm: 'Are you sure?'} %>
       </div>
-    <% elsif (@session.status == 'pending' && @session.paid) || (@session.status == 'pending' && @session.service.default_service) %>
+    <% elsif (@session.status == 'pending' && @session.payment_method_id && @session.payment_method_id != '') || (@session.status == 'pending' && @session.service.default_service) %>
       <p class="mt-3">Thank you for requesting a session with <%= link_to @practitioner.user.first_name, practitioner_path(@practitioner) %> for <%= link_to @session.service.name, service_path(@session.service) %></p>
       <p><strong><%= @session.service.practitioner.user.first_name %> will confirm this session shortly.</strong></p>
       <div class="session-btns">
-        <%= simple_form_for [@session] do |f| %>
-          <%= f.submit 'Cancel This Request',  data: { confirm: "Are you sure?" }, class: 'btn btn-ghost' %>
-        <% end %>
+        <%= link_to 'Cancel This Request', session_path(@session), class: 'btn btn-ghost', method: :delete, data: {confirm: 'Are you sure?'} %>
       </div>
     <% elsif @session.status == 'confirmed' %>
       <p class="mt-3">Thank you for booking a session with <%= link_to @practitioner.user.first_name, practitioner_path(@practitioner) %> for <%= link_to @session.service.name, service_path(@session.service) %></p>
@@ -108,7 +104,13 @@
         <% end %>
         <p>Duration: <%= @session.service.duration %>m</p>
         <p>Session Type: <%= @session.session_type %></p>
-        <p>Total Price: CA$ <%= @session.amount.round(2) %></p>
+        <p>Total Price: CA$ <%= @session.amount.round(2) %> (Sales tax might apply)</p>
+        <% if @session.payment_method_id %>
+          <div class="d-flex">
+            <p class="mr-2">Payment method: <span id="payment">Card ending with <%= current_user.payment_methods.find_by(payment_method_id: @session.payment_method_id).last4 %></span></p>
+            <%= link_to '', '', class: 'fas fa-pen', id: 'payment-method-edit', data: { toggle: "modal", target: "#paymentMethodModal" } %>
+          </div>
+        <% end %>
         <% if @session.address? %>
           <div class="d-flex">
             <p class="mr-2">Session Location: <span id="address"><%= @session.address %></span></p>
@@ -152,7 +154,13 @@
         <% end %>
         <p>Duration: <%= @session.service.duration %>m</p>
         <p>Session Type: <%= @session.session_type %></p>
-        <p>Total Price: CA$ <%= @session.amount.round(2) %></p>
+        <p>Total Price: CA$ <%= @session.amount.round(2) %> (Sales tax might apply)</p>
+        <% if @session.payment_method_id %>
+          <div class="d-flex">
+            <p class="mr-2">Payment method: <span id="payment">Card ending with <%= current_user.payment_methods.find_by(payment_method_id: @session.payment_method_id).last4 %></span></p>
+            <%= link_to '', '', class: 'fas fa-pen', id: 'payment-method-edit', data: { toggle: "modal", target: "#paymentMethodModal" } %>
+          </div>
+        <% end %>
         <div class="d-flex">
           <p class="mr-2">Virtual Session Link: <span id="link"><a href="<%= @session.link %>" target="_blank"><%= @session.link %></a></span></p>
           <% if @session.start_time? && @session.start_time > Time.current && @session.practitioner.user == current_user %>
@@ -225,6 +233,21 @@
           <%= f.input :cancel_reason, label: false, require: true %>
           <%= f.submit 'Confirm Cancellation', data: { toggle: "modal", target: "#cancelSessionModal" }, class: 'btn btn-flat' %>
         <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="paymentMethodModal" tabindex="-1" role="dialog" aria-labelledby="paymentMethodModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <h5 class="modal-title" id="paymentMethodModalLabel">Change Payment Method</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="payment-modal-close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="payment_method_wrapper">
+        <%= render 'payment_method_form', session: @session %>
       </div>
     </div>
   </div>

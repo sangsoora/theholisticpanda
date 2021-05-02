@@ -8,6 +8,11 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
+  $(function() {
+    setTimeout(function(){
+      $('.alert').slideUp(500);
+    }, 2000);
+  });
   document.getElementById('country').innerHTML = "<%= @practitioner.country_name %>";
   var input = document.getElementById('practitioner_address');
   var input1 = document.getElementById('practitioner_location')
@@ -56,11 +61,16 @@ if ('<%= @param.keys.first %>' == "country_code") {
   titleForm.style.display = 'none';
   titleEdit.style.display = 'block';
   <% if @practitioner.errors.empty? %>
-    <% flash[:notice] = 'Title has been updated.' %>
+    <% flash[:notice] = 'Professional Headline has been updated.' %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
+  $(function() {
+    setTimeout(function(){
+      $('.alert').slideUp(500);
+    }, 2000);
+  });
   document.getElementById('title').innerHTML = "<%= @practitioner.title %>";
 } else if ('<%= @param.keys.first %>' == "experience") {
   experience.style.display = 'flex';
@@ -72,6 +82,11 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
+  $(function() {
+    setTimeout(function(){
+      $('.alert').slideUp(500);
+    }, 2000);
+  });
   document.getElementById('experience').innerHTML = "<%= @practitioner.experience %>";
 } else if ('<%= @param.keys.first %>' == "bio") {
   bio.style.display = 'flex';
@@ -83,6 +98,11 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
+  $(function() {
+    setTimeout(function(){
+      $('.alert').slideUp(500);
+    }, 2000);
+  });
   document.getElementById('bio').innerHTML = `<% if @practitioner.bio %><%= @practitioner.bio.gsub(/\n/, "<br/>").html_safe %><% end %>`;
   document.getElementById('progress-text').innerHTML = '<%= j render "practitioners/profile_progress_text", practitioner: @practitioner %>';
 } else if ('<%= @param.keys.first %>' == "video") {
@@ -95,6 +115,11 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
+  $(function() {
+    setTimeout(function(){
+      $('.alert').slideUp(500);
+    }, 2000);
+  });
   document.getElementById('video').innerHTML = `<iframe class="embed-responsive-item" src="<%= @practitioner.video %>" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
 } else if ('<%= @param.keys.first %>' == "address") {
   address.style.display = 'flex';
@@ -106,6 +131,11 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
+  $(function() {
+    setTimeout(function(){
+      $('.alert').slideUp(500);
+    }, 2000);
+  });
   document.getElementById('address').innerHTML = "<%= @practitioner.address %>";
 } else if ('<%= @param.keys.first %>' == "timezone") {
   timezone.style.display = 'flex';
@@ -117,6 +147,11 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
+  $(function() {
+    setTimeout(function(){
+      $('.alert').slideUp(500);
+    }, 2000);
+  });
   document.getElementById('timezone').innerHTML = "<%= @practitioner.timezone %>";
 } else if ('<%= @param.keys.first %>' == "location") {
   city.style.display = 'flex';
@@ -128,6 +163,11 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
+  $(function() {
+    setTimeout(function(){
+      $('.alert').slideUp(500);
+    }, 2000);
+  });
   document.getElementById('city').innerHTML = "<%= @practitioner.location %>";
 } else if ('<%= @param.keys.first %>' == "approach") {
   approach.style.display = 'flex';
@@ -139,6 +179,11 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
+  $(function() {
+    setTimeout(function(){
+      $('.alert').slideUp(500);
+    }, 2000);
+  });
   document.getElementById('approach').innerHTML = `<% if @practitioner.approach %><%= @practitioner.approach.gsub(/\n/, "<br/>").html_safe %><% end %>`;
 } else if ('<%= @param.keys.first %>' == "insurance") {
   <% if @practitioner.errors.empty? %>
@@ -147,6 +192,11 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
+  $(function() {
+    setTimeout(function(){
+      $('.alert').slideUp(500);
+    }, 2000);
+  });
   <% if @practitioner.insurance %>
     if (<%= @practitioner.insurance %>) {
       insurance.checked = true;
@@ -156,5 +206,10 @@ if ('<%= @param.keys.first %>' == "country_code") {
   <% end %>
 } else {
   <% flash[:notice] = 'Profile has been updated.' %>
+  $(function() {
+    setTimeout(function(){
+      $('.alert').slideUp(500);
+    }, 2000);
+  });
 }
 $("#progress").html('<%= j render  "practitioners/profile_progress_bar", practitioner: @practitioner %>');
