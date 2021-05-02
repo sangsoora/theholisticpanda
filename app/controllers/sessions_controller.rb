@@ -69,9 +69,9 @@ class SessionsController < ApplicationController
   end
 
   def update
-    if params[:commit].start_with?('Use card ending with')
+    if params[:commit].start_with?('Use Card Ending With')
       if @session.update(session_params)
-        @session.update!(status: 'pending', paid: true)
+        @session.update!(status: 'pending')
         SessionMailer.with(session: @session).send_request.deliver_now
         Notification.create(recipient: @session.practitioner.user, actor: current_user, action: 'sent you a session request', notifiable: @session)
         redirect_to session_path(@session)
