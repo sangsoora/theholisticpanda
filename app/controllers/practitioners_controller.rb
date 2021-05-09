@@ -95,9 +95,9 @@ class PractitionersController < ApplicationController
     if params[:commit] == 'Proceed To Payment'
       if (params[:practitioner][:agreement_consent][1]) && (params[:practitioner][:background_check_consent][1]) && @practitioner.update(background_check_consent: true, agreement_consent: true, amount_cents: 3500)
         customer = Stripe::Customer.create({
-          email: @user.email,
-          name: @user.full_name,
-          phone: @user.phone_number
+          email: @practitioner.user.email,
+          name: @practitioner.user.full_name,
+          phone: @practitioner.user.phone_number
         })
         @practitioner.user.update(stripe_id: customer.id)
         payment_session = Stripe::Checkout::Session.create(

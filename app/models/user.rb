@@ -57,17 +57,17 @@ class User < ApplicationRecord
   def after_confirmation
     UserMailer.with(user: self).welcome.deliver_now
     AdminMailer.with(user: self).new_user.deliver_now
+    welcome_code = Stripe::PromotionCode.create({
+      coupon: 'first_booking_discount',
+      expires_at: (Time.now + 3.months).to_i,
+      max_redemptions: 1,
+      metadata: {
+        user_id: id
+      }
+    })
+    UserPromo.create(name: 'WELCOMETOPANDA', user: self, promo_id: welcome_code.id, active: true, expires_at: Time.at(welcome_code.expires_at).to_datetime)
     @referred_user = ReferredUser.find_by(invited_user_id: id)
     if @referred_user
-      welcome_code = Stripe::PromotionCode.create({
-        coupon: 'first_booking_discount',
-        expires_at: (Time.now + 3.months).to_i,
-        max_redemptions: 1,
-        metadata: {
-          user_id: id
-        }
-      })
-      UserPromo.create(name: 'WELCOMETOPANDA', user: self, promo_id: welcome_code.id, active: true, expires_at: Time.at(welcome_code.expires_at).to_datetime)
       new_user_code = Stripe::PromotionCode.create({
         coupon: 'referral_discount',
         expires_at: (Time.now + 3.months).to_i,
@@ -77,7 +77,7 @@ class User < ApplicationRecord
         }
       })
       UserPromo.create(name: 'REFERRAL10', user: self, promo_id: new_user_code.id, active: true, expires_at: Time.at(new_user_code.expires_at).to_datetime)
-      customer =  @referred_user.user.stripe_id if @referred_user.user.stripe_id
+      customer = @referred_user.user.stripe_id if @referred_user.user.stripe_id
       existing_user_code = Stripe::PromotionCode.create({
         coupon: 'referral_discount',
         expires_at: (Time.now + 3.months).to_i,
@@ -87,7 +87,7 @@ class User < ApplicationRecord
           user_id: @referred_user.user.id
         }
       })
-      UserPromo.create(name: 'REFERRAL10', user: self, promo_id: existing_user_code.id, active: true, expires_at: Time.at(existing_user_code.expires_at).to_datetime)
+      UserPromo.create(name: 'REFERRAL10', user: @referred_user.user, promo_id: existing_user_code.id, active: true, expires_at: Time.at(existing_user_code.expires_at).to_datetime)
       ReferralMailer.with(user: self).new_user_coupon.deliver_now
       ReferralMailer.with(referred_user: @referred_user, user: self).existing_user_coupon.deliver_now
     end
@@ -132,6 +132,10 @@ class User < ApplicationRecord
     else
       conversation_messages.max_by(&:created_at).conversation
     end
+  end
+
+  def first_session?
+    sessions.where(free_practitioner_id: nil).where.not(status: 'cancelled').count.zero?
   end
 
   private
