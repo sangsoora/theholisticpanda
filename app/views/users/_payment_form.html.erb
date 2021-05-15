@@ -1,9 +1,9 @@
 <% if current_user.payment_methods.count == 0 %>
   <%= simple_form_for(resource, url: registration_path(resource), html: { method: :put, style: 'align-items: center;' }) do |f| %>
-    <%= f.button :submit, "Save Payment Method for Future Payment", class: 'btn-flat my-4' %>
+    <%= f.button :submit, "Save payment method for future payment", class: 'btn-flat my-4' %>
   <% end %>
 <% else %>
-  <p><strong>My Saved Payment Method</strong></p>
+  <p><strong>Payment Method</strong></p>
   <br>
   <div class="d-flex mb-2">
     <p>Card ending with <%= current_user.payment_methods.find_by(default: true).last4 %></p><button class="default-card">DEFAULT</button>
@@ -22,6 +22,6 @@
     <% end %>
   <% end %>
   <%= simple_form_for(resource, url: registration_path(resource), html: { method: :put, style: 'align-items: center;' }) do |f| %>
-    <%= f.button :submit, "Add New Payment Method", class: 'btn-flat my-4' %>
+    <%= f.button :submit, "Add new payment method", class: 'btn-flat my-4' %>
   <% end %>
 <% end %>

@@ -133,6 +133,10 @@ button:focus {
   opacity: 0;
 }
 
+.wpcc-container {
+  height: 15vh !important;
+}
+
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
 

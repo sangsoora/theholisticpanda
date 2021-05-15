@@ -3,6 +3,7 @@ class PaymentsController < ApplicationController
     @session = current_user.sessions.where(status: 'pending').find(params[:session_id])
     authorize @session
     @default_payment_method = current_user.payment_methods.find_by(default: true)
+    @promos = current_user.user_promos.where('expires_at > ? AND active = ?', Time.now, true).order('expires_at')
     if @default_payment_method
       @billing_country = @default_payment_method.billing_country
       @billing_state = @default_payment_method.billing_state

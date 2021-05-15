@@ -104,7 +104,7 @@
         <% end %>
         <p>Duration: <%= @session.service.duration %>m</p>
         <p>Session Type: <%= @session.session_type %></p>
-        <p>Total Price: CA$ <%= @session.amount.round(2) %> (Sales tax might apply)</p>
+        <p>Total Price: CA$ <%= @session.estimate_price %> (It might differ due to the sales tax)</p>
         <% if @session.payment_method_id %>
           <div class="d-flex">
             <p class="mr-2">Payment method: <span id="payment">Card ending with <%= current_user.payment_methods.find_by(payment_method_id: @session.payment_method_id).last4 %></span></p>
@@ -128,7 +128,7 @@
         <% end %>
         <% if @session.user == current_user && !@session.service.default_service %>
           <p class="mb-0"><strong>Cancellation Policy</strong></p>
-          <p>Out of respect to the practitioners and their time, please note that you are required to cancel your booking at least 24 hours prior to the session start time to prevent being charged the full amount. If you have to late cancel due to extenuating circumstances, please message your practitioner and reach out to us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a>.</p>
+          <p>Out of respect to the practitioners and their time, please note that you are required to cancel your booking at least 24 hours prior to the session start time to prevent being charged the full amount. If you have to late cancel due to extenuating circumstances, please message your practitioner and reach out to us <a href="mailto:hello@theholisticpanda.com">here</a>.</p>
         <% else %>
           <% if @session.message && @session.message != '' %>
             <p>Message From <%= @session.user.full_name %>: <%= @session.message.gsub(/\n/, '<br/>').html_safe %></p>
@@ -154,7 +154,7 @@
         <% end %>
         <p>Duration: <%= @session.service.duration %>m</p>
         <p>Session Type: <%= @session.session_type %></p>
-        <p>Total Price: CA$ <%= @session.amount.round(2) %> (Sales tax might apply)</p>
+        <p>Total Price: CA$ <%= @session.estimate_price %> (It might differ due to the sales tax)</p>
         <% if @session.payment_method_id %>
           <div class="d-flex">
             <p class="mr-2">Payment method: <span id="payment">Card ending with <%= current_user.payment_methods.find_by(payment_method_id: @session.payment_method_id).last4 %></span></p>
@@ -174,7 +174,7 @@
         </div>
         <% if @session.user == current_user && !@session.service.default_service %>
           <p class="mb-0"><strong>Cancellation Policy</strong></p>
-          <p>Cancel more than 24 hours before your appointment to get a full refund, less the service fee. Payment cannot be refunded if cancelling within 24 hours of session.</p>
+          <p>Out of respect to the practitioners and their time, please note that you are required to cancel your booking at least 24 hours prior to the session start time to prevent being charged the full amount. If you have to late cancel due to extenuating circumstances, please message your practitioner and reach out to us <a href="mailto:hello@theholisticpanda.com">here</a>.</p>
         <% else %>
           <% if @session.message && @session.message != '' %>
             <p>Message From <%= @session.user.full_name %>: <%= @session.message.gsub(/\n/, '<br/>').html_safe %></p>
@@ -219,7 +219,7 @@
         <h3>Cancel <em><%= @session.service.name %></em></h3>
         <% if @session.start_time %>
           <% if @time_diff >= 24 %>
-            <p>You won't be charged any for the cancellation at this moment and will get a full fund.</p>
+            <p>You won't be charged any for the cancellation at this moment.</p>
           <% else %>
             <p>You won't any refund for the cancellation at this moment according to our cancellation policy.</p>
           <% end %>

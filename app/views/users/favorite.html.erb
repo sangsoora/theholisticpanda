@@ -4,7 +4,7 @@
     <% if current_user.favorite_practitioners.count > 0 %>
       <%= render 'favorite_practitioners/favorite_practitioners_list', favorite_practitioners: @favorite_practitioners %>
     <% else %>
-      <%= link_to 'Find Holistic Services', services_path, class: 'btn btn-flat' %>
+      <%= link_to 'Find holistic services', services_path, class: 'btn btn-flat' %>
     <% end %>
   </div>
   <br>
@@ -13,7 +13,7 @@
     <% if current_user.favorite_services.count > 0 %>
       <%= render "favorite_services/favorite_services_list", favorite_services: @favorite_services %>
     <% else %>
-      <%= link_to 'Find Holistic Services', services_path, class: 'btn btn-flat' %>
+      <%= link_to 'Find holistic services', services_path, class: 'btn btn-flat' %>
     <% end %>
   </div>
 </div>

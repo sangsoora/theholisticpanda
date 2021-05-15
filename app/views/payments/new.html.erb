@@ -1,36 +1,272 @@
 <div class="container payment-page">
   <div class="payment-box">
-    <h2>Confirm your payment method</h2>
-    <br>
-    <p>Session request for <strong><%= @session.service.name %></strong>.</p>
-    <p>Estimated Price: CA <%= humanized_money_with_symbol @session.amount %></p>
-    <p>Sales tax might apply depending on your location.</p>
-    <p>You'll receive an invoice and your preferred method of payment will be charged upon the completion of the session.</p>
-    <% if current_user.payment_methods.count == 0 %>
-      <%= simple_form_for(current_user, url: registration_path(current_user), html: { method: :put, style: 'align-items: center;' }) do |f| %>
-        <%= f.button :submit, "Set Up Payment Method", class: 'btn-flat my-4' %>
-      <% end %>
-    <% else %>
-      <p><strong>My Saved Card</strong></p>
-      <div class="d-flex">
-        <%= simple_form_for([@session]) do |f| %>
-          <%= f.input :payment_method_id, as: :hidden, input_html: { value: current_user.payment_methods.find_by(default: true).payment_method_id } %>
-          <%= f.button :submit, "Use Card Ending With #{current_user.payment_methods.find_by(default: true).last4} (Default)", class: 'btn-flat mb-3' %>
-        <% end %>
-      </div>
-      <% if current_user.payment_methods.count > 1 %>
-        <% current_user.payment_methods.where(default: false).each do |card| %>
-          <div class="d-flex">
-            <%= simple_form_for([@session]) do |f| %>
-              <%= f.input :payment_method_id, as: :hidden, input_html: { value: card.payment_method_id } %>
-              <%= f.button :submit, "Use Card Ending With #{card.last4}", class: 'btn-flat mb-3' %>
+    <div class="payment-fields">
+      <h3 class="mb-5">Confirm your payment method</h3>
+      <p>Session request for <strong><%= @session.service.name %></strong>.</p>
+      <p>You'll receive an invoice and your preferred method of payment will be charged upon the completion of the session.</p>
+      <p><strong>Coupons</strong></p>
+      <% if (current_user.payment_methods.count > 0) %>
+        <%= simple_form_for(@session) do |f| %>
+          <%= f.input :estimate_price, as: :hidden %>
+          <% if @session.amount_cents >= 5000 %>
+            <% if @promos.exists? %>
+              <div class="form-group select optional session_promo_id">
+                <select class="form-control select optional" name="session[promo_id]" id="session_promo_id">
+                  <option value="">Select Available Coupon</option>
+                  <% @promos.each do |promo| %>
+                    <option value="<%= promo.id %>"
+                      <% if promo.detail.include?('%') %>
+                        data-type="percentage" data-discount="<%= promo.detail.split('%').first %>"
+                      <% else %>
+                        data-type="dollar" data-discount="<%= promo.detail.split('$').first %>"
+                      <% end %>
+                      >
+                      <%= promo.name %> - <%= promo.detail %> (expires in <%= distance_of_time_in_words(Time.now, promo.expires_at) %>)
+                    </option>
+                  <% end %>
+                </select>
+                <!-- <input class="form-control string optional mt-4" type="text" name="session[promo_id_string]" id="session_promo_id_string" placeholder="Promotion Code"> -->
+              </div>
+            <% else %>
+                <p>No coupon available.</p>
             <% end %>
+          <% else %>
+            <p>Coupon minimum 50$</p>
+          <% end %>
+          <p><strong>Payment methods</strong></p>
+          <div class="form-group select optional session_promo_id">
+            <select class="form-control select optional" name="session[payment_method_id]" id="session_payment_method_id">
+              <option value="<%= current_user.payment_methods.find_by(default: true).payment_method_id %>" data-country="<%= current_user.payment_methods.find_by(default: true).billing_country %>" data-state="<%= current_user.payment_methods.find_by(default: true).billing_state %>" select>Use Card Ending With <%= current_user.payment_methods.find_by(default: true).last4 %> (Default)</option>
+              <% current_user.payment_methods.where(default: false).each do |card| %>
+                <option value="<%= card.payment_method_id %>" data-country="<%= card.billing_country %>" data-state="<%= card.billing_state %>">Use Card Ending With <%= card.last4 %></option>
+              <% end %>
+            </select>
+            <!-- <input class="form-control string optional mt-4" type="text" name="session[promo_id_string]" id="session_promo_id_string" placeholder="Promotion Code"> -->
           </div>
+          <%= f.button :submit, "Confirm payment method", class: 'btn-flat my-2 w-100' %>
+        <% end %>
+        <%= simple_form_for(current_user, url: registration_path(current_user), html: { method: :put, style: 'align-items: center;' }) do |f| %>
+          <%= f.button :submit, "Add new payment method", class: 'btn-ghost my-2 w-100' %>
+        <% end %>
+      <% else %>
+        <%= simple_form_for(current_user, url: registration_path(current_user), html: { method: :put, style: 'align-items: center;' }) do |f| %>
+          <%= f.button :submit, "Set up payment method", class: 'btn-flat my-4 w-100' %>
         <% end %>
       <% end %>
-      <%= simple_form_for(@resource, url: registration_path(@resource), html: { method: :put, style: 'align-items: center;' }) do |f| %>
-        <%= f.button :submit, "Add New Payment Method", class: 'btn-ghost my-4' %>
-      <% end %>
-    <% end %>
+    </div>
+    <div class="payment-price">
+      <div class="text-center">
+        <h3 class="mb-5">Price breakdown</h3>
+      </div>
+      <div class="price-breakdown">
+        <div class="d-flex justify-content-between mb-3">
+          <div class="price-col">
+            <p><strong>Service price</strong></p>
+          </div>
+          <div class="price-value">
+            <p>CA <%= humanized_money_with_symbol @session.amount %></p>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between mb-3">
+          <div class="price-col">
+            <p><strong>Discount</strong></p>
+          </div>
+          <div class="price-value">
+            <p id="discount-amount">N/A</p>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="price-col">
+            <p><strong>Sales tax</strong></p>
+          </div>
+          <div class="price-value">
+            <p id="tax-amount">TBD</p>
+          </div>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between">
+          <div class="price-col">
+            <p><strong>Total</strong></p>
+          </div>
+          <div class="price-value">
+            <p id="final-price"></p>
+          </div>
+        </div>
+      </div>
+      <p><small><em>Sales tax is estimation and might differ at the time of charge.</em></small></p>
+    </div>
   </div>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const initPrice = <%= @session.amount %>;
+    const discountSelect = document.getElementById('session_promo_id');
+    const paymentSelect = document.getElementById('session_payment_method_id');
+    const finalPrice = document.getElementById('final-price');
+    <% if @session.practitioner.user.tax_id %>
+      const practitionerTax = true;
+      const practitionerCountry = '<%= @session.practitioner.country_code %>';
+    <% else %>
+      const practitionerTax = false;
+    <% end %>
+    const getFinalPrice = (discount, type, tax) => {
+      let calculatedPrice = 0;
+      if (discount && tax) {
+        if (type == 'percentage') {
+          calculatedPrice = initPrice - (initPrice * discount);
+          document.getElementById('discount-amount').innerHTML = '- CA $' + (initPrice * discount).toFixed(2);
+          document.getElementById('discount-amount').style.color = 'red';
+          document.getElementById('tax-amount').innerHTML = '+ CA $' + (calculatedPrice * tax).toFixed(2);
+          document.getElementById('tax-amount').style.color = 'green';
+        } else {
+          calculatedPrice = initPrice - discount;
+          document.getElementById('discount-amount').innerHTML = '- CA $' + discount.toFixed(2);
+          document.getElementById('discount-amount').style.color = 'red';
+          document.getElementById('tax-amount').innerHTML = '+ CA $' + ((initPrice - discount) * tax).toFixed(2);
+          document.getElementById('tax-amount').style.color = 'green';
+        }
+        calculatedPrice = (calculatedPrice + (calculatedPrice * tax)).toFixed(2);
+      } else if (discount && !tax) {
+        if (type == 'percentage') {
+          calculatedPrice = (initPrice - (initPrice * discount)).toFixed(2);
+          document.getElementById('discount-amount').innerHTML = '- CA $' + (initPrice * discount).toFixed(2);
+          document.getElementById('discount-amount').style.color = 'red';
+          document.getElementById('tax-amount').innerHTML = 'TBD';
+          document.getElementById('tax-amount').style.color = 'black';
+        } else {
+          calculatedPrice = initPrice - discount;
+          document.getElementById('discount-amount').innerHTML = '- CA $' + discount.toFixed(2);
+          document.getElementById('discount-amount').style.color = 'red';
+          document.getElementById('tax-amount').innerHTML = 'TBD';
+          document.getElementById('tax-amount').style.color = 'black';
+        }
+      } else if (!discount && tax) {
+        calculatedPrice = (initPrice + (initPrice * tax)).toFixed(2);
+        document.getElementById('discount-amount').innerHTML = 'N/A';
+        document.getElementById('discount-amount').style.color = 'black';
+        document.getElementById('tax-amount').innerHTML = '+ CA $' + (initPrice * tax).toFixed(2);
+        document.getElementById('tax-amount').style.color = 'green';
+      } else if (!discount && !tax) {
+        calculatedPrice = initPrice;
+        document.getElementById('discount-amount').innerHTML = 'N/A';
+        document.getElementById('discount-amount').style.color = 'black';
+        document.getElementById('tax-amount').innerHTML = 'TBD';
+        document.getElementById('tax-amount').style.color = 'black';
+      }
+      finalPrice.innerHTML = '<strong>CA $' + calculatedPrice + '</strong>';
+      document.getElementById('session_estimate_price').value = calculatedPrice;
+    }
+    <% if current_user.payment_methods.count == 0 %>
+      getFinalPrice(null, null, null);
+    <% else %>
+      <% if @session.practitioner.user.tax_id %>
+        <% if current_user.payment_methods.find_by(default: true).billing_country == 'CA' %>
+          <% if (current_user.payment_methods.find_by(default: true).billing_state == 'NB') || (current_user.payment_methods.find_by(default: true).billing_state == 'NL') || (current_user.payment_methods.find_by(default: true).billing_state == 'NS') || (current_user.payment_methods.find_by(default: true).billing_state == 'PE') %>
+            getFinalPrice(null, null, 0.15);
+          <% elsif current_user.payment_methods.find_by(default: true).billing_state == 'ON' %>
+            getFinalPrice(null, null, 0.13);
+          <% else %>
+            getFinalPrice(null, null, 0.05);
+          <% end %>
+        <% end %>
+      <% else %>
+        getFinalPrice(null, null, null);
+      <% end %>
+    <% end %>
+    discountSelect.addEventListener('change', (e) => {
+      let discountType = $('#session_promo_id :selected').data().type;
+      let discountAmount = $('#session_promo_id :selected').data().discount;
+      let taxState = $('#session_payment_method_id :selected').data().state;
+      let taxCountry = $('#session_payment_method_id :selected').data().country;
+      let taxRate = 0.0;
+      if (discountSelect.value != '') {
+        if (practitionerTax) {
+          if (practitionerCountry == taxCountry) {
+            if ((taxState == 'NB') || (taxState == 'NL') || (taxState == 'NS') || (taxState == 'PE')) {
+              taxRate = 0.15;
+            } else if (taxState == 'ON') {
+              taxRate = 0.13;
+            } else {
+              taxRate = 0.05;
+            }
+          }
+          getFinalPrice((discountAmount/100), discountType, taxRate);
+        } else {
+          getFinalPrice((discountAmount/100), discountType, null);
+        }
+      } else {
+        if (practitionerTax) {
+          if (practitionerCountry == taxCountry) {
+            if ((taxState == 'NB') || (taxState == 'NL') || (taxState == 'NS') || (taxState == 'PE')) {
+              taxRate = 0.15;
+            } else if (taxState == 'ON') {
+              taxRate = 0.13;
+            } else {
+              taxRate = 0.05;
+            }
+          }
+          getFinalPrice(null, null, taxRate);
+        } else {
+          getFinalPrice(null, null, null);
+        }
+      }
+    });
+    paymentSelect.addEventListener('change', (e) => {
+      let discountType = $('#session_promo_id :selected').data().type;
+      let discountAmount = $('#session_promo_id :selected').data().discount;
+      let taxState = $('#session_payment_method_id :selected').data().state;
+      let taxCountry = $('#session_payment_method_id :selected').data().country;
+      let taxRate = 0.0;
+      if (discountSelect.value != '') {
+        if (practitionerTax) {
+          if (practitionerCountry == taxCountry) {
+            if ((taxState == 'NB') || (taxState == 'NL') || (taxState == 'NS') || (taxState == 'PE')) {
+              taxRate = 0.15;
+            } else if (taxState == 'ON') {
+              taxRate = 0.13;
+            } else {
+              taxRate = 0.05;
+            }
+            getFinalPrice((discountAmount/100), discountType, taxRate);
+          } else {
+            getFinalPrice((discountAmount/100), discountType, null);
+          }
+        } else {
+          getFinalPrice((discountAmount/100), discountType, null);
+        }
+      } else {
+        if (practitionerTax) {
+          if (practitionerCountry == taxCountry) {
+            if ((taxState == 'NB') || (taxState == 'NL') || (taxState == 'NS') || (taxState == 'PE')) {
+              taxRate = 0.15;
+            } else if (taxState == 'ON') {
+              taxRate = 0.13;
+            } else {
+              taxRate = 0.05;
+            }
+          }
+          getFinalPrice(null, null, taxRate);
+        } else {
+          getFinalPrice(null, null, null);
+        }
+      }
+    });
+  });
+  // const coupon = document.getElementById('session_promo_id');
+  // const promo = document.getElementById('session_promo_id_string');
+  // coupon.addEventListener('change', (e) => {
+  //   if (coupon.value == '') {
+  //     promo.disabled = false;
+  //   } else {
+  //     promo.disabled = true;
+  //   }
+  // });
+  // promo.addEventListener('keyup', (e) => {
+  //   if (promo.value == '') {
+  //     coupon.disabled = false;
+  //   } else {
+  //     coupon.disabled = true;
+  //   }
+  // });
+
+</script>

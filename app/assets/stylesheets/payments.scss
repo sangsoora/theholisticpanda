@@ -6,10 +6,21 @@
 .payment-box {
   background: white;
   box-shadow: 0 7px 25px 0 rgba(0,0,0,.1);
-  padding: 1rem 5rem;
+  padding: 1rem 3rem;
   border-radius: 0.5rem;
-  width: 70%;
+  width: 90%;
   margin: 1rem auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .payment-fields {
+    flex: 0 0 60%;
+    padding: 1rem;
+  }
+  .payment-price {
+    flex: 0 0 35%;
+    padding: 1rem;
+  }
 }
 
 // X-Small devices (portrait phones, less than 576px)

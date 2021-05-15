@@ -1,12 +1,11 @@
 <div class="virtual-banner">
-  <h2>Explore Our Virtual Sessions</h2>
+  <h2>Explore our virtual sessions</h2>
   <div class="virtual-banner-body">
     <%= simple_form_for :search, url: services_path, method: "GET" do |f| %>
       <div class="d-flex justify-content-between">
         <%= f.input :service_type, as: :hidden, input_html: { value: 'Virtual' } %>
       </div>
-      <%= f.submit "Explore All Virtual Services", class: "btn btn-flat" %>
+      <%= f.submit "Explore all virtual services", class: "btn btn-flat" %>
     <% end %>
   </div>
 </div>
-
