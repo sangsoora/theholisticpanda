@@ -33,4 +33,10 @@ class Service < ApplicationRecord
   def self.active_services
     where(active: true, default_service: nil).joins(:practitioner).where(practitioners: { status: 'active' })
   end
+
+  def matching_counts(array)
+    goals = 0
+    health_goals.each { |g| goals += 1 if g.id.in?(array) }
+    goals
+  end
 end

@@ -4,11 +4,15 @@ class ServicesController < ApplicationController
   before_action :set_service, only: %i[show update destroy]
 
   def index
-    if params[:commit] == 'Explore All Virtual Services'
-      @all_services = policy_scope(Service).active_services.where(service_type: 'Virtual').includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}])
-    else
-      @all_services = policy_scope(Service).active_services.includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}])
+    @filtered_services_goals = []
+    Service.active_services.each do |service|
+      service.health_goals.each do |goal|
+        if !@filtered_services_goals.include?(goal)
+          @filtered_services_goals << goal
+        end
+      end
     end
+    @all_services = policy_scope(Service).active_services.includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}]).shuffle
     if params[:search] && params[:search][:health_goal]
       @primary_filtered_services = Service.active_services.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?))
       @filtered_services_specialties = @primary_filtered_services.uniq.compact.map { |service| service.specialty }.uniq
@@ -46,9 +50,9 @@ class ServicesController < ApplicationController
         elsif params[:filter][:specialty].length == 1 && params[:filter][:language].length == 1 && params[:filter][:service_type] == ""
           @filtered_services = @primary_filtered_services
         end
-        @filtered_services = @filtered_services.uniq.compact.sort_by(&:price)
+        @filtered_services = @filtered_services.uniq.compact.shuffle
       else
-        @filtered_services = @primary_filtered_services.uniq.compact.sort_by(&:price)
+        @filtered_services = @primary_filtered_services.uniq.compact.shuffle
       end
     end
   end

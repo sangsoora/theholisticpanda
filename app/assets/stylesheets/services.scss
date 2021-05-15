@@ -144,26 +144,6 @@
   padding: 1rem;
   border-radius: 4px;
   margin-bottom: 2rem;
-  display: flex;
-  .service-left-column {
-    flex: 0 0 60%;
-    border-right: 1px solid #dbdbdb;
-    padding: 0 1rem;
-  }
-  .service-right-column {
-    flex: 0 0 40%;
-    padding: 0 1rem;
-    .tabs-underlined {
-      justify-content: center;
-    }
-    .tabs-underlined .tab-underlined.active-tab {
-      font-weight: 400;
-    }
-    .tabs-underlined .tab-underlined {
-      margin: 0 1rem 1rem;
-      padding: 0 0.5rem;
-    }
-  }
 }
 
 .service-list-item-title {
@@ -172,7 +152,7 @@
   justify-content: space-between;
   margin-bottom: 0.75rem;
   h3 {
-    flex: 0 0 95%;
+    flex: 1 0 55%;
     font-size: 1.375rem;
     margin-bottom: 0;
     overflow: hidden;
@@ -190,18 +170,34 @@
   }
 }
 
-.service-list-item-goals, .practitioner-specialties {
+.service-list-item-body {
+  display: flex;
+  .service-left-column {
+    flex: 0 0 15%;
+    padding: 0 1rem;
+  }
+  .service-middle-column {
+    flex: 0 0 55%;
+    padding: 0 1rem;
+  }
+  .service-right-column {
+    flex: 0 0 30%;
+    padding: 0 1rem;
+  }
+}
+
+.service-list-item-goals {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 0.75rem;
   .service-goal {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     padding: 0 0.5rem;
     border-radius: 2rem;
     border: 1px solid $pink;
     color: $pink;
-    margin-right: 0.5rem;
-    margin-bottom: 0.25rem;
+    margin-right: 0.75rem;
+    margin-bottom: 0.75rem;
   }
   .service-goal.match {
     background: $pink;
@@ -230,9 +226,6 @@
 }
 
 .service-list-item-details {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
   .service-list-item-detail-left {
     flex: 0 0 20%;
     .btn {
@@ -254,7 +247,6 @@
   display: flex;
   justify-content: space-between;
   .profile-photo {
-    flex: 0 0 30%;
     text-align: center;
     font-size: 0.875rem;
     p {
@@ -274,13 +266,15 @@
 }
 
 .service-list-item-infos {
+  min-height: 150px;
   p {
     margin-bottom: 0;
+    line-height: 2;
   }
   p.short {
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 6;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
   }
 }
@@ -557,7 +551,7 @@ input[type='radio']:checked:after {
       }
     }
   }
-  .service-list-item-goals, .practitioner-specialties {
+  .service-list-item-goals {
     margin-bottom: 0.5rem;
     .service-goal {
       font-size: 0.625rem;
