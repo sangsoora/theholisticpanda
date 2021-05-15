@@ -3,22 +3,22 @@
     <% if @practitioner.bio? %>
       <p>Please <a href="" id="need-profile">upload your profile photo</a><br>to make your profile public and start creating services.</p>
     <% elsif @practitioner.user.photo.attached? %>
-      <p>Please <a href="" id="need-bio">complete About Me</a><br>to make your profile public and start creating services.</p>
+      <p>Please <a href="" id="need-bio">complete About me</a><br>to make your profile public and start creating services.</p>
     <% else %>
-      <p>Please <a href="" id="need-profile">upload your profile photo</a> and <a href="" id="need-bio">complete About Me</a><br>to make your profile public and start creating services.</p>
+      <p>Please <a href="" id="need-profile">upload your profile photo</a> and <a href="" id="need-bio">complete About me</a><br>to make your profile public and start creating services.</p>
     <% end %>
   <% else %>
     <% if @practitioner.bio? %>
       <% if @practitioner.user.photo.attached? %>
-        <p>Please <a href="" id="need-hours">set your Working Hours</a><br>to make your profile public and start creating services.</p>
+        <p>Please <a href="" id="need-hours">set your Working hours</a><br>to make your profile public and start creating services.</p>
       <% else %>
-        <p>Please <a href="" id="need-hours">set your Working Hours</a> and <a href="" id="need-profile">upload your profile photo</a><br>to make your profile public and start creating services.</p>
+        <p>Please <a href="" id="need-hours">set your Working hours</a> and <a href="" id="need-profile">upload your profile photo</a><br>to make your profile public and start creating services.</p>
       <% end %>
     <% else %>
       <% if @practitioner.user.photo.attached? %>
-        <p>Please <a href="" id="need-hours">set your Working Hours</a> and <a href="" id="need-bio">complete About Me</a><br>to make your profile public and start creating services.</p>
+        <p>Please <a href="" id="need-hours">set your Working hours</a> and <a href="" id="need-bio">complete About me</a><br>to make your profile public and start creating services.</p>
       <% else %>
-        <p>Please <a href="" id="need-hours">set your Working Hours</a>, <a href="" id="need-profile">upload your profile photo</a> and <a href="" id="need-bio">complete About Me</a><br>to make your profile public and start creating services.</p>
+        <p>Please <a href="" id="need-hours">set your Working hours</a>, <a href="" id="need-profile">upload your profile photo</a> and <a href="" id="need-bio">complete About me</a><br>to make your profile public and start creating services.</p>
       <% end %>
     <% end %>
   <% end %>

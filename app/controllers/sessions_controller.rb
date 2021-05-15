@@ -69,8 +69,9 @@ class SessionsController < ApplicationController
   end
 
   def update
-    if params[:commit].start_with?('Use Card Ending With')
+    if params[:commit] == 'Confirm payment method'
       if @session.update(session_params)
+        UserPromo.find(params[:session][:promo_id]).update(active: false) if params[:session][:promo_id]
         @session.update!(status: 'pending')
         SessionMailer.with(session: @session).send_request.deliver_now
         Notification.create(recipient: @session.practitioner.user, actor: current_user, action: 'sent you a session request', notifiable: @session)
@@ -154,6 +155,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:start_time, :duration, :session_type, :primary_time, :secondary_time, :tertiary_time, :message, :amount, :paid, :link, :status, :cancel_reason, :cancelled_user, :address, :latitude, :longitude, :payment_method_id)
+    params.require(:session).permit(:start_time, :duration, :session_type, :primary_time, :secondary_time, :tertiary_time, :message, :amount, :paid, :link, :status, :cancel_reason, :cancelled_user, :address, :latitude, :longitude, :payment_method_id, :estimate_price, :promo_id)
   end
 end

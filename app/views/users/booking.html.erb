@@ -1,6 +1,6 @@
 <div class="container sessions">
   <% if current_user.practitioner %>
-    <h2>My Sessions As Client</h2>
+    <h2>My sessions as client</h2>
   <% end %>
   <ul class="list-inline tabs-underlined">
     <li>
@@ -36,7 +36,7 @@
                 <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
-                <p><small>Session Type: <%= session.session_type %></small></p>
+                <p><small>Session type: <%= session.session_type %></small></p>
               </div>
             </div>
             <div class="session-actions session-desktop">
@@ -62,7 +62,7 @@
                 <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
-                <p><small>Session Type: <%= session.session_type %></small></p>
+                <p><small>Session type: <%= session.session_type %></small></p>
               </div>
             </div>
           </div>
@@ -90,7 +90,7 @@
         <% end %>
       </div>
     <% else %>
-      <%= link_to 'Find Holistic Services', services_path, class: 'btn btn-flat' %>
+      <%= link_to 'Find holistic services', services_path, class: 'btn btn-flat' %>
     <% end %>
   </div>
   <div class="lists">
@@ -113,7 +113,7 @@
                 <p><small>When: TBD</small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
-                <p><small>Session Type: <%= session.session_type %></small></p>
+                <p><small>Session type: <%= session.session_type %></small></p>
               </div>
             </div>
             <div class="session-actions session-desktop">
@@ -135,14 +135,14 @@
                 <p><small>When: TBD</small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
-                <p><small>Session Type: <%= session.session_type %></small></p>
+                <p><small>Session type: <%= session.session_type %></small></p>
               </div>
             </div>
           </div>
         <% end %>
       </div>
     <% else %>
-      <%= link_to 'Find Holistic Services', services_path, class: 'btn btn-flat' %>
+      <%= link_to 'Find holistic services', services_path, class: 'btn btn-flat' %>
     <% end %>
   </div>
   <div class="lists">
@@ -165,7 +165,7 @@
                 <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
-                <p><small>Session Type: <%= session.session_type %></small></p>
+                <p><small>Session type: <%= session.session_type %></small></p>
               </div>
             </div>
             <div class="session-actions session-desktop">
@@ -185,7 +185,7 @@
                 <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.amount.to_f.round(2) %></small></p>
-                <p><small>Session Type: <%= session.session_type %></small></p>
+                <p><small>Session type: <%= session.session_type %></small></p>
               </div>
             </div>
           </div>
@@ -221,7 +221,7 @@
                 </small></p>
                 <p><small>Duration: 15m</small></p>
                 <p><small>Price: Free</small></p>
-                <p><small>Session Type: Virtual</small></p>
+                <p><small>Session type: Virtual</small></p>
               </div>
             </div>
             <div class="session-actions session-desktop">
@@ -247,14 +247,14 @@
                 </small></p>
                 <p><small>Duration: 15m</small></p>
                 <p><small>Price: Free</small></p>
-                <p><small>Session Type: Virtual</small></p>
+                <p><small>Session type: Virtual</small></p>
               </div>
             </div>
           </div>
         <% end %>
       </div>
     <% else %>
-      <%= link_to 'Find Holistic Services', services_path, class: 'btn btn-flat' %>
+      <%= link_to 'Find holistic services', services_path, class: 'btn btn-flat' %>
     <% end %>
   </div>
 </div>

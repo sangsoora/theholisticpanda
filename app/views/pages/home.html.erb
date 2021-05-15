@@ -7,7 +7,7 @@
 <section id="featured-practitioners">
   <div class="d-flex justify-content-center my-4 text-center">
     <div class="container" id="featured-practitioners-desktop">
-      <h2>Our Featured Practitioners</h2>
+      <h2>Our featured practitioners</h2>
       <div class="cards-featured">
         <% @featured_practitioners.shuffle.first(4).each do |practitioner| %>
           <div class="card-featured">
@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class="container" id="featured-practitioners-mobile">
-      <h2>Our Featured Practitioners</h2>
+      <h2>Our featured practitioners</h2>
       <div class="swiper-container" id="practitioners-swiper">
         <div class="swiper-wrapper">
           <% @featured_practitioners.shuffle.first(4).each do |practitioner| %>
@@ -78,9 +78,9 @@
   <%= render 'specialty_banner' %>
   <div class="specilaty-definition">
     <%= image_tag("problem.png") %>
-    <h4>What Is Holistic Wellness?</h4>
+    <h4>What is holistic wellness?</h4>
     <h5>'Holistic' is characterized by the treatment of the whole person, including mental and social factors. Holistic therapies aim to fix the root causes of the condition.</h5>
-    <h4>What Is A Speciality?</h4>
+    <h4>What is a speciality?</h4>
     <h5>A speciality is a specific area where the practitioner has devoted much time and effort in practicing and excelling.</h5>
   </div>
 </section>
@@ -128,7 +128,7 @@
   <div class='d-flex justify-content-center my-4'>
     <div class="container">
       <div class="text-center">
-        <h2>How Does It Work?</h2>
+        <h2>How does it work?</h2>
       </div>
       <div class="cards-works">
         <div class="card-works">
@@ -137,7 +137,7 @@
           </div>
           <div class="work-description">
             <div>
-              <h3>Choose A Holistic Service</h3>
+              <h3>Choose a holistic service</h3>
               <p><strong>Select</strong> your health goals and filter results.</p>
               <p><strong>Explore</strong> services and practitioners’ pages.</p>
               <p><strong>Pick</strong> the right service and provider for you.</p>
@@ -150,7 +150,7 @@
           </div>
           <div class="work-description">
             <div>
-              <h3>Book Your Session</h3>
+              <h3>Book your session</h3>
               <p><strong>See</strong> practitioner’s availability.</p>
               <p><strong>Submit</strong> 3 time requests that suit you.</p>
               <p><strong>Receive</strong> session confirmation from practitioner.</p>
@@ -166,7 +166,7 @@
           </div>
           <div class="work-description">
             <div>
-              <h3>Start Your Journey</h3>
+              <h3>Start your journey</h3>
               <p><strong>Connect</strong> with your selected practitioner.</p>
               <p><strong>Conduct</strong> your session virtually or in-person.</p>
               <p><strong>Start</strong> your wellness journey here!</p>
@@ -180,8 +180,8 @@
 <section id="become-practitoner">
   <div class='d-flex justify-content-center my-4 text-center'>
     <div class="container">
-      <h2>Have Talents To Share?</h2>
-      <h4 class="my-4">Join The Holistic Panda As A Practitioner<br>And Get Connected With Holistic Service Seekers Around The World!</h4>
+      <h2>Have talents to share?</h2>
+      <h4 class="my-4">Join The Holistic Panda as a practitioner<br>and get connected with holistic service seekers around the world!</h4>
       <div class="d-flex justify-content-between my-4" style="flex-wrap: wrap;">
         <div class="talent-img">
           <%= image_tag("talent1.png") %>
@@ -200,7 +200,7 @@
   <div class='d-flex justify-content-center my-4 text-center'>
     <div class="container">
       <% if !(user_signed_in? && current_user.newsletter) %>
-        <h2>Sign Up To Our Newsletter</h2>
+        <h2>Sign up to our newsletter</h2>
         <p>We respect your privacy.</p>
         <!-- Begin Mailchimp Signup Form -->
         <div id="mc_embed_signup">
