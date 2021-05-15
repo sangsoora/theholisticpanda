@@ -6,9 +6,9 @@
       <% else %>
         <legend class="btn" id="health-goal-pop">Select Health Goals&nbsp;&nbsp;<i class="fas fa-chevron-down"></i></legend>
       <% end %>
-      <div class="health-goal-select-box" id="health-goal-select-box">
+      <div class="health-goal-select-box" id="health-goal-select-box" style="top: 0.5rem !important;">
         <div class="health-goal-choices">
-          <% HealthGoal.all.sort_by(&:name).each do |goal| %>
+          <% @filtered_services_goals.sort_by(&:name).each do |goal| %>
             <% if params[:search] && params[:search][:health_goal] %>
               <% if params[:search][:health_goal].include?((goal.id).to_s) %>
                 <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]" id="search_health_goal_<%= goal.id %>" checked><label class="form-check-label collection_check_boxes health-goal-choice active" for="search_health_goal_<%= goal.id %>"><%= goal.name %></label>
