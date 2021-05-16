@@ -84,6 +84,10 @@
   }
 }
 
+#freecall .container {
+  padding: 3rem;
+}
+
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
 
@@ -117,6 +121,9 @@
     p {
       margin: 1rem auto;
     }
+  }
+  #freecall .container {
+    padding: 0;
   }
 }
 
