@@ -23,13 +23,12 @@
 <section id='freecall' class='text-center' style="background-color: white;">
   <div class="container p-5">
     <h2 class="mb-5" style="line-height: 2;">Try a 15-minute discovery call with<br>any of our practitioners</h2>
-    <p style="line-height: 2;font-size:1.25rem;">We know commitment is not easy these days,<br>so enjoy a <strong>free 15 minute discovery call</strong>with any one of our practitioners. It’s on us!</p>
+    <p style="line-height: 2;font-size:1.25rem;">We know commitment is not easy these days,<br>so enjoy a <strong>free 15 minute discovery call</strong> with any one of our practitioners. It’s on us!</p>
   </div>
 </section>
 <section id="featured-practitioners">
   <div class="d-flex justify-content-center my-4 text-center">
     <div class="container" id="featured-practitioners-desktop">
-      <h2>Our featured practitioners</h2>
       <div class="cards-featured">
         <% @featured_practitioners.shuffle.first(4).each do |practitioner| %>
           <div class="card-featured">
@@ -60,7 +59,6 @@
       </div>
     </div>
     <div class="container" id="featured-practitioners-mobile">
-      <h2>Our featured practitioners</h2>
       <div class="swiper-container" id="practitioners-swiper">
         <div class="swiper-wrapper">
           <% @featured_practitioners.shuffle.first(4).each do |practitioner| %>
