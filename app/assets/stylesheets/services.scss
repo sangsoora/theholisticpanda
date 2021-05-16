@@ -173,11 +173,11 @@
 .service-list-item-body {
   display: flex;
   .service-left-column {
-    flex: 0 0 15%;
+    flex: 0 0 25%;
     padding: 0 1rem;
   }
   .service-middle-column {
-    flex: 0 0 55%;
+    flex: 0 0 45%;
     padding: 0 1rem;
   }
   .service-right-column {
@@ -260,7 +260,7 @@
     }
   }
   .service-list-item-user {
-    width: 100%;
+    width: 60%;
     margin-bottom: 0.5rem;
   }
 }
