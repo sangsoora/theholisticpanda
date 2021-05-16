@@ -470,6 +470,14 @@ input[type='radio']:checked:after {
   display: none;
 }
 
+#service-counter {
+  background-color: #ccccd1;
+  color: #706f6f;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border-radius: 6px;
+}
+
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
   .filter-bar {
