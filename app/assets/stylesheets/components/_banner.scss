@@ -9,7 +9,7 @@
     font-size: 1.25rem;
     font-weight: 600;
     background: $pink;
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
   .btn-flat:hover {
     background: #d86941;
@@ -193,6 +193,15 @@
     color: white;
     text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
   }
+}
+
+.banner-health-goal-select {
+  background-color: white;
+  height: 200px;
+  overflow-y: scroll;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 0.5rem;
 }
 
 // X-Small devices (portrait phones, less than 576px)

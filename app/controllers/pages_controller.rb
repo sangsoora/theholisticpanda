@@ -8,6 +8,14 @@ class PagesController < ApplicationController
     practitioners.each do |practitioner|
       @featured_practitioners << practitioner if practitioner.minimum_profile?
     end
+    @filtered_services_goals = []
+    Service.active_services.each do |service|
+      service.health_goals.each do |goal|
+        if !@filtered_services_goals.include?(goal)
+          @filtered_services_goals << goal
+        end
+      end
+    end
   end
 
   def become_a_practitioner

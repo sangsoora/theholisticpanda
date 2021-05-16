@@ -100,6 +100,13 @@
 <div class="container services-page">
   <div>
     <% if @filtered_services %>
+      <div class="w-50" style="margin: 0 auto 2rem;">
+        <p>
+          Find the right wellness services and providers for you. <span id="service-counter"><%= @filtered_services.count %> services</span><br>
+          Select your health goals to get matched to wellness services. <br>
+          You can get personalized recommendations by selecting your health goals in your profile.
+        </p>
+      </div>
       <% if @filtered_services != [] %>
         <div class="service-lists">
           <% @filtered_services.each do |service| %>
@@ -184,9 +191,18 @@
           <% end %>
         </div>
       <% else %>
-        <p>Please try different filters for search!</p>
+        <div class="text-center">
+          <p>Please try different filters for search!</p>
+        </div>
       <% end %>
     <% else %>
+      <div class="w-50" style="margin: 0 auto 2rem;">
+        <p>
+          Find the right wellness services and providers for you. <span id="service-counter"><%= @all_services.count %> services</span><br>
+          Select your health goals to get matched to wellness services. <br>
+          You can get personalized recommendations by selecting your health goals in your profile.
+        </p>
+      </div>
       <div class="service-lists">
         <% @all_services.each do |service| %>
           <% if user_signed_in? %>
