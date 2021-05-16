@@ -4,6 +4,28 @@
 <section id="top-banner">
   <%= render 'top_banner' %>
 </section>
+<section id="what-panda">
+  <div class='d-flex justify-content-center my-4 text-center'>
+    <div class="container">
+      <%= image_tag("problem.png", class: 'mb-3', style: 'width:15%') %>
+      <h2>What is The Holistic Panda?</h2>
+      <br>
+      <div id="panda-description">
+        <p>We are a booking platform for wellness services. This includes traditional alternative medicine, life and health coaching, and mind and body healing work. We know firsthand how difficult it can be to find the right wellness services and providers, so we have built a platform to help you navigate your discovery journey in finding the support you need to achieve your health goals!</p>
+        <p>As a company founded and led by Asians, we also sought to help the Asian community embrace and normalize the practice of self-care and find culturally competent providers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section id='specialty-banner' class='text-center'>
+  <%= render 'specialty_banner' %>
+</section>
+<section id='freecall' class='text-center' style="background-color: white;">
+  <div class="container p-5">
+    <h2 class="mb-5" style="line-height: 2;">Try a 15-minute discovery call with<br>any of our practitioners</h2>
+    <p style="line-height: 2;font-size:1.25rem;">We know commitment is not easy these days,<br>so enjoy a <strong>free 15 minute discovery call</strong>with any one of our practitioners. It’s on us!</p>
+  </div>
+</section>
 <section id="featured-practitioners">
   <div class="d-flex justify-content-center my-4 text-center">
     <div class="container" id="featured-practitioners-desktop">
@@ -72,16 +94,6 @@
         </div>
       </div>
     </div>
-  </div>
-</section>
-<section id='specialty-banner' class='text-center'>
-  <%= render 'specialty_banner' %>
-  <div class="specilaty-definition">
-    <%= image_tag("problem.png") %>
-    <h4>What is holistic wellness?</h4>
-    <h5>'Holistic' is characterized by the treatment of the whole person, including mental and social factors. Holistic therapies aim to fix the root causes of the condition.</h5>
-    <h4>What is a speciality?</h4>
-    <h5>A speciality is a specific area where the practitioner has devoted much time and effort in practicing and excelling.</h5>
   </div>
 </section>
 <section id="why-panda">
@@ -169,25 +181,6 @@
               <p><strong>Start</strong> your wellness journey here!</p>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<section id="become-practitoner">
-  <div class='d-flex justify-content-center my-4 text-center'>
-    <div class="container">
-      <h2>Have talents to share?</h2>
-      <h4 class="my-4">Join The Holistic Panda as a practitioner<br>and get connected with holistic service seekers around the world!</h4>
-      <div class="d-flex justify-content-between my-4" style="flex-wrap: wrap;">
-        <div class="talent-img">
-          <%= image_tag("talent1.png") %>
-        </div>
-        <div class="talent-img">
-          <%= image_tag("talent2.png") %>
-        </div>
-        <div class="talent-img">
-          <%= image_tag("talent3-min.png") %>
         </div>
       </div>
     </div>

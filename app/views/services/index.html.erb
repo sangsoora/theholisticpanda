@@ -82,7 +82,7 @@
     <% end %>
   <% end %>
   <div class="search-box-wrapper">
-    <i class="fas fa-search"></i><input id="search-box" placeholder="Search by practitioner name or specialty">
+    <i class="fas fa-search"></i><input id="search-box" placeholder="Search by practitioner or specialty">
     <div id="text-select-box">
       <div id="text-choices">
         <div id="practitioner-choices">
@@ -153,22 +153,22 @@
                   </div>
                 </div>
                 <div class="service-right-column">
-                  <div class="d-flex justify-content-around">
-                    <div class="text-center" style="flex: 0 0 50%;">
+                  <div class="d-flex justify-content-between">
+                    <div style="flex: 0 0 45%;">
                       <label>PRICE</label>
                       <p>CA$ <%= service.price.to_f.round(0) %></p>
                     </div>
-                    <div class="text-center" style="flex: 0 0 50%;">
+                    <div style="flex: 0 0 45%;">
                       <label>DURATION</label>
                       <p><%= service.duration %> mins</p>
                     </div>
                   </div>
-                  <div class="d-flex justify-content-around">
-                    <div class="text-center" style="flex: 0 0 50%;">
+                  <div class="d-flex justify-content-between">
+                    <div style="flex: 0 0 45%;">
                       <label>SPECIALITY</label>
                       <p><%= service.specialty.name %></p>
                     </div>
-                    <div class="text-center" style="flex: 0 0 50%;">
+                    <div style="flex: 0 0 45%;">
                       <label>Rating</label>
                       <% if service.reviews.count > 0 %>
                         <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
@@ -249,22 +249,22 @@
                 </div>
               </div>
               <div class="service-right-column">
-                <div class="d-flex justify-content-around">
-                  <div class="text-center" style="flex: 0 0 50%;">
+                <div class="d-flex justify-content-between">
+                  <div style="flex: 0 0 45%;">
                     <label>PRICE</label>
                     <p>CA$ <%= service.price.to_f.round(0) %></p>
                   </div>
-                  <div class="text-center" style="flex: 0 0 50%;">
+                  <div style="flex: 0 0 45%;">
                     <label>DURATION</label>
                     <p><%= service.duration %> mins</p>
                   </div>
                 </div>
-                <div class="d-flex justify-content-around">
-                  <div class="text-center" style="flex: 0 0 50%;">
+                <div class="d-flex justify-content-between">
+                  <div style="flex: 0 0 45%;">
                     <label>SPECIALITY</label>
                     <p><%= service.specialty.name %></p>
                   </div>
-                  <div class="text-center" style="flex: 0 0 50%;">
+                  <div style="flex: 0 0 45%;">
                     <label>Rating</label>
                     <% if service.reviews.count > 0 %>
                       <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>

@@ -179,7 +179,7 @@
       let taxState = $('#session_payment_method_id :selected').data().state;
       let taxCountry = $('#session_payment_method_id :selected').data().country;
       let taxRate = 0.0;
-      if (discountSelect.value != '') {
+      if (discountSelect && (discountSelect.value != '')) {
         if (practitionerTax) {
           if (practitionerCountry == taxCountry) {
             if ((taxState == 'NB') || (taxState == 'NL') || (taxState == 'NS') || (taxState == 'PE')) {
@@ -217,7 +217,7 @@
       let taxState = $('#session_payment_method_id :selected').data().state;
       let taxCountry = $('#session_payment_method_id :selected').data().country;
       let taxRate = 0.0;
-      if (discountSelect.value != '') {
+      if (discountSelect && (discountSelect.value != '')) {
         if (practitionerTax) {
           if (practitionerCountry == taxCountry) {
             if ((taxState == 'NB') || (taxState == 'NL') || (taxState == 'NS') || (taxState == 'PE')) {

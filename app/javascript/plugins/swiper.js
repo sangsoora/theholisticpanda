@@ -16,6 +16,10 @@ const initSwiper = () => {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
       },
+      autoplay: {
+        delay: 6000,
+        disableOnInteraction: false,
+      },
 
       // And if we need scrollbar
       scrollbar: {
@@ -35,6 +39,10 @@ const initSwiper = () => {
       navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
+      },
+      autoplay: {
+        delay: 6000,
+        disableOnInteraction: false,
       },
 
       // And if we need scrollbar
