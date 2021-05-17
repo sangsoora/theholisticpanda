@@ -36,9 +36,9 @@
   #specialty-pop, #language-pop, #service-type-pop {
     margin-bottom: 0;
     padding: 0.25rem 1rem !important;
-    border-radius: 2rem !important;
+    border-radius: 0.5rem !important;
     &.active-filter {
-      background: #c6ffc4;
+      background: lightgrey;
     }
   }
   .form-group {
@@ -398,7 +398,7 @@
 
 .modal-body-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin: 1rem 1rem 0;
 }
 
