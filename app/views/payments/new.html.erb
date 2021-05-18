@@ -1,9 +1,8 @@
 <div class="container payment-page">
   <div class="payment-box">
     <div class="payment-fields">
-      <h3 class="mb-5">Confirm your payment method</h3>
+      <h3 class="mb-3">Confirm your payment method</h3>
       <p>Session request for <strong><%= @session.service.name %></strong>.</p>
-      <p>You'll receive an invoice and your preferred method of payment will be charged upon the completion of the session.</p>
       <p><strong>Coupons</strong></p>
       <% if (current_user.payment_methods.count > 0) %>
         <%= simple_form_for(@session) do |f| %>
@@ -31,7 +30,7 @@
                 <p>No coupon available.</p>
             <% end %>
           <% else %>
-            <p>Coupon minimum 50$</p>
+            <p>Coupons can only be applied to services with value of CA$50 or more.</p>
           <% end %>
           <p><strong>Payment methods</strong></p>
           <div class="form-group select optional session_promo_id">
@@ -43,6 +42,7 @@
             </select>
             <!-- <input class="form-control string optional mt-4" type="text" name="session[promo_id_string]" id="session_promo_id_string" placeholder="Promotion Code"> -->
           </div>
+          <p>By confirming the payment method, I authorize The Holistic Panda to take payments from my card account upon completing the session as per the <a href="<%= terms_path %>" target="_blank">terms of use</a>.</p>
           <%= f.button :submit, "Confirm payment method", class: 'btn-flat my-2 w-100' %>
         <% end %>
         <%= simple_form_for(current_user, url: registration_path(current_user), html: { method: :put, style: 'align-items: center;' }) do |f| %>
@@ -168,6 +168,8 @@
           <% else %>
             getFinalPrice(null, null, 0.05);
           <% end %>
+        <% else %>
+          getFinalPrice(null, null, null);
         <% end %>
       <% else %>
         getFinalPrice(null, null, null);
