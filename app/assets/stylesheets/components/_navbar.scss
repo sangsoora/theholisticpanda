@@ -171,6 +171,13 @@
   #top-filter-desktop {
     display: none;
   }
+  #top-filter-form {
+    #health-goal-pop {
+      padding: 0.25rem 1rem !important;
+      font-weight: 500;
+      font-size: 1rem !important;
+    }
+  }
 }
 
 // Small devices (landscape phones, less than 768px)
