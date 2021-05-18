@@ -173,47 +173,51 @@
         getFinalPrice(null, null, null);
       <% end %>
     <% end %>
-    discountSelect.addEventListener('change', (e) => {
-      let discountType = $('#session_promo_id :selected').data().type;
-      let discountAmount = $('#session_promo_id :selected').data().discount;
-      let taxState = $('#session_payment_method_id :selected').data().state;
-      let taxCountry = $('#session_payment_method_id :selected').data().country;
-      let taxRate = 0.0;
-      if (discountSelect && (discountSelect.value != '')) {
-        if (practitionerTax) {
-          if (practitionerCountry == taxCountry) {
-            if ((taxState == 'NB') || (taxState == 'NL') || (taxState == 'NS') || (taxState == 'PE')) {
-              taxRate = 0.15;
-            } else if (taxState == 'ON') {
-              taxRate = 0.13;
-            } else {
-              taxRate = 0.05;
+    if (discountSelect) {
+      discountSelect.addEventListener('change', (e) => {
+        let discountType = $('#session_promo_id :selected').data().type;
+        let discountAmount = $('#session_promo_id :selected').data().discount;
+        let taxState = $('#session_payment_method_id :selected').data().state;
+        let taxCountry = $('#session_payment_method_id :selected').data().country;
+        let taxRate = 0.0;
+        if (discountSelect && (discountSelect.value != '')) {
+          if (practitionerTax) {
+            if (practitionerCountry == taxCountry) {
+              if ((taxState == 'NB') || (taxState == 'NL') || (taxState == 'NS') || (taxState == 'PE')) {
+                taxRate = 0.15;
+              } else if (taxState == 'ON') {
+                taxRate = 0.13;
+              } else {
+                taxRate = 0.05;
+              }
             }
+            getFinalPrice((discountAmount/100), discountType, taxRate);
+          } else {
+            getFinalPrice((discountAmount/100), discountType, null);
           }
-          getFinalPrice((discountAmount/100), discountType, taxRate);
         } else {
-          getFinalPrice((discountAmount/100), discountType, null);
-        }
-      } else {
-        if (practitionerTax) {
-          if (practitionerCountry == taxCountry) {
-            if ((taxState == 'NB') || (taxState == 'NL') || (taxState == 'NS') || (taxState == 'PE')) {
-              taxRate = 0.15;
-            } else if (taxState == 'ON') {
-              taxRate = 0.13;
-            } else {
-              taxRate = 0.05;
+          if (practitionerTax) {
+            if (practitionerCountry == taxCountry) {
+              if ((taxState == 'NB') || (taxState == 'NL') || (taxState == 'NS') || (taxState == 'PE')) {
+                taxRate = 0.15;
+              } else if (taxState == 'ON') {
+                taxRate = 0.13;
+              } else {
+                taxRate = 0.05;
+              }
             }
+            getFinalPrice(null, null, taxRate);
+          } else {
+            getFinalPrice(null, null, null);
           }
-          getFinalPrice(null, null, taxRate);
-        } else {
-          getFinalPrice(null, null, null);
         }
-      }
-    });
+      });
+    }
     paymentSelect.addEventListener('change', (e) => {
-      let discountType = $('#session_promo_id :selected').data().type;
-      let discountAmount = $('#session_promo_id :selected').data().discount;
+      if (discountSelect) {
+        let discountType = $('#session_promo_id :selected').data().type;
+        let discountAmount = $('#session_promo_id :selected').data().discount;
+      }
       let taxState = $('#session_payment_method_id :selected').data().state;
       let taxCountry = $('#session_payment_method_id :selected').data().country;
       let taxRate = 0.0;

@@ -1,15 +1,29 @@
 .top-banner {
-  background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('mountain.svg');
+  background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('main.svg');
   background-size: cover;
   height: calc(100vh - 4.25rem);
   margin-top: 4.25rem;
   padding-top: 10vh;
   .btn-flat {
-    padding: 0.5rem 4rem;
-    font-size: 1.25rem;
+    flex: 0 0 40%;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
     font-weight: 600;
     background: $pink;
     margin-top: 1rem;
+    border-radius: 0;
+  }
+  .btn-ghost {
+    flex: 0 0 60%;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background: white;
+    margin-top: 1rem;
+    border-radius: 0;
+    opacity: 1;
+    border: 1px solid $pink;
+    text-align: left;
+    color: gray;
   }
   .btn-flat:hover {
     background: #d86941;
@@ -28,7 +42,6 @@
     font-weight: 600;
     color: white;
     margin-bottom: 2rem;
-    letter-spacing: 2px;
     line-height: 2;
   }
 }
@@ -212,6 +225,7 @@
 // Small devices (landscape phones, less than 768px)
 @media (max-width: 767.98px) {
   .top-banner {
+    background-position: right;
     margin-top: 4.25rem;
     text-align: center;
     padding-top: 8vh;
@@ -221,9 +235,9 @@
       margin: 3rem auto 1.5rem;
     }
     h4 {
-      font-size: 1.25rem;
+      font-size: 1.125rem;
       width: 80%;
-      margin: 5rem auto 0;
+      margin: 3rem auto 0;
     }
     .btn-flat {
       padding: 0.5rem 2rem;
@@ -295,19 +309,25 @@
 // Mobile landscape
 @media only screen and (max-width:991.98px) and (orientation: landscape) {
   .top-banner {
+    padding-top: 5vh;
     h1 {
-      font-size: 2rem;
-      width: 80%;
-      margin: 1.5rem auto;
+      font-size: 1.75rem;
+      width: 100%;
+      margin: 0 auto;
     }
     h4 {
-      font-size: 1.25rem;
-      width: 80%;
+      font-size: 1rem;
+      width: 100%;
       margin: 0 auto;
     }
     .btn-flat {
-      padding: 0.5rem 2rem;
-      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      margin-top: 1rem;
+    }
+    .btn-ghost {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
       margin-top: 1rem;
     }
   }
