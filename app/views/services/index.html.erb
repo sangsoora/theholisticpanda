@@ -111,7 +111,7 @@
           <% @filtered_services.each do |service| %>
             <div class="service-list-item" data-matching="<%= service.matching_counts(params[:search][:health_goal].reject(&:blank?).map(&:to_i)) %>">
               <div class="service-list-item-title">
-                <div class="text-center" style="font-size:18px;font-weight:900;color:#e57850;width:120px;">
+                <div class="service-type">
                   <p><%= service.service_type.capitalize %></p>
                 </div>
                 <h3><%= link_to service.name, service_path(service) %></h3>
@@ -121,7 +121,7 @@
                   <% end %>
                 </div>
               </div>
-              <div class="service-list-item-body">
+              <div class="service-list-item-body details-desktop">
                 <div class="service-left-column">
                   <div class="service-list-item-practitioner">
                     <div class="profile-photo">
@@ -186,6 +186,51 @@
                   </div>
                 </div>
               </div>
+              <div class="service-list-item-body details-mobile">
+                <div class="service-list-item-goals">
+                  <% service.health_goals.order(:name).each do |goal| %>
+                    <% if params[:search][:health_goal].reject(&:blank?).map(&:to_i).include?(goal.id) %>
+                      <div class="service-goal match"><%= goal.name %></div>
+                    <% end %>
+                  <% end %>
+                  <% service.health_goals.order(:name).each do |goal| %>
+                    <% unless params[:search][:health_goal].reject(&:blank?).map(&:to_i).include?(goal.id) %>
+                      <div class="service-goal"><%= goal.name %></div>
+                    <% end %>
+                  <% end %>
+                </div>
+                <div class="service-list-item-practitioner">
+                  <div class="profile-photo">
+                    <a href="/practitioners/<%= service.practitioner.user.full_name.delete(' ') %>_<%= service.practitioner.id %>">
+                      <% if service.practitioner.user.photo.attached? %>
+                        <img src="<%= cdn_for(service.practitioner.user.cropped_image) %>" class="service-list-item-user avatar-bordered mb-3" alt="">
+                      <% else %>
+                        <%= image_tag("profile", class: "service-list-item-user avatar-bordered mb-3") %>
+                      <% end %>
+                    </a>
+                    <h6><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h6>
+                  </div>
+                </div>
+                <div class="service-list-item-infos">
+                  <p <%= 'class=short' if service.description.length >= 150 %> ><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
+                  <% if service.description.length >= 150 %>
+                    <%= link_to 'Read more', service_path(service) %>
+                  <% end %>
+                </div>
+                <div class="d-flex justify-content-between mt-2">
+                  <div style="flex: 0 0 45%;">
+                    <label>PRICE</label>
+                    <p>CA$ <%= service.price.to_f.round(0) %></p>
+                  </div>
+                  <div style="flex: 0 0 45%;">
+                    <label>DURATION</label>
+                    <p><%= service.duration %> mins</p>
+                  </div>
+                </div>
+                <div class="text-center mt-3">
+                  <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
+                </div>
+              </div>
             </div>
           <% end %>
         </div>
@@ -209,7 +254,7 @@
             <div class="service-list-item" data-matching="">
           <% end %>
             <div class="service-list-item-title">
-              <div class="text-center" style="font-size:18px;font-weight:900;color:#e57850;width:120px;">
+              <div class="service-type">
                 <p><%= service.service_type.capitalize %></p>
               </div>
               <h3><%= link_to service.name, service_path(service) %></h3>
@@ -219,7 +264,7 @@
                 <% end %>
               </div>
             </div>
-            <div class="service-list-item-body">
+            <div class="service-list-item-body details-desktop">
               <div class="service-left-column">
                 <div class="service-list-item-practitioner">
                   <div class="profile-photo">
@@ -288,6 +333,51 @@
                 <div class="text-center mt-3">
                   <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
                 </div>
+              </div>
+            </div>
+            <div class="service-list-item-body details-mobile">
+              <div class="service-list-item-goals">
+                <% service.health_goals.order(:name).each do |goal| %>
+                  <% if params[:search][:health_goal].reject(&:blank?).map(&:to_i).include?(goal.id) %>
+                    <div class="service-goal match"><%= goal.name %></div>
+                  <% end %>
+                <% end %>
+                <% service.health_goals.order(:name).each do |goal| %>
+                  <% unless params[:search][:health_goal].reject(&:blank?).map(&:to_i).include?(goal.id) %>
+                    <div class="service-goal"><%= goal.name %></div>
+                  <% end %>
+                <% end %>
+              </div>
+              <div class="service-list-item-practitioner">
+                <div class="profile-photo">
+                  <a href="/practitioners/<%= service.practitioner.user.full_name.delete(' ') %>_<%= service.practitioner.id %>">
+                    <% if service.practitioner.user.photo.attached? %>
+                      <img src="<%= cdn_for(service.practitioner.user.cropped_image) %>" class="service-list-item-user avatar-bordered mb-3" alt="">
+                    <% else %>
+                      <%= image_tag("profile", class: "service-list-item-user avatar-bordered mb-3") %>
+                    <% end %>
+                  </a>
+                  <h6><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h6>
+                </div>
+              </div>
+              <div class="service-list-item-infos">
+                <p <%= 'class=short' if service.description.length >= 150 %> ><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
+                <% if service.description.length >= 150 %>
+                  <%= link_to 'Read more', service_path(service) %>
+                <% end %>
+              </div>
+              <div class="d-flex justify-content-between mt-2">
+                <div style="flex: 0 0 45%;">
+                  <label>PRICE</label>
+                  <p>CA$ <%= service.price.to_f.round(0) %></p>
+                </div>
+                <div style="flex: 0 0 45%;">
+                  <label>DURATION</label>
+                  <p><%= service.duration %> mins</p>
+                </div>
+              </div>
+              <div class="text-center mt-3">
+                <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
               </div>
             </div>
           </div>
