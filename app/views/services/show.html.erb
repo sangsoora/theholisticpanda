@@ -199,11 +199,11 @@
     document.addEventListener('DOMContentLoaded', () => {
       let start = new Date();
       start.setDate(new Date(start.getTime() + 60 * 60 * 24 * 1000).getDate());
-      const setCalendar = (start, dt1, dt2, dt3) => {
+      const setCalendar = (start) => {
         const day = start.getDay();
         setCalendarDays(start);
         setTimeTable(day);
-        getAvaialbleHours(start, dt1, dt2, dt3);
+        getAvaialbleHours(start);
         if (start <= new Date().setDate(new Date().getDate() + 1)) {
           document.getElementById('previous-btn').setAttribute('style', 'pointer-events: none; font-size:1.5rem;');
         }
@@ -244,7 +244,7 @@
         })
         document.getElementById('calendar').insertAdjacentHTML('beforeend', html);
       }
-      const getAvaialbleHours = (start, dt1, dt2, dt3) => {
+      const getAvaialbleHours = (start) => {
         let end = new Date(start);
         end.setDate(start.getDate() + 6);
         const startDate = start.getDate();
@@ -306,23 +306,23 @@
             })
           })
         })
-        if (dt1 != '' ) {
-          if ((new Date(dt1) >= start) && (new Date(dt1) <= new Date(moment(new Date(start)).add(7, 'd').toISOString()))) {
-            const el = document.getElementById(moment(dt1).format('d') + '-' + moment(dt1).format('HH:mm'));
+        if (document.getElementById('primary-final').innerText != '') {
+          if ((new Date(document.getElementById('primary-final').innerText) >= start) && (new Date(document.getElementById('primary-final').innerText) <= new Date(moment(new Date(start)).add(7, 'd').toISOString()))) {
+            const el = document.getElementById(moment(document.getElementById('primary-final').innerText).format('d') + '-' + moment(document.getElementById('primary-final').innerText).format('HH:mm'));
             el.childNodes[0].classList.remove('available-cell');
             el.childNodes[0].classList.add('chosen-cell');
           }
         }
-        if (dt2 != '') {
-          if ((new Date(dt2) >= start) && (new Date(dt2) <= new Date(moment(new Date(start)).add(7, 'd').toISOString()))) {
-            const el = document.getElementById(moment(dt2).format('d') + '-' + moment(dt2).format('HH:mm'));
+        if (document.getElementById('secondary-final').innerText != '') {
+          if ((new Date(document.getElementById('secondary-final').innerText) >= start) && (new Date(document.getElementById('secondary-final').innerText) <= new Date(moment(new Date(start)).add(7, 'd').toISOString()))) {
+            const el = document.getElementById(moment(document.getElementById('secondary-final').innerText).format('d') + '-' + moment(document.getElementById('secondary-final').innerText).format('HH:mm'));
             el.childNodes[0].classList.remove('available-cell');
             el.childNodes[0].classList.add('chosen-cell');
           }
         }
-        if (dt3 != '') {
-          if ((new Date(dt3) >= start) && (new Date(dt3) <= new Date(moment(new Date(start)).add(7, 'd').toISOString()))) {
-            const el = document.getElementById(moment(dt3).format('d') + '-' + moment(dt3).format('HH:mm'));
+        if (document.getElementById('tertiary-final').innerText != '') {
+          if ((new Date(document.getElementById('tertiary-final').innerText) >= start) && (new Date(document.getElementById('tertiary-final').innerText) <= new Date(moment(new Date(start)).add(7, 'd').toISOString()))) {
+            const el = document.getElementById(moment(document.getElementById('tertiary-final').innerText).format('d') + '-' + moment(document.getElementById('tertiary-final').innerText).format('HH:mm'));
             el.childNodes[0].classList.remove('available-cell');
             el.childNodes[0].classList.add('chosen-cell');
           }
@@ -367,15 +367,15 @@
               const html = `<div class="available-hours"><p>` + pointed_time.format('ll') + ` ` + pointed_time.format('LT') + ` ~ ` + ending_time + `</p></div>`;
               item.insertAdjacentHTML('beforeend', html);
               slot.addEventListener('click', (e) => {
-                if (document.querySelectorAll('.chosen-cell').length < 3) {
+                if (document.getElementById('tertiary').innerHTML == '') {
                   e.currentTarget.childNodes[0].classList.remove('available-cell');
                   e.currentTarget.childNodes[0].classList.add('chosen-cell');
-                  if (document.querySelectorAll('.chosen-cell').length == 1) {
+                  if (document.getElementById('primary').innerHTML == '') {
                     document.getElementById('session_primary_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
                     document.getElementById('primary').innerHTML = pointed_time.format('ddd, lll');
                     document.getElementById('primary-final').innerHTML = pointed_time.format('ddd, lll');
                     document.getElementById('clear-times').style.display = 'block';
-                  } else if (document.querySelectorAll('.chosen-cell').length == 2) {
+                  } else if (document.getElementById('secondary').innerHTML == '') {
                     document.getElementById('session_secondary_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
                     document.getElementById('secondary').innerHTML = pointed_time.format('ddd, lll');
                     document.getElementById('secondary-final').innerHTML = pointed_time.format('ddd, lll');
@@ -395,15 +395,15 @@
               const html = `<div class="available-hours"><p>` + pointed_time.format('ll') + ` ` + pointed_time.format('LT') + ` ~ ` + ending_time + `</p></div>`;
               item.insertAdjacentHTML('beforeend', html);
               slot.addEventListener('click', (e) => {
-                if (document.querySelectorAll('.chosen-cell').length < 3) {
+                if (document.getElementById('tertiary').innerHTML == '') {
                   e.currentTarget.childNodes[0].classList.remove('available-cell');
                   e.currentTarget.childNodes[0].classList.add('chosen-cell');
-                  if (document.querySelectorAll('.chosen-cell').length == 0) {
+                  if (document.getElementById('primary').innerHTML == '') {
                     document.getElementById('session_primary_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
                     document.getElementById('primary').innerHTML = pointed_time.format('ddd, lll');
                     document.getElementById('primary-final').innerHTML = pointed_time.format('ddd, lll');
                     document.getElementById('clear-times').style.display = 'block';
-                  } else if (document.querySelectorAll('.chosen-cell').length == 1) {
+                  } else if (document.getElementById('secondary').innerHTML == '') {
                     document.getElementById('session_secondary_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
                     document.getElementById('secondary').innerHTML = pointed_time.format('ddd, lll');
                     document.getElementById('secondary-final').innerHTML = pointed_time.format('ddd, lll');
@@ -430,7 +430,7 @@
             day = '0' + day;
         return [year, month, day].join('-');
       }
-      const movePrevious = (start, dt1, dt2, dt3) => {
+      const movePrevious = (start) => {
         document.getElementById('previous-btn').addEventListener('click', (e) => {
           e.preventDefault();
           start.setDate(start.getDate() - 7);
@@ -439,10 +439,10 @@
           } else {
             document.getElementById('previous-btn').setAttribute('style', 'pointer-events: auto; font-size:1.5rem;');
           }
-          setCalendar(start, dt1, dt2, dt3);
+          setCalendar(start);
         })
       }
-      const moveNext = (start, dt1, dt2, dt3) => {
+      const moveNext = (start) => {
         document.getElementById('next-btn').addEventListener('click', (e) => {
           e.preventDefault();
           start.setDate(start.getDate() + 7);
@@ -451,13 +451,13 @@
           } else {
             document.getElementById('previous-btn').setAttribute('style', 'pointer-events: auto; font-size:1.5rem;');
           }
-          setCalendar(start, dt1, dt2, dt3);
+          setCalendar(start);
         })
       }
       document.getElementById('modal-launch').addEventListener('click', (e) => {
-          setCalendar(start, document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          movePrevious(start, document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          moveNext(start, document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+        setCalendar(start);
+        movePrevious(start);
+        moveNext(start);
       });
       document.getElementById('message-launch').addEventListener('click', (e) => {
         document.getElementById('time-modal').classList.add('hidden');
@@ -474,9 +474,9 @@
         start.setDate(start.getDate() + 1);
         document.getElementById('message-modal').classList.add('hidden');
         setTimeout(function(){
-          setCalendar(start, document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          movePrevious(start, document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
-          moveNext(start, document.getElementById('primary-final').innerText, document.getElementById('secondary-final').innerText, document.getElementById('tertiary-final').innerText);
+          setCalendar(start);
+          movePrevious(start);
+          moveNext(start);
           document.getElementById('time-modal').classList.remove('hidden');
         }, 50);
       });
