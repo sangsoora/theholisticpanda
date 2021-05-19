@@ -15,6 +15,7 @@ if ('<%= @param.keys.first %>' == "link") {
   <% if @session.errors.empty? %>
     <% flash[:notice] = 'Payment method updated.' %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { notice: flash[:notice] } %>');
+    document.getElementById('estimate-price').innerHTML = '<%= @session.estimate_price %>';
   <% else %>
     $("#flashes").html('<%= j render partial: "shared/flashes", locals: { alert: flash[:alert] } %>');
   <% end %>
