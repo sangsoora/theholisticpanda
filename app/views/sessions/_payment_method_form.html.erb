@@ -1,13 +1,44 @@
-<%= simple_form_for([@session], remote: true) do |f| %>
+<%= simple_form_for([session], remote: true) do |f| %>
   <fieldset class="form-group radio_buttons optional session_payment_method_id form-group-valid">
-    <legend class="col-form-label pt-0">My Saved Payment Methods</legend>
-    <input type="hidden" name="session[payment_method_id]" value="">
-    <% current_user.payment_methods.where.not(payment_method_id: @session.payment_method_id).each do |payment| %>
+    <legend class="col-form-label pt-0">My saved payment methods</legend>
+    <% current_user.payment_methods.where.not(payment_method_id: session.payment_method_id).each do |payment| %>
       <div class="form-check">
-        <input class="form-check-input is-valid radio_buttons optional" type="radio" value="<%= payment.payment_method_id %>" name="session[payment_method_id]" id="session_payment_method_id_<%= payment.id %>">
+        <input class="form-check-input is-valid radio_buttons optional" type="radio" value="<%= payment.payment_method_id %>" name="session[payment_method_id]" id="session_payment_method_id_<%= payment.id %>" data-state="<%= payment.billing_state %>">
         <label class="form-check-label collection_radio_buttons" for="session_payment_method_id_<%= payment.id %>" style="color: #366735 !important;">Card ending with <%= payment.last4 %></label>
       </div>
     <% end %>
   </fieldset>
+  <%= f.input :estimate_price, as: :hidden %>
   <%= f.button :submit, "Change Payment Method", class: 'btn-flat mb-3' %>
 <% end %>
+<script>
+  const initPrice = <%= @session.estimate_price %>;
+  const estimatePrice = document.getElementById('session_estimate_price');
+  <% if @session.practitioner.user.tax_id %>
+    let taxRate = 0.0;
+    const taxState = '<%= PaymentMethod.find_by(payment_method_id: @session.payment_method_id).billing_state %>';
+    if ((taxState == 'NB') || (taxState == 'NL') || (taxState == 'NS') || (taxState == 'PE')) {
+      taxRate = 0.15;
+    } else if (taxState == 'ON') {
+      taxRate = 0.13;
+    } else {
+      taxRate = 0.05;
+    }
+    const originalPrice = initPrice / (1 + taxRate);
+    <% current_user.payment_methods.where.not(payment_method_id: session.payment_method_id).each do |payment| %>
+      document.getElementById('session_payment_method_id_<%= payment.id %>').addEventListener('click', (e) => {
+        if ((e.currentTarget.dataset.state == 'NB') || (e.currentTarget.dataset.state == 'NL') || (e.currentTarget.dataset.state == 'NS') || (e.currentTarget.dataset.state == 'PE')) {
+          getEstimatePrice(originalPrice, 0.15);
+        } else if (e.currentTarget.dataset.state == 'ON') {
+          getEstimatePrice(originalPrice, 0.13);
+        } else {
+          getEstimatePrice(originalPrice, 0.05);
+        }
+      });
+    <% end %>
+  <% end %>
+  const getEstimatePrice = (originalPrice, tax) => {
+    let calculatedPrice = (originalPrice + (originalPrice * tax)).toFixed(2);
+    document.getElementById('session_estimate_price').value = calculatedPrice;
+  }
+</script>

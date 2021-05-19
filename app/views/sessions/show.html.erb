@@ -104,7 +104,7 @@
         <% end %>
         <p>Duration: <%= @session.service.duration %>m</p>
         <p>Session Type: <%= @session.session_type %></p>
-        <p>Total Price: CA$ <%= @session.estimate_price %> (It might differ due to the sales tax)</p>
+        <p>Total Price: CA$ <span id="estimate-price"><%= @session.estimate_price %></span></p>
         <% if @session.user == current_user && @session.payment_method_id %>
           <div class="d-flex">
             <p class="mr-2">Payment method: <span id="payment">Card ending with <%= current_user.payment_methods.find_by(payment_method_id: @session.payment_method_id).last4 %></span></p>
@@ -154,7 +154,7 @@
         <% end %>
         <p>Duration: <%= @session.service.duration %>m</p>
         <p>Session Type: <%= @session.session_type %></p>
-        <p>Total Price: CA$ <%= @session.estimate_price %> (It might differ due to the sales tax)</p>
+        <p>Total Price: CA$ <span id="estimate-price"><%= @session.estimate_price %></span></p>
         <% if @session.user == current_user && @session.payment_method_id %>
           <div class="d-flex">
             <p class="mr-2">Payment method: <span id="payment">Card ending with <%= current_user.payment_methods.find_by(payment_method_id: @session.payment_method_id).last4 %></span></p>
