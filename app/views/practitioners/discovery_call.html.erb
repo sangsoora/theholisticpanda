@@ -14,7 +14,9 @@
         <br>
         <p>You can only book one discovery call with <%= @practitioner.user.first_name %>.</p>
         <p><strong>Please select 3 time slots you prefer and the practitioner will confirm it.</strong></p>
-        <%= link_to 'See Availability', '', data: { toggle: "modal", target: "#timeslotModal" }, class: 'btn btn-flat', id: 'modal-launch' %>
+        <% if @service.practitioner.user != current_user %>
+          <%= link_to 'See Availability', '', data: { toggle: "modal", target: "#timeslotModal" }, class: 'btn btn-flat', id: 'modal-launch' %>
+        <% end %>
       </div>
       <div class="service-practitioner">
         <% if @practitioner.user.photo.attached? %>
