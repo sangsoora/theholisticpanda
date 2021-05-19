@@ -181,9 +181,11 @@
                       <% end %>
                     </div>
                   </div>
-                  <div class="text-center mt-3">
-                    <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
-                  </div>
+                  <% if service.practitioner.user != current_user %>
+                    <div class="text-center mt-3">
+                      <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
+                    </div>
+                  <% end %>
                 </div>
               </div>
               <div class="service-list-item-body details-mobile">
@@ -227,9 +229,11 @@
                     <p><%= service.duration %> mins</p>
                   </div>
                 </div>
-                <div class="text-center mt-3">
-                  <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
-                </div>
+                <% if service.practitioner.user != current_user %>
+                  <div class="text-center mt-3">
+                    <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
+                  </div>
+                <% end %>
               </div>
             </div>
           <% end %>
@@ -330,9 +334,11 @@
                     <% end %>
                   </div>
                 </div>
-                <div class="text-center mt-3">
-                  <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
-                </div>
+                <% if service.practitioner.user != current_user %>
+                  <div class="text-center mt-3">
+                    <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
+                  </div>
+                <% end %>
               </div>
             </div>
             <div class="service-list-item-body details-mobile">
@@ -382,9 +388,11 @@
                   <p><%= service.duration %> mins</p>
                 </div>
               </div>
-              <div class="text-center mt-3">
-                <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
-              </div>
+              <% if service.practitioner.user != current_user %>
+                <div class="text-center mt-3">
+                  <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
+                </div>
+              <% end %>
             </div>
           </div>
         <% end %>
