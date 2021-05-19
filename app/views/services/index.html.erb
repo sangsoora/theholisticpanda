@@ -3,7 +3,7 @@
 <% end %>
 <div class="filter-bar">
   <div class="search-box-wrapper">
-    <i class="fas fa-search"></i><input id="search-box" placeholder="Search by practitioner or specialty">
+    <i class="fas fa-search"></i><input id="search-box" placeholder="Search by practitioner name or specialty">
     <div id="text-select-box">
       <div id="text-choices">
         <div id="practitioner-choices">
@@ -337,13 +337,19 @@
             </div>
             <div class="service-list-item-body details-mobile">
               <div class="service-list-item-goals">
-                <% service.health_goals.order(:name).each do |goal| %>
-                  <% if params[:search][:health_goal].reject(&:blank?).map(&:to_i).include?(goal.id) %>
-                    <div class="service-goal match"><%= goal.name %></div>
+                <% if user_signed_in? %>
+                  <% service.health_goals.order(:name).each do |goal| %>
+                    <% if current_user.health_goals.include?(goal) %>
+                      <div class="service-goal match"><%= goal.name %></div>
+                    <% end %>
                   <% end %>
-                <% end %>
-                <% service.health_goals.order(:name).each do |goal| %>
-                  <% unless params[:search][:health_goal].reject(&:blank?).map(&:to_i).include?(goal.id) %>
+                  <% service.health_goals.order(:name).each do |goal| %>
+                    <% unless current_user.health_goals.include?(goal) %>
+                      <div class="service-goal"><%= goal.name %></div>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <% service.health_goals.order(:name).each do |goal| %>
                     <div class="service-goal"><%= goal.name %></div>
                   <% end %>
                 <% end %>
