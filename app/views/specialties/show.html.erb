@@ -6,116 +6,159 @@
   <p class="specialty-description"><%= @specialty.description.gsub(/\n/, '<br/>').html_safe %></p>
   <div class="service-lists">
     <% @specialty_services.each do |service| %>
-      <div class="service-list-item" data-price="<%= service.price.to_i %>" data-duration="<%= service.duration %>">
-        <div class="service-left-column">
-          <div class="service-list-item-title">
-            <h3><%= link_to service.name, service_path(service) %></h3>
-            <div class="fav-btn" id="fav-btn-<%= service.id %>">
-              <% if user_signed_in? %>
-                <%= render 'favorite_services/service_btn', service: service %>
-              <% end %>
-            </div>
+      <% if user_signed_in? %>
+        <div class="service-list-item" data-matching="<%= service.matching_counts(current_user.health_goals.ids) %>">
+      <% else %>
+        <div class="service-list-item" data-matching="">
+      <% end %>
+        <div class="service-list-item-title">
+          <div class="service-type">
+            <p><%= service.service_type.capitalize %></p>
           </div>
-          <div class="service-list-item-goals">
-            <% service.health_goals.order(:name).each do |goal| %>
-              <% if user_signed_in? %>
-                <% if current_user.health_goals.include?(goal) %>
-                  <div class="service-goal match"><%= goal.name %></div>
-                <% else %>
-                  <div class="service-goal"><%= goal.name %></div>
-                <% end %>
-              <% else %>
-                <div class="service-goal"><%= goal.name %></div>
-              <% end %>
+          <h3><%= link_to service.name, service_path(service) %></h3>
+          <div class="fav-btn" id="fav-btn-<%= service.id %>">
+            <% if user_signed_in? %>
+              <%= render 'favorite_services/service_btn', service: service %>
             <% end %>
           </div>
-          <div class="service-list-item-details">
-            <div class="service-list-item-detail-left">
-              <% if service.reviews.count > 0 %>
-                <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
-              <% end %>
-              <a class="btn btn-flat" href="/services/<%= service.id %>">Detail</a>
-            </div>
-            <div class="service-list-item-detail-middle">
-              <label>TYPE</label>
-              <p><%= service.service_type.capitalize %></p>
-              <label>PRICE</label>
-              <p>CA$ <%= service.price.to_f.round(2) %></p>
-            </div>
-            <div class="service-list-item-detail-right">
-              <label>LANGUAGES</label>
-              <p>
-                <% if service.languages.length <= 2 %>
-                  <%= service.languages.pluck(:name).join(', ') %>
-                <% elsif service.languages.length > 2 %>
-                  <%= service.languages.first(2).pluck(:name).join(', ') %>, + <%= service.languages.length - 2 %>
-                <% end %>
-              </p>
-              <label>DURATION</label>
-              <p><%= service.duration %> mins</p>
-            </div>
-          </div>
         </div>
-        <div class="service-right-column">
-          <ul class="list-inline tabs-underlined">
-            <li>
-              <p class="tab-underlined active-tab" id="tab-practitioner-<%= service.id %>">Practitioner</p>
-            </li>
-            <li>
-              <p class="tab-underlined" id="tab-service-<%= service.id %>">Service Info</p>
-            </li>
-          </ul>
-          <div class="lists" id="practitioner-<%= service.id %>">
+        <div class="service-list-item-body details-desktop">
+          <div class="service-left-column">
             <div class="service-list-item-practitioner">
               <div class="profile-photo">
                 <a href="/practitioners/<%= service.practitioner.user.full_name.delete(' ') %>_<%= service.practitioner.id %>">
                   <% if service.practitioner.user.photo.attached? %>
-                    <img src="<%= cdn_for(service.practitioner.user.cropped_image) %>" class="service-list-item-user avatar-bordered" alt="">
+                    <img src="<%= cdn_for(service.practitioner.user.cropped_image) %>" class="service-list-item-user avatar-bordered mb-3" alt="">
                   <% else %>
-                    <%= image_tag("profile", class: "service-list-item-user avatar-bordered") %>
+                    <%= image_tag("profile", class: "service-list-item-user avatar-bordered mb-3") %>
                   <% end %>
                 </a>
+                <h6><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h6>
+                <p><%= service.practitioner.title %></p>
                 <p><%= service.practitioner.location %></p>
-              </div>
-              <div class="general-info">
-                <h4><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h4>
-                <div class="practitioner-specialties">
-                  <% service.practitioner.specialties.order(:name).each do |specialty| %>
-                    <% if @specialty == specialty %>
-                      <div class="service-goal match"><%= specialty.name %></div>
-                    <% else %>
-                      <div class="service-goal"><%= specialty.name %></div>
-                    <% end %>
-                  <% end %>
-                </div>
-                <label>Experience</label>
-                <p><%= service.practitioner.experience %></p>
               </div>
             </div>
           </div>
-          <div class="lists hidden" id="service-<%= service.id %>">
+          <div class="service-middle-column">
             <div class="service-list-item-infos">
-              <p <%= 'class=short' if service.description.length >= 300 %> ><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
-              <% if service.description.length >= 300 %>
+              <p <%= 'class=short' if service.description.length >= 150 %> ><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
+              <% if service.description.length >= 150 %>
                 <%= link_to 'Read more', service_path(service) %>
               <% end %>
             </div>
+            <div class="service-list-item-goals mt-2">
+              <% if user_signed_in? %>
+                <% service.health_goals.order(:name).each do |goal| %>
+                  <% if current_user.health_goals.include?(goal) %>
+                    <div class="service-goal match"><%= goal.name %></div>
+                  <% end %>
+                <% end %>
+                <% service.health_goals.order(:name).each do |goal| %>
+                  <% unless current_user.health_goals.include?(goal) %>
+                    <div class="service-goal"><%= goal.name %></div>
+                  <% end %>
+                <% end %>
+              <% else %>
+                <% service.health_goals.order(:name).each do |goal| %>
+                  <div class="service-goal"><%= goal.name %></div>
+                <% end %>
+              <% end %>
+            </div>
           </div>
+          <div class="service-right-column">
+            <div class="d-flex justify-content-between">
+              <div style="flex: 0 0 45%;">
+                <label>PRICE</label>
+                <p>CA$ <%= service.price.to_f.round(0) %></p>
+              </div>
+              <div style="flex: 0 0 45%;">
+                <label>DURATION</label>
+                <p><%= service.duration %> mins</p>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div style="flex: 0 0 45%;">
+                <label>SPECIALITY</label>
+                <p><%= service.specialty.name %></p>
+              </div>
+              <div style="flex: 0 0 45%;">
+                <label>Rating</label>
+                <% if service.reviews.count > 0 %>
+                  <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+                <% end %>
+              </div>
+            </div>
+            <% if service.practitioner.user != current_user %>
+              <div class="text-center mt-3">
+                <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <div class="service-list-item-body details-mobile">
+          <div class="service-list-item-goals">
+            <% if user_signed_in? %>
+              <% service.health_goals.order(:name).each do |goal| %>
+                <% if current_user.health_goals.include?(goal) %>
+                  <div class="service-goal match"><%= goal.name %></div>
+                <% end %>
+              <% end %>
+              <% service.health_goals.order(:name).each do |goal| %>
+                <% unless current_user.health_goals.include?(goal) %>
+                  <div class="service-goal"><%= goal.name %></div>
+                <% end %>
+              <% end %>
+            <% else %>
+              <% service.health_goals.order(:name).each do |goal| %>
+                <div class="service-goal"><%= goal.name %></div>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="service-list-item-practitioner">
+            <div class="profile-photo">
+              <a href="/practitioners/<%= service.practitioner.user.full_name.delete(' ') %>_<%= service.practitioner.id %>">
+                <% if service.practitioner.user.photo.attached? %>
+                  <img src="<%= cdn_for(service.practitioner.user.cropped_image) %>" class="service-list-item-user avatar-bordered mb-3" alt="">
+                <% else %>
+                  <%= image_tag("profile", class: "service-list-item-user avatar-bordered mb-3") %>
+                <% end %>
+              </a>
+              <h6><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h6>
+            </div>
+          </div>
+          <div class="service-list-item-infos">
+            <p <%= 'class=short' if service.description.length >= 150 %> ><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
+            <% if service.description.length >= 150 %>
+              <%= link_to 'Read more', service_path(service) %>
+            <% end %>
+          </div>
+          <div class="d-flex justify-content-between mt-2">
+            <div style="flex: 0 0 45%;">
+              <label>PRICE</label>
+              <p>CA$ <%= service.price.to_f.round(0) %></p>
+            </div>
+            <div style="flex: 0 0 45%;">
+              <label>DURATION</label>
+              <p><%= service.duration %> mins</p>
+            </div>
+          </div>
+          <% if service.practitioner.user != current_user %>
+            <div class="text-center mt-3">
+              <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
+            </div>
+          <% end %>
         </div>
       </div>
       <script>
-        document.getElementById("tab-practitioner-<%= service.id %>").addEventListener('click', (e) => {
-          e.target.classList.add('active-tab');
-          document.getElementById("tab-service-<%= service.id %>").classList.remove('active-tab');
-          document.getElementById("practitioner-<%= service.id %>").classList.remove('hidden');
-          document.getElementById("service-<%= service.id %>").classList.add('hidden');
-        })
-        document.getElementById("tab-service-<%= service.id %>").addEventListener('click', (e) => {
-          e.target.classList.add('active-tab');
-          document.getElementById("tab-practitioner-<%= service.id %>").classList.remove('active-tab');
-          document.getElementById("service-<%= service.id %>").classList.remove('hidden');
-          document.getElementById("practitioner-<%= service.id %>").classList.add('hidden');
-        })
+        <% if user_signed_in? %>
+          window.addEventListener('DOMContentLoaded', (event) => {
+            var $wrapper = $('.service-lists');
+            $wrapper.find('.service-list-item').sort(function(a, b) {
+              return +b.dataset.matching - +a.dataset.matching;
+            })
+            .appendTo($wrapper);
+          });
+        <% end %>
       </script>
     <% end %>
   </div>
