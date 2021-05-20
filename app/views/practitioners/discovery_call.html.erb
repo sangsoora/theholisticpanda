@@ -13,8 +13,8 @@
         <p>Book a complimentary discovery call with <%= @practitioner.user.first_name %> to learn more about <%= @practitioner.user.first_name %>'s services.</p>
         <br>
         <p>You can only book one discovery call with <%= @practitioner.user.first_name %>.</p>
-        <p><strong>Please select 3 time slots you prefer and the practitioner will confirm it.</strong></p>
-        <% if @service.practitioner.user != current_user %>
+        <% if @practitioner.user != current_user %>
+          <p><strong>Please select 3 time slots you prefer and the practitioner will confirm it.</strong></p>
           <%= link_to 'See Availability', '', data: { toggle: "modal", target: "#timeslotModal" }, class: 'btn btn-flat', id: 'modal-launch' %>
         <% end %>
       </div>
@@ -162,7 +162,7 @@
       times.forEach((time) => {
         html += `<tr class="added-time"><td>` + time + `</td><td data-day="` + day + `" id="` + day + `-` + time + `"></td><td data-day="` + day1 + `" id="` + day1 + `-` + time + `"></td><td data-day="` + day2 + `" id="` + day2 + `-` + time + `"></td><td data-day="` + day3 + `" id="` + day3 + `-` + time + `"></td><td data-day="` + day4 + `" id="` + day4 + `-` + time + `"></td><td data-day="` + day5 + `" id="` + day5 + `-` + time + `"></td><td data-day="` + day6 + `" id="` + day6 + `-` + time + `"></td></tr>`;
       })
-      document.getElementById(calendar + '-calendar').insertAdjacentHTML('beforeend', html);
+      document.getElementById('calendar').insertAdjacentHTML('beforeend', html);
     }
     const getAvaialbleHours = (start) => {
       let end = new Date(start);
@@ -373,48 +373,50 @@
         setCalendar(start);
       })
     }
-    document.getElementById('modal-launch').addEventListener('click', (e) => {
-      setCalendar(start);
-      movePrevious(start);
-      moveNext(start);
-    });
-    document.getElementById('message-launch').addEventListener('click', (e) => {
-      document.getElementById('time-modal').classList.add('hidden');
-      setTimeout(function(){
-        document.getElementById('message-modal').classList.remove('hidden');
-      }, 50);
-    });
-    document.getElementById('send-request').addEventListener('click', (e) => {
-      document.getElementById('session_message').value = document.getElementById('session-message').value
-      document.getElementById('create_session').click();
-    });
-    document.getElementById('back-time').addEventListener('click', (e) => {
-      start = new Date();
-      start.setDate(start.getDate() + 1);
-      document.getElementById('message-modal').classList.add('hidden');
-      setTimeout(function(){
+    if (document.getElementById('modal-launch')) {
+      document.getElementById('modal-launch').addEventListener('click', (e) => {
         setCalendar(start);
         movePrevious(start);
         moveNext(start);
-        document.getElementById('time-modal').classList.remove('hidden');
-      }, 50);
-    });
-    document.getElementById('clear-times').addEventListener('click', (e) => {
-      document.querySelectorAll('.chosen-cell').forEach((chosen) => {
-        chosen.classList.add('available-cell');
-        chosen.classList.remove('chosen-cell');
-        document.getElementById('session_primary_time').value = '';
-        document.getElementById('primary').innerHTML = '';
-        document.getElementById('primary-final').innerHTML = '';
-        document.getElementById('session_secondary_time').value = '';
-        document.getElementById('secondary').innerHTML = '';
-        document.getElementById('secondary-final').innerHTML = '';
-        document.getElementById('session_tertiary_time').value = '';
-        document.getElementById('tertiary').innerHTML = '';
-        document.getElementById('tertiary-final').innerHTML = '';
-        document.getElementById('clear-times').style.display = 'none';
-        document.getElementById('message-launch').disabled = true;
       });
-    });
+      document.getElementById('message-launch').addEventListener('click', (e) => {
+        document.getElementById('time-modal').classList.add('hidden');
+        setTimeout(function(){
+          document.getElementById('message-modal').classList.remove('hidden');
+        }, 50);
+      });
+      document.getElementById('send-request').addEventListener('click', (e) => {
+        document.getElementById('session_message').value = document.getElementById('session-message').value
+        document.getElementById('create_session').click();
+      });
+      document.getElementById('back-time').addEventListener('click', (e) => {
+        start = new Date();
+        start.setDate(start.getDate() + 1);
+        document.getElementById('message-modal').classList.add('hidden');
+        setTimeout(function(){
+          setCalendar(start);
+          movePrevious(start);
+          moveNext(start);
+          document.getElementById('time-modal').classList.remove('hidden');
+        }, 50);
+      });
+      document.getElementById('clear-times').addEventListener('click', (e) => {
+        document.querySelectorAll('.chosen-cell').forEach((chosen) => {
+          chosen.classList.add('available-cell');
+          chosen.classList.remove('chosen-cell');
+          document.getElementById('session_primary_time').value = '';
+          document.getElementById('primary').innerHTML = '';
+          document.getElementById('primary-final').innerHTML = '';
+          document.getElementById('session_secondary_time').value = '';
+          document.getElementById('secondary').innerHTML = '';
+          document.getElementById('secondary-final').innerHTML = '';
+          document.getElementById('session_tertiary_time').value = '';
+          document.getElementById('tertiary').innerHTML = '';
+          document.getElementById('tertiary-final').innerHTML = '';
+          document.getElementById('clear-times').style.display = 'none';
+          document.getElementById('message-launch').disabled = true;
+        });
+      });
+    }
   });
 </script>

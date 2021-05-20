@@ -1,4 +1,4 @@
-<%= simple_form_for([session], remote: true) do |f| %>
+<%= simple_form_for([session]) do |f| %>
   <fieldset class="form-group radio_buttons optional session_payment_method_id form-group-valid">
     <legend class="col-form-label pt-0">My saved payment methods</legend>
     <% current_user.payment_methods.where.not(payment_method_id: session.payment_method_id).each do |payment| %>

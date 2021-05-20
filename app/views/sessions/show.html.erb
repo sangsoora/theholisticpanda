@@ -35,7 +35,7 @@
           </div>
         </div>
         <% if @session.session_type == 'Virtual' %>
-          <%= f.input :link, input_html: { class: 'w-50' }, label: 'Please add a link for the virtual session', require: true %>
+          <%= f.input :link, input_html: { class: 'w-50', id: 'confirm_link' }, label: 'Please add a link for the virtual session', require: true %>
         <% elsif @session.session_type == 'In-person' %>
           <%= f.input :address, input_html: { class: 'w-50' }, label: 'Please add an address for the in-person session', require: true %>
           <%= f.input :latitude, as: :hidden %>
@@ -105,7 +105,7 @@
         <p>Duration: <%= @session.service.duration %>m</p>
         <p>Session Type: <%= @session.session_type %></p>
         <p>Total Price: CA$ <span id="estimate-price"><%= @session.estimate_price %></span></p>
-        <% if @session.user == current_user && @session.payment_method_id %>
+        <% if @session.user == current_user && @session.payment_method_id && @session.start_time > Time.current %>
           <div class="d-flex">
             <p class="mr-2">Payment method: <span id="payment">Card ending with <%= current_user.payment_methods.find_by(payment_method_id: @session.payment_method_id).last4 %></span></p>
             <%= link_to '', '', class: 'fas fa-pen', id: 'payment-method-edit', data: { toggle: "modal", target: "#paymentMethodModal" } %>
@@ -155,7 +155,7 @@
         <p>Duration: <%= @session.service.duration %>m</p>
         <p>Session Type: <%= @session.session_type %></p>
         <p>Total Price: CA$ <span id="estimate-price"><%= @session.estimate_price %></span></p>
-        <% if @session.user == current_user && @session.payment_method_id %>
+        <% if @session.user == current_user && @session.payment_method_id && @session.start_time > Time.current %>
           <div class="d-flex">
             <p class="mr-2">Payment method: <span id="payment">Card ending with <%= current_user.payment_methods.find_by(payment_method_id: @session.payment_method_id).last4 %></span></p>
             <%= link_to '', '', class: 'fas fa-pen', id: 'payment-method-edit', data: { toggle: "modal", target: "#paymentMethodModal" } %>
@@ -237,21 +237,23 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="paymentMethodModal" tabindex="-1" role="dialog" aria-labelledby="paymentMethodModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header justify-content-center">
-        <h5 class="modal-title" id="paymentMethodModalLabel">Change Payment Method</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="payment-modal-close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="payment_method_wrapper">
-        <%= render 'payment_method_form', session: @session %>
+<% if @session.user == current_user %>
+  <div class="modal fade" id="paymentMethodModal" tabindex="-1" role="dialog" aria-labelledby="paymentMethodModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header justify-content-center">
+          <h5 class="modal-title" id="paymentMethodModalLabel">Change Payment Method</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="payment-modal-close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="payment_method_wrapper">
+          <%= render 'payment_method_form', session: @session %>
+        </div>
       </div>
     </div>
   </div>
-</div>
+<% end %>
 <script>
   const choices = document.querySelectorAll('.time-choice');
   choices.forEach( choice =>
@@ -263,55 +265,30 @@
       }
     })
   );
-  if (document.getElementById('link_form')) {
-    const link = document.getElementById('link');
-    const linkForm = document.getElementById('link_form');
-    const linkEdit = document.getElementById('link-edit');
-    const linkCancel = document.getElementById('link-cancel');
-    document.getElementById('session_link').addEventListener('keyup', (e) => {
-      if (document.getElementById('session_link').value == '') {
-        document.getElementById('link-submit').disabled = true;
-      } else {
-        document.getElementById('link-submit').disabled = false;
-      }
-    })
-    linkEdit.addEventListener('click', (e) => {
-      e.preventDefault();
-      link.style.display = 'none';
-      linkForm.style.display = 'flex';
-      linkEdit.style.display = 'none';
-    })
-    linkCancel.addEventListener('click', (e) => {
-      e.preventDefault();
-      link.style.display = 'inline';
-      linkForm.style.display = 'none';
-      linkEdit.style.display = 'block';
-    })
-  }
-  if (document.getElementById('address_form')) {
-    const address = document.getElementById('address');
-    const addressForm = document.getElementById('address_form');
-    const addressEdit = document.getElementById('address-edit');
-    const addressCancel = document.getElementById('address-cancel');
-    document.getElementById('address-submit').addEventListener('click', (e) => {
-      if (document.getElementById('session_address').value == '') {
-        e.preventDefault();
-      }
-    })
-    addressEdit.addEventListener('click', (e) => {
-      e.preventDefault();
-      address.style.display = 'none';
-      addressForm.style.display = 'flex';
-      addressEdit.style.display = 'none';
-    })
-    addressCancel.addEventListener('click', (e) => {
-      e.preventDefault();
-      address.style.display = 'inline';
-      addressForm.style.display = 'none';
-      addressEdit.style.display = 'block';
-    })
-  }
   <% if @session.session_type == 'In-person' %>
+    if (document.getElementById('address_form')) {
+      const address = document.getElementById('address');
+      const addressForm = document.getElementById('address_form');
+      const addressEdit = document.getElementById('address-edit');
+      const addressCancel = document.getElementById('address-cancel');
+      document.getElementById('address-submit').addEventListener('click', (e) => {
+        if (document.getElementById('session_address').value == '') {
+          e.preventDefault();
+        }
+      })
+      addressEdit.addEventListener('click', (e) => {
+        e.preventDefault();
+        address.style.display = 'none';
+        addressForm.style.display = 'flex';
+        addressEdit.style.display = 'none';
+      })
+      addressCancel.addEventListener('click', (e) => {
+        e.preventDefault();
+        address.style.display = 'inline';
+        addressForm.style.display = 'none';
+        addressEdit.style.display = 'block';
+      })
+    }
     function initAutocomplete() {
       var input = document.getElementById('session_address');
       var options = {
@@ -356,6 +333,41 @@
           position: myCoords,
           map: map
       });
+    }
+  <% else %>
+    if (document.getElementById('confirm_link')) {
+      document.getElementById('confirm_link').addEventListener('keyup', (e) => {
+        if (document.getElementById('confirm_link').value == '') {
+          document.getElementById('confirm').disabled = true;
+        } else {
+          document.getElementById('confirm').disabled = false;
+        }
+      });
+    }
+    if (document.getElementById('link_form')) {
+      const link = document.getElementById('link');
+      const linkForm = document.getElementById('link_form');
+      const linkEdit = document.getElementById('link-edit');
+      const linkCancel = document.getElementById('link-cancel');
+      document.getElementById('session_link').addEventListener('keyup', (e) => {
+        if (document.getElementById('session_link').value == '') {
+          document.getElementById('link-submit').disabled = true;
+        } else {
+          document.getElementById('link-submit').disabled = false;
+        }
+      })
+      linkEdit.addEventListener('click', (e) => {
+        e.preventDefault();
+        link.style.display = 'none';
+        linkForm.style.display = 'flex';
+        linkEdit.style.display = 'none';
+      })
+      linkCancel.addEventListener('click', (e) => {
+        e.preventDefault();
+        link.style.display = 'inline';
+        linkForm.style.display = 'none';
+        linkEdit.style.display = 'block';
+      })
     }
   <% end %>
 </script>
