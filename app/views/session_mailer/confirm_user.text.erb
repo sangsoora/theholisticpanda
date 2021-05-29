@@ -12,7 +12,7 @@ Duration: <%= @session.service.duration %>m
 
 Session Type: <%= @session.session_type %>
 
-Total Price: CA$ <%= @session.amount.round(2) %>
+Total Price: CA$ <%= @session.estimate_price.round(2) %>
 
 <% if @session.session_type == 'Virtual' %>
 Link for the session: <%= @session.link %>

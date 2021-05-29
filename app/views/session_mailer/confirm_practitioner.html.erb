@@ -13,7 +13,7 @@
   <p>Starting time: <%= @session.start_time.in_time_zone(@practitioner.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
   <p>Duration: <%= @session.service.duration %>m</p>
   <p>Session Type: <%= @session.session_type %></p>
-  <p>Total Price: CA$ <%= @session.amount.round(2) %></p>
+  <p>Total Price: CA$ <%= @session.estimate_price.round(2) %></p>
   <% if @session.session_type == 'Virtual' %>
     <p>Link for the session: <a href="<%= @session.link %>" target="_blank"><%= @session.link %></a></p>
   <% elsif @session.session_type == 'In-person' %>
@@ -27,9 +27,9 @@
   <br>
   <br>
   <% if @session.service.default_service %>
-    <p>If you are no longer able to make this session, please cancel it at least <strong>24 hours before</strong> the session and send a courtesy message to your client via the chatbox.</p>
+    <p>If you are no longer able to make this session, please cancel it at least <strong>24 hours before</strong> the session and send a courtesy message to your client.</p>
   <% else %>
-    <p>If you are no longer able to make this session, please cancel it at least <strong>24 hours before</strong> the session and send a courtesy message to your client via the chatbox. Failure to do so will result in a <strong>late cancellation fee of 35% of the session price</strong>. If you have to late cancel due to extenuating circumstances, please do let us know at <a href="mailto:hello@theholisticpanda.com" style="text-decoration: none; color: #366735;">hello@theholisticpanda.com</a>.</p>
+    <p>If you are no longer able to make this session, please cancel it at least <strong>24 hours before</strong> the session and send a courtesy message to your client. Failure to do so will result in a <strong>late cancellation fee of 35% of the session price</strong>. If you have to late cancel due to extenuating circumstances, please do let us know at <a href="mailto:hello@theholisticpanda.com" style="text-decoration: none; color: #366735;">hello@theholisticpanda.com</a>.</p>
   <% end %>
   <p>If your client loved the session, please encourage them to leave you a review and rating so others in the community can learn more about your services!</p>
   <br>

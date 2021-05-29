@@ -12,7 +12,7 @@ Duration: <%= @session.service.duration %>m
 
 Session Type: <%= @session.session_type %>
 
-Total Price: CA$ <%= @session.amount.round(2) %>
+Total Price: CA$ <%= @session.estimate_price.round(2) %>
 
 <% if @session.session_type == 'Virtual' %>
 Link for the session: <%= @session.link %>
@@ -25,9 +25,9 @@ Session location: <%= @session.address %>
 <% end %>
 
 <% if @session.service.default_service %>
-If you are no longer able to make this session, please cancel it at least 24 hours before the session and send a courtesy message to your client via the chatbox.
+If you are no longer able to make this session, please cancel it at least 24 hours before the session and send a courtesy message to your client.
 <% else %>
-If you are no longer able to make this session, please cancel it at least 24 hours before the session and send a courtesy message to your client via the chatbox. Failure to do so will result in a late cancellation fee of 35% of the session price. If you have to late cancel due to extenuating circumstances, please do let us know at hello@theholisticpanda.com.
+If you are no longer able to make this session, please cancel it at least 24 hours before the session and send a courtesy message to your client. Failure to do so will result in a late cancellation fee of 35% of the session price. If you have to late cancel due to extenuating circumstances, please do let us know at hello@theholisticpanda.com.
 <% end %>
 
 If your client loved the session, please encourage them to leave you a review and rating so others in the community can learn more about your services!

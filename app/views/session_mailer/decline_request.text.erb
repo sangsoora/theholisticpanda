@@ -6,7 +6,7 @@ Service: <%= @session.service.name %> with <%= @practitioner.user.full_name %>
 
 Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
 
-Total Price: CA$ <%= @session.amount.round(2) %>
+Total Price: CA$ <%= @session.estimate_price.round(2) %>
 
 Yours,
 The Holistic Panda Team

@@ -24,7 +24,7 @@
       <div class="mb-4">
         <p>
           <strong>Find the right wellness services and providers for you.</strong> <span id="service-counter"><%= @filtered_services.count %> services</span><br>
-          Select your health goals to get matched to wellness services.  You can also automatically get personalized recommendations by updating your health goals in your profile.
+          Select your health goals to get matched to wellness services. You can also automatically get personalized recommendations by updating your health goals in your profile.
         </p>
       </div>
       <% if @filtered_services != [] %>
@@ -162,7 +162,7 @@
                   <div class="d-flex justify-content-between">
                     <div style="flex: 0 0 45%;">
                       <label>PRICE</label>
-                      <p>CA$ <%= service.price.to_f.round(0) %></p>
+                      <p>CA$ <%= service.price.to_f.round(2) %></p>
                     </div>
                     <div style="flex: 0 0 45%;">
                       <label>DURATION</label>
@@ -222,7 +222,7 @@
                 <div class="d-flex justify-content-between mt-2">
                   <div style="flex: 0 0 45%;">
                     <label>PRICE</label>
-                    <p>CA$ <%= service.price.to_f.round(0) %></p>
+                    <p>CA$ <%= service.price.to_f.round(2) %></p>
                   </div>
                   <div style="flex: 0 0 45%;">
                     <label>DURATION</label>
@@ -247,7 +247,7 @@
       <div class="mb-4">
         <p>
           <strong>Find the right wellness services and providers for you.</strong> <span id="service-counter"><%= @all_services.count %> services</span><br>
-          Select your health goals to get matched to wellness services.  You can also automatically get personalized recommendations by updating your health goals in your profile.
+          Select your health goals to get matched to wellness services. You can also automatically get personalized recommendations by updating your health goals in your profile.
         </p>
       </div>
       <div class="service-lists">
@@ -315,7 +315,7 @@
                 <div class="d-flex justify-content-between">
                   <div style="flex: 0 0 45%;">
                     <label>PRICE</label>
-                    <p>CA$ <%= service.price.to_f.round(0) %></p>
+                    <p>CA$ <%= service.price.to_f.round(2) %></p>
                   </div>
                   <div style="flex: 0 0 45%;">
                     <label>DURATION</label>
@@ -381,7 +381,7 @@
               <div class="d-flex justify-content-between mt-2">
                 <div style="flex: 0 0 45%;">
                   <label>PRICE</label>
-                  <p>CA$ <%= service.price.to_f.round(0) %></p>
+                  <p>CA$ <%= service.price.to_f.round(2) %></p>
                 </div>
                 <div style="flex: 0 0 45%;">
                   <label>DURATION</label>

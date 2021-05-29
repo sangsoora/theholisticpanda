@@ -89,7 +89,7 @@
               </div>
               <div class="modal-body-header">
                 <%= link_to '<<', '', id: 'previous-btn', style: 'font-size:1.5rem;' %>
-                <div>
+                <div class="text-center">
                   <p id="calendar-days" class="mx-5 mb-0" style='font-size:1.5rem;'></p>
                   <p class="mx-5">(in your current time zone: <%= current_user.timezone %>)</p>
                 </div>
@@ -107,7 +107,7 @@
                     <th style="position:sticky;top:-22px;background-color:white;z-index:2;"></th>
                     <% (0..6).to_a.each do |num| %>
                       <% num = num + 1 + Time.now.wday - 7 %>
-                      <th style="position:sticky;top: -22px;background-color:white;z-index:2;"><%= Date::ABBR_DAYNAMES[num] %></th>
+                      <th style="position:sticky;top: -22px;background-color:white;z-index:2;" id="th-<%= num %>"><%= Date::ABBR_DAYNAMES[num] %></th>
                     <% end %>
                   </tr>
                 </table>
@@ -278,6 +278,7 @@
         }
         dates.forEach((date) => {
           const selected_day = new Date(date).getDay();
+          document.getElementById('th-'+selected_day).innerHTML = moment(date).format('ddd') + '<br>' + moment(date).format('MMM Do');
           const time_slots = document.querySelectorAll(`[data-day='` + selected_day + `']`);
           time_slots.forEach((slot) => {
             const slot_time = moment(date).format('YYYY-MM-DD') + ' ' + slot.id.split('-')[1];

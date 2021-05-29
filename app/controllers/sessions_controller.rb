@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
     if @session.start_time
       session_time = @session.start_time.in_time_zone(current_user.timezone)
       current_time = Time.current.in_time_zone(current_user.timezone)
-      @time_diff = ((session_time - current_time) / 1.hour).round
+      @time_diff = ((session_time - current_time) / 1.hour)
     end
   end
 
@@ -102,20 +102,35 @@ class SessionsController < ApplicationController
       Notification.create(recipient: @session.user, actor: current_user, action: 'has declined your session', notifiable: @session)
       SessionMailer.with(session: @session).decline_request.deliver_now
       redirect_to practitioner_sessions_path, notice: 'Session request declined.'
-    elsif params[:commit] == 'Confirm Cancellation'
+    elsif params[:commit] == 'Confirm cancellation'
       @session.update(status: 'cancelled', cancelled_user: current_user)
+      session_time = @session.start_time.in_time_zone(current_user.timezone)
+      current_time = Time.current.in_time_zone(current_user.timezone)
+      time_diff = ((session_time - current_time) / 1.hour)
       if @session.service.default_service
         @practitioner = Practitioner.find(@session.free_practitioner_id)
+        SessionMailer.with(session: @session).cancel_practitioner.deliver_now
+        SessionMailer.with(session: @session).cancel_user.deliver_now
       else
         @practitioner = @session.practitioner
+        if time_diff >= 24
+          SessionMailer.with(session: @session).cancel_practitioner.deliver_now
+          SessionMailer.with(session: @session).cancel_user.deliver_now
+        else
+          if @session.cancelled_user == @practitioner.user
+            SessionMailer.with(session: @session).cancel_practitioner_within_24.deliver_now
+            SessionMailer.with(session: @session).cancel_user.deliver_now
+          else
+            SessionMailer.with(session: @session).cancel_practitioner.deliver_now
+            SessionMailer.with(session: @session).cancel_user_within_24.deliver_now
+          end
+        end
       end
-      SessionMailer.with(session: @session).cancel_practitioner.deliver_now
-      SessionMailer.with(session: @session).cancel_user.deliver_now
       if @session.user == current_user
-        Notification.create(recipient: @practitioner.user, actor: current_user, action: 'has cancelled your session', notifiable: @session)
+        Notification.create(recipient: @practitioner.user, actor: current_user, action: 'has cancelled a session with you', notifiable: @session)
         redirect_to user_sessions_path, notice: 'Session cancelled.'
       else
-        Notification.create(recipient: @session.user, actor: current_user, action: 'has cancelled your session', notifiable: @session)
+        Notification.create(recipient: @session.user, actor: current_user, action: 'has cancelled a session with you', notifiable: @session)
         redirect_to practitioner_sessions_path, notice: 'Session cancelled.'
       end
     else

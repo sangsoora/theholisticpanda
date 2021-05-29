@@ -10,7 +10,7 @@
   <h4>This is a notice to let you know that the following session request with <%= @practitioner.user.full_name %> has been declined.</h4>
   <p>Service: <%= @session.service.name %></p>
   <p>Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
-  <p>Total Price: CA$ <%= @session.amount.round(2) %></p>
+  <p>Total Price: CA$ <%= @session.estimate_price.round(2) %></p>
   <br>
   <p>If you would like to reschedule or book another service, please visit our booking site:</p>
   <br>
