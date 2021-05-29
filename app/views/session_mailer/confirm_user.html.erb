@@ -13,7 +13,7 @@
   <p>Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
   <p>Duration: <%= @session.service.duration %>m</p>
   <p>Session Type: <%= @session.session_type %></p>
-  <p>Total Price: CA$ <%= @session.amount.round(2) %></p>
+  <p>Total Price: CA$ <%= @session.estimate_price.round(2) %></p>
   <% if @session.session_type == 'Virtual' %>
     <p>Link for the session: <a href="<%= @session.link %>" target="_blank"><%= @session.link %></a></p>
   <% else %>

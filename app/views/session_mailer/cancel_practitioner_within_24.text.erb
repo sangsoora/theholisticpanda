@@ -8,9 +8,9 @@ Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strf
 
 Total Price: CA$ <%= @session.estimate_price.round(2) %>
 
-<% if @session.cancelled_user != @practitioner.user %>
-Cancel reason from your client: <%= @session.cancel_reason %>
-<% end %>
+Due to the late cancel, we will issue invoice to charge 35% of service price within next 24 hours.
+
+If you have extenuating circumstances, reach out to us at hello@theholisticpanda.com
 
 Yours,
 The Holistic Panda Team

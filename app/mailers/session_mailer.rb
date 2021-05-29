@@ -103,6 +103,18 @@ class SessionMailer < ApplicationMailer
     mail(to: @session.user.email, subject: "Your session has been cancelled.")
   end
 
+  def cancel_practitioner_within_24
+    @session = params[:session]
+    @practitioner = @session.practitioner
+    mail(to: @practitioner.user.email, subject: "Your session has been cancelled")
+  end
+
+  def cancel_user_within_24
+    @session = params[:session]
+    @practitioner = @session.practitioner
+    mail(to: @session.user.email, subject: "Your session has been cancelled.")
+  end
+
   def send_request
     @session = params[:session]
     if @session.service.default_service

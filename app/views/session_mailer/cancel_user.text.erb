@@ -6,7 +6,7 @@ Service: <%= @session.service.name %>
 
 Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %> <%= @session.user.timezone %>
 
-Total Price: CA$ <%= @session.amount.round(2) %>
+Total Price: CA$ <%= @session.estimate_price.round(2) %>
 
 <% if @session.cancelled_user != @session.user %>
 Cancel reason from your practitioner: <%= @session.cancel_reason %>
