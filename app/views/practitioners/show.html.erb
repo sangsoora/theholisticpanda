@@ -252,8 +252,8 @@
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('time-zone').innerHTML = moment.tz.guess();
     <% if !user_signed_in? || (user_signed_in? && !current_user.timezone?) %>
+      document.getElementById('time-zone').innerHTML = moment.tz.guess();
       const user_time_offset = moment.tz.zone(moment.tz.guess()).utcOffset(Date.now());
       const practitioner_time_offset = moment.tz.zone('<%= @practitioner.timezone %>').utcOffset(Date.now());
       const time_diff = user_time_offset - practitioner_time_offset;
@@ -456,6 +456,8 @@
       html += `<td class='time'>20 ~ 24</td>
                </tr>`;
       table.insertAdjacentHTML('beforeend', html);
+    <% elsif user_signed_in? && current_user.timezone? %>
+      document.getElementById('time-zone').innerHTML = '<%= current_user.timezone %>';
     <% end %>
   });
 </script>

@@ -89,7 +89,10 @@
               </div>
               <div class="modal-body-header">
                 <%= link_to '<<', '', id: 'previous-btn', style: 'font-size:1.5rem;' %>
-                <p id="calendar-days" class="mx-5" style='font-size:1.5rem;'></p>
+                <div>
+                  <p id="calendar-days" class="mx-5 mb-0" style='font-size:1.5rem;'></p>
+                  <p class="mx-5">(in your current time zone: <%= current_user.timezone %>)</p>
+                </div>
                 <%= link_to '>>', '', id: 'next-btn', style: 'font-size:1.5rem;' %>
               </div>
               <div class="circles">
@@ -266,7 +269,7 @@
         <% @service.practitioner.sessions.where("status = ? AND start_time > ?", 'confirmed', 1.days.ago).order(start_time: :asc).select(:start_time, :duration).each do |session| %>
           sessions.push(<%= session.to_json.html_safe %>);
         <% end %>
-        const time_zone = moment.tz.guess();
+        const time_zone = '<%= current_user.timezone %>';
         let dates = [];
         for (var i = 0; i < 7; i++) {
           let addingDate = new Date(start);
