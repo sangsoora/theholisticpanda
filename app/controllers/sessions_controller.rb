@@ -173,6 +173,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:start_time, :duration, :session_type, :primary_time, :secondary_time, :tertiary_time, :message, :amount, :paid, :link, :status, :cancel_reason, :cancelled_user, :address, :latitude, :longitude, :payment_method_id, :estimate_price, :promo_id)
+    params.require(:session).permit(:start_time, :duration, :session_type, :primary_time, :secondary_time, :tertiary_time, :message, :amount, :paid, :link, :status, :cancel_reason, :cancelled_user, :address, :latitude, :longitude, :payment_method_id, :estimate_price, :promo_id, :discount_price, :tax_price, :estimate_price)
   end
 end

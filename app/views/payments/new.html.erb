@@ -7,6 +7,8 @@
       <% if (current_user.payment_methods.count > 0) %>
         <%= simple_form_for(@session) do |f| %>
           <%= f.input :estimate_price, as: :hidden %>
+          <%= f.input :discount_price, as: :hidden %>
+          <%= f.input :tax_price, as: :hidden %>
           <% if @session.amount_cents >= 5000 %>
             <% if @promos.exists? %>
               <div class="form-group select optional session_promo_id">
@@ -64,7 +66,7 @@
             <p><strong>Service price</strong></p>
           </div>
           <div class="price-value">
-            <p>CA <%= humanized_money_with_symbol @session.amount %></p>
+            <p>CA$ <%= @session.amount %></p>
           </div>
         </div>
         <div class="d-flex justify-content-between mb-3">
@@ -113,32 +115,39 @@
       let calculatedPrice = 0;
       if (discount && tax) {
         if (type == 'percentage') {
-          calculatedPrice = initPrice - (initPrice * discount);
-          document.getElementById('discount-amount').innerHTML = '- CA $' + (initPrice * discount).toFixed(2);
+          calculatedPrice = (initPrice - (initPrice * (discount/100))).toFixed(2);
+
+          document.getElementById('discount-amount').innerHTML = '- CA $' + (initPrice * (discount/100)).toFixed(2);
           document.getElementById('discount-amount').style.color = 'red';
           document.getElementById('tax-amount').innerHTML = '+ CA $' + (calculatedPrice * tax).toFixed(2);
           document.getElementById('tax-amount').style.color = 'green';
+          document.getElementById('session_discount_price').value = (initPrice * (discount/100)).toFixed(2);
+          document.getElementById('session_tax_price').value = (calculatedPrice * tax).toFixed(2);
         } else {
           calculatedPrice = initPrice - discount;
           document.getElementById('discount-amount').innerHTML = '- CA $' + discount.toFixed(2);
           document.getElementById('discount-amount').style.color = 'red';
-          document.getElementById('tax-amount').innerHTML = '+ CA $' + ((initPrice - discount) * tax).toFixed(2);
+          document.getElementById('tax-amount').innerHTML = '+ CA $' + ((initPrice - (discount/100)) * tax).toFixed(2);
           document.getElementById('tax-amount').style.color = 'green';
+          document.getElementById('session_discount_price').value = discount.toFixed(2);
+          document.getElementById('session_tax_price').value = ((initPrice - discount) * tax).toFixed(2);
         }
-        calculatedPrice = (calculatedPrice + (calculatedPrice * tax)).toFixed(2);
+        calculatedPrice = (calculatedPrice * (1.00 + tax)).toFixed(2);
       } else if (discount && !tax) {
         if (type == 'percentage') {
-          calculatedPrice = (initPrice - (initPrice * discount)).toFixed(2);
-          document.getElementById('discount-amount').innerHTML = '- CA $' + (initPrice * discount).toFixed(2);
+          calculatedPrice = (initPrice - (initPrice * (discount/100))).toFixed(2);
+          document.getElementById('discount-amount').innerHTML = '- CA $' + (initPrice * (discount/100)).toFixed(2);
           document.getElementById('discount-amount').style.color = 'red';
           document.getElementById('tax-amount').innerHTML = 'TBD';
           document.getElementById('tax-amount').style.color = 'black';
+          document.getElementById('session_discount_price').value = (initPrice * (discount/100)).toFixed(2);
         } else {
           calculatedPrice = initPrice - discount;
           document.getElementById('discount-amount').innerHTML = '- CA $' + discount.toFixed(2);
           document.getElementById('discount-amount').style.color = 'red';
           document.getElementById('tax-amount').innerHTML = 'TBD';
           document.getElementById('tax-amount').style.color = 'black';
+          document.getElementById('session_discount_price').value = discount.toFixed(2);
         }
       } else if (!discount && tax) {
         calculatedPrice = (initPrice + (initPrice * tax)).toFixed(2);
@@ -146,6 +155,7 @@
         document.getElementById('discount-amount').style.color = 'black';
         document.getElementById('tax-amount').innerHTML = '+ CA $' + (initPrice * tax).toFixed(2);
         document.getElementById('tax-amount').style.color = 'green';
+        document.getElementById('session_tax_price').value = (initPrice * tax).toFixed(2);
       } else if (!discount && !tax) {
         calculatedPrice = initPrice;
         document.getElementById('discount-amount').innerHTML = 'N/A';
@@ -193,9 +203,9 @@
                 taxRate = 0.05;
               }
             }
-            getFinalPrice((discountAmount/100), discountType, taxRate);
+            getFinalPrice(discountAmount, discountType, taxRate);
           } else {
-            getFinalPrice((discountAmount/100), discountType, null);
+            getFinalPrice(discountAmount, discountType, null);
           }
         } else {
           if (practitionerTax) {
@@ -216,14 +226,12 @@
       });
     }
     paymentSelect.addEventListener('change', (e) => {
-      if (discountSelect) {
-        let discountType = $('#session_promo_id :selected').data().type;
-        let discountAmount = $('#session_promo_id :selected').data().discount;
-      }
       let taxState = $('#session_payment_method_id :selected').data().state;
       let taxCountry = $('#session_payment_method_id :selected').data().country;
       let taxRate = 0.0;
       if (discountSelect && (discountSelect.value != '')) {
+        let discountType = $('#session_promo_id :selected').data().type;
+        let discountAmount = $('#session_promo_id :selected').data().discount;
         if (practitionerTax) {
           if (practitionerCountry == taxCountry) {
             if ((taxState == 'NB') || (taxState == 'NL') || (taxState == 'NS') || (taxState == 'PE')) {
@@ -233,12 +241,12 @@
             } else {
               taxRate = 0.05;
             }
-            getFinalPrice((discountAmount/100), discountType, taxRate);
+            getFinalPrice(discountAmount, discountType, taxRate);
           } else {
-            getFinalPrice((discountAmount/100), discountType, null);
+            getFinalPrice(discountAmount, discountType, null);
           }
         } else {
-          getFinalPrice((discountAmount/100), discountType, null);
+          getFinalPrice(discountAmount, discountType, null);
         }
       } else {
         if (practitionerTax) {

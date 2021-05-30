@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_30_102652) do
+ActiveRecord::Schema.define(version: 2021_05_30_133758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -291,7 +291,9 @@ ActiveRecord::Schema.define(version: 2021_05_30_102652) do
     t.float "latitude"
     t.float "longitude"
     t.string "promo_id"
-    t.float "estimate_price"
+    t.integer "discount_price_cents", default: 0, null: false
+    t.integer "tax_price_cents", default: 0, null: false
+    t.integer "estimate_price_cents", default: 0, null: false
     t.index ["service_id"], name: "index_sessions_on_service_id"
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
@@ -308,6 +310,15 @@ ActiveRecord::Schema.define(version: 2021_05_30_102652) do
 
   create_table "specialty_categories", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tax_rates", force: :cascade do |t|
+    t.string "name"
+    t.float "rate"
+    t.string "tax_id"
+    t.string "country_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
