@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_13_105638) do
+ActiveRecord::Schema.define(version: 2021_05_30_102652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,7 +209,7 @@ ActiveRecord::Schema.define(version: 2021_05_13_105638) do
     t.boolean "agreement_consent"
     t.string "agreement_status"
     t.string "status"
-    t.string "state"
+    t.string "state_code"
     t.float "latitude"
     t.float "longitude"
     t.string "background_check_status"
