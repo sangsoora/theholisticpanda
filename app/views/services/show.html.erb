@@ -106,7 +106,11 @@
                   <tr>
                     <th style="position:sticky;top:-22px;background-color:white;z-index:2;"></th>
                     <% (0..6).to_a.each do |num| %>
-                      <% num = num + 1 + Time.now.wday - 7 %>
+                      <% if num + 1 + Time.now.wday == 7 %>
+                        <% num = num + 1 + Time.now.wday - 7 %>
+                      <% else %>
+                        <% num = num + 1 + Time.now.wday %>
+                      <% end %>
                       <th style="position:sticky;top: -22px;background-color:white;z-index:2;" id="th-<%= num %>"><%= Date::ABBR_DAYNAMES[num] %></th>
                     <% end %>
                   </tr>

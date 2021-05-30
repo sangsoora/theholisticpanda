@@ -14,7 +14,7 @@
         <small class="form-text text-muted">Please provide the right infomation for background check</small>
       </div>
       <div class="form-group select optional practitioner_state_code" id="ca-states">
-        <label class="select optional" for="practitioner_state_code">State of residence (CA residents only)</label>
+        <label class="select optional" for="practitioner_state_code">Province of residence (CA residents only)</label>
         <%= f.select :state_code, @practitioner.ca_states_choice.map { |state| [state[0], state[1]] }, {include_blank: 'Select a state'}, {class: 'form-control select optional', id: 'practitioner_ca_state_code'} %>
       </div>
       <div class="d-flex justify-content-between">
