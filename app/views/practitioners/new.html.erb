@@ -9,15 +9,19 @@
         <small class="form-text text-muted">Please provide the right infomation for background check</small>
       </div>
       <div class="form-group select optional practitioner_state_code" id="us-states" style="display: none;">
-        <label class="select optional" for="practitioner_country_code">State of residence (US residents only)</label>
-        <%= f.select :state, @practitioner.us_states_choice,  {include_blank: 'Select A State'}, {class: 'form-control select optional' } %>
+        <label class="select optional" for="practitioner_state_code">State of residence (US residents only)</label>
+        <%= f.select :state_code, @practitioner.us_states_choice.map { |state| [state[0], state[1]] }, {include_blank: 'Select a state'}, {class: 'form-control select optional', id: 'practitioner_us_state_code'} %>
         <small class="form-text text-muted">Please provide the right infomation for background check</small>
+      </div>
+      <div class="form-group select optional practitioner_state_code" id="ca-states">
+        <label class="select optional" for="practitioner_state_code">State of residence (CA residents only)</label>
+        <%= f.select :state_code, @practitioner.ca_states_choice.map { |state| [state[0], state[1]] }, {include_blank: 'Select a state'}, {class: 'form-control select optional', id: 'practitioner_ca_state_code'} %>
       </div>
       <div class="d-flex justify-content-between">
         <%= f.input :experience, collection: ['Less than 1 year', '2-5 years', '5-10 years', 'More than 10 years'], as: :select, require: true %>
       </div>
-      <%= f.input :timezone, label: 'Time Zone (where you will be conducting your service)', as: :select do %>
-        <%= f.select :timezone, @practitioner.timezone_choice.map { |zone| [zone[1], zone[0]] }, {include_blank: 'Select A Time Zone'}, {class: 'form-control select optional' } %>
+      <%= f.input :timezone, label: 'Time zone (where you will be conducting your service)', as: :select do %>
+        <%= f.select :timezone, @practitioner.timezone_choice.map { |zone| [zone[1], zone[0]] }, {include_blank: 'Select a time zone'}, {class: 'form-control select optional'} %>
       <% end %>
       <div class="form-group">
         <label class="control-label check_boxes required">Your specialities</label>
@@ -55,8 +59,17 @@
   document.getElementById('practitioner_country_code').addEventListener('change', (e) => {
     if (e.currentTarget.value == 'US') {
       document.getElementById('us-states').style.display = 'block';
-    } else {
+      document.getElementById('ca-states').style.display = 'none';
+      document.getElementById('practitioner_ca_state_code').value = '';
+    } else if (e.currentTarget.value == 'CA') {
       document.getElementById('us-states').style.display = 'none';
+      document.getElementById('ca-states').style.display = 'block';
+      document.getElementById('practitioner_us_state_code').value = '';
+    } else {
+      document.getElementById('ca-states').style.display = 'none';
+      document.getElementById('us-states').style.display = 'none';
+      document.getElementById('practitioner_us_state_code').value = '';
+      document.getElementById('practitioner_ca_state_code').value = '';
     }
-  })
+  });
 </script>

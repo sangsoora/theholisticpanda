@@ -98,6 +98,7 @@ class SessionsController < ApplicationController
         redirect_to practitioner_sessions_path, notice: 'Session request accepted.'
       end
     elsif params[:commit] == 'Decline'
+      UserPromo.find(@session.promo_id).update(active: true) if @session.promo_id
       @session.update!(status: 'declined')
       Notification.create(recipient: @session.user, actor: current_user, action: 'has declined your session', notifiable: @session)
       SessionMailer.with(session: @session).decline_request.deliver_now
@@ -114,6 +115,7 @@ class SessionsController < ApplicationController
       else
         @practitioner = @session.practitioner
         if time_diff >= 24
+          UserPromo.find(@session.promo_id).update(active: true) if @session.promo_id
           SessionMailer.with(session: @session).cancel_practitioner.deliver_now
           SessionMailer.with(session: @session).cancel_user.deliver_now
         else
@@ -158,6 +160,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    UserPromo.find(@session.promo_id).update(active: true) if @session.promo_id
     @session.destroy
     redirect_to user_sessions_path, notice: 'Session request cancelled.'
   end
