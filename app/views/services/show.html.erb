@@ -216,7 +216,7 @@
       }
       const setCalendarDays = (start) => {
         let html = '';
-        let end = moment(moment(), "DD-MM-YYYY").add(7, 'day')._d;
+        let end = moment(moment(start), "DD-MM-YYYY").add(6, 'day')._d;
         const startDay = start.getDay();
         const startDate = start.getDate();
         const startYear = start.getFullYear();
@@ -250,8 +250,7 @@
         document.getElementById('calendar').insertAdjacentHTML('beforeend', html);
       }
       const getAvaialbleHours = (start) => {
-        let end = new Date(start);
-        end.setDate(start.getDate() + 6);
+        let end = moment(start, "DD-MM-YYYY").add(6, 'day')._d;
         const startDate = start.getDate();
         const startMonth = start.getMonth();
         const startYear = start.getFullYear();
@@ -274,12 +273,11 @@
         const time_zone = '<%= current_user.timezone %>';
         let dates = [];
         for (var i = 0; i < 7; i++) {
-          let addingDate = new Date(start);
-          addingDate.setDate(start.getDate() + i);
+          let addingDate = moment(start, "DD-MM-YYYY").add(i, 'day')._d;
           dates.push(formatDate(addingDate));
         }
         dates.forEach((date) => {
-          const selected_day = new Date(date).getDay();
+          let selected_day = moment(date).day();
           document.getElementById('th-'+selected_day).innerHTML = moment(date).format('ddd') + '<br>' + moment(date).format('MMM Do');
           const time_slots = document.querySelectorAll(`[data-day='` + selected_day + `']`);
           time_slots.forEach((slot) => {
@@ -313,21 +311,21 @@
           })
         })
         if (document.getElementById('primary-final').innerText != '') {
-          if ((new Date(document.getElementById('primary-final').innerText) >= start) && (new Date(document.getElementById('primary-final').innerText) <= new Date(moment(new Date(start)).add(7, 'd').toISOString()))) {
+          if ((moment(document.getElementById('primary-final').innerText, "DD-MM-YYYY")._d >= start) && (moment(document.getElementById('primary-final').innerText, "DD-MM-YYYY")._d <= moment(document.getElementById('primary-final').innerText, "DD-MM-YYYY").add(7, 'day')._d)) {
             const el = document.getElementById(moment(document.getElementById('primary-final').innerText).format('d') + '-' + moment(document.getElementById('primary-final').innerText).format('HH:mm'));
             el.childNodes[0].classList.remove('available-cell');
             el.childNodes[0].classList.add('chosen-cell');
           }
         }
         if (document.getElementById('secondary-final').innerText != '') {
-          if ((new Date(document.getElementById('secondary-final').innerText) >= start) && (new Date(document.getElementById('secondary-final').innerText) <= new Date(moment(new Date(start)).add(7, 'd').toISOString()))) {
+          if ((moment(document.getElementById('secondary-final').innerText, "DD-MM-YYYY")._d >= start) && (moment(document.getElementById('secondary-final').innerText, "DD-MM-YYYY")._d <= moment(document.getElementById('secondary-final').innerText, "DD-MM-YYYY").add(7, 'day')._d)) {
             const el = document.getElementById(moment(document.getElementById('secondary-final').innerText).format('d') + '-' + moment(document.getElementById('secondary-final').innerText).format('HH:mm'));
             el.childNodes[0].classList.remove('available-cell');
             el.childNodes[0].classList.add('chosen-cell');
           }
         }
         if (document.getElementById('tertiary-final').innerText != '') {
-          if ((new Date(document.getElementById('tertiary-final').innerText) >= start) && (new Date(document.getElementById('tertiary-final').innerText) <= new Date(moment(new Date(start)).add(7, 'd').toISOString()))) {
+          if ((moment(document.getElementById('tertiary-final').innerText, "DD-MM-YYYY")._d >= start) && (moment(document.getElementById('primary-final').innerText, "DD-MM-YYYY")._d <= moment(document.getElementById('tertiary-final').innerText, "DD-MM-YYYY").add(7, 'day')._d)) {
             const el = document.getElementById(moment(document.getElementById('tertiary-final').innerText).format('d') + '-' + moment(document.getElementById('tertiary-final').innerText).format('HH:mm'));
             el.childNodes[0].classList.remove('available-cell');
             el.childNodes[0].classList.add('chosen-cell');
@@ -338,7 +336,7 @@
         let ending_hours = [];
         var keys = Object.keys(working_hours);
         for(key in keys){
-          const ending_date = dates.find(el =>  new Date(el).getDay() == parseInt(key));
+          const ending_date = dates.find(el => moment(el, "DD-MM-YYYY")._d.getDay() == parseInt(key));
           if (working_hours[key].length > 0) {
             working_hours[key].forEach((hour) => {
               const nextDay = (parseInt(key) + 1) > 6 ? (parseInt(key) + 1) - 7 : (parseInt(key) + 1);
@@ -426,7 +424,7 @@
         }
       }
       const formatDate = (date) => {
-        let d = new Date(date),
+        let d = moment(date, "DD-MM-YYYY")._d,
             month = '' + (d.getMonth() + 1),
             day = '' + d.getDate(),
             year = d.getFullYear();
@@ -440,7 +438,7 @@
         document.getElementById('previous-btn').addEventListener('click', (e) => {
           e.preventDefault();
           start.setDate(start.getDate() - 7);
-          if (start <= new Date()) {
+          if (start <= moment(moment(), "DD-MM-YYYY")._d) {
             document.getElementById('previous-btn').setAttribute('style', 'pointer-events: none; font-size:1.5rem;');
           } else {
             document.getElementById('previous-btn').setAttribute('style', 'pointer-events: auto; font-size:1.5rem;');
@@ -452,7 +450,7 @@
         document.getElementById('next-btn').addEventListener('click', (e) => {
           e.preventDefault();
           start.setDate(start.getDate() + 7);
-          if (start <= new Date()) {
+          if (start <= moment(moment(), "DD-MM-YYYY")._d) {
             document.getElementById('previous-btn').setAttribute('style', 'pointer-events: none; font-size:1.5rem;');
           } else {
             document.getElementById('previous-btn').setAttribute('style', 'pointer-events: auto; font-size:1.5rem;');
@@ -476,8 +474,7 @@
         document.getElementById('create_session').click();
       });
       document.getElementById('back-time').addEventListener('click', (e) => {
-        start = new Date();
-        start.setDate(start.getDate() + 1);
+        start = moment(moment(), "DD-MM-YYYY").add(1, 'day')._d;
         document.getElementById('message-modal').classList.add('hidden');
         setTimeout(function(){
           setCalendar(start);
