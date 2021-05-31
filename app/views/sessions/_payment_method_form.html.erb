@@ -14,27 +14,29 @@
 <script>
   const initPrice = <%= @session.estimate_price %>;
   const estimatePrice = document.getElementById('session_estimate_price');
-  <% if @session.practitioner.user.tax_id %>
-    let taxRate = 0.0;
-    const taxState = '<%= PaymentMethod.find_by(payment_method_id: @session.payment_method_id).billing_state %>';
-    if ((taxState == 'NB') || (taxState == 'NL') || (taxState == 'NS') || (taxState == 'PE')) {
-      taxRate = 0.15;
-    } else if (taxState == 'ON') {
-      taxRate = 0.13;
-    } else {
-      taxRate = 0.05;
-    }
-    const originalPrice = initPrice / (1 + taxRate);
-    <% current_user.payment_methods.where.not(payment_method_id: session.payment_method_id).each do |payment| %>
-      document.getElementById('session_payment_method_id_<%= payment.id %>').addEventListener('click', (e) => {
-        if ((e.currentTarget.dataset.state == 'NB') || (e.currentTarget.dataset.state == 'NL') || (e.currentTarget.dataset.state == 'NS') || (e.currentTarget.dataset.state == 'PE')) {
-          getEstimatePrice(originalPrice, 0.15);
-        } else if (e.currentTarget.dataset.state == 'ON') {
-          getEstimatePrice(originalPrice, 0.13);
-        } else {
-          getEstimatePrice(originalPrice, 0.05);
-        }
-      });
+  <% unless @session.service.default_service %>
+    <% if @session.practitioner.user.tax_id %>
+      let taxRate = 0.0;
+      const taxState = '<%= PaymentMethod.find_by(payment_method_id: @session.payment_method_id).billing_state %>';
+      if ((taxState == 'NB') || (taxState == 'NL') || (taxState == 'NS') || (taxState == 'PE')) {
+        taxRate = 0.15;
+      } else if (taxState == 'ON') {
+        taxRate = 0.13;
+      } else {
+        taxRate = 0.05;
+      }
+      const originalPrice = initPrice / (1 + taxRate);
+      <% current_user.payment_methods.where.not(payment_method_id: session.payment_method_id).each do |payment| %>
+        document.getElementById('session_payment_method_id_<%= payment.id %>').addEventListener('click', (e) => {
+          if ((e.currentTarget.dataset.state == 'NB') || (e.currentTarget.dataset.state == 'NL') || (e.currentTarget.dataset.state == 'NS') || (e.currentTarget.dataset.state == 'PE')) {
+            getEstimatePrice(originalPrice, 0.15);
+          } else if (e.currentTarget.dataset.state == 'ON') {
+            getEstimatePrice(originalPrice, 0.13);
+          } else {
+            getEstimatePrice(originalPrice, 0.05);
+          }
+        });
+      <% end %>
     <% end %>
   <% end %>
   const getEstimatePrice = (originalPrice, tax) => {
