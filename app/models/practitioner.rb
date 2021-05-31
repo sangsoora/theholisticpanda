@@ -321,4 +321,8 @@ class Practitioner < ApplicationRecord
     percentage = ((completed / 15.to_f) * 100).round(0)
     percentage
   end
+
+  def pending_payment_sessions
+    sessions.where('start_time < ? AND status = ?', Time.current, 'confirmed')
+  end
 end
