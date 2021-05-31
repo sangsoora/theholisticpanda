@@ -68,7 +68,7 @@ class User < ApplicationRecord
         minimum_amount_currency: 'CAD'
       }
     })
-    UserPromo.create(name: 'WELCOMETOPANDA', detail: '10% off', user: self, promo_id: welcome_code.id, active: true, expires_at: Time.at(welcome_code.expires_at).to_datetime)
+    UserPromo.create(name: 'WELCOMETOPANDA', detail: '10% off', user: self, promo_id: welcome_code.id, active: true, expires_at: Time.now + 3.months.to_datetime)
     @referred_user = ReferredUser.find_by(invited_user_id: id)
     if @referred_user
       new_user_code = Stripe::PromotionCode.create({
