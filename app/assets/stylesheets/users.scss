@@ -55,9 +55,9 @@
 }
 
 .session .session-actions {
-  display: flex;
   transition: ease .3s;
   flex: 0 0 25%;
+  text-align: center;
 }
 
 .session .session-actions a {

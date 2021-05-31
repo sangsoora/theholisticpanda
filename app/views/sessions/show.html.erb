@@ -8,7 +8,7 @@
         <% else %>
           initMap(<%=@practitioner.latitude%>, <%=@practitioner.longitude%>, 'session-map', '<%=@practitioner.address_type%>');
         <% end %>
-        <% if (!@session.start_time? || @session.start_time > Time.current) && @session.practitioner.user == current_user %>
+        <% if (!@session.start_time? || @session.start_time > Time.current) && ((@session.practitioner != nil && @session.practitioner.user == current_user) || @session.free_practitioner.user == current_user) %>
           initAutocomplete();
         <% end %>
       });
@@ -113,7 +113,7 @@
         <% if @session.address? %>
           <div class="d-flex">
             <p class="mr-2">Session Location: <span id="address"><%= @session.address %></span></p>
-            <% if @session.start_time? && @session.start_time > Time.current && @session.practitioner.user == current_user %>
+            <% if @session.start_time? && @session.start_time > Time.current && ((@session.practitioner != nil && @session.practitioner.user == current_user) || @session.free_practitioner.user == current_user) %>
               <%= link_to '', '', class: 'fas fa-pen', id: 'address-edit', style: 'margin-top: 0.25rem;' %>
               <%= simple_form_for([@session], remote: true, html: { id: :address_form, style: 'display: none; align-items: center;' }) do |f| %>
                 <%= f.input :address, label: false, require: true %>
@@ -162,7 +162,7 @@
         <% end %>
         <div class="d-flex">
           <p class="mr-2">Virtual Session Link: <span id="link"><a href="<%= @session.link %>" target="_blank"><%= @session.link %></a></span></p>
-          <% if @session.start_time? && @session.start_time > Time.current && @session.practitioner.user == current_user %>
+          <% if @session.start_time? && @session.start_time > Time.current && ((@session.practitioner != nil && @session.practitioner.user == current_user) || @session.free_practitioner.user == current_user) %>
             <%= link_to '', '', class: 'fas fa-pen', id: 'link-edit', style: 'margin-top: 0.25rem;' %>
             <%= simple_form_for([@session], remote: true, html: { id: :link_form, style: 'display: none; align-items: center;' }) do |f| %>
               <%= f.input :link, label: false, requred: true %>
