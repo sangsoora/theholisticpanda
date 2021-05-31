@@ -108,6 +108,7 @@ class SessionsController < ApplicationController
       redirect_to practitioner_sessions_path, notice: 'Session payment has been charged.'
     elsif params[:commit] == 'Confirm cancellation'
       @session.update(status: 'cancelled', cancelled_user: current_user)
+      @session.update(session_params)
       session_time = @session.start_time.in_time_zone(current_user.timezone)
       current_time = Time.current.in_time_zone(current_user.timezone)
       time_diff = ((session_time - current_time) / 1.hour)
