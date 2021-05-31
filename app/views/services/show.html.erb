@@ -106,7 +106,7 @@
                   <tr>
                     <th style="position:sticky;top:-22px;background-color:white;z-index:2;"></th>
                     <% (0..6).to_a.each do |num| %>
-                      <% if num + 1 + Time.now.wday == 7 %>
+                      <% if num + 1 + Time.now.wday >= 7 %>
                         <% num = num + 1 + Time.now.wday - 7 %>
                       <% else %>
                         <% num = num + 1 + Time.now.wday %>
@@ -204,21 +204,19 @@
 <script>
   <% if @service.active && user_signed_in? %>
     document.addEventListener('DOMContentLoaded', () => {
-      let start = new Date();
-      start.setDate(new Date(start.getTime() + 60 * 60 * 24 * 1000).getDate());
+      let start = moment(moment(), "DD-MM-YYYY").add(1, 'day')._d;
       const setCalendar = (start) => {
         const day = start.getDay();
         setCalendarDays(start);
         setTimeTable(day);
         getAvaialbleHours(start);
-        if (start <= new Date().setDate(new Date().getDate() + 1)) {
+        if (start <= moment(moment(), "DD-MM-YYYY").add(1, 'day')._d) {
           document.getElementById('previous-btn').setAttribute('style', 'pointer-events: none; font-size:1.5rem;');
         }
       }
       const setCalendarDays = (start) => {
         let html = '';
-        let end = new Date(start);
-        end.setDate(start.getDate() + 6);
+        let end = moment(moment(), "DD-MM-YYYY").add(7, 'day')._d;
         const startDay = start.getDay();
         const startDate = start.getDate();
         const startYear = start.getFullYear();
