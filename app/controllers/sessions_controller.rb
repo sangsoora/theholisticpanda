@@ -103,6 +103,9 @@ class SessionsController < ApplicationController
       Notification.create(recipient: @session.user, actor: current_user, action: 'has declined your session', notifiable: @session)
       SessionMailer.with(session: @session).decline_request.deliver_now
       redirect_to practitioner_sessions_path, notice: 'Session request declined.'
+    elsif params[:commit] == 'Charge'
+      @session.update(session_params)
+      redirect_to practitioner_sessions_path, notice: 'Session payment has been charged.'
     elsif params[:commit] == 'Confirm cancellation'
       @session.update(status: 'cancelled', cancelled_user: current_user)
       session_time = @session.start_time.in_time_zone(current_user.timezone)
