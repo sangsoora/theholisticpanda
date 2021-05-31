@@ -82,7 +82,7 @@ class User < ApplicationRecord
           minimum_amount_currency: 'CAD'
         }
       })
-      UserPromo.create(name: 'REFERRAL10', detail: '10% off', user: self, promo_id: new_user_code.id, active: true, expires_at: Time.at(new_user_code.expires_at).to_datetime)
+      UserPromo.create(name: 'REFERRAL10', detail: '10% off', user: self, promo_id: new_user_code.id, active: true, expires_at: Time.now + 3.months)
       customer = @referred_user.user.stripe_id if @referred_user.user.stripe_id
       existing_user_code = Stripe::PromotionCode.create({
         coupon: 'referral_discount',
@@ -96,7 +96,7 @@ class User < ApplicationRecord
           minimum_amount_currency: 'CAD'
         }
       })
-      UserPromo.create(name: 'REFERRAL10', detail: '10% off', user: @referred_user.user, promo_id: existing_user_code.id, active: true, expires_at: Time.at(existing_user_code.expires_at).to_datetime)
+      UserPromo.create(name: 'REFERRAL10', detail: '10% off', user: @referred_user.user, promo_id: existing_user_code.id, active: true, expires_at: Time.now + 3.months)
       ReferralMailer.with(user: self).new_user_coupon.deliver_now
       ReferralMailer.with(referred_user: @referred_user, user: self).existing_user_coupon.deliver_now
     end
