@@ -8,8 +8,10 @@
         <% else %>
           initMap(<%=@practitioner.latitude%>, <%=@practitioner.longitude%>, 'session-map', '<%=@practitioner.address_type%>');
         <% end %>
-        <% if (!@session.start_time? || @session.start_time > Time.current) && ((@session.practitioner != nil && @session.practitioner.user == current_user) || @session.free_practitioner.user == current_user) %>
-          initAutocomplete();
+        <% unless @session.service.default_service %>
+          <% if (!@session.start_time? || @session.start_time > Time.current) && @session.practitioner.user == current_user %>
+            initAutocomplete();
+          <% end %>
         <% end %>
       });
     </script>
