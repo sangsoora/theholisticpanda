@@ -104,13 +104,18 @@ class SessionsController < ApplicationController
       SessionMailer.with(session: @session).decline_request.deliver_now
       redirect_to practitioner_sessions_path, notice: 'Session request declined.'
     elsif params[:commit] == 'Charge'
+      if @session.promo_id
+        coupon = UserPromo.find_by(promo_id: @session.promo_id).coupon_id
+      else
+        coupon = ''
+      end
       Stripe::InvoiceItem.create({
         customer: @session.user.stripe_id,
         amount: @session.amount_cents,
         currency: 'cad',
         discountable: true,
         discounts: [{
-          coupon: UserPromo.find_by(promo_id: @session.promo_id).coupon_id
+          coupon: coupon
         }],
         description: "#{@session.service.name} with #{@session.practitioner.user.full_name}",
         metadata: {
