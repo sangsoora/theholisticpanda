@@ -4,16 +4,18 @@
 
 <div style='background-color: #faf2f2; padding: 20px;'>
   <div style='max-width: 300px; margin: 0 auto;'>
-    <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><img src="https://<%= ENV['CDN_URL'] %>/logo.png" alt="TheHolisticPanda" style="max-width: 300px;"></a>
+    <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><img src="https://<%= ENV['CDN_URL'] %>/logo.png" alt="TheHolisticPanda" style="width: 300px;"></a>
   </div>
   <h3>Dear <%= @practitioner.user.first_name %>,</h3>
   <h4>This is a notice to let you know that the following session has been cancelled.</h4>
   <p>Service: <%= @session.service.name %></p>
   <p>Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
   <p>Total Price: CA$ <%= @session.estimate_price.round(2) %></p>
-  <% if (@session.cancelled_user != @practitioner.user) && @session.cancel_reason %>
+  <% if @session.cancel_reason %>
     <p>Cancel reason from your client: <%= @session.cancel_reason %></p>
   <% end %>
+  <p>Due to the late cancellation, the client will be charged fully for the session, and you will receive 100% of the payout.</p>
+  <p>If this cancellation was due to extenuating circumstances and the client provides evidence to substantiate their cause of cancellation, The Holistic Panda reserves the right to refund the client according to our terms of use.</p>
   <br>
   <%= link_to 'Review your session detail', session_url(@session), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
   <br>
@@ -26,4 +28,3 @@
     <a href="https://www.theholisticpanda.com/privacy" target="_blank">Privacy policy</a>
   </div>
 </div>
-

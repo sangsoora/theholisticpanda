@@ -1,0 +1,20 @@
+Dear <%= @practitioner.user.first_name %>,
+
+This is a notice to let you know that the following session has been cancelled.
+
+Service: <%= @session.service.name %>
+
+Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
+
+Total Price: CA$ <%= @session.estimate_price.round(2) %>
+
+<% if @session.cancel_reason %>
+  Cancel reason from your client: <%= @session.cancel_reason %>
+<% end %>
+
+Due to the late cancellation, the client will be charged fully for the session, and you will receive 100% of the payout.
+
+If this cancellation was due to extenuating circumstances and the client provides evidence to substantiate their cause of cancellation, The Holistic Panda reserves the right to refund the client according to our terms of use.
+
+Yours,
+The Holistic Panda Team

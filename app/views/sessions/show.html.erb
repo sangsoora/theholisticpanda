@@ -23,7 +23,7 @@
       <h2><%= @session.service.name %> with <%= @session.user.full_name %></h2>
     </div>
     <% if (@session.status == 'pending' && @session.payment_method_id && @session.payment_method_id != '') || (@session.status == 'pending' && @session.service.default_service) %>
-      <p class="mt-3"><%= @session.user.first_name %> has chose 3 time slots for the requested session. Please choose one to confirm the session.</p>
+      <p class="mt-3"><%= @session.user.first_name %> has chosen 3 time slots for the requested session. Please choose one to confirm the session.</p>
       <%= simple_form_for @session do |f| %>
         <div class="form-group">
           <input type="hidden" name="session[time]" value="primary">
@@ -136,7 +136,7 @@
           <% end %>
           <% if !@session.service.default_service %>
             <p class="mb-0"><strong>Cancellation Policy</strong></p>
-            <p>Cancel more than 24 hours before your appointment if you need to, unless penalty of 35% this session fee will be issued.</p>
+            <p>If you need to cancel a confirmed session, please cancel it at least 24 hours beforehand. Otherwise, a late cancellation fee of 35% of the session price will be incurred. If you have to cancel due to extenuating circumstances late, please let us know <a href="mailto:hello@theholisticpanda.com">here</a>.</p>
           <% end %>
         <% end %>
       </div>
@@ -182,7 +182,7 @@
           <% end %>
           <% if !@session.service.default_service %>
             <p class="mb-0"><strong>Cancellation Policy</strong></p>
-            <p>Cancel more than 24 hours before your appointment if you need to, unless penalty of 35% this session fee will be issued.</p>
+            <p>If you need to cancel a confirmed session, please cancel it at least 24 hours beforehand. Otherwise, a late cancellation fee of 35% of the session price will be incurred. If you have to cancel due to extenuating circumstances late, please let us know <a href="mailto:hello@theholisticpanda.com">here</a>.</p>
           <% end %>
         <% end %>
       </div>
@@ -222,7 +222,11 @@
           <% if @time_diff >= 24 %>
             <p>You won't be charged any for the cancellation at this moment.</p>
           <% else %>
-            <p>You won't any refund for the cancellation at this moment according to our cancellation policy.</p>
+            <% if current_user == @session.user %>
+              <p>You will be fully charged for the cancellation at this moment according to our cancellation policy.</p>
+            <% else %>
+              <p>You will be charged 35% of service price for the cancellation at this moment according to our cancellation policy.</p>
+            <% end %>
           <% end %>
         <% end %>
         <%= simple_form_for [@session] do |f| %>

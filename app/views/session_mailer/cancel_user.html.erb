@@ -11,7 +11,7 @@
   <p>Service: <%= @session.service.name %></p>
   <p>Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
   <p>Total Price: CA$ <%= @session.estimate_price.round(2) %></p>
-  <% if @session.cancelled_user != @session.user %>
+  <% if (@session.cancelled_user != @session.user) && @session.cancel_reason %>
     <p>Cancel reason from your practitioner: <%= @session.cancel_reason %></p>
   <% end %>
   <br>

@@ -127,7 +127,7 @@ class SessionsController < ApplicationController
             SessionMailer.with(session: @session).cancel_practitioner_within_24.deliver_now
             SessionMailer.with(session: @session).cancel_user.deliver_now
           else
-            SessionMailer.with(session: @session).cancel_practitioner.deliver_now
+            SessionMailer.with(session: @session).cancel_practitioner_with_full_charge.deliver_now
             SessionMailer.with(session: @session).cancel_user_within_24.deliver_now
           end
         end
