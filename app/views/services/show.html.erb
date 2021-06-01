@@ -174,7 +174,7 @@
         <% if @service.practitioner.address_type == 'Public' %>
           <p><i class="fas fa-map-marker-alt pink-icon"></i> <%= @service.practitioner.address %></p>
         <% else %>
-          <p>This is approximate location of where this practitioner usually conduct in-person session.<br>Exact location will be shown when practitioner confirm your session request.</p>
+          <p>This is the approximate location of where this practitioner usually conducts the in-person sessions. The exact location will be shown when the practitioner confirms your session request.</p>
         <% end %>
         <div id="service-map"></div>
       </div>
@@ -336,7 +336,7 @@
         let ending_hours = [];
         var keys = Object.keys(working_hours);
         for(key in keys){
-          const ending_date = dates.find(el => moment(el, "DD-MM-YYYY")._d.getDay() == parseInt(key));
+          const ending_date = dates.find(el => moment(el).day() == parseInt(key));
           if (working_hours[key].length > 0) {
             working_hours[key].forEach((hour) => {
               const nextDay = (parseInt(key) + 1) > 6 ? (parseInt(key) + 1) - 7 : (parseInt(key) + 1);

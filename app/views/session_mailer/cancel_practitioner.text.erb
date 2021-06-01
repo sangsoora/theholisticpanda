@@ -8,7 +8,7 @@ Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strf
 
 Total Price: CA$ <%= @session.estimate_price.round(2) %>
 
-<% if @session.cancelled_user != @practitioner.user %>
+<% if (@session.cancelled_user != @practitioner.user) && @session.cancel_reason %>
 Cancel reason from your client: <%= @session.cancel_reason %>
 <% end %>
 

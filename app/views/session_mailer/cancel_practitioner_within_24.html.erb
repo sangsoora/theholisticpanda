@@ -11,7 +11,8 @@
   <p>Service: <%= @session.service.name %></p>
   <p>Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
   <p>Total Price: CA$ <%= @session.estimate_price.round(2) %></p>
-  <p>Due to the late cancel, we will issue invoice to charge 35% of service price within next 24 hours.<br>If you have extenuating circumstances, reach out to us <a href="mailto:hello@theholisticpanda.com">here</a>
+  <p>Due to the late cancellation, we will be charging you 35% of the session fee. You will receive an invoice from us within the next 24 hours.</p>
+  <p>If you had to cancel due to extenuating circumstances, please reach out to us <a href="mailto:hello@theholisticpanda.com">here</a>.</p>
   <br>
   <%= link_to 'Review your session detail', session_url(@session), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
   <br>
