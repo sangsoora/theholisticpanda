@@ -311,21 +311,21 @@
           })
         })
         if (document.getElementById('primary-final').innerText != '') {
-          if ((moment(document.getElementById('primary-final').innerText, "DD-MM-YYYY")._d >= start) && (moment(document.getElementById('primary-final').innerText, "DD-MM-YYYY")._d <= moment(document.getElementById('primary-final').innerText, "DD-MM-YYYY").add(7, 'day')._d)) {
+          if ((moment(document.getElementById('primary-final').innerText)._d >= start) && (moment(document.getElementById('primary-final').innerText)._d <= moment(document.getElementById('primary-final').innerText).add(7, 'day')._d)) {
             const el = document.getElementById(moment(document.getElementById('primary-final').innerText).format('d') + '-' + moment(document.getElementById('primary-final').innerText).format('HH:mm'));
             el.childNodes[0].classList.remove('available-cell');
             el.childNodes[0].classList.add('chosen-cell');
           }
         }
         if (document.getElementById('secondary-final').innerText != '') {
-          if ((moment(document.getElementById('secondary-final').innerText, "DD-MM-YYYY")._d >= start) && (moment(document.getElementById('secondary-final').innerText, "DD-MM-YYYY")._d <= moment(document.getElementById('secondary-final').innerText, "DD-MM-YYYY").add(7, 'day')._d)) {
+          if ((moment(document.getElementById('secondary-final').innerText)._d >= start) && (moment(document.getElementById('secondary-final').innerText)._d <= moment(document.getElementById('secondary-final').innerText).add(7, 'day')._d)) {
             const el = document.getElementById(moment(document.getElementById('secondary-final').innerText).format('d') + '-' + moment(document.getElementById('secondary-final').innerText).format('HH:mm'));
             el.childNodes[0].classList.remove('available-cell');
             el.childNodes[0].classList.add('chosen-cell');
           }
         }
         if (document.getElementById('tertiary-final').innerText != '') {
-          if ((moment(document.getElementById('tertiary-final').innerText, "DD-MM-YYYY")._d >= start) && (moment(document.getElementById('primary-final').innerText, "DD-MM-YYYY")._d <= moment(document.getElementById('tertiary-final').innerText, "DD-MM-YYYY").add(7, 'day')._d)) {
+          if ((moment(document.getElementById('tertiary-final').innerText)._d >= start) && (moment(document.getElementById('tertiary-final').innerText)._d <= moment(document.getElementById('tertiary-final').innerText).add(7, 'day')._d)) {
             const el = document.getElementById(moment(document.getElementById('tertiary-final').innerText).format('d') + '-' + moment(document.getElementById('tertiary-final').innerText).format('HH:mm'));
             el.childNodes[0].classList.remove('available-cell');
             el.childNodes[0].classList.add('chosen-cell');

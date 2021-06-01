@@ -15,7 +15,7 @@
                 <select class="form-control select optional" name="session[promo_id]" id="session_promo_id">
                   <option value="">Select Available Coupon</option>
                   <% @promos.each do |promo| %>
-                    <option value="<%= promo.id %>"
+                    <option value="<%= promo.promo_id %>"
                       <% if promo.detail.include?('%') %>
                         data-type="percentage" data-discount="<%= promo.detail.split('%').first %>"
                       <% else %>
