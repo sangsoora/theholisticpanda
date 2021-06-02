@@ -24,7 +24,7 @@ class SessionsController < ApplicationController
     @session.primary_time = @session.primary_time - @session.primary_time.in_time_zone(current_user.timezone).utc_offset
     @session.secondary_time = @session.secondary_time - @session.secondary_time.in_time_zone(current_user.timezone).utc_offset
     @session.tertiary_time = @session.tertiary_time - @session.tertiary_time.in_time_zone(current_user.timezone).utc_offset
-    if params[:commit] == 'Send Discovery Call Request'
+    if params[:commit] == 'Send discovery call request'
       @session.update(duration: service.duration, session_type: service.service_type, status: 'pending', paid: false, service: service, amount: service.price, user: current_user, free_practitioner_id: params[:session][:practitioner])
       if @session.save
         @practitioner = Practitioner.find(params[:session][:practitioner])
@@ -136,11 +136,11 @@ class SessionsController < ApplicationController
       })
       if @session.practitioner.country_code == 'CA'
         if %w[NB NL NS PE].include?(@session.practitioner.state_code)
-          fee = ((@session.amount_cents - @session.discount_price_cents_cents) * 0.135 * 1.15).round
+          fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.15).round
         elsif @session.practitioner.state_code == 'ON'
-          fee = ((@session.amount_cents - @session.discount_price_cents_cents) * 0.135 * 1.13).round
+          fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.13).round
         else
-          fee = ((@session.amount_cents - @session.discount_price_cents_cents) * 0.135 * 1.05).round
+          fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.05).round
         end
       else
         fee = (@session.estimate_price_cents * 0.135).round
@@ -183,9 +183,97 @@ class SessionsController < ApplicationController
           SessionMailer.with(session: @session).cancel_user.deliver_now
         else
           if @session.cancelled_user == @practitioner.user
+            Stripe::InvoiceItem.create({
+              customer: @session.practitioner.user.stripe_id,
+              amount: (@session.amount_cents * 0.35).round,
+              currency: 'cad',
+              description: "#{@session.service.name} with #{@session.user.full_name}",
+              metadata: {
+                session_id: @session.id
+              },
+              tax_rates: [
+                if @session.practitioner.country_code == 'CA'
+                  if %w[NB NL NS PE].include?(@session.practitioner.state_code)
+                    TaxRate.find(3).tax_id
+                  elsif @session.practitioner.state_code == 'ON'
+                    TaxRate.find(2).tax_id
+                  else
+                    TaxRate.find(1).tax_id
+                  end
+                end
+              ],
+            })
+            Stripe::Invoice.create({
+              customer: @session.practitioner.user.stripe_id,
+              auto_advance: true,
+              metadata: {
+                session_id: @session.id
+              },
+              collection_method: 'send_invoice',
+              days_until_due: 30
+            })
             SessionMailer.with(session: @session).cancel_practitioner_within_24.deliver_now
             SessionMailer.with(session: @session).cancel_user.deliver_now
           else
+            if @session.promo_id
+              coupon = UserPromo.find_by(promo_id: @session.promo_id).coupon_id
+            else
+              coupon = ''
+            end
+            Stripe::InvoiceItem.create({
+              customer: @session.user.stripe_id,
+              amount: @session.amount_cents,
+              currency: 'cad',
+              discountable: true,
+              discounts: [{
+                coupon: coupon
+              }],
+              description: "#{@session.service.name} with #{@session.practitioner.user.full_name}",
+              metadata: {
+                session_id: @session.id
+              },
+              tax_rates: [
+                if @session.practitioner.user.tax_id? && @session.practitioner.country_code == 'CA'
+                  payment_method = PaymentMethod.find_by(payment_method_id: Session.last.payment_method_id)
+                  if payment_method.billing_country == 'CA' && %w[NB NL NS PE].include?(payment_method.billing_state)
+                    TaxRate.find(3).tax_id
+                  elsif payment_method.billing_country == 'CA' && payment_method.billing_state == 'ON'
+                    TaxRate.find(2).tax_id
+                  else
+                    TaxRate.find(1).tax_id
+                  end
+                end
+              ],
+            })
+            if @session.practitioner.country_code == 'CA'
+              if %w[NB NL NS PE].include?(@session.practitioner.state_code)
+                fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.15).round
+              elsif @session.practitioner.state_code == 'ON'
+                fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.13).round
+              else
+                fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.05).round
+              end
+            else
+              fee = (@session.estimate_price_cents * 0.135).round
+            end
+            if @session.practitioner.user.tax_id?
+              description = "#{@session.practitioner.user.full_name}'s TAX ID: #{@session.practitioner.user.tax_id}"
+            else
+              description = ''
+            end
+            Stripe::Invoice.create({
+              customer: @session.user.stripe_id,
+              default_payment_method: @session.payment_method_id,
+              description: description,
+              auto_advance: true,
+              metadata: {
+                session_id: @session.id
+              },
+              application_fee_amount: fee,
+              transfer_data: {
+                destination: @session.practitioner.stripe_account_id,
+              },
+            })
             SessionMailer.with(session: @session).cancel_practitioner_with_full_charge.deliver_now
             SessionMailer.with(session: @session).cancel_user_within_24.deliver_now
           end

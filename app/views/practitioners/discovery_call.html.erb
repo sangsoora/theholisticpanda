@@ -15,7 +15,7 @@
         <p>You can only book one discovery call with <%= @practitioner.user.first_name %>.</p>
         <% if @practitioner.user != current_user %>
           <p><strong>Please select 3 time slots you prefer and the practitioner will confirm it.</strong></p>
-          <%= link_to 'See Availability', '', data: { toggle: "modal", target: "#timeslotModal" }, class: 'btn btn-flat', id: 'modal-launch' %>
+          <%= link_to 'See availability', '', data: { toggle: "modal", target: "#timeslotModal" }, class: 'btn btn-flat', id: 'modal-launch' %>
         <% end %>
       </div>
       <div class="service-practitioner">
@@ -34,7 +34,7 @@
         <%= f.input :tertiary_time, as: :string, as: :hidden %>
         <%= f.input :message, as: :hidden %>
         <%= f.input :practitioner, as: :hidden, input_html: { value: @practitioner.id } %>
-        <%= f.submit 'Send Discovery Call Request', class: 'hidden', id: 'create_session' %>
+        <%= f.submit 'Send discovery call request', class: 'hidden', id: 'create_session' %>
       <% end %>
       <div class="modal fade" id="timeslotModal" tabindex="-1" role="dialog" aria-labelledby="timeslotModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-photo modal-dialog-scrollable" role="document">
@@ -47,7 +47,10 @@
             </div>
             <div class="modal-body-header">
               <%= link_to '<<', '', id: 'previous-btn', style: 'font-size:1.5rem;' %>
-              <p id="calendar-days" class="mx-5" style='font-size:1.5rem;'></p>
+              <div class="text-center">
+                <p id="calendar-days" class="mx-5 mb-0" style='font-size:1.5rem;'></p>
+                <p class="mx-5">(in your current time zone: <%= current_user.timezone %>)</p>
+              </div>
               <%= link_to '>>', '', id: 'next-btn', style: 'font-size:1.5rem;' %>
             </div>
             <div class="circles">
@@ -61,8 +64,12 @@
                 <tr>
                   <th style="position:sticky;top:-22px;background-color:white;z-index:2;"></th>
                   <% (0..6).to_a.each do |num| %>
-                    <% num = num + 1 + Time.now.wday - 7 %>
-                    <th style="position:sticky;top: -22px;background-color:white;z-index:2;"><%= Date::ABBR_DAYNAMES[num] %></th>
+                    <% if num + 1 + Time.now.wday >= 7 %>
+                      <% num = num + 1 + Time.now.wday - 7 %>
+                    <% else %>
+                      <% num = num + 1 + Time.now.wday %>
+                    <% end %>
+                    <th style="position:sticky;top: -22px;background-color:white;z-index:2;" id="th-<%= num %>"><%= Date::ABBR_DAYNAMES[num] %></th>
                   <% end %>
                 </tr>
               </table>
@@ -88,7 +95,7 @@
               <label for="session-message">Let your practitioner know what is your goal or objective for this session.</label>
               <textarea id="session-message" class="form-control text"></textarea>
               <div class="my-4">
-                <p>Your Chosen Time Slots. Practitioner will choose one of the time slot and confirm it.</p>
+                <p>Your Chosen time slots. Practitioner will choose one of the time slot and confirm it.</p>
                 <p>Your Choice 1: <span id='primary-final'></span></p>
                 <p>Your Choice 2: <span id='secondary-final'></span></p>
                 <p>Your Choice 3: <span id='tertiary-final'></span></p>
@@ -97,7 +104,7 @@
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-ghost" id="back-time">Back</button>
-              <button type="button" class="btn btn-flat" id="send-request">Send Discovery Call Request</button>
+              <button type="button" class="btn btn-flat" id="send-request">Send discovery call request</button>
             </div>
           </div>
         </div>
@@ -116,100 +123,87 @@
   </div>
 </div>
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    let start = new Date();
-    start.setDate(start.getDate() + 1);
-    const setCalendar = (start) => {
-      const day = start.getDay();
-      setCalendarDays(start);
-      setTimeTable(day);
-      getAvaialbleHours(start);
-      if (start <= new Date().setDate(new Date().getDate() + 1)) {
-        document.getElementById('previous-btn').setAttribute('style', 'pointer-events: none; font-size:1.5rem;');
+  <% if @service.active && user_signed_in? %>
+    document.addEventListener('DOMContentLoaded', () => {
+      let start = moment(moment(), "DD-MM-YYYY").add(1, 'day')._d;
+      const setCalendar = (start) => {
+        const day = start.getDay();
+        setCalendarDays(start);
+        setTimeTable(day);
+        getAvaialbleHours(start);
+        if (start <= moment(moment(), "DD-MM-YYYY").add(1, 'day')._d) {
+          document.getElementById('previous-btn').setAttribute('style', 'pointer-events: none; font-size:1.5rem;');
+        }
       }
-    }
-    const setCalendarDays = (start) => {
-      let html = '';
-      let end = new Date(start);
-      end.setDate(start.getDate() + 6);
-      const startDay = start.getDay();
-      const startDate = start.getDate();
-      const startYear = start.getFullYear();
-      const startMonth = start.toLocaleString('default', { month: 'short' });
-      const endDay = end.getDay();
-      const endDate = end.getDate();
-      const endYear = end.getFullYear();
-      const endMonth = end.toLocaleString('default', { month: 'short' });
-      if (startYear !== endYear) {
-        html = startMonth + ' ' + startDate + ', ' + startYear + '-' + endMonth + ' ' + endDate + ', ' + endYear
-      } else if (startMonth !== endMonth) {
-        html = startMonth + ' ' + startDate + '-' + endMonth + ' ' + endDate + ', ' + startYear
-      } else {
-        html = startMonth + ' ' + startDate + '-' + endDate + ', ' + startYear
+      const setCalendarDays = (start) => {
+        let html = '';
+        let end = moment(moment(start), "DD-MM-YYYY").add(6, 'day')._d;
+        const startDay = start.getDay();
+        const startDate = start.getDate();
+        const startYear = start.getFullYear();
+        const startMonth = start.toLocaleString('default', { month: 'short' });
+        const endDay = end.getDay();
+        const endDate = end.getDate();
+        const endYear = end.getFullYear();
+        const endMonth = end.toLocaleString('default', { month: 'short' });
+        if (startYear !== endYear) {
+          html = startMonth + ' ' + startDate + ', ' + startYear + '-' + endMonth + ' ' + endDate + ', ' + endYear
+        } else if (startMonth !== endMonth) {
+          html = startMonth + ' ' + startDate + '-' + endMonth + ' ' + endDate + ', ' + startYear
+        } else {
+          html = startMonth + ' ' + startDate + '-' + endDate + ', ' + startYear
+        }
+        document.getElementById('calendar-days').innerHTML = 'Week of ' + html;
       }
-      document.getElementById('calendar-days').innerHTML = 'Week of ' + html;
-    }
-    const setTimeTable = (day) => {
-      $('.added-time').remove();
-      let html = '';
-      const times = ['00:00', '00:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30', '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30'];
-      const day1 = (day + 1) > 6 ? (day + 1) - 7 : (day + 1);
-      const day2 = (day + 2) > 6 ? (day + 2) - 7 : (day + 2);
-      const day3 = (day + 3) > 6 ? (day + 3) - 7 : (day + 3);
-      const day4 = (day + 4) > 6 ? (day + 4) - 7 : (day + 4);
-      const day5 = (day + 5) > 6 ? (day + 5) - 7 : (day + 5);
-      const day6 = (day + 6) > 6 ? (day + 6) - 7 : (day + 6);
-      times.forEach((time) => {
-        html += `<tr class="added-time"><td>` + time + `</td><td data-day="` + day + `" id="` + day + `-` + time + `"></td><td data-day="` + day1 + `" id="` + day1 + `-` + time + `"></td><td data-day="` + day2 + `" id="` + day2 + `-` + time + `"></td><td data-day="` + day3 + `" id="` + day3 + `-` + time + `"></td><td data-day="` + day4 + `" id="` + day4 + `-` + time + `"></td><td data-day="` + day5 + `" id="` + day5 + `-` + time + `"></td><td data-day="` + day6 + `" id="` + day6 + `-` + time + `"></td></tr>`;
-      })
-      document.getElementById('calendar').insertAdjacentHTML('beforeend', html);
-    }
-    const getAvaialbleHours = (start) => {
-      let end = new Date(start);
-      end.setDate(start.getDate() + 6);
-      const startDate = start.getDate();
-      const startMonth = start.getMonth();
-      const startYear = start.getFullYear();
-      const endDate = end.getDate();
-      const endMonth = end.getMonth();
-      const endYear = end.getFullYear();
-      <% @practitioner.converted_working_hours(current_user).delete_if { |key, value| value.blank? }.each do |k, v| %>
-        <% v.each do |hour| %>
-          <% @times.each do |time| %>
-            <% if (hour[:starts]...hour[:ends]).include?(time) %>
-              document.getElementById('<%= k %>-<%= time %>').innerHTML = '<div class="available-cell"></div>';
+      const setTimeTable = (day) => {
+        $('.added-time').remove();
+        let html = '';
+        const times = ['00:00', '00:30', '01:00', '01:30', '02:00', '02:30', '03:00', '03:30', '04:00', '04:30', '05:00', '05:30', '06:00', '06:30', '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30'];
+        const day1 = (day + 1) > 6 ? (day + 1) - 7 : (day + 1);
+        const day2 = (day + 2) > 6 ? (day + 2) - 7 : (day + 2);
+        const day3 = (day + 3) > 6 ? (day + 3) - 7 : (day + 3);
+        const day4 = (day + 4) > 6 ? (day + 4) - 7 : (day + 4);
+        const day5 = (day + 5) > 6 ? (day + 5) - 7 : (day + 5);
+        const day6 = (day + 6) > 6 ? (day + 6) - 7 : (day + 6);
+        times.forEach((time) => {
+          html += `<tr class="added-time"><td>` + time + `</td><td data-day="` + day + `" id="` + day + `-` + time + `"></td><td data-day="` + day1 + `" id="` + day1 + `-` + time + `"></td><td data-day="` + day2 + `" id="` + day2 + `-` + time + `"></td><td data-day="` + day3 + `" id="` + day3 + `-` + time + `"></td><td data-day="` + day4 + `" id="` + day4 + `-` + time + `"></td><td data-day="` + day5 + `" id="` + day5 + `-` + time + `"></td><td data-day="` + day6 + `" id="` + day6 + `-` + time + `"></td></tr>`;
+        })
+        document.getElementById('calendar').insertAdjacentHTML('beforeend', html);
+      }
+      const getAvaialbleHours = (start) => {
+        let end = moment(start, "DD-MM-YYYY").add(6, 'day')._d;
+        const startDate = start.getDate();
+        const startMonth = start.getMonth();
+        const startYear = start.getFullYear();
+        const endDate = end.getDate();
+        const endMonth = end.getMonth();
+        const endYear = end.getFullYear();
+        <% @service.practitioner.converted_working_hours(current_user).delete_if { |key, value| value.blank? }.each do |k, v| %>
+          <% v.each do |hour| %>
+            <% @times.each do |time| %>
+              <% if (hour[:starts]...hour[:ends]).include?(time) %>
+                document.getElementById('<%= k %>-<%= time %>').innerHTML = '<div class="available-cell"></div>';
+              <% end %>
             <% end %>
           <% end %>
         <% end %>
-      <% end %>
-      let sessions = [];
-      <% @practitioner.sessions.where("status = ? AND start_time > ?", 'confirmed', 1.days.ago).order(start_time: :asc).select(:start_time, :duration).each do |session| %>
-        sessions.push(<%= session.to_json.html_safe %>);
-      <% end %>
-      const time_zone = moment.tz.guess();
-      let dates = [];
-      for (var i = 0; i < 7; i++) {
-        let addingDate = new Date(start);
-        addingDate.setDate(start.getDate() + i);
-        dates.push(formatDate(addingDate));
-      }
-      dates.forEach((date) => {
-        const selected_day = new Date(date).getDay();
-        const time_slots = document.querySelectorAll(`[data-day='` + selected_day + `']`);
-        time_slots.forEach((slot) => {
-          const slot_time = moment(date).format('YYYY-MM-DD') + ' ' + slot.id.split('-')[1];
-          const el = document.getElementById(moment(slot_time).format('d') + '-' + slot_time.split(' ')[1]);
-          if (slot_time <= moment().add(1, 'd').format('YYYY-MM-DD HH:mm')) {
-            if (el.childNodes.length > 0) {
-              el.childNodes[0].classList.remove('available-cell');
-              el.childNodes[0].classList.add('blocked-cell');
-            } else {
-              el.insertAdjacentHTML('beforeend', '<div class="blocked-cell"></div>');
-            }
-          }
-          sessions.forEach((session) => {
-            const start_time = moment(session['start_time']).tz(time_zone).format('YYYY-MM-DD HH:mm');
-            const end_time = moment(session['start_time']).tz(time_zone).add(session['duration'], 'minutes').format('YYYY-MM-DD HH:mm');
+        let sessions = [];
+        <% @service.practitioner.sessions.where("status = ? AND start_time > ?", 'confirmed', 1.days.ago).order(start_time: :asc).select(:start_time, :duration).each do |session| %>
+          sessions.push(<%= session.to_json.html_safe %>);
+        <% end %>
+        const time_zone = '<%= current_user.timezone %>';
+        let dates = [];
+        for (var i = 0; i < 7; i++) {
+          let addingDate = moment(start, "DD-MM-YYYY").add(i, 'day')._d;
+          dates.push(formatDate(addingDate));
+        }
+        dates.forEach((date) => {
+          let selected_day = moment(date).day();
+          document.getElementById('th-'+selected_day).innerHTML = moment(date).format('ddd') + '<br>' + moment(date).format('MMM Do');
+          const time_slots = document.querySelectorAll(`[data-day='` + selected_day + `']`);
+          time_slots.forEach((slot) => {
+            const slot_time = moment(date).format('YYYY-MM-DD') + ' ' + slot.id.split('-')[1];
+            const el = document.getElementById(moment(slot_time).format('d') + '-' + slot_time.split(' ')[1]);
             if (slot_time <= moment().add(1, 'd').format('YYYY-MM-DD HH:mm')) {
               if (el.childNodes.length > 0) {
                 el.childNodes[0].classList.remove('available-cell');
@@ -217,163 +211,174 @@
               } else {
                 el.insertAdjacentHTML('beforeend', '<div class="blocked-cell"></div>');
               }
-            } else if (slot_time >= start_time && slot_time < end_time) {
-              if (el.childNodes.length > 0) {
-                el.childNodes[0].classList.remove('available-cell');
-                el.childNodes[0].classList.add('booked-cell');
-              }
             }
+            sessions.forEach((session) => {
+              const start_time = moment(session['start_time']).tz(time_zone).format('YYYY-MM-DD HH:mm');
+              const end_time = moment(session['start_time']).tz(time_zone).add(session['duration'], 'minutes').format('YYYY-MM-DD HH:mm');
+              if (slot_time <= moment().add(1, 'd').format('YYYY-MM-DD HH:mm')) {
+                if (el.childNodes.length > 0) {
+                  el.childNodes[0].classList.remove('available-cell');
+                  el.childNodes[0].classList.add('blocked-cell');
+                } else {
+                  el.insertAdjacentHTML('beforeend', '<div class="blocked-cell"></div>');
+                }
+              } else if (slot_time >= start_time && slot_time < end_time) {
+                if (el.childNodes.length > 0) {
+                  el.childNodes[0].classList.remove('available-cell');
+                  el.childNodes[0].classList.add('booked-cell');
+                }
+              }
+            })
           })
         })
-      })
-      if (document.getElementById('primary-final').innerText != '' ) {
-        if ((new Date(document.getElementById('primary-final').innerText) >= start) && (new Date(document.getElementById('primary-final').innerText) <= new Date(moment(new Date(start)).add(7, 'd').toISOString()))) {
-          const el = document.getElementById(moment(document.getElementById('primary-final').innerText).format('d') + '-' + moment(document.getElementById('primary-final').innerText).format('HH:mm'));
-          el.childNodes[0].classList.remove('available-cell');
-          el.childNodes[0].classList.add('blocked-cell');
+        if (document.getElementById('primary-final').innerText != '') {
+          if ((moment(document.getElementById('primary-final').innerText)._d >= start) && (moment(document.getElementById('primary-final').innerText)._d <= moment(start, "DD-MM-YYYY").add(6, 'day')._d)) {
+            const el = document.getElementById(moment(document.getElementById('primary-final').innerText).format('d') + '-' + moment(document.getElementById('primary-final').innerText).format('HH:mm'));
+            el.childNodes[0].classList.remove('available-cell');
+            el.childNodes[0].classList.add('chosen-cell');
+          }
         }
-      }
-      if (document.getElementById('secondary-final').innerText != '') {
-        if ((new Date(document.getElementById('secondary-final').innerText) >= start) && (new Date(document.getElementById('secondary-final').innerText) <= new Date(moment(new Date(start)).add(7, 'd').toISOString()))) {
-          const el = document.getElementById(moment(document.getElementById('secondary-final').innerText).format('d') + '-' + moment(document.getElementById('secondary-final').innerText).format('HH:mm'));
-          el.childNodes[0].classList.remove('available-cell');
-          el.childNodes[0].classList.add('blocked-cell');
+        if (document.getElementById('secondary-final').innerText != '') {
+          if ((moment(document.getElementById('secondary-final').innerText)._d >= start) && (moment(document.getElementById('secondary-final').innerText)._d <= moment(start, "DD-MM-YYYY").add(6, 'day')._d)) {
+            const el = document.getElementById(moment(document.getElementById('secondary-final').innerText).format('d') + '-' + moment(document.getElementById('secondary-final').innerText).format('HH:mm'));
+            el.childNodes[0].classList.remove('available-cell');
+            el.childNodes[0].classList.add('chosen-cell');
+          }
         }
-      }
-      if (document.getElementById('tertiary-final').innerText != '') {
-        if ((new Date(document.getElementById('tertiary-final').innerText) >= start) && (new Date(document.getElementById('tertiary-final').innerText) <= new Date(moment(new Date(start)).add(7, 'd').toISOString()))) {
-          const el = document.getElementById(moment(document.getElementById('tertiary-final').innerText).format('d') + '-' + moment(document.getElementById('tertiary-final').innerText).format('HH:mm'));
-          el.childNodes[0].classList.remove('available-cell');
-          el.childNodes[0].classList.add('blocked-cell');
+        if (document.getElementById('tertiary-final').innerText != '') {
+          if ((moment(document.getElementById('tertiary-final').innerText)._d >= start) && (moment(document.getElementById('tertiary-final').innerText)._d <= moment(start, "DD-MM-YYYY").add(6, 'day')._d)) {
+            const el = document.getElementById(moment(document.getElementById('tertiary-final').innerText).format('d') + '-' + moment(document.getElementById('tertiary-final').innerText).format('HH:mm'));
+            el.childNodes[0].classList.remove('available-cell');
+            el.childNodes[0].classList.add('chosen-cell');
+          }
         }
-      }
-      const availables = document.getElementsByClassName('available-cell');
-      const working_hours = <%= @practitioner.converted_working_hours(current_user).to_json.html_safe %>;
-      let ending_hours = [];
-      var keys = Object.keys(working_hours);
-      for(key in keys){
-        const ending_date = dates.find(el =>  new Date(el).getDay() == parseInt(key));
-        if (working_hours[key].length > 0) {
-          working_hours[key].forEach((hour) => {
-            const nextDay = (parseInt(key) + 1) > 6 ? (parseInt(key) + 1) - 7 : (parseInt(key) + 1);
-            if (!(hour['ends'] == '24:00' && working_hours[nextDay].length > 0 && working_hours[nextDay][0]['starts'] == '00:00')) {
-              ending_hours.push(moment(ending_date + ' ' + hour['ends']).format());
+        const availables = document.getElementsByClassName('available-cell');
+        const working_hours = <%= @service.practitioner.converted_working_hours(current_user).to_json.html_safe %>;
+        let ending_hours = [];
+        var keys = Object.keys(working_hours);
+        for(key in keys){
+          const ending_date = dates.find(el => moment(el).day() == parseInt(key));
+          if (working_hours[key].length > 0) {
+            working_hours[key].forEach((hour) => {
+              const nextDay = (parseInt(key) + 1) > 6 ? (parseInt(key) + 1) - 7 : (parseInt(key) + 1);
+              if (!(hour['ends'] == '24:00' && working_hours[nextDay].length > 0 && working_hours[nextDay][0]['starts'] == '00:00')) {
+                ending_hours.push(moment(ending_date + ' ' + hour['ends']).format());
+              }
+            })
+          }
+        }
+        for (let item of availables) {
+          const slot = item.parentNode;
+          const slot_date = dates.find(element =>  moment(element).day() == parseInt(slot.dataset.day));
+          const slot_time = item.parentNode.id.split('-')[1];
+          const pointed_time = moment(slot_date + ' ' + slot_time);
+          const futureSessions = sessions.filter(it => moment(it.start_time).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'));
+          let endTime = '';
+          let endTimeDiff = -10;
+          if (moment(ending_hours.sort().filter(it => moment(it).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm')))['_i']) {
+            endTime = moment(ending_hours.sort().filter(it => moment(it).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'))[0]);
+          }
+          if (endTime != '') {
+            endTimeDiff = endTime.diff(pointed_time, 'minutes');
+          }
+          if (futureSessions.length > 0) {
+            let nextTime = '';
+            let timeDiff = 0;
+            nextTime = moment(sessions.filter(it => moment(it.start_time).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'))[0]['start_time']);
+            nextTimeDiff = nextTime.diff(pointed_time, 'minutes');
+            if ((nextTimeDiff >= <%= @service.duration %>) && ((endTimeDiff >= <%= @service.duration %>) || (endTimeDiff == -10))) {
+              slot.style.cursor = "pointer";
+              const ending_time = moment(pointed_time).add(<%= @service.duration %>, 'minutes').format('LT');
+              const html = `<div class="available-hours"><p>` + pointed_time.format('ll') + ` ` + pointed_time.format('LT') + ` ~ ` + ending_time + `</p></div>`;
+              item.insertAdjacentHTML('beforeend', html);
+              slot.addEventListener('click', (e) => {
+                if (document.getElementById('tertiary').innerHTML == '') {
+                  e.currentTarget.childNodes[0].classList.remove('available-cell');
+                  e.currentTarget.childNodes[0].classList.add('chosen-cell');
+                  if (document.getElementById('primary').innerHTML == '') {
+                    document.getElementById('session_primary_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
+                    document.getElementById('primary').innerHTML = pointed_time.format('ddd, lll');
+                    document.getElementById('primary-final').innerHTML = pointed_time.format('ddd, lll');
+                    document.getElementById('clear-times').style.display = 'block';
+                  } else if (document.getElementById('secondary').innerHTML == '') {
+                    document.getElementById('session_secondary_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
+                    document.getElementById('secondary').innerHTML = pointed_time.format('ddd, lll');
+                    document.getElementById('secondary-final').innerHTML = pointed_time.format('ddd, lll');
+                  } else {
+                    document.getElementById('session_tertiary_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
+                    document.getElementById('tertiary').innerHTML = pointed_time.format('ddd, lll');
+                    document.getElementById('tertiary-final').innerHTML = pointed_time.format('ddd, lll');
+                    document.getElementById('message-launch').disabled = false;
+                  }
+                }
+              });
             }
-          })
-        }
-      }
-      for (let item of availables) {
-        const slot = item.parentNode;
-        const slot_date = dates.find(element =>  new Date(element).getDay() == parseInt(slot.dataset.day));
-        const slot_time = item.parentNode.id.split('-')[1];
-        const pointed_time = moment(slot_date + ' ' + slot_time);
-        const futureSessions = sessions.filter(it => moment(it.start_time).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'));
-        let endTime = '';
-        if (moment(ending_hours.sort().filter(it => moment(it).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm')))['_i']) {
-          endTime = moment(ending_hours.sort().filter(it => moment(it).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'))[0]);
-        }
-        if (endTime != '') {
-          endTimeDiff = endTime.diff(pointed_time, 'minutes');
-        }
-        if (futureSessions.length > 0) {
-          let nextTime = '';
-          let timeDiff = 0;
-          nextTime = moment(sessions.filter(it => moment(it.start_time).format('YYYY-MM-DD HH:mm') > moment(pointed_time).format('YYYY-MM-DD HH:mm'))[0]['start_time']);
-          nextTimeDiff = nextTime.diff(pointed_time, 'minutes');
-          if ((nextTimeDiff >= <%= @service.duration %>) && (endTimeDiff >= <%= @service.duration %>)) {
-            slot.style.cursor = "pointer";
-            const ending_time = moment(pointed_time).add(<%= @service.duration %>, 'minutes').format('LT');
-            const html = `<div class="available-hours"><p>` + pointed_time.format('ll') + ` ` + pointed_time.format('LT') + ` ~ ` + ending_time + `</p></div>`;
-            item.insertAdjacentHTML('beforeend', html);
-            slot.addEventListener('click', (e) => {
-              if (document.getElementById('tertiary').innerHTML == '') {
-                e.currentTarget.childNodes[0].classList.remove('available-cell');
-                e.currentTarget.childNodes[0].classList.add('chosen-cell');
-                if (document.getElementById('primary').innerHTML == '') {
-                  document.getElementById('session_primary_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
-                  document.getElementById('primary').innerHTML = pointed_time.format('ddd, lll');
-                  document.getElementById('primary-final').innerHTML = pointed_time.format('ddd, lll');
-                  document.getElementById('clear-times').style.display = 'block';
-                } else if (document.getElementById('secondary').innerHTML == '') {
-                  document.getElementById('session_secondary_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
-                  document.getElementById('secondary').innerHTML = pointed_time.format('ddd, lll');
-                  document.getElementById('secondary-final').innerHTML = pointed_time.format('ddd, lll');
-                } else {
-                  document.getElementById('session_tertiary_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
-                  document.getElementById('tertiary').innerHTML = pointed_time.format('ddd, lll');
-                  document.getElementById('tertiary-final').innerHTML = pointed_time.format('ddd, lll');
-                  document.getElementById('message-launch').disabled = false;
+          } else {
+            if (endTimeDiff >= <%= @service.duration %>) {
+              slot.style.cursor = "pointer";
+              const ending_time = moment(pointed_time).add(<%= @service.duration %>, 'minutes').format('LT');
+              const html = `<div class="available-hours"><p>` + pointed_time.format('ll') + ` ` + pointed_time.format('LT') + ` ~ ` + ending_time + `</p></div>`;
+              item.insertAdjacentHTML('beforeend', html);
+              slot.addEventListener('click', (e) => {
+                if (document.getElementById('tertiary').innerHTML == '') {
+                  e.currentTarget.childNodes[0].classList.remove('available-cell');
+                  e.currentTarget.childNodes[0].classList.add('chosen-cell');
+                  if (document.getElementById('primary').innerHTML == '') {
+                    document.getElementById('session_primary_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
+                    document.getElementById('primary').innerHTML = pointed_time.format('ddd, lll');
+                    document.getElementById('primary-final').innerHTML = pointed_time.format('ddd, lll');
+                    document.getElementById('clear-times').style.display = 'block';
+                  } else if (document.getElementById('secondary').innerHTML == '') {
+                    document.getElementById('session_secondary_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
+                    document.getElementById('secondary').innerHTML = pointed_time.format('ddd, lll');
+                    document.getElementById('secondary-final').innerHTML = pointed_time.format('ddd, lll');
+                  } else {
+                    document.getElementById('session_tertiary_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
+                    document.getElementById('tertiary').innerHTML = pointed_time.format('ddd, lll');
+                    document.getElementById('tertiary-final').innerHTML = pointed_time.format('ddd, lll');
+                    document.getElementById('message-launch').disabled = false;
+                  }
                 }
-              }
-            });
-          }
-        } else {
-          if (endTimeDiff >= <%= @service.duration %>) {
-            slot.style.cursor = "pointer";
-            const ending_time = moment(pointed_time).add(<%= @service.duration %>, 'minutes').format('LT');
-            const html = `<div class="available-hours"><p>` + pointed_time.format('ll') + ` ` + pointed_time.format('LT') + ` ~ ` + ending_time + `</p></div>`;
-            item.insertAdjacentHTML('beforeend', html);
-            slot.addEventListener('click', (e) => {
-              if (document.getElementById('tertiary').innerHTML == '') {
-                e.currentTarget.childNodes[0].classList.remove('available-cell');
-                e.currentTarget.childNodes[0].classList.add('chosen-cell');
-                if (document.getElementById('primary').innerHTML == '') {
-                  document.getElementById('session_primary_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
-                  document.getElementById('primary').innerHTML = pointed_time.format('ddd, lll');
-                  document.getElementById('primary-final').innerHTML = pointed_time.format('ddd, lll');
-                  document.getElementById('clear-times').style.display = 'block';
-                } else if (document.getElementById('secondary').innerHTML == '') {
-                  document.getElementById('session_secondary_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
-                  document.getElementById('secondary').innerHTML = pointed_time.format('ddd, lll');
-                  document.getElementById('secondary-final').innerHTML = pointed_time.format('ddd, lll');
-                } else {
-                  document.getElementById('session_tertiary_time').value = pointed_time.format('YYYY-MM-DD HH:mm');
-                  document.getElementById('tertiary').innerHTML = pointed_time.format('ddd, lll');
-                  document.getElementById('tertiary-final').innerHTML = pointed_time.format('ddd, lll');
-                  document.getElementById('message-launch').disabled = false;
-                }
-              }
-            });
+              });
+            }
           }
         }
       }
-    }
-    const formatDate = (date) => {
-      let d = new Date(date),
-          month = '' + (d.getMonth() + 1),
-          day = '' + d.getDate(),
-          year = d.getFullYear();
-      if (month.length < 2)
-          month = '0' + month;
-      if (day.length < 2)
-          day = '0' + day;
-      return [year, month, day].join('-');
-    }
-    const movePrevious = (start) => {
-      document.getElementById('previous-btn').addEventListener('click', (e) => {
-        e.preventDefault();
-        start.setDate(start.getDate() - 7);
-        if (start <= new Date()) {
-          document.getElementById('previous-btn').setAttribute('style', 'pointer-events: none; font-size:1.5rem;');
-        } else {
-          document.getElementById('previous-btn').setAttribute('style', 'pointer-events: auto; font-size:1.5rem;');
-        }
-        setCalendar(start);
-      })
-    }
-    const moveNext = (start) => {
-      document.getElementById('next-btn').addEventListener('click', (e) => {
-        e.preventDefault();
-        start.setDate(start.getDate() + 7);
-        if (start <= new Date()) {
-          document.getElementById('previous-btn').setAttribute('style', 'pointer-events: none; font-size:1.5rem;');
-        } else {
-          document.getElementById('previous-btn').setAttribute('style', 'pointer-events: auto; font-size:1.5rem;');
-        }
-        setCalendar(start);
-      })
-    }
-    if (document.getElementById('modal-launch')) {
+      const formatDate = (date) => {
+        let d = moment(date, "DD-MM-YYYY")._d,
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+        return [year, month, day].join('-');
+      }
+      const movePrevious = (start) => {
+        document.getElementById('previous-btn').addEventListener('click', (e) => {
+          e.preventDefault();
+          start.setDate(start.getDate() - 7);
+          if (start <= moment(moment(), "DD-MM-YYYY")._d) {
+            document.getElementById('previous-btn').setAttribute('style', 'pointer-events: none; font-size:1.5rem;');
+          } else {
+            document.getElementById('previous-btn').setAttribute('style', 'pointer-events: auto; font-size:1.5rem;');
+          }
+          setCalendar(start);
+        })
+      }
+      const moveNext = (start) => {
+        document.getElementById('next-btn').addEventListener('click', (e) => {
+          e.preventDefault();
+          start.setDate(start.getDate() + 7);
+          if (start <= moment(moment(), "DD-MM-YYYY")._d) {
+            document.getElementById('previous-btn').setAttribute('style', 'pointer-events: none; font-size:1.5rem;');
+          } else {
+            document.getElementById('previous-btn').setAttribute('style', 'pointer-events: auto; font-size:1.5rem;');
+          }
+          setCalendar(start);
+        })
+      }
       document.getElementById('modal-launch').addEventListener('click', (e) => {
         setCalendar(start);
         movePrevious(start);
@@ -386,12 +391,11 @@
         }, 50);
       });
       document.getElementById('send-request').addEventListener('click', (e) => {
-        document.getElementById('session_message').value = document.getElementById('session-message').value
+        document.getElementById('session_message').value = document.getElementById('session-message').value;
         document.getElementById('create_session').click();
       });
       document.getElementById('back-time').addEventListener('click', (e) => {
-        start = new Date();
-        start.setDate(start.getDate() + 1);
+        start = moment(moment(), "DD-MM-YYYY").add(1, 'day')._d;
         document.getElementById('message-modal').classList.add('hidden');
         setTimeout(function(){
           setCalendar(start);
@@ -417,6 +421,6 @@
           document.getElementById('message-launch').disabled = true;
         });
       });
-    }
-  });
+    });
+  <% end %>
 </script>
