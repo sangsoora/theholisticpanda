@@ -168,7 +168,7 @@
               <div class="session-content">
                 <button class="<%= call.status %>"><%= call.status.capitalize %></button>
                 <p><%= link_to call.service.name, session_path(call) %></p>
-                <p><small>Practitioner: <%= Practitioner.find(call.free_practitioner_id).user. %></small></p>
+                <p><small>Practitioner: <%= Practitioner.find(call.free_practitioner_id).user.full_name %></small></p>
                 <p><small>When:
                   <% if call.start_time %>
                     <%= call.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
