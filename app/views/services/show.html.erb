@@ -54,9 +54,9 @@
         <% if @service.active %>
           <p><strong>Please select 3 time slots you prefer and the practitioner will confirm it.</strong></p>
           <% if user_signed_in? && @service.practitioner.user != current_user %>
-            <%= link_to 'See Availability', '', data: { toggle: "modal", target: "timeslotModal" }, class: 'btn btn-flat', id: 'modal-launch' %>
+            <%= link_to 'See availability', '', data: { toggle: "modal", target: "#timeslotModal" }, class: 'btn btn-flat', id: 'modal-launch' %>
           <% else %>
-            <%= link_to 'See Availability', new_user_session_path, class: 'btn btn-flat' %>
+            <%= link_to 'See availability', new_user_session_path, class: 'btn btn-flat' %>
           <% end %>
         <% end %>
       </div>
@@ -138,9 +138,9 @@
                 <textarea id="session-message" class="form-control text"></textarea>
                 <div class="my-4">
                   <p>Here are your chosen time slots. They’ll be sent to the practitioner and you’ll receive an email confirmation when they confirm it.</p>
-                  <p>Your Choice 1: <span id='primary-final'></span></p>
-                  <p>Your Choice 2: <span id='secondary-final'></span></p>
-                  <p>Your Choice 3: <span id='tertiary-final'></span></p>
+                  <p>Your choice 1: <span id='primary-final'></span></p>
+                  <p>Your choice 2: <span id='secondary-final'></span></p>
+                  <p>Your choice 3: <span id='tertiary-final'></span></p>
                 </div>
                 <p>By submitting this session request, you have agreed to the Terms of Service and agree to pay the amount shown, including sales tax that may apply depending on your location.</p>
               </div>

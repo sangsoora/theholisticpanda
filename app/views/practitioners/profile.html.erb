@@ -11,10 +11,10 @@
     <div class="practitioner-profile-title">
       <h1>Welcome, <%= @practitioner.user.first_name %></h1>
       <div class="practitioner-profile-btn">
-        <%= link_to 'View My Public Profile', practitioner_path(@practitioner), class: 'btn btn-flat mr-3' %>
-        <%= link_to 'Manage My Services', practitioner_services_path, class: 'btn btn-flat mr-3' %>
+        <%= link_to 'View my public profile', practitioner_path(@practitioner), class: 'btn btn-flat mr-3' %>
+        <%= link_to 'Manage my services', practitioner_services_path, class: 'btn btn-flat mr-3' %>
         <% if !@practitioner.stripe_account_id? %>
-          <%= link_to 'Set Up Payout Account', '', data: { toggle: "modal", target: "#stripeAccountModal" }, class: 'btn btn-flat', id: 'setup-open' %>
+          <%= link_to 'Set up payout account', '', data: { toggle: "modal", target: "#stripeAccountModal" }, class: 'btn btn-flat', id: 'setup-open' %>
         <% end %>
       </div>
     </div>
@@ -25,17 +25,17 @@
         <% else %>
           <%= image_tag("profile", class: 'avatar-full') %>
         <% end %>
-        <%= link_to '📷 Profile Photo', '', data: { toggle: "modal", target: "#profilePictureModal" }, class: 'btn btn-ghost mt-4 w-100', id: 'open-profile' %>
-        <%= link_to '📷 Banner Image', '', data: { toggle: "modal", target: "#bannerImageModal" }, class: 'btn btn-ghost mt-4 w-100' %>
-        <%= link_to 'Reset Password', '', data: { toggle: "modal", target: "#passwordModal" }, class: 'btn btn-ghost mt-4 w-100' %>
+        <%= link_to '📷 Profile photo', '', data: { toggle: "modal", target: "#profilePictureModal" }, class: 'btn btn-ghost mt-4 w-100', id: 'open-profile' %>
+        <%= link_to '📷 Banner image', '', data: { toggle: "modal", target: "#bannerImageModal" }, class: 'btn btn-ghost mt-4 w-100' %>
+        <%= link_to 'Reset password', '', data: { toggle: "modal", target: "#passwordModal" }, class: 'btn btn-ghost mt-4 w-100' %>
       </div>
       <div class="practitioner-profile-infos">
         <ul class="list-inline tabs-underlined">
           <li>
-            <p class="tab-underlined active-tab">Practitioner Profile</p>
+            <p class="tab-underlined active-tab">Practitioner profile</p>
           </li>
           <li>
-            <p class="tab-underlined">Personal Profile</p>
+            <p class="tab-underlined">Personal profile</p>
           </li>
         </ul>
         <div class="lists">
@@ -167,7 +167,7 @@
                 </div>
                 <div class="biography-list">
                   <h5>Include a 1-minute self-introduction video to help your potential clients to get to know you better.</h5>
-                  <%= link_to 'How To Link My YouTube Video', '', data: { toggle: "modal", target: "#videoInstructionModal" } %>
+                  <%= link_to 'How to link my YouTube video', '', data: { toggle: "modal", target: "#videoInstructionModal" } %>
                   <div id="practitioner-video" class="mt-2">
                     <div class="embed-responsive embed-responsive-16by9" id="video">
                       <iframe class="embed-responsive-item" src="<%= @practitioner.video %>" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -523,7 +523,7 @@
     <div class="modal-dialog modal-photo" role="document">
       <div class="modal-content">
         <div class="modal-header justify-content-center">
-          <h5 class="modal-title" id="profilePictureModalLabel">Crop Profile Photo</h5>
+          <h5 class="modal-title" id="profilePictureModalLabel">Crop profile photo</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -571,7 +571,7 @@
     <div class="modal-dialog modal-photo" role="document">
       <div class="modal-content">
         <div class="modal-header justify-content-center">
-          <h5 class="modal-title" id="bannerImageModalLabel">Upload Banner Image</h5>
+          <h5 class="modal-title" id="bannerImageModalLabel">Upload banner image</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -583,7 +583,7 @@
                 <% if @practitioner.banner_image.attached? %>
                   <div id="current-banner-wrapper">
                     <img src="<%= cdn_for(@practitioner.banner_image) %>" id="current-banner" alt="">
-                    <%= f.button :submit, "Delete Banner Image", class: 'btn-ghost mb-3' %>
+                    <%= f.button :submit, "Delete banner image", class: 'btn-ghost mb-3' %>
                   </div>
                 <% end %>
                 <%= f.input :banner_image, as: :file, input_html: { class: 'hidden', id: 'banner-input' }, label_html: { class: 'upload-photo'}, label: '📷 Upload New Banner Image' %>
@@ -608,7 +608,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header justify-content-center">
-          <h5 class="modal-title" id="videoInstructionModalLabel">Linking YouTube Video Instruction</h5>
+          <h5 class="modal-title" id="videoInstructionModalLabel">Linking YouTube video instruction</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -640,7 +640,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header justify-content-center">
-          <h5 class="modal-title" id="publicWarningModalLabel">Setting Your Address As Public</h5>
+          <h5 class="modal-title" id="publicWarningModalLabel">Setting your address as public</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -657,7 +657,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header justify-content-center">
-            <h5 class="modal-title" id="stripeAccountModalLabel">Set Up Deposit Account</h5>
+            <h5 class="modal-title" id="stripeAccountModalLabel">Set up deposit account</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -667,7 +667,7 @@
               <h4 style="line-height: 2;">Set up an account to receive your payouts.</h4>
               <p>The Holistic Panda partners with Stripe to transfer earnings to your bank account.</p>
               <%= simple_form_for [@practitioner] do |f| %>
-                <%= f.button :submit, "Set Up Payouts", class: 'btn-flat my-4' %>
+                <%= f.button :submit, "Set up payouts", class: 'btn-flat my-4' %>
               <% end %>
               <p>You'll be redirected to Stripe to create your payout account.</p>
             </div>
@@ -809,26 +809,26 @@
       function fillInForm() {
         document.getElementById('address-submit').disabled = true;
         var place = autocomplete.getPlace();
-        if (!place.geometry) {
-          // User entered the name of a Place that was not suggested and
-          // pressed the Enter key, or the Place Details request failed.
-          window.alert("No details available for input: '" + place.name + "'");
-          return;
-        } else {
-          document.getElementById('practitioner_latitude').value = place.geometry.location.lat()
-          document.getElementById('practitioner_longitude').value = place.geometry.location.lng()
+        if (!place.geometry) {
+          // User entered the name of a Place that was not suggested and
+          // pressed the Enter key, or the Place Details request failed.
+          window.alert("No details available for input: '" + place.name + "'");
+          return;
+        } else {
+          document.getElementById('practitioner_latitude').value = place.geometry.location.lat()
+          document.getElementById('practitioner_longitude').value = place.geometry.location.lng()
           document.getElementById('address-submit').disabled = false;
         }
       }
       function fillInForm1() {
         document.getElementById('city-submit').disabled = true;
         var place1 = autocomplete1.getPlace();
-        if (!place1.geometry) {
-          // User entered the name of a Place that was not suggested and
-          // pressed the Enter key, or the Place Details request failed.
-          window.alert("No details available for input: '" + place1.name + "'");
-          return;
-        } else {
+        if (!place1.geometry) {
+          // User entered the name of a Place that was not suggested and
+          // pressed the Enter key, or the Place Details request failed.
+          window.alert("No details available for input: '" + place1.name + "'");
+          return;
+        } else {
           document.getElementById('city-submit').disabled = false;
         }
       }

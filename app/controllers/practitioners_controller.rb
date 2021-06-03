@@ -94,7 +94,7 @@ class PractitionersController < ApplicationController
   end
 
   def update
-    if params[:commit] == 'Proceed To Payment'
+    if params[:commit] == 'Proceed to payment'
       if (params[:practitioner][:agreement_consent][1]) && (params[:practitioner][:background_check_consent][1]) && @practitioner.update(background_check_consent: true, agreement_consent: true, amount_cents: 3500)
         customer = Stripe::Customer.create({
           email: @practitioner.user.email,
@@ -120,11 +120,11 @@ class PractitionersController < ApplicationController
       else
         redirect_to practitioner_profile_path
       end
-    elsif params[:commit] == 'Delete Banner Image'
+    elsif params[:commit] == 'Delete banner image'
       @practitioner.banner_image.purge
       flash[:notice] = 'Your banner image has been deleted.'
       redirect_to practitioner_profile_path
-    elsif params[:commit] == 'Set Up Payouts'
+    elsif params[:commit] == 'Set up payouts'
       unless @practitioner.stripe_account_id
         account = Stripe::Account.create({
           email: "#{@practitioner.user.email}",

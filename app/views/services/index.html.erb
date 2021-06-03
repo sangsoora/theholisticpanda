@@ -175,8 +175,8 @@
                       <p><%= service.specialty.name %></p>
                     </div>
                     <div style="flex: 0 0 45%;">
-                      <label>Rating</label>
                       <% if service.reviews.count > 0 %>
+                        <label>Rating</label>
                         <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
                       <% end %>
                     </div>
@@ -328,8 +328,8 @@
                     <p><%= service.specialty.name %></p>
                   </div>
                   <div style="flex: 0 0 45%;">
-                    <label>Rating</label>
                     <% if service.reviews.count > 0 %>
+                      <label>Rating</label>
                       <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
                     <% end %>
                   </div>
