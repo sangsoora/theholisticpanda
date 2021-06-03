@@ -117,17 +117,17 @@
         if (type == 'percentage') {
           calculatedPrice = (initPrice - (initPrice * (discount/100))).toFixed(2);
 
-          document.getElementById('discount-amount').innerHTML = '- CA $' + (initPrice * (discount/100)).toFixed(2);
+          document.getElementById('discount-amount').innerHTML = '- CA$ ' + (initPrice * (discount/100)).toFixed(2);
           document.getElementById('discount-amount').style.color = 'red';
-          document.getElementById('tax-amount').innerHTML = '+ CA $' + (calculatedPrice * tax).toFixed(2);
+          document.getElementById('tax-amount').innerHTML = '+ CA$ ' + (calculatedPrice * tax).toFixed(2);
           document.getElementById('tax-amount').style.color = 'green';
           document.getElementById('session_discount_price').value = (initPrice * (discount/100)).toFixed(2);
           document.getElementById('session_tax_price').value = (calculatedPrice * tax).toFixed(2);
         } else {
           calculatedPrice = initPrice - discount;
-          document.getElementById('discount-amount').innerHTML = '- CA $' + discount.toFixed(2);
+          document.getElementById('discount-amount').innerHTML = '- CA$ ' + discount.toFixed(2);
           document.getElementById('discount-amount').style.color = 'red';
-          document.getElementById('tax-amount').innerHTML = '+ CA $' + ((initPrice - (discount/100)) * tax).toFixed(2);
+          document.getElementById('tax-amount').innerHTML = '+ CA$ ' + ((initPrice - (discount/100)) * tax).toFixed(2);
           document.getElementById('tax-amount').style.color = 'green';
           document.getElementById('session_discount_price').value = discount.toFixed(2);
           document.getElementById('session_tax_price').value = ((initPrice - discount) * tax).toFixed(2);
@@ -136,14 +136,14 @@
       } else if (discount && !tax) {
         if (type == 'percentage') {
           calculatedPrice = (initPrice - (initPrice * (discount/100))).toFixed(2);
-          document.getElementById('discount-amount').innerHTML = '- CA $' + (initPrice * (discount/100)).toFixed(2);
+          document.getElementById('discount-amount').innerHTML = '- CA$ ' + (initPrice * (discount/100)).toFixed(2);
           document.getElementById('discount-amount').style.color = 'red';
           document.getElementById('tax-amount').innerHTML = 'TBD';
           document.getElementById('tax-amount').style.color = 'black';
           document.getElementById('session_discount_price').value = (initPrice * (discount/100)).toFixed(2);
         } else {
           calculatedPrice = initPrice - discount;
-          document.getElementById('discount-amount').innerHTML = '- CA $' + discount.toFixed(2);
+          document.getElementById('discount-amount').innerHTML = '- CA$ ' + discount.toFixed(2);
           document.getElementById('discount-amount').style.color = 'red';
           document.getElementById('tax-amount').innerHTML = 'TBD';
           document.getElementById('tax-amount').style.color = 'black';
@@ -153,7 +153,7 @@
         calculatedPrice = (initPrice + (initPrice * tax)).toFixed(2);
         document.getElementById('discount-amount').innerHTML = 'N/A';
         document.getElementById('discount-amount').style.color = 'black';
-        document.getElementById('tax-amount').innerHTML = '+ CA $' + (initPrice * tax).toFixed(2);
+        document.getElementById('tax-amount').innerHTML = '+ CA$ ' + (initPrice * tax).toFixed(2);
         document.getElementById('tax-amount').style.color = 'green';
         document.getElementById('session_tax_price').value = (initPrice * tax).toFixed(2);
       } else if (!discount && !tax) {
@@ -163,7 +163,7 @@
         document.getElementById('tax-amount').innerHTML = 'TBD';
         document.getElementById('tax-amount').style.color = 'black';
       }
-      finalPrice.innerHTML = '<strong>CA $' + calculatedPrice + '</strong>';
+      finalPrice.innerHTML = '<strong>CA$ ' + calculatedPrice + '</strong>';
       document.getElementById('session_estimate_price').value = calculatedPrice;
     }
     <% if current_user.payment_methods.count == 0 %>

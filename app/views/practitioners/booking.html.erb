@@ -21,6 +21,31 @@
     </li>
   </ul>
   <div class="lists">
+    <% unless @practitioner.stripe_account_id? %>
+      <%= link_to 'Set up payout account', '', data: { toggle: "modal", target: "#stripeAccountModal" }, class: 'btn btn-flat mb-3', id: 'setup-open' %>
+      <div class="modal fade" id="stripeAccountModal" tabindex="-1" role="dialog" aria-labelledby="stripeAccountModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header justify-content-center">
+              <h5 class="modal-title" id="stripeAccountModalLabel">Set up deposit account</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="text-center">
+                <h4 style="line-height: 2;">Set up an account to receive your payouts.</h4>
+                <p>The Holistic Panda partners with Stripe to transfer earnings to your bank account.</p>
+                <%= simple_form_for [@practitioner] do |f| %>
+                  <%= f.button :submit, "Set up payouts", class: 'btn-flat my-4' %>
+                <% end %>
+                <p>You'll be redirected to Stripe to create your payout account.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
     <% if @pending_payment_sessions.count > 0 %>
       <div class="session-container">
         <% @pending_payment_sessions.each do |session| %>
@@ -37,11 +62,15 @@
               </div>
             </div>
             <div class="session-actions session-desktop">
-              <%= simple_form_for session do |f| %>
-                <%= f.input :status, as: :hidden, input_html: { value: 'charged' } %>
-                <%= f.submit 'Charge', class: 'btn btn-flat w-100' %>
+              <% if @practitioner.stripe_account_id? %>
+                <%= simple_form_for session do |f| %>
+                  <%= f.input :status, as: :hidden, input_html: { value: 'charged' } %>
+                  <%= f.submit 'Charge', class: 'btn btn-flat mt-3 w-100' %>
+                <% end %>
+                <%= link_to 'Details', session_path(session), class: 'btn btn-ghost mt-3 w-100' %>
+              <% else %>
+                <%= link_to 'Details', session_path(session), class: 'btn btn-flat w-100' %>
               <% end %>
-              <%= link_to 'Details', session_path(session), class: 'btn btn-ghost mt-3 w-100' %>
             </div>
             <div class="session-actions session-mobile" style="flex: 0 0 100%">
               <div class="session-content">
@@ -52,11 +81,15 @@
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.estimate_price %></small></p>
                 <p><small>Session Type: <%= session.session_type %></small></p>
-                <%= simple_form_for session do |f| %>
-                  <%= f.input :status, as: :hidden, input_html: { value: 'charged' } %>
-                  <%= f.submit 'Charge', class: 'btn btn-flat mt-3 w-100' %>
+                <% if @practitioner.stripe_account_id? %>
+                  <%= simple_form_for session do |f| %>
+                    <%= f.input :status, as: :hidden, input_html: { value: 'charged' } %>
+                    <%= f.submit 'Charge', class: 'btn btn-flat mt-3 w-100' %>
+                  <% end %>
+                  <%= link_to 'Details', session_path(session), class: 'btn btn-ghost mt-3 w-100' %>
+                <% else %>
+                  <%= link_to 'Details', session_path(session), class: 'btn btn-flat w-100' %>
                 <% end %>
-                <%= link_to 'Details', session_path(session), class: 'btn btn-ghost mt-3 w-100' %>
               </div>
             </div>
           </div>
@@ -270,6 +303,11 @@
   </div>
 </div>
 <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    <% unless @practitioner.stripe_account_id? %>
+      document.getElementById('setup-open').click();
+    <% end %>
+  });
   const tabs = document.querySelectorAll('.tab-underlined')
   const lists = document.querySelectorAll('.lists')
   const entries = function*(iterable) {
