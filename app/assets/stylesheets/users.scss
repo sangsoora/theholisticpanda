@@ -15,7 +15,6 @@
   display: flex;
   align-items: center;
   margin-bottom: 2rem;
-  color: $emerald;
   padding: 1rem;
   border-radius: 0.5rem;
   box-shadow: 0 7px 25px 0 rgba(0, 0, 0, 0.1);
@@ -62,7 +61,6 @@
 
 .session .session-actions a {
   color: $emerald;
-  margin-left: 1rem;
   font-size: 1rem;
   opacity: 0.7;
   &:hover {
@@ -75,7 +73,6 @@
 }
 
 .session .session-actions .btn-flat, .session .session-actions .btn-ghost {
-  margin-left: 1rem;
   font-size: 0.825rem;
   opacity: 1;
   &:hover {

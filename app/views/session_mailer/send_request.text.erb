@@ -13,10 +13,10 @@ Proposed Time 3: <%= @session.tertiary_time.in_time_zone(@practitioner.timezone)
 <% if @session.message && (@session.message != '') %>
 <%= @session.user.first_name %>’s note on reason for attending the session: <%= @session.message %>
 <% end %>
-
+<% unless @session.service.default_service %>
 If none of the submitted time slots work for you, please cancel the booking request and propose a new time to your client via the chatbox.
 
 Please bear in mind that you must give the client at least 24 hours of notice if you need to cancel a confirmed session. Failure to cancel 24 hours beforehand will result in a late cancellation fee of 35% of the session price. If you have to late cancel due to extenuating circumstances, please let us know at hello@theholisticpanda.com.
-
+<% end %>
 Yours,
 The Holistic Panda Team

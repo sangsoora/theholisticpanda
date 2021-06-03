@@ -105,35 +105,57 @@ class SessionsController < ApplicationController
       redirect_to practitioner_sessions_path, notice: 'Session request declined.'
     elsif params[:commit] == 'Charge'
       if @session.promo_id
-        coupon = UserPromo.find_by(promo_id: @session.promo_id).coupon_id
-      else
-        coupon = ''
-      end
-      Stripe::InvoiceItem.create({
-        customer: @session.user.stripe_id,
-        amount: @session.amount_cents,
-        currency: 'cad',
-        discountable: true,
-        discounts: [{
-          coupon: coupon
-        }],
-        description: "#{@session.service.name} with #{@session.practitioner.user.full_name}",
-        metadata: {
-          session_id: @session.id
-        },
-        tax_rates: [
-          if @session.practitioner.user.tax_id? && @session.practitioner.country_code == 'CA'
-            payment_method = PaymentMethod.find_by(payment_method_id: Session.last.payment_method_id)
-            if payment_method.billing_country == 'CA' && %w[NB NL NS PE].include?(payment_method.billing_state)
-              TaxRate.find(3).tax_id
-            elsif payment_method.billing_country == 'CA' && payment_method.billing_state == 'ON'
-              TaxRate.find(2).tax_id
-            else
-              TaxRate.find(1).tax_id
+        Stripe::InvoiceItem.create({
+          customer: @session.user.stripe_id,
+          amount: @session.amount_cents,
+          currency: 'cad',
+          discountable: true,
+          discounts: [{
+            coupon: UserPromo.find_by(promo_id: @session.promo_id).coupon_id
+          }],
+          description: "#{@session.service.name} with #{@session.practitioner.user.full_name}",
+          metadata: {
+            session_id: @session.id
+          },
+          tax_rates: [
+            if @session.practitioner.user.tax_id? && @session.practitioner.country_code == 'CA'
+              payment_method = PaymentMethod.find_by(payment_method_id: Session.last.payment_method_id)
+              if payment_method.billing_country == 'CA' && %w[NB NL NS PE].include?(payment_method.billing_state)
+                TaxRate.find(3).tax_id
+              elsif payment_method.billing_country == 'CA' && payment_method.billing_state == 'ON'
+                TaxRate.find(2).tax_id
+              else
+                TaxRate.find(1).tax_id
+              end
             end
-          end
-        ],
-      })
+          ],
+        })
+      else
+        Stripe::InvoiceItem.create({
+          customer: @session.user.stripe_id,
+          amount: @session.amount_cents,
+          currency: 'cad',
+          discountable: true,
+          discounts: [{
+          }],
+          description: "#{@session.service.name} with #{@session.practitioner.user.full_name}",
+          metadata: {
+            session_id: @session.id
+          },
+          tax_rates: [
+            if @session.practitioner.user.tax_id? && @session.practitioner.country_code == 'CA'
+              payment_method = PaymentMethod.find_by(payment_method_id: Session.last.payment_method_id)
+              if payment_method.billing_country == 'CA' && %w[NB NL NS PE].include?(payment_method.billing_state)
+                TaxRate.find(3).tax_id
+              elsif payment_method.billing_country == 'CA' && payment_method.billing_state == 'ON'
+                TaxRate.find(2).tax_id
+              else
+                TaxRate.find(1).tax_id
+              end
+            end
+          ],
+        })
+      end
       if @session.practitioner.country_code == 'CA'
         if %w[NB NL NS PE].include?(@session.practitioner.state_code)
           fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.15).round
@@ -216,35 +238,57 @@ class SessionsController < ApplicationController
             SessionMailer.with(session: @session).cancel_user.deliver_now
           else
             if @session.promo_id
-              coupon = UserPromo.find_by(promo_id: @session.promo_id).coupon_id
-            else
-              coupon = ''
-            end
-            Stripe::InvoiceItem.create({
-              customer: @session.user.stripe_id,
-              amount: @session.amount_cents,
-              currency: 'cad',
-              discountable: true,
-              discounts: [{
-                coupon: coupon
-              }],
-              description: "#{@session.service.name} with #{@session.practitioner.user.full_name}",
-              metadata: {
-                session_id: @session.id
-              },
-              tax_rates: [
-                if @session.practitioner.user.tax_id? && @session.practitioner.country_code == 'CA'
-                  payment_method = PaymentMethod.find_by(payment_method_id: Session.last.payment_method_id)
-                  if payment_method.billing_country == 'CA' && %w[NB NL NS PE].include?(payment_method.billing_state)
-                    TaxRate.find(3).tax_id
-                  elsif payment_method.billing_country == 'CA' && payment_method.billing_state == 'ON'
-                    TaxRate.find(2).tax_id
-                  else
-                    TaxRate.find(1).tax_id
+              Stripe::InvoiceItem.create({
+                customer: @session.user.stripe_id,
+                amount: @session.amount_cents,
+                currency: 'cad',
+                discountable: true,
+                discounts: [{
+                  coupon: UserPromo.find_by(promo_id: @session.promo_id).coupon_id
+                }],
+                description: "#{@session.service.name} with #{@session.practitioner.user.full_name}",
+                metadata: {
+                  session_id: @session.id
+                },
+                tax_rates: [
+                  if @session.practitioner.user.tax_id? && @session.practitioner.country_code == 'CA'
+                    payment_method = PaymentMethod.find_by(payment_method_id: Session.last.payment_method_id)
+                    if payment_method.billing_country == 'CA' && %w[NB NL NS PE].include?(payment_method.billing_state)
+                      TaxRate.find(3).tax_id
+                    elsif payment_method.billing_country == 'CA' && payment_method.billing_state == 'ON'
+                      TaxRate.find(2).tax_id
+                    else
+                      TaxRate.find(1).tax_id
+                    end
                   end
-                end
-              ],
-            })
+                ],
+              })
+            else
+              Stripe::InvoiceItem.create({
+                customer: @session.user.stripe_id,
+                amount: @session.amount_cents,
+                currency: 'cad',
+                discountable: true,
+                discounts: [{
+                }],
+                description: "#{@session.service.name} with #{@session.practitioner.user.full_name}",
+                metadata: {
+                  session_id: @session.id
+                },
+                tax_rates: [
+                  if @session.practitioner.user.tax_id? && @session.practitioner.country_code == 'CA'
+                    payment_method = PaymentMethod.find_by(payment_method_id: Session.last.payment_method_id)
+                    if payment_method.billing_country == 'CA' && %w[NB NL NS PE].include?(payment_method.billing_state)
+                      TaxRate.find(3).tax_id
+                    elsif payment_method.billing_country == 'CA' && payment_method.billing_state == 'ON'
+                      TaxRate.find(2).tax_id
+                    else
+                      TaxRate.find(1).tax_id
+                    end
+                  end
+                ],
+              })
+            end
             if @session.practitioner.country_code == 'CA'
               if %w[NB NL NS PE].include?(@session.practitioner.state_code)
                 fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.15).round

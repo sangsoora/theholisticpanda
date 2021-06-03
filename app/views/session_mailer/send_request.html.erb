@@ -20,9 +20,11 @@
   <%= link_to 'Review your session request detail', session_url(@session), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
   <br>
   <br>
-  <p>If none of the submitted time slots work for you, please cancel the booking request and propose a new time to your client via the chatbox.</p>
-  <p>Please bear in mind that you must give the client at least <strong>24 hours of notice</strong> if you need to cancel a confirmed session. Failure to cancel 24 hours beforehand will result in a late cancellation fee of <strong>35% of the session price</strong>. If you have to late cancel due to extenuating circumstances, please let us know at <a href="mailto:hello@theholisticpanda.com" style="text-decoration: none; color: #366735;">hello@theholisticpanda.com</a>.</p>
-  <br>
+  <% unless @session.service.default_service %>
+    <p>If none of the submitted time slots work for you, please cancel the booking request and propose a new time to your client via the chatbox.</p>
+    <p>Please bear in mind that you must give the client at least <strong>24 hours of notice</strong> if you need to cancel a confirmed session. Failure to cancel 24 hours beforehand will result in a late cancellation fee of <strong>35% of the session price</strong>. If you have to late cancel due to extenuating circumstances, please let us know at <a href="mailto:hello@theholisticpanda.com" style="text-decoration: none; color: #366735;">hello@theholisticpanda.com</a>.</p>
+    <br>
+  <% end %>
   <p>Yours,</p>
   <p>The Holistic Panda Team</p>
   <div style='margin: 32px auto 16px; text-align: center;'>

@@ -178,7 +178,7 @@
         const endDate = end.getDate();
         const endMonth = end.getMonth();
         const endYear = end.getFullYear();
-        <% @service.practitioner.converted_working_hours(current_user).delete_if { |key, value| value.blank? }.each do |k, v| %>
+        <% @practitioner.converted_working_hours(current_user).delete_if { |key, value| value.blank? }.each do |k, v| %>
           <% v.each do |hour| %>
             <% @times.each do |time| %>
               <% if (hour[:starts]...hour[:ends]).include?(time) %>
@@ -188,7 +188,7 @@
           <% end %>
         <% end %>
         let sessions = [];
-        <% @service.practitioner.sessions.where("status = ? AND start_time > ?", 'confirmed', 1.days.ago).order(start_time: :asc).select(:start_time, :duration).each do |session| %>
+        <% @practitioner.sessions.where("status = ? AND start_time > ?", 'confirmed', 1.days.ago).order(start_time: :asc).select(:start_time, :duration).each do |session| %>
           sessions.push(<%= session.to_json.html_safe %>);
         <% end %>
         const time_zone = '<%= current_user.timezone %>';
@@ -253,7 +253,7 @@
           }
         }
         const availables = document.getElementsByClassName('available-cell');
-        const working_hours = <%= @service.practitioner.converted_working_hours(current_user).to_json.html_safe %>;
+        const working_hours = <%= @practitioner.converted_working_hours(current_user).to_json.html_safe %>;
         let ending_hours = [];
         var keys = Object.keys(working_hours);
         for(key in keys){
