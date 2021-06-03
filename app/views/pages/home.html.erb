@@ -14,6 +14,7 @@
         <p>We are a booking platform for wellness services. This includes traditional alternative medicine, life and health coaching, and mind and body healing work. We know firsthand how difficult it can be to find the right wellness services and providers, so we have built a platform to help you navigate your discovery journey in finding the support you need to achieve your health goals!</p>
         <p>As a company founded and led by Asians, we also sought to help the Asian community embrace and normalize the practice of self-care and find culturally competent providers.</p>
       </div>
+      <a href="#featured-practitioners" class="btn btn-flat">Book free discovery call with our practitioners</a>
     </div>
   </div>
 </section>
@@ -83,7 +84,7 @@
                   <% end %>
                 </div>
                 <% if !user_signed_in? || (user_signed_in? && !practitioner.had_free_session?(current_user)) %>
-                  <%#= link_to 'Book Free 15 Min Call', practitioner_discovery_call_path(practitioner), class: 'btn btn-flat my-2' %>
+                  <%= link_to 'Book Free 15 Min Call', practitioner_discovery_call_path(practitioner), class: 'btn btn-flat my-2' %>
                 <% end %>
               </div>
             </div>

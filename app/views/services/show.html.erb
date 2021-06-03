@@ -51,14 +51,14 @@
             </div>
           </div>
         </div>
-        <%# if @service.active %>
-          <!-- <p><strong>Please select 3 time slots you prefer and the practitioner will confirm it.</strong></p> -->
-          <%# if user_signed_in? && @service.practitioner.user != current_user %>
-            <%#= link_to 'See Availability', '', data: { toggle: "modal", target: "#timeslotModal" }, class: 'btn btn-flat', id: 'modal-launch' %>
-          <%# else %>
-            <%#= link_to 'See Availability', new_user_session_path, class: 'btn btn-flat' %>
-          <%# end %>
-        <%# end %>
+        <% if @service.active %>
+          <p><strong>Please select 3 time slots you prefer and the practitioner will confirm it.</strong></p>
+          <% if user_signed_in? && @service.practitioner.user != current_user %>
+            <%= link_to 'See Availability', '', data: { toggle: "modal", target: "timeslotModal" }, class: 'btn btn-flat', id: 'modal-launch' %>
+          <% else %>
+            <%= link_to 'See Availability', new_user_session_path, class: 'btn btn-flat' %>
+          <% end %>
+        <% end %>
       </div>
       <div class="service-practitioner">
         <% if @service.practitioner.user.photo.attached? %>
