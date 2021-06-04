@@ -2,9 +2,17 @@
   <div class="top-banner-text">
     <h1>Start your<br>self-care practice</h1>
     <h4>Select your health goals and we will<br>recommend the best wellness services for you</h4>
-    <div class="d-flex">
+    <div class="top-banner-buttons-desktop">
       <a class="btn btn-ghost" id="select-goal">Select a health goal</a>
       <a class="btn btn-flat" id="find-service">Find services</a>
+    </div>
+    <div class="top-banner-buttons-mobile">
+      <div>
+        <a class="btn btn-ghost" id="select-goal-mobile">Select a health goal</a>
+      </div>
+      <div>
+        <a class="btn btn-flat mt-0" id="find-service-mobile">Find services</a>
+      </div>
     </div>
     <div class="banner-health-goal-select w-100 pt-2" id="goal-list" style="display: none;">
       <% @filtered_services_goals.sort_by(&:name).each do |goal| %>
@@ -16,14 +24,27 @@
   </div>
 </div>
 <script>
-  document.getElementById('select-goal').addEventListener('click', (e) => {
-    if (document.getElementById('goal-list').style.display == "none") {
-      document.getElementById('goal-list').style.display = "grid";
-    } else {
-      document.getElementById('goal-list').style.display = "none";
-    }
-  });
-  document.getElementById('find-service').addEventListener('click', (e) => {
-    window.location.href = '<%= services_path %>';
-  });
+  if (document.getElementById('select-goal')) {
+    document.getElementById('select-goal').addEventListener('click', (e) => {
+      if (document.getElementById('goal-list').style.display == "none") {
+        document.getElementById('goal-list').style.display = "grid";
+      } else {
+        document.getElementById('goal-list').style.display = "none";
+      }
+    });
+    document.getElementById('find-service').addEventListener('click', (e) => {
+      window.location.href = '<%= services_path %>';
+    });
+  } else {
+    document.getElementById('select-goal-mobile').addEventListener('click', (e) => {
+      if (document.getElementById('goal-list').style.display == "none") {
+        document.getElementById('goal-list').style.display = "grid";
+      } else {
+        document.getElementById('goal-list').style.display = "none";
+      }
+    });
+    document.getElementById('find-service-mobile').addEventListener('click', (e) => {
+      window.location.href = '<%= services_path %>';
+    });
+  }
 </script>

@@ -1,9 +1,16 @@
 .top-banner {
-  background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('main.svg');
+  background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('main.png');
   background-size: cover;
   height: calc(100vh - 4.25rem);
   margin-top: 4.25rem;
   padding-top: 10vh;
+  background-position: center;
+  .top-banner-buttons-desktop {
+    display: flex;
+  }
+  .top-banner-buttons-mobile {
+    display: none;
+  }
   .btn-flat {
     flex: 0 0 40%;
     padding: 0.5rem 1rem;
@@ -243,15 +250,27 @@
       width: 80%;
       margin: 3rem auto 0;
     }
+    .top-banner-buttons-mobile {
+      display: block;
+    }
+    .top-banner-buttons-desktop {
+      display: none;
+    }
     .btn-flat {
       padding: 0.5rem 1rem;
       font-size: 1rem;
       margin-top: 5rem;
+      border-bottom-right-radius: 4px;
+      border-bottom-left-radius: 4px;
+      border-top-right-radius: 0;
     }
     .btn-ghost {
       padding: 0.5rem 1rem;
       font-size: 1rem;
       margin-top: 5rem;
+      border-bottom-left-radius: 0;
+      border-top-right-radius: 4px;
+      border-top-left-radius: 4px;
     }
     .top-banner-text {
       width: 100%;
@@ -312,6 +331,9 @@
     .btn-wide {
       width: auto !important;
     }
+  }
+  #select-goal-mobile, #find-service-mobile {
+    width: 80vw;
   }
 }
 
@@ -394,9 +416,6 @@
     }
     h4 {
       margin: 0 auto;
-    }
-    .btn-flat {
-      margin-top: 5rem;
     }
   }
 }
