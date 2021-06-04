@@ -24,27 +24,24 @@
   </div>
 </div>
 <script>
-  if (document.getElementById('select-goal')) {
-    document.getElementById('select-goal').addEventListener('click', (e) => {
-      if (document.getElementById('goal-list').style.display == "none") {
-        document.getElementById('goal-list').style.display = "grid";
-      } else {
-        document.getElementById('goal-list').style.display = "none";
-      }
-    });
-    document.getElementById('find-service').addEventListener('click', (e) => {
-      window.location.href = '<%= services_path %>';
-    });
-  } else {
-    document.getElementById('select-goal-mobile').addEventListener('click', (e) => {
-      if (document.getElementById('goal-list').style.display == "none") {
-        document.getElementById('goal-list').style.display = "grid";
-      } else {
-        document.getElementById('goal-list').style.display = "none";
-      }
-    });
-    document.getElementById('find-service-mobile').addEventListener('click', (e) => {
-      window.location.href = '<%= services_path %>';
-    });
-  }
+  document.getElementById('select-goal').addEventListener('click', (e) => {
+    if (document.getElementById('goal-list').style.display == "none") {
+      document.getElementById('goal-list').style.display = "grid";
+    } else {
+      document.getElementById('goal-list').style.display = "none";
+    }
+  });
+  document.getElementById('find-service').addEventListener('click', (e) => {
+    window.location.href = '<%= services_path %>';
+  });
+  document.getElementById('select-goal-mobile').addEventListener('click', (e) => {
+    if (document.getElementById('goal-list').style.display == "none") {
+      document.getElementById('goal-list').style.display = "grid";
+    } else {
+      document.getElementById('goal-list').style.display = "none";
+    }
+  });
+  document.getElementById('find-service-mobile').addEventListener('click', (e) => {
+    window.location.href = '<%= services_path %>';
+  });
 </script>
