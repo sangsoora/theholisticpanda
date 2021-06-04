@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="a4150210-a87d-49b9-b868-5af609754368" data-blockingmode="auto" type="text/javascript"></script>
     <title><%= meta_title %></title>
     <meta name="description" content="<%= meta_description %>">
 
@@ -31,7 +32,6 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
     <%= javascript_include_tag GoogleAnalytics::JS_URL, async: true %>
     <%= yield(:head_tags) %>
-    <link rel="stylesheet" type="text/css" href="https://cdn.wpcc.io/lib/1.0.2/cookieconsent.min.css"/><script src="https://cdn.wpcc.io/lib/1.0.2/cookieconsent.min.js" defer></script><script>window.addEventListener("load", function(){window.wpcc.init({"corners":"small","colors":{"popup":{"background":"#ffe4e1","text":"#000000","border":"#c25e5e"},"button":{"background":"#c25e5e","text":"#ffffff"}},"position":"bottom","transparency":"10","content":{"href":"https://www.theholisticpanda.com/cookie"},"padding":"small","margin":"small"})});</script>
   </head>
   <body>
     <% if content_for?(:navbar) %>
@@ -48,5 +48,6 @@
     <%= render 'shared/footer' %>
     <%= render 'shared/newsletter' %>
     <%= render 'shared/referral_modal' %>
+    <script id="CookieDeclaration" src="https://consent.cookiebot.com/a4150210-a87d-49b9-b868-5af609754368/cd.js" type="text/javascript" async></script>
   </body>
 </html>
