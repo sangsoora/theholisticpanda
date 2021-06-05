@@ -22,13 +22,16 @@
   .event-detail {
     padding: 1rem;
   }
-  h4 {
-    color: $pink;
-  }
 }
 
 .event-image {
-  width: 80%;
+  width: 40%;
+}
+
+.event-description {
+  width: 60%;
+  margin: 1rem auto;
+  text-align: left;
 }
 
 // X-Small devices (portrait phones, less than 576px)
@@ -38,7 +41,9 @@
 
 // Small devices (landscape phones, less than 768px)
 @media (max-width: 767.98px) {
-
+  .event-image, .event-description {
+    width: 100%;
+  }
 }
 
 // Mobile landscape

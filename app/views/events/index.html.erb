@@ -17,16 +17,20 @@
     <div class="events">
       <% @upcoming_events.each do |event| %>
         <div class="event">
-          <%= image_tag('event') %>
+          <a href="/events/<%= event.id %>">
+            <% if event.photo.attached? %>
+              <img src="<%= cdn_for(event.photo) %>" alt="<%= event.name %>">
+            <% end %>
+          </a>
           <div class="event-detail">
             <h4><%= link_to event.name, event_path(event) %></h4>
             <p>With <%= link_to event.user.full_name, practitioner_path(event.user.practitioner) %></p>
             <% if user_signed_in? && current_user.timezone != '' %>
-              <p><%= event.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+              <p><%= event.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
             <% elsif event.user.timezone != '' %>
-              <p><%= event.start_time.in_time_zone(event.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+              <p><%= event.start_time.in_time_zone(event.user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
             <% else %>
-              <p><%= event.start_time.strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+              <p><%= event.start_time.strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
             <% end %>
           </div>
         </div>
@@ -37,16 +41,20 @@
     <div class="events">
       <% @past_events.each do |event| %>
         <div class="event">
-          <%= image_tag('event') %>
+          <a href="/events/<%= event.id %>">
+            <% if event.photo.attached? %>
+              <img src="<%= cdn_for(event.photo) %>" alt="<%= event.name %>">
+            <% end %>
+          </a>
           <div class="event-detail">
-            <h4><%= event.name %> </h4>
+            <h4><%= link_to event.name, event_path(event) %></h4>
             <p>With <%= link_to event.user.full_name, practitioner_path(event.user.practitioner) %></p>
             <% if user_signed_in? && current_user.timezone != '' %>
-              <p><%= event.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+              <p><%= event.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
             <% elsif event.user.timezone != '' %>
-              <p><%= event.start_time.in_time_zone(event.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+              <p><%= event.start_time.in_time_zone(event.user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
             <% else %>
-              <p><%= event.start_time.strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+              <p><%= event.start_time.strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
             <% end %>
           </div>
         </div>

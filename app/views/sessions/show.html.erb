@@ -29,11 +29,11 @@
           <input type="hidden" name="session[time]" value="primary">
           <div class="time-choices">
             <input type="radio" class="hidden" value="primary" name="session[time]" id="session_time_primary">
-            <label class="time-choice active" for="session_time_primary"><%= @session.primary_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></label>
+            <label class="time-choice active" for="session_time_primary"><%= @session.primary_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></label>
             <input type="radio" class="hidden" value="secondary" name="session[time]" id="session_time_secondary">
-            <label class="time-choice" for="session_time_secondary"><%= @session.secondary_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></label>
+            <label class="time-choice" for="session_time_secondary"><%= @session.secondary_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></label>
             <input type="radio" class="hidden" value="tertiary" name="session[time]" id="session_time_tertiary">
-            <label class="time-choice" for="session_time_tertiary"><%= @session.tertiary_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></label>
+            <label class="time-choice" for="session_time_tertiary"><%= @session.tertiary_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></label>
           </div>
         </div>
         <% if @session.session_type == 'Virtual' %>
@@ -99,7 +99,7 @@
       <div class="session-summary">
         <h4>Your Session Summary</h4>
         <% if @session.start_time %>
-          <p>Session Time: <span id='session_time'><%= @session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></span></p>
+          <p>Session Time: <span id='session_time'><%= @session.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></span></p>
         <% else %>
           <p>Session Time: TBD</p>
         <% end %>
@@ -149,7 +149,7 @@
       <div class="session-summary">
         <h4>Your Session Summary</h4>
         <% if @session.start_time %>
-          <p>Session Time: <span id='session_time'><%= @session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></span></p>
+          <p>Session Time: <span id='session_time'><%= @session.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></span></p>
         <% else %>
           <p>Session Time: TBD</p>
         <% end %>
