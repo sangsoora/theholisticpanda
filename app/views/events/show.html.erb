@@ -2,21 +2,25 @@
   <%= render 'shared/home_navbar' %>
 <% end %>
 <div class="container event-page">
-  <div class="page-title">
-    <h2><%= @event.name %></h2>
-  </div>
   <div class="text-center">
-    <%= image_tag('event', class: 'event-image') %>
-    <div class="mt-3">
-      <p><%= @event.description %></p>
-      <p>By <%= link_to @event.user.full_name, practitioner_path(@event.user.practitioner) %></p>
-      <% if user_signed_in? %>
-        <p><%= @event.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
-      <% else %>
-        <p><%= @event.start_time.in_time_zone(event.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
-      <% end %>
-      <p><a href="<%= @event.link %>"><%= @event.link %></a></p></p>
-      <%= link_to 'Attend Event', '', class: 'btn btn-flat' %>
+    <% if @event.photo.attached? %>
+     <img src="<%= cdn_for(@event.photo) %>" class="event-image" alt="<%= @event.name %>">
+    <% end %>
+    <h2 class="my-4"><%= @event.name %></h2>
+    <p>Presented by The Holistic Panda X <%= link_to @event.user.full_name, practitioner_path(@event.user.practitioner) %></p>
+    <% if user_signed_in? %>
+      <p>Date: <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y') %></p>
+      <p>Time: <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%l:%M') %> ~ <%= (@event.start_time.in_time_zone(current_user.timezone) + @event.duration.minutes).strftime('%l:%M %p') %> <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%Z') %></p>
+    <% else %>
+      <p>Date: <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y') %></p>
+      <p>Time: <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%l:%M') %> ~ <%= (@event.start_time.in_time_zone(current_user.timezone) + @event.duration.minutes).strftime('%l:%M %p') %> <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%Z') %></p>
+    <% end %>
+    <p><a href="<%= @event.link %>"><%= @event.link %></a></p>
+    <div class="event-description">
+      <p><%= @event.description.gsub(/\n/, '<br/>').html_safe %></p>
     </div>
+    <% if @event.start_time > Time.current %>
+      <a href="<%= @event.registration_link %>" class="btn btn-flat" target="_blank">Attend Event</a>
+    <% end %>
   </div>
 </div>

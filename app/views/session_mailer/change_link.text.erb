@@ -4,7 +4,7 @@ This is a notice to let you know that the virtual link for following session wit
 
 Service: <%= @session.service.name %>
 
-Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
+Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %>
 
 New link for the session: <%= @session.link %>
 

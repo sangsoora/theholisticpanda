@@ -10,9 +10,9 @@
   <p>You have received a booking request for <%= @session.service.name %> with <%= @session.user.full_name %>.</p>
   <p>Please click on your session page under “pending” and confirm the booking. If this is a virtual booking, please ensure to include your video conference link when confirming the booking.</p>
   <p>Service: <%= @session.service.name %></p>
-  <p>Proposed Time 1: <%= @session.primary_time.in_time_zone(@practitioner.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
-  <p>Proposed Time 2: <%= @session.secondary_time.in_time_zone(@practitioner.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
-  <p>Proposed Time 3: <%= @session.tertiary_time.in_time_zone(@practitioner.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+  <p>Proposed Time 1: <%= @session.primary_time.in_time_zone(@practitioner.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
+  <p>Proposed Time 2: <%= @session.secondary_time.in_time_zone(@practitioner.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
+  <p>Proposed Time 3: <%= @session.tertiary_time.in_time_zone(@practitioner.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
   <% if @session.message && (@session.message != '') %>
     <p><%= @session.user.first_name %>’s note on reason for attending the session: <%= @session.message.gsub(/\n/, '<br/>').html_safe %></p>
   <% end %>
