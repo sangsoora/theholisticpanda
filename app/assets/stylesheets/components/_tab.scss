@@ -21,13 +21,11 @@
   opacity: .4;
   cursor: pointer;
   text-decoration: none;
-  border-bottom: 4px solid transparent;
   display: inline-block;
 }
 
 .tabs-underlined .tab-underlined.active-tab {
   opacity: 1;
-  border-bottom: 3px solid $emerald;
   font-weight: 700;
 }
 

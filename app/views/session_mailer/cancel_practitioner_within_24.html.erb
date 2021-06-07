@@ -9,7 +9,7 @@
   <h3>Dear <%= @practitioner.user.first_name %>,</h3>
   <h4>This is a notice to let you know that the following session has been cancelled.</h4>
   <p>Service: <%= @session.service.name %></p>
-  <p>Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+  <p>Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
   <p>Total Price: CA$ <%= @session.estimate_price.round(2) %></p>
   <p>Due to the late cancellation, we will be charging you 35% of the session fee. You will receive an invoice from us within the next 24 hours.</p>
   <p>If you had to cancel due to extenuating circumstances, please reach out to us <a href="mailto:hello@theholisticpanda.com">here</a>.</p>

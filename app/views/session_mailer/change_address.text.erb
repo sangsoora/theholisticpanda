@@ -4,7 +4,7 @@ This is a notice to let you know that the location for following session with <%
 
 Service: <%= @session.service.name %>
 
-Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
+Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %>
 
 New session location: <%= @session.address %>
 

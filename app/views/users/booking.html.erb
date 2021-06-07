@@ -33,7 +33,7 @@
               <div class="session-content">
                 <button class="<%= session.status %>"><%= session.status.capitalize %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
-                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
+                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.estimate_price.round(2) %></small></p>
                 <p><small>Session type: <%= session.session_type %></small></p>
@@ -52,7 +52,7 @@
                 <button class="<%= session.status %>"><%= session.status.capitalize %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
                 <p><small>Practitioner: <%= session.practitioner.user.full_name %></small></p>
-                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
+                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.estimate_price %></small></p>
                 <p><small>Session Type: <%= session.session_type %></small></p>
@@ -151,7 +151,7 @@
                 <p><%= link_to call.service.name, session_path(call) %></p>
                 <p><small>When:
                   <% if call.start_time %>
-                    <%= call.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
+                    <%= call.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %>
                   <% else %>
                     TBD
                   <% end %>
@@ -171,7 +171,7 @@
                 <p><small>Practitioner: <%= Practitioner.find(call.free_practitioner_id).user.full_name %></small></p>
                 <p><small>When:
                   <% if call.start_time %>
-                    <%= call.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %>
+                    <%= call.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %>
                   <% else %>
                     TBD
                   <% end %>
@@ -206,7 +206,7 @@
               <div class="session-content">
                 <button class="<%= session.status %>"><%= session.status.capitalize %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
-                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
+                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.estimate_price.round(2) %></small></p>
                 <p><small>Session type: <%= session.session_type %></small></p>
@@ -220,7 +220,7 @@
                 <button class="<%= session.status %>"><%= session.status.capitalize %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
                 <p><small>Practitioner: <%= session.practitioner.user.full_name %></small></p>
-                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></small></p>
+                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.estimate_price %></small></p>
                 <p><small>Session Type: <%= session.session_type %></small></p>

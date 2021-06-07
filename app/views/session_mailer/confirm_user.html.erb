@@ -10,7 +10,7 @@
   <h4>Thank you for booking a session with <%= @practitioner.user.full_name %></h4>
   <p>Here is a summary of your session:</p>
   <p>Service: <%= @session.service.name %></p>
-  <p>Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a, %b %d, %Y %l:%M %p %Z') %></p>
+  <p>Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
   <p>Duration: <%= @session.service.duration %>m</p>
   <p>Session Type: <%= @session.session_type %></p>
   <p>Total Price: CA$ <%= @session.estimate_price.round(2) %></p>
