@@ -7,25 +7,25 @@ class StripeCheckoutSessionService
       AdminMailer.with(practitioner: @practitioner).new_practitioner.deliver_now
       if @practitioner.country_code == 'US'
         payload = {
-          'email': @practitioner.user.email,
-          'request_us_criminal_record_check_tier_1': true,
-          'information': {
-            'first_name': @practitioner.user.first_name,
-            'last_name': @practitioner.user.last_name,
-            'us_criminal_consent_given': true
+          "email": @practitioner.user.email,
+          "request_us_criminal_record_check_tier_1": true,
+          "information": {
+            "first_name": @practitioner.user.first_name,
+            "last_name": @practitioner.user.last_name,
+            "us_criminal_consent_given": true
           }
         }
       else
         payload = {
-          'email': @practitioner.user.email,
-          'request_softcheck': true,
-          'information': {
-            'first_name': @practitioner.user.first_name,
-            'last_name': @practitioner.user.last_name
+          "email": @practitioner.user.email,
+          "request_softcheck": true,
+          "information": {
+            "first_name": @practitioner.user.first_name,
+            "last_name": @practitioner.user.last_name
           }
         }
       end
-      response = RestClient.post 'https://demo-api.certn.co/hr/v1/applications/invite/', payload.to_json, { content_type: 'application/json', accept: '*/*', Authorization: "Bearer #{ENV['CERTN_TEST_API_KEY']}" }
+      response = RestClient.post 'https://api.certn.co/hr/v1/applications/invite/', payload.to_json, { content_type: 'application/json', accept: '*/*', Authorization: "Bearer #{ENV['CERTN_API_KEY']}" }
       id = JSON.parse(response.body)['id']
       @practitioner.update(background_check_id: id, background_check_status: 'pending')
       # if @practitioner.country_code == 'CA'
