@@ -1,7 +1,17 @@
 <div class="container payment-page">
   <div class="payment-box">
     <h1>Checkout summary</h1>
-    <p><%= @practitioner.user.full_name %>'s Onboarding Fee for <strong>CA <%= humanized_money_with_symbol @practitioner.amount %>.</strong></p>
+    <% if @practitioner.country_code == 'CA' %>
+      <% if %w[NB NL NS PE].include?(@practitioner.state_code) %>
+        <p class="mb-0"><%= @practitioner.user.full_name %>'s onboarding fee for <strong>CA$ <%= (@practitioner.amount * 1.15).round(2) %></strong></p>
+      <% elsif @practitioner.state_code == 'ON' %>
+        <p class="mb-0"><%= @practitioner.user.full_name %>'s onboarding fee for <strong>CA$ <%= (@practitioner.amount * 1.13).round(2) %></strong></p>
+      <% else %>
+        <p class="mb-0"><%= @practitioner.user.full_name %>'s onboarding fee for <strong>CA$ <%= (@practitioner.amount * 1.05).round(2) %></strong></p>
+      <% end %>
+    <% else %>
+      <p class="mb-0"><%= @practitioner.user.full_name %>'s onboarding fee for <strong>CA$ <%= @practitioner.amount %></strong></p>
+    <% end %>
     <button id="pay" class="btn btn-flat">Pay</button>
     <script src="https://js.stripe.com/v3/"></script>
     <script>

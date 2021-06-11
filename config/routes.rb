@@ -115,5 +115,7 @@ Rails.application.routes.draw do
 
   mount StripeEvent::Engine, at: '/stripe-webhooks'
 
-  post '/background_check/modo_webhooks', to: 'background_check#modo_webhooks'
+  # post '/background_check/modo_webhooks', to: 'background_check#modo_webhooks'
+
+  post '/background_check/certn_webhooks', to: 'background_check#certn_webhooks'
 end

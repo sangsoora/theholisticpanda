@@ -102,6 +102,16 @@ class PractitionersController < ApplicationController
           phone: @practitioner.user.phone_number
         })
         @practitioner.user.update(stripe_id: customer.id)
+        if @practitioner.country_code == 'CA'
+          tax_rate = ''
+          if %w[NB NL NS PE].include?(@practitioner.state_code)
+            tax_rate = TaxRate.find(3).tax_id
+          elsif @practitioner.state_code == 'ON'
+            tax_rate = TaxRate.find(2).tax_id
+          else
+            tax_rate = TaxRate.find(1).tax_id
+          end
+        end
         payment_session = Stripe::Checkout::Session.create(
           billing_address_collection: 'required',
           payment_method_types: ['card'],
@@ -110,7 +120,8 @@ class PractitionersController < ApplicationController
             name: 'Practitioner Onboarding Fee',
             amount: 3500,
             currency: 'cad',
-            quantity: 1
+            quantity: 1,
+            tax_rates: [tax_rate]
           }],
           success_url: practitioner_profile_url,
           cancel_url: practitioner_profile_url
