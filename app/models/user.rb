@@ -23,6 +23,7 @@ class User < ApplicationRecord
   has_many :health_goals, through: :user_health_goals
   has_many :payment_methods, dependent: :destroy
   has_many :user_promos, dependent: :destroy
+  has_many :events
   has_one_attached :photo
   serialize :crop_setting
 
