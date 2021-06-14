@@ -30,6 +30,7 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload', defer: true  %> <!-- from app/assets/javascripts/application.js -->
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
     <%= javascript_include_tag GoogleAnalytics::JS_URL, async: true %>
+    <%= javascript_include_tag Ckeditor.cdn_url %>
     <%= yield(:head_tags) %>
   </head>
   <body>

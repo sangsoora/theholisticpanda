@@ -7,6 +7,12 @@
      <img src="<%= cdn_for(@event.photo) %>" class="event-image" alt="<%= @event.name %>">
     <% end %>
     <h2 class="my-4"><%= @event.name %></h2>
+    <% if current_user.admin? %>
+      <div class="d-flex justify-content-center mb-4">
+        <%= link_to 'Edit', '', data: { toggle: "modal", target: "#editEventModal" }, class: 'btn btn-flat mr-4' %>
+        <%= link_to 'Delete', event_path(@event), method: :delete, data: { confirm: "Are you sure?"}, class: 'btn btn-ghost' %>
+      </div>
+    <% end %>
     <p>Presented by The Holistic Panda X <%= link_to @event.user.full_name, practitioner_path(@event.user.practitioner) %></p>
     <% if user_signed_in? %>
       <p>Date: <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y') %></p>
@@ -17,10 +23,42 @@
     <% end %>
     <p><a href="<%= @event.link %>"><%= @event.link %></a></p>
     <div class="event-description">
-      <p><%= @event.description.gsub(/\n/, '<br/>').html_safe %></p>
+      <p><%= @event.description.html_safe %></p>
     </div>
     <% if @event.start_time > Time.current %>
       <a href="<%= @event.registration_link %>" class="btn btn-flat" target="_blank">Attend Event</a>
     <% end %>
+  </div>
+</div>
+<div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="editEventModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="min-width: 80vw;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editEventModalLabel">Edit event</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for(@event) do |f| %>
+          <%= f.input :name, require: true %>
+          <%= f.input :description, as: :ckeditor, require: true %>
+          <%= f.input :start_time, label: 'Start time (in UTC)', require: true, minute_step: 30 %>
+          <%= f.input :duration, label: 'Duration (in minutes)', input_html: { value: 15, min: 15, step: 15 }, require: true %>
+          <%= f.input :user, label: false, as: :select, require: true do %>
+            <select class="form-control select optional" name="event[user]" id="event_user"><option value="">Select a practitioner</option>
+              <% Practitioner.all.each do |practitioner| %>
+                <option value="<%= practitioner.user.id %>" <%= practitioner.user.id == @event.user.id ? 'selected' : '' %>><%= practitioner.user.full_name %> </option>
+              <% end %>
+            </select>
+          <% end %>
+          <%= f.input :capacity, input_html: { min: 0 } %>
+          <%= f.input :registration_link %>
+          <%= f.input :photo, as: :file, input_html: {  }, label_html: { class: 'upload-photo'} %>
+          <%= f.submit :Update, class: 'btn btn-flat' %>
+          <%= link_to 'Cancel', '', class: 'btn btn-ghost ml-3' %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

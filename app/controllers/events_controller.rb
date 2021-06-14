@@ -10,12 +10,23 @@ class EventsController < ApplicationController
   end
 
   def create
+    @event = Event.new(event_params)
+    authorize @event
+    @event.user = User.find(params[:event][:user])
+    @event.save!
+    redirect_to events_path
   end
 
   def show
   end
 
   def update
+    if @event.update(event_params)
+      flash[:notice] = 'Event has been successfully updated!'
+    else
+      flash[:alert] = 'Something went wrong!'
+    end
+    redirect_to event_path(@event)
   end
 
   def destroy
@@ -35,6 +46,6 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:practitioner).permit(:name, :description, :start_time, :duration, :link)
+    params.require(:event).permit(:name, :description, :start_time, :duration, :link, :capacity, :registration_link, :photo)
   end
 end

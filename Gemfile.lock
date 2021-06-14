@@ -93,6 +93,9 @@ GEM
     chromedriver-helper (2.1.1)
       archive-zip (~> 0.10)
       nokogiri (~> 1.8)
+    ckeditor (5.1.0)
+      orm_adapter (~> 0.5.0)
+    climate_control (0.2.0)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0)
@@ -263,6 +266,12 @@ GEM
       racc (~> 1.4)
     orm_adapter (0.5.0)
     os (1.1.1)
+    paperclip (6.1.0)
+      activemodel (>= 4.2.0)
+      activesupport (>= 4.2.0)
+      mime-types
+      mimemagic (~> 0.3.0)
+      terrapin (~> 0.6.0)
     pg (1.2.3)
     public_suffix (4.0.6)
     puma (4.3.8)
@@ -400,6 +409,8 @@ GEM
       activesupport (>= 3.1)
       stripe (>= 2.8, < 6)
     temple (0.8.2)
+    terrapin (0.6.0)
+      climate_control (>= 0.0.3, < 1.0)
     thor (1.1.0)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -447,6 +458,7 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   chromedriver-helper
+  ckeditor
   coffee-rails (~> 4.2)
   country_select (~> 4.0)
   devise
@@ -467,6 +479,7 @@ DEPENDENCIES
   moment_timezone-rails
   momentjs-rails
   money-rails
+  paperclip
   pg (>= 0.18, < 2.0)
   puma (~> 4.3)
   pundit
