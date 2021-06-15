@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(_resource)
-    current_user.update!(timezone: params[:user][:timezone]) if params[:user][:timezone] != ''
+    current_user.update!(timezone: params[:user][:timezone]) if params[:user] && params[:user][:timezone] != ''
     current_user.admin ? rails_admin_path : session[:previous_url] || root_path
   end
 
