@@ -45,13 +45,7 @@
           <%= f.input :description, as: :ckeditor, require: true %>
           <%= f.input :start_time, label: 'Start time (in UTC)', require: true, minute_step: 30 %>
           <%= f.input :duration, label: 'Duration (in minutes)', input_html: { value: 15, min: 15, step: 15 }, require: true %>
-          <%= f.input :user, label: false, as: :select, require: true do %>
-            <select class="form-control select optional" name="event[user]" id="event_user"><option value="">Select a practitioner</option>
-              <% Practitioner.all.each do |practitioner| %>
-                <option value="<%= practitioner.user.id %>" <%= practitioner.user.id == @event.user.id ? 'selected' : '' %>><%= practitioner.user.full_name %> </option>
-              <% end %>
-            </select>
-          <% end %>
+          <%= f.input :user_id, collection: Practitioner.all.map { |practitioner| [practitioner.user.full_name, practitioner.user.id] }, include_blank: 'Select a practitioner' %>
           <%= f.input :capacity, input_html: { min: 0 } %>
           <%= f.input :registration_link %>
           <%= f.input :photo, as: :file, input_html: {  }, label_html: { class: 'upload-photo'} %>

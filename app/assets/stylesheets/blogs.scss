@@ -1,0 +1,125 @@
+.filter-bar {
+  margin-top: 68px;
+  background: white;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #dbdbdb;
+  position: fixed;
+  z-index: 10;
+  padding: 0.5rem 2rem;
+  align-items: center;
+  i {
+    color: #dbdbdb;
+    font-size: 0.875rem;
+  }
+  p {
+    margin-bottom: 0;
+  }
+}
+
+#filter-form {
+  flex: 0 0 70%;
+  .form-group {
+    margin-bottom: 0;
+  }
+  .btn {
+    padding: 0 0.5rem;
+    font-size: 0.875rem !important;
+  }
+  #specialty-pop, #language-pop, #service-type-pop {
+    margin-bottom: 0;
+    padding: 0.25rem 1rem !important;
+    border-radius: 0.5rem !important;
+    &.active-filter {
+      background: lightgrey;
+    }
+  }
+  .form-group {
+    position: relative;
+  }
+  .language-choices, .specialty-choices, .health-goal-choices {
+    max-height: 50vh;
+    overflow-y: scroll;
+    margin: 0;
+  }
+}
+
+.filter_specialty, .filter_language, .filter_service_type {
+  margin-right: 1.5rem;
+}
+
+.specialty-select-box, .health-goal-select-box, .language-select-box, .service-type-select-box, #text-select-box {
+  display: none;
+  position: absolute;
+  top: 2.5rem;
+  left: 0;
+  background: white;
+  width: 40vw;
+  padding: 1rem;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  // z-index: 1;
+  &.opened {
+    display: block;
+  }
+}
+
+.search-box-wrapper {
+  flex: 0 0 30%;
+  position: relative;
+}
+
+#search-box {
+  font-size: 0.875rem !important;
+  padding: 0.125rem 0.5rem;
+  border: none;
+  width: 90%;
+  &:focus {
+    border: none;
+    box-shadow: none;
+    outline: 0;
+  }
+}
+
+#text-select-box {
+  width: 30vw;
+  left: 0;
+  #text-choices {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+#practitioner-choices, #specialty-choices {
+  flex: 0 0 45%;
+  h4 {
+    font-size: 1rem;
+    opacity: .4;
+    border-bottom: 1px solid #dbdbdb;
+  }
+  p {
+    margin-bottom: 0.5rem;
+  }
+  a {
+    font-size: 0.875rem;
+  }
+  .avatar-bordered {
+    width: 1.5rem;
+    margin-right: 0.25rem;
+  }
+}
+
+#practitioner-choices-list, #specialty-choices-list {
+  overflow-y: scroll;
+  max-height: 60vh;
+}
+
+.service-type-select-box {
+  width: 12vw;
+}
+
+.blogs-page {
+  padding: 8rem 0 2rem;
+  min-height: calc(100vh - 211px);
+}

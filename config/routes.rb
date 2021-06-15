@@ -35,6 +35,8 @@ Rails.application.routes.draw do
     resources :conversations, only: [:create]
     resources :user_health_goals, only: [:create]
     resources :referred_users, only: [:create]
+    resources :payment_methods, only: [:create]
+    resources :user_promos, only: [:create]
   end
 
   resources :payment_methods, only: %i[update destroy]
@@ -113,6 +115,14 @@ Rails.application.routes.draw do
   end
 
   resources :event_attendees, only: [:destroy]
+
+  resources :tax_rates, only: %i[create update destroy]
+
+  resources :blog_categories, only: %i[index new create edit update destroy] do
+    resources :blogs, only: [:create]
+  end
+
+  resources :blogs, only: %i[index edit update destroy]
 
   mount StripeEvent::Engine, at: '/stripe-webhooks'
 
