@@ -118,11 +118,9 @@ Rails.application.routes.draw do
 
   resources :tax_rates, only: %i[create update destroy]
 
-  resources :blog_categories, only: %i[index new create edit update destroy] do
-    resources :blogs, only: [:create]
-  end
+  resources :posts, only: %i[index show create edit update destroy], constraints: { subdomain: 'blog' }
 
-  resources :blogs, only: %i[index edit update destroy]
+  resources :post_categories, only: [:show], constraints: { subdomain: 'blog' }
 
   mount StripeEvent::Engine, at: '/stripe-webhooks'
 

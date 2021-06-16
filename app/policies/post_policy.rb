@@ -1,4 +1,4 @@
-class BlogPolicy < ApplicationPolicy
+class PostPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.all
