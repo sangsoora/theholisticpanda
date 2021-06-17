@@ -4,10 +4,22 @@ class PostsController < ApplicationController
   before_action :set_notifications, only: %i[index show]
 
   def index
-    if user_signed_in? && current_user.admin?
-      @posts = policy_scope(Post).order(created_at: :desc)
+    if params[:s] && params[:s] != ''
+      if user_signed_in? && current_user.admin?
+        @posts_by_post = policy_scope(Post).where("(title ILIKE :search) or (short_title ILIKE :search) or (body ILIKE :search)", search: "%#{params[:s]}%")
+        @posts_by_category = policy_scope(Post).left_outer_joins(:post_category).where("name ILIKE ?", "%#{params[:s]}%")
+        @posts = (@posts_by_post + @posts_by_category).uniq.sort_by(&:created_at)
+      else
+        @posts_by_post = policy_scope(Post).where("(title ILIKE :search) or (short_title ILIKE :search) or (body ILIKE :search)", search: "%#{params[:s]}%").where(published: true)
+        @posts_by_category = policy_scope(Post).left_outer_joins(:post_category).where("name ILIKE ?", "%#{params[:s]}%").where(published: true)
+        @posts = (@posts_by_post + @posts_by_category).uniq.sort_by(&:created_at)
+      end
     else
-      @posts = policy_scope(Post).where(published: true).order(created_at: :desc)
+      if user_signed_in? && current_user.admin?
+        @posts = policy_scope(Post).order(created_at: :desc)
+      else
+        @posts = policy_scope(Post).where(published: true).order(created_at: :desc)
+      end
     end
   end
 

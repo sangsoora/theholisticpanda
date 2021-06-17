@@ -2,24 +2,14 @@
   <p>The Holistic Panda Blog</p>
   <div>
     <% PostCategory.all.each do |cat| %>
-      <%= link_to cat.name, post_category_path(cat)  %>
+      <%= link_to cat.name, post_category_path(cat), class: 'mr-4'  %>
     <% end %>
   </div>
-  <!-- <div class="search-box-wrapper">
-    <i class="fas fa-search"></i><input id="search-box" placeholder="Search by practitioner name or specialty">
-    <div id="text-select-box">
-      <div id="text-choices">
-        <div id="practitioner-choices">
-          <h4>By Practitioners</h4>
-          <div id="practitioner-choices-list"></div>
-        </div>
-        <div id="specialty-choices">
-          <h4>By Specialities</h4>
-          <div id="specialty-choices-list"></div>
-        </div>
-      </div>
+  <%= simple_form_for :search, url: posts_path, method: "GET", html: { id: 'search-post-form' } do |f| %>
+    <div class="search-box-wrapper">
+      <input id="search-box" name="s" placeholder="Search"><i class="fas fa-search" id="search-button"></i>
     </div>
-  </div> -->
+  <% end %>
 </div>
 <div class="container blog-page">
   <% if user_signed_in? && current_user.admin? %>
@@ -80,3 +70,8 @@
     </div>
   </div>
 </div>
+<script>
+  document.getElementById('search-button').addEventListener('click', (e) => {
+    document.getElementById('search-post-form').submit();
+  });
+</script>
