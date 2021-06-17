@@ -432,7 +432,8 @@
                   <% end %>
                 </div>
                 <div class="operation-list">
-                  <h5>If you're registered for collecting sales tax, please input your tax number. Sales tax is automatically calculated and applied to orders.</h5>
+                  <h5>If you're registered for collecting sales tax, please input your tax number.</h5>
+                  <p class="mb-4">Sales tax is automatically calculated and applied to orders.</p>
                   <div id="practitioner-tax">
                     <p id="tax"><%= @tax_id_type %> <%= @tax_id %></p>
                     <% if @practitioner.user.tax_id && @practitioner.user.tax_id != '' %>
@@ -442,14 +443,16 @@
                     <% end %>
                   </div>
                   <%= simple_form_for(current_user, url: registration_path(current_user), html: { id: :tax_form, style: 'display: none; align-items: center;' }) do |f| %>
-                    <div class="form-group select optional user_tax_id_type">
-                      <select class="form-control select require" name="user[tax_id_type]" id="user_tax_id_type" style="font-size: 0.875rem;" required>
-                        <%= $tax_types_value.each_with_index do |type, i| %>
-                          <option value="<%= type %>"><%= $tax_types_name[i] %></option>
-                        <% end %>
-                      </select>
+                    <div>
+                      <div class="form-group select optional user_tax_id_type">
+                        <select class="form-control select require" name="user[tax_id_type]" id="user_tax_id_type" required>
+                          <%= $tax_types_value.each_with_index do |type, i| %>
+                            <option value="<%= type %>"><%= $tax_types_name[i] %></option>
+                          <% end %>
+                        </select>
+                      </div>
+                      <%= f.input :tax_id, label: false, input_html: {placeholder: 'Only first 9 digits without space', maxlength: 9} %>
                     </div>
-                    <%= f.input :tax_id, label: false %>
                     <button type="submit" data-toggle="tooltip" data-placement="bottom" data-original-title="Save"><i class='fas fa-check'></i></button>
                     <button id='tax-cancel' data-toggle="tooltip" data-placement="bottom" data-original-title="Cancel"><%= link_to '', '', class: 'fas fa-times' %></button>
                   <% end %>
@@ -928,7 +931,7 @@
         bio_counter.innerText = bio_count + '/1000';
         bio_counter.style.color = 'black';
       }
-    })
+    });
     document.getElementById('practitioner_approach').addEventListener('keyup', (e) => {
       const approach_count = document.getElementById('practitioner_approach').value.length;
       const approach_max = document.getElementById('practitioner_approach').maxLength;
@@ -940,7 +943,27 @@
         approach_counter.innerText = approach_count + '/1000';
         approach_counter.style.color = 'black';
       }
-    })
+    });
+    // Restricts input for the given textbox to the given inputFilter.
+    function setInputFilter(textbox, inputFilter) {
+      ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+        textbox.addEventListener(event, function() {
+          if (inputFilter(this.value)) {
+            this.oldValue = this.value;
+            this.oldSelectionStart = this.selectionStart;
+            this.oldSelectionEnd = this.selectionEnd;
+          } else if (this.hasOwnProperty("oldValue")) {
+            this.value = this.oldValue;
+            this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+          } else {
+            this.value = "";
+          }
+        });
+      });
+    }
+    setInputFilter(document.getElementById("user_tax_id"), function(value) {
+      return /^\d*$/.test(value);
+    });
   </script>
 <% else %>
   <div class="container practitioner-profile">
