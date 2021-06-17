@@ -1,5 +1,10 @@
 <div class="blog-navbar" style="margin-top: 0;">
   <p>The Holistic Panda Blog</p>
+  <div>
+    <% PostCategory.all.each do |cat| %>
+      <%= link_to cat.name, post_category_path(cat)  %>
+    <% end %>
+  </div>
   <!-- <div class="search-box-wrapper">
     <i class="fas fa-search"></i><input id="search-box" placeholder="Search by practitioner name or specialty">
     <div id="text-select-box">
