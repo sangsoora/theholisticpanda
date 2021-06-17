@@ -18,3 +18,4 @@
 //= require moment-timezone-with-data
 //= require jstz
 //= require bootstrap/bootstrap-tooltip
+//= require social-share-button

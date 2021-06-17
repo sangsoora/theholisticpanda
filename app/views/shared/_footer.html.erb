@@ -3,30 +3,29 @@
     <!-- <div style="font-size: 0.75rem; margin-top: -0.5rem; text-align: right; opacity: .7; font-style: italic;">Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
     <div class="footer-columns">
       <h3>About</h3>
-      <p><%= link_to 'About Us', aboutus_path %></a></p>
+      <p><%= link_to 'About us', aboutus_url %></a></p>
       <!-- <p><a href="#">How It Works</a></p> -->
-      <p><%= link_to 'FAQ', faq_path %></p>
+      <p><%= link_to 'FAQ', faq_url %></p>
       <!-- <p><a href="#">Help</a></p> -->
     </div>
     <div class="footer-columns">
       <h3>Community</h3>
-      <p><%= link_to 'Events', events_path %></p>
-      <!-- <p><a href="#">Article</a></p> -->
+      <p><%= link_to 'Events', events_url %></p>
+      <p><%= link_to 'Blog', posts_url(subdomain: 'blog') %></p>
       <% if user_signed_in? %>
-        <%= link_to 'Refer A Friend', '', data: { toggle: "modal", target: "#referralModal" } %>
+        <%= link_to 'Refer a friend', '', data: { toggle: "modal", target: "#referralModal" } %>
       <% else %>
-        <%= link_to 'Refer A Friend', new_user_session_path %>
+        <%= link_to 'Refer a friend', new_user_session_url %>
       <% end %>
     </div>
     <div class="footer-columns">
       <h3>Practitioner</h3>
       <% if user_signed_in? && current_user.practitioner %>
-        <p><%= link_to 'List Your Practice', practitioner_services_path %></p>
+        <p><%= link_to 'List your practice', practitioner_services_url %></p>
       <% else %>
-        <p><%= link_to 'List Your Practice', become_a_practitioner_path %></p></p>
+        <p><%= link_to 'List your practice', become_a_practitioner_url %></p></p>
       <% end %>
-      <p><%= link_to 'Get Verified Now', become_a_practitioner_path %></p></p>
-      <!-- <p><a href="#">Contribute Article</a></p> -->
+      <p><%= link_to 'Get verified now', become_a_practitioner_url %></p></p>
     </div>
     <div class="footer-columns">
       <h3>Connect</h3>
@@ -38,12 +37,12 @@
   </div>
   <div class="footer-bottom">
     <div class="footer-links">
-      <%= link_to 'Terms & Conditions', terms_path %> |
-      <%= link_to 'Privacy Policy', privacy_path %> |
-      <%= link_to 'Cookies', cookie_path %>
+      <%= link_to 'Terms & conditions', terms_url %> |
+      <%= link_to 'Privacy policy', privacy_url %> |
+      <%= link_to 'Cookies', cookie_url %>
     </div>
     <div class="footer-copyright">
-      © <%= Time.now.year %> HolisticPanda, Inc. All rights reserved
+      © <%= Time.now.year %> TheHolisticPanda, Inc. All rights reserved
     </div>
   </div>
 </div>

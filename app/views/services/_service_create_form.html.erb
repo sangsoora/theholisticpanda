@@ -8,9 +8,9 @@
     </div>
     <div class="modal-body">
       <%= simple_form_for([service], remote: true) do |f| %>
-        <%= f.input :name, label: 'Name of the Service', require: true %>
+        <%= f.input :name, label: 'Name of the service', require: true %>
         <div class="form-group select required service_service_type">
-          <label class="select required" for="service_service_type">Service Type<abbr title="required">*</abbr></label>
+          <label class="select required" for="service_service_type">Service type<abbr title="required">*</abbr></label>
           <select class="form-control select require" name="service[service_type]" id="service_service_type" required>
             <% if practitioner.address? %>
               <option value="In-person">In-person</option>
