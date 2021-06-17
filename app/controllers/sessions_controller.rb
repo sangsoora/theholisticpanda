@@ -35,7 +35,7 @@ class SessionsController < ApplicationController
         render :new
       end
     else
-      @session.update(duration: service.duration, session_type: service_type, status: 'pending', paid: false, service: service, amount: service.price, user: current_user)
+      @session.update(duration: service.duration, session_type: service.service_type, status: 'pending', paid: false, service: service, amount: service.price, user: current_user)
       if @session.save
         if current_user.payment_methods.count == 0
           if !current_user.stripe_id
