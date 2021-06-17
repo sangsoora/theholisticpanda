@@ -9,6 +9,7 @@
 @import "font-awesome";
 @import "flatpickr/dist/flatpickr";
 @import "bootstrap/bootstrap-tooltip";
+@import "social-share-button";
 
 // Your CSS partials
 @import "components/index";
@@ -134,8 +135,12 @@ button:focus {
   opacity: 0;
 }
 
-.wpcc-container {
-  height: 15vh !important;
+.social-share-button {
+  .ssb-icon {
+    background-size: 1.5rem 1.5rem;
+    height: 1.5rem;
+    width: 1.5rem;
+  }
 }
 
 // X-Small devices (portrait phones, less than 576px)

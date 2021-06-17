@@ -391,6 +391,8 @@ GEM
       actionpack (>= 5.2)
       activemodel (>= 5.2)
     sixarm_ruby_unaccent (1.2.0)
+    social-share-button (1.2.4)
+      coffee-rails
     sort_alphabetical (1.1.0)
       unicode_utils (>= 1.2.2)
     spring (2.1.1)
@@ -494,6 +496,7 @@ DEPENDENCIES
   sidekiq
   sidekiq-failures (~> 1.0)
   simple_form
+  social-share-button
   spring
   spring-watcher-listen (~> 2.0.0)
   stripe

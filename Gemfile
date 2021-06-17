@@ -59,6 +59,7 @@ gem 'invisible_captcha'
 gem 'rack-cors', require: 'rack/cors'
 gem 'ckeditor'
 gem 'paperclip'
+gem 'social-share-button'
 
 # Use ActiveStorage variant
 gem 'mini_magick', '~> 4.8'
