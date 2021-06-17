@@ -11,7 +11,7 @@
     <div class="footer-columns">
       <h3>Community</h3>
       <p><%= link_to 'Events', events_url %></p>
-      <p><%= link_to 'Blog', posts_url(subdomain: 'blog') %></p>
+      <!-- <p><%#= link_to 'Blog', posts_url(subdomain: 'blog') %></p> -->
       <% if user_signed_in? %>
         <%= link_to 'Refer a friend', '', data: { toggle: "modal", target: "#referralModal" } %>
       <% else %>
