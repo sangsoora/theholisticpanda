@@ -116,7 +116,6 @@
       if (discount && tax) {
         if (type == 'percentage') {
           calculatedPrice = (initPrice - (initPrice * (discount/100))).toFixed(2);
-
           document.getElementById('discount-amount').innerHTML = '- CA$ ' + (initPrice * (discount/100)).toFixed(2);
           document.getElementById('discount-amount').style.color = 'red';
           document.getElementById('tax-amount').innerHTML = '+ CA$ ' + (calculatedPrice * tax).toFixed(2);
@@ -187,6 +186,9 @@
     <% end %>
     if (discountSelect) {
       discountSelect.addEventListener('change', (e) => {
+        if (e.currentTarget.value == '') {
+          document.getElementById('session_discount_price').value = '';
+        }
         let discountType = $('#session_promo_id :selected').data().type;
         let discountAmount = $('#session_promo_id :selected').data().discount;
         let taxState = $('#session_payment_method_id :selected').data().state;
