@@ -7,7 +7,7 @@
      <img src="<%= cdn_for(@event.photo) %>" class="event-image" alt="<%= @event.name %>">
     <% end %>
     <h2 class="my-4"><%= @event.name %></h2>
-    <% if current_user.admin? %>
+    <% if user_signed_in? && current_user.admin? %>
       <div class="d-flex justify-content-center mb-4">
         <%= link_to 'Edit', '', data: { toggle: "modal", target: "#editEventModal" }, class: 'btn btn-flat mr-4' %>
         <%= link_to 'Delete', event_path(@event), method: :delete, data: { confirm: "Are you sure?"}, class: 'btn btn-ghost' %>
