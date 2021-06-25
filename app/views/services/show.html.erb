@@ -14,9 +14,11 @@
       <div class="service-description">
         <div class="service-title">
           <h2><% if !@service.active %><i style="color: #ccc;">(Inactive) </i><% end %><%= @service.name %></h2>
-          <div class="service-btn" id="service-btn">
-            <%= render 'favorite_services/service_btn', service: @service %>
-          </div>
+          <% if user_signed_in? %>
+            <div class="service-btn" id="service-btn">
+              <%= render 'favorite_services/service_btn', service: @service %>
+            </div>
+          <% end %>
         </div>
         <div class="service-icons">
           <% if @service.reviews.count > 0 %>
