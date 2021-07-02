@@ -235,7 +235,7 @@
                 <button class="<%= session.status %>"><%= session.status.capitalize %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
                 <p><small>Client: <%= session.user.full_name %></small></p>
-                <p><small>When: TBD</small></p>
+                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.estimate_price %></small></p>
                 <p><small>Session Type: <%= session.session_type %></small></p>
@@ -249,7 +249,7 @@
                 <button class="<%= session.status %>"><%= session.status.capitalize %></button>
                 <p><%= link_to session.service.name, session_path(session) %></p>
                 <p><small>Client: <%= session.user.full_name %></small></p>
-                <p><small>When: TBD</small></p>
+                <p><small>When: <%= session.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></small></p>
                 <p><small>Duration: <%= session.service.duration %>m</small></p>
                 <p><small>Price: CA$ <%= session.estimate_price %></small></p>
                 <p><small>Session Type: <%= session.session_type %></small></p>
