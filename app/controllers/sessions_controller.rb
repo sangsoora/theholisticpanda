@@ -157,6 +157,7 @@ class SessionsController < ApplicationController
           session_id: @session.id
         },
         application_fee_amount: fee,
+        on_behalf_of: @session.practitioner.stripe_account_id,
         transfer_data: {
           destination: @session.practitioner.stripe_account_id
         }
@@ -255,6 +256,7 @@ class SessionsController < ApplicationController
                 session_id: @session.id
               },
               application_fee_amount: fee,
+              on_behalf_of: @session.practitioner.stripe_account_id,
               transfer_data: {
                 destination: @session.practitioner.stripe_account_id
               }

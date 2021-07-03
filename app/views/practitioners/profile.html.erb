@@ -538,7 +538,7 @@
                 <% if current_user.photo.attached? %>
                   <div id="current-profile-wrapper">
                     <img src="<%= cdn_for(current_user.cropped_image) %>" id="current-profile" alt="">
-                    <%= f.button :submit, "Delete Profile Photo", class: 'btn-ghost mb-3' %>
+                    <%= f.button :submit, "Delete profile photo", class: 'btn-ghost mb-3' %>
                   </div>
                 <% end %>
                 <%= f.input :photo, as: :file, input_html: { class: 'hidden', id: 'photo-input' }, label_html: { class: 'upload-photo'}, label: '📷 Upload New Profile Photo' %>
