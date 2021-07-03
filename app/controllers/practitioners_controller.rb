@@ -140,7 +140,7 @@ class PractitionersController < ApplicationController
         type: 'account_onboarding'
       })
       redirect_to "#{account_links[:url]}"
-    elsif params[:commit] == 'Payouts Dashboard'
+    elsif params[:commit] == 'Payouts dashboard'
       link = Stripe::Account.create_login_link(@practitioner.stripe_account_id)
       redirect_to "#{link[:url]}"
     else
