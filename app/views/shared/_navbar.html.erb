@@ -44,7 +44,7 @@
                 <%= link_to 'Services', practitioner_services_url, class: 'dropdown-item' %>
                 <%= link_to 'View my page', practitioner_url(current_user.practitioner), class: 'dropdown-item' %>
                 <% if current_user.practitioner.stripe_account_id %>
-                  <%= simple_form_for [current_user.practitioner] do |f| %>
+                  <%= simple_form_for([current_user.practitioner], html: { id: :payouts_form }) do |f| %>
                     <%= f.button :submit, "Payouts dashboard", class: 'dropdown-item' %>
                   <% end %>
                 <% end %>
@@ -120,7 +120,7 @@
         </div>
         <% if current_user.practitioner.stripe_account_id %>
           <div class="nav-item">
-            <%= simple_form_for [current_user.practitioner] do |f| %>
+            <%= simple_form_for([current_user.practitioner], html: { id: :payouts_form_mobile }) do |f| %>
               <%= f.button :submit, "Payouts dashboard", class: 'nav-link' %>
             <% end %>
           </div>

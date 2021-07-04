@@ -7,7 +7,12 @@
                     required: false,
                     autofocus: true,
                     input_html: { autocomplete: "email" } %>
-        <%= f.input :password,
+        <div class="form-group password optional user_password">
+          <label class="password optional" for="user_password">Password</label>
+          <input class="form-control password optional" autocomplete="current-password" type="password" name="user[password]" id="user_password">
+          <a class="password-control">Show password</a>
+        </div>
+        <%#= f.input :password,
                     required: false,
                     input_html: { autocomplete: "current-password" } %>
         <div class="mb-2">

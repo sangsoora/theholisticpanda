@@ -143,6 +143,12 @@ button:focus {
   }
 }
 
+.password-control {
+  cursor: pointer;
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
 
