@@ -1,12 +1,12 @@
 <%- if controller_name != 'sessions' %>
   <div class="d-flex justify-content-center mt-3">
-    <p class="mr-2">Already have an account?</p><%= link_to "Login", new_session_path(resource_name) %>
+    <p class="mr-2 mb-0">Already have an account?</p><%= link_to "Login", new_session_path(resource_name) %>
   </div>
 <% end %>
 
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
   <div class="d-flex justify-content-center mt-3">
-    <p class="mr-2">Haven't signed up yet?</p><%= link_to "Sign Up", new_registration_path(resource_name) %>
+    <p class="mr-2 mb-0">Haven't signed up yet?</p><%= link_to "Sign Up", new_registration_path(resource_name) %>
   </div>
 
 <% end %>
@@ -16,7 +16,9 @@
 <%# end %>
 
 <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-  <%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name) %><br />
+  <div class="d-flex justify-content-center mt-3">
+    <p class="mr-2 mb-0">Didn't receive confirmation instructions?</p><%= link_to "Request", new_confirmation_path(resource_name) %><br />
+  </div>
 <% end %>
 
 <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>

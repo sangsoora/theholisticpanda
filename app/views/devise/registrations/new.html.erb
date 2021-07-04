@@ -21,11 +21,22 @@
         <%= f.input :last_name,
                     required: true,
                     input_html: { autocomplete: "last-name" }%>
-        <%= f.input :password,
+        <div class="form-group password required user_password">
+          <label class="password required" for="password1">Password <abbr title="required">*</abbr></label>
+          <input class="form-control password required" autocomplete="new-password" id="password1" required="required" aria-required="true" type="password" name="user[password]">
+          <a class="password-control">Show password</a>
+          <small class="form-text text-muted">Password should have more than 8 characters including 1 lowercase letter, 1 uppercase letter, 1 number and 1 special character</small>
+        </div>
+        <div class="form-group password optional user_password_confirmation">
+          <label class="password optional" for="password2">Password confirmation</label>
+          <input class="form-control password optional" autocomplete="new-password" id="password2" type="password" name="user[password_confirmation]">
+          <a class="password-control">Show password</a>
+        </div>
+        <%#= f.input :password,
                     required: true,
                     hint: ("Password should have more than 8 characters including 1 lowercase letter, 1 uppercase letter, 1 number and 1 special character"),
                     input_html: { autocomplete: "new-password", id: "password1" }  %>
-        <%= f.input :password_confirmation,
+        <%#= f.input :password_confirmation,
                     hint: (""),
                     input_html: { autocomplete: "new-password", id: "password2" } %>
         <%= invisible_captcha %>

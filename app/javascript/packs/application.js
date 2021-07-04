@@ -28,6 +28,7 @@ import { initConversationScroll } from '../components/conversation_scroll';
 import { previewBannerOnFileSelect } from '../components/banner_upload';
 import { initIntlTelInput } from '../plugins/tel';
 import { initValidation } from '../components/validation';
+import { initShowPassword } from '../components/show_password';
 // document.addEventListener("scroll", () => {
 //   // Call your JS functions here
 // });
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSwiper();
   initIntlTelInput();
   initValidation();
+  initShowPassword();
   $(function() {
     setTimeout(function(){
       $('.alert').slideUp(500);
