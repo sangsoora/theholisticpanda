@@ -58,6 +58,10 @@ class PractitionersController < ApplicationController
     @newsletter = Newsletter.find_by(email: @practitioner.user.email) if @practitioner.user.newsletter
     @user = @practitioner.user
     @working_hours = @practitioner.working_hours
+    @tax_types_value = ['ca_gst_hst', 'ca_qst', 'us_ein', 'hk_br', 'gb_vat', 'au_abn']
+    @tax_types_name = ['Canadian GST/HST number', 'Canadian QST number', 'United States EIN', 'Hong Kong BR number', 'United Kingdom VAT number', 'Australian Business Number (AU ABN)']
+    @tax_id_example = { 'ca_gst_hst': '123456789RT0002', 'ca_qst': '1234567890TQ1234', 'us_ein': '12-3456789', 'hk_br': '12345678', 'gb_vat': 'GB123456789', 'au_abn': '12345678912' }
+    @eu_countries = ['Austria', 'Belgium', 'Bulgaria', 'Cyprus', 'Czech Republic', 'Germany', 'Denmark', 'Estonia', 'Spain', 'Finland', 'France', 'Greece', 'Croatia', 'Hungary', 'Ireland', 'Italy', 'Lithuania', 'Luxembourg', 'Latvia', 'Malta', 'Netherlands', 'Poland', 'Portugal', 'Romania', 'Sweden', 'Slovenia', 'Slovakia', 'Northern Ireland']
     if @practitioner.user.stripe_id && @practitioner.user.tax_id != '' && @practitioner.user.tax_id != nil
       tax = Stripe::Customer.retrieve_tax_id(
         @practitioner.user.stripe_id, @practitioner.user.tax_id
