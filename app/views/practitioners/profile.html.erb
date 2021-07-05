@@ -451,14 +451,6 @@
                           <% end %>
                         </select>
                       </div>
-                      <div class="form-group select optional user_tax_id_type_eu">
-                        <select class="form-control select require" id="user_tax_id_type_eu" style="display: none;">
-                          <option value="">Select a country</option>
-                          <%= @eu_countries.each do |country| %>
-                            <option value="<%= country %>"><%= country %></option>
-                          <% end %>
-                        </select>
-                      </div>
                       <%= f.input :tax_id, label: false %>
                       <p style="color: red;"><small><em><span id="tax-error"></span></em></small></p>
                     </div>
@@ -957,7 +949,7 @@
     <% @tax_id_example.each do |k, v| %>
       example['<%= k %>'] = '<%= v %>';
     <% end %>
-    let regex = { 'ca_gst_hst': new RegExp(/^[\d]{9}[A-Z]{2}[\d]{4}$/), 'ca_qst': new RegExp(/^[\d]{10}[A-Z]{2}[\d]{4}$/), 'us_ein': new RegExp(/^[\d]{2}[\-][\d]{7}$/), 'hk_br': new RegExp(/^[\d]{8}$/), 'gb_vat': new RegExp(/^[A-Z]{2}[\d]{9}$/), 'au_abn': new RegExp(/^[\d]{11}$/), 'Austria': new RegExp(/^[A-Z]{3}[\d]{8}$/), 'Belgium': new RegExp(/^[A-Z]{2}[\d]{10}$/), 'Bulgaria': new RegExp(/^[A-Z]{2}[\d]{10}$/), 'Croatia': new RegExp(/^[A-Z]{2}[\d]{11}$/), 'Cyprus': new RegExp(/^[A-Z]{2}[\d]{8}[A-Z]$/), 'Czech Republic': new RegExp(/^[A-Z]{2}[\d]{10}$/), 'Denmark': new RegExp(/^[A-Z]{2}[\d]{8}$/), 'Estonia': new RegExp(/^[A-Z]{2}[\d]{9}$/), 'Finland': new RegExp(/^[A-Z]{2}[\d]{8}$/), 'France': new RegExp(/^[A-Z]{4}[\d]{9}$/), 'Germany': new RegExp(/^[A-Z]{2}[\d]{9}$/), 'Greece': new RegExp(/^[A-Z]{2}[\d]{9}$/), 'Hungary': new RegExp(/^[A-Z]{2}[\d]{11}$/), 'Ireland': new RegExp(/^[A-Z]{2}[\d]{7}[A-Z]{2}$/), 'Italy': new RegExp(/^[A-Z]{2}[\d]{11}$/), 'Latvia': new RegExp(/^[A-Z]{2}[\d]{11}$/), 'Lithuania': new RegExp(/^[A-Z]{2}[\d]{12}$/), 'Luxembourg': new RegExp(/^[A-Z]{2}[\d]{8}$/), 'Malta': new RegExp(/^[A-Z]{2}[\d]{8}$/), 'Netherlands': new RegExp(/^[A-Z]{2}[\d]{9}[A-Z][\d]{2}$/), 'Northern Ireland': new RegExp(/^[A-Z]{2}[\d]{9}$/), 'Poland': new RegExp(/^[A-Z]{2}[\d]{10}$/), 'Portugal': new RegExp(/^[A-Z]{2}[\d]{9}$/), 'Romania': new RegExp(/^[A-Z]{2}[\d]{10}$/), 'Slovakia': new RegExp(/^[A-Z]{2}[\d]{10}$/), 'Slovenia': new RegExp(/^[A-Z]{2}[\d]{8}$/), 'Spain': new RegExp(/^[A-Z]{3}[\d]{7}[A-Z]$/), 'Sweden': new RegExp(/^[A-Z]{2}[\d]{12}$/) };
+    let regex = { 'ca_gst_hst': new RegExp(/^[\d]{9}[A-Z]{2}[\d]{4}$/), 'ca_qst': new RegExp(/^[\d]{10}[A-Z]{2}[\d]{4}$/), 'us_ein': new RegExp(/^[\d]{2}[\-][\d]{7}$/) };
     let tax_type = 'ca_gst_hst';
     let result = false;
     document.getElementById('user_tax_id').placeholder = example['ca_gst_hst'];
@@ -967,22 +959,9 @@
       document.getElementById('tax-error').innerHTML = '';
       document.getElementById('tax-submit').disabled = true;
       document.getElementById('user_tax_id').value = '';
-      if (tax_type == 'eu_vat') {
-        document.getElementById('user_tax_id').placeholder = '';
-        document.getElementById('user_tax_id_type_eu').style.display = 'block';
-        document.getElementById('user_tax_id_type_eu').addEventListener('change', (e) => {
-          tax_type = e.currentTarget.value;
-          document.getElementById('user_tax_id').placeholder = example[tax_type];
-          document.getElementById('user_tax_id').removeEventListener('keyup', vaildateTax);
-          document.getElementById('user_tax_id').addEventListener('keyup', vaildateTax);
-        });
-      } else {
-        document.getElementById('user_tax_id_type_eu').style.display = 'none';
-        document.getElementById('user_tax_id_type_eu').value = '';
-        document.getElementById('user_tax_id').placeholder = example[tax_type];
-        document.getElementById('user_tax_id').removeEventListener('keyup', vaildateTax);
-        document.getElementById('user_tax_id').addEventListener('keyup', vaildateTax);
-      }
+      document.getElementById('user_tax_id').placeholder = example[tax_type];
+      document.getElementById('user_tax_id').removeEventListener('keyup', vaildateTax);
+      document.getElementById('user_tax_id').addEventListener('keyup', vaildateTax);
     });
     function vaildateTax(event) {
       result = regex[tax_type].test(event.currentTarget.value);
