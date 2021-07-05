@@ -1,0 +1,73 @@
+<div class="blog-navbar" style="margin-top: 0;">
+  <p>The Holistic Panda Blog</p>
+  <div>
+    <% PostCategory.all.each do |cat| %>
+      <%= link_to cat.name, post_category_path(cat), class: 'mr-4'  %>
+    <% end %>
+  </div>
+  <%= simple_form_for :search, url: posts_path, method: "GET", html: { id: 'search-post-form' } do |f| %>
+    <div class="search-box-wrapper">
+      <input id="search-box" name="s" placeholder="Search"><i class="fas fa-search" id="search-button"></i>
+    </div>
+  <% end %>
+</div>
+<div class="post-image">
+  <% if @post.photo.attached? %>
+    <img src="<%= cdn_for(@post.photo) %>" alt="<%= @post.title %>">
+  <% else %>
+    <%= image_tag 'virtual-min.png' %>
+  <% end %>
+  <h1><%= @post.title %></h1>
+</div>
+<div class="container my-4">
+  <div class="d-flex mb-3">
+    <% if user_signed_in? && current_user.admin? %>
+      <%= link_to 'Edit', '', data: { toggle: "modal", target: "#editPostModal" }, class: 'btn btn-flat mr-4' %>
+      <% if @post.published %>
+        <%= simple_form_for(@post) do |f| %>
+          <%= f.button :submit, "Unpublish", class: 'btn-ghost mr-4' %>
+        <% end %>
+      <% else %>
+        <%= simple_form_for(@post) do |f| %>
+          <%= f.button :submit, "Publish", class: 'btn-flat mr-4' %>
+        <% end %>
+      <% end %>
+      <%= link_to 'Delete', post_path(@post), method: :delete, data: { confirm: "Are you sure?"}, class: 'btn btn-ghost' %>
+    <% end %>
+  </div>
+  <p>by <%= @post.author %></p>
+  <p><strong><%= @post.created_at.strftime('%B %d, %Y') %></strong></p>
+  <%= social_share_button_tag(@post.title, url: post_path(@post), desc: @post.title) %>
+  <p><%= @post.body.html_safe %></p>
+  <%= social_share_button_tag(@post.title, url: post_path(@post), desc: @post.title) %>
+</div>
+<div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="min-width: 80vw;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editPostModalLabel">Create new post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for(@post) do |f| %>
+          <%= f.input :title, require: true %>
+          <%= f.input :short_title, require: true, label: 'Short title for URL' %>
+          <%= f.input :body, as: :ckeditor, require: true %>
+          <%= f.input :author, require: true %>
+          <%= f.input :post_category_id, collection: PostCategory.all.map { |category| [category.name, category.id] }, include_blank: false %>
+          <%= f.input :link %>
+          <%= f.input :photo, as: :file, input_html: {  }, label_html: { class: 'upload-photo'} %>
+          <%= f.submit :Update, class: 'btn btn-flat' %>
+          <%= link_to 'Cancel', '', class: 'btn btn-ghost ml-3' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.getElementById('search-button').addEventListener('click', (e) => {
+    document.getElementById('search-post-form').submit();
+  });
+</script>

@@ -24,12 +24,14 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= render 'application/favicon' %>
+    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="a4150210-a87d-49b9-b868-5af609754368" data-blockingmode="auto" type="text/javascript"></script>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', media: 'all' %> <!-- Uncomment if you import CSS in app/javascript/packs/application.js -->
     <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ENV['GOOGLE_API_KEY']+'&libraries=places' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload', defer: true  %> <!-- from app/assets/javascripts/application.js -->
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
     <%= javascript_include_tag GoogleAnalytics::JS_URL, async: true %>
+    <%= javascript_include_tag Ckeditor.cdn_url %>
     <%= yield(:head_tags) %>
   </head>
   <body>

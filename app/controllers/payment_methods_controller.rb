@@ -1,6 +1,9 @@
 class PaymentMethodsController < ApplicationController
   before_action :set_payment_method, only: %i[update destroy]
 
+  def create
+  end
+
   def update
     PaymentMethod.find_by(default: true).update(default: false)
     @payment_method.update(default: true)

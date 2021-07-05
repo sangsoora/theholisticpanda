@@ -1,11 +1,11 @@
 <div class="navbar navbar-expand-sm navbar-light navbar-holistic fixed-top">
-  <a class="navbar-brand" href="/"><%= image_tag('logo', alt: 'The Holistic Panda') %></a>
+  <a class="navbar-brand" href="<%= root_url %>"><%= image_tag('logo', alt: 'The Holistic Panda') %></a>
   <button class="navbar-toggler" type="button" id="open-side">&#9776;</button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <% if user_signed_in? %>
         <li class="nav-item">
-          <%= link_to 'Find Holistic Services', services_path, class: 'nav-link find-service' %>
+          <%= link_to 'Find Holistic Services', services_url, class: 'nav-link find-service' %>
         </li>
         <li class="nav-item btn-group">
           <a class="dropdown-toggle nav-link" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -17,53 +17,53 @@
           <div class="dropdown-menu notification-drop" aria-labelledby="dropdownMenu1">
             <% if @notifications.present? %>
               <% @notifications.first(10).each do |notification| %>
-                <%= link_to notification.actor.full_name + " " + notification.action, notification_path(notification), method: :patch || :put, class: 'dropdown-item' %>
+                <%= link_to notification.actor.full_name + " " + notification.action, notification_url(notification), method: :patch || :put, class: 'dropdown-item' %>
               <% end %>
             <% end %>
-            <%= link_to 'See All', user_notifications_path, class: 'dropdown-item text-center all' %>
+            <%= link_to 'See all', user_notifications_url, class: 'dropdown-item text-center all' %>
           </div>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Welcome, <%= current_user.first_name %> &#9662;</a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
             <% if current_user.conversations.present? %>
-              <%= link_to 'Messages', conversation_path(current_user.last_conversation), class: 'dropdown-item' %>
+              <%= link_to 'Messages', conversation_url(current_user.last_conversation), class: 'dropdown-item' %>
             <% end %>
             <% if current_user.practitioner && current_user.practitioner.checked? %>
-              <%= link_to 'Sessions As Client', user_sessions_path, class: 'dropdown-item' %>
+              <%= link_to 'Sessions as client', user_sessions_url, class: 'dropdown-item' %>
             <% else %>
-              <%= link_to 'Sessions', user_sessions_path, class: 'dropdown-item' %>
+              <%= link_to 'Sessions', user_sessions_url, class: 'dropdown-item' %>
             <% end %>
-            <%= link_to 'Favourites', user_favorites_path, class: 'dropdown-item' %>
-            <%= link_to 'Refer A Friend', '', data: { toggle: "modal", target: "#referralModal" }, class: 'dropdown-item' %>
+            <%= link_to 'Favourites', user_favorites_url, class: 'dropdown-item' %>
+            <%= link_to 'Refer a friend', '', data: { toggle: "modal", target: "#referralModal" }, class: 'dropdown-item' %>
             <hr>
             <% if current_user.practitioner %>
-              <%= link_to 'Profile', practitioner_profile_path, class: 'dropdown-item' %>
+              <%= link_to 'Profile', practitioner_profile_url, class: 'dropdown-item' %>
               <% if current_user.practitioner.checked? %>
-                <%= link_to 'Sessions As Practitioner', practitioner_sessions_path, class: 'dropdown-item' %>
-                <%= link_to 'Services', practitioner_services_path, class: 'dropdown-item' %>
-                <%= link_to 'View My Page', practitioner_path(current_user.practitioner), class: 'dropdown-item' %>
+                <%= link_to 'Sessions as practitioner', practitioner_sessions_url, class: 'dropdown-item' %>
+                <%= link_to 'Services', practitioner_services_url, class: 'dropdown-item' %>
+                <%= link_to 'View my page', practitioner_url(current_user.practitioner), class: 'dropdown-item' %>
                 <% if current_user.practitioner.stripe_account_id %>
-                  <%= simple_form_for [current_user.practitioner] do |f| %>
-                    <%= f.button :submit, "Payouts Dashboard", class: 'dropdown-item' %>
+                  <%= simple_form_for([current_user.practitioner], html: { id: :payouts_form }) do |f| %>
+                    <%= f.button :submit, "Payouts dashboard", class: 'dropdown-item' %>
                   <% end %>
                 <% end %>
               <% end %>
             <% else %>
-              <%= link_to 'Profile', user_path(current_user), class: 'dropdown-item' %>
+              <%= link_to 'Profile', user_url(current_user), class: 'dropdown-item' %>
             <% end %>
-            <%= link_to 'Log Out', destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
+            <%= link_to 'Log out', destroy_user_session_url, method: :delete, class: 'dropdown-item' %>
           </div>
         </li>
       <% else %>
         <li class="nav-item">
-          <%= link_to 'Find Holistic Services', services_path, class: 'nav-link find-service' %>
+          <%= link_to 'Find Holistic Services', services_url, class: 'nav-link find-service' %>
         </li>
         <li class="nav-item">
-          <%= link_to 'Sign Up', new_user_registration_path, class: 'nav-link' %>
+          <%= link_to 'Sign Up', new_user_registration_url, class: 'nav-link' %>
         </li>
         <li class="nav-item">
-          <%= link_to 'Login', new_user_session_path, class: 'nav-link' %>
+          <%= link_to 'Login', new_user_session_url, class: 'nav-link' %>
         </li>
       <% end %>
     </ul>
@@ -74,11 +74,11 @@
   <a href="/"><%= image_tag('logo', alt: 'The Holistic Panda') %></a>
   <% if user_signed_in? %>
     <div class="nav-item">
-      <%= link_to 'Find Holistic Services', services_path, class: 'nav-link find-service' %>
+      <%= link_to 'Find Holistic Services', services_url, class: 'nav-link find-service' %>
     </div>
     <div class="nav-item">
       <div class="d-flex align-items-center">
-        <%= link_to 'Notifications', user_notifications_path, class: 'nav-link' %>
+        <%= link_to 'Notifications', user_notifications_url, class: 'nav-link' %>
         <span class="unread-count" id="unread-count" style="font-size: 1.2rem; margin-left: -1rem;">
           <%= @notifications.length if @notifications.present? %>
         </span>
@@ -86,63 +86,63 @@
     </div>
     <% if current_user.conversations.present? %>
       <div class="nav-item">
-        <%= link_to 'Messages', conversation_path(current_user.last_conversation), class: 'nav-link' %>
+        <%= link_to 'Messages', conversation_url(current_user.last_conversation), class: 'nav-link' %>
       </div>
     <% end %>
     <% if current_user.practitioner && current_user.practitioner.checked? %>
       <div class="nav-item">
-        <%= link_to 'Sessions As Client', user_sessions_path, class: 'nav-link' %>
+        <%= link_to 'Sessions as client', user_sessions_url, class: 'nav-link' %>
       </div>
     <% else %>
       <div class="nav-item">
-        <%= link_to 'Sessions', user_sessions_path, class: 'nav-link' %>
+        <%= link_to 'Sessions', user_sessions_url, class: 'nav-link' %>
       </div>
     <% end %>
     <div class="nav-item">
-      <%= link_to 'Favourites', user_favorites_path, class: 'nav-link' %>
+      <%= link_to 'Favourites', user_favorites_url, class: 'nav-link' %>
     </div>
     <div class="nav-item">
-      <%= link_to 'Refer A Friend', '', data: { toggle: "modal", target: "#referralModal" }, class: 'nav-link' %>
+      <%= link_to 'Refer a friend', '', data: { toggle: "modal", target: "#referralModal" }, class: 'nav-link' %>
     </div>
     <% if current_user.practitioner %>
       <div class="nav-item">
-        <%= link_to 'Profile', practitioner_profile_path, class: 'nav-link' %>
+        <%= link_to 'Profile', practitioner_profile_url, class: 'nav-link' %>
       </div>
       <% if current_user.practitioner.checked? %>
         <div class="nav-item">
-          <%= link_to 'Sessions As Practitioner', practitioner_sessions_path, class: 'nav-link' %>
+          <%= link_to 'Sessions as practitioner', practitioner_sessions_url, class: 'nav-link' %>
         </div>
         <div class="nav-item">
-          <%= link_to 'Services', practitioner_services_path, class: 'nav-link' %>
+          <%= link_to 'Services', practitioner_services_url, class: 'nav-link' %>
         </div>
         <div class="nav-item">
-          <%= link_to 'View My Page', practitioner_path(current_user.practitioner), class: 'nav-link' %>
+          <%= link_to 'View my page', practitioner_url(current_user.practitioner), class: 'nav-link' %>
         </div>
         <% if current_user.practitioner.stripe_account_id %>
           <div class="nav-item">
-            <%= simple_form_for [current_user.practitioner] do |f| %>
-              <%= f.button :submit, "Payouts Dashboard", class: 'nav-link' %>
+            <%= simple_form_for([current_user.practitioner], html: { id: :payouts_form_mobile }) do |f| %>
+              <%= f.button :submit, "Payouts dashboard", class: 'nav-link' %>
             <% end %>
           </div>
         <% end %>
       <% end %>
     <% else %>
       <div class="nav-item">
-        <%= link_to 'Profile', user_path(current_user), class: 'nav-link' %>
+        <%= link_to 'Profile', user_url(current_user), class: 'nav-link' %>
       </div>
     <% end %>
     <div class="nav-item">
-      <%= link_to 'Log Out', destroy_user_session_path, method: :delete, class: 'nav-link' %>
+      <%= link_to 'Log out', destroy_user_session_url, method: :delete, class: 'nav-link' %>
     </div>
   <% else %>
     <div class="nav-item">
-      <%= link_to 'Find Holistic Services', services_path, class: 'nav-link find-service' %>
+      <%= link_to 'Find Holistic Services', services_url, class: 'nav-link find-service' %>
     </div>
     <div class="nav-item">
-      <%= link_to 'Sign Up', new_user_registration_path, class: 'nav-link' %>
+      <%= link_to 'Sign up', new_user_registration_url, class: 'nav-link' %>
     </div>
     <div class="nav-item">
-      <%= link_to 'Login', new_user_session_path, class: 'nav-link' %>
+      <%= link_to 'Login', new_user_session_url, class: 'nav-link' %>
     </div>
   <% end %>
 </div>

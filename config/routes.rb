@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount Ckeditor::Engine => '/ckeditor'
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users, controllers: { registrations: 'registrations', confirmations: 'confirmations' }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
@@ -34,6 +35,8 @@ Rails.application.routes.draw do
     resources :conversations, only: [:create]
     resources :user_health_goals, only: [:create]
     resources :referred_users, only: [:create]
+    resources :payment_methods, only: [:create]
+    resources :user_promos, only: [:create]
   end
 
   resources :payment_methods, only: %i[update destroy]
@@ -112,6 +115,12 @@ Rails.application.routes.draw do
   end
 
   resources :event_attendees, only: [:destroy]
+
+  resources :tax_rates, only: %i[create update destroy]
+
+  resources :posts, only: %i[index show create edit update destroy], constraints: { subdomain: 'blog' }
+
+  resources :post_categories, only: [:show], constraints: { subdomain: 'blog' }
 
   mount StripeEvent::Engine, at: '/stripe-webhooks'
 

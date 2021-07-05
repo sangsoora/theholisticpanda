@@ -33,7 +33,7 @@ class RegistrationsController < Devise::RegistrationsController
         flash[:notice] = 'Your profile photo has been uploaded.'
         redirect_to practitioner_profile_path
       end
-    elsif params[:commit] == 'Delete Profile Photo'
+    elsif params[:commit] == 'Delete profile photo'
       @user.photo.purge
       @user.update(crop_setting: nil)
       flash[:notice] = 'Your profile photo has been deleted.'
