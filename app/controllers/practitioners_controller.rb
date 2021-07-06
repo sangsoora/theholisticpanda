@@ -105,14 +105,14 @@ class PractitionersController < ApplicationController
           phone: @practitioner.user.phone_number
         })
         @practitioner.user.update(stripe_id: customer.id)
+        tax_rates = []
         if @practitioner.country_code == 'CA'
-          tax_rate = ''
           if %w[NB NL NS PE].include?(@practitioner.state_code)
-            tax_rate = TaxRate.find(3).tax_id
+            tax_rates << TaxRate.find(3).tax_id
           elsif @practitioner.state_code == 'ON'
-            tax_rate = TaxRate.find(2).tax_id
+            tax_rates << TaxRate.find(2).tax_id
           else
-            tax_rate = TaxRate.find(1).tax_id
+            tax_rates << TaxRate.find(1).tax_id
           end
         end
         payment_session = Stripe::Checkout::Session.create(
@@ -124,7 +124,7 @@ class PractitionersController < ApplicationController
             amount: 3500,
             currency: 'cad',
             quantity: 1,
-            tax_rates: [tax_rate]
+            tax_rates: tax_rates
           }],
           success_url: practitioner_profile_url,
           cancel_url: practitioner_profile_url
