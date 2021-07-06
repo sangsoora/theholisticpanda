@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users, controllers: { registrations: 'registrations', confirmations: 'confirmations' }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  get '/', to: 'posts#index', constraints: { subdomain: 'blog' }
+
   root to: 'pages#home'
 
   require "sidekiq/web"
@@ -124,5 +126,7 @@ Rails.application.routes.draw do
 
   mount StripeEvent::Engine, at: '/stripe-webhooks'
 
-  post '/background_check/modo_webhooks', to: 'background_check#modo_webhooks'
+  # post '/background_check/modo_webhooks', to: 'background_check#modo_webhooks'
+
+  post '/background_check/certn_webhooks', to: 'background_check#certn_webhooks'
 end

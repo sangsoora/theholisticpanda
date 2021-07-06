@@ -71,7 +71,7 @@
 </div>
 <div id="side-nav" class="side-nav">
   <a class="close-side" id="close-side">&times;</a>
-  <a href="/"><%= image_tag('logo', alt: 'The Holistic Panda') %></a>
+  <a href="<%= root_url %>"><%= image_tag('logo', alt: 'The Holistic Panda') %></a>
   <% if user_signed_in? %>
     <div class="nav-item">
       <%= link_to 'Find Holistic Services', services_url, class: 'nav-link find-service' %>

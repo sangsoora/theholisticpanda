@@ -16,6 +16,31 @@
     <div class="text-center">
       <%= link_to 'Create new post', '', data: { toggle: "modal", target: "#newPostModal" }, class: 'btn btn-flat' %>
     </div>
+    <div class="modal fade" id="newPostModal" tabindex="-1" role="dialog" aria-labelledby="newPostModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document" style="min-width: 80vw;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="newPostModalLabel">Create new post</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <%= simple_form_for([Post.new]) do |f| %>
+              <%= f.input :title, require: true %>
+              <%= f.input :short_title, require: true, label: 'Short title for URL' %>
+              <%= f.input :body, as: :ckeditor, require: true %>
+              <%= f.input :author, require: true %>
+              <%= f.input :post_category_id, collection: PostCategory.all.map { |category| [category.name, category.id] }, include_blank: false %>
+              <%= f.input :link %>
+              <%= f.input :photo, as: :file, input_html: {  }, label_html: { class: 'upload-photo'} %>
+              <%= f.submit :Create, class: 'btn btn-flat' %>
+              <%= link_to 'Cancel', '', class: 'btn btn-ghost ml-3' %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
   <% end %>
   <div class="posts">
     <% @posts.each do |post| %>
@@ -30,44 +55,21 @@
           <p class="category-name"><%= post.post_category.name.upcase %></p>
           <h2><%= link_to post.title, post_path(post) %></h2>
           <div class="text-center">
-            <% if post.published %>
-              <%= simple_form_for(post) do |f| %>
-                <%= f.button :submit, "Unpublish", class: 'btn-ghost' %>
-              <% end %>
-            <% else %>
-              <%= simple_form_for(post) do |f| %>
-                <%= f.button :submit, "Publish", class: 'btn-flat' %>
+            <% if user_signed_in? && current_user.admin? %>
+              <% if post.published %>
+                <%= simple_form_for(post) do |f| %>
+                  <%= f.button :submit, "Unpublish", class: 'btn-ghost' %>
+                <% end %>
+              <% else %>
+                <%= simple_form_for(post) do |f| %>
+                  <%= f.button :submit, "Publish", class: 'btn-flat' %>
+                <% end %>
               <% end %>
             <% end %>
           </div>
         </div>
       </div>
     <% end %>
-  </div>
-</div>
-<div class="modal fade" id="newPostModal" tabindex="-1" role="dialog" aria-labelledby="newPostModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document" style="min-width: 80vw;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="newPostModalLabel">Create new post</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <%= simple_form_for([Post.new]) do |f| %>
-          <%= f.input :title, require: true %>
-          <%= f.input :short_title, require: true, label: 'Short title for URL' %>
-          <%= f.input :body, as: :ckeditor, require: true %>
-          <%= f.input :author, require: true %>
-          <%= f.input :post_category_id, collection: PostCategory.all.map { |category| [category.name, category.id] }, include_blank: false %>
-          <%= f.input :link %>
-          <%= f.input :photo, as: :file, input_html: {  }, label_html: { class: 'upload-photo'} %>
-          <%= f.submit :Create, class: 'btn btn-flat' %>
-          <%= link_to 'Cancel', '', class: 'btn btn-ghost ml-3' %>
-        <% end %>
-      </div>
-    </div>
   </div>
 </div>
 <script>

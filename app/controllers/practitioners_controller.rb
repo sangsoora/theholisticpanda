@@ -58,10 +58,9 @@ class PractitionersController < ApplicationController
     @newsletter = Newsletter.find_by(email: @practitioner.user.email) if @practitioner.user.newsletter
     @user = @practitioner.user
     @working_hours = @practitioner.working_hours
-    @tax_types_value = ['ca_gst_hst', 'ca_qst', 'us_ein', 'hk_br', 'gb_vat', 'au_abn', 'eu_vat']
-    @tax_types_name = ['Canadian GST/HST number', 'Canadian QST number', 'United States EIN', 'Hong Kong BR number', 'United Kingdom VAT number', 'Australian Business Number (AU ABN)', 'European VAT number']
-    @tax_id_example = { 'ca_gst_hst': '123456789RT0002', 'ca_qst': '1234567890TQ1234', 'us_ein': '12-3456789', 'hk_br': '12345678', 'gb_vat': 'GB123456789', 'au_abn': '12345678912', 'eu_vat': '', 'Austria': 'ATU12345678', 'Belgium': 'BE0123456789', 'Bulgaria': 'BG0123456789', 'Croatia': 'HR12345678912', 'Cyprus': 'CY12345678Z', 'Czech Republic': 'CZ1234567890', 'Denmark': 'DK12345678', 'Estonia': 'EE123456789', 'Finland': 'FI12345678', 'France': 'FRAB123456789', 'Germany': 'DE123456789', 'Greece': 'EL123456789', 'Hungary': 'HU12345678912', 'Ireland': 'IE1234567AB', 'Italy': 'IT12345678912', 'Latvia': 'LV12345678912', 'Lithuania': 'LT123456789123', 'Luxembourg': 'LU12345678', 'Malta': 'MT12345678', 'Netherlands': 'NL123456789B12', 'Northern Ireland': 'XI123456789', 'Poland': 'PL1234567890', 'Portugal': 'PT123456789', 'Romania': 'RO1234567891', 'Slovakia': 'SK1234567891', 'Slovenia': 'SI12345678', 'Spain': 'ESA1234567Z', 'Sweden': 'SE123456789123' }
-    @eu_countries = ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Northern Ireland', 'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden']
+    @tax_types_value = ['ca_gst_hst', 'ca_qst', 'us_ein']
+    @tax_types_name = ['Canadian GST/HST number', 'Canadian QST number', 'United States EIN']
+    @tax_id_example = { 'ca_gst_hst': '123456789RT0002', 'ca_qst': '1234567890TQ1234', 'us_ein': '12-3456789' }
     if @practitioner.user.stripe_id && @practitioner.user.tax_id != '' && @practitioner.user.tax_id != nil
       tax = Stripe::Customer.retrieve_tax_id(
         @practitioner.user.stripe_id, @practitioner.user.tax_id
@@ -106,6 +105,16 @@ class PractitionersController < ApplicationController
           phone: @practitioner.user.phone_number
         })
         @practitioner.user.update(stripe_id: customer.id)
+        if @practitioner.country_code == 'CA'
+          tax_rate = ''
+          if %w[NB NL NS PE].include?(@practitioner.state_code)
+            tax_rate = TaxRate.find(3).tax_id
+          elsif @practitioner.state_code == 'ON'
+            tax_rate = TaxRate.find(2).tax_id
+          else
+            tax_rate = TaxRate.find(1).tax_id
+          end
+        end
         payment_session = Stripe::Checkout::Session.create(
           billing_address_collection: 'required',
           payment_method_types: ['card'],
@@ -114,7 +123,8 @@ class PractitionersController < ApplicationController
             name: 'Practitioner Onboarding Fee',
             amount: 3500,
             currency: 'cad',
-            quantity: 1
+            quantity: 1,
+            tax_rates: [tax_rate]
           }],
           success_url: practitioner_profile_url,
           cancel_url: practitioner_profile_url

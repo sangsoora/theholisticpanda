@@ -1,6 +1,6 @@
 <div class="navbar navbar-expand-sm navbar-light navbar-holistic fixed-top">
   <div class="d-flex align-items-center">
-    <a class="navbar-brand" href="/"><%= image_tag('logo', alt: 'The Holistic Panda') %></a>
+    <a class="navbar-brand" href="<%= root_url %>"><%= image_tag('logo', alt: 'The Holistic Panda') %></a>
     <div id="top-filter-desktop"></div>
   </div>
   <button class="navbar-toggler" type="button" id="open-side">&#9776;</button>
@@ -69,7 +69,7 @@
 </div>
 <div id="side-nav" class="side-nav">
   <a class="close-side" id="close-side">&times;</a>
-  <a href="/"><%= image_tag('logo', alt: 'The Holistic Panda') %></a>
+  <a href="<%= root_url %>"><%= image_tag('logo', alt: 'The Holistic Panda') %></a>
   <% if user_signed_in? %>
     <div class="nav-item">
       <div class="d-flex align-items-center">

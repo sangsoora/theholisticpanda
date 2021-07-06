@@ -5,8 +5,8 @@ class EventsController < ApplicationController
 
   def index
     @events = policy_scope(Event)
-    @upcoming_events = @events.where('start_time > ?', Time.current)
-    @past_events = @events.where('start_time <= ?', Time.current)
+    @upcoming_events = @events.where('start_time > ?', Time.current).order(start_time: :desc)
+    @past_events = @events.where('start_time <= ?', Time.current).order(start_time: :desc)
   end
 
   def create
