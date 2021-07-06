@@ -4,7 +4,11 @@ class PostCategoriesController < ApplicationController
   before_action :set_notifications, only: [:show]
 
   def show
-    @posts = Post.where(post_category: @post_category)
+    if user_signed_in? && current_user.admin?
+      @posts = Post.where(post_category: @post_category).order(created_at: :desc)
+    else
+      @posts = Post.where(post_category: @post_category).where(published: true).order(created_at: :desc)
+    end
   end
 
   private
