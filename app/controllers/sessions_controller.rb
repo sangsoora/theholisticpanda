@@ -115,17 +115,16 @@ class SessionsController < ApplicationController
           tax_rates << TaxRate.find(1).tax_id
         end
       end
+      discounts = []
       if @session.promo_id
-        discounts = { coupon: UserPromo.find_by(promo_id: @session.promo_id).coupon_id }
-      else
-        discounts = {}
+        discounts << { coupon: UserPromo.find_by(promo_id: @session.promo_id).coupon_id }
       end
       Stripe::InvoiceItem.create({
         customer: @session.user.stripe_id,
         amount: @session.amount_cents,
         currency: 'cad',
         discountable: true,
-        discounts: [discounts],
+        discounts: discounts,
         description: "#{@session.service.name} with #{@session.practitioner.user.full_name}",
         metadata: {
           session_id: @session.id
@@ -214,17 +213,16 @@ class SessionsController < ApplicationController
             SessionMailer.with(session: @session).cancel_practitioner_within_24.deliver_now
             SessionMailer.with(session: @session).cancel_user.deliver_now
           else
+            discounts = []
             if @session.promo_id
-              discounts = { coupon: UserPromo.find_by(promo_id: @session.promo_id).coupon_id }
-            else
-              discounts = {}
+              discounts << { coupon: UserPromo.find_by(promo_id: @session.promo_id).coupon_id }
             end
             Stripe::InvoiceItem.create({
               customer: @session.user.stripe_id,
               amount: @session.amount_cents,
               currency: 'cad',
               discountable: true,
-              discounts: [discounts],
+              discounts: discounts,
               description: "#{@session.service.name} with #{@session.practitioner.user.full_name}",
               metadata: {
                 session_id: @session.id
