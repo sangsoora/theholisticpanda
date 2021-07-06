@@ -17,11 +17,13 @@ class StripeCheckoutSessionService
         }
       else
         payload = {
+          "request_criminal_record_check": true,
+          "request_identity_verification": true,
           "email": @practitioner.user.email,
-          "request_softcheck": true,
           "information": {
             "first_name": @practitioner.user.first_name,
-            "last_name": @practitioner.user.last_name
+            "last_name": @practitioner.user.last_name,
+            "rcmp_consent_given": true
           }
         }
       end

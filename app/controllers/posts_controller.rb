@@ -8,11 +8,11 @@ class PostsController < ApplicationController
       if user_signed_in? && current_user.admin?
         @posts_by_post = policy_scope(Post).where("(title ILIKE :search) or (short_title ILIKE :search) or (body ILIKE :search)", search: "%#{params[:s]}%")
         @posts_by_category = policy_scope(Post).left_outer_joins(:post_category).where("name ILIKE ?", "%#{params[:s]}%")
-        @posts = (@posts_by_post + @posts_by_category).uniq.sort_by(&:created_at)
+        @posts = (@posts_by_post + @posts_by_category).uniq.sort_by(&:created_at).reverse
       else
         @posts_by_post = policy_scope(Post).where("(title ILIKE :search) or (short_title ILIKE :search) or (body ILIKE :search)", search: "%#{params[:s]}%").where(published: true)
         @posts_by_category = policy_scope(Post).left_outer_joins(:post_category).where("name ILIKE ?", "%#{params[:s]}%").where(published: true)
-        @posts = (@posts_by_post + @posts_by_category).uniq.sort_by(&:created_at)
+        @posts = (@posts_by_post + @posts_by_category).uniq.sort_by(&:created_at).reverse
       end
     else
       if user_signed_in? && current_user.admin?

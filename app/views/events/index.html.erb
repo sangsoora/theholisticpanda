@@ -16,29 +16,59 @@
     </ul>
     <% if user_signed_in? && current_user.admin? %>
       <%= link_to 'Add event', '', data: { toggle: "modal", target: "#newEventModal" }, class: 'btn btn-flat' %>
+      <div class="modal fade" id="newEventModal" tabindex="-1" role="dialog" aria-labelledby="newEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="min-width: 80vw;">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="newEventModalLabel">Create new event</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <%= simple_form_for([Event.new]) do |f| %>
+                <%= f.input :name, require: true %>
+                <%= f.input :description, as: :ckeditor, require: true %>
+                <%= f.input :start_time, label: 'Start time (in UTC)', require: true, minute_step: 30 %>
+                <%= f.input :duration, label: 'Duration (in minutes)', input_html: { value: 15, min: 15, step: 15 }, require: true %>
+                <%= f.input :user_id, collection: Practitioner.all.map { |practitioner| [practitioner.user.full_name, practitioner.user.id] }, include_blank: 'Select a practitioner' %>
+                <%= f.input :capacity, input_html: { min: 0 } %>
+                <%= f.input :registration_link %>
+                <%= f.input :photo, as: :file, input_html: {  }, label_html: { class: 'upload-photo'} %>
+                <%= f.submit :Create, class: 'btn btn-flat' %>
+                <%= link_to 'Cancel', '', class: 'btn btn-ghost ml-3' %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
     <% end %>
   </div>
   <div class="lists">
     <div class="events">
-      <% @upcoming_events.each do |event| %>
-        <div class="event">
-          <a href="/events/<%= event.id %>">
-            <% if event.photo.attached? %>
-              <img src="<%= cdn_for(event.photo) %>" alt="<%= event.name %>">
-            <% end %>
-          </a>
-          <div class="event-detail">
-            <h4><%= link_to event.name, event_path(event) %></h4>
-            <p>With <%= link_to event.user.full_name, practitioner_path(event.user.practitioner) %></p>
-            <% if user_signed_in? && current_user.timezone != '' %>
-              <p><%= event.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
-            <% elsif event.user.timezone != '' %>
-              <p><%= event.start_time.in_time_zone(event.user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
-            <% else %>
-              <p><%= event.start_time.strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
-            <% end %>
+      <% if @upcoming_events.count > 0 %>
+        <% @upcoming_events.each do |event| %>
+          <div class="event">
+            <a href="/events/<%= event.id %>">
+              <% if event.photo.attached? %>
+                <img src="<%= cdn_for(event.photo) %>" alt="<%= event.name %>">
+              <% end %>
+            </a>
+            <div class="event-detail">
+              <h4><%= link_to event.name, event_path(event) %></h4>
+              <p>With <%= link_to event.user.full_name, practitioner_path(event.user.practitioner) %></p>
+              <% if user_signed_in? && current_user.timezone != '' %>
+                <p><%= event.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
+              <% elsif event.user.timezone != '' %>
+                <p><%= event.start_time.in_time_zone(event.user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
+              <% else %>
+                <p><%= event.start_time.strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
+              <% end %>
+            </div>
           </div>
-        </div>
+        <% end %>
+      <% else %>
+        <p>No upcoming event</p>
       <% end %>
     </div>
   </div>
@@ -64,32 +94,6 @@
           </div>
         </div>
       <% end %>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id="newEventModal" tabindex="-1" role="dialog" aria-labelledby="newEventModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document" style="min-width: 80vw;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="newEventModalLabel">Create new event</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <%= simple_form_for([Event.new]) do |f| %>
-          <%= f.input :name, require: true %>
-          <%= f.input :description, as: :ckeditor, require: true %>
-          <%= f.input :start_time, label: 'Start time (in UTC)', require: true, minute_step: 30 %>
-          <%= f.input :duration, label: 'Duration (in minutes)', input_html: { value: 15, min: 15, step: 15 }, require: true %>
-          <%= f.input :user_id, collection: Practitioner.all.map { |practitioner| [practitioner.user.full_name, practitioner.user.id] }, include_blank: 'Select a practitioner' %>
-          <%= f.input :capacity, input_html: { min: 0 } %>
-          <%= f.input :registration_link %>
-          <%= f.input :photo, as: :file, input_html: {  }, label_html: { class: 'upload-photo'} %>
-          <%= f.submit :Create, class: 'btn btn-flat' %>
-          <%= link_to 'Cancel', '', class: 'btn btn-ghost ml-3' %>
-        <% end %>
-      </div>
     </div>
   </div>
 </div>
