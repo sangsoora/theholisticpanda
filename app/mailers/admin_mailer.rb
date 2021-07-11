@@ -29,6 +29,6 @@ class AdminMailer < ApplicationMailer
     @code = params[:code] if params[:code]
     @message = params[:message] if params[:message]
 
-    mail(to: 'tech@theholisticpanda.com', subject: 'Stripe error occured.')
+    mail(to: 'hello@theholisticpanda.com', subject: 'Stripe error occured.')
   end
 end
