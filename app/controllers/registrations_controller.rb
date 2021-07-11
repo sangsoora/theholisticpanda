@@ -113,19 +113,43 @@ class RegistrationsController < Devise::RegistrationsController
             })
             @user.update(stripe_id: customer.id)
           end
-          tax = Stripe::Customer.create_tax_id(
-            @user.stripe_id,
-            { type: params[:user][:tax_id_type], value: params[:user][:tax_id] }
-          )
-          @user.update(tax_id: tax.id)
-        end
-        respond_to do |format|
-          if resource.practitioner
-            format.html { redirect_to practitioner_profile_path }
-          else
-            format.html { redirect_to user_path(resource) }
+          begin
+            tax = Stripe::Customer.create_tax_id(
+              @user.stripe_id,
+              { type: params[:user][:tax_id_type], value: params[:user][:tax_id] }
+            )
+            @user.update(tax_id: tax.id)
+            respond_to do |format|
+              if resource.practitioner
+                format.html { redirect_to practitioner_profile_path }
+              else
+                format.html { redirect_to user_path(resource) }
+              end
+              format.js
+            end
+          rescue Stripe::StripeError => e
+            @user.update(tax_id: nil)
+            type = e.error.type if e.error.type
+            code = e.error.code if e.error.code
+            message = e.error.message if e.error.message
+            AdminMailer.with(user: @user, request: 'Tax id create', type: type, code: code, message: message).stripe_failure.deliver_now
+            if resource.practitioner
+              redirect_to practitioner_profile_path, alert: 'Oops! Something went wrong.'
+            else
+              redirect_to user_path(resource), alert: 'Oops! Something went wrong.'
+            end
+          rescue => e
+            @user.update(tax_id: nil)
+            type = e.error.type if e.error.type
+            code = e.error.code if e.error.code
+            message = e.error.message if e.error.message
+            AdminMailer.with(user: @user, request: 'Tax id create', type: type, code: code, message: message).stripe_failure.deliver_now
+            if resource.practitioner
+              redirect_to practitioner_profile_path, alert: 'Oops! Something went wrong.'
+            else
+              redirect_to user_path(resource), alert: 'Oops! Something went wrong.'
+            end
           end
-          format.js
         end
       else
         respond_to do |format|
