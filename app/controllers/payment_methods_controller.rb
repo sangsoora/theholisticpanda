@@ -15,14 +15,28 @@ class PaymentMethodsController < ApplicationController
 
   def destroy
     if !@payment_method.default
-      Stripe::PaymentMethod.detach(
-        @payment_method.payment_method_id,
-      )
-      @payment_method.destroy
-    end
-    respond_to do |format|
-      format.html { redirect_to user_url(current_user) }
-      format.js
+      begin
+        Stripe::PaymentMethod.detach(
+          @payment_method.payment_method_id
+        )
+        @payment_method.destroy
+        respond_to do |format|
+          format.html { redirect_to user_url(current_user) }
+          format.js
+        end
+      rescue Stripe::StripeError => e
+        type = e.error.type if e.error.type
+        code = e.error.code if e.error.code
+        message = e.error.message if e.error.message
+        AdminMailer.with(user: @payment_method.user, request: 'Payment method detach', type: type, code: code, message: message).stripe_failure.deliver_now
+        redirect_to user_url(current_user), alert: 'Oops! Something went wrong.'
+      rescue => e
+        type = e.error.type if e.error.type
+        code = e.error.code if e.error.code
+        message = e.error.message if e.error.message
+        AdminMailer.with(user: @payment_method.user, request: 'Payment method detach', type: type, code: code, message: message).stripe_failure.deliver_now
+        redirect_to user_url(current_user), alert: 'Oops! Something went wrong.'
+      end
     end
   end
 

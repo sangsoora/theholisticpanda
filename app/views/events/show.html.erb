@@ -40,12 +40,15 @@
       </div>
     <% end %>
     <p>Presented by The Holistic Panda X <%= link_to @event.user.full_name, practitioner_path(@event.user.practitioner) %></p>
-    <% if user_signed_in? %>
+    <% if user_signed_in? && current_user.timezone != '' %>
       <p>Date: <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y') %></p>
       <p>Time: <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%l:%M') %> ~ <%= (@event.start_time.in_time_zone(current_user.timezone) + @event.duration.minutes).strftime('%l:%M %p') %> <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%Z') %></p>
+    <% elsif @event.user.timezone != '' %>
+      <p>Date: <%= @event.start_time.in_time_zone(@event.user.timezone).strftime('%a %b %d, %Y') %></p>
+      <p>Time: <%= @event.start_time.in_time_zone(@event.user.timezone).strftime('%l:%M') %> ~ <%= (@event.start_time.in_time_zone(@event.user.timezone) + @event.duration.minutes).strftime('%l:%M %p') %> <%= @event.start_time.in_time_zone(@event.user.timezone).strftime('%Z') %></p>
     <% else %>
-      <p>Date: <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y') %></p>
-      <p>Time: <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%l:%M') %> ~ <%= (@event.start_time.in_time_zone(current_user.timezone) + @event.duration.minutes).strftime('%l:%M %p') %> <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%Z') %></p>
+      <p>Date: <%= @event.start_time.strftime('%a %b %d, %Y') %></p>
+      <p>Time: <%= @event.start_time.strftime('%l:%M') %> ~ <%= (@event.start_time + @event.duration.minutes).strftime('%l:%M %p') %> <%= @event.start_time.strftime('%Z') %></p>
     <% end %>
     <p><a href="<%= @event.link %>"><%= @event.link %></a></p>
     <div class="event-description">

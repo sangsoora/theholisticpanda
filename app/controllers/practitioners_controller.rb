@@ -62,11 +62,27 @@ class PractitionersController < ApplicationController
     @tax_types_name = ['Canadian GST/HST number', 'Canadian QST number', 'United States EIN']
     @tax_id_example = { 'ca_gst_hst': '123456789RT0002', 'ca_qst': '1234567890TQ1234', 'us_ein': '12-3456789' }
     if @practitioner.user.stripe_id && @practitioner.user.tax_id != '' && @practitioner.user.tax_id != nil
-      tax = Stripe::Customer.retrieve_tax_id(
-        @practitioner.user.stripe_id, @practitioner.user.tax_id
-      )
-      @tax_id_type = tax.type
-      @tax_id = tax.value
+      begin
+        tax = Stripe::Customer.retrieve_tax_id(
+          @practitioner.user.stripe_id, @practitioner.user.tax_id
+        )
+        @tax_id_type = tax.type
+        @tax_id = tax.value
+      rescue Stripe::StripeError => e
+        type = e.error.type if e.error.type
+        code = e.error.code if e.error.code
+        message = e.error.message if e.error.message
+        AdminMailer.with(user: @practitioner.user, request: 'Tax id retrieve', type: type, code: code, message: message).stripe_failure.deliver_now
+        @tax_id_type = ''
+        @tax_id = ''
+      rescue => e
+        type = e.error.type if e.error.type
+        code = e.error.code if e.error.code
+        message = e.error.message if e.error.message
+        AdminMailer.with(user: @practitioner.user, request: 'Tax id retrieve', type: type, code: code, message: message).stripe_failure.deliver_now
+        @tax_id_type = ''
+        @tax_id = ''
+      end
     end
   end
 
@@ -115,22 +131,36 @@ class PractitionersController < ApplicationController
             tax_rates << TaxRate.find(1).tax_id
           end
         end
-        payment_session = Stripe::Checkout::Session.create(
-          billing_address_collection: 'required',
-          payment_method_types: ['card'],
-          customer: customer.id,
-          line_items: [{
-            name: 'Practitioner Onboarding Fee',
-            amount: 3500,
-            currency: 'cad',
-            quantity: 1,
-            tax_rates: tax_rates
-          }],
-          success_url: practitioner_profile_url,
-          cancel_url: practitioner_profile_url
-        )
-        @practitioner.update(checkout_session_id: payment_session.id)
-        redirect_to new_practitioner_practitioner_payment_path(@practitioner)
+        begin
+          payment_session = Stripe::Checkout::Session.create(
+            billing_address_collection: 'required',
+            payment_method_types: ['card'],
+            customer: customer.id,
+            line_items: [{
+              name: 'Practitioner Onboarding Fee',
+              amount: 3500,
+              currency: 'cad',
+              quantity: 1,
+              tax_rates: tax_rates
+            }],
+            success_url: practitioner_profile_url,
+            cancel_url: practitioner_profile_url
+          )
+          @practitioner.update(checkout_session_id: payment_session.id)
+          redirect_to new_practitioner_practitioner_payment_path(@practitioner)
+        rescue Stripe::StripeError => e
+          type = e.error.type if e.error.type
+          code = e.error.code if e.error.code
+          message = e.error.message if e.error.message
+          AdminMailer.with(user: @practitioner.user, request: 'Practitioner onboarding fee', type: type, code: code, message: message).stripe_failure.deliver_now
+          redirect_to practitioner_profile_path, alert: 'Oops! Something went wrong.'
+        rescue => e
+          type = e.error.type if e.error.type
+          code = e.error.code if e.error.code
+          message = e.error.message if e.error.message
+          AdminMailer.with(user: @practitioner.user, request: 'Practitioner onboarding fee', type: type, code: code, message: message).stripe_failure.deliver_now
+          redirect_to practitioner_profile_path, alert: 'Oops! Something went wrong.'
+        end
       else
         redirect_to practitioner_profile_path
       end
@@ -155,8 +185,35 @@ class PractitionersController < ApplicationController
       })
       redirect_to "#{account_links[:url]}"
     elsif params[:commit] == 'Payouts dashboard'
-      link = Stripe::Account.create_login_link(@practitioner.stripe_account_id)
-      redirect_to "#{link[:url]}"
+      begin
+        link = Stripe::Account.create_login_link(@practitioner.stripe_account_id)
+        redirect_to "#{link[:url]}"
+      rescue Stripe::StripeError => e
+        type = e.error.type if e.error.type
+        code = e.error.code if e.error.code
+        message = e.error.message if e.error.message
+        Stripe::Account.delete(@practitioner.stripe_account_id)
+        account = Stripe::Account.create({
+          email: "#{@practitioner.user.email}",
+          country: "#{@practitioner.country_code}",
+          type: 'express'
+        })
+        @practitioner.update(stripe_account_id: account[:id])
+        account_links = Stripe::AccountLink.create({
+          account: "#{@practitioner.stripe_account_id}",
+          refresh_url: practitioner_profile_url,
+          return_url: practitioner_profile_url,
+          type: 'account_onboarding'
+        })
+        AdminMailer.with(user: @practitioner.user, request: 'Payouts dashboard (deleted uncompleted account and created new one)', type: type, code: code, message: message).stripe_failure.deliver_now
+        redirect_to "#{account_links[:url]}"
+      rescue => e
+        type = e.error.type if e.error.type
+        code = e.error.code if e.error.code
+        message = e.error.message if e.error.message
+        AdminMailer.with(user: @practitioner.user, request: 'Payouts dashboard', type: type, code: code, message: message).stripe_failure.deliver_now
+        redirect_to practitioner_profile_path, alert: 'Oops! Something went wrong.'
+      end
     else
       if @practitioner.update(practitioner_params)
         if params[:commit] == 'Upload' && params[:practitioner][:banner_image]
