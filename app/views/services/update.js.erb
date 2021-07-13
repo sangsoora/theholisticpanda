@@ -20,11 +20,17 @@
     if (description_count_<%= @service.id %> == 1000) {
       description_counter_<%= @service.id %>.innerText = '1000/1000';
       description_counter_<%= @service.id %>.style.color = 'red';
+      document.getElementById('update-service-<%= @service.id %>').disabled = false;
+    } else if ((description_count_<%= @service.id %> < 5) || (description_count_<%= @service.id %> > 1000)) {
+      description_counter_<%= @service.id %>.innerText = description_count_<%= @service.id %> + '/1000';
+      description_counter_<%= @service.id %>.style.color = 'red';
+      document.getElementById('update-service-<%= @service.id %>').disabled = true;
     } else {
       description_counter_<%= @service.id %>.innerText = description_count_<%= @service.id %> + '/1000';
       description_counter_<%= @service.id %>.style.color = 'black';
+      document.getElementById('update-service-<%= @service.id %>').disabled = false;
     }
-  })
+  });
 <% else %>
   if (('<%= @params[:commit] %>' == "Deactivate") || ('<%= @params[:commit] %>' == "Activate")) {
     document.getElementById('active-list').innerHTML = '<%= j render "services/active_services_list", active_serivces: @active_serivces %>';
@@ -82,11 +88,17 @@
         if (description_count_<%= service.id %> == 1000) {
           description_counter_<%= service.id %>.innerText = '1000/1000';
           description_counter_<%= service.id %>.style.color = 'red';
+          document.getElementById('update-service-<%= service.id %>').disabled = false;
+        } else if ((description_count_<%= service.id %> < 5) || (description_count_<%= service.id %> > 1000)) {
+          description_counter_<%= service.id %>.innerText = description_count_<%= service.id %> + '/1000';
+          description_counter_<%= service.id %>.style.color = 'red';
+          document.getElementById('update-service-<%= service.id %>').disabled = true;
         } else {
           description_counter_<%= service.id %>.innerText = description_count_<%= service.id %> + '/1000';
           description_counter_<%= service.id %>.style.color = 'black';
+          document.getElementById('update-service-<%= service.id %>').disabled = false;
         }
-      })
+      });
     <% end %>
   } else if ('<%= @params[:commit] %>' == "Update") {
     <% if @service.active? %>
@@ -132,11 +144,17 @@
       if (description_count_<%= @service.id %> == 1000) {
         description_counter_<%= @service.id %>.innerText = '1000/1000';
         description_counter_<%= @service.id %>.style.color = 'red';
+        document.getElementById('update-service-<%= @service.id %>').disabled = false;
+      } else if ((description_count_<%= @service.id %> < 5) || (description_count_<%= @service.id %> > 1000)) {
+        description_counter_<%= @service.id %>.innerText = description_count_<%= @service.id %> + '/1000';
+        description_counter_<%= @service.id %>.style.color = 'red';
+        document.getElementById('update-service-<%= @service.id %>').disabled = true;
       } else {
         description_counter_<%= @service.id %>.innerText = description_count_<%= @service.id %> + '/1000';
         description_counter_<%= @service.id %>.style.color = 'black';
+        document.getElementById('update-service-<%= @service.id %>').disabled = false;
       }
-    })
+    });
     document.getElementById('service-<%= @service.id %>').style.display = 'block';
     document.getElementById('edit_service_<%= @service.id %>').style.display = 'none';
   }
