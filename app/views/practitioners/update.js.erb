@@ -31,26 +31,26 @@ if ('<%= @param.keys.first %>' == "country_code") {
   function fillInForm() {
     document.getElementById('address-submit').disabled = true;
     var place = autocomplete.getPlace();
-    if (!place.geometry) {
-      // User entered the name of a Place that was not suggested and
-      // pressed the Enter key, or the Place Details request failed.
-      window.alert("No details available for input: '" + place.name + "'");
-      return;
-    } else {
-      document.getElementById('practitioner_latitude').value = place.geometry.location.lat()
-      document.getElementById('practitioner_longitude').value = place.geometry.location.lng()
+    if (!place.geometry) {
+      // User entered the name of a Place that was not suggested and
+      // pressed the Enter key, or the Place Details request failed.
+      window.alert("No details available for input: '" + place.name + "'");
+      return;
+    } else {
+      document.getElementById('practitioner_latitude').value = place.geometry.location.lat()
+      document.getElementById('practitioner_longitude').value = place.geometry.location.lng()
       document.getElementById('address-submit').disabled = false;
     }
   }
   function fillInForm1() {
     document.getElementById('city-submit').disabled = true;
     var place1 = autocomplete1.getPlace();
-    if (!place1.geometry) {
-      // User entered the name of a Place that was not suggested and
-      // pressed the Enter key, or the Place Details request failed.
-      window.alert("No details available for input: '" + place1.name + "'");
-      return;
-    } else {
+    if (!place1.geometry) {
+      // User entered the name of a Place that was not suggested and
+      // pressed the Enter key, or the Place Details request failed.
+      window.alert("No details available for input: '" + place1.name + "'");
+      return;
+    } else {
       document.getElementById('city-submit').disabled = false;
     }
   }
