@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_14_131833) do
+ActiveRecord::Schema.define(version: 2021_07_13_221427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,6 +165,16 @@ ActiveRecord::Schema.define(version: 2021_06_14_131833) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "description"
+  end
+
+  create_table "post_sub_categories", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.bigint "post_category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_category_id"], name: "index_post_sub_categories_on_post_category_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -174,10 +184,10 @@ ActiveRecord::Schema.define(version: 2021_06_14_131833) do
     t.string "author"
     t.text "body"
     t.string "link"
-    t.bigint "post_category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["post_category_id"], name: "index_posts_on_post_category_id"
+    t.bigint "post_sub_category_id"
+    t.index ["post_sub_category_id"], name: "index_posts_on_post_sub_category_id"
   end
 
   create_table "practitioner_certifications", force: :cascade do |t|
@@ -427,7 +437,8 @@ ActiveRecord::Schema.define(version: 2021_06_14_131833) do
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users"
   add_foreign_key "payment_methods", "users"
-  add_foreign_key "posts", "post_categories"
+  add_foreign_key "post_sub_categories", "post_categories"
+  add_foreign_key "posts", "post_sub_categories"
   add_foreign_key "practitioner_certifications", "practitioners"
   add_foreign_key "practitioner_languages", "languages"
   add_foreign_key "practitioner_languages", "practitioners"

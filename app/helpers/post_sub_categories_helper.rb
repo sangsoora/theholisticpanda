@@ -1,0 +1,2 @@
+module PostSubCategoriesHelper
+end

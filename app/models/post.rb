@@ -1,5 +1,5 @@
 class Post < ApplicationRecord
-  belongs_to :post_category
+  belongs_to :post_sub_category
   has_one_attached :photo
 
   def to_param
