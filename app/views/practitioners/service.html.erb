@@ -55,11 +55,17 @@
     if (description_count == 1000) {
       description_counter.innerText = '1000/1000';
       description_counter.style.color = 'red';
+      document.getElementById('create-service').disabled = false;
+    } else if ((description_count < 5) || (description_count > 1000)) {
+      description_counter.innerText = description_count + '/1000';
+      description_counter.style.color = 'red';
+      document.getElementById('create-service').disabled = true;
     } else {
       description_counter.innerText = description_count + '/1000';
       description_counter.style.color = 'black';
+      document.getElementById('create-service').disabled = false;
     }
-  })
+  });
   var max = 5;
   var checks = document.querySelectorAll(".check");
   for (var i = 0; i < checks.length; i++) {
@@ -105,11 +111,17 @@
       if (description_count_<%= service.id %> == 1000) {
         description_counter_<%= service.id %>.innerText = '1000/1000';
         description_counter_<%= service.id %>.style.color = 'red';
+        document.getElementById('update-service-<%= @service.id %>').disabled = false;
+      } else if ((description_count_<%= service.id %> < 5) || (description_count_<%= service.id %> > 1000)) {
+        description_counter_<%= service.id %>.innerText = description_count_<%= service.id %> + '/1000';
+        description_counter_<%= service.id %>.style.color = 'red';
+        document.getElementById('update-service-<%= @service.id %>').disabled = true;
       } else {
         description_counter_<%= service.id %>.innerText = description_count_<%= service.id %> + '/1000';
         description_counter_<%= service.id %>.style.color = 'black';
+        document.getElementById('update-service-<%= @service.id %>').disabled = false;
       }
-    })
+    });
   <% end %>
   const tabs = document.querySelectorAll('.tab-underlined');
   const lists = document.querySelectorAll('.lists');
@@ -136,6 +148,6 @@
         }
         e.currentTarget.classList.toggle('active-tab');
       }
-    })
+    });
   }
 </script>

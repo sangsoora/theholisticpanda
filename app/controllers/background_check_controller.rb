@@ -1,6 +1,8 @@
 class BackgroundCheckController < ApplicationController
   skip_before_action :verify_authenticity_token, only: %i[certn_webhooks modo_webhooks]
   skip_before_action :authenticate_user!, only: %i[certn_webhooks modo_webhooks]
+  skip_after_action :verify_authorized, only: %i[certn_webhooks modo_webhooks]
+  skip_after_action :verify_policy_scoped, only: %i[certn_webhooks modo_webhooks]
   def certn_webhooks
     if params["status"] == 'Returned' && params["result"] == 'CLEARED' && params["certn_score_value"] == 'PASS'
       file_id = params["application"]["id"]

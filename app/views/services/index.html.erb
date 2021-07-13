@@ -219,7 +219,7 @@
                     <%= link_to 'Read more', service_path(service) %>
                   <% end %>
                 </div>
-                <div class="d-flex justify-content-between mt-2">
+                <div class="d-flex justify-content-between mt-2" style="flex-wrap: wrap;">
                   <div style="flex: 0 0 45%;">
                     <label>PRICE</label>
                     <p>CA$ <%= service.price.to_f.round(2) %></p>
@@ -228,6 +228,12 @@
                     <label>DURATION</label>
                     <p><%= service.duration %> mins</p>
                   </div>
+                  <% if service.reviews.count > 0 %>
+                    <div style="flex: 0 0 45%;">
+                        <label>RATING</label>
+                        <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+                    </div>
+                  <% end %>
                 </div>
                 <% if service.practitioner.user != current_user %>
                   <div class="text-center mt-3">
@@ -329,7 +335,7 @@
                   </div>
                   <div style="flex: 0 0 45%;">
                     <% if service.reviews.count > 0 %>
-                      <label>Rating</label>
+                      <label>RATING</label>
                       <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
                     <% end %>
                   </div>
@@ -378,7 +384,7 @@
                   <%= link_to 'Read more', service_path(service) %>
                 <% end %>
               </div>
-              <div class="d-flex justify-content-between mt-2">
+              <div class="d-flex justify-content-between mt-2" style="flex-wrap: wrap;">
                 <div style="flex: 0 0 45%;">
                   <label>PRICE</label>
                   <p>CA$ <%= service.price.to_f.round(2) %></p>
@@ -387,6 +393,12 @@
                   <label>DURATION</label>
                   <p><%= service.duration %> mins</p>
                 </div>
+                <% if service.reviews.count > 0 %>
+                  <div style="flex: 0 0 45%;">
+                      <label>RATING</label>
+                      <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+                  </div>
+                <% end %>
               </div>
               <% if service.practitioner.user != current_user %>
                 <div class="text-center mt-3">
