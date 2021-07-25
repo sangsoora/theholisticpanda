@@ -7,12 +7,16 @@ class PostsController < ApplicationController
     if params[:s] && params[:s] != ''
       if user_signed_in? && current_user.admin?
         @posts_by_post = policy_scope(Post).where("(title ILIKE :search) or (short_title ILIKE :search) or (body ILIKE :search)", search: "%#{params[:s]}%")
-        @posts_by_category = policy_scope(Post).left_outer_joins(:post_category).where("name ILIKE ?", "%#{params[:s]}%")
-        @posts = (@posts_by_post + @posts_by_category).uniq.sort_by(&:created_at).reverse
+        @posts_by_sub_category = policy_scope(Post).left_outer_joins(:post_sub_category).where("name ILIKE ?", "%#{params[:s]}%")
+        @posts_by_category = policy_scope(Post).left_outer_joins(post_sub_category: :post_category).where("post_categories.name ILIKE ?", "%#{params[:s]}%")
+        @posts_by_author = policy_scope(Post).left_outer_joins(:post_author).where("(first_name ILIKE :search) or (last_name ILIKE :search) or (first_name || ' ' || last_name ILIKE :search)", search: "%#{params[:s]}%")
+        @posts = (@posts_by_post + @posts_by_category + @posts_by_author).uniq.sort_by(&:created_at).reverse
       else
         @posts_by_post = policy_scope(Post).where("(title ILIKE :search) or (short_title ILIKE :search) or (body ILIKE :search)", search: "%#{params[:s]}%").where(published: true)
-        @posts_by_category = policy_scope(Post).left_outer_joins(:post_category).where("name ILIKE ?", "%#{params[:s]}%").where(published: true)
-        @posts = (@posts_by_post + @posts_by_category).uniq.sort_by(&:created_at).reverse
+        @posts_by_sub_category = policy_scope(Post).left_outer_joins(:post_sub_category).where("name ILIKE ?", "%#{params[:s]}%").where(published: true)
+        @posts_by_category = policy_scope(Post).left_outer_joins(post_sub_category: :post_category).where("post_categories.name ILIKE ?", "%#{params[:s]}%").where(published: true)
+        @posts_by_author = policy_scope(Post).left_outer_joins(:post_author).where("(first_name ILIKE :search) or (last_name ILIKE :search) or (first_name || ' ' || last_name ILIKE :search)", search: "%#{params[:s]}%").where(published: true)
+        @posts = (@posts_by_post + @posts_by_category + @posts_by_author).uniq.sort_by(&:created_at).reverse
       end
     else
       if user_signed_in? && current_user.admin?
@@ -26,7 +30,7 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     authorize @post
-    @post.post_category = PostCategory.find(params[:post][:post_category_id])
+    @post.post_sub_category = PostSubCategory.find(params[:post][:post_sub_category_id])
     @post.short_title = params[:post][:short_title].parameterize
     @post.save!
     redirect_to posts_url
@@ -47,6 +51,7 @@ class PostsController < ApplicationController
     else
       if @post.update(post_params)
         @post.update(short_title: params[:post][:short_title].parameterize) if params[:post][:short_title]
+        @post.update(post_sub_category: PostSubCategory.find(params[:post][:post_sub_category_id])) if params[:post][:post_sub_category_id]
         flash[:notice] = 'post has been successfully updated!'
       else
         flash[:alert] = 'Something went wrong!'
@@ -72,6 +77,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :author, :body, :link, :short_title, :published, :photo)
+    params.require(:post).permit(:title, :body, :short_title, :published, :minutes, :post_author_id, :post_sub_category_id, :photo)
   end
 end

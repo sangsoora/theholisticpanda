@@ -4,7 +4,7 @@
 <div class="specialty-icons">
   <div class="swiper-container" id="explore-specialties-desktop">
     <div class="swiper-wrapper">
-      <% Specialty.all.each do |specialty| %>
+      <% Specialty.all.order(:id).each do |specialty| %>
         <div class="swiper-slide">
           <a href="specialties/<%= specialty.id %>">
             <%= image_tag("specialty/#{specialty.id}.png") %>
@@ -16,7 +16,7 @@
   </div>
   <div class="swiper-container" id="explore-specialties-mobile">
     <div class="swiper-wrapper">
-      <% Specialty.all.each do |specialty| %>
+      <% Specialty.all.order(:id).each do |specialty| %>
         <div class="swiper-slide">
           <a href="specialties/<%= specialty.id %>">
             <%= image_tag("specialty/#{specialty.id}.png") %>

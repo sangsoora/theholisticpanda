@@ -1,8 +1,8 @@
-<div class="blog-navbar" style="margin-top: 0;">
-  <p>The Holistic Panda Blog</p>
+<div class="blog-navbar mt-0">
+  <%= link_to 'The Holistic Panda Blog', posts_url(subdomain: 'blog') %>
   <div>
-    <% PostCategory.all.each do |cat| %>
-      <%= link_to cat.name, post_category_path(cat), class: 'mr-4'  %>
+    <% PostCategory.all.order(:id).each do |cat| %>
+      <%= link_to cat.name.upcase, post_category_path(cat), class: 'mr-4'  %>
     <% end %>
   </div>
   <%= simple_form_for :search, url: posts_path, method: "GET", html: { id: 'search-post-form' } do |f| %>
@@ -37,9 +37,17 @@
                 <%= f.input :title, require: true %>
                 <%= f.input :short_title, require: true, label: 'Short title for URL' %>
                 <%= f.input :body, as: :ckeditor, require: true %>
-                <%= f.input :author, require: true %>
-                <%= f.input :post_category_id, collection: PostCategory.all.map { |category| [category.name, category.id] }, include_blank: false %>
-                <%= f.input :link %>
+                <%= f.input :post_author_id, collection: PostAuthor.all.map { |author| [author.full_name, author.id] }, include_blank: false, require: true %>
+                <label for="post_sub_category">Category</label>
+                <select class="form-control select optional mb-4" name="post[post_sub_category_id]" id="post_sub_category" required="">
+                <% PostCategory.all.each do |cat| %>
+                  <optgroup label="<%= cat.name.split.map(&:capitalize).join(' ') %>">
+                    <% cat.post_sub_categories.each do |sub| %>
+                      <option value="<%= sub.id %>"><%= sub.name.split.map(&:capitalize).join(' ') %></option>
+                      <% end %>
+                  </optgroup>
+                <% end %>
+              </select>
                 <%= f.input :photo, as: :file, input_html: {  }, label_html: { class: 'upload-photo'} %>
                 <%= f.submit :Update, class: 'btn btn-flat' %>
                 <%= link_to 'Cancel', '', class: 'btn btn-ghost ml-3' %>
@@ -60,7 +68,28 @@
       <%= link_to 'Delete', post_path(@post), method: :delete, data: { confirm: "Are you sure?"}, class: 'btn btn-ghost' %>
     <% end %>
   </div>
-  <p>by <%= @post.author %></p>
+  <div class="post-author">
+    <% if @post.post_author.photo.attached? %>
+      <img src="<%= cdn_for(post.post_author.photo) %>" class="post-author-image" alt="<%= post.post_author.full_name %>">
+    <% else %>
+      <% if @post.post_author.practitioner %>
+        <img src="<%= cdn_for(post.post_author.practitioner.user.photo) %>" class="post-author-image" alt="<%= post.post_author.full_name %>">
+      <% else %>
+        <%= image_tag 'profile.png', class: "post-author-image" %>
+      <% end %>
+    <% end %>
+    <div class="post-author-detail">
+      <div>
+        <% if @post.post_author.practitioner %>
+          by <%= link_to @post.post_author.full_name, practitioner_path(@post.post_author.practitioner) %><br />
+          <%= @post.post_author.practitioner.title %>
+        <% else %>
+          by <%= link_to @post.post_author.full_name, post.post_author.link %><br />
+          <%= @post.post_author.title %>
+        <% end %>
+      </div>
+    </div>
+  </div>
   <p><strong><%= @post.created_at.strftime('%B %d, %Y') %></strong></p>
   <%= social_share_button_tag(@post.title, url: post_path(@post), desc: @post.title) %>
   <p><%= @post.body.html_safe %></p>

@@ -61,17 +61,16 @@
   background-image: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ), url('specialty.jpg');
   background-size: cover;
   padding-top: 10vh;
-}
-
-.specialty-banner h2 {
-  color: white;
-  font-size: 2rem;
-  width: 80%;
-  margin: 1.5rem auto 0;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-  text-align: center;
-  padding-top: 12rem;
-  padding-bottom: 5rem;
+  h2 {
+    color: white;
+    font-size: 2rem;
+    width: 80%;
+    margin: 1.5rem auto 0;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    text-align: center;
+    padding-top: 12rem;
+    padding-bottom: 5rem;
+  }
 }
 
 .specialty-banner-body {
@@ -159,51 +158,52 @@
   }
 }
 
-
 #explore-specialties-desktop {
   width: 90%;
   margin: 1rem auto;
 }
 
-.swiper-slide {
-  text-align: center;
-  img {
-    width: 40%;
-    margin-bottom: 0.5rem;
+.specialty-icons {
+  .swiper-slide {
+    text-align: center;
+    img {
+      width: 40%;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
   }
-  p {
-    font-size: 0.75rem;
-    font-weight: 600;
+
+  .swiper-button-prev, .swiper-button-next {
+    top: auto !important;
+    bottom: 32px;
+    &:focus {
+      outline: none;
+    }
   }
-}
 
-.swiper-button-prev, .swiper-button-next {
-  top: auto !important;
-  bottom: 32px;
-  &:focus {
-    outline: none;
+  .swiper-button-prev {
+    left: 20px !important;
   }
-}
 
-.swiper-button-prev {
-  left: 20px !important;
-}
+  .swiper-button-next {
+    right: 20px !important;
+  }
 
-.swiper-button-next {
-  right: 20px !important;
-}
+  .swiper-button-prev:after, .swiper-container-rtl .swiper-button-next:after {
+    font-size: 1.5rem !important;
+    font-weight: 700;
+    color: $pink;
+  }
 
-.swiper-button-prev:after, .swiper-container-rtl .swiper-button-next:after {
-  font-size: 1.5rem !important;
-  font-weight: 700;
-  color: $pink;
-}
-
-.swiper-button-next:after, .swiper-container-rtl .swiper-button-prev:after {
-  font-size: 1.5rem !important;
-  font-weight: 700;
-  color: $pink;
-  right: 40px;
+  .swiper-button-next:after, .swiper-container-rtl .swiper-button-prev:after {
+    font-size: 1.5rem !important;
+    font-weight: 700;
+    color: $pink;
+    right: 40px;
+  }
 }
 
 #explore-specialties-mobile {
@@ -232,6 +232,72 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 0.5rem;
+}
+
+.blog-banner {
+  background-image: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ), url('blog.png');
+  background-size: cover;
+  margin-top: 68px;
+  padding-top: 3rem;
+  height: 508px;
+  h1 {
+    color: white;
+    font-size: 3rem;
+    width: 80%;
+    margin: 2rem auto;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    text-align: center;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  h2 {
+    color: white;
+    font-size: 2rem;
+    width: 80%;
+    margin: 1.5rem auto 0;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    text-align: center;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  p {
+    color: white;
+    font-size: 1.5rem;
+    margin: 1.5rem auto 0;
+    width: 80%;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    text-align: center;
+    padding-bottom: 3rem;
+  }
+}
+
+.blog-banner-swiper {
+  .swiper-button-prev, .swiper-button-next {
+    top: 20%;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .swiper-button-prev {
+    left: 40px !important;
+  }
+
+  .swiper-button-next {
+    right: 40px !important;
+  }
+
+  .swiper-button-prev:after, .swiper-container-rtl .swiper-button-next:after {
+    font-size: 2.5rem !important;
+    font-weight: 600;
+    color: white;
+  }
+
+  .swiper-button-next:after, .swiper-container-rtl .swiper-button-prev:after {
+    font-size: 2.5rem !important;
+    font-weight: 600;
+    color: white;
+  }
 }
 
 // X-Small devices (portrait phones, less than 576px)
@@ -291,17 +357,19 @@
     width: 80%;
     margin: 1rem auto;
   }
-  .swiper-button-prev:after, .swiper-container-rtl .swiper-button-next:after, .swiper-button-next:after, .swiper-container-rtl .swiper-button-prev:after {
-    font-size: 1.25rem !important;
-  }
-  .swiper-button-prev {
-    left: 10px !important;
-  }
-  .swiper-button-next {
-    right: 10px !important;
-  }
-  .swiper-slide p {
-    font-size: 0.625rem;
+  .specialty-icons {
+    .swiper-button-prev:after, .swiper-container-rtl .swiper-button-next:after, .swiper-button-next:after, .swiper-container-rtl .swiper-button-prev:after {
+      font-size: 1.25rem !important;
+    }
+    .swiper-button-prev {
+      left: 10px !important;
+    }
+    .swiper-button-next {
+      right: 10px !important;
+    }
+    .swiper-slide p {
+      font-size: 0.625rem;
+    }
   }
   .specialty-banner {
     background-image: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ), url('specialty-mobile-min.png');

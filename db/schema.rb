@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_13_221427) do
+ActiveRecord::Schema.define(version: 2021_07_18_150921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -161,6 +161,18 @@ ActiveRecord::Schema.define(version: 2021_07_13_221427) do
     t.index ["user_id"], name: "index_payment_methods_on_user_id"
   end
 
+  create_table "post_authors", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "description"
+    t.string "link"
+    t.bigint "practitioner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "title"
+    t.index ["practitioner_id"], name: "index_post_authors_on_practitioner_id"
+  end
+
   create_table "post_categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -181,12 +193,13 @@ ActiveRecord::Schema.define(version: 2021_07_13_221427) do
     t.string "title"
     t.string "short_title"
     t.boolean "published"
-    t.string "author"
     t.text "body"
-    t.string "link"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "post_sub_category_id"
+    t.bigint "post_author_id"
+    t.integer "minutes"
+    t.index ["post_author_id"], name: "index_posts_on_post_author_id"
     t.index ["post_sub_category_id"], name: "index_posts_on_post_sub_category_id"
   end
 
@@ -437,7 +450,9 @@ ActiveRecord::Schema.define(version: 2021_07_13_221427) do
   add_foreign_key "messages", "conversations"
   add_foreign_key "messages", "users"
   add_foreign_key "payment_methods", "users"
+  add_foreign_key "post_authors", "practitioners"
   add_foreign_key "post_sub_categories", "post_categories"
+  add_foreign_key "posts", "post_authors"
   add_foreign_key "posts", "post_sub_categories"
   add_foreign_key "practitioner_certifications", "practitioners"
   add_foreign_key "practitioner_languages", "languages"

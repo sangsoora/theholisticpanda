@@ -124,6 +124,10 @@ Rails.application.routes.draw do
 
   resources :post_categories, only: [:show], constraints: { subdomain: 'blog' }
 
+  resources :post_sub_categories, only: [:show], constraints: { subdomain: 'blog' }
+
+  resources :post_authors, only: [:show], constraints: { subdomain: 'blog' }
+
   mount StripeEvent::Engine, at: '/stripe-webhooks'
 
   # post '/background_check/modo_webhooks', to: 'background_check#modo_webhooks'

@@ -1378,6 +1378,57 @@ Faq.create(question: 'What if the 3-time slots don’t work for me? How do I sub
 puts '-' * 60
 puts 'Faqs created'
 puts '-' * 60
+puts '=' * 60
+puts '-' * 60
+puts 'Creating events'
+puts '-' * 60
+
+Event.create(name: 'The Holistic Panda Launch Party part 1', description: 'What if the 3-time slots don’t work for me? How do I submit a new time slot?', start_time: DateTime.new(2021, 1, 4, 18, 00, 0), duration: '180', link: 'www.theholisticpanda.com', user_id: 6)
+Event.create(name: 'The Holistic Panda Launch Party part 2', description: 'What if the 3-time slots don’t work for me? How do I submit a new time slot?', start_time: DateTime.new(2021, 9, 4, 18, 00, 0), duration: '80', link: 'www.theholisticpanda.com', user_id: 7)
+
+puts '-' * 60
+puts 'Events created'
+puts '-' * 60
+puts '=' * 60
+puts '-' * 60
+puts 'Creating post categories'
+puts '-' * 60
+
+PostCategory.create(name: 'relationship', description: 'Explore stories and expert insights on navigating relationships challenges and issues with romantic parnters, family and friends, and other important partnerships that shape our experiences in this world')
+PostCategory.create(name: 'career', description: 'Explore stories and expert insights on navigating challenges and issues pertaining to career, including career exploration, development and transitions')
+PostCategory.create(name: 'innerself', description: 'Explore stories and expert insights on finding alignment with yourself, building up your inner strength, and getting empowered through inner-transformation')
+PostCategory.create(name: 'mind & body', description: 'Explore stories and expert insights on topics related to the mind and body, including holistic treatments, nutrition and fitness tips, and skin-care tips and intel')
+PostCategory.create(name: 'inspiring stories', description: 'Read inspiring stories from members of our community and Asian thought leaders and changemakers on breaking the bamboo ceiling, maintaining wellness, and finding alignment in their lives')
+
+puts '-' * 60
+puts 'Post categories created'
+puts '-' * 60
+puts '=' * 60
+puts '-' * 60
+puts 'Creating post sub categories'
+puts '-' * 60
+
+PostSubCategory.create(name: 'family', post_category_id: 1)
+PostSubCategory.create(name: 'friends', post_category_id: 1)
+PostSubCategory.create(name: 'romantic love', post_category_id: 1)
+PostSubCategory.create(name: 'career development', post_category_id: 2)
+PostSubCategory.create(name: 'career transition', post_category_id: 2)
+PostSubCategory.create(name: 'leadership', post_category_id: 2)
+PostSubCategory.create(name: 'money management', post_category_id: 2)
+PostSubCategory.create(name: 'personal growth & development', post_category_id: 3)
+PostSubCategory.create(name: 'mindfulness', post_category_id: 3)
+PostSubCategory.create(name: 'spiritual wellness', post_category_id: 3)
+PostSubCategory.create(name: 'self-empowerment', post_category_id: 3)
+PostSubCategory.create(name: 'nutrition', post_category_id: 4)
+PostSubCategory.create(name: 'fitness', post_category_id: 4)
+PostSubCategory.create(name: 'skin-care', post_category_id: 4)
+PostSubCategory.create(name: 'holistic treatments', post_category_id: 4)
+PostSubCategory.create(name: 'member stories', post_category_id: 5)
+PostSubCategory.create(name: 'interviews with trailblazers', post_category_id: 5)
+
+puts '-' * 60
+puts 'Post sub categories created'
+puts '-' * 60
 
 puts '=' * 60
 puts 'Seeding ended'

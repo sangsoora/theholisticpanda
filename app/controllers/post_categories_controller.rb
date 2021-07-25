@@ -5,16 +5,16 @@ class PostCategoriesController < ApplicationController
 
   def show
     if user_signed_in? && current_user.admin?
-      @posts = Post.where(post_category: @post_category).order(created_at: :desc)
+      @posts = @post_category.posts.order(created_at: :desc)
     else
-      @posts = Post.where(post_category: @post_category).where(published: true).order(created_at: :desc)
+      @posts = @post_category.posts.where(published: true).order(created_at: :desc)
     end
   end
 
   private
 
   def set_post_category
-    @post_category = PostCategory.find_by_name!(params[:id])
+    @post_category = PostCategory.find_by_name!(params[:id].gsub('_', ' '))
     authorize @post_category
   end
 
