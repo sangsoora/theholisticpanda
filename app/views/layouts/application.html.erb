@@ -39,6 +39,8 @@
       <%= yield(:navbar) %>
     <% elsif content_for?(:home_navbar) %>
       <%= yield(:home_navbar) %>
+    <% elsif content_for?(:blog_navbar) %>
+      <%= yield(:blog_navbar) %>
     <% else %>
       <%= render 'shared/navbar' %>
     <% end %>

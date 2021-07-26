@@ -7,6 +7,9 @@
     <% end %>
   </style>
 <% end %>
+<% content_for :blog_navbar do %>
+  <%= render 'shared/blog_navbar' %>
+<% end %>
 <div class="blog-navbar">
   <%= link_to 'The Holistic Panda Blog', posts_url(subdomain: 'blog') %>
   <div>
@@ -73,6 +76,7 @@
                   </optgroup>
                 <% end %>
               </select>
+              <%= f.input :minutes %>
               <%= f.input :photo, as: :file, input_html: {  }, label_html: { class: 'upload-photo'} %>
               <%= f.submit :Create, class: 'btn btn-flat' %>
               <%= link_to 'Cancel', '', class: 'btn btn-ghost ml-3' %>
@@ -98,7 +102,14 @@
               <%= image_tag 'virtual-min.png' %>
             <% end %>
             <div class="post-detail">
-              <p class="category-name"><%= post.post_category.name.upcase %></p>
+              <div class="d-flex justify-content-between">
+                <p class="category-name"><%= post.post_category.name.upcase %></p>
+                <p class="post-minutes">
+                  <% if post.minutes %>
+                    <%= post.minutes %> minutes read
+                  <% end %>
+                </p>
+              </div>
               <h2><%= link_to post.title, post_path(post) %></h2>
               <div class="post-summary"><%= (post.body.split('</p>')[0] + '</p>').html_safe %></div>
               <div class="post-author">
@@ -113,11 +124,9 @@
                 <% end %>
                 <div class="post-author-detail">
                   <% if post.post_author.practitioner %>
-                    by <%= link_to post.post_author.full_name, practitioner_path(post.post_author.practitioner) %><br />
-                    <%= post.post_author.practitioner.title %>
+                    by <%= link_to post.post_author.full_name, practitioner_url(post.post_author.practitioner) %> <%= post.post_author.practitioner.title %>
                   <% else %>
-                    by <%= link_to post.post_author.full_name, post.post_author.link %><br />
-                    <%= post.post_author.title %>
+                    by <%= link_to post.post_author.full_name, post.post_author.link %> <%= post.post_author.title %>
                   <% end %>
                 </div>
               </div>

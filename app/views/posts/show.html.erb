@@ -1,3 +1,6 @@
+<% content_for :blog_navbar do %>
+  <%= render 'shared/blog_navbar' %>
+<% end %>
 <div class="blog-navbar mt-0">
   <%= link_to 'The Holistic Panda Blog', posts_url(subdomain: 'blog') %>
   <div>
@@ -20,8 +23,8 @@
   <h1><%= @post.title %></h1>
 </div>
 <div class="container post-page my-4">
-  <div class="d-flex mb-3">
-    <% if user_signed_in? && current_user.admin? %>
+  <% if user_signed_in? && current_user.admin? %>
+    <div class="d-flex mb-3">
       <%= link_to 'Edit', '', data: { toggle: "modal", target: "#editPostModal" }, class: 'btn btn-flat mr-4' %>
       <div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document" style="min-width: 80vw;">
@@ -40,14 +43,15 @@
                 <%= f.input :post_author_id, collection: PostAuthor.all.map { |author| [author.full_name, author.id] }, include_blank: false, require: true %>
                 <label for="post_sub_category">Category</label>
                 <select class="form-control select optional mb-4" name="post[post_sub_category_id]" id="post_sub_category" required="">
-                <% PostCategory.all.each do |cat| %>
-                  <optgroup label="<%= cat.name.split.map(&:capitalize).join(' ') %>">
-                    <% cat.post_sub_categories.each do |sub| %>
-                      <option value="<%= sub.id %>"><%= sub.name.split.map(&:capitalize).join(' ') %></option>
-                      <% end %>
-                  </optgroup>
-                <% end %>
-              </select>
+                  <% PostCategory.all.each do |cat| %>
+                    <optgroup label="<%= cat.name.split.map(&:capitalize).join(' ') %>">
+                      <% cat.post_sub_categories.each do |sub| %>
+                        <option value="<%= sub.id %>"><%= sub.name.split.map(&:capitalize).join(' ') %></option>
+                        <% end %>
+                    </optgroup>
+                  <% end %>
+                </select>
+                <%= f.input :minutes %>
                 <%= f.input :photo, as: :file, input_html: {  }, label_html: { class: 'upload-photo'} %>
                 <%= f.submit :Update, class: 'btn btn-flat' %>
                 <%= link_to 'Cancel', '', class: 'btn btn-ghost ml-3' %>
@@ -66,14 +70,14 @@
         <% end %>
       <% end %>
       <%= link_to 'Delete', post_path(@post), method: :delete, data: { confirm: "Are you sure?"}, class: 'btn btn-ghost' %>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
   <div class="post-author">
     <% if @post.post_author.photo.attached? %>
-      <img src="<%= cdn_for(post.post_author.photo) %>" class="post-author-image" alt="<%= post.post_author.full_name %>">
+      <img src="<%= cdn_for(@post.post_author.photo) %>" class="post-author-image" alt="<%= @post.post_author.full_name %>">
     <% else %>
       <% if @post.post_author.practitioner %>
-        <img src="<%= cdn_for(post.post_author.practitioner.user.photo) %>" class="post-author-image" alt="<%= post.post_author.full_name %>">
+        <img src="<%= cdn_for(@post.post_author.practitioner.user.photo) %>" class="post-author-image" alt="<%= @post.post_author.full_name %>">
       <% else %>
         <%= image_tag 'profile.png', class: "post-author-image" %>
       <% end %>
@@ -81,10 +85,10 @@
     <div class="post-author-detail">
       <div>
         <% if @post.post_author.practitioner %>
-          by <%= link_to @post.post_author.full_name, practitioner_path(@post.post_author.practitioner) %><br />
+          by <%= link_to @post.post_author.full_name, practitioner_url(@post.post_author.practitioner) %><br />
           <%= @post.post_author.practitioner.title %>
         <% else %>
-          by <%= link_to @post.post_author.full_name, post.post_author.link %><br />
+          by <%= link_to @post.post_author.full_name, @post.post_author.link %><br />
           <%= @post.post_author.title %>
         <% end %>
       </div>
