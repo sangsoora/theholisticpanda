@@ -1,0 +1,2 @@
+class PostAuthorsController < ApplicationController
+end

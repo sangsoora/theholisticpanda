@@ -67,6 +67,25 @@ const initSwiper = () => {
       },
     });
   }
+  if (document.getElementById('blog-banner-swiper')) {
+    var mySwiper = new Swiper('#blog-banner-swiper', {
+    // Optional parameters
+      autoplay: {
+        delay: 6000,
+        disableOnInteraction: true,
+      },
+      loop: true,
+      // Navigation arrows
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      // And if we need scrollbar
+      scrollbar: {
+        el: '.swiper-scrollbar',
+      },
+    });
+  }
 };
 
 export { initSwiper };
