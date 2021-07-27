@@ -96,11 +96,13 @@
       <div class="posts">
         <% @posts.each do |post| %>
           <div class="post">
-            <% if post.photo.attached? %>
-              <img src="<%= cdn_for(post.photo) %>" alt="<%= post.title %>">
-            <% else %>
-              <%= image_tag 'virtual-min.png' %>
-            <% end %>
+            <a href="/posts/<%= post.short_title %>">
+              <% if post.photo.attached? %>
+                <img src="<%= cdn_for(post.photo) %>" alt="<%= post.title %>">
+              <% else %>
+                <%= image_tag 'virtual-min.png' %>
+              <% end %>
+            </a>
             <div class="post-detail">
               <div class="d-flex justify-content-between">
                 <p class="category-name"><%= post.post_category.name.upcase %></p>
@@ -124,9 +126,11 @@
                 <% end %>
                 <div class="post-author-detail">
                   <% if post.post_author.practitioner %>
-                    by <%= link_to post.post_author.full_name, practitioner_url(post.post_author.practitioner) %> <%= post.post_author.practitioner.title %>
+                    by <%= link_to post.post_author.full_name, practitioner_url(post.post_author.practitioner) %><br />
+                    <%= post.post_author.practitioner.title %>
                   <% else %>
-                    by <%= link_to post.post_author.full_name, post.post_author.link %> <%= post.post_author.title %>
+                    by <%= link_to post.post_author.full_name, post.post_author.link %><br />
+                    <%= post.post_author.title %>
                   <% end %>
                 </div>
               </div>
