@@ -1394,7 +1394,7 @@ puts '-' * 60
 puts 'Creating post categories'
 puts '-' * 60
 
-PostCategory.create(name: 'relationship', description: 'Explore stories and expert insights on navigating relationships challenges and issues with romantic parnters, family and friends, and other important partnerships that shape our experiences in this world')
+PostCategory.create(name: 'relationships', description: 'Explore stories and expert insights on navigating relationships challenges and issues with romantic parnters, family and friends, and other important partnerships that shape our experiences in this world')
 PostCategory.create(name: 'career', description: 'Explore stories and expert insights on navigating challenges and issues pertaining to career, including career exploration, development and transitions')
 PostCategory.create(name: 'innerself', description: 'Explore stories and expert insights on finding alignment with yourself, building up your inner strength, and getting empowered through inner-transformation')
 PostCategory.create(name: 'mind & body', description: 'Explore stories and expert insights on topics related to the mind and body, including holistic treatments, nutrition and fitness tips, and skin-care tips and intel')

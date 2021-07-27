@@ -22,9 +22,9 @@ const initSwiper = () => {
       },
 
       // And if we need scrollbar
-      scrollbar: {
-        el: '.swiper-scrollbar',
-      },
+      // scrollbar: {
+      //   el: '.swiper-scrollbar',
+      // },
     });
   }
   if (document.getElementById('explore-specialties-mobile')) {
@@ -46,9 +46,9 @@ const initSwiper = () => {
       },
 
       // And if we need scrollbar
-      scrollbar: {
-        el: '.swiper-scrollbar',
-      },
+      // scrollbar: {
+      //   el: '.swiper-scrollbar',
+      // },
     });
   }
   if (document.getElementById('practitioners-swiper')) {
@@ -62,9 +62,9 @@ const initSwiper = () => {
       // Navigation arrows
 
       // And if we need scrollbar
-      scrollbar: {
-        el: '.swiper-scrollbar',
-      },
+      // scrollbar: {
+      //   el: '.swiper-scrollbar',
+      // },
     });
   }
   if (document.getElementById('blog-banner-swiper')) {
@@ -81,9 +81,9 @@ const initSwiper = () => {
         prevEl: '.swiper-button-prev',
       },
       // And if we need scrollbar
-      scrollbar: {
-        el: '.swiper-scrollbar',
-      },
+      // scrollbar: {
+      //   el: '.swiper-scrollbar',
+      // },
     });
   }
 };

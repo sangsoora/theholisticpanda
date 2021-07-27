@@ -99,7 +99,9 @@ CKEDITOR.editorConfig = function( config )
     '/',
     { name: 'styles', items: [ 'Font', 'FontSize' ] },
     { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-    { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ] }
+    { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ] },
+    { name: 'links', groups: [ 'links' ], items: [ 'Link', 'Unlink', 'Anchor' ] },
+    { name: 'clipboard', items: [ 'Undo', 'Redo' ] },
   ];
 
   config.toolbar_mini = [
@@ -107,6 +109,8 @@ CKEDITOR.editorConfig = function( config )
     { name: 'styles', items: [ 'Font', 'FontSize' ] },
     { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
     { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ] },
+    { name: 'links', groups: [ 'links' ], items: [ 'Link', 'Unlink', 'Anchor' ] },
+    { name: 'clipboard', items: [ 'Undo', 'Redo' ] },
     { name: 'insert', items: [ 'Table', 'SpecialChar' ] }
   ];
   config.toolbar = "mini";
