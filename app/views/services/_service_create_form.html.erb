@@ -23,7 +23,7 @@
             <p><small><em>Please add physical address where you will be conducting In-person service in <%= link_to 'Profile Page', practitioner_profile_path %> if you want to conduct In-person service.</em></small></p>
           <% end %>
         </div>
-        <%= f.input :specialty, label: 'Speciality', as: :select, collection: practitioner.specialties, include_blank: false, include_hidden: false, require: true %>
+        <%= f.input :specialty, label: 'Specialty', as: :select, collection: practitioner.specialties, include_blank: false, include_hidden: false, require: true %>
         <%= render "service_health_goals/create_form", service: service %>
         <%= f.input :duration, label: 'Duration (in minutes)', input_html: { value: 15, min: 15, step: 15 }, require: true %>
         <div class="form-group string required service_price">

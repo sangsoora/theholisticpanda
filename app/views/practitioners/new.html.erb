@@ -24,7 +24,7 @@
         <%= f.select :timezone, @practitioner.timezone_choice.map { |zone| [zone[1], zone[0]] }, {include_blank: 'Select a time zone'}, {class: 'form-control select optional'} %>
       <% end %>
       <div class="form-group">
-        <label class="control-label check_boxes required">Your specialities</label>
+        <label class="control-label check_boxes required">Your specialties</label>
         <input type="hidden" name="practitioner[specialty_ids][]" value="">
         <div class="specialty-choices">
           <% Specialty.all.each do |specialty| %>
@@ -34,7 +34,7 @@
             </label>
           <% end %>
         </div>
-        <p>If you don't see a speciality that fits you, please email us at <a href="mailto:practitioner@theholisticpanda.com">practitioner@theholisticpanda.com</a>.</p>
+        <p>If you don't see a specialty that fits you, please email us at <a href="mailto:practitioner@theholisticpanda.com">practitioner@theholisticpanda.com</a>.</p>
       </div>
       <div class="form-group">
         <label class="control-label check_boxes required">Your languages</label>
