@@ -120,7 +120,7 @@ Rails.application.routes.draw do
 
   resources :tax_rates, only: %i[create update destroy]
 
-  resources :posts, only: %i[index show create edit update destroy], constraints: { subdomain: 'blog' }
+  resources :posts, only: %i[index show new create edit update destroy], constraints: { subdomain: 'blog' }
 
   resources :post_categories, only: [:show], constraints: { subdomain: 'blog' }
 
