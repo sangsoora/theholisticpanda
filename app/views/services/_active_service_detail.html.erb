@@ -15,7 +15,7 @@
 <% if service.reviews.count > 0 %>
   <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
 <% end %>
-<p>Speciality: <%= service.specialty.name %></p>
+<p>Specialty: <%= service.specialty.name %></p>
 <p>Related Health Goal(s): <%= service.health_goals.pluck(:name).join(', ') %></p>
 <p>Service Type: <%= service.service_type.capitalize %></p>
 <p>Duration: <%= service.duration %>m</p>

@@ -11,7 +11,7 @@
           <div id="practitioner-choices-list"></div>
         </div>
         <div id="specialty-choices">
-          <h4>By Specialities</h4>
+          <h4>By Specialties</h4>
           <div id="specialty-choices-list"></div>
         </div>
       </div>
@@ -42,7 +42,7 @@
                 <input type="hidden" name="search[health_goal][]" value="">
               </fieldset>
               <fieldset class="form-group check_boxes required filter_specialty">
-                <legend style="font-size: 1.25rem; margin-bottom: 0.5rem; cursor: pointer;" class="<% if params[:filter] && params[:filter][:specialty] && params[:filter][:specialty].length > 1 %>active-filter<% end %>" id="specialty-pop">Specialities <% if params[:filter] && params[:filter][:specialty] && params[:filter][:specialty].length > 1 %>(<%= params[:filter][:specialty].reject(&:blank?).count %>)<% end %> <i class="fas fa-chevron-down"></i></legend>
+                <legend style="font-size: 1.25rem; margin-bottom: 0.5rem; cursor: pointer;" class="<% if params[:filter] && params[:filter][:specialty] && params[:filter][:specialty].length > 1 %>active-filter<% end %>" id="specialty-pop">Specialties <% if params[:filter] && params[:filter][:specialty] && params[:filter][:specialty].length > 1 %>(<%= params[:filter][:specialty].reject(&:blank?).count %>)<% end %> <i class="fas fa-chevron-down"></i></legend>
                 <div class="specialty-select-box" id="specialty-select-box" style="top: 0 !important;">
                   <div class="specialty-choices">
                     <% @filtered_services_specialties.sort_by(&:name).each do |specialty| %>
@@ -171,7 +171,7 @@
                   </div>
                   <div class="d-flex justify-content-between">
                     <div style="flex: 0 0 45%;">
-                      <label>SPECIALITY</label>
+                      <label>SPECIALTY</label>
                       <p><%= service.specialty.name %></p>
                     </div>
                     <div style="flex: 0 0 45%;">
@@ -330,7 +330,7 @@
                 </div>
                 <div class="d-flex justify-content-between">
                   <div style="flex: 0 0 45%;">
-                    <label>SPECIALITY</label>
+                    <label>SPECIALTY</label>
                     <p><%= service.specialty.name %></p>
                   </div>
                   <div style="flex: 0 0 45%;">

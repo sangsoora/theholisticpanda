@@ -11,7 +11,7 @@
       <% end %>
     </select>
   </div>
-  <%= f.input :specialty, label: 'Speciality', as: :select, collection: @practitioner.specialties, include_blank: false, include_hidden: false, selected: service.specialty.id, require: true %>
+  <%= f.input :specialty, label: 'Specialty', as: :select, collection: @practitioner.specialties, include_blank: false, include_hidden: false, selected: service.specialty.id, require: true %>
   <%= render "service_health_goals/update_form", service: service %>
   <%= f.input :duration, label: 'Duration (in minutes)', input_html: { min: 15, step: 15, id: "service_duration_#{service.id}" } %>
   <%= f.input :price, label: 'Price (in CA$)' %>
