@@ -1,6 +1,6 @@
 class PostSubCategoriesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:show]
-  before_action :set_post_sub_category, only: %i[show destroy]
+  before_action :set_post_sub_category, only: [:show]
   before_action :set_notifications, only: [:show]
 
   def show
