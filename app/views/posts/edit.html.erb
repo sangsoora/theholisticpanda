@@ -1,6 +1,6 @@
 <div class="blog-navbar mt-0">
   <div class="blog-navbar-header">
-    <%= link_to 'The Holistic Panda Blog', posts_path(subdomain: 'blog') %><i class="fas fa-caret-down mobile ml-4" id="expand-nav"></i>
+    <%= link_to 'The Holistic Panda Blog', posts_path %><i class="fas fa-caret-down mobile ml-4" id="expand-nav"></i>
   </div>
   <div class="blog-navbar-links desktop">
     <% PostCategory.all.order(:id).each do |cat| %>

@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users, controllers: { registrations: 'registrations', confirmations: 'confirmations' }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  get '/', to: 'posts#index', constraints: { subdomain: 'blog' }
 
   root to: 'pages#home'
 
@@ -120,13 +119,17 @@ Rails.application.routes.draw do
 
   resources :tax_rates, only: %i[create update destroy]
 
-  resources :posts, only: %i[index show new create edit update destroy], constraints: { subdomain: 'blog' }
+  get '/blog', to: 'posts#index', as: :posts
 
-  resources :post_categories, only: [:show], constraints: { subdomain: 'blog' }
+  get '/blog/:id', to: 'posts#show', as: :post
 
-  resources :post_sub_categories, only: [:show], constraints: { subdomain: 'blog' }
+  resources :posts, only: %i[new create edit update destroy]
 
-  resources :post_authors, only: [:show], constraints: { subdomain: 'blog' }
+  resources :post_categories, only: [:show]
+
+  resources :post_sub_categories, only: [:show]
+
+  resources :post_authors, only: [:show]
 
   mount StripeEvent::Engine, at: '/stripe-webhooks'
 
