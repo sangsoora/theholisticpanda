@@ -7,29 +7,39 @@
     <% end %>
   </style>
 <% end %>
-<% content_for :blog_navbar do %>
-  <%= render 'shared/blog_navbar' %>
-<% end %>
 <div class="blog-navbar">
-  <%= link_to 'The Holistic Panda Blog', posts_path(subdomain: 'blog') %>
-  <div>
+  <div class="blog-navbar-header">
+    <%= link_to 'The Holistic Panda Blog', posts_path(subdomain: 'blog') %><i class="fas fa-caret-down mobile ml-4" id="expand-nav"></i>
+  </div>
+  <div class="blog-navbar-links desktop">
     <% PostCategory.all.order(:id).each do |cat| %>
       <%= link_to cat.name.upcase, post_category_path(cat), class: 'mr-4' %>
     <% end %>
   </div>
-  <%= simple_form_for :search, url: posts_path, method: "GET", html: { id: 'search-post-form' } do |f| %>
+  <%= simple_form_for :search, url: posts_path, method: "GET", html: { id: 'search-post-form', class: 'simple_form search desktop' } do |f| %>
     <div class="search-box-wrapper">
       <input id="search-box" name="s" placeholder="Search"><i class="fas fa-search" id="search-button"></i>
     </div>
   <% end %>
+  <div class="mobile">
+    <div class="blog-navbar-links">
+      <% PostCategory.all.order(:id).each do |cat| %>
+        <%= link_to cat.name.upcase, post_category_path(cat), class: 'mr-4' %>
+      <% end %>
+    </div>
+    <%= simple_form_for :search, url: posts_path, method: "GET", html: { id: 'search-post-form' } do |f| %>
+      <div class="search-box-wrapper">
+        <input id="search-box" name="s" placeholder="Search"><i class="fas fa-search" id="search-button"></i>
+      </div>
+    <% end %>
+  </div>
 </div>
 <div class="blog-banner-swiper">
   <div class="swiper-container" id="blog-banner-swiper">
     <div class="swiper-wrapper">
       <div class="swiper-slide">
         <div class="blog-banner">
-          <h2 class="pb-3">Looking for wellness content?</h2>
-          <h2 class="pt-3">You’ve come to the right spot</h2>
+          <h1>WELCOME TO OUR WELLNESS LIBRARY</h1>
           <p>Now sit back, relax, and explore our diverse range of topics to help you feel inspired and incorporate self-care practices into your lives.</p>
         </div>
       </div>
@@ -49,7 +59,7 @@
 <div class="container blog-page">
   <% if user_signed_in? && current_user.admin? %>
     <div class="text-center">
-      <%= link_to 'Create new post', new_post_path, class: 'btn btn-flat' %>
+      <%= link_to 'Create new post', new_post_path, class: 'btn btn-flat mb-3' %>
     </div>
   <% end %>
   <h2>Recent articles</h2>
@@ -144,5 +154,18 @@
 <script>
   document.getElementById('search-button').addEventListener('click', (e) => {
     document.getElementById('search-post-form').submit();
+  });
+  document.getElementById('expand-nav').addEventListener('click', (e) => {
+    if (e.currentTarget.classList.contains('fa-caret-down')) {
+      document.querySelector('.mobile .blog-navbar-links').style.display = 'grid';
+      document.querySelector('.mobile #search-post-form').style.display = 'block';
+      e.currentTarget.classList.remove('fa-caret-down');
+      e.currentTarget.classList.add('fa-caret-up');
+    } else {
+      document.querySelector('.mobile .blog-navbar-links').style.display = 'none';
+      document.querySelector('.mobile #search-post-form').style.display = 'none';
+      e.currentTarget.classList.remove('fa-caret-up');
+      e.currentTarget.classList.add('fa-caret-down');
+    }
   });
 </script>

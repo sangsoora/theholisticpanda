@@ -16,6 +16,10 @@
   p {
     margin-bottom: 0;
   }
+  .blog-navbar-header a {
+    font-weight: 600;
+    color: $pink;
+  }
 }
 
 .blog-page {
@@ -165,7 +169,90 @@
 
 // Small devices (landscape phones, less than 768px)
 @media (max-width: 767.98px) {
-
+  .blog-navbar, .posts-container, .posts {
+    display: block;
+  }
+  .blog-navbar {
+    text-align: center;
+    padding-bottom: 0;
+  }
+  .blog-navbar-header {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 0;
+    a {
+      font-size: 1.25rem;
+      display: inline-block;
+    }
+    i {
+      font-size: 1.75rem;
+      color: $pink;
+    }
+  }
+  .blog-navbar-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.5rem;
+    display: none;
+  }
+  .blog-newsletter {
+    margin: 2rem auto;
+    height: auto;
+    box-shadow: none;
+  }
+  #search-post-form {
+    display: none;
+    #search-box {
+      font-size: 1rem !important;
+      margin: 0.5rem auto;
+    }
+  }
+  .posts {
+    min-height: auto;
+    max-height: none;
+  }
+  .post {
+    margin-bottom: 1.5rem;
+    box-shadow: none;
+    > a > img {
+      height: auto;
+    }
+    .post-detail {
+      border-left: 1px black solid;
+      border-right: 1px black solid;
+      border-bottom: 1px black solid;
+      border-bottom-left-radius: 0.5rem;
+      border-bottom-right-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+    }
+  }
+  .post-image {
+    margin-top: 68px;
+    padding-top: 46px;
+    height: auto;
+    position: relative;
+    img {
+      width: 100%;
+      object-fit: cover;
+      height: 326px;
+    }
+    h1 {
+      position: absolute;
+      width: 100%;
+      color: white;
+      text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+      top: 2rem;
+      padding: 3rem 1rem;
+    }
+  }
+  .post-page {
+    padding: 1rem;
+    box-shadow: none;
+    .post-author .post-author-image {
+      width: 48px;
+      height: 48px;
+    }
+  }
 }
 
 // Mobile landscape

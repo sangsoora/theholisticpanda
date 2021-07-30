@@ -415,6 +415,33 @@
   #select-goal-mobile, #find-service-mobile {
     width: 80vw;
   }
+  .blog-banner {
+    height: auto;
+    background-position: center;
+    h1 {
+      font-size: 1.75rem;
+      width: 90%;
+      margin: 0 auto;
+      padding-top: 3rem;
+      padding-bottom: 1rem;
+      height: 130px;
+    }
+    p {
+      color: white;
+      font-size: 1rem;
+      margin: 1rem auto 0;
+      width: 90%;
+      letter-spacing: 1px;
+      font-weight: 400;
+      padding-bottom: 1rem;
+      height: 180px;
+    }
+  }
+  .blog-banner-swiper {
+    .swiper-button-prev, .swiper-button-next {
+      display: none;
+    }
+  }
 }
 
 // Mobile landscape
