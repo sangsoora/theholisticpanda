@@ -37,8 +37,8 @@
     display: flex;
     margin-bottom: 1rem;
     .post-author-image {
-      width: 80px;
-      height: 80px;
+      width: 5rem;
+      height: 5rem;
       border-radius: 50%;
     }
     .post-author-detail {
@@ -55,12 +55,12 @@
   margin-top: 68px;
   text-align: center;
   padding-top: 28px;
-  height: 508px;
+  height: 468px;
   position: relative;
   img {
     min-width: 100%;
     background-image: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) );
-    height: 480px;
+    height: 440px;
   }
   h1 {
     position: absolute;
@@ -234,23 +234,21 @@
     img {
       width: 100%;
       object-fit: cover;
-      height: 326px;
+      height: 256px;
     }
     h1 {
-      position: absolute;
-      width: 100%;
-      color: white;
-      text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
       top: 2rem;
-      padding: 3rem 1rem;
+      padding: 2rem 1rem;
+      font-size: 1.5rem;
+      line-height: 1.4;
     }
   }
   .post-page {
     padding: 1rem;
     box-shadow: none;
     .post-author .post-author-image {
-      width: 48px;
-      height: 48px;
+      width: 3rem;
+      height: 3rem;
     }
   }
 }

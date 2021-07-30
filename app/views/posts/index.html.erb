@@ -2,9 +2,16 @@
   <style>
     <% PostCategory.all.order(:id).each do |cat| %>
       .blog-banner-<%= cat.id %> {
-        background-image: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ), url('<%= url_for(cat.banner) %>');
+        background-image: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ), url('<%= cdn_for(cat.banner) %>');
       }
     <% end %>
+    @media (max-width: 767.98px) {
+      <% PostCategory.all.order(:id).each do |cat| %>
+        .blog-banner-<%= cat.id %> {
+          background-image: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ), url('<%= cdn_for(cat.mobile_banner) %>');
+        }
+      <% end %>
+    }
   </style>
 <% end %>
 <div class="blog-navbar">
@@ -38,6 +45,7 @@
   <div class="swiper-container" id="blog-banner-swiper">
     <div class="swiper-wrapper">
       <div class="swiper-slide">
+        <div class="blog-banner-space"></div>
         <div class="blog-banner">
           <h1>WELCOME TO OUR WELLNESS LIBRARY</h1>
           <p>Now sit back, relax, and explore our diverse range of topics to help you feel inspired and incorporate self-care practices into your lives.</p>
@@ -45,6 +53,7 @@
       </div>
       <% PostCategory.all.order(:id).each do |cat| %>
       <div class="swiper-slide">
+        <div class="blog-banner-space"></div>
         <div class="blog-banner blog-banner-<%= cat.id %>">
           <h1><%= cat.name.upcase %></h1>
           <p><%= cat.description %></p>
@@ -72,7 +81,7 @@
       <div class="posts">
         <% @posts.each do |post| %>
           <div class="post">
-            <a href="/posts/<%= post.short_title %>">
+            <a href="/blog/<%= post.short_title %>">
               <% if post.photo.attached? %>
                 <img src="<%= cdn_for(post.photo) %>" alt="<%= post.title %>">
               <% else %>

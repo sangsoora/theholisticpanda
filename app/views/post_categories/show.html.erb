@@ -3,9 +3,14 @@
     .blog-banner {
       background-image: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ), url('<%= cdn_for(@post_category.banner) %>');
     }
+    @media (max-width: 767.98px) {
+      .blog-banner {
+        background-image: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ), url('<%= cdn_for(@post_category.mobile_banner) %>');
+      }
+    }
   </style>
 <% end %>
-<div class="blog-navbar mt-0">
+<div class="blog-navbar">
   <div class="blog-navbar-header">
     <%= link_to 'The Holistic Panda Blog', posts_path %><i class="fas fa-caret-down mobile ml-4" id="expand-nav"></i>
   </div>
@@ -32,6 +37,7 @@
     <% end %>
   </div>
 </div>
+<div class="blog-banner-space"></div>
 <div class="blog-banner">
   <h1><%= @post_category.name.upcase %></h1>
   <p><%= @post_category.description %></p>
@@ -52,7 +58,7 @@
       <div class="posts">
         <% @posts.each do |post| %>
           <div class="post">
-            <a href="/posts/<%= post.short_title %>">
+            <a href="/blog/<%= post.short_title %>">
               <% if post.photo.attached? %>
                 <img src="<%= cdn_for(post.photo) %>" alt="<%= post.title %>">
               <% else %>
