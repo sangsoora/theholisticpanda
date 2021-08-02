@@ -1,3 +1,8 @@
+<% content_for :meta_title, "#{@event.name} on #{DEFAULT_META["meta_product_name"]}" %>
+<% content_for :meta_description, strip_tags(@event.description.gsub('"', '\'').gsub(/\n/, '<br/>').split('<br/>')[0]) %>
+<% if @event.photo.attached? %>
+  <% content_for :meta_image, cdn_for(@event.photo) %>
+<% end %>
 <% content_for :home_navbar do %>
   <%= render 'shared/home_navbar' %>
 <% end %>
@@ -13,7 +18,7 @@
         <%= link_to 'Delete', event_path(@event), method: :delete, data: { confirm: "Are you sure?"}, class: 'btn btn-ghost' %>
       </div>
       <div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="editEventModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document" style="min-width: 80vw;">
+        <div class="modal-dialog text-left" role="document" style="min-width: 80vw;">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="editEventModalLabel">Edit event</h5>

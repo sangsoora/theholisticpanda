@@ -1,3 +1,5 @@
+<% content_for :meta_title, "#{@specialty.name} on #{DEFAULT_META["meta_product_name"]}" %>
+<% content_for :meta_description, strip_tags(@specialty.description.gsub('"', '\'').gsub(/\n/, '<br/>').split('<br/>')[0]) %>
 <div class="container specialty-page">
   <div class="specialty-img">
     <%= image_tag("specialty/#{@specialty.id}") %>
