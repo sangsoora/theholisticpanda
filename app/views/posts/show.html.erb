@@ -1,3 +1,10 @@
+<% if @post.published %>
+  <% content_for :meta_title, "#{@post.title} on #{DEFAULT_META["meta_product_name"]}" %>
+  <% content_for :meta_description, strip_tags(@post.body.gsub('"', '\'').gsub(/\n/, '<br/>').split('<br/>')[0]) %>
+  <% if @post.photo.attached? %>
+    <% content_for :meta_image, cdn_for(@post.photo) %>
+  <% end %>
+<% end %>
 <div class="blog-navbar mt-0">
   <div class="blog-navbar-header">
     <%= link_to 'The Holistic Panda Blog', posts_path %><i class="fas fa-caret-down mobile ml-4" id="expand-nav"></i>

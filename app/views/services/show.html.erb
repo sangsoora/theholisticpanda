@@ -1,3 +1,10 @@
+<% if !@service.default_service && @service.active %>
+  <% content_for :meta_title, "#{@service.name} on #{DEFAULT_META["meta_product_name"]}" %>
+  <% content_for :meta_description, @service.description.gsub('"', '\'').gsub(/\n/, '<br/>').split('<br/>')[0] %>
+  <% if @service.practitioner.user.photo.attached? %>
+    <% content_for :meta_image, cdn_for(@service.practitioner.user.cropped_image) %>
+  <% end %>
+<% end %>
 <% provide :head_tags do %>
   <% if @service.service_type == 'In-person' %>
     <meta name='turbolinks-visit-control' content='reload'>
