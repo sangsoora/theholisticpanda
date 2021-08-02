@@ -50,11 +50,11 @@ class PostsController < ApplicationController
   def update
     if params[:commit] == 'Publish'
       @post.update(published: true)
-      flash[:notice] = 'post has been published!'
+      flash[:notice] = 'Post has been published!'
       redirect_to posts_path
     elsif params[:commit] == 'Unpublish'
       @post.update(published: false)
-      flash[:notice] = 'post has been unpublished!'
+      flash[:notice] = 'Post has been unpublished!'
       redirect_to posts_path
     else
       if @post.update(post_params)
