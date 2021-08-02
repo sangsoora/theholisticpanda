@@ -123,7 +123,17 @@ Rails.application.routes.draw do
 
   get '/blog/:id', to: 'posts#show', as: :post
 
-  resources :posts, only: %i[new create edit update destroy]
+  post '/blog', to: 'posts#create'
+
+  get '/blog/:id/edit', to: 'posts#edit', as: :edit_post
+
+  patch '/blog/:id', to: 'posts#update'
+
+  put '/blog/:id', to: 'posts#update'
+
+  delete '/blog/:id', to: 'posts#destroy'
+
+  resources :posts, only: [:new]
 
   resources :post_categories, only: [:show]
 
