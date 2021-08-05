@@ -352,6 +352,9 @@
               if (!(hour['ends'] == '24:00' && working_hours[nextDay].length > 0 && working_hours[nextDay][0]['starts'] == '00:00')) {
                 ending_hours.push(moment(ending_date + ' ' + hour['ends']).format());
               }
+              if (ending_date == dates[6] && working_hours[nextDay].length > 0 && working_hours[nextDay][0]['starts'] == '00:00') {
+                ending_hours.push(moment(ending_date + ' ' + working_hours[nextDay][0]['ends']).add('days', 1).format());
+              }
             })
           }
         }
