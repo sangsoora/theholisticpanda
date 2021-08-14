@@ -27,6 +27,8 @@ Rails.application.routes.draw do
 
   get '/specialties/filter', to: 'specialties#filter', as: :specialty_filter
 
+  get '/services/more', to: 'services#more'
+
   devise_scope :user do
     match '/sessions/user', to: 'devise/sessions#create', via: :post
   end

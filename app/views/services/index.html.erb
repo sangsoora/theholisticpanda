@@ -23,392 +23,122 @@
     <% if @filtered_services %>
       <div class="mb-4">
         <p>
-          <strong>Find the right wellness services and providers for you.</strong> <span id="service-counter"><%= @filtered_services.count %> services</span><br>
+          <strong>Find the right wellness services and providers for you.</strong> <span id="service-counter"><%= @total_service_count %> services</span><br>
           Select your health goals to get matched to wellness services. You can also automatically get personalized recommendations by updating your health goals in your profile.
         </p>
       </div>
-      <% if @filtered_services != [] %>
-        <%= simple_form_for :filter, url: services_path, method: "GET", html: { id: 'filter-form' } do |f| %>
-          <% if params[:search] && params[:search][:health_goal] %>
-            <div class="d-flex align-items-center">
-              <fieldset class="form-group check_boxes required search_health_goal hidden">
-                <% @filtered_services_goals.sort_by(&:name).each do |goal| %>
-                  <% if params[:search][:health_goal].include?((goal.id).to_s) %>
-                    <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]" checked>
-                  <% else %>
-                    <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]">
-                  <% end %>
+      <%= simple_form_for :filter, url: services_path, method: "GET", html: { id: 'filter-form' } do |f| %>
+        <% if params[:search] && params[:search][:health_goal] %>
+          <div class="d-flex align-items-center">
+            <fieldset class="form-group check_boxes required search_health_goal hidden">
+              <% @filtered_services_goals.sort_by(&:name).each do |goal| %>
+                <% if params[:search][:health_goal].include?((goal.id).to_s) %>
+                  <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]" checked>
+                <% else %>
+                  <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= goal.id %>" name="search[health_goal][]">
                 <% end %>
-                <input type="hidden" name="search[health_goal][]" value="">
-              </fieldset>
-              <fieldset class="form-group check_boxes required filter_specialty">
-                <legend style="font-size: 1.25rem; margin-bottom: 0.5rem; cursor: pointer;" class="<% if params[:filter] && params[:filter][:specialty] && params[:filter][:specialty].length > 1 %>active-filter<% end %>" id="specialty-pop">Specialties <% if params[:filter] && params[:filter][:specialty] && params[:filter][:specialty].length > 1 %>(<%= params[:filter][:specialty].reject(&:blank?).count %>)<% end %> <i class="fas fa-chevron-down"></i></legend>
-                <div class="specialty-select-box" id="specialty-select-box" style="top: 0 !important;">
-                  <div class="specialty-choices">
-                    <% @filtered_services_specialties.sort_by(&:name).each do |specialty| %>
-                      <% if params[:filter] && params[:filter][:specialty] %>
-                        <% if params[:filter][:specialty].include?((specialty.id).to_s) %>
-                          <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= specialty.id %>" name="filter[specialty][]" id="filter_specialty_<%= specialty.id %>" checked><label class="form-check-label collection_check_boxes specialty-choice active" for="filter_specialty_<%= specialty.id %>"><%= specialty.name %></label>
-                        <% else %>
-                          <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= specialty.id %>" name="filter[specialty][]" id="filter_specialty_<%= specialty.id %>"><label class="form-check-label collection_check_boxes specialty-choice" for="filter_specialty_<%= specialty.id %>"><%= specialty.name %></label>
-                        <% end %>
+              <% end %>
+              <input type="hidden" name="search[health_goal][]" value="">
+            </fieldset>
+            <fieldset class="form-group check_boxes required filter_specialty">
+              <legend style="font-size: 1.25rem; margin-bottom: 0.5rem; cursor: pointer;" class="<% if params[:filter] && params[:filter][:specialty] && params[:filter][:specialty].length > 1 %>active-filter<% end %>" id="specialty-pop">Specialties <% if params[:filter] && params[:filter][:specialty] && params[:filter][:specialty].length > 1 %>(<%= params[:filter][:specialty].reject(&:blank?).count %>)<% end %> <i class="fas fa-chevron-down"></i></legend>
+              <div class="specialty-select-box" id="specialty-select-box" style="top: 0 !important;">
+                <div class="specialty-choices">
+                  <% @filtered_services_specialties.sort_by(&:name).each do |specialty| %>
+                    <% if params[:filter] && params[:filter][:specialty] %>
+                      <% if params[:filter][:specialty].include?((specialty.id).to_s) %>
+                        <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= specialty.id %>" name="filter[specialty][]" id="filter_specialty_<%= specialty.id %>" checked><label class="form-check-label collection_check_boxes specialty-choice active" for="filter_specialty_<%= specialty.id %>"><%= specialty.name %></label>
                       <% else %>
                         <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= specialty.id %>" name="filter[specialty][]" id="filter_specialty_<%= specialty.id %>"><label class="form-check-label collection_check_boxes specialty-choice" for="filter_specialty_<%= specialty.id %>"><%= specialty.name %></label>
                       <% end %>
+                    <% else %>
+                      <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= specialty.id %>" name="filter[specialty][]" id="filter_specialty_<%= specialty.id %>"><label class="form-check-label collection_check_boxes specialty-choice" for="filter_specialty_<%= specialty.id %>"><%= specialty.name %></label>
                     <% end %>
-                  </div>
-                  <div class="d-flex justify-content-between pt-3">
-                    <input type="submit" name="commit" value="Clear" class="btn btn-ghost" id="clear-specialty-filter">
-                    <%= f.submit "Apply", class: "btn btn-flat" %>
-                  </div>
+                  <% end %>
                 </div>
-                <input type="hidden" name="filter[specialty][]" value="">
-              </fieldset>
-              <fieldset class="form-group check_boxes required filter_language">
-                <legend style="font-size: 1.25rem; margin-bottom: 0.5rem; cursor: pointer;" class="<% if params[:filter] && params[:filter][:language] && params[:filter][:language].length > 1 %>active-filter<% end %>" id="language-pop">Languages <% if params[:filter] && params[:filter][:language] && params[:filter][:language].length > 1 %>(<%= params[:filter][:language].reject(&:blank?).count %>)<% end %> <i class="fas fa-chevron-down"></i></legend>
-                <div class="language-select-box" id="language-select-box" style="top: 0 !important;">
-                  <div class="language-choices">
-                    <% @filtered_services_languages.sort_by(&:name).each do |language| %>
-                      <% if params[:filter] && params[:filter][:language] && params[:filter][:language].include?((language.id).to_s) %>
-                        <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= language.id %>" name="filter[language][]" id="filter_language_<%= language.id %>" checked><label class="form-check-label collection_check_boxes language-choice active" for="filter_language_<%= language.id %>"><%= language.name %></label>
-                      <% else %>
-                        <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= language.id %>" name="filter[language][]" id="filter_language_<%= language.id %>"><label class="form-check-label collection_check_boxes language-choice" for="filter_language_<%= language.id %>"><%= language.name %></label>
-                      <% end %>
+                <div class="d-flex justify-content-between pt-3">
+                  <input type="submit" name="commit" value="Clear" class="btn btn-ghost" id="clear-specialty-filter">
+                  <%= f.submit "Apply", class: "btn btn-flat" %>
+                </div>
+              </div>
+              <input type="hidden" name="filter[specialty][]" value="">
+            </fieldset>
+            <fieldset class="form-group check_boxes required filter_language">
+              <legend style="font-size: 1.25rem; margin-bottom: 0.5rem; cursor: pointer;" class="<% if params[:filter] && params[:filter][:language] && params[:filter][:language].length > 1 %>active-filter<% end %>" id="language-pop">Languages <% if params[:filter] && params[:filter][:language] && params[:filter][:language].length > 1 %>(<%= params[:filter][:language].reject(&:blank?).count %>)<% end %> <i class="fas fa-chevron-down"></i></legend>
+              <div class="language-select-box" id="language-select-box" style="top: 0 !important;">
+                <div class="language-choices">
+                  <% @filtered_services_languages.sort_by(&:name).each do |language| %>
+                    <% if params[:filter] && params[:filter][:language] && params[:filter][:language].include?((language.id).to_s) %>
+                      <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= language.id %>" name="filter[language][]" id="filter_language_<%= language.id %>" checked><label class="form-check-label collection_check_boxes language-choice active" for="filter_language_<%= language.id %>"><%= language.name %></label>
+                    <% else %>
+                      <input class="form-check-input check_boxes required hidden" type="checkbox" value="<%= language.id %>" name="filter[language][]" id="filter_language_<%= language.id %>"><label class="form-check-label collection_check_boxes language-choice" for="filter_language_<%= language.id %>"><%= language.name %></label>
                     <% end %>
-                  </div>
-                  <div class="d-flex justify-content-between pt-3">
-                    <input type="submit" name="commit" value="Clear" class="btn btn-ghost" id="clear-language-filter">
-                    <%= f.submit "Apply", class: "btn btn-flat" %>
-                  </div>
+                  <% end %>
                 </div>
-                <input type="hidden" name="filter[language][]" value="">
-              </fieldset>
-              <div class="form-group select required filter_service_type">
-                <legend style="font-size: 1.25rem; margin-bottom: 0.5rem; cursor: pointer;" class="<% if params[:filter] && params[:filter][:service_type] && params[:filter][:service_type].length > 1 %>active-filter<% end %>" id="service-type-pop">Service type <i class="fas fa-chevron-down"></i></legend>
-                <div class="service-type-select-box" id="service-type-select-box" style="top: auto !important;">
-                  <fieldset class="form-group radio_buttons required filter_service_type">
-                    <input type="hidden" name="filter[service_type]" id="filter_service_type" value="">
-                    <div class="form-check">
-                      <input class="form-check-input radio_buttons required" type="radio" value="" name="filter[service_type]" id="filter_service_type_both" <%= 'checked' unless params[:filter] && params[:filter][:service_type].length > 1 %>><label class="form-check-label collection_radio_buttons" for="filter_service_type_both">Both</label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input radio_buttons required" type="radio" value="Virtual" name="filter[service_type]" id="filter_service_type_virtual" <%= 'checked' if params[:filter] && params[:filter][:service_type] == "Virtual" %>><label class="form-check-label collection_radio_buttons" for="filter_service_type_virtual">Virtual</label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input radio_buttons required" readonly="readonly" type="radio" value="In-person" name="filter[service_type]" id="filter_service_type_person" <%= 'checked' if params[:filter] && params[:filter][:service_type] == "In-person" %>><label class="form-check-label collection_radio_buttons" for="filter_service_type_person">In-person</label>
-                    </div>
-                  </fieldset>
-                  <div class="d-flex justify-content-between pt-3">
-                    <input type="submit" name="commit" value="Clear" class="btn btn-ghost" id="clear-type-filter">
-                    <%= f.submit "Apply", class: "btn btn-flat" %>
+                <div class="d-flex justify-content-between pt-3">
+                  <input type="submit" name="commit" value="Clear" class="btn btn-ghost" id="clear-language-filter">
+                  <%= f.submit "Apply", class: "btn btn-flat" %>
+                </div>
+              </div>
+              <input type="hidden" name="filter[language][]" value="">
+            </fieldset>
+            <div class="form-group select required filter_service_type">
+              <legend style="font-size: 1.25rem; margin-bottom: 0.5rem; cursor: pointer;" class="<% if params[:filter] && params[:filter][:service_type] && params[:filter][:service_type].length > 1 %>active-filter<% end %>" id="service-type-pop">Service type <i class="fas fa-chevron-down"></i></legend>
+              <div class="service-type-select-box" id="service-type-select-box" style="top: auto !important;">
+                <fieldset class="form-group radio_buttons required filter_service_type">
+                  <input type="hidden" name="filter[service_type]" id="filter_service_type" value="">
+                  <div class="form-check">
+                    <input class="form-check-input radio_buttons required" type="radio" value="" name="filter[service_type]" id="filter_service_type_both" <%= 'checked' unless params[:filter] && params[:filter][:service_type].length > 1 %>><label class="form-check-label collection_radio_buttons" for="filter_service_type_both">Both</label>
                   </div>
+                  <div class="form-check">
+                    <input class="form-check-input radio_buttons required" type="radio" value="Virtual" name="filter[service_type]" id="filter_service_type_virtual" <%= 'checked' if params[:filter] && params[:filter][:service_type] == "Virtual" %>><label class="form-check-label collection_radio_buttons" for="filter_service_type_virtual">Virtual</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input radio_buttons required" readonly="readonly" type="radio" value="In-person" name="filter[service_type]" id="filter_service_type_person" <%= 'checked' if params[:filter] && params[:filter][:service_type] == "In-person" %>><label class="form-check-label collection_radio_buttons" for="filter_service_type_person">In-person</label>
+                  </div>
+                </fieldset>
+                <div class="d-flex justify-content-between pt-3">
+                  <input type="submit" name="commit" value="Clear" class="btn btn-ghost" id="clear-type-filter">
+                  <%= f.submit "Apply", class: "btn btn-flat" %>
                 </div>
               </div>
             </div>
-          <% end %>
+          </div>
         <% end %>
+      <% end %>
+      <% if @filtered_services != [] %>
         <div class="service-lists">
           <% @filtered_services.each do |service| %>
-            <div class="service-list-item" data-matching="<%= service.matching_counts(params[:search][:health_goal].reject(&:blank?).map(&:to_i)) %>">
-              <div class="service-list-item-title">
-                <div class="service-type">
-                  <p><%= service.service_type.capitalize %></p>
-                </div>
-                <h3><%= link_to service.name, service_path(service) %></h3>
-                <div class="fav-btn" id="fav-btn-<%= service.id %>">
-                  <% if user_signed_in? %>
-                    <%= render 'favorite_services/service_btn', service: service %>
-                  <% end %>
-                </div>
-              </div>
-              <div class="service-list-item-body details-desktop">
-                <div class="service-left-column">
-                  <div class="service-list-item-practitioner">
-                    <div class="profile-photo">
-                      <a href="/practitioners/<%= service.practitioner.user.full_name.delete(' ') %>_<%= service.practitioner.id %>">
-                        <% if service.practitioner.user.photo.attached? %>
-                          <img src="<%= cdn_for(service.practitioner.user.cropped_image) %>" class="service-list-item-user avatar-bordered mb-3" alt="">
-                        <% else %>
-                          <%= image_tag("profile", class: "service-list-item-user avatar-bordered mb-3") %>
-                        <% end %>
-                      </a>
-                      <h6><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h6>
-                      <p><%= service.practitioner.title %></p>
-                      <p><%= service.practitioner.location %></p>
-                    </div>
-                  </div>
-                </div>
-                <div class="service-middle-column">
-                  <div class="service-list-item-infos">
-                    <p <%= 'class=short' if service.description.length >= 150 %> ><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
-                    <% if service.description.length >= 150 %>
-                      <%= link_to 'Read more', service_path(service) %>
-                    <% end %>
-                  </div>
-                  <div class="service-list-item-goals mt-2">
-                    <% service.health_goals.order(:name).each do |goal| %>
-                      <% if params[:search][:health_goal].reject(&:blank?).map(&:to_i).include?(goal.id) %>
-                        <div class="service-goal match"><%= goal.name %></div>
-                      <% end %>
-                    <% end %>
-                    <% service.health_goals.order(:name).each do |goal| %>
-                      <% unless params[:search][:health_goal].reject(&:blank?).map(&:to_i).include?(goal.id) %>
-                        <div class="service-goal"><%= goal.name %></div>
-                      <% end %>
-                    <% end %>
-                  </div>
-                </div>
-                <div class="service-right-column">
-                  <div class="d-flex justify-content-between">
-                    <div style="flex: 0 0 45%;">
-                      <label>PRICE</label>
-                      <p>CA$ <%= service.price.to_f.round(2) %></p>
-                    </div>
-                    <div style="flex: 0 0 45%;">
-                      <label>DURATION</label>
-                      <p><%= service.duration %> mins</p>
-                    </div>
-                  </div>
-                  <div class="d-flex justify-content-between">
-                    <div style="flex: 0 0 45%;">
-                      <label>SPECIALTY</label>
-                      <p><%= service.specialty.name %></p>
-                    </div>
-                    <div style="flex: 0 0 45%;">
-                      <% if service.reviews.count > 0 %>
-                        <label>Rating</label>
-                        <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
-                      <% end %>
-                    </div>
-                  </div>
-                  <% if service.practitioner.user != current_user %>
-                    <div class="text-center mt-3">
-                      <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-              <div class="service-list-item-body details-mobile">
-                <div class="service-list-item-goals">
-                  <% service.health_goals.order(:name).each do |goal| %>
-                    <% if params[:search][:health_goal].reject(&:blank?).map(&:to_i).include?(goal.id) %>
-                      <div class="service-goal match"><%= goal.name %></div>
-                    <% end %>
-                  <% end %>
-                  <% service.health_goals.order(:name).each do |goal| %>
-                    <% unless params[:search][:health_goal].reject(&:blank?).map(&:to_i).include?(goal.id) %>
-                      <div class="service-goal"><%= goal.name %></div>
-                    <% end %>
-                  <% end %>
-                </div>
-                <div class="service-list-item-practitioner">
-                  <div class="profile-photo">
-                    <a href="/practitioners/<%= service.practitioner.user.full_name.delete(' ') %>_<%= service.practitioner.id %>">
-                      <% if service.practitioner.user.photo.attached? %>
-                        <img src="<%= cdn_for(service.practitioner.user.cropped_image) %>" class="service-list-item-user avatar-bordered mb-3" alt="">
-                      <% else %>
-                        <%= image_tag("profile", class: "service-list-item-user avatar-bordered mb-3") %>
-                      <% end %>
-                    </a>
-                    <h6><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h6>
-                  </div>
-                </div>
-                <div class="service-list-item-infos">
-                  <p <%= 'class=short' if service.description.length >= 150 %> ><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
-                  <% if service.description.length >= 150 %>
-                    <%= link_to 'Read more', service_path(service) %>
-                  <% end %>
-                </div>
-                <div class="d-flex justify-content-between mt-2" style="flex-wrap: wrap;">
-                  <div style="flex: 0 0 45%;">
-                    <label>PRICE</label>
-                    <p>CA$ <%= service.price.to_f.round(2) %></p>
-                  </div>
-                  <div style="flex: 0 0 45%;">
-                    <label>DURATION</label>
-                    <p><%= service.duration %> mins</p>
-                  </div>
-                  <% if service.reviews.count > 0 %>
-                    <div style="flex: 0 0 45%;">
-                        <label>RATING</label>
-                        <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
-                    </div>
-                  <% end %>
-                </div>
-                <% if service.practitioner.user != current_user %>
-                  <div class="text-center mt-3">
-                    <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
-                  </div>
-                <% end %>
-              </div>
-            </div>
+            <%= render 'services/filtered_service', service: service %>
           <% end %>
         </div>
+        <% if @total_service_count > 10 %>
+          <div class="text-center">
+            <button class="btn btn-flat" id="load-more">More</button>
+          </div>
+        <% end %>
       <% else %>
-        <div class="text-center">
+        <div class="text-center mt-5">
           <p>Please try different filters for search!</p>
         </div>
       <% end %>
     <% else %>
       <div class="mb-4">
         <p>
-          <strong>Find the right wellness services and providers for you.</strong> <span id="service-counter"><%= @all_services.count %> services</span><br>
+          <strong>Find the right wellness services and providers for you.</strong> <span id="service-counter"><%= @total_service_count %> services</span><br>
           Select your health goals to get matched to wellness services. You can also automatically get personalized recommendations by updating your health goals in your profile.
         </p>
       </div>
       <div class="service-lists">
         <% @all_services.each do |service| %>
-          <% if user_signed_in? %>
-            <div class="service-list-item" data-matching="<%= service.matching_counts(current_user.health_goals.ids) %>">
-          <% else %>
-            <div class="service-list-item" data-matching="">
-          <% end %>
-            <div class="service-list-item-title">
-              <div class="service-type">
-                <p><%= service.service_type.capitalize %></p>
-              </div>
-              <h3><%= link_to service.name, service_path(service) %></h3>
-              <div class="fav-btn" id="fav-btn-<%= service.id %>">
-                <% if user_signed_in? %>
-                  <%= render 'favorite_services/service_btn', service: service %>
-                <% end %>
-              </div>
-            </div>
-            <div class="service-list-item-body details-desktop">
-              <div class="service-left-column">
-                <div class="service-list-item-practitioner">
-                  <div class="profile-photo">
-                    <a href="/practitioners/<%= service.practitioner.user.full_name.delete(' ') %>_<%= service.practitioner.id %>">
-                      <% if service.practitioner.user.photo.attached? %>
-                        <img src="<%= cdn_for(service.practitioner.user.cropped_image) %>" class="service-list-item-user avatar-bordered mb-3" alt="">
-                      <% else %>
-                        <%= image_tag("profile", class: "service-list-item-user avatar-bordered mb-3") %>
-                      <% end %>
-                    </a>
-                    <h6><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h6>
-                    <p><%= service.practitioner.title %></p>
-                    <p><%= service.practitioner.location %></p>
-                  </div>
-                </div>
-              </div>
-              <div class="service-middle-column">
-                <div class="service-list-item-infos">
-                  <p <%= 'class=short' if service.description.length >= 150 %> ><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
-                  <% if service.description.length >= 150 %>
-                    <%= link_to 'Read more', service_path(service) %>
-                  <% end %>
-                </div>
-                <div class="service-list-item-goals mt-2">
-                  <% if user_signed_in? %>
-                    <% service.health_goals.order(:name).each do |goal| %>
-                      <% if current_user.health_goals.include?(goal) %>
-                        <div class="service-goal match"><%= goal.name %></div>
-                      <% end %>
-                    <% end %>
-                    <% service.health_goals.order(:name).each do |goal| %>
-                      <% unless current_user.health_goals.include?(goal) %>
-                        <div class="service-goal"><%= goal.name %></div>
-                      <% end %>
-                    <% end %>
-                  <% else %>
-                    <% service.health_goals.order(:name).each do |goal| %>
-                      <div class="service-goal"><%= goal.name %></div>
-                    <% end %>
-                  <% end %>
-                </div>
-              </div>
-              <div class="service-right-column">
-                <div class="d-flex justify-content-between">
-                  <div style="flex: 0 0 45%;">
-                    <label>PRICE</label>
-                    <p>CA$ <%= service.price.to_f.round(2) %></p>
-                  </div>
-                  <div style="flex: 0 0 45%;">
-                    <label>DURATION</label>
-                    <p><%= service.duration %> mins</p>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between">
-                  <div style="flex: 0 0 45%;">
-                    <label>SPECIALTY</label>
-                    <p><%= service.specialty.name %></p>
-                  </div>
-                  <div style="flex: 0 0 45%;">
-                    <% if service.reviews.count > 0 %>
-                      <label>RATING</label>
-                      <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
-                    <% end %>
-                  </div>
-                </div>
-                <% if service.practitioner.user != current_user %>
-                  <div class="text-center mt-3">
-                    <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-            <div class="service-list-item-body details-mobile">
-              <div class="service-list-item-goals">
-                <% if user_signed_in? %>
-                  <% service.health_goals.order(:name).each do |goal| %>
-                    <% if current_user.health_goals.include?(goal) %>
-                      <div class="service-goal match"><%= goal.name %></div>
-                    <% end %>
-                  <% end %>
-                  <% service.health_goals.order(:name).each do |goal| %>
-                    <% unless current_user.health_goals.include?(goal) %>
-                      <div class="service-goal"><%= goal.name %></div>
-                    <% end %>
-                  <% end %>
-                <% else %>
-                  <% service.health_goals.order(:name).each do |goal| %>
-                    <div class="service-goal"><%= goal.name %></div>
-                  <% end %>
-                <% end %>
-              </div>
-              <div class="service-list-item-practitioner">
-                <div class="profile-photo">
-                  <a href="/practitioners/<%= service.practitioner.user.full_name.delete(' ') %>_<%= service.practitioner.id %>">
-                    <% if service.practitioner.user.photo.attached? %>
-                      <img src="<%= cdn_for(service.practitioner.user.cropped_image) %>" class="service-list-item-user avatar-bordered mb-3" alt="">
-                    <% else %>
-                      <%= image_tag("profile", class: "service-list-item-user avatar-bordered mb-3") %>
-                    <% end %>
-                  </a>
-                  <h6><%= link_to service.practitioner.user.full_name, practitioner_path(service.practitioner) %></h6>
-                </div>
-              </div>
-              <div class="service-list-item-infos">
-                <p <%= 'class=short' if service.description.length >= 150 %> ><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
-                <% if service.description.length >= 150 %>
-                  <%= link_to 'Read more', service_path(service) %>
-                <% end %>
-              </div>
-              <div class="d-flex justify-content-between mt-2" style="flex-wrap: wrap;">
-                <div style="flex: 0 0 45%;">
-                  <label>PRICE</label>
-                  <p>CA$ <%= service.price.to_f.round(2) %></p>
-                </div>
-                <div style="flex: 0 0 45%;">
-                  <label>DURATION</label>
-                  <p><%= service.duration %> mins</p>
-                </div>
-                <% if service.reviews.count > 0 %>
-                  <div style="flex: 0 0 45%;">
-                      <label>RATING</label>
-                      <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
-                  </div>
-                <% end %>
-              </div>
-              <% if service.practitioner.user != current_user %>
-                <div class="text-center mt-3">
-                  <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
-                </div>
-              <% end %>
-            </div>
-          </div>
+          <%= render 'services/unfiltered_service', service: service %>
         <% end %>
       </div>
+      <% if @total_service_count > 10 %>
+        <div class="text-center">
+          <button class="btn btn-flat" id="load-more">More</button>
+        </div>
+      <% end %>
     <% end %>
   </div>
 </div>
@@ -530,13 +260,37 @@
       }
     });
   }
-  <% if user_signed_in? || params[:search] %>
-    window.addEventListener('DOMContentLoaded', (event) => {
-      var $wrapper = $('.service-lists');
-      $wrapper.find('.service-list-item').sort(function(a, b) {
-        return +b.dataset.matching - +a.dataset.matching;
-      })
-      .appendTo($wrapper);
+  let servicesNum = 10;
+  let dropNum = 0;
+  const loadMore = document.getElementById('load-more');
+  loadMore.addEventListener('click', (e) => {
+    <% if @filtered_services %>
+      let services = <%= @filtered_services_ids %>;
+      let type = 'filtered';
+      let arr = <%= params[:search][:health_goal].reject(&:blank?).map(&:to_i) %>;
+    <% else %>
+      let services = <%= @all_services_ids %>;
+      let type = 'all';
+      let arr = [];
+    <% end %>
+    if (servicesNum + 10 <= <%= @total_service_count %>) {
+      servicesNum += 10;
+      if (servicesNum == <%= @total_service_count %>) {
+        loadMore.style.display = 'none';
+      }
+    } else {
+      servicesNum = <%= @total_service_count %>;
+      loadMore.style.display = 'none';
+    }
+    dropNum += 10;
+    getMoreServices(services, servicesNum, dropNum, type, arr);
+  });
+  const getMoreServices = (services, num, type, arr) => {
+    $.ajax({
+      url: 'services/more',
+      data: {services: services, servicesNum: servicesNum, dropNum: dropNum, type: type, arr: arr},
+      success: function(data){
+      }
     });
-  <% end %>
+  }
 </script>

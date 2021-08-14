@@ -1,0 +1,11 @@
+let html = '';
+<% if params[:type] == 'filtered' %>
+  <% @services.each do |service| %>
+    html += '<%= render "services/unfiltered_service", service: service %>';
+  <% end %>
+<% else %>
+  <% @services.each do |service| %>
+    html += '<%= j render "services/unfiltered_service", service: service %>';
+  <% end %>
+<% end %>
+document.querySelector('.service-lists').innerHTML += html;

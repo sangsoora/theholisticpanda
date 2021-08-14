@@ -1,5 +1,6 @@
 class ServicesController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index show]
+  skip_before_action :authenticate_user!, only: %i[index show more]
+  skip_after_action :verify_authorized, only: [:more]
   before_action :set_notifications, only: %i[index show]
   before_action :set_service, only: %i[show update destroy]
 
@@ -12,7 +13,14 @@ class ServicesController < ApplicationController
         end
       end
     end
-    @all_services = policy_scope(Service).active_services.includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}]).shuffle
+    @all_services = policy_scope(Service).active_services.includes(:specialty, :practitioner_specialty, :languages, practitioner: [{user: :photo_attachment}])
+    @all_services_ids = get_services_ids_array(@all_services)
+    @total_service_count = @all_services.count
+    if user_signed_in?
+      @all_services = sort_services_with_matching_counts(@all_services, current_user.health_goals.ids, 10, 0)
+    else
+      @all_services = @all_services.shuffle.first(10)
+    end
     if params[:search] && params[:search][:health_goal]
       @primary_filtered_services = Service.active_services.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?))
       @filtered_services_specialties = @primary_filtered_services.uniq.compact.map { |service| service.specialty }.uniq
@@ -50,10 +58,26 @@ class ServicesController < ApplicationController
         elsif params[:filter][:specialty].length == 1 && params[:filter][:language].length == 1 && params[:filter][:service_type] == ""
           @filtered_services = @primary_filtered_services
         end
-        @filtered_services = @filtered_services.uniq.compact.shuffle
+        @filtered_services_ids = get_services_ids_array(@filtered_services)
+        @total_service_count = @filtered_services.uniq.compact.count
+        @filtered_services = sort_services_with_matching_counts(@filtered_services, params[:search][:health_goal].reject(&:blank?).map(&:to_i), 10, 0)
       else
-        @filtered_services = @primary_filtered_services.uniq.compact.shuffle
+        @filtered_services_ids = get_services_ids_array(@primary_filtered_services)
+        @total_service_count = @primary_filtered_services.uniq.compact.count
+        @filtered_services = sort_services_with_matching_counts(@primary_filtered_services, params[:search][:health_goal].reject(&:blank?).map(&:to_i), 10, 0)
       end
+    end
+  end
+
+  def more
+    @services = params[:services].map { |service| Service.find(service) }
+    @num = params[:servicesNum].to_i
+    @drop = params[:dropNum].to_i
+    @arr = params[:arr]
+    if params[:type] == 'filtered'
+      @services = sort_services_with_matching_counts(@services, @arr, @num, @drop)
+    else
+      @services = sort_services_with_matching_counts(@services, current_user.health_goals.ids, @num, @drop)
     end
   end
 
@@ -162,5 +186,13 @@ class ServicesController < ApplicationController
 
   def service_params
     params.require(:service).permit(:name, :description, :service_type, :price, :duration, :active)
+  end
+
+  def sort_services_with_matching_counts(services, arr, num, drop)
+    services.map { |service| { 'service': service, 'matching': service.matching_counts(arr) } }.sort_by! { |k| k[:matching] }.map { |h| h[:service] }.uniq.compact.reverse.first(num).drop(drop)
+  end
+
+  def get_services_ids_array(services)
+    services.map { |service| service.id }.uniq.compact
   end
 end

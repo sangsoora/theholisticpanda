@@ -9,6 +9,10 @@ class ServicePolicy < ApplicationPolicy
     true
   end
 
+  def more?
+    true
+  end
+
   def create?
     user.practitioner
   end
