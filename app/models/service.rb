@@ -40,4 +40,8 @@ class Service < ApplicationRecord
     health_goals.each { |g| goals += 1 if g.id.in?(array) }
     goals
   end
+
+  def last_promotion
+    service_promotions.order('end_date DESC').first
+  end
 end

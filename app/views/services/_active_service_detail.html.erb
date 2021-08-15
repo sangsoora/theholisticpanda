@@ -12,8 +12,18 @@
     <%= f.input :active, as: :hidden, input_html: { value: :false, id: "service_active_#{service.id}" }%>
     <%= f.submit :Deactivate, class: 'btn btn-flat mb-3', style: 'background: #e57850' %>
   <% end %>
-  <button data-toggle="modal" data-target="#newPromotionModal-<%= service.id %>" data-disable-with="Create promotion" class="btn btn-ghost mb-3">Create promotion</button>
+  <% if service.service_promotions.exists? && service.last_promotion.end_date > Time.current %>
+    <button data-toggle="modal" data-target="#editPromotionModal-<%= service.last_promotion.id %>" data-disable-with="Edit promotion" class="btn btn-ghost mb-3">Edit promotion</button>
+    <div class="modal fade" id="editPromotionModal-<%= service.last_promotion.id %>" tabindex="-1" role="dialog" aria-labelledby="editPromotionModalLabel" aria-hidden="true">
+      <%= render 'service_promotions/promotion_update_form', service_promotion: service.last_promotion %>
+    </div>
+  <% else %>
+    <button data-toggle="modal" data-target="#newPromotionModal-<%= service.id %>" data-disable-with="Create promotion" class="btn btn-ghost mb-3">Create promotion</button>
+  <% end %>
 </div>
+<% if service.service_promotions.exists? && service.last_promotion.end_date > Time.current %>
+  <p>Ongoing/Upcoming promotion: <%= service.last_promotion.discount_percentage %>% off from <%= service.last_promotion.start_date.strftime('%b %d') %> to <%= service.last_promotion.end_date.strftime('%b %d') %></p>
+<% end %>
 <p>Booked <%= service.sessions.where(status: "confirmed").or(service.sessions.where(status: "charged")).count %> times</p>
 <% if service.reviews.count > 0 %>
   <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
@@ -33,7 +43,6 @@
     if (e.currentTarget.innerHTML == 'Show more') {
       e.currentTarget.previousSibling.previousSibling.classList.remove('short-description');
       e.currentTarget.innerHTML = 'Show less';
-      console.log('hola');
     } else {
       e.currentTarget.previousSibling.previousSibling.classList.add('short-description');
       e.currentTarget.innerHTML = 'Show more';
