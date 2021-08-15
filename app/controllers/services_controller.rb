@@ -19,7 +19,9 @@ class ServicesController < ApplicationController
     if user_signed_in?
       @all_services = sort_services_with_matching_counts(@all_services, current_user.health_goals.ids, 10, 0)
     else
-      @all_services = @all_services.shuffle.first(10)
+      @all_services = @all_services.shuffle
+      @all_services_ids = get_services_ids_array(@all_services)
+      @all_services = @all_services.first(10)
     end
     if params[:search] && params[:search][:health_goal]
       @primary_filtered_services = Service.active_services.filter_by_health_goal(params[:search][:health_goal].reject(&:blank?))
@@ -77,7 +79,11 @@ class ServicesController < ApplicationController
     if params[:type] == 'filtered'
       @services = sort_services_with_matching_counts(@services, @arr, @num, @drop)
     else
-      @services = sort_services_with_matching_counts(@services, current_user.health_goals.ids, @num, @drop)
+      if user_signed_in?
+        @services = sort_services_with_matching_counts(@services, current_user.health_goals.ids, @num, @drop)
+      else
+        @services = @services.first(@num).drop(@drop)
+      end
     end
   end
 
