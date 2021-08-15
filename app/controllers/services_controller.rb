@@ -130,6 +130,7 @@ class ServicesController < ApplicationController
 
   def update
     @params = params
+    @old_price = @service.price.to_f
     if params[:service][:health_goal]
       @service_health_goals = params[:service][:health_goal].reject(&:blank?).map(&:to_i)
       @service_health_goals.each do |goal|
@@ -154,10 +155,21 @@ class ServicesController < ApplicationController
         format.js   { render layout: false, content_type: 'text/javascript' }
       end
     elsif @service.update(service_params)
-      if @service.price.to_f != service_params[:price].to_f
-        favorite_users = @service.favorite_users
+      favorite_users = @service.favorite_users
+      if params[:commit] == 'Deactivate'
         favorite_users.each do |user|
-          Notification.create(recipient: user, actor: current_user, action: 'updated the price of service', notifiable: @service)
+          Notification.create(recipient: user, actor: current_user, action: 'deactivated your favorite service', notifiable: @service)
+        end
+      elsif params[:commit] == 'Activate'
+        favorite_users.each do |user|
+          Notification.create(recipient: user, actor: current_user, action: 'activated your favorite service', notifiable: @service)
+        end
+      end
+      if params[:service][:price] && @old_price != params[:service][:price].to_f
+        if @service.active
+          favorite_users.each do |user|
+            Notification.create(recipient: user, actor: current_user, action: 'updated the price of service', notifiable: @service)
+          end
         end
         flash[:notice] = 'Service has been successfully updated!'
       end

@@ -13,6 +13,15 @@ class ServicePromotionsController < ApplicationController
     end
   end
 
+  def update
+    if @service_promotion.update(service_promotion_params)
+      flash[:notice] = 'Service promotion has been successfully updated!'
+    else
+      flash[:alert] = 'Something went wrong!'
+    end
+    redirect_to practitioner_services_path
+  end
+
   def destroy
     @service_promotion.destroy
     redirect_to practitioner_services_path
