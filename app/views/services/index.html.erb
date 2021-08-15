@@ -275,14 +275,12 @@
     <% end %>
     if (servicesNum + 10 <= <%= @total_service_count %>) {
       servicesNum += 10;
-      if (servicesNum == <%= @total_service_count %>) {
-        loadMore.style.display = 'none';
-      }
     } else {
       servicesNum = <%= @total_service_count %>;
-      loadMore.style.display = 'none';
     }
     dropNum += 10;
+    loadMore.disabled = true;
+    loadMore.innerHTML = 'Loading...';
     getMoreServices(services, servicesNum, dropNum, type, arr);
   });
   const getMoreServices = (services, num, type, arr) => {
@@ -290,6 +288,12 @@
       url: 'services/more',
       data: {services: services, servicesNum: servicesNum, dropNum: dropNum, type: type, arr: arr},
       success: function(data){
+        if (servicesNum == <%= @total_service_count %>) {
+          loadMore.style.display = 'none';
+        } else {
+          loadMore.disabled = false;
+          loadMore.innerHTML = 'More';
+        }
       }
     });
   }
