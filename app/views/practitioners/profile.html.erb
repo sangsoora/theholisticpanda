@@ -110,7 +110,7 @@
                   </div>
                   <%= simple_form_for([@practitioner], remote: true, html: { id: :city_form, style: 'display: none; align-items: center;' }) do |f| %>
                     <div>
-                      <%= f.input :location, require: true, label: false %>
+                      <%= f.input :location, required: true, label: false %>
                       <span id="location-error" style="color: red;"><small><em>Please choose a city/town from dropdown menu.</em></small></span>
                     </div>
                     <button id='city-submit' type="submit" data-toggle="tooltip" data-placement="bottom" data-original-title="Save"><i class='fas fa-check'></i></button>
@@ -143,7 +143,7 @@
                   </div>
                   <%= simple_form_for([@practitioner], remote: true, html: { id: :bio_form, style: 'display: none; align-items: center;' }) do |f| %>
                     <div>
-                      <%= f.input :bio, require: true, label: false, input_html: { cols: 60, rows: 10, maxlength: 1000 } %>
+                      <%= f.input :bio, required: true, label: false, input_html: { cols: 60, rows: 10, maxlength: 1000 } %>
                       <p id="bio-counter" <% if @practitioner.bio %><% if @practitioner.bio.gsub(/\n/, '<br/>').html_safe.length == 1000 %>style="color: red;"<% end %>><%= @practitioner.bio.gsub(/\n/, '<br/>').html_safe.length %><% end %>/1000</p>
                     </div>
                     <button type="submit" data-toggle="tooltip" data-placement="bottom" data-original-title="Save"><i class='fas fa-check'></i></button>
@@ -158,7 +158,7 @@
                   </div>
                   <%= simple_form_for([@practitioner], remote: true, html: { id: :approach_form, style: 'display: none; align-items: center;' }) do |f| %>
                     <div>
-                      <%= f.input :approach, require: true, label: false, input_html: { cols: 60, rows: 10, maxlength: 1000 } %>
+                      <%= f.input :approach, required: true, label: false, input_html: { cols: 60, rows: 10, maxlength: 1000 } %>
                       <p id="approach-counter"<% if @practitioner.approach %><% if @practitioner.approach.gsub(/\n/, '<br/>').html_safe.length == 1000 %>style="color: red;"<% end %>><%= @practitioner.approach.gsub(/\n/, '<br/>').html_safe.length %><% end %>/1000</p>
                     </div>
                     <button type="submit" data-toggle="tooltip" data-placement="bottom" data-original-title="Save"><i class='fas fa-check'></i></button>
@@ -175,7 +175,7 @@
                     <button id='video-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
                   </div>
                   <%= simple_form_for([@practitioner], remote: true, html: { id: :video_form, style: 'display: none; align-items: center;' }) do |f| %>
-                    <%= f.input :video, require: true, label: false %>
+                    <%= f.input :video, required: true, label: false %>
                     <button type="submit" data-toggle="tooltip" data-placement="bottom" data-original-title="Save"><i class='fas fa-check'></i></button>
                     <button id='video-cancel' data-toggle="tooltip" data-placement="bottom" data-original-title="Cancel"><%= link_to '', '', class: 'fas fa-times' %></button>
                   <% end %>
@@ -203,7 +203,7 @@
                     <button id='experience-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
                   </div>
                   <%= simple_form_for([@practitioner], remote: true, html: { id: :experience_form, style: 'display: none; align-items: center;' }) do |f| %>
-                    <%= f.input :experience, collection: ['Less than 1 year', '2-5 years', '5-10 years', 'More than 10 years'], as: :select, require: true, label: false %>
+                    <%= f.input :experience, collection: ['Less than 1 year', '2-5 years', '5-10 years', 'More than 10 years'], as: :select, required: true, label: false %>
                     <button type="submit" data-toggle="tooltip" data-placement="bottom" data-original-title="Save"><i class='fas fa-check'></i></button>
                     <button id='experience-cancel' data-toggle="tooltip" data-placement="bottom" data-original-title="Cancel"><%= link_to '', '', class: 'fas fa-times' %></button>
                   <% end %>

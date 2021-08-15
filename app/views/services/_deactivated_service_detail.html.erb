@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between">
-  <h4><%= service.name %></h4>
+  <h4 style="font-size: 1.25rem; min-height: 48px; flex: 0 0 85%;"><%= service.name %></h4>
   <div>
     <a class="fas fa-pen" href="" id="service-btn-<%= service.id %>"></a>
     <% if service.sessions == [] %>
@@ -11,15 +11,15 @@
   <%= f.input :active, as: :hidden, input_html: { value: :true }%>
   <%= f.submit :Activate, class: 'btn btn-flat mb-3', style: 'background: #366735' %>
 <% end %>
-<p>Booked <%= service.sessions.where(status: "confirmed").count %> times</p>
+<p>Booked <%= service.sessions.where(status: "confirmed").or(service.sessions.where(status: "charged")).count %> times</p>
 <% if service.reviews.count > 0 %>
   <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
 <% end %>
 <p>Specialty: <%= service.specialty.name %></p>
-<p>Related Health Goal(s): <%= service.health_goals.pluck(:name).join(', ') %></p>
 <p>Service Type: <%= service.service_type.capitalize %></p>
 <p>Duration: <%= service.duration %>m</p>
 <p>Service Price: CA$ <%= service.price.to_f.round(2) %></p>
+<p style="height: 72px;">Related Health Goal(s): <%= service.health_goals.pluck(:name).join(', ') %></p>
 <div class="practitioner-service-description">
-  <p><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
+  <p class="short-description"><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
 </div>

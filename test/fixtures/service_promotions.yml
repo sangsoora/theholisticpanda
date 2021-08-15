@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start_date: 2021-08-15 14:49:55
+  end_date: 2021-08-15 14:49:55
+  discount_percentage: 1
+  service: one
+
+two:
+  start_date: 2021-08-15 14:49:55
+  end_date: 2021-08-15 14:49:55
+  discount_percentage: 1
+  service: two

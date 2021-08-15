@@ -1,0 +1,2 @@
+module ServicePromotionsHelper
+end

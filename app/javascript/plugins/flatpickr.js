@@ -8,3 +8,9 @@ flatpickr(".timepicker", {
   minuteIncrement: 30,
   time_24hr: true
 });
+
+flatpickr(".datepicker", {
+  enableTime: false,
+  dateFormat: "M d, Y",
+  minDate: new Date().setDate(new Date().getDate() + 1)
+});

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_30_145356) do
+ActiveRecord::Schema.define(version: 2021_08_15_124955) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -309,6 +309,16 @@ ActiveRecord::Schema.define(version: 2021_07_30_145356) do
     t.index ["service_id"], name: "index_service_health_goals_on_service_id"
   end
 
+  create_table "service_promotions", force: :cascade do |t|
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.integer "discount_percentage"
+    t.bigint "service_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["service_id"], name: "index_service_promotions_on_service_id"
+  end
+
   create_table "services", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -467,6 +477,7 @@ ActiveRecord::Schema.define(version: 2021_07_30_145356) do
   add_foreign_key "reviews", "sessions"
   add_foreign_key "service_health_goals", "health_goals"
   add_foreign_key "service_health_goals", "services"
+  add_foreign_key "service_promotions", "services"
   add_foreign_key "services", "practitioner_specialties"
   add_foreign_key "sessions", "services"
   add_foreign_key "sessions", "users"

@@ -28,10 +28,10 @@
             </div>
             <div class="modal-body">
               <%= simple_form_for(@event) do |f| %>
-                <%= f.input :name, require: true %>
-                <%= f.input :description, as: :ckeditor, require: true %>
-                <%= f.input :start_time, label: 'Start time (in UTC)', require: true, minute_step: 30 %>
-                <%= f.input :duration, label: 'Duration (in minutes)', input_html: { value: 15, min: 15, step: 15 }, require: true %>
+                <%= f.input :name, required: true %>
+                <%= f.input :description, as: :ckeditor, required: true %>
+                <%= f.input :start_time, label: 'Start time (in UTC)', required: true, minute_step: 30 %>
+                <%= f.input :duration, label: 'Duration (in minutes)', input_html: { value: 15, min: 15, step: 15 }, required: true %>
                 <%= f.input :user_id, collection: Practitioner.all.map { |practitioner| [practitioner.user.full_name, practitioner.user.id] }, include_blank: 'Select a practitioner' %>
                 <%= f.input :capacity, input_html: { min: 0 } %>
                 <%= f.input :registration_link %>
