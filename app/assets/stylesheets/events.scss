@@ -32,6 +32,9 @@
   width: 60%;
   margin: 1rem auto;
   text-align: left;
+  p {
+    line-height: 1.6;
+  }
 }
 
 .event-practitioners-desktop {
@@ -51,14 +54,22 @@
 
 .event-partner-desktop {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-gap: 2rem;
   width: 95%;
   margin: 1rem auto;
   padding: 1rem 0;
   img {
-    width: 80%;
+    width: 90%;
   }
+}
+
+.event-mobile {
+  display: none;
+}
+
+.event-desktop {
+  display: block;
 }
 
 // X-Small devices (portrait phones, less than 576px)
@@ -70,6 +81,18 @@
 @media (max-width: 767.98px) {
   .event-image, .event-description {
     width: 100%;
+  }
+  .event-practitioners-desktop {
+    grid-template-columns: 1fr 1fr;
+  }
+  .event-partner-desktop {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .event-mobile {
+    display: block;
+  }
+  .event-desktop {
+    display: none;
   }
 }
 
