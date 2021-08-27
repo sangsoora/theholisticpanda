@@ -48,7 +48,7 @@
     <div class="events">
       <% if @upcoming_events.count > 0 %>
         <% @upcoming_events.each do |event| %>
-          <% if !@event.user.admin? %>
+          <% if !event.user.admin? %>
           <div class="event">
             <a href="/events/<%= event.id %>">
               <% if event.photo.attached? %>
@@ -57,7 +57,7 @@
             </a>
             <div class="event-detail">
               <h4><%= link_to event.name, event_path(event) %></h4>
-              <% if !@event.user.admin? %>
+              <% if !event.user.admin? %>
               <p>With <%= link_to event.user.full_name, practitioner_path(event.user.practitioner) %></p>
               <% else %>
               <p>by The Holsitic Panda</p>
@@ -89,7 +89,7 @@
           </a>
           <div class="event-detail">
             <h4><%= link_to event.name, event_path(event) %></h4>
-            <% if !@event.user.admin? %>
+            <% if !event.user.admin? %>
             <p>With <%= link_to event.user.full_name, practitioner_path(event.user.practitioner) %></p>
             <% else %>
             <p>by The Holsitic Panda</p>
