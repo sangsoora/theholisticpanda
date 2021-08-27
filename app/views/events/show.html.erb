@@ -96,8 +96,47 @@
         <br>
         <p>There will be short breaks in between sessions where you can do oracle and tarot readings, enjoy complimentary Kombuchas from Bucha Brew, and chat with our holistic practitioners and coaches to learn how their healing modalities can help you transform your well-being.</p>
         <br>
-        <div class="d-flex justify-content-between align-items-center">
-          <div style="flex: 0 0 60%;">
+        <div class="event-desktop">
+          <div class="d-flex justify-content-between align-items-center">
+            <div style="flex: 0 0 60%;">
+              <p><strong>What you will receive with your ticket:</strong></p>
+              <ul>
+                <li><p>Access to all wellness sessions</p></li>
+                <li><p>Complimentary Kombuchas from Bucha Brew</p></li>
+                <li><p>Mini oracle and tarot readings (limited capacity available, so sign up with us when you check-in!)</p></li>
+                <li><p>The Holistic Panda goodie totes with a Moleskine journal and 2 X $50 coupons* (see note section for details)</p></li>
+                <li><p>Entry in our lucky draw to win prizes with a value of $1,500. Prizes include:</p></li>
+                <ul>
+                  <li><p>A Dyson Supersonic Hair Dryer</p></li>
+                  <li><p>A 5-dance class package from Formation Studio</p></li>
+                  <li><p>A 60-minute Technical Facial from Derma Bright Clinic </p></li>
+                  <li><p>A 90-minute Introduction to Energy Management Coaching Session from Elarton Point Strategies</p></li>
+                  <li><p>3 sessions of Pulsed ElectroMagnetic Field (PEMF) Therapy with Certified PEMF expert Dale Kobialko</p></li>
+                  <li><p>A Nocturne Magnesium Sleep Oil and Sphinx Body Experience Oil from Luna Nectar Organics</p></li>
+                </ul>
+              </ul>
+              <br>
+            </div>
+            <div style="flex: 0 0 37%;">
+              <%= image_tag 'event/may1.png', style: 'width:100%;' %>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <div style="flex: 0 0 60%;">
+              <p><strong>Session Details: </strong></p>
+              <br>
+              <p><strong>Rediscovering the Soma</strong> - Deepening our connection to our breath can deepen the connection to ourselves and the wisdom and capabilities innate in our bodies. To help us flow with overactive minds and anxious energies, Juno will guide us through a meditation exploring the textures of our breath, a powerful portal into our somatic, felt-experience.</p>
+              <p><strong>Dance Experience</strong> - The dance experience hosted by Formation Studio will be similar to their signature Freedom Class, a cardio hip-hop dance party that requires no memorizing and just fun dancing. The class will consist of 30-minute movements and 10-minute stretching to cool down.</p>
+              <p><strong>Be A Dime Energy Management Workshop</strong> - In this workshop led by Sarah & Jo-Anne Kingston of Elarton Point Strategies, you will explore how your internal focus influences your beliefs, actions, and results and develop the tools to successfully manage your energy and build your personal and professional capacity.</p>
+              <p><strong>Sound Healing Therapy</strong>- Sound has been used for thousands of years, throughout many cultures, as a form of healing. This auditory/vibratory modality helps calm the nervous system and jars loose emotions trapped within the body, allowing one to examine the origins of these feelings at another level. To close our workshop, May will guide us through a deep sound journey to bring us even closer home to the wisdom of our bodies.</p>
+            </div>
+            <div style="flex: 0 0 37%;">
+              <%= image_tag 'event/action.png', style: 'width:100%;' %>
+            </div>
+          </div>
+        </div>
+        <div class="event-mobile">
+          <div>
             <p><strong>What you will receive with your ticket:</strong></p>
             <ul>
               <li><p>Access to all wellness sessions</p></li>
@@ -116,12 +155,10 @@
             </ul>
             <br>
           </div>
-          <div style="flex: 0 0 37%;">
+          <div>
             <%= image_tag 'event/may1.png', style: 'width:100%;' %>
           </div>
-        </div>
-        <div class="d-flex justify-content-between align-items-center">
-          <div style="flex: 0 0 60%;">
+          <div class="mt-5">
             <p><strong>Session Details: </strong></p>
             <br>
             <p><strong>Rediscovering the Soma</strong> - Deepening our connection to our breath can deepen the connection to ourselves and the wisdom and capabilities innate in our bodies. To help us flow with overactive minds and anxious energies, Juno will guide us through a meditation exploring the textures of our breath, a powerful portal into our somatic, felt-experience.</p>
@@ -129,7 +166,7 @@
             <p><strong>Be A Dime Energy Management Workshop</strong> - In this workshop led by Sarah & Jo-Anne Kingston of Elarton Point Strategies, you will explore how your internal focus influences your beliefs, actions, and results and develop the tools to successfully manage your energy and build your personal and professional capacity.</p>
             <p><strong>Sound Healing Therapy</strong>- Sound has been used for thousands of years, throughout many cultures, as a form of healing. This auditory/vibratory modality helps calm the nervous system and jars loose emotions trapped within the body, allowing one to examine the origins of these feelings at another level. To close our workshop, May will guide us through a deep sound journey to bring us even closer home to the wisdom of our bodies.</p>
           </div>
-          <div style="flex: 0 0 37%;">
+          <div>
             <%= image_tag 'event/action.png', style: 'width:100%;' %>
           </div>
         </div>
@@ -260,7 +297,6 @@
                   <%= f.input :last_name, required: true %>
                   <%= f.input :email, required: true %>
                 <% end %>
-                <%= f.input :price, as: :hidden, input_html: {value:75} %>
                 <div class="form-check mt-3">
                   <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="event_attendee[event_consent]" id="event_consent_true">
                   <label class="form-check-label collection_check_boxes" for="event_consent_true" style="color: grey; font-weight: 500;">I have read and agree to the cancellation policy. I also agree with the event safety measures as stated below. *</label>
