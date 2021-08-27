@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_30_145356) do
+ActiveRecord::Schema.define(version: 2021_08_27_192633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,13 +60,15 @@ ActiveRecord::Schema.define(version: 2021_07_30_145356) do
     t.string "last_name"
     t.string "email"
     t.boolean "event_consent"
+    t.boolean "terms_consent"
     t.boolean "newsletter"
-    t.bigint "user_id"
+    t.string "checkout_session_id"
+    t.string "payment_status"
+    t.integer "price_cents", default: 0, null: false
     t.bigint "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_event_attendees_on_event_id"
-    t.index ["user_id"], name: "index_event_attendees_on_user_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -309,6 +311,16 @@ ActiveRecord::Schema.define(version: 2021_07_30_145356) do
     t.index ["service_id"], name: "index_service_health_goals_on_service_id"
   end
 
+  create_table "service_promotions", force: :cascade do |t|
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.integer "discount_percentage"
+    t.bigint "service_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["service_id"], name: "index_service_promotions_on_service_id"
+  end
+
   create_table "services", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -442,7 +454,6 @@ ActiveRecord::Schema.define(version: 2021_07_30_145356) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "event_attendees", "events"
-  add_foreign_key "event_attendees", "users"
   add_foreign_key "events", "users"
   add_foreign_key "favorite_practitioners", "practitioners"
   add_foreign_key "favorite_practitioners", "users"
@@ -467,6 +478,7 @@ ActiveRecord::Schema.define(version: 2021_07_30_145356) do
   add_foreign_key "reviews", "sessions"
   add_foreign_key "service_health_goals", "health_goals"
   add_foreign_key "service_health_goals", "services"
+  add_foreign_key "service_promotions", "services"
   add_foreign_key "services", "practitioner_specialties"
   add_foreign_key "sessions", "services"
   add_foreign_key "sessions", "users"
