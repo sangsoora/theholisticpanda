@@ -7,7 +7,7 @@
   <%= render 'shared/home_navbar' %>
 <% end %>
 <div class="container event-page">
-  <div class="text-center">
+  <div class="text-center" style="background-color: white;">
     <% if @event.photo.attached? %>
      <img src="<%= cdn_for(@event.photo) %>" class="event-image" alt="<%= @event.name %>">
     <% end %>
@@ -32,7 +32,9 @@
                 <%= f.input :description, as: :ckeditor, require: true %>
                 <%= f.input :start_time, label: 'Start time (in UTC)', require: true, minute_step: 30 %>
                 <%= f.input :duration, label: 'Duration (in minutes)', input_html: { value: 15, min: 15, step: 15 }, require: true %>
-                <%= f.input :user_id, collection: Practitioner.all.map { |practitioner| [practitioner.user.full_name, practitioner.user.id] }, include_blank: 'Select a practitioner' %>
+                <% if !@event.user.admin? %>
+                  <%= f.input :user_id, collection: Practitioner.all.map { |practitioner| [practitioner.user.full_name, practitioner.user.id] }, include_blank: 'Select a practitioner' %>
+                <% end %>
                 <%= f.input :capacity, input_html: { min: 0 } %>
                 <%= f.input :registration_link %>
                 <%= f.input :photo, as: :file, input_html: {  }, label_html: { class: 'upload-photo'} %>
@@ -44,7 +46,9 @@
         </div>
       </div>
     <% end %>
-    <p>Presented by The Holistic Panda X <%= link_to @event.user.full_name, practitioner_path(@event.user.practitioner) %></p>
+    <% if !@event.user.admin? %>
+      <p>Presented by The Holistic Panda X <%= link_to @event.user.full_name, practitioner_path(@event.user.practitioner) %></p>
+    <% end %>
     <% if user_signed_in? && current_user.timezone != '' %>
       <p>Date: <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y') %></p>
       <p>Time: <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%l:%M') %> ~ <%= (@event.start_time.in_time_zone(current_user.timezone) + @event.duration.minutes).strftime('%l:%M %p') %> <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%Z') %></p>
@@ -55,12 +59,98 @@
       <p>Date: <%= @event.start_time.strftime('%a %b %d, %Y') %></p>
       <p>Time: <%= @event.start_time.strftime('%l:%M') %> ~ <%= (@event.start_time + @event.duration.minutes).strftime('%l:%M %p') %> <%= @event.start_time.strftime('%Z') %></p>
     <% end %>
+    <% if @event.user.admin? %>
+      <p>Location: Formation Studio 16 E 5th Ave, Vancouver</p>
+    <% end %>
     <p><a href="<%= @event.link %>"><%= @event.link %></a></p>
-    <div class="event-description">
+    <div class="event-description" <%= 'style=width:80%;' if @event.user.admin? %>>
       <p><%= @event.description.html_safe %></p>
     </div>
     <% if @event.start_time > Time.current %>
-      <a href="<%= @event.registration_link %>" class="btn btn-flat" target="_blank">Attend Event</a>
+      <% if @event.user.admin? %>
+        <a href="<%= @event.registration_link %>" class="btn btn-flat" target="_blank">Buy Ticket Now</a>
+      <% else %>
+        <a href="<%= @event.registration_link %>" class="btn btn-flat" target="_blank">Attend Event</a>
+      <% end %>
+    <% end %>
+    <% if @event.user.admin? %>
+      <div class="my-5">
+        <h4>THE TALENT</h4>
+        <p>Get to know our holistic practitioners and coaches</p>
+        <div class="event-practitioners-desktop">
+          <div class="event-practitioner">
+            <img src="<%= cdn_for(Practitioner.find(93).user.cropped_image) %>" alt="" class="event-image">
+            <p><strong>Juno Kim</strong></p>
+            <p>Mindfullness Teacher, CMT-P</p>
+          </div>
+          <div class="event-practitioner">
+            <img src="<%= cdn_for(Practitioner.find(113).user.cropped_image) %>" alt="" class="event-image">
+            <p><strong>Sarah Kingstone</strong></p>
+            <p>Energy Management & Personal Strategic Planning Coach</p>
+          </div>
+          <div class="event-practitioner">
+            <img src="<%= cdn_for(Practitioner.find(102).user.cropped_image) %>" alt="" class="event-image">
+            <p><strong>Jo-Anne Kingstone</strong></p>
+            <p>Energy Management & Personal and Professional Life-Coach</p>
+          </div>
+          <div class="event-practitioner">
+            <%= image_tag 'event/may.png', class: "event-image" %>
+            <p><strong>May Globus</strong></p>
+            <p>Founder & Sound Therapist, otō healing</p>
+          </div>
+          <div class="event-practitioner">
+            <img src="<%= cdn_for(Practitioner.find(98).user.cropped_image) %>" alt="" class="event-image">
+            <p><strong>Linh Ngyuen</strong></p>
+            <p>Holistic Esthetician & Counsellor</p>
+          </div>
+          <div class="event-practitioner">
+            <img src="<%= cdn_for(Practitioner.find(17).user.cropped_image) %>" alt="" class="event-image">
+            <p><strong>Stephanie Edwards</strong></p>
+            <p>Reiki Master & Intuitive Tarot Reader</p>
+          </div>
+          <div class="event-practitioner">
+            <img src="<%= cdn_for(Practitioner.find(57).user.cropped_image) %>" alt="" class="event-image">
+            <p><strong>Johnny Cantiveros</strong></p>
+            <p>Certified High-Performance Coach, Rapid Transformational Therapist</p>
+          </div>
+          <div class="event-practitioner">
+            <img src="<%= cdn_for(Practitioner.find(107).user.cropped_image) %>" alt="" class="event-image">
+            <p><strong>Debbie Chen</strong></p>
+            <p>Money Mindset & Finance Coach, CPA, CGA, CPCC</p>
+          </div>
+          <div class="event-practitioner">
+            <img src="<%= cdn_for(Practitioner.find(2).user.cropped_image) %>" alt="" class="event-image">
+            <p><strong>Dale Kobialko</strong></p>
+            <p>Certified PEMF Therapy Expert</p>
+          </div>
+          <div class="event-practitioner">
+            <img src="<%= cdn_for(Practitioner.find(111).user.cropped_image) %>" alt="" class="event-image">
+            <p><strong>Daya Harris</strong></p>
+            <p>Breathwork, Meditation, Energy Healing</p>
+          </div>
+        </div>
+        <div class="my-5">
+          <h4>OUR PARTNERS</h4>
+          <p>Meet our partners and sponsors</p>
+          <div class="event-partner-desktop">
+            <div class="event-partner">
+              <a href="https://www.buchabrew.ca/" target="_blank"><%= image_tag 'event/bucha.png'%></a>
+            </div>
+            <div class="event-partner">
+              <a href="https://www.theholisticpanda.com/practitioners/EstrellitaGonzalez_7" target="_blank"><%= image_tag 'event/derma.jpg'%></a>
+            </div>
+            <div class="event-partner">
+              <a href="https://www.theformationstudio.com/" target="_blank"><%= image_tag 'event/formation.png'%></a>
+            </div>
+            <div class="event-partner">
+              <a href="https://www.lunanectar.com/" target="_blank"><%= image_tag 'event/luna.png'%></a>
+            </div>
+            <div class="event-partner">
+              <a href="https://www.theholisticpanda.com/practitioners/Jo-AnneKingstone_102" target="_blank"><%= image_tag 'event/elarton.jpeg'%></a>
+            </div>
+          </div>
+        </div>
+      </div>
     <% end %>
   </div>
 </div>
