@@ -89,6 +89,7 @@
           </a>
           <div class="event-detail">
             <h4><%= link_to event.name, event_path(event) %></h4>
+            <% if !@event.user.admin? %>
             <p>With <%= link_to event.user.full_name, practitioner_path(event.user.practitioner) %></p>
             <% else %>
             <p>by The Holsitic Panda</p>
