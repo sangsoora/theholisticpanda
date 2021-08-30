@@ -94,6 +94,11 @@
   .event-desktop {
     display: none;
   }
+  .event-page {
+    .events {
+      grid-template-columns: 1fr;
+    }
+  }
 }
 
 // Mobile landscape
