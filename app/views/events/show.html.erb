@@ -151,6 +151,7 @@
                 <li><p>A 90-minute Introduction to Energy Management Coaching Session from Elarton Point Strategies</p></li>
                 <li><p>3 sessions of Pulsed ElectroMagnetic Field (PEMF) Therapy with Certified PEMF expert Dale Kobialko</p></li>
                 <li><p>A Nocturne Magnesium Sleep Oil and Sphinx Body Experience Oil from Luna Nectar Organics</p></li>
+                <li><p>A 90-minute financial coaching session with Money Mindset & Finance Coach Debbie Chen (CPA, CGA, CPCC)</p></li>
               </ul>
             </ul>
             <br>
@@ -191,7 +192,12 @@
     </div>
     <% if @event.start_time > Time.current %>
       <% if @event.user.admin? %>
-        <%= link_to 'Buy Ticket Now', '', data: { toggle: "modal", target: "#ticketModal" }, class: 'btn btn-flat' %>
+        <% if @event.event_attendees.where(payment_status: 'paid').count >= @event.capacity %>
+          <p>We are sold out at this moment!</p>
+          <%= link_to 'Sign up for waiting list!', '', data: { toggle: "modal", target: "#waitingModal" }, class: 'btn btn-flat' %>
+        <% else %>
+          <%= link_to 'Buy Ticket Now', '', data: { toggle: "modal", target: "#ticketModal" }, class: 'btn btn-flat' %>
+        <% end %>
       <% else %>
         <a href="<%= @event.registration_link %>" class="btn btn-flat" target="_blank">Attend Event</a>
       <% end %>
@@ -270,7 +276,13 @@
               <a href="https://www.theholisticpanda.com/practitioners/DaleKobialko_2" target="_blank"><%= image_tag 'event/dale.png'%></a>
             </div>
             <div class="event-partner">
-              <a href="" target="_blank"><%= image_tag 'event/seven.png'%></a>
+              <a href="https://www.sevenmovements.com/" target="_blank"><%= image_tag 'event/seven.png'%></a>
+            </div>
+            <div class="event-partner">
+              <a href="https://www.theholisticpanda.com/practitioners/DebbieChen_107" target="_blank"><%= image_tag 'event/cfo.png'%></a>
+            </div>
+            <div class="event-partner">
+              <a href="https://www.playcityapp.com/" target="_blank"><%= image_tag 'event/play.png'%></a>
             </div>
           </div>
         </div>
@@ -312,6 +324,21 @@
                 <p><strong>Important notice Re COVID-19:  The safety of our guests and practitioners is of our utmost concern. We recommend everyone to wear a mask in common areas (you may remove them when you are on your mats). If you are experiencing COVID-19 symptoms, please do not come to the event. As per the B.C. government’s new health guidelines that will go into effect on September 13th, proof of at least one dose of the COVID-19 vaccination (show of “B.C. vaccine cards”) will be required. If you have any questions or concerns, please email us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a></strong></p>
                 <input type="submit" name="commit" id="checkout" value="Place order" class="btn btn-flat mt-3" data-disable-with="Place order" disabled="">
               <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="waitingModal" tabindex="-1" role="dialog" aria-labelledby="waitingModalLabel" aria-hidden="true">
+        <div class="modal-dialog text-left" role="document" style="min-width: 80vw;">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="waitingModalLabel">Waitling List</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
             </div>
           </div>
         </div>
