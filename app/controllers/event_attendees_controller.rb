@@ -25,7 +25,7 @@ class EventAttendeesController < ApplicationController
         customer: customer,
         line_items: [{
           name: @event_attendee.event.name,
-          amount: 7500,
+          amount: 10000,
           currency: 'cad',
           quantity: 1,
           tax_rates: tax_rates
