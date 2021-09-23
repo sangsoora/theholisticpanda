@@ -120,7 +120,9 @@ Rails.application.routes.draw do
     resources :event_attendees, only: [:create]
   end
 
-  resources :event_attendees, only: [:destroy]
+  resources :event_attendees, only: [:destroy] do
+    resources :event_attendee_payments, only: [:new]
+  end
 
   resources :tax_rates, only: %i[create update destroy]
 

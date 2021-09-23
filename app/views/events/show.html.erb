@@ -7,7 +7,7 @@
   <%= render 'shared/home_navbar' %>
 <% end %>
 <div class="container event-page">
-  <div class="text-center">
+  <div class="text-center" style="background-color: white;">
     <% if @event.photo.attached? %>
      <img src="<%= cdn_for(@event.photo) %>" class="event-image" alt="<%= @event.name %>">
     <% end %>
@@ -28,11 +28,13 @@
             </div>
             <div class="modal-body">
               <%= simple_form_for(@event) do |f| %>
-                <%= f.input :name, required: true %>
-                <%= f.input :description, as: :ckeditor, required: true %>
-                <%= f.input :start_time, label: 'Start time (in UTC)', required: true, minute_step: 30 %>
-                <%= f.input :duration, label: 'Duration (in minutes)', input_html: { value: 15, min: 15, step: 15 }, required: true %>
-                <%= f.input :user_id, collection: Practitioner.all.map { |practitioner| [practitioner.user.full_name, practitioner.user.id] }, include_blank: 'Select a practitioner' %>
+                <%= f.input :name, require: true %>
+                <%= f.input :description, as: :ckeditor, require: true %>
+                <%= f.input :start_time, label: 'Start time (in UTC)', require: true, minute_step: 30 %>
+                <%= f.input :duration, label: 'Duration (in minutes)', input_html: { min: 15, step: 15 }, require: true %>
+                <% if !@event.user.admin? %>
+                  <%= f.input :user_id, collection: Practitioner.all.map { |practitioner| [practitioner.user.full_name, practitioner.user.id] }, include_blank: 'Select a practitioner' %>
+                <% end %>
                 <%= f.input :capacity, input_html: { min: 0 } %>
                 <%= f.input :registration_link %>
                 <%= f.input :photo, as: :file, input_html: {  }, label_html: { class: 'upload-photo'} %>
@@ -44,7 +46,9 @@
         </div>
       </div>
     <% end %>
-    <p>Presented by The Holistic Panda X <%= link_to @event.user.full_name, practitioner_path(@event.user.practitioner) %></p>
+    <% if !@event.user.admin? %>
+      <p>Presented by The Holistic Panda X <%= link_to @event.user.full_name, practitioner_path(@event.user.practitioner) %></p>
+    <% end %>
     <% if user_signed_in? && current_user.timezone != '' %>
       <p>Date: <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y') %></p>
       <p>Time: <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%l:%M') %> ~ <%= (@event.start_time.in_time_zone(current_user.timezone) + @event.duration.minutes).strftime('%l:%M %p') %> <%= @event.start_time.in_time_zone(current_user.timezone).strftime('%Z') %></p>
@@ -55,12 +59,339 @@
       <p>Date: <%= @event.start_time.strftime('%a %b %d, %Y') %></p>
       <p>Time: <%= @event.start_time.strftime('%l:%M') %> ~ <%= (@event.start_time + @event.duration.minutes).strftime('%l:%M %p') %> <%= @event.start_time.strftime('%Z') %></p>
     <% end %>
+    <% if @event.user.admin? %>
+      <p>Location: Formation Studio 16 E 5th Ave, Vancouver</p>
+    <% end %>
     <p><a href="<%= @event.link %>"><%= @event.link %></a></p>
-    <div class="event-description">
-      <p><%= @event.description.html_safe %></p>
+    <div class="event-description" <%= 'style=width:80%;' if @event.user.admin? %>>
+      <% if !@event.user.admin? %>
+        <p><%= @event.description.html_safe %></p>
+      <% else %>
+        <p>We all had two exceptionally tough years. Our anxieties and stress levels have heightened, our well-being and health jeopardized, and our relationships with our loved ones and ourselves have been impacted.</p>
+        <br>
+        <p>Join The Holistic Panda in our first in-person wellness retreat, where we come together for a half-day event with sessions and workshops led by our expert holistic practitioners and coaches to nourish your minds and bodies. You will discover tools and modalities to help you maintain your wellness, cope with change in the new ‘normal,’ and find alignment with your true self.</p>
+        <br>
+        <p><strong>What to Expect:</strong></p>
+        <div style="display: grid; grid-template-columns: 1fr 5fr; grid-gap: 3rem;" >
+          <p><strong>12:45pm - 1:00pm:</strong></p><p class="ml-3">Event registration</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 5fr; grid-gap: 3rem;" >
+          <p><strong>1:00pm - 1:15pm:</strong></p><p class="ml-3">Welcome by The Holistic Panda</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 5fr; grid-gap: 3rem;" >
+          <p><strong>1:15pm - 1:45pm:</strong></p><p class="ml-3">Rediscovering the Soma - Meditation with Juno Kim</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 5fr; grid-gap: 3rem;" >
+          <p><strong>2:00pm - 2:40pm:</strong></p><p class="ml-3">Dance Experience hosted by Formation Studio</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 5fr; grid-gap: 3rem;" >
+          <p><strong>3:00pm - 3:45pm:</strong></p><p class="ml-3">Energy Management Workshop on Taming Your Focus with Sarah and Jo-Anne Kingstone</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 5fr; grid-gap: 3rem;" >
+          <p><strong>4:00pm - 4:45pm:</strong></p><p class="ml-3">Sound Healing Therapy with May Globus & Juno Kim</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 5fr; grid-gap: 3rem;" >
+          <p><strong>4:45pm - 5:00pm:</strong></p><p class="ml-3">Event closing</p>
+        </div>
+        <br>
+        <p>There will be short breaks in between sessions where you can do oracle and tarot readings, enjoy complimentary Kombuchas from Bucha Brew, and chat with our holistic practitioners and coaches to learn how their healing modalities can help you transform your well-being.</p>
+        <br>
+        <div class="event-desktop">
+          <div class="d-flex justify-content-between align-items-center">
+            <div style="flex: 0 0 60%;">
+              <p><strong>What you will receive with your ticket:</strong></p>
+              <ul>
+                <li><p>Access to all wellness sessions</p></li>
+                <li><p>Complimentary Kombuchas from Bucha Brew</p></li>
+                <li><p>Mini oracle and tarot readings (limited capacity available, so sign up with us when you check-in!)</p></li>
+                <li><p>The Holistic Panda goodie totes with a Moleskine journal and 2 X $50 coupons* (see note section for details)</p></li>
+                <li><p>Entry in our lucky draw to win prizes with a value of $1,500. Prizes include:</p></li>
+                <ul>
+                  <li><p>A Dyson Supersonic Hair Dryer</p></li>
+                  <li><p>A 5-dance class package from Formation Studio</p></li>
+                  <li><p>A 60-minute Technical Facial from Derma Bright Clinic </p></li>
+                  <li><p>A 90-minute Introduction to Energy Management Coaching Session from Elarton Point Strategies</p></li>
+                  <li><p>3 sessions of Pulsed ElectroMagnetic Field (PEMF) Therapy with Certified PEMF expert Dale Kobialko</p></li>
+                  <li><p>A Nocturne Magnesium Sleep Oil and Sphinx Body Experience Oil from Luna Nectar Organics</p></li>
+                  <li><p>A 90-minute financial coaching session with Money Mindset & Finance Coach Debbie Chen (CPA, CGA, CPCC)</p></li>
+                </ul>
+              </ul>
+              <br>
+            </div>
+            <div style="flex: 0 0 37%;">
+              <%= image_tag 'event/may1.png', style: 'width:100%;' %>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <div style="flex: 0 0 60%;">
+              <p><strong>Session Details: </strong></p>
+              <br>
+              <p><strong>Rediscovering the Soma</strong> - Deepening our connection to our breath can deepen the connection to ourselves and the wisdom and capabilities innate in our bodies. To help us flow with overactive minds and anxious energies, Juno will guide us through a meditation exploring the textures of our breath, a powerful portal into our somatic, felt-experience.</p>
+              <p><strong>Dance Experience</strong> - The dance experience hosted by Formation Studio will be similar to their signature Freedom Class, a cardio hip-hop dance party that requires no memorizing and just fun dancing. The class will consist of 30-minute movements and 10-minute stretching to cool down.</p>
+              <p><strong>Be A Dime Energy Management Workshop</strong> - In this workshop led by Sarah & Jo-Anne Kingston of Elarton Point Strategies, you will explore how your internal focus influences your beliefs, actions, and results and develop the tools to successfully manage your energy and build your personal and professional capacity.</p>
+              <p><strong>Sound Healing Therapy</strong>- Sound has been used for thousands of years, throughout many cultures, as a form of healing. This auditory/vibratory modality helps calm the nervous system and jars loose emotions trapped within the body, allowing one to examine the origins of these feelings at another level. To close our workshop, May will guide us through a deep sound journey to bring us even closer home to the wisdom of our bodies.</p>
+            </div>
+            <div style="flex: 0 0 37%;">
+              <%= image_tag 'event/action.png', style: 'width:100%;' %>
+            </div>
+          </div>
+        </div>
+        <div class="event-mobile">
+          <div>
+            <p><strong>What you will receive with your ticket:</strong></p>
+            <ul>
+              <li><p>Access to all wellness sessions</p></li>
+              <li><p>Complimentary Kombuchas from Bucha Brew</p></li>
+              <li><p>Mini oracle and tarot readings (limited capacity available, so sign up with us when you check-in!)</p></li>
+              <li><p>The Holistic Panda goodie totes with a Moleskine journal and 2 X $50 coupons* (see note section for details)</p></li>
+              <li><p>Entry in our lucky draw to win prizes with a value of $1,500. Prizes include:</p></li>
+              <ul>
+                <li><p>A Dyson Supersonic Hair Dryer</p></li>
+                <li><p>A 5-dance class package from Formation Studio</p></li>
+                <li><p>A 60-minute Technical Facial from Derma Bright Clinic </p></li>
+                <li><p>A 90-minute Introduction to Energy Management Coaching Session from Elarton Point Strategies</p></li>
+                <li><p>3 sessions of Pulsed ElectroMagnetic Field (PEMF) Therapy with Certified PEMF expert Dale Kobialko</p></li>
+                <li><p>A Nocturne Magnesium Sleep Oil and Sphinx Body Experience Oil from Luna Nectar Organics</p></li>
+                <li><p>A 90-minute financial coaching session with Money Mindset & Finance Coach Debbie Chen (CPA, CGA, CPCC)</p></li>
+              </ul>
+            </ul>
+            <br>
+          </div>
+          <div>
+            <%= image_tag 'event/may1.png', style: 'width:100%;' %>
+          </div>
+          <div class="mt-5">
+            <p><strong>Session Details: </strong></p>
+            <br>
+            <p><strong>Rediscovering the Soma</strong> - Deepening our connection to our breath can deepen the connection to ourselves and the wisdom and capabilities innate in our bodies. To help us flow with overactive minds and anxious energies, Juno will guide us through a meditation exploring the textures of our breath, a powerful portal into our somatic, felt-experience.</p>
+            <p><strong>Dance Experience</strong> - The dance experience hosted by Formation Studio will be similar to their signature Freedom Class, a cardio hip-hop dance party that requires no memorizing and just fun dancing. The class will consist of 30-minute movements and 10-minute stretching to cool down.</p>
+            <p><strong>Be A Dime Energy Management Workshop</strong> - In this workshop led by Sarah & Jo-Anne Kingston of Elarton Point Strategies, you will explore how your internal focus influences your beliefs, actions, and results and develop the tools to successfully manage your energy and build your personal and professional capacity.</p>
+            <p><strong>Sound Healing Therapy</strong>- Sound has been used for thousands of years, throughout many cultures, as a form of healing. This auditory/vibratory modality helps calm the nervous system and jars loose emotions trapped within the body, allowing one to examine the origins of these feelings at another level. To close our workshop, May will guide us through a deep sound journey to bring us even closer home to the wisdom of our bodies.</p>
+          </div>
+          <div>
+            <%= image_tag 'event/action.png', style: 'width:100%;' %>
+          </div>
+        </div>
+        <br>
+        <p><strong>What you will need to bring:</strong></p>
+        <ul>
+          <li><p>Please bring your own mat if you can. On-site mat rentals will be available in case you forgot.</p></li>
+          <li><p>Attendees must wear masks in common areas, but you may remove them when you are on your mats.</p></li>
+          <li><p>Please wear comfortable clothes. Bathrooms/changing rooms available.</p></li>
+          <li><p>Water bottle to stay hydrated.</p></li>
+          <li><p>An open mindset, curiosity, and excitement!</p></li>
+        </ul>
+        <p><strong>Cancellation Policy:<br>Tickets are non-refundable. In the event The Holistic Panda has to cancel the event due to changes in COVID guidelines set forth by the B.C. government, you will receive a full refund.  Please read our COVID safety measures on the ticket page.</strong></p>
+        <p>Note*<br>All event attendees will receive a $50 coupon for a spa visit with Linh Nguyen and a $50 coupon for laser services at Derma Bright Clinic. These are digital coupons and will be deposited into your The Holistic Panda account when you sign up.</p>
+        <div class="text-center">
+          <p><strong>Ticket Price:</strong></p>
+          <p><strong>Early bird (before Sept 17th): $75 (tax included)</strong></p>
+          <p><strong>Regular price (after Sept 17th): $100 (tax included)</strong></p>
+          <p><strong>Only 35 tickets available</strong></p>
+        </div>
+      <% end %>
     </div>
     <% if @event.start_time > Time.current %>
-      <a href="<%= @event.registration_link %>" class="btn btn-flat" target="_blank">Attend Event</a>
+      <% if @event.user.admin? %>
+        <% if @event.event_attendees.where(payment_status: 'paid').count >= @event.capacity %>
+          <p>We are sold out at this moment!</p>
+          <%= link_to 'Sign up for waiting list!', '', data: { toggle: "modal", target: "#waitingModal" }, class: 'btn btn-flat' %>
+        <% else %>
+          <%= link_to 'Buy Ticket Now', '', data: { toggle: "modal", target: "#ticketModal" }, class: 'btn btn-flat' %>
+        <% end %>
+      <% else %>
+        <a href="<%= @event.registration_link %>" class="btn btn-flat" target="_blank">Attend Event</a>
+      <% end %>
+    <% end %>
+    <% if @event.user.admin? %>
+      <div class="my-5">
+        <h4>THE TALENT</h4>
+        <p>Get to know our holistic practitioners and coaches</p>
+        <div class="event-practitioners-desktop">
+          <div class="event-practitioner">
+            <img src="<%= cdn_for(Practitioner.find(93).user.cropped_image) %>" alt="" class="event-image">
+            <p><strong>Juno Kim</strong></p>
+            <p>Mindfullness Teacher, CMT-P</p>
+          </div>
+          <div class="event-practitioner">
+            <img src="<%= cdn_for(Practitioner.find(113).user.cropped_image) %>" alt="" class="event-image">
+            <p><strong>Sarah Kingstone</strong></p>
+            <p>Energy Management & Personal Strategic Planning Coach</p>
+          </div>
+          <div class="event-practitioner">
+            <img src="<%= cdn_for(Practitioner.find(102).user.cropped_image) %>" alt="" class="event-image">
+            <p><strong>Jo-Anne Kingstone</strong></p>
+            <p>Energy Management & Personal and Professional Life-Coach</p>
+          </div>
+          <div class="event-practitioner">
+            <%= image_tag 'event/may.png', class: "event-image" %>
+            <p><strong>May Globus</strong></p>
+            <p>Founder & Sound Therapist, otō healing</p>
+          </div>
+          <div class="event-practitioner">
+            <img src="<%= cdn_for(Practitioner.find(91).user.cropped_image) %>" alt="" class="event-image">
+            <p><strong>Giovanna Lin</strong></p>
+            <p>Reiki Master</p>
+          </div>
+          <div class="event-practitioner">
+            <img src="<%= cdn_for(Practitioner.find(17).user.cropped_image) %>" alt="" class="event-image">
+            <p><strong>Stephanie Edwards</strong></p>
+            <p>Reiki Master & Intuitive Tarot Reader</p>
+          </div>
+          <div class="event-practitioner">
+            <img src="<%= cdn_for(Practitioner.find(107).user.cropped_image) %>" alt="" class="event-image">
+            <p><strong>Debbie Chen</strong></p>
+            <p>Money Mindset & Finance Coach, CPA, CGA, CPCC</p>
+          </div>
+          <div class="event-practitioner">
+            <img src="<%= cdn_for(Practitioner.find(111).user.cropped_image) %>" alt="" class="event-image">
+            <p><strong>Daya Harris</strong></p>
+            <p>Breathwork, Meditation, Energy Healing</p>
+          </div>
+        </div>
+        <div class="my-5">
+          <h4>OUR PARTNERS</h4>
+          <p>Meet our partners and sponsors</p>
+          <div class="event-partner-desktop">
+            <div class="event-partner">
+              <a href="https://www.buchabrew.ca/" target="_blank"><%= image_tag 'event/bucha.png'%></a>
+            </div>
+            <div class="event-partner">
+              <a href="https://www.theholisticpanda.com/practitioners/EstrellitaGonzalez_7" target="_blank"><%= image_tag 'event/derma.png'%></a>
+            </div>
+            <div class="event-partner">
+              <a href="https://www.theformationstudio.com/" target="_blank"><%= image_tag 'event/formation.png'%></a>
+            </div>
+            <div class="event-partner">
+              <a href="https://www.lunanectar.com/" target="_blank"><%= image_tag 'event/luna.png'%></a>
+            </div>
+            <div class="event-partner">
+              <a href="https://www.theholisticpanda.com/practitioners/Jo-AnneKingstone_102" target="_blank"><%= image_tag 'event/elarton.jpeg'%></a>
+            </div>
+            <div class="event-partner">
+              <a href="https://www.theholisticpanda.com/practitioners/DaleKobialko_2" target="_blank"><%= image_tag 'event/dale.png'%></a>
+            </div>
+            <div class="event-partner">
+              <a href="https://www.sevenmovements.com/" target="_blank"><%= image_tag 'event/seven.png'%></a>
+            </div>
+            <div class="event-partner">
+              <a href="https://www.theholisticpanda.com/practitioners/DebbieChen_107" target="_blank"><%= image_tag 'event/cfo.png'%></a>
+            </div>
+            <div class="event-partner">
+              <a href="https://www.playcityapp.com/" target="_blank"><%= image_tag 'event/play.png'%></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="ticketModal" tabindex="-1" role="dialog" aria-labelledby="ticketModalLabel" aria-hidden="true">
+        <div class="modal-dialog text-left" role="document" style="min-width: 80vw;">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="ticketModalLabel">Buy ticket</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <%= simple_form_for([@event, @event_attendee]) do |f| %>
+                <h4>Contact information</h4>
+                <% if user_signed_in? %>
+                  <%= f.input :first_name, required: true, input_html: {value: current_user.first_name} %>
+                  <%= f.input :last_name, required: true, input_html: {value: current_user.last_name} %>
+                  <%= f.input :email, required: true, input_html: {value: current_user.email} %>
+                <% else %>
+                  <%= f.input :first_name, required: true %>
+                  <%= f.input :last_name, required: true %>
+                  <%= f.input :email, required: true %>
+                <% end %>
+                <div class="form-check mt-3">
+                  <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="event_attendee[event_consent]" id="event_consent_true">
+                  <label class="form-check-label collection_check_boxes" for="event_consent_true" style="color: grey; font-weight: 500;">I have read and agree to the cancellation policy. I also agree with the event safety measures as stated below. *</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="event_attendee[terms_consent]" id="terms_consent_true">
+                  <label class="form-check-label collection_check_boxes" for="terms_consent_true" style="color: grey; font-weight: 500;">I accept the <a href="https://www.theholisticpanda.com/terms" target="_blank">Terms of Use</a> and have read the <a href="https://www.theholisticpanda.com/privacy" target="_blank">Privacy Policy</a>. *</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input check_boxes required" required="required" aria-required="true" type="checkbox" value="true" name="event_attendee[newsletter]" id="newsletter_true">
+                  <label class="form-check-label collection_check_boxes" for="newsletter_true" style="color: grey; font-weight: 500;">By registering for the event, I understand I will be added to the subscription list and receive updates on the latest news, events, and exclusive offers from The Holistic Panda. I understand that I may unsubscribe at anytime. *</label>
+                </div>
+                <br>
+                <p><strong>Important notice Re COVID-19:  The safety of our guests and practitioners is of our utmost concern. We recommend everyone to wear a mask in common areas (you may remove them when you are on your mats). If you are experiencing COVID-19 symptoms, please do not come to the event. As per the B.C. government’s new health guidelines that will go into effect on September 13th, proof of at least one dose of the COVID-19 vaccination (show of “B.C. vaccine cards”) will be required. If you have any questions or concerns, please email us at <a href="mailto:hello@theholisticpanda.com">hello@theholisticpanda.com</a></strong></p>
+                <input type="submit" name="commit" id="checkout" value="Place order" class="btn btn-flat mt-3" data-disable-with="Place order" disabled="">
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="waitingModal" tabindex="-1" role="dialog" aria-labelledby="waitingModalLabel" aria-hidden="true">
+        <div class="modal-dialog text-left" role="document" style="min-width: 80vw;">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="waitingModalLabel">Waitling List</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <a data-toggle="modal" data-target="#confirmModal" class="btn btn-flat" href="" style="display: none;" id="confirm"></a>
+      <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="confirmModalLabel">Event registration confirmed</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Thank you for joining our event!<br>You will receive the confirmation email shortly!</p>
+            </div>
+          </div>
+        </div>
+      </div>
     <% end %>
   </div>
 </div>
+<script>
+  const checkbox1 = document.getElementById('event_consent_true');
+  const checkbox2 = document.getElementById('terms_consent_true');
+  const checkbox3 = document.getElementById('newsletter_true');
+  if (checkbox1) {
+    checkbox1.addEventListener( 'change', function() {
+      if(checkbox1.checked === true && checkbox2.checked === true && checkbox3.checked === true) {
+        document.getElementById('checkout').disabled = false;
+      } else {
+        document.getElementById('checkout').disabled = true;
+      }
+    });
+  }
+  if (checkbox2) {
+    checkbox2.addEventListener( 'change', function() {
+      if(checkbox1.checked === true && checkbox2.checked === true && checkbox3.checked === true) {
+        document.getElementById('checkout').disabled = false;
+      } else {
+        document.getElementById('checkout').disabled = true;
+      }
+    });
+  }
+  if (checkbox3) {
+    checkbox3.addEventListener( 'change', function() {
+      if(checkbox1.checked === true && checkbox2.checked === true && checkbox3.checked === true) {
+        document.getElementById('checkout').disabled = false;
+      } else {
+        document.getElementById('checkout').disabled = true;
+      }
+    });
+  }
+  <% if params[:session_id] && params[:session_id] != '' %>
+    window.addEventListener('DOMContentLoaded', (event) => {
+      document.getElementById('confirm').click();
+    })
+  <% end %>
+</script>
