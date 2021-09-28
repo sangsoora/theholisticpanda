@@ -56,7 +56,11 @@
             </a>
             <div class="event-detail">
               <h4><%= link_to event.name, event_path(event) %></h4>
-              <p>With <%= link_to event.user.full_name, practitioner_path(event.user.practitioner) %></p>
+              <% if !event.user.admin? %>
+                <p>With <%= link_to event.user.full_name, practitioner_path(event.user.practitioner) %></p>
+              <% else %>
+                <p>by The Holistic Panda</p>
+              <% end %>
               <% if user_signed_in? && current_user.timezone != '' %>
                 <p><%= event.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
               <% elsif event.user.timezone != '' %>
@@ -83,7 +87,11 @@
           </a>
           <div class="event-detail">
             <h4><%= link_to event.name, event_path(event) %></h4>
-            <p>With <%= link_to event.user.full_name, practitioner_path(event.user.practitioner) %></p>
+            <% if !event.user.admin? %>
+              <p>With <%= link_to event.user.full_name, practitioner_path(event.user.practitioner) %></p>
+            <% else %>
+              <p>by The Holsitic Panda</p>
+            <% end %>
             <% if user_signed_in? && current_user.timezone != '' %>
               <p><%= event.start_time.in_time_zone(current_user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
             <% elsif event.user.timezone != '' %>
