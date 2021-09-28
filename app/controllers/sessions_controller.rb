@@ -178,6 +178,7 @@ class SessionsController < ApplicationController
             }
           })
           @session.update(session_params)
+          SessionMailer.with(session: @session).review_reminder.deliver_now
           redirect_to practitioner_sessions_path, notice: 'Session payment has been charged.'
         rescue Stripe::StripeError => e
           type = e.error.type if e.error.type

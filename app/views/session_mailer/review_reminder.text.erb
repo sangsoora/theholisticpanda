@@ -1,0 +1,10 @@
+Dear <%= @session.user.first_name %>,
+
+We hope you had a wonderful experience for <%= @session.service.name %> with <%= @session.practitioner.user.full_name %>.
+
+Please find the session under the completed session tab and help the community with your valuable feedback on the session.
+
+Service: <%= @session.service.name %>
+
+Yours,
+The Holistic Panda Team

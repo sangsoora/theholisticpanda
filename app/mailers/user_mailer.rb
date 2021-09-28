@@ -9,4 +9,12 @@ class UserMailer < ApplicationMailer
 
     mail(to: @user.email, subject: 'Welcome to The Holistic Panda')
   end
+
+  def message_notification
+    @user = params[:user]
+    @recipient = params[:recipient]
+    @conversation = params[:conversation]
+
+    mail(to: @recipient.email, subject: "You have new message from #{@user.full_name}.")
+  end
 end
