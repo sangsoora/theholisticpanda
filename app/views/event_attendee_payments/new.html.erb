@@ -1,0 +1,17 @@
+<div class="container payment-page">
+  <div class="payment-box" style="align-items: center;">
+    <h3>Checkout summary</h3>
+      <p class="mb-0"><%= @event_attendee.event.name %> fee for <strong>CA$ 100.00</strong></p>
+    <button id="pay" class="btn btn-flat">Pay</button>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+      const paymentButton = document.getElementById('pay');
+      paymentButton.addEventListener('click', () => {
+        const stripe = Stripe('<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>');
+        stripe.redirectToCheckout({
+          sessionId: '<%= @event_attendee.checkout_session_id %>'
+        });
+      });
+    </script>
+  </div>
+</div>

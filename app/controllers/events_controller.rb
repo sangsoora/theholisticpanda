@@ -18,6 +18,7 @@ class EventsController < ApplicationController
   end
 
   def show
+    @event_attendee = EventAttendee.new
   end
 
   def update

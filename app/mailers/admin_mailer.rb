@@ -22,6 +22,13 @@ class AdminMailer < ApplicationMailer
     mail(to: 'hello@theholisticpanda.com', subject: 'New Practitioner Application.')
   end
 
+  def new_event_attendee
+    @event_attendee = params[:event_attendee]
+    @event = params[:event]
+
+    mail(to: 'hello@theholisticpanda.com', subject: 'New Event Attendee.')
+  end
+
   def stripe_failure
     @user = params[:user]
     @request = params[:request]

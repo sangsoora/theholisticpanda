@@ -44,6 +44,11 @@ class StripeCheckoutSessionService
     #   @session.update!(status: 'pending', paid: true)
     #   SessionMailer.with(session: @session).send_request.deliver_now
     #   Notification.create(recipient: @session.practitioner.user, actor: current_user, action: 'sent you a session request', notifiable: @session)
+    elsif EventAttendee.find_by(checkout_session_id: event.data.object.id)
+      @event_attendee = EventAttendee.find_by(checkout_session_id: event.data.object.id)
+      @event_attendee.update!(payment_status: 'paid')
+      EventMailer.with(event_attendee: @event_attendee, event: @event_attendee.event).confirmation.deliver_now
+      AdminMailer.with(event_attendee: @event_attendee, event: @event_attendee.event).new_event_attendee.deliver_now
     end
   end
 end
