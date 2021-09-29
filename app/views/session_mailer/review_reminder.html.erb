@@ -7,8 +7,8 @@
     <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><img src="https://<%= ENV['CDN_URL'] %>/logo.png" alt="TheHolisticPanda" style="width: 300px;"></a>
   </div>
   <h3>Dear <%= @session.user.first_name %>,</h3>
-  <p>We hope you had a wonderful experience for <%= @session.service.name %> with <%= @session.practitioner.user.full_name %>.</p>
-  <p>Please find the session under the completed session tab and help the community with your valuable feedback on the session.</p>
+  <p>We hope you had enjoyed <%= @session.service.name %> with <%= @session.practitioner.user.full_name %>.</p>
+  <p>Please share your experience with our community, so others can easily find the right services and practitioners to help support them on their wellness journeys. <strong>Sharing is caring!</strong></p>
   <p>Service: <%= @session.service.name %></p>
   <br>
   <br>

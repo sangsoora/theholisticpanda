@@ -15,6 +15,6 @@ class UserMailer < ApplicationMailer
     @recipient = params[:recipient]
     @conversation = params[:conversation]
 
-    mail(to: @recipient.email, subject: "You have new message from #{@user.full_name}.")
+    mail(to: @recipient.email, subject: "You received a new message from #{@user.full_name}.")
   end
 end

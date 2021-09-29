@@ -148,7 +148,7 @@ class SessionMailer < ApplicationMailer
     else
       @practitioner = @session.practitioner
     end
-    mail(to: @session.user.email, subject: "Please leave a reivew for your completed session!")
+    mail(to: @session.user.email, subject: "Did you enjoy your session? Leave a review!")
   end
 
   def change_link
