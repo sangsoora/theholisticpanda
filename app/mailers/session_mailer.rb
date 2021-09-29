@@ -141,6 +141,16 @@ class SessionMailer < ApplicationMailer
     mail(to: @session.user.email, subject: "Your session request has been declined!")
   end
 
+  def review_reminder
+    @session = params[:session]
+    if @session.service.default_service
+      @practitioner = Practitioner.find(@session.free_practitioner_id)
+    else
+      @practitioner = @session.practitioner
+    end
+    mail(to: @session.user.email, subject: "Did you enjoy your session? Leave a review!")
+  end
+
   def change_link
     @session = params[:session]
     if @session.service.default_service

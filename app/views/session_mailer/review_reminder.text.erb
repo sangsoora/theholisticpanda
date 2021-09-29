@@ -1,0 +1,10 @@
+Dear <%= @session.user.first_name %>,
+
+We hope you had enjoyed <%= @session.service.name %> with <%= @session.practitioner.user.full_name %>.
+
+Please share your experience with our community, so others can easily find the right services and practitioners to help support them on their wellness journeys. Sharing is caring!
+
+Service: <%= @session.service.name %>
+
+Yours,
+The Holistic Panda Team
