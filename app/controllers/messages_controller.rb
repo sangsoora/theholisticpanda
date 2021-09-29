@@ -10,6 +10,7 @@ class MessagesController < ApplicationController
     if Notification.includes(:actor).where(recipient: @conversation.opposed_user(current_user), actor: current_user, notifiable: @conversation).present? && Notification.where(recipient: @conversation.opposed_user(current_user), actor: current_user, notifiable: @conversation).last.read_at == nil
     else
       Notification.create(recipient: @conversation.opposed_user(current_user), actor: current_user, action: "sent you a new message", notifiable: @conversation)
+      UserMailer.with(conversation: @conversation, user: @current_user, recipient: @conversation.opposed_user(current_user)).message_notification.deliver_now
     end
 
     ConversationChannel.broadcast_to(@conversation, message: render_message)

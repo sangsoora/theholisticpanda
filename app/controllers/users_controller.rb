@@ -32,6 +32,7 @@ class UsersController < ApplicationController
     @pending_sessions = current_user.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(status: 'pending', free_practitioner_id: nil).order('created_at DESC')
     @cancelled_sessions = current_user.sessions.includes(:review, service: [practitioner: [{user: :photo_attachment}]]).where(status: 'cancelled', free_practitioner_id: nil).order('start_time DESC')
     @discovery_calls = current_user.sessions.where.not(free_practitioner_id: nil).includes(:review, :service).order('start_time DESC')
+    @completed_sessions = current_user.sessions.includes(:review, service: [practitioner: [{ user: :photo_attachment }]]).where(free_practitioner_id: nil).where('start_time <= ? AND status = ?', Time.current, 'charged').order('start_time DESC')
     @review = Review.new
   end
 
