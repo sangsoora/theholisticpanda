@@ -97,9 +97,9 @@ class SessionsController < ApplicationController
         SessionMailer.with(session: @session).confirm_user.deliver_now
         redirect_to practitioner_sessions_path, notice: 'Session request accepted.'
       end
-    elsif params[:commit] == 'Decline'
+    elsif params[:commit] == 'Decline request'
       UserPromo.find_by(promo_id: @session.promo_id).update(active: true) if @session.promo_id
-      @session.update!(status: 'declined')
+      @session.update!(status: 'declined', decline_reason: params[:session][:decline_reason])
       Notification.create(recipient: @session.user, actor: current_user, action: 'has declined your session', notifiable: @session)
       SessionMailer.with(session: @session).decline_request.deliver_now
       redirect_to practitioner_sessions_path, notice: 'Session request declined.'
@@ -439,6 +439,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:start_time, :duration, :session_type, :primary_time, :secondary_time, :tertiary_time, :message, :amount, :paid, :link, :status, :cancel_reason, :cancelled_user, :address, :latitude, :longitude, :payment_method_id, :estimate_price, :promo_id, :discount_price, :tax_price, :estimate_price)
+    params.require(:session).permit(:start_time, :duration, :session_type, :primary_time, :secondary_time, :tertiary_time, :message, :amount, :paid, :link, :status, :cancel_reason, :cancelled_user, :address, :latitude, :longitude, :payment_method_id, :estimate_price, :promo_id, :discount_price, :tax_price, :estimate_price, :decline_reason, :free_session)
   end
 end

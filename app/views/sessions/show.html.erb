@@ -45,7 +45,7 @@
         <% end %>
         <div class="session-btns">
           <%= f.submit 'Confirm', class: 'btn btn-flat', id: 'confirm', disabled: true %>
-          <%= f.submit 'Decline', data: { confirm: "Are you sure?" }, class: 'btn btn-ghost' %>
+          <button data-toggle="modal" data-target="#declineSessionModal" data-disable-with="Decline" class="btn btn-ghost" id="decline-btn">Decline</button>
         </div>
       <% end %>
     <% elsif @session.status == 'confirmed' %>
@@ -213,6 +213,20 @@
     </div>
   </div>
 <% end %>
+<div class="modal fade" id="declineSessionModal" tabindex="-1" role="dialog" aria-labelledby="declineSessionModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <h3>Decline session request</h3>
+        <%= simple_form_for [@session] do |f| %>
+          <p>If you are declining this request because all 3 time slots are not available, please propose available dates so customer can make a new request with proposed time.</p>
+          <%= f.input :decline_reason, label: false, require: true %>
+          <%= f.submit 'Decline request', data: { toggle: "modal", target: "#declineSessionModal" }, class: 'btn btn-flat' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="modal fade" id="cancelSessionModal" tabindex="-1" role="dialog" aria-labelledby="cancelSessionModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -270,6 +284,9 @@
       }
     })
   );
+  document.getElementById('decline-btn').addEventListener('click', (e) => {
+    e.preventDefault();
+  });
   <% if @session.session_type == 'In-person' %>
     if (document.getElementById('address_form')) {
       const address = document.getElementById('address');
