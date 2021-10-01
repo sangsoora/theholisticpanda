@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_27_192633) do
+ActiveRecord::Schema.define(version: 2021_09_30_200631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -362,6 +362,8 @@ ActiveRecord::Schema.define(version: 2021_08_27_192633) do
     t.integer "discount_price_cents", default: 0, null: false
     t.integer "tax_price_cents", default: 0, null: false
     t.integer "estimate_price_cents", default: 0, null: false
+    t.boolean "free_session"
+    t.string "decline_reason"
     t.index ["service_id"], name: "index_sessions_on_service_id"
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
@@ -410,6 +412,8 @@ ActiveRecord::Schema.define(version: 2021_08_27_192633) do
     t.datetime "updated_at", null: false
     t.string "detail"
     t.string "coupon_id"
+    t.bigint "service_id"
+    t.index ["service_id"], name: "index_user_promos_on_service_id"
     t.index ["user_id"], name: "index_user_promos_on_user_id"
   end
 
@@ -485,6 +489,7 @@ ActiveRecord::Schema.define(version: 2021_08_27_192633) do
   add_foreign_key "specialties", "specialty_categories"
   add_foreign_key "user_health_goals", "health_goals"
   add_foreign_key "user_health_goals", "users"
+  add_foreign_key "user_promos", "services"
   add_foreign_key "user_promos", "users"
   add_foreign_key "working_hours", "practitioners"
 end

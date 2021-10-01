@@ -27,6 +27,8 @@ Rails.application.routes.draw do
 
   get '/specialties/filter', to: 'specialties#filter', as: :specialty_filter
 
+  get '/session/promo_code', to: 'sessions#promo_code', as: :session_promo_code
+
   get '/services/more', to: 'services#more'
 
   devise_scope :user do
