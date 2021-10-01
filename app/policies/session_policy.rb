@@ -17,6 +17,10 @@ class SessionPolicy < ApplicationPolicy
     user_is_practitioner? || user_is_customer?
   end
 
+  def promo_code?
+    user_is_customer?
+  end
+
   def destroy?
     user_is_practitioner? || user_is_customer?
   end

@@ -9,6 +9,9 @@
           <%= f.input :estimate_price, as: :hidden %>
           <%= f.input :discount_price, as: :hidden %>
           <%= f.input :tax_price, as: :hidden %>
+          <input type="hidden" name="promo_id" id="promo_id">
+          <input type="hidden" name="promo_status" id="promo_status">
+          <input type="hidden" name="promo_amount" id="promo_amount">
           <% if @session.amount_cents >= 5000 %>
             <% if @promos.exists? %>
               <div class="form-group select optional session_promo_id">
@@ -26,7 +29,6 @@
                     </option>
                   <% end %>
                 </select>
-                <!-- <input class="form-control string optional mt-4" type="text" name="session[promo_id_string]" id="session_promo_id_string" placeholder="Promotion Code"> -->
               </div>
             <% else %>
                 <p>No coupon available.</p>
@@ -34,25 +36,32 @@
           <% else %>
             <p>Coupons can only be applied to services with value of CA$50 or more.</p>
           <% end %>
-          <p><strong>Payment methods</strong></p>
-          <div class="form-group select optional session_promo_id">
-            <select class="form-control select optional" name="session[payment_method_id]" id="session_payment_method_id">
-              <option value="<%= current_user.payment_methods.find_by(default: true).payment_method_id %>" data-country="<%= current_user.payment_methods.find_by(default: true).billing_country %>" data-state="<%= current_user.payment_methods.find_by(default: true).billing_state %>" select>Use Card Ending With <%= current_user.payment_methods.find_by(default: true).last4 %> (Default)</option>
-              <% current_user.payment_methods.where(default: false).each do |card| %>
-                <option value="<%= card.payment_method_id %>" data-country="<%= card.billing_country %>" data-state="<%= card.billing_state %>">Use Card Ending With <%= card.last4 %></option>
-              <% end %>
-            </select>
-            <!-- <input class="form-control string optional mt-4" type="text" name="session[promo_id_string]" id="session_promo_id_string" placeholder="Promotion Code"> -->
+          <br>
+          <p><strong>Promotion/Coupon code</strong></p>
+          <input class="form-control string optional mt-4" type="text" name="session[promo_code]" id="session_promo_code" placeholder="Put your code here...">
+          <div id="promo-code-msg"></div>
+          <br>
+          <div id="payment-methods">
+            <p><strong>Payment methods</strong></p>
+            <div class="form-group select optional session_promo_id">
+              <select class="form-control select optional" name="session[payment_method_id]" id="session_payment_method_id">
+                <option value="<%= current_user.payment_methods.find_by(default: true).payment_method_id %>" data-country="<%= current_user.payment_methods.find_by(default: true).billing_country %>" data-state="<%= current_user.payment_methods.find_by(default: true).billing_state %>" select>Use Card Ending With <%= current_user.payment_methods.find_by(default: true).last4 %> (Default)</option>
+                <% current_user.payment_methods.where(default: false).each do |card| %>
+                  <option value="<%= card.payment_method_id %>" data-country="<%= card.billing_country %>" data-state="<%= card.billing_state %>">Use Card Ending With <%= card.last4 %></option>
+                <% end %>
+              </select>
+            </div>
           </div>
-          <p>By confirming the payment method, I authorize The Holistic Panda to take payments from my card account upon completing the session as per the <a href="<%= terms_path %>" target="_blank">terms of use</a>.</p>
-          <%= f.button :submit, "Confirm payment method", class: 'btn-flat my-2 w-100' %>
+          <p id="payment-text">By confirming the payment method, I authorize The Holistic Panda to take payments from my card account upon completing the session as per the <a href="<%= terms_path %>" target="_blank">terms of use</a>.</p>
+          <%= f.button :submit, "Confirm payment method", class: 'btn-flat my-2 w-100', id: 'confirm-payment' %>
+          <%= f.button :submit, "Send request", class: 'btn-flat my-2 w-100', id: 'send-request', style: 'display:none;' %>
         <% end %>
         <%= simple_form_for(current_user, url: registration_path(current_user), html: { method: :put, style: 'align-items: center;' }) do |f| %>
-          <%= f.button :submit, "Add new payment method", class: 'btn-ghost my-2 w-100' %>
+          <%= f.button :submit, "Add new payment method", class: 'btn-ghost my-2 w-100', id: 'add-payment' %>
         <% end %>
       <% else %>
         <%= simple_form_for(current_user, url: registration_path(current_user), html: { method: :put, style: 'align-items: center;' }) do |f| %>
-          <%= f.button :submit, "Set up payment method", class: 'btn-flat my-4 w-100' %>
+          <%= f.button :submit, "Set up payment method", class: 'btn-flat my-4 w-100', id: 'create-payment' %>
         <% end %>
       <% end %>
     </div>
@@ -268,21 +277,85 @@
       }
     });
   });
-  // const coupon = document.getElementById('session_promo_id');
-  // const promo = document.getElementById('session_promo_id_string');
-  // coupon.addEventListener('change', (e) => {
-  //   if (coupon.value == '') {
-  //     promo.disabled = false;
-  //   } else {
-  //     promo.disabled = true;
-  //   }
-  // });
-  // promo.addEventListener('keyup', (e) => {
-  //   if (promo.value == '') {
-  //     coupon.disabled = false;
-  //   } else {
-  //     coupon.disabled = true;
-  //   }
-  // });
-
+  const checkPromoCode = (string) => {
+    $.ajax({
+      url: '/session/promo_code',
+      data: {id: <%= @session.id %> , query: string},
+      success: function(data){
+        if (document.getElementById('promo_status').value == 'success') {
+          if (document.getElementById('promo_amount').value == 100) {
+            if (document.getElementById('confirm-payment')) {
+              document.getElementById('confirm-payment').style.display = 'none';
+              document.getElementById('add-payment').style.display = 'none';
+              document.getElementById('confirm-payment').disabled = true;
+              document.getElementById('add-payment').disabled = true;
+            } else {
+              document.getElementById('create-payment').style.display = 'none';
+              document.getElementById('create-payment').disabled = true;
+            }
+            document.getElementById('payment-methods').style.display = 'none';
+            document.getElementById('payment-text').style.display = 'none';
+            document.getElementById('send-request').style.display = 'block';
+          }
+          let calculatedPrice = 0;
+          calculatedPrice = <%= @session.amount %> - (<%= @session.amount %> * (document.getElementById('promo_amount').value/100));
+          document.getElementById('discount-amount').innerHTML = '- CA$ ' + (<%= @session.amount %> * (document.getElementById('promo_amount').value/100)).toFixed(2);
+          document.getElementById('discount-amount').style.color = 'red';
+          document.getElementById('tax-amount').innerHTML = 'N/A';
+          document.getElementById('tax-amount').style.color = 'black';
+          document.getElementById('session_discount_price').value = (<%= @session.amount %> * (document.getElementById('promo_amount').value/100)).toFixed(2);
+          document.getElementById('final-price').innerHTML = '<strong>CA$ ' + calculatedPrice + '</strong>';
+          document.getElementById('session_estimate_price').value = calculatedPrice;
+        } else {
+          if (document.getElementById('confirm-payment')) {
+            document.getElementById('confirm-payment').style.display = 'block';
+            document.getElementById('add-payment').style.display = 'block';
+            document.getElementById('confirm-payment').disabled = false;
+              document.getElementById('add-payment').disabled = false;
+          } else {
+            document.getElementById('create-payment').style.display = 'block';
+            document.getElementById('create-payment').disabled = false;
+          }
+          document.getElementById('send-request').style.display = 'none';
+          document.getElementById('send-request').disabled = false;
+          document.getElementById('payment-methods').style.display = 'block';
+          document.getElementById('payment-text').style.display = 'block';
+          document.getElementById('discount-amount').innerHTML = 'N/A';
+          document.getElementById('discount-amount').style.color = 'black';
+          document.getElementById('tax-amount').innerHTML = 'TBD';
+          document.getElementById('tax-amount').style.color = 'black';
+          document.getElementById('session_discount_price').value = 0;
+          document.getElementById('final-price').innerHTML = '<strong>CA$ ' + <%= @session.amount %> + '</strong>';
+          document.getElementById('session_estimate_price').value = <%= @session.amount %>;
+        }
+      }
+    });
+  }
+  const coupon = document.getElementById('session_promo_id');
+  const promo = document.getElementById('session_promo_code');
+  if (coupon && promo) {
+    coupon.addEventListener('change', (e) => {
+      if (coupon.value == '') {
+        promo.disabled = false;
+      } else {
+        promo.disabled = true;
+      }
+    });
+    promo.addEventListener('keyup', (e) => {
+      if (promo.value == '') {
+        coupon.disabled = false;
+      } else {
+        coupon.disabled = true;
+      }
+    });
+  }
+  promo.addEventListener('focusin', (e) => {
+    document.getElementById('confirm-payment').disabled = true;
+  });
+  promo.addEventListener('focusout', (e) => {
+    if (promo.value != '') {
+      checkPromoCode(promo.value);
+      document.getElementById('confirm-payment').disabled = false;
+    }
+  });
 </script>

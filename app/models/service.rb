@@ -10,6 +10,7 @@ class Service < ApplicationRecord
   has_many :reviews, through: :sessions
   has_many :favorite_services, dependent: :destroy
   has_many :favorite_users, through: :favorite_services, source: :user
+  has_many :user_promos, dependent: :destroy
   validates :name, presence: true
   validates :duration, presence: true
   validates :price, presence: true

@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  skip_after_action :verify_authorized, only: [:promo_code]
   before_action :set_session, only: %i[show update destroy]
 
   def show
@@ -35,7 +36,7 @@ class SessionsController < ApplicationController
         render :new
       end
     else
-      @session.update(duration: service.duration, session_type: service.service_type, status: 'pending', paid: false, service: service, amount: service.price, user: current_user)
+      @session.update(duration: service.duration, session_type: service.service_type, paid: false, service: service, amount: service.price, user: current_user)
       if @session.save
         if current_user.payment_methods.count == 0
           if !current_user.stripe_id
@@ -69,7 +70,14 @@ class SessionsController < ApplicationController
   end
 
   def update
-    if params[:commit] == 'Confirm payment method'
+    if params[:commit] == 'Send request'
+      @promo = UserPromo.find(params[:promo_id])
+      @promo.update(active: false, user: current_user, promo_id: @promo.name)
+      @session.update!(status: 'pending', free_session: true, discount_price: params[:session][:discount_price].to_i, estimate_price: params[:session][:estimate_price].to_i, promo_id: @promo.name)
+      SessionMailer.with(session: @session).send_request.deliver_now
+      Notification.create(recipient: @session.practitioner.user, actor: current_user, action: 'sent you a session request', notifiable: @session)
+      redirect_to session_path(@session)
+    elsif params[:commit] == 'Confirm payment method'
       if @session.update(session_params)
         UserPromo.find_by(promo_id: params[:session][:promo_id]).update(active: false) if params[:session][:promo_id] && params[:session][:promo_id] != ''
         @session.update!(status: 'pending')
@@ -103,6 +111,10 @@ class SessionsController < ApplicationController
       Notification.create(recipient: @session.user, actor: current_user, action: 'has declined your session', notifiable: @session)
       SessionMailer.with(session: @session).decline_request.deliver_now
       redirect_to practitioner_sessions_path, notice: 'Session request declined.'
+    elsif params[:commit] == 'Completed'
+      @session.update(session_params)
+      SessionMailer.with(session: @session).review_reminder.deliver_now
+      redirect_to practitioner_sessions_path, notice: 'Session has been completed.'
     elsif params[:commit] == 'Charge'
       tax_rates = []
       if @session.practitioner.user.tax_id? && @session.practitioner.country_code == 'CA'
@@ -423,6 +435,12 @@ class SessionsController < ApplicationController
         format.js
       end
     end
+  end
+
+  def promo_code
+    @session = Session.find(params[:id])
+    authorize @session
+    @promo = UserPromo.find_by(name: params[:query])
   end
 
   def destroy
