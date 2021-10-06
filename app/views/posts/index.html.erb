@@ -100,7 +100,7 @@
                 </p>
               </div>
               <h2><%= link_to post.title, post_path(post) %></h2>
-              <div class="post-summary"><%= (post.body.split('</p>')[0] + '</p>').html_safe %></div>
+              <div class="post-summary"><%= post.body ? (post.body.split('</p>')[0] + '</p>').html_safe : '' %></div>
               <div class="post-author">
                 <% if post.post_author.photo.attached? %>
                   <img src="<%= cdn_for(post.post_author.photo) %>" class="post-author-image" alt="<%= post.post_author.full_name %>">
