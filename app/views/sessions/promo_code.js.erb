@@ -2,14 +2,21 @@ let html = '';
 <% if @promo %>
   <% if @promo.active %>
     <% if (@promo.service && (@promo.service == @session.service)) || !@promo.service %>
-      <% if @promo.expires_at > Time.current %>
+      <% if @promo.expires_at %>
+        <% if @promo.expires_at > Time.current %>
+          html = '<p style="color: green;"><em><small>This promotion/coupon code has been successfully applied!</small></em></p>';
+          document.getElementById('promo_status').value = 'success';
+          document.getElementById('promo_amount').value = <%= @promo.detail.split('%')[0] %>;
+          document.getElementById('promo_id').value = <%= @promo.id %>;
+        <% else %>
+          html = '<p style="color: red;"><em><small>This promotion/coupon code has been expired!</small></em></p>';
+          document.getElementById('promo_status').value = 'fail';
+        <% end %>
+      <% else %>
         html = '<p style="color: green;"><em><small>This promotion/coupon code has been successfully applied!</small></em></p>';
         document.getElementById('promo_status').value = 'success';
         document.getElementById('promo_amount').value = <%= @promo.detail.split('%')[0] %>;
         document.getElementById('promo_id').value = <%= @promo.id %>;
-      <% else %>
-        html = '<p style="color: red;"><em><small>This promotion/coupon code has been expired!</small></em></p>';
-        document.getElementById('promo_status').value = 'fail';
       <% end %>
     <% elsif @promo.service && (@promo.service != @session.service) %>
       html = '<p style="color: red;"><em><small>This promotion/coupon code cannot be used with this service!</small></em></p>';
