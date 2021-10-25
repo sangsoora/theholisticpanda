@@ -71,13 +71,14 @@ class SessionsController < ApplicationController
 
   def update
     if params[:commit] == 'Send request'
-      if params[:session][:coupon] && params[:session][:coupon] != ''
-        session.update(promo_id: params[:session][:coupon])
+      if !params[:session][:coupon].nil? && params[:session][:coupon] != ''
+        @session.update(promo_id: params[:session][:coupon])
         UserPromo.find_by(promo_id: params[:session][:coupon]).update(active: false)
-      elsif params[:session][:code] && params[:session][:code] != ''
-        session.update(promo_id: params[:session][:code])
-        unless UserPromo.find_by(promo_id: params[:session][:code]).public
-          UserPromo.find_by(promo_id: params[:session][:code]).update(active: false, user: current_user)
+      elsif !params[:session][:code].nil? && params[:session][:code] != ''
+        user_promo = UserPromo.find_by(name: params[:session][:code])
+        @session.update(promo_id: user_promo.promo_id)
+        unless user_promo.public
+          user_promo.update(active: false, user: current_user)
         end
       end
       @session.update!(status: 'pending', free_session: true, discount_price: params[:session][:discount_price].to_i, estimate_price: params[:session][:estimate_price].to_i)
@@ -86,12 +87,13 @@ class SessionsController < ApplicationController
       redirect_to session_path(@session)
     elsif params[:commit] == 'Confirm payment method'
       if @session.update(session_params)
-        if params[:session][:coupon] && params[:session][:coupon] != ''
-          session.update(promo_id: params[:session][:coupon])
+        if !params[:session][:coupon].nil? && params[:session][:coupon] != ''
+          @session.update(promo_id: params[:session][:coupon])
           UserPromo.find_by(promo_id: params[:session][:coupon]).update(active: false, user: current_user)
-        elsif params[:session][:code] && params[:session][:code] != ''
-          session.update(promo_id: params[:session][:code])
-          UserPromo.find_by(promo_id: params[:session][:code]).update(active: false, user: current_user)
+        elsif !params[:session][:code].nil? && params[:session][:code] != ''
+          user_promo = UserPromo.find_by(name: params[:session][:code])
+          @session.update(promo_id: user_promo.promo_id)
+          user_promo.update(active: false, user: current_user)
         end
         @session.update!(status: 'pending')
         SessionMailer.with(session: @session).send_request.deliver_now
