@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  expires_at: 2021-10-23 19:27:45
+  detail: MyString
+  coupon_id: MyString
+  promo_type: MyString
+  discount_on: MyString
+  service: one
+  practitioner: one
+
+two:
+  name: MyString
+  expires_at: 2021-10-23 19:27:45
+  detail: MyString
+  coupon_id: MyString
+  promo_type: MyString
+  discount_on: MyString
+  service: two
+  practitioner: two

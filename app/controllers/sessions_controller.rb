@@ -71,15 +71,28 @@ class SessionsController < ApplicationController
 
   def update
     if params[:commit] == 'Send request'
-      @promo = UserPromo.find(params[:promo_id])
-      @promo.update(active: false, user: current_user, promo_id: @promo.name)
-      @session.update!(status: 'pending', free_session: true, discount_price: params[:session][:discount_price].to_i, estimate_price: params[:session][:estimate_price].to_i, promo_id: @promo.name)
+      if params[:session][:coupon] && params[:session][:coupon] != ''
+        session.update(promo_id: params[:session][:coupon])
+        UserPromo.find_by(promo_id: params[:session][:coupon]).update(active: false)
+      elsif params[:session][:code] && params[:session][:code] != ''
+        session.update(promo_id: params[:session][:code])
+        unless UserPromo.find_by(promo_id: params[:session][:code]).public
+          UserPromo.find_by(promo_id: params[:session][:code]).update(active: false, user: current_user)
+        end
+      end
+      @session.update!(status: 'pending', free_session: true, discount_price: params[:session][:discount_price].to_i, estimate_price: params[:session][:estimate_price].to_i)
       SessionMailer.with(session: @session).send_request.deliver_now
       Notification.create(recipient: @session.practitioner.user, actor: current_user, action: 'sent you a session request', notifiable: @session)
       redirect_to session_path(@session)
     elsif params[:commit] == 'Confirm payment method'
       if @session.update(session_params)
-        UserPromo.find_by(promo_id: params[:session][:promo_id]).update(active: false) if params[:session][:promo_id] && params[:session][:promo_id] != ''
+        if params[:session][:coupon] && params[:session][:coupon] != ''
+          session.update(promo_id: params[:session][:coupon])
+          UserPromo.find_by(promo_id: params[:session][:coupon]).update(active: false, user: current_user)
+        elsif params[:session][:code] && params[:session][:code] != ''
+          session.update(promo_id: params[:session][:code])
+          UserPromo.find_by(promo_id: params[:session][:code]).update(active: false, user: current_user)
+        end
         @session.update!(status: 'pending')
         SessionMailer.with(session: @session).send_request.deliver_now
         Notification.create(recipient: @session.practitioner.user, actor: current_user, action: 'sent you a session request', notifiable: @session)
@@ -107,7 +120,7 @@ class SessionsController < ApplicationController
       end
     elsif params[:commit] == 'Decline request'
       UserPromo.find_by(promo_id: @session.promo_id).update(active: true) if @session.promo_id
-      @session.update!(status: 'declined', decline_reason: params[:session][:decline_reason])
+      @session.update!(status: 'declined', decline_reason: params[:session][:decline_reason], promo_id: nil)
       Notification.create(recipient: @session.user, actor: current_user, action: 'has declined your session', notifiable: @session)
       SessionMailer.with(session: @session).decline_request.deliver_now
       redirect_to practitioner_sessions_path, notice: 'Session request declined.'
@@ -232,6 +245,7 @@ class SessionsController < ApplicationController
       else
         if time_diff >= 24
           UserPromo.find_by(promo_id: @session.promo_id).update(active: true) if @session.promo_id
+          @session.update(promo_id: nil)
           SessionMailer.with(session: @session).cancel_practitioner.deliver_now
           SessionMailer.with(session: @session).cancel_user.deliver_now
           if @session.user == current_user

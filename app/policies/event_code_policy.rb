@@ -1,4 +1,4 @@
-class EventPolicy < ApplicationPolicy
+class EventCodePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.all
@@ -10,14 +10,6 @@ class EventPolicy < ApplicationPolicy
   end
 
   def show?
-    true
-  end
-
-  def codes?
-    user.admin?
-  end
-
-  def publish_codes?
     user.admin?
   end
 
