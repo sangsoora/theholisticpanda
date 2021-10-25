@@ -1,9 +1,25 @@
 let html = '';
 <% if @promo %>
   <% if @promo.active %>
-    <% if (@promo.service && (@promo.service == @session.service)) || !@promo.service %>
-      <% if @promo.expires_at %>
-        <% if @promo.expires_at > Time.current %>
+    <% if !@promo.public || (@promo.public && current_user.sessions.find_by(promo_id: @promo.promo_id).nil?)  %>
+      <% if ((@promo.service && (@promo.service == @session.service)) || !@promo.service) && ((@promo.practitioner && (@promo.practitioner == @session.practitioner)) || !@promo.practitioner) %>
+        console.log('<%= @session.practitioner.id %>')
+        <% if @promo.expires_at %>
+          <% if @promo.expires_at > Time.current %>
+            html = '<p style="color: green;"><em><small>This promotion/coupon code has been successfully applied!</small></em></p>';
+            document.getElementById('promo_status').value = 'success';
+            <% if @promo.detail.include?('%') %>
+              document.getElementById('selected_discount_amount').value = <%= @promo.detail.split('%').first %>;
+              document.getElementById('selected_discount_type').value = 'percentage';
+            <% else %>
+              document.getElementById('selected_discount_amount').value = <%= @promo.detail.split('$').first %>;
+              document.getElementById('selected_discount_type').value = 'dollar';
+            <% end %>
+          <% else %>
+            html = '<p style="color: red;"><em><small>This promotion/coupon code has been expired!</small></em></p>';
+            document.getElementById('promo_status').value = 'fail';
+          <% end %>
+        <% else %>
           html = '<p style="color: green;"><em><small>This promotion/coupon code has been successfully applied!</small></em></p>';
           document.getElementById('promo_status').value = 'success';
           <% if @promo.detail.include?('%') %>
@@ -13,23 +29,16 @@ let html = '';
             document.getElementById('selected_discount_amount').value = <%= @promo.detail.split('$').first %>;
             document.getElementById('selected_discount_type').value = 'dollar';
           <% end %>
-        <% else %>
-          html = '<p style="color: red;"><em><small>This promotion/coupon code has been expired!</small></em></p>';
-          document.getElementById('promo_status').value = 'fail';
         <% end %>
-      <% else %>
-        html = '<p style="color: green;"><em><small>This promotion/coupon code has been successfully applied!</small></em></p>';
-        document.getElementById('promo_status').value = 'success';
-        <% if @promo.detail.include?('%') %>
-          document.getElementById('selected_discount_amount').value = <%= @promo.detail.split('%').first %>;
-          document.getElementById('selected_discount_type').value = 'percentage';
-        <% else %>
-          document.getElementById('selected_discount_amount').value = <%= @promo.detail.split('$').first %>;
-          document.getElementById('selected_discount_type').value = 'dollar';
-        <% end %>
+      <% elsif @promo.service && (@promo.service != @session.service) %>
+        html = '<p style="color: red;"><em><small>This promotion/coupon code cannot be used with this service!</small></em></p>';
+        document.getElementById('promo_status').value = 'fail';
+      <% elsif @promo.practitioner && (@promo.practitioner != @session.practitioner) %>
+        html = '<p style="color: red;"><em><small>This promotion/coupon code cannot be used with this practitioner\'s services!</small></em></p>';
+        document.getElementById('promo_status').value = 'fail';
       <% end %>
-    <% elsif @promo.service && (@promo.service != @session.service) %>
-      html = '<p style="color: red;"><em><small>This promotion/coupon code cannot be used with this service!</small></em></p>';
+    <% elsif @promo.public && current_user.sessions.find_by(promo_id: @promo.promo_id) %>
+      html = '<p style="color: red;"><em><small>You already redeemed this promotion/coupon code!</small></em></p>';
       document.getElementById('promo_status').value = 'fail';
     <% end %>
   <% else %>
@@ -41,5 +50,3 @@ let html = '';
   document.getElementById('promo_status').value = 'fail';
 <% end %>
 document.getElementById('promo-code-msg').innerHTML = html;
-
-

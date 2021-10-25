@@ -93,7 +93,9 @@ class SessionsController < ApplicationController
         elsif !params[:session][:code].nil? && params[:session][:code] != ''
           user_promo = UserPromo.find_by(name: params[:session][:code])
           @session.update(promo_id: user_promo.promo_id)
-          user_promo.update(active: false, user: current_user)
+          unless user_promo.public
+            user_promo.update(active: false, user: current_user)
+          end
         end
         @session.update!(status: 'pending')
         SessionMailer.with(session: @session).send_request.deliver_now
