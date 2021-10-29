@@ -175,15 +175,15 @@ class SessionsController < ApplicationController
         redirect_to practitioner_sessions_path, alert: 'Oops! Something went wrong.'
       end
       if invoice_item
-        if @session.practitioner.country_code == 'CA'
-          if %w[NB NL NS PE].include?(@session.practitioner.state_code)
-            fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.15).round
-          elsif @session.practitioner.state_code == 'ON'
-            fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.13).round
+        if UserPromo.find_by(promo_id: @session.promo_id).discount_on == 'platform'
+          inital_fee = (@session.amount_cents * 0.135).round
+          if inital_fee > @session.discount_price_cents
+            fee = inital_fee - @session.discount_price_cents
           else
-            fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.05).round
+            fee = 0
+            # AdminMailer.with(user: @session.user, request: 'Session charge invoice create', type: type, code: code, message: message).stripe_failure.deliver_now
           end
-        else
+        elsif UserPromo.find_by(promo_id: @session.promo_id).discount_on == 'practitioner'
           fee = (@session.estimate_price_cents * 0.135).round
         end
         if @session.practitioner.user.tax_id?

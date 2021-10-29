@@ -61,6 +61,6 @@ class EventCodesController < ApplicationController
   end
 
   def event_code_params
-    params.require(:event_code).permit(:name, :expires_at, :detail, :coupon_id, :promo_type, :discount_on, :service_id, :practitioner_id, :event_id, :published)
+    params.require(:event_code).permit(:name, :expires_at, :detail, :coupon_id, :promo_type, :discount_on, :service_id, :practitioner_id, :event_id, :published, :code_name)
   end
 end

@@ -1,0 +1,49 @@
+<style type="text/css">
+
+</style>
+
+<div style='background-color: #faf2f2; padding: 20px; max-width: 600px; margin: 0 auto; border-radius: 6px;'>
+  <div style='max-width: 300px; margin: 0 auto;'>
+    <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><img src="https://<%= ENV['CDN_URL'] %>/logo.png" alt="TheHolisticPanda" style="max-width: 300px;"></a>
+  </div>
+  <h3>Dear <%= @event_attendee.first_name %>,</h3>
+  <h4>Finally, your promotion offers are here!</h4>
+  <p>Below are your promotion offers as part of your ticket to our wellness retreat - Finding Wellness with The Holistic Panda. Please accept our apologies for the delay as we need to test out some technical issues before publishing them. Thanks again for being patient with us as we work through this process together!</p>
+  <% @coupons.each_with_index do |coupon, index| %>
+    <% if UserPromo.where('name LIKE ? AND name LIKE ?', '%@' + coupon.id.to_s + '%', '%/' + @event_attendee.id.to_s + '%') %>
+      <p><%= index + 1 %>. <%= coupon.name %></p>
+      <p>Promotion code: <%= UserPromo.where('name LIKE ? AND name LIKE ?', '%@' + coupon.id.to_s + '%', '%/' + @event_attendee.id.to_s + '%').first.name %></p>
+      <% if coupon.service != nil %>
+        <%= link_to 'Book now', service_url(coupon.service), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
+      <% elsif coupon.practitioner != nil %>
+        <%= link_to 'Book now', practitioner_url(coupon.practitioner), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
+      <% else %>
+        <%= link_to 'Book now', services_url, target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
+      <% end %>
+      <br>
+      <br>
+    <% end %>
+  <% end %>
+  <br>
+  <p><strong>* Restrictions: promotion/coupon codes are not stackable.</strong></p>
+  <br>
+  <p>Here is a simple user guide on how to redeem your discount:</p>
+  <ol>
+    <li><p>Create a user account <a href="https://www.theholisticpanda.com" style="text-decoration: none; color: #366735;">here</a> (If you haven't already done so, please make sure to create the account with this same email address)</p></li>
+    <li><p>Submit 3 preferred time slots for a service "under availability".</p></li>
+    <li><p>Click proceed to the payment method.</p></li>
+    <li><p>Under the "promotion code" field, type in your promotion code.</p></li>
+    <li><p>Submit your request and wait for the practitioner to confirm your time.</p></li>
+  </ol>
+  <br>
+  <p>If you have any questions or need any support along the way, please feel free to email us <a href="mailto:hello@theholisticpanda.com" style="text-decoration: none; color: #366735;">here</a>.</p>
+  <br>
+  <br>
+  <p>Yours,</p>
+  <p>The Holistic Panda Team</p>
+  <div style='margin: 32px auto 16px; text-align: center;'>
+    <p>© <%= Time.now.year %> HolisticPanda, Inc. All rights reserved</p>
+    <a href="https://www.theholisticpanda.com/terms" target="_blank" style='text-decoration: none; color: #366735; margin-right: 16px;'>Terms of use</a>
+    <a href="https://www.theholisticpanda.com/privacy" target="_blank" style="text-decoration: none; color: #366735;">Privacy policy</a>
+  </div>
+</div>

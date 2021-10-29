@@ -28,15 +28,21 @@ class EventsController < ApplicationController
 
   def publish_codes
     @event_codes = @event.event_codes.where(published: false)
-    @event_codes.each do |code|
-      @event.event_attendees.each do |attendee|
+    @event.event_attendees.where('payment_status = ? OR payment_status = ?', 'paid', 'invitee').each do |attendee|
+      @event_codes.each do |code|
         begin
           new_code = Stripe::PromotionCode.create({
             coupon: code.coupon_id,
             max_redemptions: 1,
             active: true,
           })
-          UserPromo.create(name: @event.name.upcase.gsub(/\s+/, '') + code.id.to_s + '_' + attendee.id.to_s, detail: code.detail, promo_id: new_code.id, active: true, expires_at: code.expires_at, coupon_id: code.coupon_id, promo_type: code.promo_type, discount_on: code.discount_on)
+          if code.service != nil
+            UserPromo.create(name: code.code_name + '@' + code.id.to_s + '/' + attendee.id.to_s, detail: code.detail, promo_id: new_code.id, active: true, expires_at: code.expires_at, coupon_id: code.coupon_id, promo_type: code.promo_type, discount_on: code.discount_on, service: code.service)
+          elsif code.practitioner != nil
+            UserPromo.create(name: code.code_name + '@' + code.id.to_s + '/' + attendee.id.to_s, detail: code.detail, promo_id: new_code.id, active: true, expires_at: code.expires_at, coupon_id: code.coupon_id, promo_type: code.promo_type, discount_on: code.discount_on, practitioner: code.practitioner)
+          else
+            UserPromo.create(name: code.code_name + '@' + code.id.to_s + '/' + attendee.id.to_s, detail: code.detail, promo_id: new_code.id, active: true, expires_at: code.expires_at, coupon_id: code.coupon_id, promo_type: code.promo_type, discount_on: code.discount_on)
+          end
         rescue Stripe::StripeError => e
           type = e.error.type if e.error.type
           code = e.error.code if e.error.code
@@ -44,6 +50,9 @@ class EventsController < ApplicationController
           AdminMailer.with(user: current_user, request: 'Event attendee promo create', type: type, code: code, message: message).stripe_failure.deliver_now
         end
       end
+      EventMailer.with(event: @event, event_attendee: attendee).coupon.deliver_now
+    end
+    @event_codes.each do |code|
       code.update(published: true)
     end
     flash[:notice] = 'Event attendees\' codes have been published!'
