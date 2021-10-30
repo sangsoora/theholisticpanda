@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  skip_after_action :verify_authorized, only: [:promo_code]
   before_action :set_session, only: %i[show update destroy]
 
   def show
@@ -35,7 +36,7 @@ class SessionsController < ApplicationController
         render :new
       end
     else
-      @session.update(duration: service.duration, session_type: service.service_type, status: 'pending', paid: false, service: service, amount: service.price, user: current_user)
+      @session.update(duration: service.duration, session_type: service.service_type, paid: false, service: service, amount: service.price, user: current_user)
       if @session.save
         if current_user.payment_methods.count == 0
           if !current_user.stripe_id
@@ -69,9 +70,33 @@ class SessionsController < ApplicationController
   end
 
   def update
-    if params[:commit] == 'Confirm payment method'
+    if params[:commit] == 'Send request'
+      if !params[:session][:coupon].nil? && params[:session][:coupon] != ''
+        @session.update(promo_id: params[:session][:coupon])
+        UserPromo.find_by(promo_id: params[:session][:coupon]).update(active: false)
+      elsif !params[:session][:code].nil? && params[:session][:code] != ''
+        user_promo = UserPromo.find_by(name: params[:session][:code])
+        @session.update(promo_id: user_promo.promo_id)
+        unless user_promo.public
+          user_promo.update(active: false, user: current_user)
+        end
+      end
+      @session.update!(status: 'pending', free_session: true, discount_price: params[:session][:discount_price].to_i, estimate_price: params[:session][:estimate_price].to_i)
+      SessionMailer.with(session: @session).send_request.deliver_now
+      Notification.create(recipient: @session.practitioner.user, actor: current_user, action: 'sent you a session request', notifiable: @session)
+      redirect_to session_path(@session)
+    elsif params[:commit] == 'Confirm payment method'
       if @session.update(session_params)
-        UserPromo.find_by(promo_id: params[:session][:promo_id]).update(active: false) if params[:session][:promo_id] && params[:session][:promo_id] != ''
+        if !params[:session][:coupon].nil? && params[:session][:coupon] != ''
+          @session.update(promo_id: params[:session][:coupon])
+          UserPromo.find_by(promo_id: params[:session][:coupon]).update(active: false, user: current_user)
+        elsif !params[:session][:code].nil? && params[:session][:code] != ''
+          user_promo = UserPromo.find_by(name: params[:session][:code])
+          @session.update(promo_id: user_promo.promo_id)
+          unless user_promo.public
+            user_promo.update(active: false, user: current_user)
+          end
+        end
         @session.update!(status: 'pending')
         SessionMailer.with(session: @session).send_request.deliver_now
         Notification.create(recipient: @session.practitioner.user, actor: current_user, action: 'sent you a session request', notifiable: @session)
@@ -97,12 +122,16 @@ class SessionsController < ApplicationController
         SessionMailer.with(session: @session).confirm_user.deliver_now
         redirect_to practitioner_sessions_path, notice: 'Session request accepted.'
       end
-    elsif params[:commit] == 'Decline'
+    elsif params[:commit] == 'Decline request'
       UserPromo.find_by(promo_id: @session.promo_id).update(active: true) if @session.promo_id
-      @session.update!(status: 'declined')
+      @session.update!(status: 'declined', decline_reason: params[:session][:decline_reason], promo_id: nil)
       Notification.create(recipient: @session.user, actor: current_user, action: 'has declined your session', notifiable: @session)
       SessionMailer.with(session: @session).decline_request.deliver_now
       redirect_to practitioner_sessions_path, notice: 'Session request declined.'
+    elsif params[:commit] == 'Completed'
+      @session.update(session_params)
+      SessionMailer.with(session: @session).review_reminder.deliver_now
+      redirect_to practitioner_sessions_path, notice: 'Session has been completed.'
     elsif params[:commit] == 'Charge'
       tax_rates = []
       if @session.practitioner.user.tax_id? && @session.practitioner.country_code == 'CA'
@@ -115,9 +144,33 @@ class SessionsController < ApplicationController
           tax_rates << TaxRate.find(1).tax_id
         end
       end
+      if @session.practitioner.country_code == 'CA'
+        if %w[NB NL NS PE].include?(@session.practitioner.state_code)
+          tax_rate = 1.15
+        elsif @session.practitioner.state_code == 'ON'
+          tax_rate = 1.13
+        else
+          tax_rate = 1.05
+        end
+      else
+        tax_rate = 1.00
+      end
       discounts = []
       if @session.promo_id
+        if UserPromo.find_by(promo_id: @session.promo_id).discount_on == 'platform'
+          inital_fee = (@session.amount_cents * 0.135).round
+          if inital_fee > @session.discount_price_cents
+            fee = ((inital_fee - @session.discount_price_cents) * tax_rate).round
+          else
+            fee = 0
+            # AdminMailer.with(user: @session.user, request: 'Session charge invoice create', type: type, code: code, message: message).stripe_failure.deliver_now
+          end
+        elsif UserPromo.find_by(promo_id: @session.promo_id).discount_on == 'practitioner'
+          fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * tax_rate).round
+        end
         discounts << { coupon: UserPromo.find_by(promo_id: @session.promo_id).coupon_id }
+      else
+        fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * tax_rate).round
       end
       begin
         invoice_item = Stripe::InvoiceItem.create({
@@ -146,19 +199,12 @@ class SessionsController < ApplicationController
         redirect_to practitioner_sessions_path, alert: 'Oops! Something went wrong.'
       end
       if invoice_item
-        if @session.practitioner.country_code == 'CA'
-          if %w[NB NL NS PE].include?(@session.practitioner.state_code)
-            fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.15).round
-          elsif @session.practitioner.state_code == 'ON'
-            fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.13).round
-          else
-            fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.05).round
-          end
-        else
-          fee = (@session.estimate_price_cents * 0.135).round
-        end
         if @session.practitioner.user.tax_id?
-          description = "#{@session.practitioner.user.full_name}'s TAX ID: #{@session.practitioner.user.tax_id}"
+          tax_id = Stripe::Customer.retrieve_tax_id(
+            @session.practitioner.user.stripe_id,
+            @session.practitioner.user.tax_id,
+          )
+          description = "#{@session.practitioner.user.full_name}'s TAX ID: #{tax_id.value}"
         else
           description = ''
         end
@@ -178,6 +224,7 @@ class SessionsController < ApplicationController
             }
           })
           @session.update(session_params)
+          SessionMailer.with(session: @session).review_reminder.deliver_now
           redirect_to practitioner_sessions_path, notice: 'Session payment has been charged.'
         rescue Stripe::StripeError => e
           type = e.error.type if e.error.type
@@ -219,6 +266,7 @@ class SessionsController < ApplicationController
       else
         if time_diff >= 24
           UserPromo.find_by(promo_id: @session.promo_id).update(active: true) if @session.promo_id
+          @session.update(promo_id: nil)
           SessionMailer.with(session: @session).cancel_practitioner.deliver_now
           SessionMailer.with(session: @session).cancel_user.deliver_now
           if @session.user == current_user
@@ -311,9 +359,33 @@ class SessionsController < ApplicationController
                 tax_rates << TaxRate.find(1).tax_id
               end
             end
+            if @session.practitioner.country_code == 'CA'
+              if %w[NB NL NS PE].include?(@session.practitioner.state_code)
+                tax_rate = 1.15
+              elsif @session.practitioner.state_code == 'ON'
+                tax_rate = 1.13
+              else
+                tax_rate = 1.05
+              end
+            else
+              tax_rate = 1.00
+            end
             discounts = []
             if @session.promo_id
+              if UserPromo.find_by(promo_id: @session.promo_id).discount_on == 'platform'
+                inital_fee = (@session.amount_cents * 0.135).round
+                if inital_fee > @session.discount_price_cents
+                  fee = ((inital_fee - @session.discount_price_cents) * tax_rate).round
+                else
+                  fee = 0
+                  # AdminMailer.with(user: @session.user, request: 'Session charge invoice create', type: type, code: code, message: message).stripe_failure.deliver_now
+                end
+              elsif UserPromo.find_by(promo_id: @session.promo_id).discount_on == 'practitioner'
+                fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * tax_rate).round
+              end
               discounts << { coupon: UserPromo.find_by(promo_id: @session.promo_id).coupon_id }
+            else
+              fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * tax_rate).round
             end
             begin
               invoice_item = Stripe::InvoiceItem.create({
@@ -341,23 +413,16 @@ class SessionsController < ApplicationController
               AdminMailer.with(user: @session.user, request: 'Session cancel by user invoice item create', type: type, code: code, message: message).stripe_failure.deliver_now
               redirect_to user_sessions_path, alert: 'Oops! Something went wrong.'
             end
-            if @session.practitioner.country_code == 'CA'
-              if %w[NB NL NS PE].include?(@session.practitioner.state_code)
-                fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.15).round
-              elsif @session.practitioner.state_code == 'ON'
-                fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.13).round
-              else
-                fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.05).round
-              end
-            else
-              fee = (@session.estimate_price_cents * 0.135).round
-            end
-            if @session.practitioner.user.tax_id?
-              description = "#{@session.practitioner.user.full_name}'s TAX ID: #{@session.practitioner.user.tax_id}"
-            else
-              description = ''
-            end
             if invoice_item
+              if @session.practitioner.user.tax_id?
+                tax_id = Stripe::Customer.retrieve_tax_id(
+                  @session.practitioner.user.stripe_id,
+                  @session.practitioner.user.tax_id,
+                )
+                description = "#{@session.practitioner.user.full_name}'s TAX ID: #{tax_id.value}"
+              else
+                description = ''
+              end
               begin
                 Stripe::Invoice.create({
                   customer: @session.user.stripe_id,
@@ -424,6 +489,12 @@ class SessionsController < ApplicationController
     end
   end
 
+  def promo_code
+    @session = Session.find(params[:id])
+    authorize @session
+    @promo = UserPromo.find_by(name: params[:query])
+  end
+
   def destroy
     UserPromo.find_by(promo_id: @session.promo_id).update(active: true) if @session.promo_id
     @session.destroy
@@ -438,6 +509,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:start_time, :duration, :session_type, :primary_time, :secondary_time, :tertiary_time, :message, :amount, :paid, :link, :status, :cancel_reason, :cancelled_user, :address, :latitude, :longitude, :payment_method_id, :estimate_price, :promo_id, :discount_price, :tax_price, :estimate_price)
+    params.require(:session).permit(:start_time, :duration, :session_type, :primary_time, :secondary_time, :tertiary_time, :message, :amount, :paid, :link, :status, :cancel_reason, :cancelled_user, :address, :latitude, :longitude, :payment_method_id, :estimate_price, :promo_id, :discount_price, :tax_price, :estimate_price, :decline_reason, :free_session)
   end
 end

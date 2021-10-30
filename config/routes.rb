@@ -27,6 +27,8 @@ Rails.application.routes.draw do
 
   get '/specialties/filter', to: 'specialties#filter', as: :specialty_filter
 
+  get '/session/promo_code', to: 'sessions#promo_code', as: :session_promo_code
+
   get '/services/more', to: 'services#more'
 
   devise_scope :user do
@@ -118,11 +120,18 @@ Rails.application.routes.draw do
 
   resources :events, only: %i[index create show update destroy] do
     resources :event_attendees, only: [:create]
+    resources :event_codes, only: [:create]
   end
 
   resources :event_attendees, only: [:destroy] do
     resources :event_attendee_payments, only: [:new]
   end
+
+  resources :event_codes, only: [:destroy]
+
+  get '/events/:id/codes', to: 'events#codes', as: :event_codes
+
+  post '/events/:id/publish_codes', to: 'events#publish_codes', as: :event_publish_codes
 
   resources :tax_rates, only: %i[create update destroy]
 

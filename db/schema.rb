@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 2021_08_27_192633) do
+ActiveRecord::Schema.define(version: 2021_10_28_182654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +69,25 @@ ActiveRecord::Schema.define(version: 2021_08_27_192633) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_event_attendees_on_event_id"
+  end
+
+  create_table "event_codes", force: :cascade do |t|
+    t.string "name"
+    t.datetime "expires_at"
+    t.string "detail"
+    t.string "coupon_id"
+    t.string "promo_type"
+    t.string "discount_on"
+    t.bigint "service_id"
+    t.bigint "practitioner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "event_id"
+    t.boolean "published", default: false
+    t.string "code_name"
+    t.index ["event_id"], name: "index_event_codes_on_event_id"
+    t.index ["practitioner_id"], name: "index_event_codes_on_practitioner_id"
+    t.index ["service_id"], name: "index_event_codes_on_service_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -363,6 +381,8 @@ ActiveRecord::Schema.define(version: 2021_08_27_192633) do
     t.integer "discount_price_cents", default: 0, null: false
     t.integer "tax_price_cents", default: 0, null: false
     t.integer "estimate_price_cents", default: 0, null: false
+    t.boolean "free_session"
+    t.string "decline_reason"
     t.index ["service_id"], name: "index_sessions_on_service_id"
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
@@ -411,6 +431,13 @@ ActiveRecord::Schema.define(version: 2021_08_27_192633) do
     t.datetime "updated_at", null: false
     t.string "detail"
     t.string "coupon_id"
+    t.bigint "service_id"
+    t.bigint "practitioner_id"
+    t.string "promo_type"
+    t.string "discount_on"
+    t.boolean "public"
+    t.index ["practitioner_id"], name: "index_user_promos_on_practitioner_id"
+    t.index ["service_id"], name: "index_user_promos_on_service_id"
     t.index ["user_id"], name: "index_user_promos_on_user_id"
   end
 
@@ -455,6 +482,9 @@ ActiveRecord::Schema.define(version: 2021_08_27_192633) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "event_attendees", "events"
+  add_foreign_key "event_codes", "events"
+  add_foreign_key "event_codes", "practitioners"
+  add_foreign_key "event_codes", "services"
   add_foreign_key "events", "users"
   add_foreign_key "favorite_practitioners", "practitioners"
   add_foreign_key "favorite_practitioners", "users"
@@ -486,6 +516,8 @@ ActiveRecord::Schema.define(version: 2021_08_27_192633) do
   add_foreign_key "specialties", "specialty_categories"
   add_foreign_key "user_health_goals", "health_goals"
   add_foreign_key "user_health_goals", "users"
+  add_foreign_key "user_promos", "practitioners"
+  add_foreign_key "user_promos", "services"
   add_foreign_key "user_promos", "users"
   add_foreign_key "working_hours", "practitioners"
 end

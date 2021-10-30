@@ -65,7 +65,11 @@
               <% if @practitioner.stripe_account_id? %>
                 <%= simple_form_for session do |f| %>
                   <%= f.input :status, as: :hidden, input_html: { value: 'charged' } %>
-                  <%= f.submit 'Charge', class: 'btn btn-flat mt-3 w-100' %>
+                  <% if session.free_session %>
+                    <%= f.submit 'Completed', class: 'btn btn-flat mt-3 w-100' %>
+                  <% else %>
+                    <%= f.submit 'Charge', class: 'btn btn-flat mt-3 w-100' %>
+                  <% end %>
                 <% end %>
                 <%= link_to 'Details', session_path(session), class: 'btn btn-ghost mt-3 w-100' %>
               <% else %>
@@ -84,7 +88,11 @@
                 <% if @practitioner.stripe_account_id? %>
                   <%= simple_form_for session do |f| %>
                     <%= f.input :status, as: :hidden, input_html: { value: 'charged' } %>
-                    <%= f.submit 'Charge', class: 'btn btn-flat mt-3 w-100' %>
+                    <% if session.free_session %>
+                      <%= f.submit 'Completed', class: 'btn btn-flat mt-3 w-100' %>
+                    <% else %>
+                      <%= f.submit 'Charge', class: 'btn btn-flat mt-3 w-100' %>
+                    <% end %>
                   <% end %>
                   <%= link_to 'Details', session_path(session), class: 'btn btn-ghost mt-3 w-100' %>
                 <% else %>

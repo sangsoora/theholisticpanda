@@ -9,12 +9,16 @@
   <h3>Dear <%= @session.user.first_name %>,</h3>
   <h4>This is a notice to let you know that the following session request with <%= @practitioner.user.full_name %> has been declined.</h4>
   <p>Service: <%= @session.service.name %></p>
-  <p>Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %></p>
-  <p>Total Price: CA$ <%= @session.estimate_price.round(2) %></p>
+  <p>Total price: CA$ <%= @session.estimate_price.round(2) %></p>
+  <% if @session.decline_reason && @session.decline_reason != '' %>
+    <p>Message from practitoner: <%= @session.decline_reason %></p>
+  <% end %>
   <br>
   <p>If you would like to reschedule or book another service, please visit our booking site:</p>
   <br>
   <%= link_to 'Find another service', services_url, target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
+  <br>
+  <br>
   <br>
   <%= link_to 'Book this service again', service_url(@session.service), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
   <br>

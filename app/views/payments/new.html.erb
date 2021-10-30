@@ -9,12 +9,15 @@
           <%= f.input :estimate_price, as: :hidden %>
           <%= f.input :discount_price, as: :hidden %>
           <%= f.input :tax_price, as: :hidden %>
+          <input type="hidden" name="promo_status" id="promo_status">
+          <input type="hidden" id="selected_discount_amount">
+          <input type="hidden" id="selected_discount_type">
           <% if @session.amount_cents >= 5000 %>
-            <% if @promos.exists? %>
-              <div class="form-group select optional session_promo_id">
-                <select class="form-control select optional" name="session[promo_id]" id="session_promo_id">
+            <% if @all_coupons.count > 0 %>
+              <div class="form-group select optional">
+                <select class="form-control select optional" name="session[coupon]" id="session_coupon">
                   <option value="">Select Available Coupon</option>
-                  <% @promos.each do |promo| %>
+                  <% @all_coupons.each do |promo| %>
                     <option value="<%= promo.promo_id %>"
                       <% if promo.detail.include?('%') %>
                         data-type="percentage" data-discount="<%= promo.detail.split('%').first %>"
@@ -26,7 +29,6 @@
                     </option>
                   <% end %>
                 </select>
-                <!-- <input class="form-control string optional mt-4" type="text" name="session[promo_id_string]" id="session_promo_id_string" placeholder="Promotion Code"> -->
               </div>
             <% else %>
                 <p>No coupon available.</p>
@@ -34,25 +36,32 @@
           <% else %>
             <p>Coupons can only be applied to services with value of CA$50 or more.</p>
           <% end %>
-          <p><strong>Payment methods</strong></p>
-          <div class="form-group select optional session_promo_id">
-            <select class="form-control select optional" name="session[payment_method_id]" id="session_payment_method_id">
-              <option value="<%= current_user.payment_methods.find_by(default: true).payment_method_id %>" data-country="<%= current_user.payment_methods.find_by(default: true).billing_country %>" data-state="<%= current_user.payment_methods.find_by(default: true).billing_state %>" select>Use Card Ending With <%= current_user.payment_methods.find_by(default: true).last4 %> (Default)</option>
-              <% current_user.payment_methods.where(default: false).each do |card| %>
-                <option value="<%= card.payment_method_id %>" data-country="<%= card.billing_country %>" data-state="<%= card.billing_state %>">Use Card Ending With <%= card.last4 %></option>
-              <% end %>
-            </select>
-            <!-- <input class="form-control string optional mt-4" type="text" name="session[promo_id_string]" id="session_promo_id_string" placeholder="Promotion Code"> -->
+          <br>
+          <p><strong>Promotion code</strong></p>
+          <input class="form-control string optional mt-4" type="text" name="session[code]" id="session_code" placeholder="Put your code here...">
+          <div id="promo-code-msg"></div>
+          <br>
+          <div id="payment-methods">
+            <p><strong>Payment methods</strong></p>
+            <div class="form-group select optional">
+              <select class="form-control select optional" name="session[payment_method_id]" id="session_payment_method_id">
+                <option value="<%= current_user.payment_methods.find_by(default: true).payment_method_id %>" data-country="<%= current_user.payment_methods.find_by(default: true).billing_country %>" data-state="<%= current_user.payment_methods.find_by(default: true).billing_state %>" selected>Use Card Ending With <%= current_user.payment_methods.find_by(default: true).last4 %> (Default)</option>
+                <% current_user.payment_methods.where(default: false).each do |card| %>
+                  <option value="<%= card.payment_method_id %>" data-country="<%= card.billing_country %>" data-state="<%= card.billing_state %>">Use Card Ending With <%= card.last4 %></option>
+                <% end %>
+              </select>
+            </div>
           </div>
-          <p>By confirming the payment method, I authorize The Holistic Panda to take payments from my card account upon completing the session as per the <a href="<%= terms_path %>" target="_blank">terms of use</a>.</p>
-          <%= f.button :submit, "Confirm payment method", class: 'btn-flat my-2 w-100' %>
+          <p id="payment-text">By confirming the payment method, I authorize The Holistic Panda to take payments from my card account upon completing the session as per the <a href="<%= terms_path %>" target="_blank">terms of use</a>.</p>
+          <%= f.button :submit, "Confirm payment method", class: 'btn-flat my-2 w-100', id: 'confirm-payment' %>
+          <%= f.button :submit, "Send request", class: 'btn-flat my-2 w-100', id: 'send-request', style: 'display:none;' %>
         <% end %>
         <%= simple_form_for(current_user, url: registration_path(current_user), html: { method: :put, style: 'align-items: center;' }) do |f| %>
-          <%= f.button :submit, "Add new payment method", class: 'btn-ghost my-2 w-100' %>
+          <%= f.button :submit, "Add new payment method", class: 'btn-ghost my-2 w-100', id: 'add-payment' %>
         <% end %>
       <% else %>
         <%= simple_form_for(current_user, url: registration_path(current_user), html: { method: :put, style: 'align-items: center;' }) do |f| %>
-          <%= f.button :submit, "Set up payment method", class: 'btn-flat my-4 w-100' %>
+          <%= f.button :submit, "Set up payment method", class: 'btn-flat my-4 w-100', id: 'create-payment' %>
         <% end %>
       <% end %>
     </div>
@@ -101,16 +110,6 @@
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const initPrice = <%= @session.amount %>;
-    const discountSelect = document.getElementById('session_promo_id');
-    const paymentSelect = document.getElementById('session_payment_method_id');
-    const finalPrice = document.getElementById('final-price');
-    <% if @session.practitioner.user.tax_id %>
-      const practitionerTax = true;
-      const practitionerCountry = '<%= @session.practitioner.country_code %>';
-    <% else %>
-      const practitionerTax = false;
-    <% end %>
     const getFinalPrice = (discount, type, tax) => {
       let calculatedPrice = 0;
       if (discount && tax) {
@@ -123,12 +122,12 @@
           document.getElementById('session_discount_price').value = (initPrice * (discount/100)).toFixed(2);
           document.getElementById('session_tax_price').value = (calculatedPrice * tax).toFixed(2);
         } else {
-          calculatedPrice = initPrice - discount;
-          document.getElementById('discount-amount').innerHTML = '- CA$ ' + discount.toFixed(2);
+          calculatedPrice = (initPrice - discount).toFixed(2);
+          document.getElementById('discount-amount').innerHTML = '- CA$ ' + (discount-0).toFixed(2);
           document.getElementById('discount-amount').style.color = 'red';
-          document.getElementById('tax-amount').innerHTML = '+ CA$ ' + ((initPrice - (discount/100)) * tax).toFixed(2);
+          document.getElementById('tax-amount').innerHTML = '+ CA$ ' + ((initPrice - discount) * tax).toFixed(2);
           document.getElementById('tax-amount').style.color = 'green';
-          document.getElementById('session_discount_price').value = discount.toFixed(2);
+          document.getElementById('session_discount_price').value = (discount-0).toFixed(2);
           document.getElementById('session_tax_price').value = ((initPrice - discount) * tax).toFixed(2);
         }
         calculatedPrice = (calculatedPrice * (1.00 + tax)).toFixed(2);
@@ -141,12 +140,15 @@
           document.getElementById('tax-amount').style.color = 'black';
           document.getElementById('session_discount_price').value = (initPrice * (discount/100)).toFixed(2);
         } else {
-          calculatedPrice = initPrice - discount;
-          document.getElementById('discount-amount').innerHTML = '- CA$ ' + discount.toFixed(2);
+          if (discount >= initPrice) {
+            discount = initPrice;
+          }
+          calculatedPrice = (initPrice - discount).toFixed(2);
+          document.getElementById('discount-amount').innerHTML = '- CA$ ' + (discount-0).toFixed(2);
           document.getElementById('discount-amount').style.color = 'red';
           document.getElementById('tax-amount').innerHTML = 'TBD';
           document.getElementById('tax-amount').style.color = 'black';
-          document.getElementById('session_discount_price').value = discount.toFixed(2);
+          document.getElementById('session_discount_price').value = (discount-0).toFixed(2);
         }
       } else if (!discount && tax) {
         calculatedPrice = (initPrice + (initPrice * tax)).toFixed(2);
@@ -156,7 +158,7 @@
         document.getElementById('tax-amount').style.color = 'green';
         document.getElementById('session_tax_price').value = (initPrice * tax).toFixed(2);
       } else if (!discount && !tax) {
-        calculatedPrice = initPrice;
+        calculatedPrice = (initPrice).toFixed(2);
         document.getElementById('discount-amount').innerHTML = 'N/A';
         document.getElementById('discount-amount').style.color = 'black';
         document.getElementById('tax-amount').innerHTML = 'TBD';
@@ -165,17 +167,36 @@
       finalPrice.innerHTML = '<strong>CA$ ' + calculatedPrice + '</strong>';
       document.getElementById('session_estimate_price').value = calculatedPrice;
     }
+    const initPrice = <%= @session.amount %>;
+    const coupon = document.getElementById('session_coupon');
+    const code = document.getElementById('session_code');
+    const paymentSelect = document.getElementById('session_payment_method_id');
+    const finalPrice = document.getElementById('final-price');
+    const discountAmount = document.getElementById('selected_discount_amount');
+    const discountType = document.getElementById('selected_discount_type');
+    let taxState = $('#session_payment_method_id :selected').data().state;
+    let taxCountry = $('#session_payment_method_id :selected').data().country;
+    let taxRate = 0.0;
+    <% if @session.practitioner.user.tax_id %>
+      const practitionerTax = true;
+      const practitionerCountry = '<%= @session.practitioner.country_code %>';
+    <% else %>
+      const practitionerTax = false;
+    <% end %>
     <% if current_user.payment_methods.count == 0 %>
       getFinalPrice(null, null, null);
     <% else %>
       <% if @session.practitioner.user.tax_id %>
         <% if current_user.payment_methods.find_by(default: true).billing_country == 'CA' %>
           <% if (current_user.payment_methods.find_by(default: true).billing_state == 'NB') || (current_user.payment_methods.find_by(default: true).billing_state == 'NL') || (current_user.payment_methods.find_by(default: true).billing_state == 'NS') || (current_user.payment_methods.find_by(default: true).billing_state == 'PE') %>
-            getFinalPrice(null, null, 0.15);
+            taxRate = 0.15;
+            getFinalPrice(null, null, taxRate);
           <% elsif current_user.payment_methods.find_by(default: true).billing_state == 'ON' %>
-            getFinalPrice(null, null, 0.13);
+            taxRate = 0.13;
+            getFinalPrice(null, null, taxRate);
           <% else %>
-            getFinalPrice(null, null, 0.05);
+            taxRate = 0.05;
+            getFinalPrice(null, null, taxRate);
           <% end %>
         <% else %>
           getFinalPrice(null, null, null);
@@ -184,56 +205,99 @@
         getFinalPrice(null, null, null);
       <% end %>
     <% end %>
-    if (discountSelect) {
-      discountSelect.addEventListener('change', (e) => {
+    if (coupon && code) {
+      coupon.addEventListener('change', (e) => {
         if (e.currentTarget.value == '') {
           document.getElementById('session_discount_price').value = '';
+          discountAmount.value = '';
+          discountType.value = '';
+          code.disabled = false;
+        } else {
+          code.disabled = true;
+          discountAmount.value =  $('#session_coupon :selected').data().discount;;
+          discountType.value = $('#session_coupon :selected').data().type;
         }
-        let discountType = $('#session_promo_id :selected').data().type;
-        let discountAmount = $('#session_promo_id :selected').data().discount;
-        let taxState = $('#session_payment_method_id :selected').data().state;
-        let taxCountry = $('#session_payment_method_id :selected').data().country;
-        let taxRate = 0.0;
-        if (discountSelect && (discountSelect.value != '')) {
-          if (practitionerTax) {
-            if (practitionerCountry == taxCountry) {
-              if ((taxState == 'NB') || (taxState == 'NL') || (taxState == 'NS') || (taxState == 'PE')) {
-                taxRate = 0.15;
-              } else if (taxState == 'ON') {
-                taxRate = 0.13;
-              } else {
-                taxRate = 0.05;
-              }
+        if (coupon && (coupon.value != '')) {
+          if ((document.getElementById('selected_discount_amount').value == 100 && document.getElementById('selected_discount_type').value == 'percentage') || (document.getElementById('selected_discount_amount').value >= initPrice && document.getElementById('selected_discount_type').value == 'dollar')) {
+            if (document.getElementById('confirm-payment')) {
+              document.getElementById('confirm-payment').style.display = 'none';
+              document.getElementById('add-payment').style.display = 'none';
+              document.getElementById('confirm-payment').disabled = true;
+              document.getElementById('add-payment').disabled = true;
+            } else {
+              document.getElementById('create-payment').style.display = 'none';
+              document.getElementById('create-payment').disabled = true;
             }
-            getFinalPrice(discountAmount, discountType, taxRate);
+            document.getElementById('payment-methods').style.display = 'none';
+            document.getElementById('payment-text').style.display = 'none';
+            document.getElementById('send-request').style.display = 'block';
+            getFinalPrice(discountAmount.value, discountType.value, null);
           } else {
-            getFinalPrice(discountAmount, discountType, null);
+            if (document.getElementById('confirm-payment')) {
+              document.getElementById('confirm-payment').style.display = 'block';
+              document.getElementById('add-payment').style.display = 'block';
+              document.getElementById('confirm-payment').disabled = false;
+              document.getElementById('add-payment').disabled = false;
+            } else {
+              document.getElementById('create-payment').style.display = 'block';
+              document.getElementById('create-payment').disabled = false;
+            }
+            document.getElementById('send-request').style.display = 'none';
+            document.getElementById('send-request').disabled = false;
+            document.getElementById('payment-methods').style.display = 'block';
+            document.getElementById('payment-text').style.display = 'block';
+            if (practitionerTax) {
+              if (practitionerCountry == taxCountry) {
+                getFinalPrice(discountAmount.value, discountType.value, taxRate);
+              } else {
+                getFinalPrice(discountAmount.value, discountType.value, null);
+              }
+            } else {
+              getFinalPrice(discountAmount.value, discountType.value, null);
+            }
           }
         } else {
+          if (document.getElementById('confirm-payment')) {
+            document.getElementById('confirm-payment').style.display = 'block';
+            document.getElementById('add-payment').style.display = 'block';
+            document.getElementById('confirm-payment').disabled = false;
+            document.getElementById('add-payment').disabled = false;
+          } else {
+            document.getElementById('create-payment').style.display = 'block';
+            document.getElementById('create-payment').disabled = false;
+          }
+          document.getElementById('send-request').style.display = 'none';
+          document.getElementById('send-request').disabled = false;
+          document.getElementById('payment-methods').style.display = 'block';
+          document.getElementById('payment-text').style.display = 'block';
           if (practitionerTax) {
             if (practitionerCountry == taxCountry) {
-              if ((taxState == 'NB') || (taxState == 'NL') || (taxState == 'NS') || (taxState == 'PE')) {
-                taxRate = 0.15;
-              } else if (taxState == 'ON') {
-                taxRate = 0.13;
-              } else {
-                taxRate = 0.05;
-              }
+              getFinalPrice(null, null, taxRate);
+            } else {
+              getFinalPrice(null, null, null);
             }
-            getFinalPrice(null, null, taxRate);
           } else {
             getFinalPrice(null, null, null);
           }
         }
       });
+      code.addEventListener('keyup', (e) => {
+        if (code.value == '') {
+          coupon.disabled = false;
+          discountAmount.value = '';
+          discountType.value = '';
+        } else {
+          coupon.disabled = true;
+        }
+      });
+    } else if (!coupon && code) {
+
     }
     paymentSelect.addEventListener('change', (e) => {
-      let taxState = $('#session_payment_method_id :selected').data().state;
-      let taxCountry = $('#session_payment_method_id :selected').data().country;
-      let taxRate = 0.0;
-      if (discountSelect && (discountSelect.value != '')) {
-        let discountType = $('#session_promo_id :selected').data().type;
-        let discountAmount = $('#session_promo_id :selected').data().discount;
+      taxState = $('#session_payment_method_id :selected').data().state;
+      taxCountry = $('#session_payment_method_id :selected').data().country;
+      taxRate = 0.0;
+      if (coupon && (coupon.value != '')) {
         if (practitionerTax) {
           if (practitionerCountry == taxCountry) {
             if ((taxState == 'NB') || (taxState == 'NL') || (taxState == 'NS') || (taxState == 'PE')) {
@@ -243,12 +307,29 @@
             } else {
               taxRate = 0.05;
             }
-            getFinalPrice(discountAmount, discountType, taxRate);
+            getFinalPrice(discountAmount.value, discountType.value, taxRate);
           } else {
-            getFinalPrice(discountAmount, discountType, null);
+            getFinalPrice(discountAmount.value, discountType.value, null);
           }
         } else {
-          getFinalPrice(discountAmount, discountType, null);
+          getFinalPrice(discountAmount.value, discountType.value, null);
+        }
+      } else if (code.value != '') {
+        if (practitionerTax) {
+          if (practitionerCountry == taxCountry) {
+            if ((taxState == 'NB') || (taxState == 'NL') || (taxState == 'NS') || (taxState == 'PE')) {
+              taxRate = 0.15;
+            } else if (taxState == 'ON') {
+              taxRate = 0.13;
+            } else {
+              taxRate = 0.05;
+            }
+            getFinalPrice(discountAmount.value, discountType.value, taxRate);
+          } else {
+            getFinalPrice(discountAmount.value, discountType.value, null);
+          }
+        } else {
+          getFinalPrice(discountAmount.value, discountType.value, null);
         }
       } else {
         if (practitionerTax) {
@@ -267,22 +348,115 @@
         }
       }
     });
+    if (code) {
+      code.addEventListener('focusin', (e) => {
+        document.getElementById('confirm-payment').disabled = true;
+      });
+      code.addEventListener('focusout', (e) => {
+        if (code.value != '') {
+          checkPromoCode(code.value);
+        } else {
+          discountAmount.value = '';
+          discountType.value = '';
+          if (document.getElementById('confirm-payment')) {
+            document.getElementById('confirm-payment').style.display = 'block';
+            document.getElementById('add-payment').style.display = 'block';
+            document.getElementById('confirm-payment').disabled = false;
+            document.getElementById('add-payment').disabled = false;
+          } else {
+            document.getElementById('create-payment').style.display = 'block';
+            document.getElementById('create-payment').disabled = false;
+          }
+          document.getElementById('send-request').style.display = 'none';
+          document.getElementById('send-request').disabled = false;
+          document.getElementById('payment-methods').style.display = 'block';
+          document.getElementById('payment-text').style.display = 'block';
+          document.getElementById('promo-code-msg').innerHTML = '';
+          if (practitionerTax) {
+            if (practitionerCountry == taxCountry) {
+              getFinalPrice(null, null, taxRate);
+            } else {
+              getFinalPrice(null, null, null);
+            }
+          } else {
+            getFinalPrice(null, null, null);
+          }
+        }
+        document.getElementById('confirm-payment').disabled = false;
+      });
+    }
+    const checkPromoCode = (string) => {
+      $.ajax({
+        url: '/session/promo_code',
+        data: {id: <%= @session.id %> , query: string},
+        success: function(data){
+          if (document.getElementById('promo_status').value == 'success') {
+            if ((document.getElementById('selected_discount_amount').value == 100 && document.getElementById('selected_discount_type').value == 'percentage') || (document.getElementById('selected_discount_amount').value >= initPrice && document.getElementById('selected_discount_type').value == 'dollar')) {
+              if (document.getElementById('confirm-payment')) {
+                document.getElementById('confirm-payment').style.display = 'none';
+                document.getElementById('add-payment').style.display = 'none';
+                document.getElementById('confirm-payment').disabled = true;
+                document.getElementById('add-payment').disabled = true;
+              } else {
+                document.getElementById('create-payment').style.display = 'none';
+                document.getElementById('create-payment').disabled = true;
+              }
+              document.getElementById('payment-methods').style.display = 'none';
+              document.getElementById('payment-text').style.display = 'none';
+              document.getElementById('send-request').style.display = 'block';
+              getFinalPrice(discountAmount.value, discountType.value, null);
+            } else {
+              if (document.getElementById('confirm-payment')) {
+                document.getElementById('confirm-payment').style.display = 'block';
+                document.getElementById('add-payment').style.display = 'block';
+                document.getElementById('confirm-payment').disabled = false;
+                document.getElementById('add-payment').disabled = false;
+              } else {
+                document.getElementById('create-payment').style.display = 'block';
+                document.getElementById('create-payment').disabled = false;
+              }
+              document.getElementById('send-request').style.display = 'none';
+              document.getElementById('send-request').disabled = false;
+              document.getElementById('payment-methods').style.display = 'block';
+              document.getElementById('payment-text').style.display = 'block';
+              if (practitionerTax) {
+                if (practitionerCountry == taxCountry) {
+                  getFinalPrice(discountAmount.value, discountType.value, taxRate);
+                } else {
+                  getFinalPrice(discountAmount.value, discountType.value, null);
+                }
+              } else {
+                getFinalPrice(discountAmount.value, discountType.value, null);
+              }
+            }
+          } else {
+            discountAmount.value = '';
+            discountType.value = '';
+            if (document.getElementById('confirm-payment')) {
+              document.getElementById('confirm-payment').style.display = 'block';
+              document.getElementById('add-payment').style.display = 'block';
+              document.getElementById('confirm-payment').disabled = false;
+              document.getElementById('add-payment').disabled = false;
+            } else {
+              document.getElementById('create-payment').style.display = 'block';
+              document.getElementById('create-payment').disabled = false;
+            }
+            document.getElementById('send-request').style.display = 'none';
+            document.getElementById('send-request').disabled = false;
+            document.getElementById('payment-methods').style.display = 'block';
+            document.getElementById('payment-text').style.display = 'block';
+            if (practitionerTax) {
+              if (practitionerCountry == taxCountry) {
+                getFinalPrice(null, null, taxRate);
+              } else {
+                getFinalPrice(null, null, null);
+              }
+            } else {
+              getFinalPrice(null, null, null);
+            }
+          }
+        }
+      });
+    }
   });
-  // const coupon = document.getElementById('session_promo_id');
-  // const promo = document.getElementById('session_promo_id_string');
-  // coupon.addEventListener('change', (e) => {
-  //   if (coupon.value == '') {
-  //     promo.disabled = false;
-  //   } else {
-  //     promo.disabled = true;
-  //   }
-  // });
-  // promo.addEventListener('keyup', (e) => {
-  //   if (promo.value == '') {
-  //     coupon.disabled = false;
-  //   } else {
-  //     coupon.disabled = true;
-  //   }
-  // });
-
 </script>

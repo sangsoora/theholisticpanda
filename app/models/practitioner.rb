@@ -15,6 +15,8 @@ class Practitioner < ApplicationRecord
   has_many :favorite_practitioners, dependent: :destroy
   has_many :favorite_users, through: :favorite_practitioners, source: :user
   has_many :events, through: :user
+  has_many :user_promos, dependent: :destroy
+  has_many :event_codes, dependent: :destroy
   has_one :post_author
   validates_uniqueness_of :user
   validates :bio, length: { maximum: 2000 }

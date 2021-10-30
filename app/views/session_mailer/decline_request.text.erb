@@ -4,9 +4,11 @@ This is a notice to let you know that the following session with <%= @practition
 
 Service: <%= @session.service.name %> with <%= @practitioner.user.full_name %>
 
-Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strftime('%a %b %d, %Y %l:%M %p %Z') %>
+Total price: CA$ <%= @session.estimate_price.round(2) %>
 
-Total Price: CA$ <%= @session.estimate_price.round(2) %>
+<% if @session.decline_reason && @session.decline_reason != '' %>
+  Message from practitoner: <%= @session.decline_reason %>
+<% end %>
 
 Yours,
 The Holistic Panda Team
