@@ -45,6 +45,7 @@
               <%= f.input :name, required: true %>
               <%= f.input :expires_at, label: 'Expires at (in UTC)' %>
               <%= f.input :detail, required: true %>
+              <%= f.input :code_name, required: true %>
               <%= f.input :promo_type, collection: ['coupon', 'code'], required: true %>
               <%= f.input :discount_on, collection: ['platform', 'practitioner'], required: true %>
               <%= f.input :service_id, collection: Service.all.map { |service| [service.name, service.id] }, include_blank: 'Select a service' %>

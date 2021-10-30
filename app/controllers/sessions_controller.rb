@@ -144,9 +144,33 @@ class SessionsController < ApplicationController
           tax_rates << TaxRate.find(1).tax_id
         end
       end
+      if @session.practitioner.country_code == 'CA'
+        if %w[NB NL NS PE].include?(@session.practitioner.state_code)
+          tax_rate = 1.15
+        elsif @session.practitioner.state_code == 'ON'
+          tax_rate = 1.13
+        else
+          tax_rate = 1.05
+        end
+      else
+        tax_rate = 1.00
+      end
       discounts = []
       if @session.promo_id
+        if UserPromo.find_by(promo_id: @session.promo_id).discount_on == 'platform'
+          inital_fee = (@session.amount_cents * 0.135).round
+          if inital_fee > @session.discount_price_cents
+            fee = ((inital_fee - @session.discount_price_cents) * tax_rate).round
+          else
+            fee = 0
+            # AdminMailer.with(user: @session.user, request: 'Session charge invoice create', type: type, code: code, message: message).stripe_failure.deliver_now
+          end
+        elsif UserPromo.find_by(promo_id: @session.promo_id).discount_on == 'practitioner'
+          fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * tax_rate).round
+        end
         discounts << { coupon: UserPromo.find_by(promo_id: @session.promo_id).coupon_id }
+      else
+        fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * tax_rate).round
       end
       begin
         invoice_item = Stripe::InvoiceItem.create({
@@ -175,19 +199,12 @@ class SessionsController < ApplicationController
         redirect_to practitioner_sessions_path, alert: 'Oops! Something went wrong.'
       end
       if invoice_item
-        if UserPromo.find_by(promo_id: @session.promo_id).discount_on == 'platform'
-          inital_fee = (@session.amount_cents * 0.135).round
-          if inital_fee > @session.discount_price_cents
-            fee = inital_fee - @session.discount_price_cents
-          else
-            fee = 0
-            # AdminMailer.with(user: @session.user, request: 'Session charge invoice create', type: type, code: code, message: message).stripe_failure.deliver_now
-          end
-        elsif UserPromo.find_by(promo_id: @session.promo_id).discount_on == 'practitioner'
-          fee = (@session.estimate_price_cents * 0.135).round
-        end
         if @session.practitioner.user.tax_id?
-          description = "#{@session.practitioner.user.full_name}'s TAX ID: #{@session.practitioner.user.tax_id}"
+          tax_id = Stripe::Customer.retrieve_tax_id(
+            @session.practitioner.user.stripe_id,
+            @session.practitioner.user.tax_id,
+          )
+          description = "#{@session.practitioner.user.full_name}'s TAX ID: #{tax_id.value}"
         else
           description = ''
         end
@@ -342,9 +359,33 @@ class SessionsController < ApplicationController
                 tax_rates << TaxRate.find(1).tax_id
               end
             end
+            if @session.practitioner.country_code == 'CA'
+              if %w[NB NL NS PE].include?(@session.practitioner.state_code)
+                tax_rate = 1.15
+              elsif @session.practitioner.state_code == 'ON'
+                tax_rate = 1.13
+              else
+                tax_rate = 1.05
+              end
+            else
+              tax_rate = 1.00
+            end
             discounts = []
             if @session.promo_id
+              if UserPromo.find_by(promo_id: @session.promo_id).discount_on == 'platform'
+                inital_fee = (@session.amount_cents * 0.135).round
+                if inital_fee > @session.discount_price_cents
+                  fee = ((inital_fee - @session.discount_price_cents) * tax_rate).round
+                else
+                  fee = 0
+                  # AdminMailer.with(user: @session.user, request: 'Session charge invoice create', type: type, code: code, message: message).stripe_failure.deliver_now
+                end
+              elsif UserPromo.find_by(promo_id: @session.promo_id).discount_on == 'practitioner'
+                fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * tax_rate).round
+              end
               discounts << { coupon: UserPromo.find_by(promo_id: @session.promo_id).coupon_id }
+            else
+              fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * tax_rate).round
             end
             begin
               invoice_item = Stripe::InvoiceItem.create({
@@ -372,23 +413,16 @@ class SessionsController < ApplicationController
               AdminMailer.with(user: @session.user, request: 'Session cancel by user invoice item create', type: type, code: code, message: message).stripe_failure.deliver_now
               redirect_to user_sessions_path, alert: 'Oops! Something went wrong.'
             end
-            if @session.practitioner.country_code == 'CA'
-              if %w[NB NL NS PE].include?(@session.practitioner.state_code)
-                fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.15).round
-              elsif @session.practitioner.state_code == 'ON'
-                fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.13).round
-              else
-                fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * 1.05).round
-              end
-            else
-              fee = (@session.estimate_price_cents * 0.135).round
-            end
-            if @session.practitioner.user.tax_id?
-              description = "#{@session.practitioner.user.full_name}'s TAX ID: #{@session.practitioner.user.tax_id}"
-            else
-              description = ''
-            end
             if invoice_item
+              if @session.practitioner.user.tax_id?
+                tax_id = Stripe::Customer.retrieve_tax_id(
+                  @session.practitioner.user.stripe_id,
+                  @session.practitioner.user.tax_id,
+                )
+                description = "#{@session.practitioner.user.full_name}'s TAX ID: #{tax_id.value}"
+              else
+                description = ''
+              end
               begin
                 Stripe::Invoice.create({
                   customer: @session.user.stripe_id,
