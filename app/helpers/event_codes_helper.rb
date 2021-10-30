@@ -1,0 +1,2 @@
+module EventCodesHelper
+end

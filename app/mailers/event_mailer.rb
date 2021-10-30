@@ -37,4 +37,13 @@ class EventMailer < ApplicationMailer
 
     mail(to: @event_attendee.email, subject: 'Your Tickets to Finding Wellness with The Holistic Panda.')
   end
+
+  def coupon
+    @event = params[:event]
+    @event_attendee = params[:event_attendee]
+
+    @coupons = @event.event_codes
+
+    mail(to: @event_attendee.email, subject: 'Your promotion offers are here!')
+  end
 end

@@ -15,7 +15,8 @@
     <% if user_signed_in? && current_user.admin? %>
       <div class="d-flex justify-content-center mb-4">
         <%= link_to 'Edit', '', data: { toggle: "modal", target: "#editEventModal" }, class: 'btn btn-flat mr-4' %>
-        <%= link_to 'Delete', event_path(@event), method: :delete, data: { confirm: "Are you sure?"}, class: 'btn btn-ghost' %>
+        <%= link_to 'Delete', event_path(@event), method: :delete, data: { confirm: "Are you sure?"}, class: 'btn btn-ghost mr-4' %>
+        <%= link_to 'Manage codes', event_codes_path(@event), class: 'btn btn-flat mr-4' %>
       </div>
       <div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="editEventModalLabel" aria-hidden="true">
         <div class="modal-dialog text-left" role="document" style="min-width: 80vw;">

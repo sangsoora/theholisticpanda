@@ -1,0 +1,95 @@
+<% content_for :home_navbar do %>
+  <%= render 'shared/home_navbar' %>
+<% end %>
+<div class="container event-page">
+  <div class="page-title">
+    <h3><%= @event.name %>'s promo codes</h3>
+  </div>
+  <%= link_to 'Add', '', data: { toggle: "modal", target: "#addCodeModal" }, class: 'btn btn-flat mb-4 mr-4' %>
+  <% if @event_codes.count > 0 %>
+    <%= link_to 'Publish codes', '', data: { toggle: "modal", target: "#publishCodeModal" }, class: 'btn btn-flat mb-4 mr-4' %>
+  <% end %>
+  <div>
+    <% @event_codes.each do |code| %>
+      <div class="d-flex">
+        <h4><%= code.name %></h4>
+        <%= link_to '', event_code_path(code), method: :delete, data: { confirm: "Are you sure to remove this code?"}, class: 'fas fa-trash ml-4' %>
+      </div>
+      <div>
+        <% if code.expires_at %>
+          <p>Expires at: <%= code.expires_at %></p>
+        <% end %>
+        <p>Detail: <%= code.detail %></p>
+        <p>Promo type: <%= code.promo_type %></p>
+        <p>Discount on: <%= code.discount_on %></p>
+        <% if code.service %>
+          <p>Service: <%= code.service.name %></p>
+        <% end %>
+        <% if code.practitioner %>
+          <p>Practitioner: <%= code.practitioner.user.full_name %></p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <div class="modal fade" id="addCodeModal" tabindex="-1" role="dialog" aria-labelledby="addCodeModalLabel" aria-hidden="true">
+    <div class="modal-dialog text-left" role="document" style="min-width: 80vw;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addCodeModalLabel">Add new code</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= simple_form_for([@event, @event_code]) do |f| %>
+              <%= f.input :name, required: true %>
+              <%= f.input :expires_at, label: 'Expires at (in UTC)' %>
+              <%= f.input :detail, required: true %>
+              <%= f.input :code_name, required: true %>
+              <%= f.input :promo_type, collection: ['coupon', 'code'], required: true %>
+              <%= f.input :discount_on, collection: ['platform', 'practitioner'], required: true %>
+              <%= f.input :service_id, collection: Service.all.map { |service| [service.name, service.id] }, include_blank: 'Select a service' %>
+              <%= f.input :practitioner_id, collection: Practitioner.all.map { |practitioner| [practitioner.user.full_name, practitioner.id] }, include_blank: 'Select a practitioner' %>
+              <%= f.submit :Create, class: 'btn btn-flat' %>
+              <%= link_to 'Cancel', '', class: 'btn btn-ghost ml-3' %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="publishCodeModal" tabindex="-1" role="dialog" aria-labelledby="publishCodeModalLabel" aria-hidden="true">
+    <div class="modal-dialog text-left" role="document" style="min-width: 80vw;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="publishCodeModalLabel">Publish new codes</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h3>Publish following codes for all the event attendee</h3>
+          <% @event_codes.each do |code| %>
+            <p><%= code.name %></p>
+          <% end %>
+          <%= link_to 'Publish', event_publish_codes_path(@event), method: :post, class: 'btn btn-flat mt-4' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.getElementById('event_code_service_id').addEventListener('change', (e) => {
+    if (e.currentTarget.value != '') {
+      document.getElementById('event_code_practitioner_id').disabled = true;
+    } else {
+      document.getElementById('event_code_practitioner_id').disabled = false;
+    }
+  });
+  document.getElementById('event_code_practitioner_id').addEventListener('change', (e) => {
+    if (e.currentTarget.value != '') {
+      document.getElementById('event_code_service_id').disabled = true;
+    } else {
+      document.getElementById('event_code_service_id').disabled = false;
+    }
+  });
+</script>
