@@ -7,11 +7,12 @@
       </button>
     </div>
     <div class="modal-body">
+      <p>Run a promotion on your services to attract new clients and get more bookings!</p>
       <%= simple_form_for([service_promotion]) do |f| %>
         <%= f.input :start_date, label: 'Promotion start date', required: true, as: :string, input_html: {class: "datepicker", value: "#{service_promotion.start_date.strftime('%b %d, %Y')}"} %>
         <%= f.input :end_date, label: 'Promotion end date', required: true, as: :string, input_html: {class: "datepicker", value: "#{service_promotion.end_date.strftime('%b %d, %Y')}"} %>
         <p>Promotion starts at 00:00 UTC of starting date and ends at 24:00 UTC of ending date</p>
-        <%= f.input :discount_percentage, label: 'Discount percentage (%)', required: true, input_html: { min: 0, max: 100, step: 5 } %>
+        <%= f.input :discount_percentage, label: 'Promotional offer (% off)', required: true, input_html: { min: 0, max: 100, step: 5 } %>
         <%= f.submit :Update, class: 'btn btn-flat' %>
         <button type="button" class="btn btn-ghost ml-3" data-dismiss="modal" aria-label="Close">Cancel</button>
       <% end %>
