@@ -308,9 +308,9 @@
   justify-content: space-between;
   margin-bottom: 0.75rem;
   h3 {
-    flex: 0 0 75%;
     font-size: 1.25rem;
     margin-bottom: 0;
+    margin-right: 1rem;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -436,7 +436,6 @@
 
   .favorite-service-title {
     h3 {
-      flex: 0 0 60%;
       font-size: 1rem;
       -webkit-line-clamp: 2;
     }

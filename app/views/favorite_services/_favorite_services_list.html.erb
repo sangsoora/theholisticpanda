@@ -3,7 +3,7 @@
     <div class="favorite-service-title">
       <h3><%= link_to favorite.service.name, service_path(favorite.service) %></h3>
       <% if favorite.service.service_promotions.exists? && favorite.service.active_promotion? %>
-        <div class="d-flex">
+        <div class="d-flex" style="flex: 1 0 20%;">
           <div class="promo-rectangle">
             <%= favorite.service.last_promotion.discount_percentage %>% off
           </div>
