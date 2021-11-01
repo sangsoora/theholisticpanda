@@ -110,7 +110,7 @@
                   <% end %>
                   <% if service.service_promotions.exists? && service.active_promotion? %>
                     <div>
-                      <p style="color: red; font-weight: 600; margin-bottom: 0.25rem;">CA$ <%= (service.price - (service.price * service.last_promotion.discount_percentage / 100)).to_f.round(2) %></p>
+                      <p style="color: red; font-weight: 600; margin-bottom: 0.25rem;"><i class="fas fa-coins mr-2 pink-icon"></i>CA$ <%= (service.price - (service.price * service.last_promotion.discount_percentage / 100)).to_f.round(2) %></p>
                       <p style="color: #366735;"><span style="text-decoration: line-through;"> CA$ <%= service.price.to_f.round(2) %> </span> (<%= service.last_promotion.discount_percentage %>% off)</p>
                     </div>
                   <% else %>
