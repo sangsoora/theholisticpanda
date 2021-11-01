@@ -18,6 +18,7 @@
                    value="promotional"
                  <% end %>>
           <% if @session.service.service_promotions.exists? && @session.service.active_promotion? %>
+            <%= f.input :practitioner_promotion, as: :hidden, input_html: { value: true } %>
             <p>Coupons and promotion codes are not applicable with ongoing practitioner promotion.</p>
           <% else %>
             <p><strong>Coupons</strong></p>

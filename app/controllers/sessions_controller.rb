@@ -172,14 +172,21 @@ class SessionsController < ApplicationController
       else
         fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * tax_rate).round
       end
+      if @session.practitioner_promotion
+        charge_amount = (@session.amount_cents - (@session.amount_cents * @session.service.last_promotion.discount_percentage / 100)).round
+        charge_description = "#{@session.service.name} with #{@session.practitioner.user.full_name} (#{@session.service.last_promotion.discount_percentage}% off)"
+      else
+        charge_amount = @session.amount_cents
+        charge_description = "#{@session.service.name} with #{@session.practitioner.user.full_name}"
+      end
       begin
         invoice_item = Stripe::InvoiceItem.create({
           customer: @session.user.stripe_id,
-          amount: @session.amount_cents,
+          amount: charge_amount,
           currency: 'cad',
           discountable: true,
           discounts: discounts,
-          description: "#{@session.service.name} with #{@session.practitioner.user.full_name}",
+          description: charge_description,
           metadata: {
             session_id: @session.id
           },
@@ -288,12 +295,19 @@ class SessionsController < ApplicationController
                 tax_rates << TaxRate.find(1).tax_id
               end
             end
+            if @session.practitioner_promotion
+              charge_amount = (@session.amount_cents - (@session.amount_cents * @session.service.last_promotion.discount_percentage / 100)).round
+              charge_description = "#{@session.service.name} with #{@session.user.full_name} (#{@session.service.last_promotion.discount_percentage}% off)"
+            else
+              charge_amount = @session.amount_cents
+              charge_description = "#{@session.service.name} with #{@session.user.full_name}"
+            end
             begin
               invoice_item = Stripe::InvoiceItem.create({
                 customer: @session.practitioner.user.stripe_id,
-                amount: (@session.amount_cents * 0.35).round,
+                amount: (charge_amount * 0.35).round,
                 currency: 'cad',
-                description: "#{@session.service.name} with #{@session.user.full_name}",
+                description: charge_description,
                 metadata: {
                   session_id: @session.id
                 },
@@ -387,14 +401,21 @@ class SessionsController < ApplicationController
             else
               fee = ((@session.amount_cents - @session.discount_price_cents) * 0.135 * tax_rate).round
             end
+            if @session.practitioner_promotion
+              charge_amount = (@session.amount_cents - (@session.amount_cents * @session.service.last_promotion.discount_percentage / 100)).round
+              charge_description = "#{@session.service.name} with #{@session.practitioner.user.full_name} (#{@session.service.last_promotion.discount_percentage}% off)"
+            else
+              charge_amount = @session.amount_cents
+              charge_description = "#{@session.service.name} with #{@session.practitioner.user.full_name}"
+            end
             begin
               invoice_item = Stripe::InvoiceItem.create({
                 customer: @session.user.stripe_id,
-                amount: @session.amount_cents,
+                amount: charge_amount,
                 currency: 'cad',
                 discountable: true,
                 discounts: discounts,
-                description: "#{@session.service.name} with #{@session.practitioner.user.full_name}",
+                description: charge_description,
                 metadata: {
                   session_id: @session.id
                 },
@@ -509,6 +530,6 @@ class SessionsController < ApplicationController
   end
 
   def session_params
-    params.require(:session).permit(:start_time, :duration, :session_type, :primary_time, :secondary_time, :tertiary_time, :message, :amount, :paid, :link, :status, :cancel_reason, :cancelled_user, :address, :latitude, :longitude, :payment_method_id, :estimate_price, :promo_id, :discount_price, :tax_price, :estimate_price, :decline_reason, :free_session)
+    params.require(:session).permit(:start_time, :duration, :session_type, :primary_time, :secondary_time, :tertiary_time, :message, :amount, :paid, :link, :status, :cancel_reason, :cancelled_user, :address, :latitude, :longitude, :payment_method_id, :estimate_price, :promo_id, :discount_price, :tax_price, :estimate_price, :decline_reason, :free_session, :practitioner_promotion)
   end
 end
