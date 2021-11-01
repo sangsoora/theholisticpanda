@@ -10,6 +10,7 @@ class Service < ApplicationRecord
   has_many :reviews, through: :sessions
   has_many :favorite_services, dependent: :destroy
   has_many :favorite_users, through: :favorite_services, source: :user
+  has_many :service_promotions, dependent: :destroy
   has_many :user_promos, dependent: :destroy
   has_many :event_codes, dependent: :destroy
   validates :name, presence: true
@@ -40,5 +41,9 @@ class Service < ApplicationRecord
     goals = 0
     health_goals.each { |g| goals += 1 if g.id.in?(array) }
     goals
+  end
+
+  def last_promotion
+    service_promotions.order('end_date DESC').first
   end
 end

@@ -18,7 +18,7 @@
         <%= f.select :state_code, @practitioner.ca_states_choice.map { |state| [state[0], state[1]] }, {include_blank: 'Select a province'}, {class: 'form-control select optional', id: 'practitioner_ca_state_code'} %>
       </div>
       <div class="d-flex justify-content-between">
-        <%= f.input :experience, collection: ['Less than 1 year', '2-5 years', '5-10 years', 'More than 10 years'], as: :select, require: true %>
+        <%= f.input :experience, collection: ['Less than 1 year', '2-5 years', '5-10 years', 'More than 10 years'], as: :select, required: true %>
       </div>
       <%= f.input :timezone, label: 'Time zone (where you will be conducting your service)', as: :select do %>
         <%= f.select :timezone, @practitioner.timezone_choice.map { |zone| [zone[1], zone[0]] }, {include_blank: 'Select a time zone'}, {class: 'form-control select optional'} %>

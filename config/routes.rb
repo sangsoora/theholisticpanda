@@ -96,7 +96,10 @@ Rails.application.routes.draw do
     resources :sessions, only: [:create]
     resources :favorite_services, only: [:create]
     resources :service_health_goals, only: [:create]
+    resources :service_promotions, only: [:create]
   end
+
+  resources :service_promotions, only: %i[update destroy]
 
   resources :service_health_goals, only: [:destroy]
 

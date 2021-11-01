@@ -37,9 +37,9 @@
           </div>
         </div>
         <% if @session.session_type == 'Virtual' %>
-          <%= f.input :link, input_html: { class: 'w-50', id: 'confirm_link' }, label: 'Please add a link for the virtual session', require: true %>
+          <%= f.input :link, input_html: { class: 'w-50', id: 'confirm_link' }, label: 'Please add a link for the virtual session', required: true %>
         <% elsif @session.session_type == 'In-person' %>
-          <%= f.input :address, input_html: { class: 'w-50' }, label: 'Please add an address for the in-person session', require: true %>
+          <%= f.input :address, input_html: { class: 'w-50' }, label: 'Please add an address for the in-person session', required: true %>
           <%= f.input :latitude, as: :hidden %>
           <%= f.input :longitude, as: :hidden %>
         <% end %>
@@ -123,7 +123,7 @@
             <% if @session.start_time? && @session.start_time > Time.current && ((@session.practitioner != nil && @session.practitioner.user == current_user) || (@session.free_practitioner && @session.free_practitioner.user == current_user)) %>
               <%= link_to '', '', class: 'fas fa-pen', id: 'address-edit', style: 'margin-top: 0.25rem;' %>
               <%= simple_form_for([@session], remote: true, html: { id: :address_form, style: 'display: none; align-items: center;' }) do |f| %>
-                <%= f.input :address, label: false, require: true %>
+                <%= f.input :address, label: false, required: true %>
                 <%= f.input :latitude, as: :hidden %>
                 <%= f.input :longitude, as: :hidden %>
                 <button type="submit" id="address-submit" disabled=""><i class='fas fa-check'></i></button>
@@ -254,7 +254,7 @@
           <% else %>
             <p>Please tell your customer why<br>you have to cancel the session.</p>
           <% end %>
-          <%= f.input :cancel_reason, label: false, require: true %>
+          <%= f.input :cancel_reason, label: false, required: true %>
           <%= f.submit 'Confirm cancellation', data: { toggle: "modal", target: "#cancelSessionModal" }, class: 'btn btn-flat' %>
         <% end %>
       </div>

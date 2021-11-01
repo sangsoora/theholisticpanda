@@ -8,7 +8,7 @@
     </div>
     <div class="modal-body">
       <%= simple_form_for([service], remote: true) do |f| %>
-        <%= f.input :name, label: 'Name of the service', require: true %>
+        <%= f.input :name, label: 'Name of the service', required: true %>
         <div class="form-group select required service_service_type">
           <label class="select required" for="service_service_type">Service type<abbr title="required">*</abbr></label>
           <select class="form-control select require" name="service[service_type]" id="service_service_type" required>
@@ -23,9 +23,9 @@
             <p><small><em>Please add physical address where you will be conducting In-person service in <%= link_to 'Profile Page', practitioner_profile_path %> if you want to conduct In-person service.</em></small></p>
           <% end %>
         </div>
-        <%= f.input :specialty, label: 'Specialty', as: :select, collection: practitioner.specialties, include_blank: false, include_hidden: false, require: true %>
+        <%= f.input :specialty, label: 'Specialty', as: :select, collection: practitioner.specialties, include_blank: false, include_hidden: false %>
         <%= render "service_health_goals/create_form", service: service %>
-        <%= f.input :duration, label: 'Duration (in minutes)', input_html: { value: 15, min: 15, step: 15 }, require: true %>
+        <%= f.input :duration, label: 'Duration (in minutes)', input_html: { value: 15, min: 15, step: 15 }, required: true %>
         <div class="form-group string required service_price">
           <label class="string required" for="service_price">Price (in CA$) <abbr title="required">*</abbr></label>
           <input class="form-control string required" type="text" name="service[price]" id="service_price" value="10.00">

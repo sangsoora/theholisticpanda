@@ -1,14 +1,49 @@
 <div class="service-list-item">
-  <div class="service-list-item-title">
-    <div class="service-type">
-      <p><%= service.service_type.capitalize %></p>
+  <div class="service-list-item-title details-desktop">
+    <div class="d-flex">
+      <div class="service-type">
+        <p><%= service.service_type.capitalize %></p>
+      </div>
+      <h3>
+        <%= link_to service.name, service_path(service) %>
+      </h3>
+      <% if service.service_promotions.exists? && service.active_promotion? %>
+        <div class="d-flex" style="flex: 1 0 10%;">
+          <div class="promo-rectangle">
+            <%= service.last_promotion.discount_percentage %>% off
+          </div>
+          <div class="promo-triangle"></div>
+        </div>
+      <% end %>
     </div>
-    <h3><%= link_to service.name, service_path(service) %></h3>
     <div class="fav-btn" id="fav-btn-<%= service.id %>">
       <% if user_signed_in? %>
         <%= render 'favorite_services/service_btn', service: service %>
       <% end %>
     </div>
+  </div>
+  <div class="service-list-item-title m-0 details-mobile-flex">
+    <div class="service-type">
+      <p class="m-0"><%= service.service_type.capitalize %></p>
+    </div>
+    <% if service.service_promotions.exists? && service.active_promotion? %>
+      <div class="d-flex" style="flex: 1 0 10%;">
+        <div class="promo-rectangle">
+          <%= service.last_promotion.discount_percentage %>% off
+        </div>
+        <div class="promo-triangle"></div>
+      </div>
+    <% end %>
+    <div class="fav-btn" id="fav-btn-<%= service.id %>">
+      <% if user_signed_in? %>
+        <%= render 'favorite_services/service_btn', service: service %>
+      <% end %>
+    </div>
+  </div>
+  <div class="details-mobile">
+    <h3>
+      <%= link_to service.name, service_path(service) %>
+    </h3>
   </div>
   <div class="service-list-item-body details-desktop">
     <div class="service-left-column">
@@ -29,7 +64,7 @@
     </div>
     <div class="service-middle-column">
       <div class="service-list-item-infos">
-        <p <%= 'class=short' if service.description.length >= 150 %> ><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
+        <p <%= 'class=short' if service.description.length >= 150 %>><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
         <% if service.description.length >= 150 %>
           <%= link_to 'Read more', service_path(service) %>
         <% end %>
@@ -51,7 +86,11 @@
       <div class="d-flex justify-content-between">
         <div style="flex: 0 0 45%;">
           <label>PRICE</label>
-          <p>CA$ <%= service.price.to_f.round(2) %></p>
+          <% if service.service_promotions.exists? && service.active_promotion? %>
+            <p style="color: red; font-weight: 600;">CA$ <%= (service.price - (service.price * service.last_promotion.discount_percentage / 100)).to_f.round(2) %></p>
+          <% else %>
+            <p>CA$ <%= service.price.to_f.round(2) %></p>
+          <% end %>
         </div>
         <div style="flex: 0 0 45%;">
           <label>DURATION</label>
@@ -111,7 +150,11 @@
     <div class="d-flex justify-content-between mt-2" style="flex-wrap: wrap;">
       <div style="flex: 0 0 45%;">
         <label>PRICE</label>
-        <p>CA$ <%= service.price.to_f.round(2) %></p>
+        <% if service.service_promotions.exists? && service.active_promotion? %>
+          <p style="color: red; font-weight: 600;">CA$ <%= (service.price - (service.price * service.last_promotion.discount_percentage / 100)).to_f.round(2) %></p>
+        <% else %>
+          <p>CA$ <%= service.price.to_f.round(2) %></p>
+        <% end %>
       </div>
       <div style="flex: 0 0 45%;">
         <label>DURATION</label>

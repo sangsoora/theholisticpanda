@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between">
-  <h4><%= service.name %></h4>
+  <h4 style="font-size: 1.25rem; min-height: 48px; flex: 0 0 85%;"><%= service.name %></h4>
   <div>
     <a class="fas fa-pen" href="" id="service-btn-<%= service.id %>"></a>
     <% if service.sessions == [] %>
@@ -7,19 +7,48 @@
     <% end %>
   </div>
 </div>
-<%= simple_form_for([service], remote: true, html: { id: "edit_active_#{service.id}" }) do |f| %>
-  <%= f.input :active, as: :hidden, input_html: { value: :false }%>
-  <%= f.submit :Deactivate, class: 'btn btn-flat mb-3', style: 'background: #e57850' %>
+<div class="d-flex justify-content-between">
+  <%= simple_form_for([service], remote: true, html: { id: "edit_active_#{service.id}" }) do |f| %>
+    <%= f.input :active, as: :hidden, input_html: { value: :false, id: "service_active_#{service.id}" }%>
+    <%= f.submit :Deactivate, class: 'btn btn-flat mb-3', style: 'background: #e57850' %>
+  <% end %>
+  <% if service.service_promotions.exists? && service.active_promotion? %>
+    <button data-toggle="modal" data-target="#editPromotionModal-<%= service.last_promotion.id %>" data-disable-with="Edit promotion" class="btn btn-ghost mb-3">Edit promotion</button>
+    <div class="modal fade" id="editPromotionModal-<%= service.last_promotion.id %>" tabindex="-1" role="dialog" aria-labelledby="editPromotionModalLabel" aria-hidden="true">
+      <%= render 'service_promotions/promotion_update_form', service_promotion: service.last_promotion %>
+    </div>
+  <% else %>
+    <button data-toggle="modal" data-target="#newPromotionModal-<%= service.id %>" data-disable-with="Create promotion" class="btn btn-ghost mb-3">Create promotion</button>
+  <% end %>
+</div>
+<% if service.service_promotions.exists? && service.active_promotion? %>
+  <p>Active & Upcoming promotions <%= link_to '', service_promotion_path(service.last_promotion), method: :delete, data: { confirm: "Are you sure?"}, class: 'fas fa-trash' %></p>
+  <p>Date: <%= service.last_promotion.start_date.strftime('%b %d, %Y') %> - <%= service.last_promotion.end_date.strftime('%b %d, %Y') %></p>
+  <p>Discount: <%= service.last_promotion.discount_percentage %>% off</p>
 <% end %>
-<p>Booked <%= service.sessions.where(status: "confirmed").count %> times</p>
+<p>Booked <%= service.sessions.where(status: "confirmed").or(service.sessions.where(status: "charged")).count %> times</p>
 <% if service.reviews.count > 0 %>
   <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
 <% end %>
 <p>Specialty: <%= service.specialty.name %></p>
-<p>Related Health Goal(s): <%= service.health_goals.pluck(:name).join(', ') %></p>
 <p>Service Type: <%= service.service_type.capitalize %></p>
 <p>Duration: <%= service.duration %>m</p>
 <p>Service Price: CA$ <%= service.price.to_f.round(2) %></p>
+<p style="height: 72px;">Related Health Goal(s): <%= service.health_goals.pluck(:name).join(', ') %></p>
 <div class="practitioner-service-description">
-  <p><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
+  <p class="short-description"><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
+  <a href="" id="more-<%= service.id %>">Show more</a>
 </div>
+<script>
+  document.getElementById('more-<%= service.id %>').addEventListener('click', (e) => {
+    e.preventDefault();
+    if (e.currentTarget.innerHTML == 'Show more') {
+      e.currentTarget.previousSibling.previousSibling.classList.remove('short-description');
+      e.currentTarget.innerHTML = 'Show less';
+    } else {
+      e.currentTarget.previousSibling.previousSibling.classList.add('short-description');
+      e.currentTarget.innerHTML = 'Show more';
+    }
+
+  });
+</script>

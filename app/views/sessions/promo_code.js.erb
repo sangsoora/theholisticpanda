@@ -1,5 +1,5 @@
 let html = '';
-<% if @promo && (@promo.name != 'WELCOMETOPANDA' && @promo.name != 'REFERRAL10') %>
+<% if @promo && @promo.promo_type == 'code' %>
   <% if @promo.active %>
     <% if !@promo.public || (@promo.public && current_user.sessions.find_by(promo_id: @promo.promo_id).nil?)  %>
       <% if ((@promo.service && (@promo.service == @session.service)) || !@promo.service) && ((@promo.practitioner && (@promo.practitioner == @session.practitioner)) || !@promo.practitioner) %>

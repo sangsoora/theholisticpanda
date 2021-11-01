@@ -7,4 +7,8 @@
       <%= render 'services/service_update_form', practitioner: @practitioner, service: service %>
     </div>
   </div>
+  <div class="modal fade" id="newPromotionModal-<%= service.id %>" tabindex="-1" role="dialog" aria-labelledby="newPromotionModalLabel" aria-hidden="true">
+    <%= render 'service_promotions/promotion_create_form', service: service, service_promotion: ServicePromotion.new %>
+  </div>
 <% end %>
+

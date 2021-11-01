@@ -2,6 +2,14 @@
   <div class="favorite-service">
     <div class="favorite-service-title">
       <h3><%= link_to favorite.service.name, service_path(favorite.service) %></h3>
+      <% if favorite.service.service_promotions.exists? && favorite.service.active_promotion? %>
+        <div class="d-flex" style="flex: 1 0 20%;">
+          <div class="promo-rectangle">
+            <%= favorite.service.last_promotion.discount_percentage %>% off
+          </div>
+          <div class="promo-triangle"></div>
+        </div>
+      <% end %>
       <div class="fav-btn">
         <a data-confirm="Are you sure?" class="btn btn-ghost" rel="nofollow" data-method="delete" data-remote="true" href="/favorite_services/<%= FavoriteService.find_by(user: current_user, service: favorite.service).id %>"><i class="fas fa-heart pink-icon"></i></a>
       </div>
@@ -28,7 +36,11 @@
       </div>
       <div class="favorite-service-detail">
         <label>PRICE</label>
-        <p>CA$ <%= favorite.service.price.to_f.round(2) %></p>
+        <% if favorite.service.service_promotions.exists? && favorite.service.active_promotion? %>
+          <p style="color: red; font-weight: 600; margin-bottom: 0.25rem;">CA$ <%= (favorite.service.price - (favorite.service.price * favorite.service.last_promotion.discount_percentage / 100)).to_f.round(2) %></p>
+        <% else %>
+          <p>CA$ <%= favorite.service.price.to_f.round(2) %></p>
+        <% end %>
       </div>
       <div class="favorite-service-detail">
         <label>DURATION</label>

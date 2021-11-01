@@ -1,0 +1,21 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="newPromotionModalLabel-<%= service.id %>">New promotion for <%= service.name %></h5>
+      <button type="button" class="close" id="newPromotionClose-<%= service.id %>" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Run a promotion on your services to attract new clients and get more bookings!</p>
+      <%= simple_form_for([service, service_promotion], html: { id: "create-promotion-form-#{service.id}" }) do |f| %>
+        <%= f.input :start_date, label: 'Promotion start date', required: true, as: :string, input_html: {class: "datepicker", id: "service_promotion_start_date_#{service.id}"} %>
+        <%= f.input :end_date, label: 'Promotion end date', required: true, as: :string, input_html: {class: "datepicker", id: "service_promotion_end_date_#{service.id}"}  %>
+        <p>Promotion starts at 00:00 UTC of starting date and ends at 24:00 UTC of ending date</p>
+        <%= f.input :discount_percentage, label: 'Promotional offer (% off)', required: true, input_html: { min: 0, max: 100, step: 5, id: "service_promotion_discount_percentage_#{service.id}" } %>
+        <%= f.submit :Create, class: 'btn btn-flat'  %>
+        <button type="button" class="btn btn-ghost ml-3" data-dismiss="modal" aria-label="Close">Cancel</button>
+      <% end %>
+    </div>
+  </div>
+</div>

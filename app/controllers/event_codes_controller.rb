@@ -12,7 +12,7 @@ class EventCodesController < ApplicationController
           percent_off: @event_code.detail.split('%')[0].to_f,
           duration: 'once',
           name: @event_code.name,
-          id: @event_code.event.name.downcase.split(' ').join('_') + '_' + @event_code.id.to_s + '_test'
+          id: @event_code.event.name.downcase.split(' ').join('_') + '_' + @event_code.id.to_s
         })
       else
         coupon = Stripe::Coupon.create({
@@ -20,7 +20,7 @@ class EventCodesController < ApplicationController
           currency: 'cad',
           duration: 'once',
           name: @event_code.name,
-          id: @event_code.event.name.downcase.split(' ').join('_') + '_' + @event_code.id.to_s + '_test'
+          id: @event_code.event.name.downcase.split(' ').join('_') + '_' + @event_code.id.to_s
         })
       end
       @event_code.update(coupon_id: coupon.id)

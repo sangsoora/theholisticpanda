@@ -130,6 +130,12 @@
     -webkit-line-clamp: 6;
     -webkit-box-orient: vertical;
   }
+  p.short-description {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
   button {
     border: none;
     background: transparent;

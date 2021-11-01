@@ -11,10 +11,10 @@
       <% end %>
     </select>
   </div>
-  <%= f.input :specialty, label: 'Specialty', as: :select, collection: @practitioner.specialties, include_blank: false, include_hidden: false, selected: service.specialty.id, require: true %>
+  <%= f.input :specialty, label: 'Specialty', as: :select, collection: @practitioner.specialties, include_blank: false, include_hidden: false, selected: service.specialty.id, input_html: { id: "service_specialty_#{service.id}" } %>
   <%= render "service_health_goals/update_form", service: service %>
   <%= f.input :duration, label: 'Duration (in minutes)', input_html: { min: 15, step: 15, id: "service_duration_#{service.id}" } %>
-  <%= f.input :price, label: 'Price (in CA$)' %>
+  <%= f.input :price, label: 'Price (in CA$)', input_html: { id: "service_price_#{service.id}" } %>
   <%= f.input :description, input_html: { id: "service_description_#{service.id}", rows: 5, maxlength: 1000 } %>
   <p id="description-counter-<%= service.id %>" <% if service.description.gsub(/\n/, '<br/>').html_safe.length == 1000 %>style="color: red;"<% end %>><%= service.description.gsub(/\n/, '<br/>').html_safe.length %>/1000</p>
   <%= f.submit :Update, class: 'btn btn-flat', id: "update-service-#{service.id}" %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_28_182654) do
+ActiveRecord::Schema.define(version: 2021_11_01_004751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -383,6 +383,7 @@ ActiveRecord::Schema.define(version: 2021_10_28_182654) do
     t.integer "estimate_price_cents", default: 0, null: false
     t.boolean "free_session"
     t.string "decline_reason"
+    t.boolean "practitioner_promotion", default: false
     t.index ["service_id"], name: "index_sessions_on_service_id"
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end

@@ -93,6 +93,7 @@ class PractitionersController < ApplicationController
     @active_serivces = @practitioner.services.where(active: true).includes(:sessions, :specialty, :practitioner)
     @deactivated_serivces = @practitioner.services.where(active: false).includes(:sessions, :specialty, :practitioner)
     @service = Service.new
+    @service_promotion = ServicePromotion.new
   end
 
   def booking
