@@ -46,4 +46,10 @@ class Service < ApplicationRecord
   def last_promotion
     service_promotions.order('end_date DESC').first
   end
+
+  def active_promotion?
+    if last_promotion
+      true if last_promotion.end_date > Time.current && last_promotion.start_date < Time.current
+    end
+  end
 end
