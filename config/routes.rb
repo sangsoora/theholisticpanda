@@ -31,6 +31,8 @@ Rails.application.routes.draw do
 
   get '/services/more', to: 'services#more'
 
+  get '/user/timezone', to: 'users#timezone', as: :user_timezone
+
   devise_scope :user do
     match '/sessions/user', to: 'devise/sessions#create', via: :post
   end

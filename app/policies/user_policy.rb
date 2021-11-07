@@ -21,6 +21,10 @@ class UserPolicy < ApplicationPolicy
     user_is_page_owner?
   end
 
+  def timezone?
+    user_is_page_owner?
+  end
+
   def payment?
     user_is_page_owner?
   end

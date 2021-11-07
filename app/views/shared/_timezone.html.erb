@@ -1,0 +1,15 @@
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    <% if user_signed_in? %>
+      if (moment.tz.guess() != '<%= current_user.timezone %>') {
+        $.ajax({
+          url: '/user/timezone',
+          data: {timezone: moment.tz.guess()},
+          success: function(data){
+            location.reload();
+          }
+        });
+      }
+    <% end %>
+  });
+</script>

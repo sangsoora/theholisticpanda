@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_01_004751) do
+ActiveRecord::Schema.define(version: 2021_11_07_231641) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -297,6 +297,8 @@ ActiveRecord::Schema.define(version: 2021_11_01_004751) do
     t.datetime "updated_at", null: false
     t.string "address_type"
     t.string "stripe_account_id"
+    t.datetime "activated_at"
+    t.integer "setup_profile_reminder"
     t.index ["user_id"], name: "index_practitioners_on_user_id"
   end
 
@@ -384,6 +386,9 @@ ActiveRecord::Schema.define(version: 2021_11_01_004751) do
     t.boolean "free_session"
     t.string "decline_reason"
     t.boolean "practitioner_promotion", default: false
+    t.integer "user_checkout_reminder"
+    t.integer "practitioner_request_reminder"
+    t.integer "practitioner_charge_reminder"
     t.index ["service_id"], name: "index_sessions_on_service_id"
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end

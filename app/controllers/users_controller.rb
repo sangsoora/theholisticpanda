@@ -49,6 +49,12 @@ class UsersController < ApplicationController
     @my_notifications = Notification.includes(actor: [practitioner: [{user: :photo_attachment}]]).where(recipient: current_user).order('created_at DESC')
   end
 
+  def timezone
+    @user = current_user
+    authorize @user
+    @user.update(timezone: params[:timezone])
+  end
+
   private
 
   def set_user

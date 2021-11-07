@@ -26,6 +26,7 @@ class Practitioner < ApplicationRecord
   scope :filter_by_language, ->(languages) { joins(:languages).where(languages: { id: languages }) }
   scope :filter_by_service_type, ->(service_type) { where service_type: service_type }
   monetize :amount_cents, allow_nil: true
+  after_update :update_after_activation
 
   $specialties = Specialty.all.sort_by(&:name)
   $health_goals = HealthGoal.all.sort_by(&:name)
@@ -328,5 +329,13 @@ class Practitioner < ApplicationRecord
 
   def pending_payment_sessions
     sessions.where('start_time < ? AND status = ?', Time.current, 'confirmed')
+  end
+
+  def update_after_activation
+    update(activated_at: Time.current) if saved_change_to_status? && status == 'active'
+  end
+
+  def need_profile_reminder?
+    return true if !working_hours? || !bio? || !user.photo.attached? || !stripe_account_id?
   end
 end
