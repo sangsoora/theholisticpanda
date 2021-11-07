@@ -39,7 +39,6 @@ gem 'dotenv-rails'
 gem 'money-rails'
 gem 'stripe'
 gem 'stripe_event'
-# gem 'cloudinary', '~> 1.12.0'
 gem 'country_select', '~> 4.0'
 gem 'google-api-client', '~> 0.34'
 gem 'letter_opener', group: :development
