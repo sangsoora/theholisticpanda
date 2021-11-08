@@ -103,7 +103,7 @@ if ('<%= @param.keys.first %>' == "country_code") {
       $('.alert').slideUp(500);
     }, 2000);
   });
-  document.getElementById('bio').innerHTML = `<% if @practitioner.bio %><%= @practitioner.bio.gsub(/\n/, "<br/>").html_safe %><% end %>`;
+  document.getElementById('bio').innerHTML = `<% if @practitioner.bio? %><%= @practitioner.bio.gsub(/\n/, "<br/>").html_safe %><% end %>`;
   document.getElementById('progress-text').innerHTML = '<%= j render "practitioners/profile_progress_text", practitioner: @practitioner %>';
 } else if ('<%= @param.keys.first %>' == "video") {
   video.style.display = 'flex';
@@ -184,7 +184,7 @@ if ('<%= @param.keys.first %>' == "country_code") {
       $('.alert').slideUp(500);
     }, 2000);
   });
-  document.getElementById('approach').innerHTML = `<% if @practitioner.approach %><%= @practitioner.approach.gsub(/\n/, "<br/>").html_safe %><% end %>`;
+  document.getElementById('approach').innerHTML = `<% if @practitioner.approach? %><%= @practitioner.approach.gsub(/\n/, "<br/>").html_safe %><% end %>`;
 } else if ('<%= @param.keys.first %>' == "insurance") {
   <% if @practitioner.errors.empty? %>
     <% flash[:notice] = 'Insurance Acceptance has been updated.' %>
