@@ -6,7 +6,7 @@
 <% end %>
 <script>
   function success() {
-    if(document.getElementById("message_content").value==="") {
+    if(document.getElementById('message_content').value === '') {
       document.getElementById('sendBtn').disabled = true;
     } else {
       document.getElementById('sendBtn').disabled = false;
@@ -15,8 +15,11 @@
   function submitOnEnter(event){
     if (event.which === 13 && !event.shiftKey) {
       event.preventDefault();
-      document.getElementById("sendBtn").click();
+      document.getElementById('sendBtn').click();
     }
   }
-  document.getElementById("message_content").addEventListener("keypress", submitOnEnter);
+  document.getElementById('message_content').addEventListener('keypress', submitOnEnter);
+  document.getElementById('new_message').addEventListener('submit', (e) => {
+    document.getElementById('sendBtn').disabled = true;
+  });
 </script>
