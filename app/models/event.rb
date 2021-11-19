@@ -5,4 +5,9 @@ class Event < ApplicationRecord
   delegate :practitioner, to: :user, allow_nil: true
 
   has_one_attached :photo
+
+  validates :name, presence: true
+  validates :description, presence: true
+  validates :start_time, presence: true
+  validates :duration, presence: true
 end
