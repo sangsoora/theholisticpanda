@@ -9,7 +9,7 @@ class ServicePromotionsController < ApplicationController
       flash[:notice] = 'Service promotion has been created.'
       redirect_to practitioner_services_path
     else
-      render :new
+      redirect_to practitioner_services_path
     end
   end
 
