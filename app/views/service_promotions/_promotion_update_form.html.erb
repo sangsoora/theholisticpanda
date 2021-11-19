@@ -9,13 +9,36 @@
     <div class="modal-body">
       <p>Run a promotion on your services to attract new clients and get more bookings!</p>
       <%= simple_form_for([service_promotion]) do |f| %>
-        <%= f.input :start_date, label: 'Promotion start date', required: true, as: :string, input_html: {class: "datepicker", value: "#{service_promotion.start_date.strftime('%b %d, %Y')}"} %>
-        <%= f.input :end_date, label: 'Promotion end date', required: true, as: :string, input_html: {class: "datepicker", value: "#{service_promotion.end_date.strftime('%b %d, %Y')}"} %>
+        <%= f.input :start_date, label: 'Promotion start date', required: true, as: :string, input_html: { class: "datepicker", value: "#{service_promotion.start_date.strftime('%b %d, %Y')}", id: "edit_service_promotion_start_date_#{service_promotion.id}" } %>
+        <%= f.input :end_date, label: 'Promotion end date', required: true, as: :string, input_html: { class: "datepicker", value: "#{service_promotion.end_date.strftime('%b %d, %Y')}", id: "edit_service_promotion_end_date_#{service_promotion.id}" } %>
         <p>Promotion starts at 00:00 UTC of starting date and ends at 24:00 UTC of ending date</p>
-        <%= f.input :discount_percentage, label: 'Promotional offer (% off)', required: true, input_html: { min: 0, max: 100, step: 5 } %>
-        <%= f.submit :Update, class: 'btn btn-flat' %>
+        <%= f.input :discount_percentage, label: 'Promotional offer (% off)', required: true, input_html: { min: 5, max: 100, step: 5, id: "edit_service_promotion_discount_percentage_#{service_promotion.id}" } %>
+        <%= f.submit :Update, class: 'btn btn-flat', id: "submit_#{service_promotion.id}" %>
         <button type="button" class="btn btn-ghost ml-3" data-dismiss="modal" aria-label="Close">Cancel</button>
       <% end %>
     </div>
   </div>
 </div>
+<script>
+  document.getElementById('edit_service_promotion_start_date_<%= service_promotion.id %>').addEventListener('change', (e) => {
+    if (document.getElementById('edit_service_promotion_start_date_<%= service_promotion.id %>').value != '' && document.getElementById('edit_service_promotion_end_date_<%= service_promotion.id %>').value != '' && document.getElementById('edit_service_promotion_discount_percentage_<%= service_promotion.id %>').value != '') {
+      document.getElementById('submit_<%= service_promotion.id %>').disabled = false;
+    } else {
+      document.getElementById('submit_<%= service_promotion.id %>').disabled = true;
+    }
+  });
+  document.getElementById('edit_service_promotion_end_date_<%= service_promotion.id %>').addEventListener('change', (e) => {
+    if (document.getElementById('edit_service_promotion_start_date_<%= service_promotion.id %>').value != '' && document.getElementById('edit_service_promotion_end_date_<%= service_promotion.id %>').value != '' && document.getElementById('edit_service_promotion_discount_percentage_<%= service_promotion.id %>').value != '') {
+      document.getElementById('submit_<%= service_promotion.id %>').disabled = false;
+    } else {
+      document.getElementById('submit_<%= service_promotion.id %>').disabled = true;
+    }
+  });
+  document.getElementById('edit_service_promotion_discount_percentage_<%= service_promotion.id %>').addEventListener('change', (e) => {
+    if (document.getElementById('edit_service_promotion_start_date_<%= service_promotion.id %>').value != '' && document.getElementById('edit_service_promotion_end_date_<%= service_promotion.id %>').value != '' && document.getElementById('edit_service_promotion_discount_percentage_<%= service_promotion.id %>').value != '') {
+      document.getElementById('submit_<%= service_promotion.id %>').disabled = false;
+    } else {
+      document.getElementById('submit_<%= service_promotion.id %>').disabled = true;
+    }
+  });
+</script>
