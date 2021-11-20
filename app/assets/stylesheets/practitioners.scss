@@ -171,6 +171,13 @@
   align-items: flex-start;
 }
 
+.practitioner-service-icons {
+  text-align: center;
+  div, p {
+    flex: 1 0 24%;
+  }
+}
+
 .practitioner-application {
   margin: 5rem auto 2rem;
   h1, p {

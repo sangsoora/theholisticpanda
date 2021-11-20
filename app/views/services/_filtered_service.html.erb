@@ -8,11 +8,18 @@
         <%= link_to service.name, service_path(service) %>
       </h3>
       <% if service.service_promotions.exists? && service.active_promotion? %>
-        <div class="d-flex" style="flex: 1 0 10%;">
+        <div class="d-flex" style="flex: 1 0 20%;">
           <div class="promo-rectangle">
             <%= service.last_promotion.discount_percentage %>% off
           </div>
           <div class="promo-triangle"></div>
+          <p class="small" style="color: red; margin-top: 0.125rem;">
+            <% if (service.last_promotion.end_date.to_date - Time.now.to_date).to_i > 1 %>
+              (<%= (service.last_promotion.end_date.to_date - Time.now.to_date).to_i %> days left)
+            <% else %>
+              (<%= ((service.last_promotion.end_date.to_time - Time.now.to_time) / 1.hours).to_i  %> hours left)
+            <% end %>
+          </p>
         </div>
       <% end %>
     </div>
@@ -27,11 +34,18 @@
       <p class="m-0"><%= service.service_type.capitalize %></p>
     </div>
     <% if service.service_promotions.exists? && service.active_promotion? %>
-      <div class="d-flex" style="flex: 1 0 10%;">
+      <div class="d-flex" style="flex: 1 0 20%;">
         <div class="promo-rectangle">
           <%= service.last_promotion.discount_percentage %>% off
         </div>
         <div class="promo-triangle"></div>
+        <p class="small" style="color: red; margin-top: 0.125rem;">
+          <% if (service.last_promotion.end_date.to_date - Time.now.to_date).to_i > 1 %>
+            (<%= (service.last_promotion.end_date.to_date - Time.now.to_date).to_i %> days left)
+          <% else %>
+            (<%= ((service.last_promotion.end_date.to_time - Time.now.to_time) / 1.hours).to_i  %> hours left)
+          <% end %>
+        </p>
       </div>
     <% end %>
     <div class="fav-btn" id="fav-btn-<%= service.id %>">
@@ -87,9 +101,9 @@
         <div style="flex: 0 0 45%;">
           <label>PRICE</label>
           <% if service.service_promotions.exists? && service.active_promotion? %>
-            <p style="color: red; font-weight: 600;">CA$ <%= (service.price - (service.price * service.last_promotion.discount_percentage / 100)).to_f.round(2) %></p>
+            <p style="color: red; font-weight: 600;">CA$ <%= sprintf('%.2f', (service.price - (service.price * service.last_promotion.discount_percentage / 100)).to_f.round(2)) %></p>
           <% else %>
-            <p>CA$ <%= service.price.to_f.round(2) %></p>
+            <p>CA$ <%= service.price %></p>
           <% end %>
         </div>
         <div style="flex: 0 0 45%;">
@@ -151,9 +165,9 @@
       <div style="flex: 0 0 45%;">
         <label>PRICE</label>
         <% if service.service_promotions.exists? && service.active_promotion? %>
-          <p style="color: red; font-weight: 600;">CA$ <%= (service.price - (service.price * service.last_promotion.discount_percentage / 100)).to_f.round(2) %></p>
+          <p style="color: red; font-weight: 600;">CA$ <%= sprintf('%.2f', (service.price - (service.price * service.last_promotion.discount_percentage / 100)).to_f.round(2)) %></p>
         <% else %>
-          <p>CA$ <%= service.price.to_f.round(2) %></p>
+          <p>CA$ <%= service.price %></p>
         <% end %>
       </div>
       <div style="flex: 0 0 45%;">
@@ -162,8 +176,8 @@
       </div>
       <% if service.reviews.count > 0 %>
         <div style="flex: 0 0 45%;">
-            <label>RATING</label>
-            <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+          <label>RATING</label>
+          <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
         </div>
       <% end %>
     </div>

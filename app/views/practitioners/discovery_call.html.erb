@@ -6,9 +6,13 @@
           <h2><%= @service.name %></h2>
         </div>
         <div class="service-icons">
-          <p><i class="fas fa-coins mr-2 pink-icon"></i> Free</p>
+          <div class="text-left">
+            <p><i class="fas fa-coins mr-2 pink-icon"></i> Free</p>
+          </div>
           <p><i class="fas fa-location-arrow mr-2 pink-icon"></i> <%= @service.service_type %></p>
-          <p><i class="far fa-clock mr-2 pink-icon"></i> <%= @service.duration %>m</p>
+          <div class="text-right">
+            <p><i class="far fa-clock mr-2 pink-icon"></i> <%= @service.duration %>m</p>
+          </div>
         </div>
         <p>Book a complimentary discovery call with <%= @practitioner.user.first_name %> to learn more about <%= @practitioner.user.first_name %>'s services.</p>
         <br>
