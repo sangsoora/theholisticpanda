@@ -3,11 +3,18 @@
     <div class="favorite-service-title">
       <h3><%= link_to favorite.service.name, service_path(favorite.service) %></h3>
       <% if favorite.service.service_promotions.exists? && favorite.service.active_promotion? %>
-        <div class="d-flex" style="flex: 1 0 20%;">
+        <div class="d-flex" style="flex: 1 0 35%;">
           <div class="promo-rectangle">
             <%= favorite.service.last_promotion.discount_percentage %>% off
           </div>
           <div class="promo-triangle"></div>
+          <p class="small" style="color: red; margin-top: 0.125rem;">
+            <% if (favorite.service.last_promotion.end_date.to_date - Time.now.to_date).to_i > 1 %>
+               (<%= (favorite.service.last_promotion.end_date.to_date - Time.now.to_date).to_i %> days left)
+            <% else %>
+               (<%= ((favorite.service.last_promotion.end_date.to_time - Time.now.to_time) / 1.hours).to_i  %> hours left)
+            <% end %>
+          </p>
         </div>
       <% end %>
       <div class="fav-btn">
@@ -37,9 +44,9 @@
       <div class="favorite-service-detail">
         <label>PRICE</label>
         <% if favorite.service.service_promotions.exists? && favorite.service.active_promotion? %>
-          <p style="color: red; font-weight: 600; margin-bottom: 0.25rem;">CA$ <%= (favorite.service.price - (favorite.service.price * favorite.service.last_promotion.discount_percentage / 100)).to_f.round(2) %></p>
+          <p style="color: red; font-weight: 600; margin-bottom: 0.25rem;">CA$ <%= sprintf('%.2f', (favorite.service.price - (favorite.service.price * favorite.service.last_promotion.discount_percentage / 100)).to_f.round(2)) %></p>
         <% else %>
-          <p>CA$ <%= favorite.service.price.to_f.round(2) %></p>
+          <p>CA$ <%= favorite.service.price %></p>
         <% end %>
       </div>
       <div class="favorite-service-detail">

@@ -305,6 +305,12 @@
     display: flex;
     justify-content: space-between;
   }
+  .service-icons {
+    text-align: center;
+    div, p {
+      flex: 1 0 24%;
+    }
+  }
 }
 
 .service-practitioner {
@@ -496,7 +502,7 @@ input[type='radio']:checked:after {
 }
 
 .promo-triangle {
-  margin-right: 1rem;
+  margin-right: 0.5rem;
   width: 0;
   height: 0;
   border-top: 13px solid transparent;
