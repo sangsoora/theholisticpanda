@@ -4,10 +4,12 @@ class RegistrationsController < Devise::RegistrationsController
 
   def create
     super
-    if session[:previous_url] == '/become-a-practitioner'
-      @user.update(signup_path: session[:previous_url])
-    elsif session[:previous_url].start_with?('/services/')
-      @user.update(signup_path: session[:previous_url])
+    if session[:previous_url]
+      if session[:previous_url] == '/become-a-practitioner'
+        @user.update(signup_path: session[:previous_url])
+      elsif session[:previous_url].start_with?('/services/')
+        @user.update(signup_path: session[:previous_url])
+      end
     end
     unless params[:user][:invite_token] == ''
       @referred_user = ReferredUser.find_by(invite_token: params[:user][:invite_token])

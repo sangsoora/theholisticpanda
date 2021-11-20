@@ -83,9 +83,13 @@
                   <% end %>
                 </div>
                 <div class="practitioner-service-icons">
-                  <p><i class="fas fa-coins mr-2 pink-icon"></i>Free</p>
+                  <div class="text-left">
+                    <p><i class="fas fa-coins mr-2 pink-icon"></i>Free</p>
+                  </div>
                   <p><i class="fas fa-location-arrow mr-2 pink-icon"></i> <%= Service.first.service_type %></p>
-                  <p><i class="far fa-clock mr-2 pink-icon"></i> <%= Service.first.duration %>m</p>
+                  <div class="text-right">
+                    <p><i class="far fa-clock mr-2 pink-icon"></i> <%= Service.first.duration %>m</p>
+                  </div>
                 </div>
               </div>
               <div class="practitioner-service-description">
@@ -106,18 +110,32 @@
                 </div>
                 <div class="practitioner-service-icons">
                   <% if service.reviews.count > 0 %>
-                    <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+                    <div class="text-left">
+                      <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.rating_avg %> (<%= service.reviews.count %>)</p>
+                    </div>
                   <% end %>
                   <% if service.service_promotions.exists? && service.active_promotion? %>
-                    <div>
-                      <p style="color: red; font-weight: 600; margin-bottom: 0.25rem;"><i class="fas fa-coins mr-2 pink-icon"></i>CA$ <%= (service.price - (service.price * service.last_promotion.discount_percentage / 100)).to_f.round(2) %></p>
-                      <p style="color: #366735;"><span style="text-decoration: line-through;"> CA$ <%= service.price.to_f.round(2) %> </span> (<%= service.last_promotion.discount_percentage %>% off)</p>
+                    <div <%= service.reviews.count == 0 ? 'class=text-left' : '' %>>
+                      <p style="color: red; font-weight: 600; margin-bottom: 0.125rem;"><i class="fas fa-coins mr-2 pink-icon"></i>CA$ <%= sprintf('%.2f', (service.price - (service.price * service.last_promotion.discount_percentage / 100)).to_f.round(2)) %></p>
+                      <p class="small" style="color: red; margin-bottom: 0.125rem;">
+                        <% if (service.last_promotion.end_date.to_date - Time.now.to_date).to_i > 1 %>
+                           (<%= (service.last_promotion.end_date.to_date - Time.now.to_date).to_i %> days left)
+                        <% else %>
+                           (<%= ((service.last_promotion.end_date.to_time - Time.now.to_time) / 1.hours).to_i  %> hours left)
+                        <% end %>
+                      </p>
+                      <p class="small" style="color: #366735;"><span style="text-decoration: line-through;"> CA$ <%= service.price %> </span> (<%= service.last_promotion.discount_percentage %>% off)
+                      </p>
                     </div>
                   <% else %>
-                    <p><i class="fas fa-coins mr-2 pink-icon"></i>CA$ <%= service.price.to_f.round(2) %></p>
+                    <div <%= service.reviews.count == 0 ? 'class=text-left' : '' %>>
+                      <p><i class="fas fa-coins mr-2 pink-icon"></i>CA$ <%= service.price %></p>
+                    </div>
                   <% end %>
                   <p><i class="fas fa-location-arrow mr-2 pink-icon"></i> <%= service.service_type %></p>
-                  <p><i class="far fa-clock mr-2 pink-icon"></i> <%= service.duration %>m</p>
+                  <div class="text-right">
+                    <p><i class="far fa-clock mr-2 pink-icon"></i> <%= service.duration %>m</p>
+                  </div>
                 </div>
               </div>
               <div class="practitioner-service-description">

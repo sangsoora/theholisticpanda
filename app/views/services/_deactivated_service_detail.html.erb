@@ -18,7 +18,7 @@
 <p>Specialty: <%= service.specialty.name %></p>
 <p>Service Type: <%= service.service_type.capitalize %></p>
 <p>Duration: <%= service.duration %>m</p>
-<p>Service Price: CA$ <%= service.price.to_f.round(2) %></p>
+<p>Service Price: CA$ <%= service.price %></p>
 <p style="height: 72px;">Related Health Goal(s): <%= service.health_goals.pluck(:name).join(', ') %></p>
 <div class="practitioner-service-description">
   <p class="short-description"><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
