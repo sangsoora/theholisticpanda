@@ -44,9 +44,9 @@
       <div class="favorite-service-detail">
         <label>PRICE</label>
         <% if favorite.service.service_promotions.exists? && favorite.service.active_promotion? %>
-          <p style="color: red; font-weight: 600; margin-bottom: 0.25rem;">CA$ <%= sprintf('%.2f', (favorite.service.price - (favorite.service.price * favorite.service.last_promotion.discount_percentage / 100)).to_f.round(2)) %></p>
+          <p style="color: red; font-weight: 600; margin-bottom: 0.25rem;">CA$ <%= number_with_precision((favorite.service.price - (favorite.service.price * favorite.service.last_promotion.discount_percentage / 100)), precision: 2, delimiter: ',') %></p>
         <% else %>
-          <p>CA$ <%= favorite.service.price %></p>
+          <p>CA$ <%= number_with_precision(favorite.service.price, precision: 2, delimiter: ',') %></p>
         <% end %>
       </div>
       <div class="favorite-service-detail">

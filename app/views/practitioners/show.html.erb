@@ -116,20 +116,21 @@
                   <% end %>
                   <% if service.service_promotions.exists? && service.active_promotion? %>
                     <div <%= service.reviews.count == 0 ? 'class=text-left' : '' %>>
-                      <p style="color: red; font-weight: 600; margin-bottom: 0.125rem;"><i class="fas fa-coins mr-2 pink-icon"></i>CA$ <%= sprintf('%.2f', (service.price - (service.price * service.last_promotion.discount_percentage / 100)).to_f.round(2)) %></p>
+                      <p style="color: red; font-weight: 600; margin-bottom: 0.125rem;"><i class="fas fa-coins mr-2 pink-icon"></i>CA$ <%= number_with_precision((service.price - (service.price * service.last_promotion.discount_percentage / 100)), precision: 2, delimiter: ',') %></p>
                       <p class="small" style="color: red; margin-bottom: 0.125rem;">
                         <% if (service.last_promotion.end_date.to_date - Time.now.to_date).to_i > 1 %>
-                           (<%= (service.last_promotion.end_date.to_date - Time.now.to_date).to_i %> days left)
+                          (<%= (service.last_promotion.end_date.to_date - Time.now.to_date).to_i %> days left)
+                        <% elsif ((service.last_promotion.end_date.to_time - Time.now.to_time) / 1.hours).to_i > 1 %>
+                          (<%= ((service.last_promotion.end_date.to_time - Time.now.to_time) / 1.hours).to_i  %> hours left)
                         <% else %>
-                           (<%= ((service.last_promotion.end_date.to_time - Time.now.to_time) / 1.hours).to_i  %> hours left)
+                          (<%= ((service.last_promotion.end_date.to_time - Time.now.to_time) / 1.minutes).to_i  %> minutes left)
                         <% end %>
                       </p>
-                      <p class="small" style="color: #366735;"><span style="text-decoration: line-through;"> CA$ <%= service.price %> </span> (<%= service.last_promotion.discount_percentage %>% off)
-                      </p>
+                      <p class="small" style="color: #366735;"><span style="text-decoration: line-through;"> CA$ <%= number_with_precision(service.price, precision: 2, delimiter: ',') %> </span> (<%= service.last_promotion.discount_percentage %>% off)</p>
                     </div>
                   <% else %>
                     <div <%= service.reviews.count == 0 ? 'class=text-left' : '' %>>
-                      <p><i class="fas fa-coins mr-2 pink-icon"></i>CA$ <%= service.price %></p>
+                      <p><i class="fas fa-coins mr-2 pink-icon"></i>CA$ <%= number_with_precision(service.price, precision: 2, delimiter: ',') %></p>
                     </div>
                   <% end %>
                   <p><i class="fas fa-location-arrow mr-2 pink-icon"></i> <%= service.service_type %></p>
