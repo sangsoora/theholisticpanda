@@ -1,20 +1,23 @@
 Dear <%= @practitioner.user.full_name %>,
 
-We noticed you didn’t finish setting up your profile. Followings are the mandatory fields for your profiles to appear in public pages, create new services and charge the clients after the session.
+We noticed you didn't finish setting up your profile. The following fields need to be filled out to display your profile to users, create your services, and run payment for your completed sessions.
 
 Mandatory fields
 
 <% if !@practitioner.working_hours? %>
-  Working hours is required for the clients to choose a desired time in order to complete a booking request with you.
-<% elsif !@practitioner.bio? %>
-  About Me is required field to describe about yourself for the clients to choose you for potentail booking.
-<% elsif !@practitioner.user.photo.attached? %>
-  Profile picture is required field to describe about yourself for the clients to choose you for potentail booking.
-<% elsif !@practitioner.stripe_account_id? %>
-  In order to charge the bookings, you’ll need to complete the payout account setup with our payment partner Stripe.
+  Your working hours need to be set for clients to submit a booking request to you.
+<% end %>
+<% if !@practitioner.bio? %>
+  Your 'About me' section helps to give your clients a better understanding of who you are.
+<% end %>
+<% if !@practitioner.user.photo.attached? %>
+  Your profile photo helps clients identify you and is an important element of your online presence.
+<% end %>
+<% if !@practitioner.stripe_account_id? %>
+  To charge for your completed sessions and receive payment, you'll need to set up your payout account with our payment provider Stripe.
 <% end %>
 
-While other fileds are optional, your profile page helps potential clients to get to know you. Having a completed profile page gives them a better picture of who you are and what it’d be like to work with you!
+While the other fields are optional, remember your profile page helps potential clients to get to know you! Having a completed profile gives them a better picture of what it'd be like to work with you!
 
 <%= practitioner_url(@practitioner) %>
 
