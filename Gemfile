@@ -59,6 +59,7 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'ckeditor'
 gem 'paperclip'
 gem 'social-share-button'
+gem 'whenever', require: false
 
 # Use ActiveStorage variant
 gem 'mini_magick', '~> 4.8'

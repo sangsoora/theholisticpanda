@@ -35,7 +35,7 @@
                           data-type="dollar" data-discount="<%= promo.detail.split('$').first %>"
                         <% end %>
                         >
-                        <%= promo.name %> - <%= promo.detail %> (expires in <%= distance_of_time_in_words(Time.now, promo.expires_at) %>)
+                        <%= promo.name %> - <%= promo.detail %> (expires in <%= distance_of_time_in_words(Time.current, promo.expires_at) %>)
                       </option>
                     <% end %>
                   </select>

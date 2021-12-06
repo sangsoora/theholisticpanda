@@ -9,4 +9,10 @@ class PractitionerMailer < ApplicationMailer
 
     mail(to: @practitioner.user.email, subject: 'Your practitioner application has been submitted.')
   end
+
+  def profile_reminder
+    @practitioner = params[:practitioner]
+
+    mail(to: @practitioner.user.email, subject: 'Complete setting up your profile.')
+  end
 end

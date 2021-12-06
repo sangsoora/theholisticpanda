@@ -1,0 +1,42 @@
+<style type="text/css">
+
+</style>
+
+<div style='background-color: #faf2f2; padding: 20px;'>
+  <div style='max-width: 300px; margin: 0 auto;'>
+    <a href="https://www.theholisticpanda.com" target="_blank" style="text-decoration: none;"><img src="https://<%= ENV['CDN_URL'] %>/logo.png" alt="TheHolisticPanda" style="width: 300px;"></a>
+  </div>
+  <h3>Dear <%= @practitioner.user.full_name %>,</h3>
+
+  <p>We noticed you didn't finish setting up your profile. The following fields need to be filled out to display your profile to users, create your services, and run payment for your completed sessions.</p>
+
+  <h4>Mandatory fields</h4>
+  <ul>
+    <% if !@practitioner.working_hours? %>
+        <li><p>Your working hours need to be set for clients to submit a booking request to you.</p></li>
+    <% end %>
+    <% if !@practitioner.bio? %>
+        <li><p>Your 'About me' section helps to give your clients a better understanding of who you are.</p></li>
+    <% end %>
+    <% if !@practitioner.user.photo.attached? %>
+        <li><p>Your profile photo helps clients identify you and is an important element of your online presence.</p></li>
+    <% end %>
+    <% if !@practitioner.stripe_account_id? %>
+        <li><p>To charge for your completed sessions and receive payment, you'll need to set up your payout account with our payment provider Stripe.</p></li>
+    <% end %>
+  </ul>
+
+  <p>While the other fields are optional, remember your profile page helps potential clients to get to know you! Having a completed profile gives them a better picture of what it'd be like to work with you!</p>
+  <br>
+  <%= link_to 'Complete profile page', practitioner_url(@practitioner), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
+  <br>
+  <p>If you have any questions or need support, please contact us at <a href="mailto:practitioner@theholisticpanda.com" style="text-decoration: none; color: #366735;">practitioners@theholisticpanda.com</a>. We're here to help!</p>
+  <br>
+  <p>Yours,</p>
+  <p>The Holistic Panda Team</p>
+  <div style='margin: 32px auto 16px; text-align: center;'>
+    <p>© <%= Time.current.year %> HolisticPanda, Inc. All rights reserved</p>
+    <a href="https://www.theholisticpanda.com/terms" target="_blank" style='text-decoration: none; color: #366735; margin-right: 16px;'>Terms of use</a>
+    <a href="https://www.theholisticpanda.com/privacy" target="_blank"  style="text-decoration: none; color: #366735;">Privacy policy</a>
+  </div>
+</div>
