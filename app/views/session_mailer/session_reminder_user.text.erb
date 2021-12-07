@@ -1,8 +1,6 @@
 Dear <%= @session.user.first_name %>,
 
-Thank you for booking a session with <%= @practitioner.user.full_name %>.
-
-Here is a summary of your session:
+Here’s a kind reminder for your upcoming session with <%= @practitioner.user.full_name %>.
 
 Service: <%= @session.service.name %>
 
@@ -12,18 +10,10 @@ Duration: <%= @session.service.duration %>m
 
 Session Type: <%= @session.session_type %>
 
-Total Price: CA$ <%= @session.estimate_price.round(2) %>
-
 <% if @session.session_type == 'Virtual' %>
 Link for the session: <%= @session.link %>
 <% else %>
 Session location: <%= @session.address %>
-<% end %>
-
-<% if @session.service.default_service %>
-If you are no longer able to make this appointment, please go to session detail to cancel. Please note that 24 hours notice is required for the cancellation of a session.
-<% else %>
-If you are no longer able to make this appointment, please go to session detail to cancel. Please note that 24 hours notice is required for the cancellation of a session. Missed session or cancellation within 24 hours will be charged as if attended.
 <% end %>
 
 If you are satisfied with your session, please do not forget to leave your practitioner a review and help others in our community find the right therapy for their needs.

@@ -1,0 +1,12 @@
+Dear <%= @practitioner.user.first_name %>,
+
+Don’t leave your client hanging!
+
+You have a session request from <%= @session.user.full_name %> for <%= @session.service.name %> that needs your confirmation. If none of the proposed times are workable for you, please decline the session request and message the client in the chatbox to coordinate a new time.
+
+<%= link_to session_url(@session) %>
+
+If you have any questions or need support, please contact us at practitioner@theholisticpanda.com. We're here to help!
+
+Yours,
+The Holistic Panda Team

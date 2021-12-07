@@ -1,0 +1,18 @@
+Dear <%= @practitioner.user.first_name %>,
+
+We noticed you didn’t charge your session <%= @session.service.name %> with <%= @session.user.full_name %>. You’ll need to do so to receive your payout.
+
+Here is a simple user guide on how to charge your session:
+
+Go to link below or click “sessions as practitioner” under the drop-down menu after logging into your account
+
+Go to the “Pending payment” tab
+
+Find the completed session and click “Charge”
+
+<%= practitioner_sessions_url %>
+
+If you have any questions or need support, please contact us at practitioner@theholisticpanda.com. We're here to help!
+
+Yours,
+The Holistic Panda Team
