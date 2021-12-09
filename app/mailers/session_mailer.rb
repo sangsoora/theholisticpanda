@@ -222,13 +222,18 @@ class SessionMailer < ApplicationMailer
     else
       @practitioner = @session.practitioner
     end
-    mail(to: @session.user.email, subject: "You have a pending session request.")
+    mail(to: @practitioner.user.email, subject: "You have a pending session request.")
   end
 
   def charge_reminder
     @session = params[:session]
     @practitioner = @session.practitioner
-    mail(to: @practitioner.user.email, subject: "Don’t forget to charge your session!")
+    if @session.free_session
+      subject = "Don't forget to click 'Completed' on your session!"
+    else
+      subject = "Don’t forget to charge your session!"
+    end
+    mail(to: @practitioner.user.email, subject: subject)
   end
 
   def complete_request_reminder
@@ -238,7 +243,7 @@ class SessionMailer < ApplicationMailer
     else
       @practitioner = @session.practitioner
     end
-    mail(to: @session.user.email, subject: "Complete your booking!")
+    mail(to: @session.user.email, subject: "Still on your mind?")
   end
 
   def session_reminder_practitioner

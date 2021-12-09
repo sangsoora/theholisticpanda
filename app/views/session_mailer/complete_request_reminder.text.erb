@@ -1,0 +1,11 @@
+Dear <%= @session.user.first_name %>,
+
+Thank you for visiting The Holistic Panda. We noticed you didn’t complete your booking for <%= @session.service.name %> with <%= @practitioner.user.full_name %>.
+Don't worry! We've saved it for you.
+
+Complete your booking at <%= new_session_payment_url(@session) %>
+
+If you have any questions or need assistance with your booking, please contact our Panda concierge at <a href="mailto:hello@theholisticpanda.com" style="text-decoration: none; color: #366735;">hello@theholisticpanda.com</a>. We’re here to help!
+
+Yours,
+The Holistic Panda Team

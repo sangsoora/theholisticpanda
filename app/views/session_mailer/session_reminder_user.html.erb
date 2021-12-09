@@ -21,6 +21,11 @@
   <%= link_to 'Review your session detail', session_url(@session), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
   <br>
   <br>
+  <% if @session.service.default_service %>
+    <p>If you are no longer able to make this appointment, please go to session detail to cancel. Please note that <strong>24 hours notice</strong> is required for the cancellation of a session.</p>
+  <% else %>
+    <p>If you are no longer able to make this appointment, please go to session detail to cancel. Please note that <strong>24 hours notice</strong> is required for the cancellation of a session. Missed session or cancellation within 24 hours <strong>will be charged</strong> as if attended.</p>
+  <% end %>
   <p>If you are satisfied with your session, please do not forget to leave your practitioner a review and help others in our community find the right therapy for their needs.</p>
   <br>
   <p>Yours,</p>

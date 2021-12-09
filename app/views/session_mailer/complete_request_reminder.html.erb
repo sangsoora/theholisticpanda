@@ -8,12 +8,12 @@
   </div>
   <h3>Dear <%= @session.user.first_name %>,</h3>
 
-  <p>Thank you for visiting The Holistic Panda. We noticed you didn’t complete your booking for <%= @session.service.name %> with <%= @practitioner.user.full_name %>. We hope you didn’t experience any problems when trying to submit a session request.</p>
+  <p>Thank you for visiting The Holistic Panda. We noticed you didn’t complete your booking for <%= @session.service.name %> with <%= @practitioner.user.full_name %>.</p>
+  <p><strong>Don't worry! We've saved it for you.</strong></p>
   <br>
-  <%= link_to 'Complete your booking', '', target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
-  <%= link_to 'Start new booking', '', target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
+  <%= link_to 'Complete your booking', new_session_payment_url(@session), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
   <br>
-  <p>If you have any questions or need assistance deciding which wellness services or providers are best suitable for you, please contact our Panda concierge at <a href="mailto:hello@theholisticpanda.com" style="text-decoration: none; color: #366735;">hello@theholisticpanda.com</a>. We’re here to help!</p>
+  <p>If you have any questions or need assistance with your booking, please contact our Panda concierge at <a href="mailto:hello@theholisticpanda.com" style="text-decoration: none; color: #366735;">hello@theholisticpanda.com</a>. We’re here to help!</p>
   <br>
   <p>Yours,</p>
   <p>The Holistic Panda Team</p>

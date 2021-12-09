@@ -1,14 +1,26 @@
 Dear <%= @practitioner.user.first_name %>,
 
-We noticed you didn’t charge your session <%= @session.service.name %> with <%= @session.user.full_name %>. You’ll need to do so to receive your payout.
+<% if @session.free_session %>
+  Don't forget to click 'Completed' on your completed session. This applies to sessions with no charges, such as a free assessment/session or an influencer collaboration with The Holistic Panda.
+<% else %>
+  We noticed you didn’t charge your session <%= @session.service.name %> with <%= @session.user.full_name %>. You’ll need to do so to receive your payout.
+<% end %>
 
-Here is a simple user guide on how to charge your session:
+<% if @session.free_session %>
+  Here is a simple user guide on how to do this:
+<% else %>
+  Here is a simple user guide on how to charge your session:
+<% end %>
 
-Go to link below or click “sessions as practitioner” under the drop-down menu after logging into your account
+Go to link below or click "sessions as practitioner" under the drop-down menu after logging into your account.
 
-Go to the “Pending payment” tab
+Go to the "Pending payment" tab.
 
-Find the completed session and click “Charge”
+<% if @session.free_session %>
+  Find the completed session and click "Completed".
+<% else %>
+  Find the completed session and click "Charge".
+<% end %>
 
 <%= practitioner_sessions_url %>
 

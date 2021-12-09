@@ -8,13 +8,25 @@
   </div>
   <h3>Dear <%= @practitioner.user.first_name %>,</h3>
 
-  <p>We noticed you didn’t charge your session <%= @session.service.name %> with <%= @session.user.full_name %>. You’ll need to do so to receive your payout.</p>
+  <% if @session.free_session %>
+    <p>Don't forget to click 'Completed' on your completed session. This applies to sessions with no charges, such as a free assessment/session or an influencer collaboration with The Holistic Panda.</p>
+  <% else %>
+    <p>We noticed you didn’t charge your session <%= @session.service.name %> with <%= @session.user.full_name %>. You’ll need to do so to receive your payout.</p>
+  <% end %>
 
-  <h4>Here is a simple user guide on how to charge your session:</h4>
+  <% if @session.free_session %>
+    <h4>Here is a simple user guide on how to do this:</h4>
+  <% else %>
+    <h4>Here is a simple user guide on how to charge your session:</h4>
+  <% end %>
   <ul>
-    <li><p>Click button below or click “sessions as practitioner” under the drop-down menu after logging into your account</p></li>
-    <li><p>Go to the “Pending payment” tab</p></li>
-    <li><p>Find the completed session and click “Charge”</p></li>
+    <li><p>Click button below or click "sessions as practitioner" under the drop-down menu after logging into your account.</p></li>
+    <li><p>Go to the "Pending payment" tab.</p></li>
+    <% if @session.free_session %>
+      <li><p>Find the completed session and click "Completed".</p></li>
+    <% else %>
+      <li><p>Find the completed session and click "Charge".</p></li>
+    <% end %>
   </ul>
 
   <br>

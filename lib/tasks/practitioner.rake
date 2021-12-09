@@ -1,5 +1,5 @@
 namespace :practitioner do
-  desc 'Remind practitioner to complete mandatory fields in profile'
+  desc 'Remind practitioner to complete mandatory fields in profile running daily'
   task profile_reminder: :environment do
     Practitioner.all.each do |practitioner|
       if practitioner.need_profile_reminder? && !practitioner.activated_at.nil?

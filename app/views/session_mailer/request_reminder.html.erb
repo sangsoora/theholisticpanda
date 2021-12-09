@@ -10,9 +10,10 @@
 
   <h4>Don’t leave your client hanging!</h4>
 
-  <p>You have a session request from <%= @session.user.full_name %> for <%= @session.service.name %> that needs your confirmation. If none of the proposed times are workable for you, please decline the session request and message the client in the chatbox to coordinate a new time.</p>
+  <p>You have a session request from <%= @session.user.full_name %> for <%= @session.service.name %> that needs your confirmation.</p>
+  <p>If none of the proposed times are workable for you, please decline the session request and message the client in the chatbox to propose a new time and specify your time zone.</p>
   <br>
-  <%= link_to 'Review your session request detail', session_url(@session), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
+  <%= link_to 'Confirm your session request', session_url(@session), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
   <br>
   <p>If you have any questions or need support, please contact us at <a href="mailto:practitioner@theholisticpanda.com" style="text-decoration: none; color: #366735;">practitioner@theholisticpanda.com</a>. We're here to help!</p>
   <br>

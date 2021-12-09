@@ -24,6 +24,11 @@
   <%= link_to 'Review your session detail', session_url(@session), target: "_blank", style: 'text-decoration: none; background-color: #e57850!important; color: white; padding: 8px 24px; border-radius: 3px;' %>
   <br>
   <br>
+  <% if @session.service.default_service %>
+    <p>Please note that <strong>24 hours notice</strong> is required for the cancellation of a session. If you can no longer make this session, please cancel it and notify your client right away through the chatbox.</p>
+  <% else %>
+    <p>Please note that <strong>24 hours notice</strong> is required for the cancellation of a session. If you can no longer make this session, please cancel it and notify your client right away through the chatbox. If you have to cancel due to extenuating circumstances, please let us know at <a href="mailto:hello@theholisticpanda.com" style="text-decoration: none; color: #366735;">hello@theholisticpanda.com</a>. Otherwise, a late cancellation fee of 35% of the session's price will be charged. For our late cancellation policy, please refer to your practitioner agreement.</p>
+  <% end %>
   <p>If your client loved the session, please encourage them to leave you a review and rating so others in the community can learn more about your services!</p>
   <br>
   <p>Yours,</p>

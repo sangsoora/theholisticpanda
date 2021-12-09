@@ -20,6 +20,12 @@ Session location: <%= @session.address %>
 <%= @session.user.first_name %>’s note on reason for attending the session: <%= @session.message %>
 <% end %>
 
+<% if @session.service.default_service %>
+Please note that 24 hours notice is required for the cancellation of a session. If you can no longer make this session, please cancel it and notify your client right away through the chatbox.</p>
+<% else %>
+Please note that 24 hours notice is required for the cancellation of a session. If you can no longer make this session, please cancel it and notify your client right away through the chatbox. If you have to cancel due to extenuating circumstances, please let us know at hello@theholisticpanda.com. Otherwise, a late cancellation fee of 35% of the session's price will be charged. For our late cancellation policy, please refer to your practitioner agreement.</p>
+<% end %>
+
 If your client loved the session, please encourage them to leave you a review and rating so others in the community can learn more about your services!
 
 Yours,
