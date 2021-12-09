@@ -1,8 +1,6 @@
 Dear <%= @session.user.first_name %>,
 
-Thank you for booking a session with <%= @practitioner.user.full_name %>.
-
-Here is a summary of your session:
+Here’s a kind reminder for your upcoming session with <%= @practitioner.user.full_name %>.
 
 Service: <%= @session.service.name %>
 
@@ -11,8 +9,6 @@ Starting time: <%= @session.start_time.in_time_zone(@session.user.timezone).strf
 Duration: <%= @session.service.duration %>m
 
 Session Type: <%= @session.session_type %>
-
-Total Price: CA$ <%= @session.estimate_price.round(2) %>
 
 <% if @session.session_type == 'Virtual' %>
 Link for the session: <%= @session.link %>
