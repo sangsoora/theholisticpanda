@@ -74,12 +74,15 @@
   padding: 0.5rem 1rem;
   position: relative;
 }
+
 .my-message-bubble p, .other-message-bubble p {
+  word-wrap: break-word;
+  max-width: 45vw;
   margin-bottom: 0;
   text-align: left;
   i {
     font-size: 0.75rem;
-    opacity: 0.5;
+    opacity: 0.8;
     margin-left: 0.5rem;
   }
 }
@@ -184,6 +187,9 @@ tr .active {
   }
   .messages {
     padding: 1rem 0;
+  }
+  .my-message-bubble p, .other-message-bubble p {
+    max-width: 70vw;
   }
 }
 
