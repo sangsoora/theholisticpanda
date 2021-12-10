@@ -96,10 +96,7 @@
           </div>
           <div class="service-middle-column">
             <div class="service-list-item-infos">
-              <p <%= 'class=short' if service.description.length >= 150 %> ><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
-              <% if service.description.length >= 150 %>
-                <%= link_to 'Read more', service_path(service) %>
-              <% end %>
+              <p id="service-description-<%= service.id %>"><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
             </div>
             <div class="service-list-item-goals mt-2">
               <% if user_signed_in? %>
@@ -186,10 +183,7 @@
             </div>
           </div>
           <div class="service-list-item-infos">
-            <p <%= 'class=short' if service.description.length >= 150 %> ><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
-            <% if service.description.length >= 150 %>
-              <%= link_to 'Read more', service_path(service) %>
-            <% end %>
+            <p id="service-description-mobile-<%= service.id %>"><%= service.description.gsub(/\n/, '<br/>').html_safe %></p>
           </div>
           <div class="d-flex justify-content-between mt-2">
             <div style="flex: 0 0 45%;">
@@ -226,3 +220,27 @@
     <% end %>
   </div>
 </div>
+<script>
+  <% @specialty_services.each do |service| %>
+    let service<%= service.id %> = document.getElementById('service-description-' + <%= service.id %>);
+    if (service<%= service.id %>.clientHeight > 128) {
+      let expand<%= service.id %> = document.createElement("a");
+      expand<%= service.id %>.innerText = 'Read more';
+      expand<%= service.id %>.href = '/services/<%= service.id %>';
+      service<%= service.id %>.parentNode.append(expand<%= service.id %>);
+    }
+    while (service<%= service.id %>.clientHeight > 128) {
+      service<%= service.id %>.innerHTML = service<%= service.id %>.innerHTML.replace(/\W*\s(\S)*$/, '...');
+    }
+    let serviceMobile<%= service.id %> = document.getElementById('service-description-mobile-' + <%= service.id %>);
+    if (serviceMobile<%= service.id %>.clientHeight > 84) {
+      let expandMobile<%= service.id %> = document.createElement("a");
+      expandMobile<%= service.id %>.innerText = 'Read more';
+      expandMobile<%= service.id %>.href = '/services/<%= service.id %>';
+      serviceMobile<%= service.id %>.parentNode.append(expandMobile<%= service.id %>);
+    }
+    while (serviceMobile<%= service.id %>.clientHeight > 84) {
+      serviceMobile<%= service.id %>.innerHTML = serviceMobile<%= service.id %>.innerHTML.replace(/\W*\s(\S)*$/, '...');
+    }
+  <% end %>
+</script>

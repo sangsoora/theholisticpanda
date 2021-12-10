@@ -84,11 +84,13 @@
         </div>
       </div>
       <div class="service-practitioner">
-        <% if @service.practitioner.user.photo.attached? %>
-          <img src="<%= cdn_for(@service.practitioner.user.cropped_image) %>" class="avatar-full mb-4" alt="">
-        <% else %>
-          <%= image_tag("profile", class: "avatar-full mb-4") %>
-        <% end %>
+        <div class="w-100 text-center">
+          <% if @service.practitioner.user.photo.attached? %>
+            <img src="<%= cdn_for(@service.practitioner.user.cropped_image) %>" class="avatar-full mb-4" alt="">
+          <% else %>
+            <%= image_tag("profile", class: "avatar-full mb-4") %>
+          <% end %>
+        </div>
         <%= link_to @service.practitioner.user.full_name, practitioner_path(@service.practitioner), class: 'service-practitioner-name' %>
       </div>
     </div>
@@ -189,12 +191,16 @@
       <% if @service.reviews.count > 0 %>
         <h4><i class="fas fa-star mr-2 pink-icon"></i><%= @service.rating_avg %> (<%= @service.reviews.count %> Reviews)</h4>
         <div class="review-container">
-          <% @service.reviews.includes(session: :user).each do |review| %>
+          <% @service.reviews.includes(session: :user).order('created_at DESC').each do |review| %>
             <div class="review-box">
-              <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %></p>
-              <p><%= review.comment.gsub(/\n/, '<br/>').html_safe %></p>
-              <p><small><i><%= review.session.user.full_name %></i></small></p>
-              <p><small><i><%= review.created_at.strftime('%b %d, %Y') %></i></small></p>
+              <div class="mb-2">
+                <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %></p>
+              </div>
+              <div><p id="review-text-<%= review.id %>"><%= review.comment.gsub(/\n/, '<br/>').html_safe %></p></div>
+              <div class="d-flex justify-content-end">
+                <p><small><i><%= review.session.user.full_name %></i></small></p>
+                <p class="ml-2"><small><i><%= review.created_at.strftime('%b %d, %Y') %></i></small></p>
+              </div>
             </div>
           <% end %>
         </div>
@@ -236,6 +242,34 @@
 <script>
   <% if @service.active && user_signed_in? %>
     document.addEventListener('DOMContentLoaded', () => {
+      <% @service.reviews.includes(session: :user).order('created_at DESC').each do |review| %>
+        let review<%= review.id %> = document.getElementById('review-text-' + <%= review.id %>);
+        if (review<%= review.id %>.clientHeight > 96) {
+          let expand<%= review.id %> = document.createElement("a");
+          expand<%= review.id %>.innerText = 'Read more';
+          expand<%= review.id %>.href = '';
+          expand<%= review.id %>.addEventListener('click', (e) => {
+            if (expand<%= review.id %>.innerText == 'Read more') {
+              e.preventDefault();
+              review<%= review.id %>.innerHTML = '';
+              review<%= review.id %>.innerHTML = '<%= review.comment.gsub(/\n/, '<br/>').html_safe %>';
+              expand<%= review.id %>.innerText = 'Hide';
+            } else {
+              e.preventDefault();
+              review<%= review.id %>.innerHTML = '';
+              review<%= review.id %>.innerHTML = '<%= review.comment.gsub(/\n/, '<br/>').html_safe %>';
+              while (review<%= review.id %>.clientHeight > 96) {
+                review<%= review.id %>.innerText = review<%= review.id %>.innerText.replace(/\W*\s(\S)*$/, '...');
+              }
+              expand<%= review.id %>.innerText = 'Read more';
+            }
+          });
+          review<%= review.id %>.parentNode.append(expand<%= review.id %>);
+        }
+        while (review<%= review.id %>.clientHeight > 72) {
+          review<%= review.id %>.innerHTML = review<%= review.id %>.innerHTML.replace(/\W*\s(\S)*$/, '...');
+        }
+      <% end %>
       let start = moment(moment(), "DD-MM-YYYY").add(1, 'day')._d;
       const setCalendar = (start) => {
         const day = start.getDay();

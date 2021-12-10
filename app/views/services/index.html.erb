@@ -262,27 +262,29 @@
   }
   let servicesNum = 10;
   let dropNum = 0;
-  const loadMore = document.getElementById('load-more');
-  loadMore.addEventListener('click', (e) => {
-    <% if @filtered_services %>
-      let services = <%= @filtered_services_ids %>;
-      let type = 'filtered';
-      let arr = <%= params[:search][:health_goal].reject(&:blank?).map(&:to_i) %>;
-    <% else %>
-      let services = <%= @all_services_ids %>;
-      let type = 'all';
-      let arr = [];
-    <% end %>
-    if (servicesNum + 10 <= <%= @total_service_count %>) {
-      servicesNum += 10;
-    } else {
-      servicesNum = <%= @total_service_count %>;
-    }
-    dropNum += 10;
-    loadMore.disabled = true;
-    loadMore.innerHTML = 'Loading...';
-    getMoreServices(services, servicesNum, dropNum, type, arr);
-  });
+  <% if @total_service_count > 10 %>
+    const loadMore = document.getElementById('load-more');
+    loadMore.addEventListener('click', (e) => {
+      <% if @filtered_services %>
+        let services = <%= @filtered_services_ids %>;
+        let type = 'filtered';
+        let arr = <%= params[:search][:health_goal].reject(&:blank?).map(&:to_i) %>;
+      <% else %>
+        let services = <%= @all_services_ids %>;
+        let type = 'all';
+        let arr = [];
+      <% end %>
+      if (servicesNum + 10 <= <%= @total_service_count %>) {
+        servicesNum += 10;
+      } else {
+        servicesNum = <%= @total_service_count %>;
+      }
+      dropNum += 10;
+      loadMore.disabled = true;
+      loadMore.innerHTML = 'Loading...';
+      getMoreServices(services, servicesNum, dropNum, type, arr);
+    });
+  <% end %>
   const getMoreServices = (services, num, type, arr) => {
     $.ajax({
       url: 'services/more',

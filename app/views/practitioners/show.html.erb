@@ -149,13 +149,17 @@
       <% if @practitioner.reviews.count > 0 %>
         <div class="practitioner-review">
           <h4><i class="far fa-comment"></i> Reviews</h4>
-          <% @practitioner.reviews.each do |review| %>
+          <% @practitioner.reviews.order('created_at DESC').each do |review| %>
             <div class="review-box">
-              <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %></p>
-              <p><%= review.comment.gsub(/\n/, '<br/>').html_safe %></p>
-              <p><small><i><%= review.session.user.full_name %></i></small></p>
-              <p><small><i><%= review.session.service.name %></i></small></p>
-              <p><small><i><%= review.created_at.strftime('%b %d, %Y') %></i></small></p>
+              <div class="d-flex justify-content-between mb-2">
+                <p><% review.rating.times { %> <i class="fas fa-star pink-icon"></i> <% } %></p>
+                <p><small><i><%= review.session.service.name %></i></small></p>
+              </div>
+              <div><p id="review-text-<%= review.id %>"><%= review.comment.gsub(/\n/, '<br/>').html_safe %></p></div>
+              <div class="d-flex justify-content-end">
+                <p><small><i><%= review.session.user.full_name %></i></small></p>
+                <p class="ml-2"><small><i><%= review.created_at.strftime('%b %d, %Y') %></i></small></p>
+              </div>
             </div>
           <% end %>
         </div>
@@ -285,6 +289,34 @@
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    <% @practitioner.reviews.order('created_at DESC').each do |review| %>
+      let review<%= review.id %> = document.getElementById('review-text-' + <%= review.id %>);
+      if (review<%= review.id %>.clientHeight > 96) {
+        let expand<%= review.id %> = document.createElement("a");
+        expand<%= review.id %>.innerText = 'Read more';
+        expand<%= review.id %>.href = '';
+        expand<%= review.id %>.addEventListener('click', (e) => {
+          if (expand<%= review.id %>.innerText == 'Read more') {
+            e.preventDefault();
+            review<%= review.id %>.innerHTML = '';
+            review<%= review.id %>.innerHTML = '<%= review.comment.gsub(/\n/, '<br/>').html_safe %>';
+            expand<%= review.id %>.innerText = 'Hide';
+          } else {
+            e.preventDefault();
+            review<%= review.id %>.innerHTML = '';
+            review<%= review.id %>.innerHTML = '<%= review.comment.gsub(/\n/, '<br/>').html_safe %>';
+            while (review<%= review.id %>.clientHeight > 96) {
+              review<%= review.id %>.innerText = review<%= review.id %>.innerText.replace(/\W*\s(\S)*$/, '...');
+            }
+            expand<%= review.id %>.innerText = 'Read more';
+          }
+        });
+        review<%= review.id %>.parentNode.append(expand<%= review.id %>);
+      }
+      while (review<%= review.id %>.clientHeight > 72) {
+        review<%= review.id %>.innerHTML = review<%= review.id %>.innerHTML.replace(/\W*\s(\S)*$/, '...');
+      }
+    <% end %>
     <% if !user_signed_in? || (user_signed_in? && !current_user.timezone?) %>
       document.getElementById('time-zone').innerHTML = moment.tz.guess();
       const user_time_offset = moment.tz.zone(moment.tz.guess()).utcOffset(Date.now());
