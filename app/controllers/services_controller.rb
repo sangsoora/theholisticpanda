@@ -85,6 +85,7 @@ class ServicesController < ApplicationController
         @services = @services.first(@num).drop(@drop)
       end
     end
+    @current_page = (@num / 10.to_f).ceil
   end
 
   def show

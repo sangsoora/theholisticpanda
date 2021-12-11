@@ -113,8 +113,12 @@
           <% end %>
         </div>
         <% if @total_service_count > 10 %>
-          <div class="text-center">
-            <button class="btn btn-flat" id="load-more">More</button>
+          <div class="service-pagination">
+            <button class="btn" id="prev-end" disabled><i class="fas fa-angle-double-left"></i></button>
+            <button class="btn" id="prev-one" disabled><i class="fas fa-angle-left"></i></button>
+            <p class="mb-0 mx-3"><span id="current-page">1</span> / <%= (@total_service_count / 10.to_f).ceil %></p>
+            <button class="btn" id="next-one"><i class="fas fa-angle-right"></i></button>
+            <button class="btn" id="next-end"><i class="fas fa-angle-double-right"></i></button>
           </div>
         <% end %>
       <% else %>
@@ -135,8 +139,12 @@
         <% end %>
       </div>
       <% if @total_service_count > 10 %>
-        <div class="text-center">
-          <button class="btn btn-flat" id="load-more">More</button>
+        <div class="service-pagination">
+          <button class="btn" id="prev-end" disabled><i class="fas fa-angle-double-left"></i></button>
+          <button class="btn" id="prev-one" disabled><i class="fas fa-angle-left"></i></button>
+          <p class="mb-0 mx-3"><span id="current-page">1</span> / <%= (@total_service_count / 10.to_f).ceil %></p>
+          <button class="btn" id="next-one"><i class="fas fa-angle-right"></i></button>
+          <button class="btn" id="next-end"><i class="fas fa-angle-double-right"></i></button>
         </div>
       <% end %>
     <% end %>
@@ -181,13 +189,13 @@
         languageSelectBox.classList.remove('opened');
       });
     }
-    document.addEventListener('click', (event) => {
-      const specialtyBoxClick = specialtySelectBox.contains(event.target);
-      const specialtyBtnClick = specialtySelectBoxBtn.contains(event.target);
-      const languageBoxClick = languageSelectBox.contains(event.target);
-      const languageBtnClick = languageSelectBoxBtn.contains(event.target);
-      const serviceTypeBoxClick = serviceTypeSelectBox.contains(event.target);
-      const serviceTypeBtnClick = serviceTypeSelectBoxBtn.contains(event.target);
+    document.addEventListener('click', (e) => {
+      const specialtyBoxClick = specialtySelectBox.contains(e.target);
+      const specialtyBtnClick = specialtySelectBoxBtn.contains(e.target);
+      const languageBoxClick = languageSelectBox.contains(e.target);
+      const languageBtnClick = languageSelectBoxBtn.contains(e.target);
+      const serviceTypeBoxClick = serviceTypeSelectBox.contains(e.target);
+      const serviceTypeBtnClick = serviceTypeSelectBoxBtn.contains(e.target);
       if (specialtySelectBox.classList.contains('opened') && (!specialtyBoxClick) && (!specialtyBtnClick)) {
         specialtySelectBoxBtn.classList.remove('btn-opened');
         specialtySelectBox.classList.remove('opened');
@@ -223,8 +231,8 @@
       document.getElementById('filter-form').submit();
     });
   }
-  const uncheckAll = (divid) => {
-    var checks = document.querySelectorAll('.' + divid + ' input[type="checkbox"]');
+  const uncheckAll = (divId) => {
+    var checks = document.querySelectorAll('.' + divId + ' input[type="checkbox"]');
     for(var i =0; i< checks.length;i++){
       var check = checks[i];
       if(!check.disabled){
@@ -263,25 +271,66 @@
   let servicesNum = 10;
   let dropNum = 0;
   <% if @total_service_count > 10 %>
-    const loadMore = document.getElementById('load-more');
-    loadMore.addEventListener('click', (e) => {
-      <% if @filtered_services %>
-        let services = <%= @filtered_services_ids %>;
-        let type = 'filtered';
-        let arr = <%= params[:search][:health_goal].reject(&:blank?).map(&:to_i) %>;
-      <% else %>
-        let services = <%= @all_services_ids %>;
-        let type = 'all';
-        let arr = [];
-      <% end %>
+    const prevEnd = document.getElementById('prev-end');
+    const prevOne = document.getElementById('prev-one');
+    const nextOne = document.getElementById('next-one');
+    const nextEnd = document.getElementById('next-end');
+    const currentPage = document.getElementById('current-page');
+    const currentPageNum = parseInt(currentPage.innerText);
+    const maxPageNum = <%= (@total_service_count / 10.to_f).ceil %>;
+    <% if @filtered_services %>
+      let services = <%= @filtered_services_ids %>;
+      let type = 'filtered';
+      let arr = <%= params[:search][:health_goal].reject(&:blank?).map(&:to_i) %>;
+    <% else %>
+      let services = <%= @all_services_ids %>;
+      let type = 'all';
+      let arr = [];
+    <% end %>
+    nextOne.addEventListener('click', (e) => {
       if (servicesNum + 10 <= <%= @total_service_count %>) {
         servicesNum += 10;
       } else {
         servicesNum = <%= @total_service_count %>;
       }
       dropNum += 10;
-      loadMore.disabled = true;
-      loadMore.innerHTML = 'Loading...';
+      prevEnd.disabled = true;
+      prevOne.disabled = true;
+      nextOne.disabled = true;
+      nextEnd.disabled = true;
+      getMoreServices(services, servicesNum, dropNum, type, arr);
+    });
+    nextEnd.addEventListener('click', (e) => {
+      servicesNum = <%= @total_service_count %>;
+      dropNum = 10 * (maxPageNum - 1);
+      prevEnd.disabled = true;
+      prevOne.disabled = true;
+      nextOne.disabled = true;
+      nextEnd.disabled = true;
+      getMoreServices(services, servicesNum, dropNum, type, arr);
+    });
+    prevOne.addEventListener('click', (e) => {
+      if (servicesNum == <%= @total_service_count %>) {
+        servicesNum -= <%= @total_service_count %> % 10;
+      } else if (servicesNum - 10 <= 10) {
+        servicesNum = 10;
+      } else {
+        servicesNum -= 10;
+      }
+      dropNum -= 10;
+      prevEnd.disabled = true;
+      prevOne.disabled = true;
+      nextOne.disabled = true;
+      nextEnd.disabled = true;
+      getMoreServices(services, servicesNum, dropNum, type, arr);
+    });
+    prevEnd.addEventListener('click', (e) => {
+      servicesNum = 10;
+      dropNum = 0;
+      prevEnd.disabled = true;
+      prevOne.disabled = true;
+      nextOne.disabled = true;
+      nextEnd.disabled = true;
       getMoreServices(services, servicesNum, dropNum, type, arr);
     });
   <% end %>
@@ -291,11 +340,22 @@
       data: {services: services, servicesNum: servicesNum, dropNum: dropNum, type: type, arr: arr},
       success: function(data){
         if (servicesNum == <%= @total_service_count %>) {
-          loadMore.style.display = 'none';
+          prevEnd.disabled = false;
+          prevOne.disabled = false;
+          nextOne.disabled = true;
+          nextEnd.disabled = true;
+        } else if (servicesNum == 10) {
+          prevEnd.disabled = true;
+          prevOne.disabled = true;
+          nextOne.disabled = false;
+          nextEnd.disabled = false;
         } else {
-          loadMore.disabled = false;
-          loadMore.innerHTML = 'More';
+          prevEnd.disabled = false;
+          prevOne.disabled = false;
+          nextOne.disabled = false;
+          nextEnd.disabled = false;
         }
+        window.scrollTo(0, 0);
       }
     });
   }

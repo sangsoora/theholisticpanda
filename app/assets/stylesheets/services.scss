@@ -510,6 +510,19 @@ input[type='radio']:checked:after {
   border-left: 13px solid red;
 }
 
+.service-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    font-size: 1.5rem;
+  }
+  i {
+    font-size: 1.5rem;
+    color: $pink;
+  }
+}
+
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
   .filter-bar {
