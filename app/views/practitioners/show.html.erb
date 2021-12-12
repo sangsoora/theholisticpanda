@@ -168,7 +168,11 @@
     <div class="practitioner-sidebar">
       <div class="practitioner-video">
         <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" src="<%= @practitioner.video %>" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <% if @practitioner.video.nil? || @practitioner.video == '' %>
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/Zli7s5QhQrI" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <% else %>
+            <iframe class="embed-responsive-item" src="<%= @practitioner.video %>" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <% end %>
         </div>
       </div>
       <div class="practitioner-timetable mt-3">
