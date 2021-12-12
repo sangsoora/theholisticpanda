@@ -1,12 +1,5 @@
 .practitioner-review {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  h4 {
-    flex: 0 0 100%;
-  }
   .review-box {
-    flex: 0 0 48%;
     border: 1px solid lightgrey;
     border-radius: 0.5rem;
     padding: 1rem;
@@ -23,7 +16,7 @@
   }
   .review-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-gap: 1rem;
   }
   .review-box {
@@ -40,8 +33,7 @@
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
   .service-review .review-container {
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 2rem;
+    display: block;
   }
 }
 

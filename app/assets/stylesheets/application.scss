@@ -62,8 +62,9 @@ label {
   font-weight: 700;
 }
 
-button:focus {
+button:focus, .btn:focus {
   outline: none;
+  box-shadow: none;
 }
 
 .container {

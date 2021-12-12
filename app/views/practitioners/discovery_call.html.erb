@@ -23,11 +23,13 @@
         <% end %>
       </div>
       <div class="service-practitioner">
-        <% if @practitioner.user.photo.attached? %>
-          <img src="<%= cdn_for(@practitioner.user.cropped_image) %>" class="avatar-full mb-4" alt="">
-        <% else %>
-          <%= image_tag("profile", class: "avatar-full mb-4") %>
-        <% end %>
+        <div class="w-100 text-center">
+          <% if @practitioner.user.photo.attached? %>
+            <img src="<%= cdn_for(@practitioner.user.cropped_image) %>" class="avatar-full mb-4" alt="">
+          <% else %>
+            <%= image_tag("profile", class: "avatar-full mb-4") %>
+          <% end %>
+        </div>
         <%= link_to @practitioner.user.full_name, practitioner_path(@practitioner), class: 'service-practitioner-name' %>
       </div>
     </div>
