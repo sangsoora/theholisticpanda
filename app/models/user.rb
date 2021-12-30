@@ -65,7 +65,7 @@ class User < ApplicationRecord
         minimum_amount_currency: 'cad'
       }
     })
-    UserPromo.create(name: 'WELCOMETOPANDA', detail: '10% off', user: self, promo_id: welcome_code.id, active: true, expires_at: Time.current + 3.months, coupon_id: 'first_booking_discount', type: 'coupon', discount_on: 'platform')
+    UserPromo.create(name: 'WELCOMETOPANDA', detail: '10% off', user: self, promo_id: welcome_code.id, active: true, expires_at: Time.current + 3.months, coupon_id: 'first_booking_discount', promo_type: 'coupon', discount_on: 'platform')
     @referred_user = ReferredUser.find_by(invited_user_id: id)
     if @referred_user
       new_user_code = Stripe::PromotionCode.create({
@@ -79,7 +79,7 @@ class User < ApplicationRecord
           minimum_amount_currency: 'cad'
         }
       })
-      UserPromo.create(name: 'REFERRAL10', detail: '10% off', user: self, promo_id: new_user_code.id, active: true, expires_at: Time.current + 3.months, coupon_id: 'referral_discount', type: 'coupon', discount_on: 'platform')
+      UserPromo.create(name: 'REFERRAL10', detail: '10% off', user: self, promo_id: new_user_code.id, active: true, expires_at: Time.current + 3.months, coupon_id: 'referral_discount', promo_type: 'coupon', discount_on: 'platform')
       customer = @referred_user.user.stripe_id if @referred_user.user.stripe_id
       existing_user_code = Stripe::PromotionCode.create({
         coupon: 'referral_discount',
@@ -93,7 +93,7 @@ class User < ApplicationRecord
           minimum_amount_currency: 'cad'
         }
       })
-      UserPromo.create(name: 'REFERRAL10', detail: '10% off', user: @referred_user.user, promo_id: existing_user_code.id, active: true, expires_at: Time.current + 3.months, coupon_id: 'referral_discount', type: 'coupon', discount_on: 'platform')
+      UserPromo.create(name: 'REFERRAL10', detail: '10% off', user: @referred_user.user, promo_id: existing_user_code.id, active: true, expires_at: Time.current + 3.months, coupon_id: 'referral_discount', promo_type: 'coupon', discount_on: 'platform')
       ReferralMailer.with(user: self).new_user_coupon.deliver_now
       ReferralMailer.with(referred_user: @referred_user, user: self).existing_user_coupon.deliver_now
     end
