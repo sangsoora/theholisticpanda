@@ -1,0 +1,2 @@
+class NeedServicesController < ApplicationController
+end

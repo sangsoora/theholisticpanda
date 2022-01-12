@@ -13,6 +13,7 @@ class Service < ApplicationRecord
   has_many :service_promotions, dependent: :destroy
   has_many :user_promos, dependent: :destroy
   has_many :event_codes, dependent: :destroy
+  has_many :need_services, dependent: :destroy
   validates :name, presence: true
   validates :duration, presence: true
   validates :price, presence: true
