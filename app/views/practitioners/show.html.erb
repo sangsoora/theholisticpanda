@@ -1,6 +1,8 @@
 <% if @practitioner.status == 'active' %>
   <% content_for :meta_title, "#{@practitioner.user.full_name} on #{DEFAULT_META["meta_product_name"]}" %>
-  <% content_for :meta_description, strip_tags(@practitioner.bio.gsub('"', '\'').gsub(/\n/, '<br/>').split('<br/>')[0]) %>
+  <% if @practitioner.bio? %>
+    <% content_for :meta_description, strip_tags(@practitioner.bio.gsub('"', '\'').gsub(/\n/, '<br/>').split('<br/>')[0]) %>
+  <% end %>
   <% if @practitioner.user.photo.attached? %>
     <% content_for :meta_image, cdn_for(@practitioner.user.cropped_image) %>
   <% end %>
