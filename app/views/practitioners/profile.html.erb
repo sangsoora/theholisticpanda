@@ -11,8 +11,10 @@
     <div class="practitioner-profile-title">
       <h1>Welcome, <%= @practitioner.user.first_name %></h1>
       <div class="practitioner-profile-btn">
-        <%= link_to 'View my public profile', practitioner_path(@practitioner), class: 'btn btn-flat mr-3' %>
-        <%= link_to 'Manage my services', practitioner_services_path, class: 'btn btn-flat mr-3' %>
+        <% if @practitioner.minimum_profile? %>
+          <%= link_to 'View my public profile', practitioner_path(@practitioner), class: 'btn btn-flat mr-3' %>
+          <%= link_to 'Manage my services', practitioner_services_path, class: 'btn btn-flat mr-3' %>
+        <% end %>
         <% if !@practitioner.stripe_account_id? %>
           <%= link_to 'Set up payout account', '', data: { toggle: "modal", target: "#stripeAccountModal" }, class: 'btn btn-flat', id: 'setup-open' %>
         <% end %>
