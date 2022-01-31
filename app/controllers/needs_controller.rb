@@ -4,13 +4,17 @@ class NeedsController < ApplicationController
   before_action :set_notifications, only: [:show]
 
   def show
-
+    @need_services = @need.need_services
   end
 
   private
 
   def set_need
-    @need = Need.includes(:recipient, :messages).find(params[:id])
+    @need = Need.find(params[:id])
     authorize @need
+  end
+
+  def set_notifications
+    @notifications = Notification.includes(:actor).where(recipient: current_user).order('created_at DESC').unread
   end
 end

@@ -4,22 +4,73 @@
 <section id="top-banner">
   <%= render 'top_banner' %>
 </section>
-<section id="what-panda">
-  <div class='d-flex justify-content-center my-4 text-center'>
-    <div class="container">
-      <%= image_tag("problem.png", class: 'mb-3', style: 'width:15%') %>
-      <h2>What is The Holistic Panda?</h2>
+<section id="offers">
+  <% if Offer.where(active: true).count > 0 %>
+    <div class="py-5 text-center">
+      <p><i class="fas fa-bullhorn"></i> Staff's pick</p>
+      <h2><%= @offer.name %></h2>
       <br>
-      <div id="panda-description">
-        <p>The Holistic Panda is the first Asian-conscious wellness platform and a booking platform for a diverse range of wellness services, including traditional alternative medicine, life and health coaching, mind and body healing work, energy therapies, and holistic beauty treatments. We know firsthand how difficult it can be to find the right wellness services and culturally competent providers, so we have built a platform to help you navigate your discovery journey in finding the support you need to achieve your health goals!</p>
-        <p>As a company founded and led by Asians, it is our North Star to help the Asian community embrace and normalize the practice of self-care. With that said, we also realize that the stigmatization around mental health and wellness is a shared human experience and welcome anyone to join our community.</p>
+      <h6><%= @offer.description.gsub(/\n/, '<br/>').html_safe %></h6>
+      <div class="swiper-container mt-5" id="offer-slider-desktop">
+        <div class="swiper-wrapper" style="transition-timing-function: linear !important;">
+          <% @offer.offer_services.each do |service| %>
+            <div class="swiper-slide" id="offer-slide">
+              <a href="services/<%= service.service.id %>">
+                <% if service.photo.attached? %>
+                  <img src="<%= cdn_for(service.photo) %>">
+                <% elsif service.service.practitioner.user.cropped_image %>
+                  <img src="<%= cdn_for(service.service.practitioner.user.cropped_image) %>">
+                <% else %>
+                  <%= image_tag 'profile.png' %>
+                <% end %>
+                <p class="my-2"><%= service.service.name %></p>
+              </a>
+            </div>
+          <% end %>
+        </div>
       </div>
-      <a href="#featured-practitioners" class="btn btn-flat">Book free discovery call with our practitioners</a>
+      <div class="swiper-container mt-4" id="offer-slider-mobile">
+        <div class="swiper-wrapper">
+          <% @offer.offer_services.each do |service| %>
+            <div class="swiper-slide" id="offer-slide">
+              <a href="services/<%= service.service.id %>">
+                <% if service.photo.attached? %>
+                  <img src="<%= cdn_for(service.photo) %>">
+                <% elsif service.service.practitioner.user.cropped_image %>
+                  <img src="<%= cdn_for(service.service.practitioner.user.cropped_image) %>">
+                <% else %>
+                  <%= image_tag 'profile.png' %>
+                <% end %>
+                <p class="my-1"><%= service.service.name %></p>
+              </a>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</section>
+<section id="needs">
+  <div class='d-flex justify-content-center py-5 text-center'>
+    <div class="container">
+      <h4>Discover services for your specific needs.</h4>
+      <br>
+      <div class="needs-icons">
+        <% @needs.each do |need| %>
+          <div class="needs-icon">
+            <%= link_to need_path(need) do %>
+              <% if need.photo.attached? %>
+                <img src="<%= cdn_for(need.photo) %>">
+              <% else %>
+                <%= image_tag("needs/#{need.name.downcase}") %>
+              <% end %>
+              <p><%= need.name %></p>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
-</section>
-<section id='specialty-banner' class='text-center'>
-  <%= render 'specialty_banner' %>
 </section>
 <section id='freecall' class='text-center' style="background-color: white;">
   <div class="container p-5">

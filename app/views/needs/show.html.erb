@@ -1,0 +1,250 @@
+<div class="container needs-page">
+  <div class="needs-header">
+    <div class="needs-img">
+      <% if @need.photo.attached? %>
+        <%= image_tag @need.photo %>
+      <% else %>
+        <%= image_tag("needs/#{@need.name.downcase}") %>
+      <% end %>
+    </div>
+    <h2 class="text-center"><%= @need.name %></h2>
+    <p class="needs-description"><%= @need.description.gsub(/\n/, '<br/>').html_safe %></p>
+  </div>
+  <div class="service-lists">
+    <% @need_services.each do |service| %>
+      <% if user_signed_in? %>
+        <div class="service-list-item" data-matching="<%= service.service.matching_counts(current_user.health_goals.ids) %>">
+      <% else %>
+        <div class="service-list-item" data-matching="">
+      <% end %>
+        <div class="service-list-item-title details-desktop">
+          <div class="d-flex">
+            <div class="service-type">
+              <p><%= service.service.service_type.capitalize %></p>
+            </div>
+            <h3>
+              <%= link_to service.service.name, service_path(service) %>
+            </h3>
+            <% if service.service.service_promotions.exists? && service.service.active_promotion? %>
+              <div class="d-flex" style="flex: 1 0 20%;">
+                <div class="promo-rectangle">
+                  <%= service.service.last_promotion.discount_percentage %>% off
+                </div>
+                <div class="promo-triangle"></div>
+                <p class="small" style="color: red; margin-top: 0.125rem;">
+                  <% if (service.service.last_promotion.end_date.to_date - Time.now.to_date).to_i > 1 %>
+                    (<%= (service.service.last_promotion.end_date.to_date - Time.now.to_date).to_i %> days left)
+                  <% elsif ((service.service.last_promotion.end_date.to_time - Time.now.to_time) / 1.hours).to_i > 1 %>
+                    (<%= ((service.service.last_promotion.end_date.to_time - Time.now.to_time) / 1.hours).to_i  %> hours left)
+                  <% else %>
+                    (<%= ((service.service.last_promotion.end_date.to_time - Time.now.to_time) / 1.minutes).to_i  %> minutes left)
+                  <% end %>
+                </p>
+              </div>
+            <% end %>
+          </div>
+          <div class="fav-btn" id="fav-btn-<%= service.service.id %>">
+            <% if user_signed_in? %>
+              <%= render 'favorite_services/service_btn', service: service %>
+            <% end %>
+          </div>
+        </div>
+        <div class="service-list-item-title m-0 details-mobile-flex">
+          <div class="service-type">
+            <p class="m-0"><%= service.service.service_type.capitalize %></p>
+          </div>
+          <% if service.service.service_promotions.exists? && service.service.active_promotion? %>
+            <div class="d-flex" style="flex: 1 0 20%;">
+              <div class="promo-rectangle">
+                <%= service.service.last_promotion.discount_percentage %>% off
+              </div>
+              <div class="promo-triangle"></div>
+              <p class="small" style="color: red; margin-top: 0.125rem;">
+                <% if (service.service.last_promotion.end_date.to_date - Time.now.to_date).to_i > 1 %>
+                  (<%= (service.service.last_promotion.end_date.to_date - Time.now.to_date).to_i %> days left)
+                <% elsif ((service.service.last_promotion.end_date.to_time - Time.now.to_time) / 1.hours).to_i > 1 %>
+                  (<%= ((service.service.last_promotion.end_date.to_time - Time.now.to_time) / 1.hours).to_i  %> hours left)
+                <% else %>
+                  (<%= ((service.service.last_promotion.end_date.to_time - Time.now.to_time) / 1.minutes).to_i  %> minutes left)
+                <% end %>
+              </p>
+            </div>
+          <% end %>
+          <div class="fav-btn" id="fav-btn-<%= service.service.id %>">
+            <% if user_signed_in? %>
+              <%= render 'favorite_services/service_btn', service: service %>
+            <% end %>
+          </div>
+        </div>
+        <div class="details-mobile">
+          <h3>
+            <%= link_to service.service.name, service_path(service) %>
+          </h3>
+        </div>
+        <div class="service-list-item-body details-desktop">
+          <div class="service-left-column">
+            <div class="service-list-item-practitioner">
+              <div class="profile-photo">
+                <a href="/practitioners/<%= service.service.practitioner.user.full_name.delete(' ') %>_<%= service.service.practitioner.id %>">
+                  <% if service.service.practitioner.user.photo.attached? %>
+                    <img src="<%= cdn_for(service.service.practitioner.user.cropped_image) %>" class="service-list-item-user avatar-bordered mb-3" alt="">
+                  <% else %>
+                    <%= image_tag("profile", class: "service-list-item-user avatar-bordered mb-3") %>
+                  <% end %>
+                </a>
+                <h6><%= link_to service.service.practitioner.user.full_name, practitioner_path(service.service.practitioner) %></h6>
+                <p><%= service.service.practitioner.title %></p>
+                <p><%= service.service.practitioner.location %></p>
+              </div>
+            </div>
+          </div>
+          <div class="service-middle-column">
+            <div class="service-list-item-infos">
+              <p id="service-description-<%= service.service.id %>"><%= service.service.description.gsub(/\n/, '<br/>').html_safe %></p>
+            </div>
+            <div class="service-list-item-goals mt-2">
+              <% if user_signed_in? %>
+                <% service.service.health_goals.order(:name).each do |goal| %>
+                  <% if current_user.health_goals.include?(goal) %>
+                    <div class="service-goal match"><%= goal.name %></div>
+                  <% end %>
+                <% end %>
+                <% service.service.health_goals.order(:name).each do |goal| %>
+                  <% unless current_user.health_goals.include?(goal) %>
+                    <div class="service-goal"><%= goal.name %></div>
+                  <% end %>
+                <% end %>
+              <% else %>
+                <% service.service.health_goals.order(:name).each do |goal| %>
+                  <div class="service-goal"><%= goal.name %></div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+          <div class="service-right-column">
+            <div class="d-flex justify-content-between">
+              <div style="flex: 0 0 45%;">
+                <label>PRICE</label>
+                <% if service.service.service_promotions.exists? && service.service.active_promotion? %>
+                  <p style="color: red; font-weight: 600;">CA$ <%= number_with_precision((service.service.price - (service.service.price * service.service.last_promotion.discount_percentage / 100)), precision: 2, delimiter: ',') %></p>
+                <% else %>
+                  <p>CA$ <%= number_with_precision(service.service.price, precision: 2, delimiter: ',') %></p>
+                <% end %>
+              </div>
+              <div style="flex: 0 0 45%;">
+                <label>DURATION</label>
+                <p><%= service.service.duration %> mins</p>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div style="flex: 0 0 45%;">
+                <label>SPECIALTY</label>
+                <p><%= service.service.specialty.name %></p>
+              </div>
+              <div style="flex: 0 0 45%;">
+                <label>Rating</label>
+                <% if service.service.reviews.count > 0 %>
+                  <p><i class="fas fa-star mr-2 pink-icon"></i><%= service.service.rating_avg %> (<%= service.service.reviews.count %>)</p>
+                <% end %>
+              </div>
+            </div>
+            <% if service.service.practitioner.user != current_user %>
+              <div class="text-center mt-3">
+                <a class="btn btn-flat" href="/services/<%= service.service.id %>">See availability</a>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <div class="service-list-item-body details-mobile">
+          <div class="service-list-item-goals">
+            <% if user_signed_in? %>
+              <% service.service.health_goals.order(:name).each do |goal| %>
+                <% if current_user.health_goals.include?(goal) %>
+                  <div class="service-goal match"><%= goal.name %></div>
+                <% end %>
+              <% end %>
+              <% service.service.health_goals.order(:name).each do |goal| %>
+                <% unless current_user.health_goals.include?(goal) %>
+                  <div class="service-goal"><%= goal.name %></div>
+                <% end %>
+              <% end %>
+            <% else %>
+              <% service.service.health_goals.order(:name).each do |goal| %>
+                <div class="service-goal"><%= goal.name %></div>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="service-list-item-practitioner">
+            <div class="profile-photo">
+              <a href="/practitioners/<%= service.service.practitioner.user.full_name.delete(' ') %>_<%= service.service.practitioner.id %>">
+                <% if service.service.practitioner.user.photo.attached? %>
+                  <img src="<%= cdn_for(service.service.practitioner.user.cropped_image) %>" class="service-list-item-user avatar-bordered mb-3" alt="">
+                <% else %>
+                  <%= image_tag("profile", class: "service-list-item-user avatar-bordered mb-3") %>
+                <% end %>
+              </a>
+              <h6><%= link_to service.service.practitioner.user.full_name, practitioner_path(service.service.practitioner) %></h6>
+            </div>
+          </div>
+          <div class="service-list-item-infos">
+            <p id="service-description-mobile-<%= service.service.id %>"><%= service.service.description.gsub(/\n/, '<br/>').html_safe %></p>
+          </div>
+          <div class="d-flex justify-content-between mt-2">
+            <div style="flex: 0 0 45%;">
+              <label>PRICE</label>
+              <% if service.service.service_promotions.exists? && service.service.active_promotion? %>
+                <p style="color: red; font-weight: 600;">CA$ <%= number_with_precision((service.service.price - (service.service.price * service.service.last_promotion.discount_percentage / 100)), precision: 2, delimiter: ',') %></p>
+              <% else %>
+                <p>CA$ <%= number_with_precision(service.service.price, precision: 2, delimiter: ',') %></p>
+              <% end %>
+            </div>
+            <div style="flex: 0 0 45%;">
+              <label>DURATION</label>
+              <p><%= service.service.duration %> mins</p>
+            </div>
+          </div>
+          <% if service.service.practitioner.user != current_user %>
+            <div class="text-center mt-3">
+              <a class="btn btn-flat" href="/services/<%= service.service.id %>">See availability</a>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <script>
+        <% if user_signed_in? %>
+          window.addEventListener('DOMContentLoaded', (event) => {
+            var $wrapper = $('.service-lists');
+            $wrapper.find('.service-list-item').sort(function(a, b) {
+              return +b.dataset.matching - +a.dataset.matching;
+            })
+            .appendTo($wrapper);
+          });
+        <% end %>
+      </script>
+    <% end %>
+  </div>
+</div>
+<script>
+  <% @need_services.each do |service| %>
+    let service<%= service.service.id %> = document.getElementById('service-description-' + <%= service.service.id %>);
+    if (service<%= service.service.id %>.clientHeight > 128) {
+      let expand<%= service.service.id %> = document.createElement("a");
+      expand<%= service.service.id %>.innerText = 'Read more';
+      expand<%= service.service.id %>.href = '/services/<%= service.service.id %>';
+      service<%= service.service.id %>.parentNode.append(expand<%= service.service.id %>);
+    }
+    while (service<%= service.service.id %>.clientHeight > 128) {
+      service<%= service.service.id %>.innerHTML = service<%= service.service.id %>.innerHTML.replace(/\W*\s(\S)*$/, '...');
+    }
+    let serviceMobile<%= service.service.id %> = document.getElementById('service-description-mobile-' + <%= service.service.id %>);
+    if (serviceMobile<%= service.service.id %>.clientHeight > 84) {
+      let expandMobile<%= service.service.id %> = document.createElement("a");
+      expandMobile<%= service.service.id %>.innerText = 'Read more';
+      expandMobile<%= service.service.id %>.href = '/services/<%= service.service.id %>';
+      serviceMobile<%= service.service.id %>.parentNode.append(expandMobile<%= service.service.id %>);
+    }
+    while (serviceMobile<%= service.service.id %>.clientHeight > 84) {
+      serviceMobile<%= service.service.id %>.innerHTML = serviceMobile<%= service.service.id %>.innerHTML.replace(/\W*\s(\S)*$/, '...');
+    }
+  <% end %>
+</script>

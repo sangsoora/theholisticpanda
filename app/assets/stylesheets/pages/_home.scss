@@ -87,6 +87,40 @@
   padding: 3rem;
 }
 
+#needs {
+  background: $light-yellow;
+  padding: 1rem;
+}
+
+.needs-icons {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  .needs-icon {
+    flex: 0 0 12.5%;
+  }
+  img {
+    width: 100%;
+  }
+}
+
+#offers {
+  background: $light-pink;
+  padding: 1rem;
+  img {
+    width: 80%;
+    border-radius: 1rem;
+  }
+}
+
+#offer-slider-desktop {
+  display: block !important;
+}
+
+#offer-slider-mobile {
+  display: none !important;
+}
+
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
 
@@ -123,6 +157,17 @@
   }
   #freecall .container {
     padding: 0;
+  }
+  .needs-icons {
+    .needs-icon {
+      flex: 0 0 45%;
+    }
+  }
+  #offer-slider-desktop {
+    display: none !important;
+  }
+  #offer-slider-mobile {
+    display: block !important;
   }
 }
 

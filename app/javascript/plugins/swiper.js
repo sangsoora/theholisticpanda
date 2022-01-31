@@ -86,6 +86,37 @@ const initSwiper = () => {
       // },
     });
   }
+  if (document.getElementById('offer-slider-desktop')) {
+    var mySwiper = new Swiper('#offer-slider-desktop', {
+      spaceBetween: 10,
+      slidesPerView: 5,
+      loop:true,
+      speed: 45000,
+    });
+    function infinite() {
+        mySwiper.slideTo(mySwiper.slides.length);
+        mySwiper.once('transitionEnd', function(){
+            console.log(mySwiper.params)
+            mySwiper.slideTo(mySwiper.params.slidesPerView, 0, false);
+            setTimeout(function () {
+                infinite();
+            }, 0);
+        });
+    }
+    infinite();
+  }
+  if (document.getElementById('offer-slider-mobile')) {
+    var mySwiper = new Swiper('#offer-slider-mobile', {
+      slidesPerView: 3,
+      slidesPerGroup: 3,
+      loop: true,
+      loopFillGroupWithBlank: false,
+      autoplay: {
+        delay: 6000,
+        disableOnInteraction: false,
+      },
+    });
+  }
 };
 
 export { initSwiper };

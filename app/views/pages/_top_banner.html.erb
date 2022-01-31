@@ -1,4 +1,4 @@
-<div class="top-banner">
+<div class="top-banner1">
   <div class="top-banner-text">
     <h1>The stigma for<br>mental wellness stops here</h1>
     <h4>We are the first Asian-conscious wellness platform that<br>matches you with the right wellness services in just a few clicks</h4>
@@ -14,15 +14,24 @@
         <a class="btn btn-flat mt-0" id="find-service-mobile">Find services</a>
       </div>
     </div>
-    <!-- <h4 style="margin-top: 0.75rem; font-weight: 400;">Your session is waiting for you!</h4> -->
-    <div class="banner-health-goal-select w-100 pt-2" id="goal-list" style="display: none;">
-      <% @filtered_services_goals.sort_by(&:name).each do |goal| %>
-        <div class="pt-2 pb-0 pl-2">
-          <a class="mb-0" href="/services?utf8=%E2%9C%93&search%5Bhealth_goal%5D%5B%5D=<%= goal.id %>&search%5Bhealth_goal%5D%5B%5D=&commit=Apply"><%= goal.name %></a>
-        </div>
-      <% end %>
+    <div class="press">
+      <p>Featured in</p>
+      <div class="press-links">
+        <%= link_to image_tag('bc.png'), 'https://www.bcliving.ca/The-Ultimate-2021-Virtual-Gift-Guide', class: 'press-link', target: '_blank' %>
+        <%= link_to image_tag('BIV.png'), 'https://boredinvancouver.com/finding-culturally-competent-health-care/', class: 'press-link', target: '_blank' %>
+        <%= link_to image_tag('CityNews.svg'), 'https://vancouver.citynews.ca/2021/09/10/vancouver-wellness-online-platform/', class: 'press-link', target: '_blank' %>
+        <%= link_to image_tag('simply.png'), 'https://www.simplybeautifulbox.com/The-Ultimate-2021-Virtual-Gift-Guide', class: 'press-link', target: '_blank' %>
+      </div>
+      <div class="banner-health-goal-select w-100 pt-2" id="goal-list" style="display: none;">
+        <% @filtered_services_goals.sort_by(&:name).each do |goal| %>
+          <div class="pt-2 pb-0 pl-2">
+            <a class="mb-0" href="/services?utf8=%E2%9C%93&search%5Bhealth_goal%5D%5B%5D=<%= goal.id %>&search%5Bhealth_goal%5D%5B%5D=&commit=Apply"><%= goal.name %></a>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
+  <div class="top-banner-image"></div>
 </div>
 <script>
   document.getElementById('select-goal').addEventListener('click', (e) => {

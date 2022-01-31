@@ -3,6 +3,8 @@ class PagesController < ApplicationController
   before_action :set_notifications, only: [:home, :become_a_practitioner, :aboutus, :faq, :terms, :privacy, :cookie]
 
   def home
+    @needs = Need.all
+    @offer = Offer.where(active: true).first
     practitioners = Practitioner.checked_practitioners.includes(user: [:photo_attachment])
     @featured_practitioners = []
     practitioners.each do |practitioner|

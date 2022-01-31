@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_10_132728) do
+ActiveRecord::Schema.define(version: 2022_01_30_172218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -167,6 +167,7 @@ ActiveRecord::Schema.define(version: 2022_01_10_132728) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description"
   end
 
   create_table "newsletters", force: :cascade do |t|
@@ -182,6 +183,24 @@ ActiveRecord::Schema.define(version: 2022_01_10_132728) do
     t.string "action"
     t.integer "notifiable_id"
     t.string "notifiable_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "offer_services", force: :cascade do |t|
+    t.integer "order"
+    t.bigint "offer_id"
+    t.bigint "service_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["offer_id"], name: "index_offer_services_on_offer_id"
+    t.index ["service_id"], name: "index_offer_services_on_service_id"
+  end
+
+  create_table "offers", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -516,6 +535,8 @@ ActiveRecord::Schema.define(version: 2022_01_10_132728) do
   add_foreign_key "messages", "users"
   add_foreign_key "need_services", "needs"
   add_foreign_key "need_services", "services"
+  add_foreign_key "offer_services", "offers"
+  add_foreign_key "offer_services", "services"
   add_foreign_key "payment_methods", "users"
   add_foreign_key "post_authors", "practitioners"
   add_foreign_key "post_sub_categories", "post_categories"
