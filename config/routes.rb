@@ -120,6 +120,8 @@ Rails.application.routes.draw do
     resources :messages, only: [:create]
   end
 
+  resources :needs, only: [:show]
+
   resources :events, only: %i[index create show update destroy] do
     resources :event_attendees, only: [:create]
     resources :event_codes, only: [:create]

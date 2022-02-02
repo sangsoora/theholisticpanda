@@ -59,7 +59,94 @@
   -webkit-appearance: none;
   width: 8px;
   }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.3);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+  }
+}
 
+.top-banner1 {
+  display: flex;
+  justify-content: space-between;
+  background: $light-yellow;
+  height: calc(100vh - 4.25rem);
+  margin-top: 4.25rem;
+  .top-banner-buttons-desktop {
+    display: flex;
+  }
+  .top-banner-buttons-mobile {
+    display: none;
+  }
+  .btn-flat {
+    flex: 0 0 40%;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background: $pink;
+    margin-top: 1rem;
+    border-radius: 0;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+  .btn-ghost {
+    flex: 0 0 60%;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background: white;
+    margin-top: 1rem;
+    border-radius: 0;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    opacity: 1;
+    border: 1px solid $pink;
+    text-align: left;
+    color: gray;
+  }
+  .btn-flat:hover {
+    background: #d86941;
+  }
+  .top-banner-text {
+    flex: 0 0 50%;
+    padding: 1rem 0 1rem 4rem;
+    margin-top: 2rem;
+  }
+  .top-banner-image {
+    flex: 0 0 40%;
+    background: url('main.jpg');
+    background-size: cover;
+  }
+  .press-desktop {
+    margin-top: 4rem;
+    display: block;
+  }
+  .press-mobile {
+    display: none;
+  }
+  .press-links {
+    display: flex;
+    justify-content: space-between;
+    .press-link {
+      width: 30%;
+    }
+    img {
+      width: 100%;
+    }
+  }
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+  h4 {
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    line-height: 2;
+  }
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 8px;
+  }
   ::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background-color: rgba(0,0,0,.3);
@@ -236,6 +323,8 @@
 }
 
 .banner-health-goal-select {
+  position: absolute;
+  width: 100%;
   background-color: white;
   height: 200px;
   overflow-y: scroll;
@@ -366,6 +455,46 @@
       padding: 0;
     }
   }
+  .top-banner1 {
+    display: block;
+    height: auto;
+    .top-banner-buttons-mobile {
+      display: block;
+    }
+    .top-banner-buttons-desktop {
+      display: none;
+    }
+    .btn-flat {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      margin-top: 2rem;
+      border-bottom-right-radius: 4px;
+      border-bottom-left-radius: 4px;
+      border-top-right-radius: 0;
+    }
+    .btn-ghost {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      margin-top: 2rem;
+      border-bottom-left-radius: 0;
+      border-top-right-radius: 4px;
+      border-top-left-radius: 4px;
+    }
+    .top-banner-text {
+      width: 100%;
+      padding: 1rem 2rem;
+    }
+    .top-banner-image {
+      height: 50vh;
+      margin-top: 2rem;
+    }
+    .press-desktop {
+      display: none;
+    }
+    .press-mobile {
+      display: block;
+    }
+  }
   #explore-specialties-desktop {
     display: none;
   }
@@ -460,6 +589,9 @@
     .swiper-button-prev, .swiper-button-next {
       display: none;
     }
+  }
+  .banner-health-goal-select {
+    width: 80vw;
   }
 }
 

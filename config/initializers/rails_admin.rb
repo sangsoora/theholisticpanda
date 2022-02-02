@@ -45,5 +45,5 @@ RailsAdmin.config do |config|
       redirect_to main_app.root_path
     end
   end
-  config.included_models = ["User", "Specialty", "HealthGoal", "Language", "Practitioner", "Service", "Session", "Faq", "SpecialtyCategory", "UserPromo", "Event", "PaymentMethod", "ReferredUser", "TaxRate", "PostCategory", "PostSubCategory", "PostAuthor", "EventAttendee", "EventCode", "Need", "NeedService"]
+  config.included_models = ["User", "Specialty", "HealthGoal", "Language", "Practitioner", "Service", "Session", "Faq", "SpecialtyCategory", "UserPromo", "Event", "PaymentMethod", "ReferredUser", "TaxRate", "PostCategory", "PostSubCategory", "PostAuthor", "EventAttendee", "EventCode", "Need", "NeedService", "Offer", "OfferService"]
 end

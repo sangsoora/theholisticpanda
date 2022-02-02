@@ -28,6 +28,14 @@
   padding: 1rem;
   height: 24rem;
   overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.messages::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 .message-form-control {

@@ -1,7 +1,10 @@
 // Specific CSS for your home-page
 #featured-practitioners {
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+  background-color: $light-pink;
+}
+
+#newsletter-section {
+  background-color: $light-green;
 }
 
 .featured-practitioners-specialty {
@@ -87,6 +90,127 @@
   padding: 3rem;
 }
 
+#needs {
+  background: $light-yellow;
+  padding: 1rem;
+}
+
+.needs-icons {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  .needs-icon {
+    flex: 0 0 12.5%;
+  }
+  img {
+    width: 100%;
+  }
+}
+
+#offers {
+  background: $light-pink;
+  padding: 1rem 0;
+  img {
+    width: 80%;
+    border-radius: 1rem;
+  }
+}
+
+#offer-slider-desktop {
+  display: block !important;
+}
+
+#offer-slider-mobile {
+  display: none !important;
+  padding: 1rem;
+}
+
+#community {
+  background: $light-green;
+  .swiper-button-prev:after, .swiper-container-rtl .swiper-button-next:after, .swiper-button-next:after, .swiper-container-rtl .swiper-button-prev:after {
+    font-size: 2.5rem !important;
+  }
+  .swiper-button-prev, .swiper-button-next {
+    color: $emerald;
+  }
+  img {
+    border-radius: 1rem;
+  }
+}
+
+#community-slider {
+  height: auto !important;
+}
+
+#recent-blogs {
+  background: $light-yellow;
+}
+
+.recent-blogs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1.5rem;
+  margin: 2rem auto;
+  text-align: left !important;
+  .recent-blog {
+    background: white;
+    border-radius: 1rem;
+    > a > img {
+      width: 100%;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+    }
+    h2 {
+      font-size: 1rem;
+      font-weight: 500;
+      margin: 0.5rem 0;
+      a {
+        color: black;
+      }
+    }
+    .category-name, .post-minutes {
+      opacity: 0.3;
+      font-weight: 600;
+      margin-bottom: 0;
+      font-size: 0.875rem;
+    }
+    .post-detail {
+      padding: 0.5rem 2rem;
+    }
+    .post-detail h2 {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      height: 57px;
+    }
+    .post-summary p {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      height: 63px;
+      font-size: 0.875rem;
+      opacity: .6;
+    }
+    .post-author {
+      display: flex;
+      margin-bottom: 1rem;
+      .post-author-image {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+      }
+      .post-author-detail {
+        margin-left: 1.5rem;
+        opacity: 0.7;
+        font-style: italic;
+        font-size: 0.875rem;
+      }
+    }
+  }
+}
+
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
 
@@ -123,6 +247,31 @@
   }
   #freecall .container {
     padding: 0;
+  }
+  .needs-icons {
+    .needs-icon {
+      flex: 0 0 45%;
+    }
+  }
+  #offers {
+    padding: 0 1rem;
+  }
+  #offer-slider-desktop {
+    display: none !important;
+  }
+  #offer-slider-mobile {
+    display: block !important;
+  }
+  .recent-blogs {
+    display: block;
+    .recent-blog {
+      margin-bottom: 2rem;
+    }
+  }
+  #community {
+    .swiper-button-prev, .swiper-button-next {
+      display: none;
+    }
   }
 }
 

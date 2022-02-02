@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
   skip_after_action :verify_authorized, only: [:promo_code]
   before_action :set_session, only: %i[show update destroy]
+  before_action :set_notifications, only: [:show]
 
   def show
     @review = Review.new
@@ -527,6 +528,10 @@ class SessionsController < ApplicationController
   def set_session
     @session = Session.find(params[:id])
     authorize @session
+  end
+
+  def set_notifications
+    @notifications = Notification.includes(:actor).where(recipient: current_user).order('created_at DESC').unread
   end
 
   def session_params

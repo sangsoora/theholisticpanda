@@ -10,26 +10,28 @@
   overflow: hidden;
   background: white;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
-  border-radius: 0.5rem;
+  border-radius: 1rem;
+  text-align: left !important;
   img {
     width: 100%;
     object-fit: cover;
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
   }
   h2 {
     font-size: 1.25rem;
     font-weight: bold;
     margin: 0.5rem 0;
+    padding: 0.25rem 1rem;
     a {
-      color: $pink;
+      color: black;
     }
   }
 }
 
 .card-featured .card-featured-infos {
   padding: 0.25rem 1rem;
-  text-align: center;
+  text-align: left !important;
 }
 
 .card-featured-infos {
@@ -46,11 +48,20 @@
   }
   .featured-spcialties {
     display: flex;
-    flex-wrap: wrap;
     align-items: start;
-    justify-content: center;
-    height: 108px;
+    justify-content: space-between;
+    height: 84px;
+    .featured-spcialties-icon {
+      flex: 0 0 15%;
+      img {
+        width: 100%;
+      }
+    }
+    .featured-spcialties-text {
+      flex: 0 0 80%;
+    }
     a {
+      color: black;
       font-weight: 600;
     }
   }
@@ -194,6 +205,33 @@
   display: none;
 }
 
+.community-card {
+  display: flex;
+  justify-content: space-between;
+  max-width: 800px;
+  margin: 2rem auto;
+  text-align: left;
+  .community-card-img {
+    flex: 0 0 30%;
+    a {
+      color: black;
+      font-weight: 700;
+    }
+    img {
+      width: 100%;
+    }
+  }
+  .community-card-text {
+    flex: 0 0 65%;
+    i {
+      color: $emerald;
+    }
+    p {
+      line-height: 2.4;
+    }
+  }
+}
+
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
 
@@ -251,15 +289,24 @@
   .mobile-img {
     display: block;
   }
+  .community-card {
+    display: block;
+    h2 {
+      font-size: 1rem !important;
+    }
+    .community-card-text {
+      margin-top: 1rem;
+    }
+  }
 }
 
 // Mobile landscape
 @media only screen and (max-width:991.98px) and (orientation: landscape) {
   .card-featured img {
-    width: 40%;
+    width: 100%;
   }
   .card-featured {
-    width: 90%;
+    width: 40%;
     margin: 1rem auto;
     box-shadow: none;
   }

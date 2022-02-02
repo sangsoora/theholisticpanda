@@ -4,7 +4,7 @@ import 'swiper/swiper-bundle.css';
 
 const initSwiper = () => {
   if (document.getElementById('explore-specialties-desktop')) {
-    var mySwiper = new Swiper('#explore-specialties-desktop', {
+    var specialtiesDesktopSwiper = new Swiper('#explore-specialties-desktop', {
     // Optional parameters
       slidesPerView: 6,
       slidesPerGroup: 6,
@@ -28,7 +28,7 @@ const initSwiper = () => {
     });
   }
   if (document.getElementById('explore-specialties-mobile')) {
-    var mySwiper = new Swiper('#explore-specialties-mobile', {
+    var specialtiesMobileSwiper = new Swiper('#explore-specialties-mobile', {
     // Optional parameters
       slidesPerView: 4,
       slidesPerGroup: 4,
@@ -52,7 +52,7 @@ const initSwiper = () => {
     });
   }
   if (document.getElementById('practitioners-swiper')) {
-    var mySwiper = new Swiper('#practitioners-swiper', {
+    var practitionersSwiper = new Swiper('#practitioners-swiper', {
     // Optional parameters
       autoplay: {
         delay: 4000,
@@ -68,7 +68,7 @@ const initSwiper = () => {
     });
   }
   if (document.getElementById('blog-banner-swiper')) {
-    var mySwiper = new Swiper('#blog-banner-swiper', {
+    var blogSwiper = new Swiper('#blog-banner-swiper', {
     // Optional parameters
       autoplay: {
         delay: 6000,
@@ -84,6 +84,51 @@ const initSwiper = () => {
       // scrollbar: {
       //   el: '.swiper-scrollbar',
       // },
+    });
+  }
+  if (document.getElementById('offer-slider-desktop')) {
+    var offerDesktopSwiper = new Swiper('#offer-slider-desktop', {
+      spaceBetween: 10,
+      slidesPerView: 5,
+      loop:true,
+      speed: 45000,
+    });
+    function infinite() {
+        offerDesktopSwiper.slideTo(offerDesktopSwiper.slides.length);
+        offerDesktopSwiper.once('transitionEnd', function(){
+            offerDesktopSwiper.slideTo(offerDesktopSwiper.params.slidesPerView, 0, false);
+            setTimeout(function () {
+                infinite();
+            }, 0);
+        });
+    }
+    infinite();
+  }
+  if (document.getElementById('offer-slider-mobile')) {
+    var offerMobileSwiper = new Swiper('#offer-slider-mobile', {
+      spaceBetween: 15,
+      slidesPerView: 3,
+      slidesPerGroup: 3,
+      loop: true,
+      loopFillGroupWithBlank: false,
+      autoplay: {
+        delay: 6000,
+        disableOnInteraction: true,
+      },
+    });
+  }
+  if (document.getElementById('community-slider')) {
+    var communitySwiper = new Swiper('#community-slider', {
+      autoplay: {
+        delay: 12000,
+        disableOnInteraction: false,
+      },
+      speed: 1500,
+      loop: true,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
     });
   }
 };
