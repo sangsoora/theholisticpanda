@@ -31,6 +31,15 @@
 
 body {
   position: relative;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  background-color: $light-yellow;
+}
+
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 h1 {

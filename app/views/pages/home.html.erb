@@ -7,7 +7,10 @@
 <section id="offers">
   <% if Offer.where(active: true).count > 0 %>
     <div class="py-5 text-center">
-      <p><i class="fas fa-bullhorn"></i> Staff's pick</p>
+      <div class="d-flex justify-content-center mb-3">
+        <%= image_tag 'bullhorn', class: 'mr-3', alt: 'bullhorn', style: 'width: 30px;' %>
+        <p class="mb-0" style="font-size: 20px;">Staff's pick</p>
+      </div>
       <h2><%= @offer.name %></h2>
       <br>
       <h6><%= @offer.description.gsub(/\n/, '<br/>').html_safe %></h6>
@@ -23,7 +26,8 @@
                 <% else %>
                   <%= image_tag 'profile.png' %>
                 <% end %>
-                <p class="my-2"><%= service.service.name %></p>
+                <p class="my-2" style="height: 48px;"><%= service.service.name %></p>
+                <p><%= service.service.practitioner.user.full_name %></p>
               </a>
             </div>
           <% end %>
@@ -53,7 +57,7 @@
 <section id="needs">
   <div class='d-flex justify-content-center py-5 text-center'>
     <div class="container">
-      <h4>Discover services for your specific needs.</h4>
+      <h4>Discover services for your specific needs.</h4><br>
       <br>
       <div class="needs-icons">
         <% @needs.each do |need| %>
@@ -72,14 +76,85 @@
     </div>
   </div>
 </section>
-<section id='freecall' class='text-center' style="background-color: white;">
-  <div class="container p-5">
-    <h2 class="mb-5" style="line-height: 2;">Try a 15-minute discovery call with<br>any of our practitioners</h2>
-    <p style="line-height: 2;font-size:1.25rem;">We know commitment is not easy these days,<br>so enjoy a <strong>free 15 minute discovery call</strong> with any one of our practitioners. It’s on us!</p>
+<section id="community">
+  <div class="py-5 text-center">
+    <h2>Let’s hear from<br>#THEHOLISTICPANDA Community</h2>
+    <div class="container">
+      <div class="swiper-container" id="community-slider">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="community-card">
+              <div class="community-card-img">
+                <a href="https://www.theholisticpanda.com/services/147">
+                  <%= image_tag 'community1.jpg' %>
+                </a>
+                <a href="" target="_blank">@azia_mery</a>
+              </div>
+              <div class="community-card-text">
+                <div class="d-flex mb-4">
+                  <i class="fas fa-star mr-2"></i>
+                  <i class="fas fa-star mr-2"></i>
+                  <i class="fas fa-star mr-2"></i>
+                  <i class="fas fa-star mr-2"></i>
+                  <i class="fas fa-star mr-2"></i>
+                </div>
+                <p>“ So happy to see the recognition for Asian health and wellness professionals as well as a platform to provide better access! It took me awhile to realize I felt more comfortable talking to therapists that looked like me and understand my cultural upbringings. ”</p>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="community-card">
+              <div class="community-card-img">
+                <a href="https://www.theholisticpanda.com/services/134">
+                  <%= image_tag 'community2.png' %>
+                </a>
+                <a href="" target="_blank">@armana.and.co</a>
+              </div>
+              <div class="community-card-text">
+                <div class="d-flex mb-4">
+                  <i class="fas fa-star mr-2"></i>
+                  <i class="fas fa-star mr-2"></i>
+                  <i class="fas fa-star mr-2"></i>
+                  <i class="fas fa-star mr-2"></i>
+                  <i class="fas fa-star mr-2"></i>
+                </div>
+                <p>“ It was really nice to share my thoughts with a professional while checking in with how my body responded throughout the session. Phuong-Thao was empowering and empathetic and I would definietly recommend a session with her if you’re looking for mental clarity... ”</p>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="community-card">
+              <div class="community-card-img">
+                <a href="https://www.theholisticpanda.com/services/88">
+                  <%= image_tag 'community3.jpg' %>
+                </a>
+                <a href="" target="_blank">@archanaahuja</a>
+              </div>
+              <div class="community-card-text">
+                <div class="d-flex mb-4">
+                  <i class="fas fa-star mr-2"></i>
+                  <i class="fas fa-star mr-2"></i>
+                  <i class="fas fa-star mr-2"></i>
+                  <i class="fas fa-star mr-2"></i>
+                  <i class="fas fa-star mr-2"></i>
+                </div>
+                <p>“ Honestly, this was my first session of self-care and I already feel so good discovering a little more about myself, untangling my thoughts, ready to make changes in my life, actions and thought process. This session was extremely important and useful for me. So happy to have taken this first step towards self-care... ”</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+    </div>
   </div>
 </section>
 <section id="featured-practitioners">
-  <div class="d-flex justify-content-center my-4 text-center">
+  <div class="py-5 text-center">
+    <div class="container">
+      <h2>Free discovery call</h2><br>
+      <h6>with any of our coaches</h6>
+    </div>
     <div class="container mt-5" id="featured-practitioners-desktop">
       <div class="cards-featured">
         <% @featured_practitioners.shuffle.first(4).each do |practitioner| %>
@@ -91,19 +166,24 @@
             <div class="card-featured-infos">
               <p class="featured-title"><%= practitioner.title %></p>
               <div class="featured-spcialties">
-                <% if practitioner.specialties.count > 3 %>
-                  <% practitioner.specialties.shuffle.first(2).each do |specialty| %>
-                    <div class="featured-practitioners-specialty"><%= link_to specialty.name, specialty_path(specialty) %></div>
+                <div class="featured-spcialties-icon">
+                  <%= image_tag "notepad", alt: "notepad" %>
+                </div>
+                <div class="featured-spcialties-text">
+                  <% if practitioner.specialties.count > 3 %>
+                    <% practitioner.specialties.shuffle.first(2).each do |specialty| %>
+                      <p><%= link_to specialty.name, specialty_path(specialty) %></p>
+                    <% end %>
+                    <p><%= link_to 'and more', practitioner_path(practitioner) %></p>
+                  <% elsif practitioner.specialties.count <= 3 %>
+                    <% practitioner.specialties.shuffle.each do |specialty| %>
+                      <p><%= link_to specialty.name, specialty_path(specialty) %></p>
+                    <% end %>
                   <% end %>
-                  <p><%= link_to 'and more', practitioner_path(practitioner) %></p>
-                <% elsif practitioner.specialties.count <= 3 %>
-                  <% practitioner.specialties.shuffle.each do |specialty| %>
-                    <div class="featured-practitioners-specialty"><%= link_to specialty.name, specialty_path(specialty) %></div>
-                  <% end %>
-                <% end %>
+                </div>
               </div>
               <% if !user_signed_in? || (user_signed_in? && !practitioner.had_free_session?(current_user)) %>
-                <%= link_to 'Book Free 15 Min Call', practitioner_discovery_call_path(practitioner), class: 'btn btn-flat my-2' %>
+                <%= link_to 'Get started', practitioner_path(practitioner), class: 'btn btn-flat my-2 w-100' %>
               <% end %>
             </div>
           </div>
@@ -123,19 +203,24 @@
               <div class="card-featured-infos">
                 <p class="featured-title"><%= practitioner.title %></p>
                 <div class="featured-spcialties">
-                  <% if practitioner.specialties.count > 3 %>
-                    <% practitioner.specialties.shuffle.first(2).each do |specialty| %>
-                      <div class="featured-practitioners-specialty"><%= link_to specialty.name, specialty_path(specialty) %></div>
+                  <div class="featured-spcialties-icon">
+                    <%= image_tag 'notepad', alt: 'notepad' %>
+                  </div>
+                  <div class="featured-spcialties-text">
+                    <% if practitioner.specialties.count > 3 %>
+                      <% practitioner.specialties.shuffle.first(2).each do |specialty| %>
+                        <p><%= link_to specialty.name, specialty_path(specialty) %></p>
+                      <% end %>
+                      <p><%= link_to 'and more', practitioner_path(practitioner) %></p>
+                    <% elsif practitioner.specialties.count <= 3 %>
+                      <% practitioner.specialties.shuffle.each do |specialty| %>
+                        <p><%= link_to specialty.name, specialty_path(specialty) %></p>
+                      <% end %>
                     <% end %>
-                    <p><%= link_to 'and more', practitioner_path(practitioner) %></p>
-                  <% elsif practitioner.specialties.count <= 3 %>
-                    <% practitioner.specialties.shuffle.each do |specialty| %>
-                      <div class="featured-practitioners-specialty"><%= link_to specialty.name, specialty_path(specialty) %></div>
-                    <% end %>
-                  <% end %>
+                  </div>
                 </div>
                 <% if !user_signed_in? || (user_signed_in? && !practitioner.had_free_session?(current_user)) %>
-                  <%= link_to 'Book free 15 min call', practitioner_discovery_call_path(practitioner), class: 'btn btn-flat my-2' %>
+                  <%= link_to 'Get started', practitioner_path(practitioner), class: 'btn btn-flat my-2 w-100' %>
                 <% end %>
               </div>
             </div>
@@ -146,98 +231,65 @@
     </div>
   </div>
 </section>
-<section id="why-panda">
-  <div class='d-flex justify-content-center my-4 text-center'>
+<section id="recent-blogs">
+  <div class="py-5 text-center">
     <div class="container">
-      <h2>Why The Holistic Panda?</h2>
-      <div class="cards-why">
-        <div class="card-why">
-          <%= image_tag("time.png") %>
-          <h4>SAVE TIME</h4>
-          <ul>
-            <li><p>Easily search through our diverse range of wellness services</p></li>
-            <li><p>Securely book and pay for your session in just a few clicks</p></li>
-            <li><p>Access wellness services anytime, anywhere</p></li>
-          </ul>
-        </div>
-        <div class="card-why">
-          <%= image_tag("mind.png") %>
-          <h4>PEACE OF MIND</h4>
-          <ul>
-            <li><p>Enjoy free account signup and zero booking fee</p>
-            <li><p>Receive free discovery call with practitioners to identify the right fit</p></li>
-            <li><p>Book with trusted practitioners that have received background checks</p></li>
-            </li>
-          </ul>
-        </div>
-        <div class="card-why">
-          <%= image_tag("connected.png") %>
-          <h4>STAY CONNECTED</h4>
-          <ul>
-            <li><p>Learn about wellness through our content and articles</p></li>
-            <li><p>Join events with experts to optimise health and wellness</p></li>
-            <li><p>Be a part of a community of like-minded people</p></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<section id="how-works">
-  <div class='d-flex justify-content-center my-4'>
-    <div class="container">
-      <div class="text-center">
-        <h2>How does it work?</h2>
-      </div>
-      <div class="cards-works">
-        <div class="card-works">
-          <div class="work-img">
-            <%= image_tag("works1.gif") %>
-          </div>
-          <div class="work-description">
-            <div>
-              <h3>Choose a holistic service</h3>
-              <p><strong>Select</strong> your health goals and filter results.</p>
-              <p><strong>Explore</strong> services and practitioners’ pages.</p>
-              <p><strong>Pick</strong> the right service and provider for you.</p>
+      <h2>Recent blog articles</h2>
+      <p>Your Asian-conscious wellness source</p>
+      <div class="recent-blogs">
+        <% @posts.each do |post| %>
+          <div class="recent-blog">
+            <a href="/blog/<%= post.short_title %>">
+              <% if post.photo.attached? %>
+                <img src="<%= cdn_for(post.photo) %>" alt="<%= post.title %>" id="post-img-<%= post.id.to_s %>">
+              <% else %>
+                <%= image_tag 'virtual-min.png', id: 'post-img-'+post.id.to_s %>
+              <% end %>
+            </a>
+            <div class="post-detail">
+              <div class="d-flex justify-content-between">
+                <p class="category-name"><%= post.post_category.name.upcase %></p>
+                <p class="post-minutes">
+                  <% if post.minutes %>
+                    <%= post.minutes %> minutes read
+                  <% end %>
+                </p>
+              </div>
+              <h2><%= link_to post.title, post_path(post) %></h2>
+              <div class="post-summary">
+                <% if post.body != '' %>
+                  <%= (post.body.split('</p>')[0] + '</p>').html_safe %>
+                <% end %>
+              </div>
+              <div class="post-author">
+                <% if post.post_author.photo.attached? %>
+                  <img src="<%= cdn_for(post.post_author.photo) %>" class="post-author-image" alt="<%= post.post_author.full_name %>">
+                <% else %>
+                  <% if post.post_author.practitioner %>
+                    <img src="<%= cdn_for(post.post_author.practitioner.user.photo) %>" class="post-author-image" alt="<%= post.post_author.full_name %>">
+                  <% else %>
+                    <%= image_tag 'profile.png', class: "post-author-image" %>
+                  <% end %>
+                <% end %>
+                <div class="post-author-detail">
+                  <% if post.post_author.practitioner %>
+                    by <%= link_to post.post_author.full_name, practitioner_url(post.post_author.practitioner) %><br />
+                    <%= post.post_author.practitioner.title %>
+                  <% else %>
+                    by <%= link_to post.post_author.full_name, post.post_author.link %><br />
+                    <%= post.post_author.title %>
+                  <% end %>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="card-works">
-          <div class="work-img mobile-img">
-            <%= image_tag("works2.gif") %>
-          </div>
-          <div class="work-description">
-            <div>
-              <h3>Book your session</h3>
-              <p><strong>See</strong> practitioner’s availability.</p>
-              <p><strong>Submit</strong> 3 time requests that suit you.</p>
-              <p><strong>Receive</strong> session confirmation from practitioner.</p>
-            </div>
-          </div>
-          <div class="work-img desktop-img">
-            <%= image_tag("works2.gif") %>
-          </div>
-        </div>
-        <div class="card-works">
-          <div class="work-img">
-            <%= image_tag("works4.png") %>
-          </div>
-          <div class="work-description">
-            <div>
-              <h3>Start your journey</h3>
-              <p><strong>Connect</strong> with your selected practitioner.</p>
-              <p><strong>Conduct</strong> your session virtually or in-person.</p>
-              <p><strong>Start</strong> your wellness journey here!</p>
-            </div>
-          </div>
-        </div>
+        <% end %>
       </div>
     </div>
   </div>
 </section>
 <section id="newsletter-section">
-  <div class='d-flex justify-content-center my-4 text-center'>
+  <div class='d-flex justify-content-center py-5 text-center'>
     <div class="container">
       <% if !(user_signed_in? && current_user.newsletter) %>
         <h2>Sign up to our newsletter</h2>
@@ -269,3 +321,15 @@
     </div>
   </div>
 </section>
+<script>
+  function imgResize() {
+    <% @posts.each do |post| %>
+      var width<%= post.id %> = document.getElementById('post-img-<%= post.id %>').width;
+      document.getElementById('post-img-<%= post.id %>').height = (width<%= post.id %> / 2.75);
+    <% end %>
+  }
+  imgResize();
+  window.addEventListener('resize', function(event){
+    imgResize();
+  });
+</script>

@@ -116,14 +116,18 @@
     background: url('main.jpg');
     background-size: cover;
   }
-  .press {
+  .press-desktop {
     margin-top: 4rem;
+    display: block;
+  }
+  .press-mobile {
+    display: none;
   }
   .press-links {
     display: flex;
     justify-content: space-between;
     .press-link {
-      width: 22%;
+      width: 30%;
     }
     img {
       width: 100%;
@@ -319,6 +323,8 @@
 }
 
 .banner-health-goal-select {
+  position: absolute;
+  width: 100%;
   background-color: white;
   height: 200px;
   overflow-y: scroll;
@@ -480,6 +486,13 @@
     }
     .top-banner-image {
       height: 50vh;
+      margin-top: 2rem;
+    }
+    .press-desktop {
+      display: none;
+    }
+    .press-mobile {
+      display: block;
     }
   }
   #explore-specialties-desktop {
@@ -576,6 +589,9 @@
     .swiper-button-prev, .swiper-button-next {
       display: none;
     }
+  }
+  .banner-health-goal-select {
+    width: 80vw;
   }
 }
 

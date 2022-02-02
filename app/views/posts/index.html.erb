@@ -85,9 +85,9 @@
           <div class="post">
             <a href="/blog/<%= post.short_title %>">
               <% if post.photo.attached? %>
-                <img src="<%= cdn_for(post.photo) %>" alt="<%= post.title %>">
+                <img src="<%= cdn_for(post.photo) %>" alt="<%= post.title %>" id="post-img-<%= post.id.to_s %>">
               <% else %>
-                <%= image_tag 'virtual-min.png' %>
+                <%= image_tag 'virtual-min.png', id: 'post-img-'+post.id.to_s %>
               <% end %>
             </a>
             <div class="post-detail">
@@ -167,6 +167,16 @@
   </div>
 </div>
 <script>
+  function imgResize() {
+    <% @posts.each do |post| %>
+      var width<%= post.id %> = document.getElementById('post-img-<%= post.id %>').width;
+      document.getElementById('post-img-<%= post.id %>').height = (width<%= post.id %> / 2.75);
+    <% end %>
+  }
+  imgResize();
+  window.addEventListener('resize', function(event){
+    imgResize();
+  });
   document.getElementById('search-button').addEventListener('click', (e) => {
     document.getElementById('search-post-form').submit();
   });
