@@ -183,7 +183,7 @@
                 </div>
               </div>
               <% if !user_signed_in? || (user_signed_in? && !practitioner.had_free_session?(current_user)) %>
-                <%= link_to 'Get started', practitioner_path(practitioner), class: 'btn btn-flat my-2 w-100' %>
+                <%= link_to 'Get started', practitioner_path(practitioner), class: 'btn btn-flat my-3 w-100' %>
               <% end %>
             </div>
           </div>
@@ -220,7 +220,7 @@
                   </div>
                 </div>
                 <% if !user_signed_in? || (user_signed_in? && !practitioner.had_free_session?(current_user)) %>
-                  <%= link_to 'Get started', practitioner_path(practitioner), class: 'btn btn-flat my-2 w-100' %>
+                  <%= link_to 'Get started', practitioner_path(practitioner), class: 'btn btn-flat my-3 w-100' %>
                 <% end %>
               </div>
             </div>
@@ -292,8 +292,8 @@
   <div class='d-flex justify-content-center py-5 text-center'>
     <div class="container">
       <% if !(user_signed_in? && current_user.newsletter) %>
-        <h2>Sign up to our newsletter</h2>
-        <p>We respect your privacy.</p>
+        <h2>Subscribe to our newsletter</h2>
+        <p>Get the latest news, content updates, wellness events invites, and more!</p>
         <!-- Begin Mailchimp Signup Form -->
         <div id="mc_embed_signup">
           <form action="https://theholisticpanda.us7.list-manage.com/subscribe/post?u=5a5d4ba10d9985a895c9fa80c&amp;id=882a915325" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
@@ -301,7 +301,7 @@
               <div class="mc-field-group">
                 <input class="form-control string email required" placeholder="someone@example.com" type="email" name="EMAIL" id="mce-EMAIL">
               </div>
-                <p><strong>Are you a practitioner or wellness seeker? </strong></p>
+                <p><strong>Are you a practitioner or wellness seeker?</strong></p>
                 <ul>
                   <li><input type="radio" value="1" name="group[80075]" id="mce-group[80075]-80075-0"><label for="mce-group[80075]-80075-0">Practitioner</label></li>
                   <li><input type="radio" value="2" name="group[80075]" id="mce-group[80075]-80075-1"><label for="mce-group[80075]-80075-1">Wellness Seeker</label></li>
