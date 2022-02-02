@@ -51,6 +51,7 @@
     align-items: start;
     justify-content: space-between;
     height: 84px;
+    margin-top: 1rem;
     .featured-spcialties-icon {
       flex: 0 0 15%;
       img {
@@ -66,7 +67,7 @@
     }
   }
   p {
-    font-size: 1rem;
+    font-size: 0.875rem;
     font-weight: 600;
     opacity: .7;
     margin: 0;
