@@ -33,7 +33,8 @@ body {
   position: relative;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  background-color: $light-yellow;
+  background-color: #f9f9f9;
+  overflow-x: hidden;
 }
 
 body::-webkit-scrollbar {
