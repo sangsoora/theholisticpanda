@@ -20,11 +20,6 @@ const initSwiper = () => {
         delay: 6000,
         disableOnInteraction: false,
       },
-
-      // And if we need scrollbar
-      // scrollbar: {
-      //   el: '.swiper-scrollbar',
-      // },
     });
   }
   if (document.getElementById('explore-specialties-mobile')) {
@@ -44,11 +39,6 @@ const initSwiper = () => {
         delay: 6000,
         disableOnInteraction: false,
       },
-
-      // And if we need scrollbar
-      // scrollbar: {
-      //   el: '.swiper-scrollbar',
-      // },
     });
   }
   if (document.getElementById('practitioners-swiper')) {
@@ -59,12 +49,6 @@ const initSwiper = () => {
         disableOnInteraction: false,
       },
       loop: true,
-      // Navigation arrows
-
-      // And if we need scrollbar
-      // scrollbar: {
-      //   el: '.swiper-scrollbar',
-      // },
     });
   }
   if (document.getElementById('blog-banner-swiper')) {
@@ -80,18 +64,15 @@ const initSwiper = () => {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
       },
-      // And if we need scrollbar
-      // scrollbar: {
-      //   el: '.swiper-scrollbar',
-      // },
     });
   }
   if (document.getElementById('offer-slider-desktop')) {
     var offerDesktopSwiper = new Swiper('#offer-slider-desktop', {
-      spaceBetween: 10,
+      spaceBetween: 14,
       slidesPerView: 5,
       loop:true,
       speed: 45000,
+      preloadImages: false,
     });
     function infinite() {
         offerDesktopSwiper.slideTo(offerDesktopSwiper.slides.length);
@@ -106,9 +87,9 @@ const initSwiper = () => {
   }
   if (document.getElementById('offer-slider-mobile')) {
     var offerMobileSwiper = new Swiper('#offer-slider-mobile', {
-      spaceBetween: 15,
-      slidesPerView: 3,
-      slidesPerGroup: 3,
+      spaceBetween: 20,
+      slidesPerView: 2,
+      slidesPerGroup: 2,
       loop: true,
       loopFillGroupWithBlank: false,
       autoplay: {

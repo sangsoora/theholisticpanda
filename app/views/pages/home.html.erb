@@ -11,13 +11,13 @@
         <%= image_tag 'bullhorn', class: 'mr-3', alt: 'bullhorn', style: 'width: 30px;' %>
         <p class="mb-0" style="font-size: 20px;">Staff's pick</p>
       </div>
-      <h2><%= @offer.name %></h2>
+      <h1><%= @offer.name %></h1>
       <br>
       <h6><%= @offer.description.gsub(/\n/, '<br/>').html_safe %></h6>
       <div class="swiper-container mt-5" id="offer-slider-desktop">
-        <div class="swiper-wrapper" style="transition-timing-function: linear !important;">
+        <div class="swiper-wrapper d-flex justify-content-between" style="transition-timing-function: linear !important;">
           <% @offer.offer_services.each do |service| %>
-            <div class="swiper-slide" id="offer-slide">
+            <div class="swiper-slide" style="flex: 0 0 20%;">
               <a href="services/<%= service.service.id %>">
                 <% if service.photo.attached? %>
                   <img src="<%= cdn_for(service.photo) %>">
@@ -26,17 +26,19 @@
                 <% else %>
                   <%= image_tag 'profile.png' %>
                 <% end %>
-                <p class="my-2" style="height: 48px;"><%= service.service.name %></p>
-                <p><%= service.service.practitioner.user.full_name %></p>
               </a>
+              <div class="text-left">
+                <p class="my-2 offer-service"><%= service.service.name %></p>
+                <p class="offer-practitioner"><%= service.service.practitioner.user.full_name %></p>
+              </div>
             </div>
           <% end %>
         </div>
       </div>
       <div class="swiper-container mt-4" id="offer-slider-mobile">
-        <div class="swiper-wrapper">
+        <div class="swiper-wrapper d-flex justify-content-between">
           <% @offer.offer_services.each do |service| %>
-            <div class="swiper-slide" id="offer-slide">
+            <div class="swiper-slide">
               <a href="services/<%= service.service.id %>">
                 <% if service.photo.attached? %>
                   <img src="<%= cdn_for(service.photo) %>">
@@ -45,8 +47,11 @@
                 <% else %>
                   <%= image_tag 'profile.png' %>
                 <% end %>
-                <p class="my-1"><%= service.service.name %></p>
               </a>
+              <div class="text-left">
+                <p class="my-1 offer-service"><%= service.service.name %></p>
+                <p class="offer-practitioner"><%= service.service.practitioner.user.full_name %></p>
+              </div>
             </div>
           <% end %>
         </div>
@@ -55,10 +60,9 @@
   <% end %>
 </section>
 <section id="needs">
-  <div class='d-flex justify-content-center py-5 text-center'>
+  <div class="py-5 text-center">
     <div class="container">
-      <h4>Discover services for your specific needs.</h4><br>
-      <br>
+      <h1>Discover services for your specific needs</h1><br>
       <div class="needs-icons">
         <% @needs.each do |need| %>
           <div class="needs-icon">
@@ -68,7 +72,7 @@
               <% else %>
                 <%= image_tag("needs/#{need.name.downcase}") %>
               <% end %>
-              <p><%= need.name %></p>
+              <p style="font-size: 1.25rem;"><%= need.name %></p>
             <% end %>
           </div>
         <% end %>
@@ -78,8 +82,8 @@
 </section>
 <section id="community">
   <div class="py-5 text-center">
-    <h2>Let’s hear from<br>#THEHOLISTICPANDA Community</h2>
     <div class="container">
+      <h1 style="word-wrap: break-word;">Let’s hear from<br>#THEHOLISTICPANDA Community</h1>
       <div class="swiper-container" id="community-slider">
         <div class="swiper-wrapper">
           <div class="swiper-slide">
@@ -152,7 +156,7 @@
 <section id="featured-practitioners">
   <div class="py-5 text-center">
     <div class="container">
-      <h2>Free discovery call</h2><br>
+      <h1>Free discovery call</h1><br>
       <h6>with any of our coaches</h6>
     </div>
     <div class="container mt-5" id="featured-practitioners-desktop">
@@ -234,7 +238,7 @@
 <section id="recent-blogs">
   <div class="py-5 text-center">
     <div class="container">
-      <h2>Recent blog articles</h2>
+      <h1>Recent blog articles</h1>
       <p>Your Asian-conscious wellness source</p>
       <div class="recent-blogs">
         <% @posts.each do |post| %>
@@ -292,7 +296,7 @@
   <div class='d-flex justify-content-center py-5 text-center'>
     <div class="container">
       <% if !(user_signed_in? && current_user.newsletter) %>
-        <h2>Subscribe to our newsletter</h2>
+        <h1>Subscribe to our newsletter</h1>
         <p>Get the latest news, content updates, wellness events invites, and more!</p>
         <!-- Begin Mailchimp Signup Form -->
         <div id="mc_embed_signup">
