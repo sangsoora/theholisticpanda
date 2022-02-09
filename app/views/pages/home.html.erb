@@ -11,8 +11,7 @@
         <%= image_tag 'bullhorn', class: 'mr-3', alt: 'bullhorn', style: 'width: 30px;' %>
         <p class="mb-0" style="font-size: 20px;">Staff's pick</p>
       </div>
-      <h1><%= @offer.name %></h1>
-      <br>
+      <h1><%= @offer.name %></h1><br>
       <h6><%= @offer.description.gsub(/\n/, '<br/>').html_safe %></h6>
       <div class="swiper-container mt-5" id="offer-slider-desktop">
         <div class="swiper-wrapper d-flex justify-content-between" style="transition-timing-function: linear !important;">
@@ -156,7 +155,7 @@
 <section id="featured-practitioners">
   <div class="py-5 text-center">
     <div class="container">
-      <h1>Free discovery call</h1><br>
+      <h1>Free discovery call</h1>
       <h6>with any of our coaches</h6>
     </div>
     <div class="container mt-5" id="featured-practitioners-desktop">
@@ -239,7 +238,7 @@
   <div class="py-5 text-center">
     <div class="container">
       <h1>Recent blog articles</h1>
-      <p>Your Asian-conscious wellness source</p>
+      <h6>Your Asian-conscious wellness source</h6>
       <div class="recent-blogs">
         <% @posts.each do |post| %>
           <div class="recent-blog">
@@ -297,7 +296,7 @@
     <div class="container">
       <% if !(user_signed_in? && current_user.newsletter) %>
         <h1>Subscribe to our newsletter</h1>
-        <p>Get the latest news, content updates, wellness events invites, and more!</p>
+        <h6>Get the latest news, content updates, wellness events invites, and more!</h6><br>
         <!-- Begin Mailchimp Signup Form -->
         <div id="mc_embed_signup">
           <form action="https://theholisticpanda.us7.list-manage.com/subscribe/post?u=5a5d4ba10d9985a895c9fa80c&amp;id=882a915325" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
