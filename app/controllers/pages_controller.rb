@@ -5,7 +5,7 @@ class PagesController < ApplicationController
   def home
     @needs = Need.all
     @offer = Offer.where(active: true).first
-    @posts = Post.all.sort_by(&:created_at).reverse.first(3)
+    @posts = Post.where(published: true).sort_by(&:created_at).reverse.first(3)
     practitioners = Practitioner.checked_practitioners.includes(user: [:photo_attachment])
     @featured_practitioners = []
     practitioners.each do |practitioner|

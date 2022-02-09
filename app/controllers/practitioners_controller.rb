@@ -115,7 +115,7 @@ class PractitionersController < ApplicationController
 
   def update
     if params[:commit] == 'Proceed to payment'
-      if (params[:practitioner][:agreement_consent][1]) && (params[:practitioner][:background_check_consent][1]) && @practitioner.update(background_check_consent: true, agreement_consent: true, amount_cents: 3500)
+      if (params[:practitioner][:agreement_consent][1]) && (params[:practitioner][:background_check_consent][1]) && @practitioner.update(background_check_consent: true, agreement_consent: true, amount_cents: 5000)
         customer = Stripe::Customer.create({
           email: @practitioner.user.email,
           name: @practitioner.user.full_name,
@@ -139,7 +139,7 @@ class PractitionersController < ApplicationController
             customer: customer.id,
             line_items: [{
               name: 'Practitioner Onboarding Fee',
-              amount: 3500,
+              amount: 5000,
               currency: 'cad',
               quantity: 1,
               tax_rates: tax_rates
