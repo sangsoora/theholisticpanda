@@ -1,25 +1,11 @@
 <a data-toggle="modal" data-target="#notificationModal" id='open-notification-modal' style='display: none;'></a>
 <div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-photo" id="notificationModal-dialog" role="document">
+  <div class="modal-dialog" id="notificationModal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-body text-center">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-notification-modal">
-          <span aria-hidden="true" style="color: red;">&times;</span>
-        </button>
-        <div class="row">
-          <div class="col-12 col-md-5">
-            <%= image_tag('notification', class: 'w-100') %>
-          </div>
-          <div class="col-12 col-md-7 p-4">
-            <h3>We are live!</h3>
-            <div class="text-center">
-              <br>
-              <p style="font-size: 1.75rem; line-height: 1.75;">Sign up for free!<br>Get 10% off your booking.<br>Refer a friend &<br>you both get 10% off.</p>
-            </div>
-            <br>
-            <button type="button" data-dismiss="modal" aria-label="Close" class="btn btn-flat" id="close-notification-modal1">Close</button>
-          </div>
-        </div>
+      <%= image_tag "popup", class: 'w-100' %>
+      <div class="notification-modal-text">
+        <h1>Get 10% off<br>your booking<br>when you sign up!</h1>
+        <button type="button" data-dismiss="modal" aria-label="Close" class="btn btn-flat" id="close-notification-modal">Start exploring</button>
       </div>
     </div>
   </div>
@@ -28,14 +14,12 @@
   document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       if (localStorage.getItem("_notification") != "true") {
-      document.getElementById('open-notification-modal').click();
+        document.getElementById('open-notification-modal').click();
       }
     }, 2000);
     document.getElementById('close-notification-modal').addEventListener('click', (e)=> {
       localStorage.setItem("_notification", "true");
-    });
-    document.getElementById('close-notification-modal1').addEventListener('click', (e)=> {
-      localStorage.setItem("_notification", "true");
+      window.location.href = '/#offers';
     });
   });
 </script>

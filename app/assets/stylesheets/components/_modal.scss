@@ -71,6 +71,27 @@
   }
 }
 
+#notificationModal-dialog {
+  max-width: 70%;
+  .modal-content {
+    position: relative;
+  }
+  .notification-modal-text {
+    position: absolute;
+    top: 30%;
+    right: 0;
+    width: 50%;
+    padding-right: 5%;
+    text-align: center;
+  }
+  h1 {
+    font-size: 2.5rem;
+  }
+  .btn {
+    margin-top: 2rem;
+  }
+}
+
 // X-Small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
 
@@ -78,12 +99,58 @@
 
 // Small devices (landscape phones, less than 768px)
 @media (max-width: 767.98px) {
-
+  #notificationModal-dialog {
+    max-width: 100%;
+    .modal-content {
+      position: relative;
+    }
+    .notification-modal-text {
+      position: absolute;
+      top: 15%;
+      right: 0;
+      width: 55%;
+      padding-right: 5%;
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.25rem;
+      margin: 1rem 0;
+    }
+    .btn {
+      margin-top: 0;
+    }
+    .btn-flat {
+      padding: 0.25rem 1rem;
+    }
+  }
 }
 
 // Mobile landscape
 @media only screen and (max-width:991.98px) and (orientation: landscape) {
-
+  #notificationModal-dialog {
+    max-width: 60%;
+    .modal-content {
+      position: relative;
+    }
+    .notification-modal-text {
+      position: absolute;
+      top: 20%;
+      right: 0;
+      width: 55%;
+      padding-right: 5%;
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin: 1rem 0;
+    }
+    .btn {
+      margin-top: 0;
+    }
+    .btn-flat {
+      padding: 0.25rem 1rem;
+    }
+  }
 }
 
 // iPad Portrait
