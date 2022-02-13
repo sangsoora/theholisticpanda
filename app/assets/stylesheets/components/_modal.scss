@@ -72,7 +72,7 @@
 }
 
 #notificationModal-dialog {
-  max-width: 70%;
+  max-width: 60%;
   .modal-content {
     position: relative;
   }
@@ -160,7 +160,12 @@
 
 // iPad Landscape
 @media only screen and (min-width:992px) and (max-width:1024px) and (orientation: landscape) {
-
+  #notificationModal-dialog {
+    h1 {
+      font-size: 2rem;
+      margin: 1rem 0;
+    }
+  }
 }
 
 // iPadPro Portrait
@@ -170,7 +175,12 @@
 
 // iPadPro Landscape
 @media only screen and (min-width:1024px) and (max-width:1366px) and (orientation: landscape) {
-
+  #notificationModal-dialog {
+    h1 {
+      font-size: 2rem;
+      margin: 1rem 0;
+    }
+  }
 }
 
 // Medium devices (tablets, less than 992px)
