@@ -11,15 +11,19 @@
   </div>
 </div>
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      if (localStorage.getItem("_notification") != "true") {
-        document.getElementById('open-notification-modal').click();
-      }
-    }, 2000);
-    document.getElementById('close-notification-modal').addEventListener('click', (e)=> {
-      localStorage.setItem("_notification", "true");
-      window.location.href = '/#offers';
-    });
+  document.addEventListener('DOMContentLoaded', (e) => {
+    if (screen.availWidth > screen.availHeight && screen.availWidth > 991.98) {
+        setTimeout(() => {
+          if (localStorage.getItem("_notification") != "true") {
+            document.getElementById('open-notification-modal').click();
+          }
+        }, 2000);
+        document.getElementById('close-notification-modal').addEventListener('click', (e)=> {
+          localStorage.setItem("_notification", "true");
+          window.location.href = '/#offers';
+        });
+    } else {
+        document.getElementById('open-notification-modal').remove();
+    }
   });
 </script>
