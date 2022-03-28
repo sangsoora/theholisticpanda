@@ -21,6 +21,9 @@
         document.getElementById('close-notification-modal').addEventListener('click', (e)=> {
           localStorage.setItem("_notification", "true");
           window.location.href = '/#offers';
+          $("#notificationModal").on("hidden.bs.modal", function () {
+              console.log('closed')
+          });
         });
     } else {
         document.getElementById('open-notification-modal').remove();
