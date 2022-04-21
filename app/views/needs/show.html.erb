@@ -23,7 +23,7 @@
               <p><%= service.service.service_type.capitalize %></p>
             </div>
             <h3>
-              <%= link_to service.service.name, service_path(service) %>
+              <%= link_to service.service.name, service_path(service.service) %>
             </h3>
             <% if service.service.service_promotions.exists? && service.service.active_promotion? %>
               <div class="d-flex" style="flex: 1 0 20%;">
@@ -78,7 +78,7 @@
         </div>
         <div class="details-mobile">
           <h3>
-            <%= link_to service.service.name, service_path(service) %>
+            <%= link_to service.service.name, service_path(service.service) %>
           </h3>
         </div>
         <div class="service-list-item-body details-desktop">
