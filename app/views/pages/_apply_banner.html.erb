@@ -1,11 +1,11 @@
 <div class="apply-banner">
-  <h1>Showcase your talent and get connected to wellness seekers today</h1>
-  <h3>We are currently accepting practitioners from Canada and the U.S.</h3>
-  <% if user_signed_in? %>
-    <% if !current_user.practitioner %>
-      <%= link_to "Apply Now", new_user_practitioner_path(current_user), class: 'btn btn-flat btn-wide mt-5' %>
-    <% end %>
-  <% else %>
-    <%= link_to "Apply Now", new_user_session_path, class: 'btn btn-flat btn-wide mt-5' %>
-  <% end %>
+  <h1>We are not accepting new practitioners at this time. Thank you for your interest in our platform.</h1>
+  <!-- <h3>We are currently accepting practitioners from Canada and the U.S.</h3> -->
+  <%# if user_signed_in? %>
+    <%# if !current_user.practitioner %>
+      <%#= link_to "Apply Now", new_user_practitioner_path(current_user), class: 'btn btn-flat btn-wide mt-5' %>
+    <%# end %>
+  <%# else %>
+    <%#= link_to "Apply Now", new_user_session_path, class: 'btn btn-flat btn-wide mt-5' %>
+  <%# end %>
 </div>
