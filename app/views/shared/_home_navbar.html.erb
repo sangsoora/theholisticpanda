@@ -6,13 +6,13 @@
       <% if user_signed_in? %>
         <% if !current_user.practitioner %>
           <% if current_user.signup_path == '/become-a-practitioner' %>
-            <li class="nav-item">
-              <%= link_to 'Complete practitioner application', new_user_practitioner_path(current_user), class: 'nav-link find-service' %>
-            </li>
+            <!-- <li class="nav-item">
+              <%#= link_to 'Complete practitioner application', new_user_practitioner_path(current_user), class: 'nav-link find-service' %>
+            </li> -->
           <% else %>
-            <li class="nav-item">
-              <%= link_to 'Become a practitioner', become_a_practitioner_path, class: 'nav-link find-service' %>
-            </li>
+            <!-- <li class="nav-item">
+              <%#= link_to 'Become a practitioner', become_a_practitioner_path, class: 'nav-link find-service' %>
+            </li> -->
           <% end %>
         <% end %>
         <li class="nav-item btn-group">
@@ -64,9 +64,9 @@
           </div>
         </li>
       <% else %>
-        <li class="nav-item">
-          <%= link_to 'Become a practitioner', become_a_practitioner_path, class: 'nav-link find-service' %>
-        </li>
+        <!-- <li class="nav-item">
+          <%#= link_to 'Become a practitioner', become_a_practitioner_path, class: 'nav-link find-service' %>
+        </li> -->
         <li class="nav-item">
           <%= link_to 'Sign up', new_user_registration_path, class: 'nav-link' %>
         </li>
@@ -83,13 +83,13 @@
   <% if user_signed_in? %>
     <% if !current_user.practitioner %>
       <% if current_user.signup_path == '/become-a-practitioner' %>
-        <div class="nav-item">
-          <%= link_to 'Complete practitioner application', new_user_practitioner_path(current_user), class: 'nav-link find-service' %>
-        </div>
+        <!-- <div class="nav-item">
+          <%#= link_to 'Complete practitioner application', new_user_practitioner_path(current_user), class: 'nav-link find-service' %>
+        </div> -->
       <% else %>
-        <div class="nav-item">
-          <%= link_to 'Become a practitioner', become_a_practitioner_path, class: 'nav-link find-service' %>
-        </div>
+        <!-- <div class="nav-item">
+          <%#= link_to 'Become a practitioner', become_a_practitioner_path, class: 'nav-link find-service' %>
+        </div> -->
       <% end %>
     <% end %>
     <div class="nav-item">
@@ -151,9 +151,9 @@
       <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: 'nav-link' %>
     </div>
   <% else %>
-    <div class="nav-item">
-      <%= link_to 'Become a practitioner', become_a_practitioner_path, class: 'nav-link find-service' %>
-    </div>
+    <!-- <div class="nav-item">
+      <%#= link_to 'Become a practitioner', become_a_practitioner_path, class: 'nav-link find-service' %>
+    </div> -->
     <div class="nav-item">
       <%= link_to 'Sign up', new_user_registration_path, class: 'nav-link' %>
     </div>
