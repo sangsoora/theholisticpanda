@@ -2,7 +2,7 @@
   "name": "theholisticpanda",
   "private": true,
   "dependencies": {
-    "@rails/webpacker": "^5.2.1",
+    "@rails/webpacker": "^5.4.3",
     "bootstrap": "^4.6.0",
     "caniuse-lite": "^1.0.30001187",
     "cropperjs": "^1.5.10",
