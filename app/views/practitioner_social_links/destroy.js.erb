@@ -1,0 +1,4 @@
+$("#sociallinks-list").html('<%= j render "practitioner_social_links_list", practitioner: @practitioner %>');
+if (document.querySelector('.tooltip')) {
+  document.querySelector('.tooltip').remove();
+}

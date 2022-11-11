@@ -73,6 +73,7 @@
               <div class="infos-list">
                 <p class="operation-tab operation-active-tab">Working hours</p>
                 <p class="operation-tab">Languages</p>
+                <p class="operation-tab">Contact information</p>
                 <p class="operation-tab">Insurance acceptance</p>
                 <p class="operation-tab">Physical address</p>
                 <p class="operation-tab">Tax information</p>
@@ -226,7 +227,7 @@
                   </div>
                 </div>
                 <div class="credentials-list">
-                  <h5>Specify All Your Professional Membership.</h5>
+                  <h5>Specify all your professional Membership.</h5>
                   <button id='memberships-edit' class='ml-0 mb-3'><p><%= link_to '+ Add', '' %></p></button>
                   <%= simple_form_for([@practitioner, @practitioner_membership], remote: true, html: { id: :memberships_form, style: 'display: none; align-items: center;' }) do |f| %>
                     <%= f.input :name, label: false %>
@@ -391,6 +392,45 @@
                   </div>
                   <%= simple_form_for([@practitioner, @practitioner_language], remote: true, html: { id: :languages_form, style: 'display: none; align-tiems: center;' }) do |f| %>
                     <%= render "practitioner_languages/update_form", practitioner: @practitioner, languages: @languages %>
+                  <% end %>
+                </div>
+                <div class="operation-list">
+                  <h5 class="mb-0">Add your social links, email or phone number where potential customers can reach you.</h5>
+                  <p class="mb-3"><em>(This is optional and will be shown on your bio page.)</em></p>
+                  <div id="practitioner-sociallinks">
+                    <div id="sociallinks-list" class="mb-2">
+                      <%= render "practitioner_social_links/practitioner_social_links_list", practitioner: @practitioner %>
+                    </div>
+                    <button id='sociallinks-edit' class='ml-0'><p><%= link_to '+ Add', '' %></p></button>
+                  </div>
+                  <%= simple_form_for([@practitioner, @practitioner_social_link], remote: true, html: { id: :sociallinks_form, style: 'display: none; align-items: center;' }) do |f| %>
+                    <%= f.input :media_type, label: false, collection: $media_types, as: :select %>
+                    <%= f.input :url, label: false %>
+                    <button type="submit"><i class='fas fa-check'></i></button>
+                    <button id='sociallinks-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                  <% end %>
+                  <%= simple_form_for([@practitioner, @practitioner_social_link], remote: true, html: { id: :sociallinks_email_form, style: 'display: none; align-items: center;' }) do |f| %>
+                    <div class="form-group optional">
+                      <input type="hidden" name="practitioner_social_link[media_type]" value="Email">
+                      <div class="d-flex">
+                        <input type="email" id="contact_email" name="practitioner_social_link[url]">
+                        <button type="submit"><i class='fas fa-check'></i></button>
+                        <button id='contact-email-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                      </div>
+                    </div>
+                  <% end %>
+                  <%= simple_form_for([@practitioner, @practitioner_social_link], remote: true, html: { id: :sociallinks_phone_form, style: 'display: none; align-items: center;' }) do |f| %>
+                    <div class="form-group tel optional user_phone_number">
+                      <input type="hidden" name="practitioner_social_link[media_type]" value="Phone">
+                      <div class="d-flex">
+                        <input class="form-control string tel optional" type="tel" id="user_phone_number_1">
+                        <input type="hidden" id="validated_number_1" name="practitioner_social_link[url]">
+                        <button type="submit"><i class='fas fa-check'></i></button>
+                        <button id='contact-phone-cancel'><%= link_to '', '', class: 'fas fa-times' %></button>
+                      </div>
+                      <span id="tel-valid-msg-1" class="hidden" style="color: green;">✓ Valid</span>
+                      <span id="tel-error-msg-1" class="hidden" style="color: red;"></span>
+                    </div>
                   <% end %>
                 </div>
                 <div class="operation-list">
@@ -713,7 +753,7 @@
       });
       <%= column %>Cancel.addEventListener('click', (e) => {
         e.preventDefault();
-        if (<%= column %> === document.getElementById('practitioner-certifications') || <%= column %> === document.getElementById('practitioner-memberships') || <%= column %> === document.getElementById('practitioner-languages') || <%= column %> === document.getElementById('practitioner-specialties') || <%= column %> === document.getElementById('practitioner-healthgoals')) {
+        if (<%= column %> === document.getElementById('practitioner-certifications') || <%= column %> === document.getElementById('practitioner-memberships') || <%= column %> === document.getElementById('practitioner-languages') || <%= column %> === document.getElementById('practitioner-specialties') || <%= column %> === document.getElementById('practitioner-healthgoals') || <%= column %> === document.getElementById('practitioner-sociallinks')) {
           <%= column %>.style.display = 'block';
         } else {
           <%= column %>.style.display = 'flex';
@@ -797,6 +837,32 @@
         }
       });
     <% end %>
+    const emailForm = document.getElementById('sociallinks_email_form');
+    const emailEdit = document.getElementById('contact-email-edit');
+    const emailCancel = document.getElementById('contact-email-cancel');
+    emailEdit.addEventListener('click', (e) => {
+      e.preventDefault();
+      sociallinks.style.display = 'none';
+      emailForm.style.display = 'block';
+    });
+    emailCancel.addEventListener('click', (e) => {
+      e.preventDefault();
+      emailForm.style.display = 'none';
+      sociallinks.style.display = 'block'
+    });
+    const contactPhoneForm = document.getElementById('sociallinks_phone_form');
+    const contactPhoneEdit = document.getElementById('contact-phone-edit');
+    const contactPhoneCancel = document.getElementById('contact-phone-cancel');
+    contactPhoneEdit.addEventListener('click', (e) => {
+      e.preventDefault();
+      sociallinks.style.display = 'none';
+      contactPhoneForm.style.display = 'block';
+    });
+    contactPhoneCancel.addEventListener('click', (e) => {
+      e.preventDefault();
+      contactPhoneForm.style.display = 'none';
+      sociallinks.style.display = 'block'
+    });
     function initAutocomplete() {
       var input = document.getElementById('practitioner_address');
       var input1 = document.getElementById('practitioner_location')

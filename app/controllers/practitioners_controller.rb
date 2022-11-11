@@ -44,7 +44,7 @@ class PractitionersController < ApplicationController
   def profile
     @practitioner = current_user.practitioner
     authorize @practitioner
-    @columns = %w[title specialties languages certifications memberships country experience bio approach video address healthgoals timezone city name phone]
+    @columns = %w[title specialties languages certifications memberships sociallinks country experience bio approach video address healthgoals timezone city name phone]
     @workingdays = %w[Mon Tue Wed Thu Fri Sat Sun]
     @specialties = Specialty.all.sort_by(&:name)
     @languages = Language.all.sort_by(&:name)

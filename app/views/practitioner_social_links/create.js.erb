@@ -1,0 +1,11 @@
+$("#sociallinks-list").html('<%= j render "practitioner_social_links_list", practitioner: @practitioner %>');
+emailForm.style.display = 'none';
+contactPhoneForm.style.display = 'none';
+sociallinksForm.style.display = 'none';
+emailForm.reset();
+contactPhoneForm.reset();
+sociallinksForm.reset();
+sociallinks.style.display = 'block';
+if (document.querySelector('.tooltip')) {
+  document.querySelector('.tooltip').remove();
+}

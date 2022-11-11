@@ -1,5 +1,5 @@
 class PractitionerSocialLink < ApplicationRecord
   belongs_to :practitioner
 
-  $media_types = ['Facebook', 'Instagram', 'Twitter', 'LinkedIn', 'YouTube', 'Other']
+  $media_types = ['Instagram', 'YouTube', 'TikTok', 'Facebook', 'Twitter', 'LinkedIn', 'Other']
 end

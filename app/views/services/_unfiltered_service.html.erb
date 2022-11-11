@@ -132,7 +132,7 @@
       </div>
       <% if service.practitioner.user != current_user %>
         <div class="text-center mt-3">
-          <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
+          <a class="btn btn-flat" href="/services/<%= service.id %>">Details</a>
         </div>
       <% end %>
     </div>
@@ -193,7 +193,7 @@
     </div>
     <% if service.practitioner.user != current_user %>
       <div class="text-center mt-3">
-        <a class="btn btn-flat" href="/services/<%= service.id %>">See availability</a>
+        <a class="btn btn-flat" href="/services/<%= service.id %>">Details</a>
       </div>
     <% end %>
   </div>
