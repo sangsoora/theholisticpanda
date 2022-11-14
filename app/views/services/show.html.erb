@@ -94,15 +94,6 @@
         <%= link_to @service.practitioner.user.full_name, practitioner_path(@service.practitioner), class: 'service-practitioner-name' %>
       </div>
     </div>
-    <% if @service.active && @service.practitioner.user != current_user %>
-      <p class="mb-1"><strong>Please select 3 time slots you prefer and the practitioner will confirm it.</strong></p>
-      <p>To ensure ample response time, time slots are not available within the first 24-hour window of your current time.</p>
-      <% if user_signed_in? %>
-        <%= link_to 'See availability', '', data: { toggle: "modal", target: "#timeslotModal" }, class: 'btn btn-flat', id: 'modal-launch' %>
-      <% else %>
-        <%= link_to 'See availability', new_user_session_path, class: 'btn btn-flat' %>
-      <% end %>
-    <% end %>
     <% if @service.active && user_signed_in? %>
       <div class="service-session-form">
         <%= simple_form_for [@service, @session] do |f| %>

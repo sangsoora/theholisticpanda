@@ -1,0 +1,31 @@
+<div class="practitioner-sociallink">
+  <div class="d-flex align-items-center">
+    <p>Email: </p>
+    <% if practitioner.practitioner_social_links.where(media_type: 'Email').count > 0 %>
+      <p class='ml-3'><a href="mailto:<%= practitioner.practitioner_social_links.where(media_type: 'Email').first.url %>"><%= practitioner.practitioner_social_links.where(media_type: 'Email').first.url %></a></p>
+    <% else %>
+      <p class='ml-3'></p>
+    <% end %>
+    <button id='contact-email-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+  </div>
+</div>
+<div class="practitioner-sociallink">
+  <div class="d-flex align-items-center">
+    <p>Phone: </p>
+    <% if practitioner.practitioner_social_links.where(media_type: 'Phone').count > 0 %>
+      <p class='ml-3'><%= practitioner.practitioner_social_links.where(media_type: 'Phone').first.url %></p>
+    <% else %>
+      <p class='ml-3'></p>
+    <% end %>
+    <button id='contact-phone-edit' data-toggle="tooltip" data-placement="bottom" data-original-title="Edit"><p><%= link_to '', '', class: 'fas fa-pen' %></p></button>
+  </div>
+</div>
+<% practitioner.practitioner_social_links.where.not(media_type: ['Email', 'Phone']).sort_by(&:media_type).each do |link| %>
+  <div class="practitioner-sociallink" data-link-id="<%= link.id %>">
+    <div class="d-flex align-items-center">
+      <p><%= link.media_type %>: </p>
+      <p class='ml-3'><a href="<%= link.url %>" target="_blank"><%= link.url %></a></p>
+      <button><p><%= link_to '', practitioner_social_link_path(link), remote: true, method: :delete, data: { confirm: "Are you sure to remove this?"}, class: 'fas fa-trash' %></p></button>
+    </div>
+  </div>
+<% end %>

@@ -43,7 +43,47 @@ const initIntlTelInput = () => {
     // on keyup / change flag: reset
     input.addEventListener('change', reset);
     input.addEventListener('keyup', reset);
+  }
+  if (document.getElementById('user_phone_number_1')) {
+    const input1 = document.getElementById('user_phone_number_1');
+    const errorMsg1 = document.getElementById('tel-error-msg-1');
+    const validMsg1 = document.getElementById('tel-valid-msg-1');
+    var errorMap1 = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+    var iti1 = intlTelInput(input1, {
+      formatOnInit: true,
+      separateDialCode: true,
+      initialCountry: "ca",
+      preferredCountries: ["ca", "us"],
+      utilsScript
+    });
 
+    var reset1 = function() {
+      input1.classList.remove("error");
+      errorMsg1.innerHTML = "";
+      errorMsg1.classList.add("hidden");
+      validMsg1.classList.add("hidden");
+    };
+
+    // on blur: validate
+    input1.addEventListener('blur', function() {
+      reset1();
+      if (input1.value.trim()) {
+        if (iti1.isValidNumber()) {
+          validMsg1.classList.remove("hidden");
+          document.getElementById('validated_number_1').value = iti1.getNumber();
+        } else {
+          input1.classList.add("error");
+          var errorCode1 = iti1.getValidationError();
+          errorMsg1.innerHTML = errorMap1[errorCode1];
+          errorMsg1.classList.remove("hidden");
+          document.getElementById('validated_number_1').value = '';
+        }
+      }
+    });
+
+    // on keyup / change flag: reset
+    input1.addEventListener('change', reset1);
+    input1.addEventListener('keyup', reset1);
   }
 }
 
